@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" order="0">
+
+<title lib="SearchBuilder">SearchBuilder for DataTables</title>
+
+<js lib="jquery" />
+<info><![CDATA[
+
+This is the SearchBuilder extension for DataTables. It allows results to be filtered based on a user constructed query.
+
+]]></info>
+
+</dt-example>

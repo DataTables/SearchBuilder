@@ -33,12 +33,15 @@ fi
 
 # Copy images
 #rsync -r images $OUT_DIR
+node_modules/typescript/bin/tsc src/searchBuilder.ts --module ES6
+node_modules/typescript/bin/tsc src/index.ts --module ES6
+node_modules/typescript/bin/tsc src/criteria.ts --module ES6
 
 # Copy JS
 HEADER="$(head -n 3 src/index.ts)"
 
 rsync -r src/*.js $OUT_DIR/js
-js_frameworks searchPanes $OUT_DIR/js
+js_frameworks searchBuilder $OUT_DIR/js
 
 ./node_modules/rollup/bin/rollup $OUT_DIR/js/index.js \
     --format iife \
@@ -46,7 +49,9 @@ js_frameworks searchPanes $OUT_DIR/js
     --file $OUT_DIR/js/dataTables.searchBuilder.js
 
 rm \
-
+    $OUT_DIR/js/index.js \
+    $OUT_DIR/js/searchBuilder.js \
+    $OUT_DIR/js/criteria.js \
 
 
 js_compress $OUT_DIR/js/dataTables.searchBuilder.js
