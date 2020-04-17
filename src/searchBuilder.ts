@@ -44,7 +44,8 @@ export default class SearchBuilder {
         }
 
         this.s = {
-            dt: table
+            dt: table,
+            topGroup: undefined
         }
 
         if (table.settings()[0]._searchBuilder !== undefined) {
@@ -53,7 +54,7 @@ export default class SearchBuilder {
         
         table.settings()[0]._searchBuilder = this;
 
-        this.addCriteria();
+        this.setUp();
     }
 
     /**
@@ -62,9 +63,34 @@ export default class SearchBuilder {
 	public getNode(){
 		return this.dom.container;
     }
-    
-    private addCriteria(){
-        let crit = new Criteria(undefined, undefined);
-        $(this.dom.container).append(crit.getNode());
+
+    private setUp(){
+        this.s.topGroup = new Group();
+
+        $(this.dom.clearAll).on('click', () => {
+            this.s.topGroup = new Group();
+
+            this.build();
+        })
+
+
+    }
+
+    private build() {
+        $(this.dom.container).empty();
+        $(this.dom.container).append(this.dom.title);
+        $(this.dom.container).append(this.dom.clearAll);
+        this.dom.topGroup = this.s.topGroup.getNode();
+        $(this.dom.container).append(this.dom.topGroup);
+
+        $(this.dom.topGroup).on('dtsp-search', () => {
+            this.search();
+        })
+    }
+
+    private search() {
+        for(let row of this.s.dt.rows().data().toArray()){
+            console.log(row, this.s.topGroup.search(row))
+        }
     }
 }
