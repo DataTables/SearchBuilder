@@ -1,0 +1,82 @@
+div.dtsb-searchBuilder {
+    justify-content: space-evenly;
+    cursor: default;
+    margin-bottom: 50px;
+    border: 2px solid #cecece;
+    border-radius: 3px;
+
+    button.dtsb-button {
+        border: none;
+        border-radius: 3px;
+        padding: 5px;
+        background-color: #cecece;
+        margin-right: 10px;
+        margin-bottom: 5px;
+    }
+
+    button.dtsb-rndbtn {
+        border-radius: 20px;
+        width: 25px;
+        height: 25px;
+        background-color: #cecece;
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-bottom: 5px;
+        border: none;
+        position: absolute;
+    }
+
+    button.dtsb-iptbtn {
+        min-width: 100px;
+        text-align: left;
+    }
+
+    div.dtsb-titleRow{
+        justify-content: space-evenly;
+    
+        button.dtsb-clearAll {
+            margin-top: 10px;
+            float: right;
+        }
+    
+        div.dtsb-title {
+            display: inline-block;
+            font-size: 1em;
+            padding: 5px;
+        }
+    }
+
+    div.dtsb-group {
+        position: relative;
+        margin-bottom: 5px;
+        /* background-color: #e4e2e2; */
+        border-radius: 3px;
+        margin-left: 5px;
+        width: 690px;
+        padding: 5px;
+
+        button.dtsb-logic {
+            -webkit-transform: rotate(90deg);
+            -moz-transform: rotate(90deg);
+            -o-transform: rotate(90deg);
+            -ms-transform: rotate(90deg);
+            transform: rotate(90deg);
+            position: absolute;
+        }
+
+        div.dtsb-criteria {
+
+            select.dtsb-dropDown{
+                border: none;
+                border-radius: 3px;
+                padding: 5px;
+                background-color: #cecece;
+                margin-right: 10px;
+                margin-bottom: 5px;
+            }
+            select.field{
+
+            }
+        }
+    }
+}
