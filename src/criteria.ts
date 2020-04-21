@@ -10,7 +10,10 @@ export default class Criteria {
     private static version = '0.0.1';
 
     private static classes = {
-
+        container: 'dtsb-criteria',
+        field: 'dtsb-field',
+        dropDown: 'dtsb-dropDown',
+        roundButton: 'dtsb-rndbtn'
     }
 
     private static defaults = {
@@ -126,13 +129,11 @@ export default class Criteria {
 	public c;
 	public s;
     
-    constructor(criteriaSettings, opts) {
+    constructor(criteriaSettings, opts, table) {
         // Check that the required version of DataTables is included
         if (! DataTable || ! DataTable.versionCheck || ! DataTable.versionCheck('1.10.0')) {
             throw new Error('SearchPane requires DataTables 1.10 or newer');
         }
-
-        let table = new DataTable.Api(criteriaSettings);
 
 		this.classes = $.extend(true, {}, Criteria.classes);
 
@@ -147,13 +148,16 @@ export default class Criteria {
         }
 
         this.dom = {
-            container: $('<div/>').addClass(this.classes.criteria),
-            field: $('<select/>').addClass(this.classes.field),
-            condition: $('<select/>').addClass(this.classes.condition, this.classes.disabled),
-            value: $('<select/>').addClass(this.classes.value, this.classes.disabled),
-            left: $('<button/>').addClass(this.classes.arrow, this.classes.roundbtn),
-            right: $('<button/>').addClass(this.classes.arrow, this.classes.roundbtn),
-            delete: $('<button/>').addClass(this.classes.delete, this.classes.roundbtn)
+            container: $('<div/>').addClass(this.classes.container),
+            field: $('<select/>').addClass(this.classes.field).addClass(this.classes.dropDown),
+            fieldTitle: $('<option value="" disabled selected hidden/>').text('Field'),
+            condition: $('<select/>').addClass(this.classes.condition).addClass(this.classes.dropDown).addClass(this.classes.disabled),
+            conditionTitle: $('<option value="" disabled selected hidden/>').text('Condition'),
+            value: $('<select/>').addClass(this.classes.value).addClass(this.classes.dropDown).addClass(this.classes.disabled),
+            valueTitle: $('<option value="" disabled selected hidden/>').text('Value'),
+            left: $('<button/>').addClass(this.classes.arrow).addClass(this.classes.roundButton),
+            right: $('<button/>').addClass(this.classes.arrow).addClass(this.classes.roundButton),
+            delete: $('<button/>').addClass(this.classes.delete).addClass(this.classes.roundButton),
         }
 
         this.buildCriteria();
@@ -162,7 +166,7 @@ export default class Criteria {
     }
 
     public exec(rowData){
-        $(crit.dom.condition).children("option:selected").val().comparator(rowData[$(this.dom.field).children("option:selected").val().value])
+        $(this.dom.condition).children("option:selected").val().comparator(rowData[$(this.dom.field).children("option:selected").val().value])
     }
 
     public getNode(){
@@ -170,17 +174,36 @@ export default class Criteria {
     }
 
     private buildCriteria() {
+        $(this.dom.field).append(this.dom.fieldTitle);
+        $(this.dom.condition).append(this.dom.conditionTitle);
+        $(this.dom.value).append(this.dom.valueTitle);
         $(this.dom.container).append(this.dom.field).append(this.dom.condition).append(this.dom.value).append(this.dom.right).append(this.dom.delete);
+
+        $(this.dom.field).on('change', () => {
+            $(this.dom.fieldTitle).attr('selected', false);
+            this.clearCondition();
+            this.clearValue();
+            this.populateCondition();
+        });
+
+        $(this.dom.condition).on('change', () => {
+            $(this.dom.conditionTitle).attr('selected', false);
+            this.clearValue();
+            this.populateValue();
+        });
+
+        $(this.dom.value).on('change', () => {
+            $(this.dom.valueTitle).attr('selected', false);
+        })
     }
 
     private populateField() {
-        this.s.dt.columns().eq(0).each( function ( index ) {
+        this.s.dt.columns().every(( index ) => {
             if(!this.s.fields[index]){
-                this.s.fields[index] = this.s.dt.column( index ).dataSrc();
-
+                this.s.fields[index] = this.s.dt.settings()[0].aoColumns[index].sTitle;
                 $(this.dom.field).append($('<option>', { 
-                    text : this.s.fields[field],
-                    value : field 
+                    text : this.s.fields[index],
+                    value : index 
                 }));
             }
         } );
@@ -188,11 +211,11 @@ export default class Criteria {
 
     private populateCondition() {
         let column = $(this.dom.field).children("option:selected").val();
-
         let type = typeof this.s.dt.column(column.value).data().toArray()[0];
+
         if(this.c.conditions[type] !== undefined){
             for(let condition of this.c.conditions[type]){
-                $(this.dom.condition).append($('<options>', {
+                $(this.dom.condition).append($('<option>', {
                     text : condition.display,
                     value : condition.display,
                 }))
@@ -201,23 +224,34 @@ export default class Criteria {
         
     }
 
+    private clearCondition() {
+        $(this.dom.condition).empty()
+        $(this.dom.conditionTitle).attr('selected', true);
+        $(this.dom.condition).append(this.dom.conditionTitle);
+    }
+
     private populateValue() {
         let column = $(this.dom.field).children("option:selected").val();
 
         let indexArray = this.s.dt.rows().indexes();
-        let settings = let settings = this.s.dt.settings()[0];
+        let settings = this.s.dt.settings()[0];
 
         for(let index of indexArray){
-            let filter = settings.oApi._fnGetCellData(settings, index, column.index, this.c.orthogonal.search);
-            
+            let filter = settings.oApi._fnGetCellData(settings, index, column, this.c.orthogonal.search);
             if(!this.s.values[filter]){
-                this.s.values[filter] = settings.oApi._fnGetCellData(settings, index, column.index, this.c.orthogonal.display);
+                this.s.values[filter] = settings.oApi._fnGetCellData(settings, index, column, this.c.orthogonal.display);
             
-                $(this.dom.value).append($('<options>', {
+                $(this.dom.value).append($('<option>', {
                     text : this.s.values[filter],
                     value : filter 
-                })
+                }));
             }
         }
+    }
+
+    private clearValue() {
+        $(this.dom.value).empty()
+        $(this.dom.valueTitle).attr('selected', true);
+        $(this.dom.value).append(this.dom.valueTitle);
     }
 }

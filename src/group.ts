@@ -6,11 +6,18 @@ export function setJQuery(jq) {
   DataTable = jq.fn.dataTable;
 };
 
+import Criteria from './criteria';
+
 export default class Group {
     private static version = '0.0.1';
 
     private static classes = {
-
+        group: 'dtsb-group',
+        add: 'dtsb-add',
+        logic: 'dtsb-logic',
+        button: 'dtsb-button',
+        inputButton: 'dtsb-iptbtn',
+        roundButton: 'dtsb-rndbtn'
     }
 
     private static defaults = {
@@ -22,18 +29,16 @@ export default class Group {
 	public c;
 	public s;
     
-    constructor(criteriaSettings, opts) {
+    constructor(groupSettings, table) {
         // Check that the required version of DataTables is included
         if (! DataTable || ! DataTable.versionCheck || ! DataTable.versionCheck('1.10.0')) {
             throw new Error('SearchPane requires DataTables 1.10 or newer');
         }
 
-        let table = new DataTable.Api(criteriaSettings);
-
-		this.classes = $.extend(true, {}, Criteria.classes);
+		this.classes = $.extend(true, {}, Group.classes);
 
 		// Get options from user
-        this.c = $.extend(true, {}, Criteria.defaults, opts);
+        this.c = $.extend(true, {}, Group.defaults);
         
         this.s = {
             dt: table,
@@ -44,8 +49,8 @@ export default class Group {
 
         this.dom = {
             container: $('<div/>').addClass(this.classes.group),
-            add: $('<div/>').addClass(this.classes.add),
-            logic: $('<button/>').addClass(this.classes.logic)
+            add: $('<button/>').addClass(this.classes.add).addClass(this.classes.button),
+            logic: $('<button/>').addClass(this.classes.logic).addClass(this.classes.button)
         }
 
         this.setup();
@@ -97,12 +102,12 @@ export default class Group {
         $(this.dom.add).on('click', () => {
             this.addCriteria();
         })
-
+        $(this.dom.add).text("ADD");
         $(this.dom.container).append(this.dom.add);
     }
 
     private addCriteria(){
-        let crit = new Criteria(undefined, undefined);
+        let crit = new Criteria(undefined, undefined, this.s.dt);
         $(this.dom.container).append(crit.getNode());
     }
 }

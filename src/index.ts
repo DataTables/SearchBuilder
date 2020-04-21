@@ -28,6 +28,7 @@ declare var define: {
 };
 
 import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
+import Group, {setJQuery as groupJQuery} from './group';
 import Criteria, {setJQuery as criteriaJQuery} from './criteria';
 import criteria from './criteria';
 
@@ -60,6 +61,10 @@ import criteria from './criteria';
 		factory((window as any).jQuery, window, document);
 	}
 }(function($, window, document) {
+
+	searchBuilderJQuery($);
+	groupJQuery($);
+	criteriaJQuery($);
 	
     let DataTable = $.fn.dataTable;
     

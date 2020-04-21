@@ -7,11 +7,18 @@ export function setJQuery(jq) {
 };
 
 import Criteria from './criteria';
+import Group from './group';
 export default class SearchBuilder {
     private static version = '0.0.1';
 
     private static classes = {
-        container: 'searchBuilder'
+        clearAll: 'dtsb-clearAll',
+        container: 'dtsb-searchBuilder',
+        title: 'dtsb-title',
+        button: 'dtsb-button',
+        inputButton: 'dtsb-iptbtn',
+        titleRow: 'dtsb-titleRow',
+        roundButton: 'dtsb-rndbtn'
     }
 
     private static defaults = {
@@ -26,7 +33,7 @@ export default class SearchBuilder {
     constructor (builderSettings, opts) {
         // Check that the required version of DataTables is included
         if(! DataTable || ! DataTable.versionCheck || ! DataTable.versionCheck('1.10.0')){
-            throw new Error('SearchPane requires DataTables 1.10 or newer');
+            throw new Error('SearchBuilder requires DataTables 1.10 or newer');
         }
 
         let table = new DataTable.Api(builderSettings);
@@ -36,10 +43,11 @@ export default class SearchBuilder {
         this.c = $.extend(true, {}, SearchBuilder.defaults, opts);
         
         this.dom = {
-            clearAll: $('<button type="button">Clear All</button>').addClass(this.classes.clearAll),
+            clearAll: $('<button type="button">Clear All</button>').addClass(this.classes.clearAll).addClass(this.classes.button),
             container: $('<div/>').addClass(this.classes.container),
-            searchBuilder: $('<div/>').addclass(this.classes.builder),
+            searchBuilder: $('<div/>').addClass(this.classes.builder),
             title: $('<div/>').addClass(this.classes.title),
+            titleRow: $('<div/>').addClass(this.classes.titleRow),
             wrapper: $('<div/>'),
         }
 
@@ -65,21 +73,25 @@ export default class SearchBuilder {
     }
 
     private setUp(){
-        this.s.topGroup = new Group();
+        this.s.topGroup = new Group(undefined, this.s.dt);
 
         $(this.dom.clearAll).on('click', () => {
-            this.s.topGroup = new Group();
+            this.s.topGroup = new Group(undefined, this.s.dt);
 
             this.build();
         })
 
-
+        this.build();
     }
 
     private build() {
         $(this.dom.container).empty();
-        $(this.dom.container).append(this.dom.title);
-        $(this.dom.container).append(this.dom.clearAll);
+
+        $(this.dom.title).text('SearchBuilder')
+
+        $(this.dom.titleRow).append(this.dom.title);
+        $(this.dom.titleRow).append(this.dom.clearAll);
+        $(this.dom.container).append(this.dom.titleRow);
         this.dom.topGroup = this.s.topGroup.getNode();
         $(this.dom.container).append(this.dom.topGroup);
 
