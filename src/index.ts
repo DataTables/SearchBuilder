@@ -27,10 +27,9 @@ declare var define: {
 	amd: string;
 };
 
-import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
-import Group, {setJQuery as groupJQuery} from './group';
 import Criteria, {setJQuery as criteriaJQuery} from './criteria';
-import criteria from './criteria';
+import Group, {setJQuery as groupJQuery} from './group';
+import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
 
 // DataTables extensions common UMD. Note that this allows for AMD, CommonJS
 // (with window and jQuery being allowed as parameters to the returned
@@ -65,11 +64,11 @@ import criteria from './criteria';
 	searchBuilderJQuery($);
 	groupJQuery($);
 	criteriaJQuery($);
-	
-    let DataTable = $.fn.dataTable;
-    
-    ($.fn as any).dataTable.SearchBuilder = SearchBuilder;
-    ($.fn as any).DataTable.SearchBuilder = SearchBuilder;
+
+	let DataTable = $.fn.dataTable;
+
+	($.fn as any).dataTable.SearchBuilder = SearchBuilder;
+	($.fn as any).DataTable.SearchBuilder = SearchBuilder;
 
 	let apiRegister = ($.fn.dataTable.Api as any).register;
 
@@ -77,7 +76,7 @@ import criteria from './criteria';
 		let api = new DataTable.Api(settings);
 		let opts = api.init().searchBuilder || DataTable.defaults.searchBuilder;
 		let searchBuilder =  new SearchBuilder(api, opts);
-        let node = searchBuilder.getNode();
+		let node = searchBuilder.getNode();
 		return node;
 	}
 
