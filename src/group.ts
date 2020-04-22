@@ -55,12 +55,16 @@ export default class Group {
 			logic: $('<button/>').addClass(this.classes.logic).addClass(this.classes.button)
 		}
 
-		this.setup();
+		this._setup();
 
 	}
 
-	public destroy() {
+	/**
+	 * Destroys the groups buttons, clears the internal criteria and removes it from the dom
+	 */
+	public destroy(): void {
 		$(this.dom.add).off('.dtsb');
+		$(this.dom.logic).off('.dtsb');
 
 		$(this.dom.container).trigger('dtsb-destroy');
 
@@ -68,111 +72,34 @@ export default class Group {
 		$(this.dom.container).remove();
 	}
 
-	public getNode() {
+	/**
+	 * Getter for the node for the container of the group
+	 * @returns Node for the container of the group
+	 */
+	public getNode(): JQuery<HTMLElement> {
 		return this.dom.container;
 	}
 
-	public search(rowData) {
+	/**
+	 * Search method, checking the row data against the criteria in the group
+	 * @param rowData The row data to be compared
+	 * @returns boolean The result of the search
+	 */
+	public search(rowData): boolean {
 		if (this.s.logic === 'AND') {
-			this.andSearch(rowData);
+			return this._andSearch(rowData);
 		}
 		else if (this.s.logic === 'OR') {
-			this.orSearch(rowData);
-		}
-	}
-
-	private andSearch(rowData) {
-		for (let crit of this.s.criteria) {
-			if (!crit.exec(rowData)) {
-				return false;
-			}
-		}
-		for (let gro of this.s.subgroups) {
-			if (!gro.search(rowData)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private orSearch(rowData) {
-		for (let crit of this.s.criteria) {
-			if ($(crit.dom.condition).children('option:selected').val().comparator(rowData)) {
-				return true;
-			}
-		}
-		for (let gro of this.s.subgroups) {
-			if (gro.search(rowData)) {
-				return true;
-			}
+			return this._orSearch(rowData);
 		}
 		return false;
 	}
 
-	private setup() {
-		this.setListeners();
-
-		$(this.dom.add).text('ADD');
-		$(this.dom.logic).text('Set Logic');
-		$(this.dom.container).append(this.dom.logic);
-		$(this.dom.container).append(this.dom.add);
-
-		if (!this.s.isChild) {
-			$(document).on('dtsb-redrawContents', () => {
-				this.redrawContents();
-			});
-		}
-	}
-
-	private setListeners() {
-		$(this.dom.add).on('click', () => {
-			this.addCriteria();
-		})
-
-		$(this.dom.logic).on('click', () => {
-			this.toggleLogic();
-		})
-	}
-
-	private redrawContents() {
-		$(this.dom.container).empty();
-		$(this.dom.container).append(this.dom.logic).append(this.dom.add);
-
-		this.setListeners();
-
-		for (let i = 0; i < this.s.criteria.length; i++) {
-			if (this.s.criteria[i].type === 'criteria') {
-				this.s.criteria[i].index = i;
-				this.s.criteria[i].criteria.s.index = i;
-				this.setCriteriaListeners(this.s.criteria[i].criteria);
-				this.s.criteria[i].criteria.setListeners();
-				$(this.s.criteria[i].criteria.dom.container).insertBefore(this.dom.add);
-			}
-			else if (this.s.criteria[i].criteria.s.criteria.length > 0) {
-				this.s.criteria[i].index = i;
-				this.s.criteria[i].criteria.s.index = i;
-				this.s.criteria[i].criteria.redrawContents();
-				$(this.s.criteria[i].criteria.dom.container).insertBefore(this.dom.add);
-			}
-			else {
-				this.s.criteria.splice(i, 1);
-				i--;
-			}
-		}
-	}
-
-	private toggleLogic() {
-		if (this.s.logic === undefined || this.s.logic === 'OR') {
-			this.s.logic = 'AND';
-			$(this.dom.logic).text('All Of');
-		}
-		else if (this.s.logic === 'AND') {
-			this.s.logic = 'OR';
-			$(this.dom.logic).text('Any Of');
-		}
-	}
-
-	private addCriteria(crit = null) {
+	/**
+	 * Adds a criteria to the group
+	 * @param crit Instance of Criteria to be added to the group
+	 */
+	private _addCriteria(crit: Criteria = null): void {
 		let index = this.s.criteria.length;
 		let criteria = new Criteria(undefined, this.s.dt, index);
 		if (crit !== null) {
@@ -208,18 +135,112 @@ export default class Group {
 			}
 		}
 
-		this.setCriteriaListeners(criteria)
+		this._setCriteriaListeners(criteria)
 	}
 
-	private setCriteriaListeners(criteria) {
+	/**
+	 * Checks all of the criteria using AND logic
+	 * @param rowData The row data to be checked against the search criteria
+	 * @returns boolean The result of the AND search
+	 */
+	private _andSearch(rowData): boolean {
+		for (let crit of this.s.criteria) {
+			if (!crit.exec(rowData)) {
+				return false;
+			}
+		}
+		for (let gro of this.s.subgroups) {
+			if (!gro.search(rowData)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Checks all of the criteria using OR logic
+	 * @param rowData The row data to be checked against the search criteria
+	 * @returns boolean The result of the OR search
+	 */
+	private _orSearch(rowData): boolean {
+		for (let crit of this.s.criteria) {
+			if ($(crit.dom.condition).children('option:selected').val().comparator(rowData)) {
+				return true;
+			}
+		}
+		for (let gro of this.s.subgroups) {
+			if (gro.search(rowData)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Redraws the Contents of the searchBuilder Groups and Criteria
+	 */
+	private _redrawContents(): void {
+		$(this.dom.container).empty();
+		$(this.dom.container).append(this.dom.logic).append(this.dom.add);
+
+		this._setListeners();
+
+		for (let i = 0; i < this.s.criteria.length; i++) {
+			if (this.s.criteria[i].type === 'criteria') {
+				this.s.criteria[i].index = i;
+				this.s.criteria[i].criteria.s.index = i;
+				this._setCriteriaListeners(this.s.criteria[i].criteria);
+				this.s.criteria[i].criteria._setListeners();
+				$(this.s.criteria[i].criteria.dom.container).insertBefore(this.dom.add);
+			}
+			else if (this.s.criteria[i].criteria.s.criteria.length > 0) {
+				this.s.criteria[i].index = i;
+				this.s.criteria[i].criteria.s.index = i;
+				this.s.criteria[i].criteria._redrawContents();
+				$(this.s.criteria[i].criteria.dom.container).insertBefore(this.dom.add);
+			}
+			else {
+				this.s.criteria.splice(i, 1);
+				i--;
+			}
+		}
+	}
+
+	/**
+	 * Removes a criteria from the group
+	 * @param criteria The criteria instance to be removed
+	 */
+	private _removeCriteria(criteria): void {
+		if (this.s.criteria.length === 1 && this.s.isChild) {
+			this.destroy();
+		}
+		else {
+			for (let i = 0; i < this.s.criteria.length; i++) {
+				if (this.s.criteria[i].index === criteria.s.index) {
+					this.s.criteria.splice(i, 1);
+					break;
+				}
+			}
+			for (let i = 0; i < this.s.criteria.length; i++) {
+				this.s.criteria[i].index = i;
+				this.s.criteria[i].criteria.s.index = i;
+			}
+		}
+	}
+
+	/**
+	 * Sets the listeners in group for a criteria
+	 * @param criteria The criteria for the listeners to be set on
+	 */
+	private _setCriteriaListeners(criteria): void {
 		$(criteria.dom.delete).on('click', () => {
-			this.removeCriteria(criteria);
+			this._removeCriteria(criteria);
 		});
 
 		$(criteria.dom.right).on('click', () => {
 			let idx = criteria.s.index;
 			let group = new Group(this.s.dt, criteria.s.index, true);
-			group.addCriteria(criteria);
+			group._addCriteria(criteria);
 
 			this.s.criteria[idx].criteria = group;
 			this.s.criteria[idx].type = 'group'
@@ -228,7 +249,7 @@ export default class Group {
 			$(this.dom.container).append(this.dom.logic).append(this.dom.add);
 
 			$(group.dom.container).on('dtsb-destroy', () => {
-				this.removeCriteria(group);
+				this._removeCriteria(group);
 			});
 
 			$(group.dom.container).on('dtsb-dropCriteria', () => {
@@ -236,7 +257,7 @@ export default class Group {
 				let length = this.s.criteria.length;
 				toDrop.s.index = length;
 				toDrop.removeLeft();
-				this.addCriteria(toDrop);
+				this._addCriteria(toDrop);
 
 				$(this.dom.container).empty();
 				$(this.dom.container).append(this.dom.logic).append(this.dom.add);
@@ -257,26 +278,53 @@ export default class Group {
 			this.s.toDrop.c = criteria.c;
 			this.s.toDrop.classes = criteria.classes;
 			$(this.dom.container).trigger('dtsb-dropCriteria');
-			this.removeCriteria(criteria);
-			$(document).trigger('dtsb-redrawContents');
+			this._removeCriteria(criteria);
+			$(document).trigger('dtsb-_redrawContents');
 		});
 	}
 
-	private removeCriteria(criteria) {
-		if (this.s.criteria.length === 1 && this.s.isChild) {
-			this.destroy();
+	/**
+	 * Sets up the Group instance, setting listeners and appending elements
+	 */
+	private _setup(): void {
+		this._setListeners();
+
+		$(this.dom.add).text('ADD');
+		$(this.dom.logic).text('Set Logic');
+		$(this.dom.container).append(this.dom.logic);
+		$(this.dom.container).append(this.dom.add);
+
+		if (!this.s.isChild) {
+			$(document).on('dtsb-_redrawContents', () => {
+				this._redrawContents();
+			});
 		}
-		else {
-			for (let i = 0; i < this.s.criteria.length; i++) {
-				if (this.s.criteria[i].index === criteria.s.index) {
-					this.s.criteria.splice(i, 1);
-					break;
-				}
-			}
-			for (let i = 0; i < this.s.criteria.length; i++) {
-				this.s.criteria[i].index = i;
-				this.s.criteria[i].criteria.s.index = i;
-			}
+	}
+
+	/**
+	 * Sets listeners on the groups elements
+	 */
+	private _setListeners(): void {
+		$(this.dom.add).on('click', () => {
+			this._addCriteria();
+		})
+
+		$(this.dom.logic).on('click', () => {
+			this._toggleLogic();
+		})
+	}
+
+	/**
+	 * Toggles the logic for the group
+	 */
+	private _toggleLogic(): void {
+		if (this.s.logic === undefined || this.s.logic === 'OR') {
+			this.s.logic = 'AND';
+			$(this.dom.logic).text('All Of');
+		}
+		else if (this.s.logic === 'AND') {
+			this.s.logic = 'OR';
+			$(this.dom.logic).text('Any Of');
 		}
 	}
 }

@@ -6,7 +6,6 @@ export function setJQuery(jq) {
 	DataTable = jq.fn.DataTable;
 };
 
-import Criteria from './criteria';
 import Group from './group';
 export default class SearchBuilder {
 	private static version = '0.0.1';
@@ -62,29 +61,36 @@ export default class SearchBuilder {
 
 		table.settings()[0]._searchBuilder = this;
 
-		this.setUp();
+		this._setUp();
 	}
 
 	/**
-	 * returns the container node for the searchPanes
+	 * Getter for the node of the container for the searchBuilder
+	 * @returns JQuery<HTMLElement> the node of the container
 	 */
-	public getNode() {
+	public getNode(): JQuery<HTMLElement> {
 		return this.dom.container;
 	}
 
-	private setUp() {
+	/**
+	 * Set's up the SearchBuilder
+	 */
+	private _setUp(): void {
 		this.s.topGroup = new Group(this.s.dt);
 
 		$(this.dom.clearAll).on('click', () => {
 			this.s.topGroup = new Group(this.s.dt);
 
-			this.build();
+			this._build();
 		})
 
-		this.build();
+		this._build();
 	}
 
-	private build() {
+	/**
+	 * Builds all of the dom elements together
+	 */
+	private _build(): void {
 		$(this.dom.container).empty();
 
 		$(this.dom.title).text('SearchBuilder')
@@ -96,11 +102,15 @@ export default class SearchBuilder {
 		$(this.dom.container).append(this.dom.topGroup);
 
 		$(this.dom.topGroup).on('dtsp-search', () => {
-			this.search();
+			this._search();
 		})
 	}
 
-	private search() {
+	/**
+	 * Search function for the SearchBuilder
+	 * @returns boolean whether the row has passed
+	 */
+	private _search() {
 		for (let row of this.s.dt.rows().data().toArray()) {
 			console.log(row, this.s.topGroup.search(row))
 		}

@@ -164,40 +164,71 @@ export default class Criteria {
 			delete: $('<button>x</button>').addClass(this.classes.delete).addClass(this.classes.roundButton),
 		}
 
-		this.buildCriteria();
+		this._buildCriteria();
 
-		this.populateField();
+		this._populateField();
 	}
 
-	public exec(rowData) {
-		$(this.dom.condition).children('option:selected').val().comparator(rowData[$(this.dom.field).children('option:selected').val().value])
+	/**
+	 * Adds the left button to the criteria
+	 */
+	public addLeft(): void {
+		$(this.dom.container).empty();
+		$(this.dom.container).append(this.dom.field).append(this.dom.condition).append(this.dom.value).append(this.dom.delete).append(this.dom.right).append(this.dom.left);
 	}
 
-	public getNode() {
+	/**
+	 * Destroys the criteria, removing listeners and container from the dom
+	 */
+	public destroy(): void {
+		$(this.dom.field).off('.dtsb');
+		$(this.dom.condition).off('.dtsb');
+		$(this.dom.value).off('.dtsb');
+		$(this.dom.delete).off('.dtsb');
+
+		$(this.dom.container).remove();
+	}
+
+	/**
+	 * Passes in the data for the row and compares it against this single criteria
+	 * @param rowData The data for the row to be compared
+	 * @returns boolean Whether the criteria has passed
+	 */
+	public exec(rowData): boolean {
+		return $(this.dom.condition).children('option:selected').val().comparator(rowData[$(this.dom.field).children('option:selected').val().value])
+	}
+
+	/**
+	 * Getter for the node for the container of the criteria
+	 * @returns JQuery<HTMLElement> the node for the container
+	 */
+	public getNode(): JQuery<HTMLElement> {
 		return this.dom.container;
 	}
 
-	private buildCriteria() {
-		$(this.dom.field).append(this.dom.fieldTitle);
-		$(this.dom.condition).append(this.dom.conditionTitle);
-		$(this.dom.value).append(this.dom.valueTitle);
+	/**
+	 * Removes the node for the left button
+	 */
+	public removeLeft(): void {
+		$(this.dom.container).empty();
 		$(this.dom.container).append(this.dom.field).append(this.dom.condition).append(this.dom.value).append(this.dom.delete).append(this.dom.right);
-
-		this.setListeners();
 	}
 
-	public setListeners() {
+	/**
+	 * Sets the listeners for the criteria
+	 */
+	public setListeners(): void {
 		$(this.dom.field).on('change', () => {
 			$(this.dom.fieldTitle).attr('selected', false);
-			this.clearCondition();
-			this.clearValue();
-			this.populateCondition();
+			this._clearCondition();
+			this._clearValue();
+			this._populateCondition();
 		});
 
 		$(this.dom.condition).on('change', () => {
 			$(this.dom.conditionTitle).attr('selected', false);
-			this.clearValue();
-			this.populateValue();
+			this._clearValue();
+			this._populateValue();
 		});
 
 		$(this.dom.value).on('change', () => {
@@ -209,38 +240,40 @@ export default class Criteria {
 		})
 	}
 
-	public destroy() {
-		$(this.dom.field).off('.dtsb');
-		$(this.dom.condition).off('.dtsb');
-		$(this.dom.value).off('.dtsb');
-		$(this.dom.delete).off('.dtsb');
-
-		$(this.dom.container).remove();
-	}
-
-	public addLeft() {
-		$(this.dom.container).empty();
-		$(this.dom.container).append(this.dom.field).append(this.dom.condition).append(this.dom.value).append(this.dom.delete).append(this.dom.right).append(this.dom.left);
-	}
-
-	public removeLeft() {
-		$(this.dom.container).empty();
+	/**
+	 * Builds the elements of the dom together
+	 */
+	private _buildCriteria(): void {
+		$(this.dom.field).append(this.dom.fieldTitle);
+		$(this.dom.condition).append(this.dom.conditionTitle);
+		$(this.dom.value).append(this.dom.valueTitle);
 		$(this.dom.container).append(this.dom.field).append(this.dom.condition).append(this.dom.value).append(this.dom.delete).append(this.dom.right);
+
+		this.setListeners();
 	}
 
-	private populateField() {
-		this.s.dt.columns().every((index) => {
-			if (!this.s.fields[index]) {
-				this.s.fields[index] = this.s.dt.settings()[0].aoColumns[index].sTitle;
-				$(this.dom.field).append($('<option>', {
-					text : this.s.fields[index],
-					value : index
-				}));
-			}
-		});
+	/**
+	 * Clears the condition select element
+	 */
+	private _clearCondition(): void {
+		$(this.dom.condition).empty()
+		$(this.dom.conditionTitle).attr('selected', true);
+		$(this.dom.condition).append(this.dom.conditionTitle);
 	}
 
-	private populateCondition() {
+	/**
+	 * Clears the value select element
+	 */
+	private _clearValue(): void {
+		$(this.dom.value).empty()
+		$(this.dom.valueTitle).attr('selected', true);
+		$(this.dom.value).append(this.dom.valueTitle);
+	}
+
+	/**
+	 * Populates the condition dropdown
+	 */
+	private _populateCondition(): void {
 		let column = $(this.dom.field).children('option:selected').val();
 		let type = typeof this.s.dt.column(column.value).data().toArray()[0];
 
@@ -254,13 +287,25 @@ export default class Criteria {
 		}
 	}
 
-	private clearCondition() {
-		$(this.dom.condition).empty()
-		$(this.dom.conditionTitle).attr('selected', true);
-		$(this.dom.condition).append(this.dom.conditionTitle);
+	/**
+	 * Populates the field select element
+	 */
+	private _populateField(): void {
+		this.s.dt.columns().every((index) => {
+			if (!this.s.fields[index]) {
+				this.s.fields[index] = this.s.dt.settings()[0].aoColumns[index].sTitle;
+				$(this.dom.field).append($('<option>', {
+					text : this.s.fields[index],
+					value : index
+				}));
+			}
+		});
 	}
 
-	private populateValue() {
+	/**
+	 * Populates the Value select element
+	 */
+	private _populateValue(): void {
 		let column = $(this.dom.field).children('option:selected').val();
 
 		let indexArray = this.s.dt.rows().indexes();
@@ -277,11 +322,5 @@ export default class Criteria {
 				}));
 			}
 		}
-	}
-
-	private clearValue() {
-		$(this.dom.value).empty()
-		$(this.dom.valueTitle).attr('selected', true);
-		$(this.dom.value).append(this.dom.valueTitle);
 	}
 }
