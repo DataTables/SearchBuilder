@@ -129,7 +129,7 @@ export default class Criteria {
 	public c;
 	public s;
     
-    constructor(criteriaSettings, opts, table) {
+    constructor(criteriaSettings, opts, table, index = 0) {
         // Check that the required version of DataTables is included
         if (! DataTable || ! DataTable.versionCheck || ! DataTable.versionCheck('1.10.0')) {
             throw new Error('SearchPane requires DataTables 1.10 or newer');
@@ -142,6 +142,7 @@ export default class Criteria {
         
         this.s = {
             dt: table,
+            index,
             fields: {},
             conditions: {},
             values: {}
@@ -155,9 +156,9 @@ export default class Criteria {
             conditionTitle: $('<option value="" disabled selected hidden/>').text('Condition'),
             value: $('<select/>').addClass(this.classes.value).addClass(this.classes.dropDown).addClass(this.classes.disabled),
             valueTitle: $('<option value="" disabled selected hidden/>').text('Value'),
-            left: $('<button/>').addClass(this.classes.arrow).addClass(this.classes.roundButton),
-            right: $('<button/>').addClass(this.classes.arrow).addClass(this.classes.roundButton),
-            delete: $('<button/>').addClass(this.classes.delete).addClass(this.classes.roundButton),
+            left: $('<button>&#x2190;</button>').addClass(this.classes.arrow).addClass(this.classes.roundButton),
+            right: $('<button>&#x2192;</button>').addClass(this.classes.arrow).addClass(this.classes.roundButton),
+            delete: $('<button>x</button>').addClass(this.classes.delete).addClass(this.classes.roundButton),
         }
 
         this.buildCriteria();
@@ -195,6 +196,19 @@ export default class Criteria {
         $(this.dom.value).on('change', () => {
             $(this.dom.valueTitle).attr('selected', false);
         })
+
+        $(this.dom.delete).on('click', () => {
+            this.destroy();
+        })
+    }
+
+    private destroy() {
+        $(this.dom.field).off('.dtsb');
+        $(this.dom.condition).off('.dtsb');
+        $(this.dom.value).off('.dtsb');
+        $(this.dom.delete).off('.dtsb');
+
+        $(this.dom.container).remove();
     }
 
     private populateField() {

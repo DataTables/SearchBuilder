@@ -107,7 +107,26 @@ export default class Group {
     }
 
     private addCriteria(){
-        let crit = new Criteria(undefined, undefined, this.s.dt);
+        let index = this.s.criteria.length;
+        let crit = new Criteria(undefined, undefined, this.s.dt, index);
         $(this.dom.container).append(crit.getNode());
+        this.s.criteria.push({
+            criteria: crit,
+            index
+        })
+
+        $(crit.dom.delete).on('click', () => {
+            for(let i = 0; i < this.s.criteria.length; i++){
+                if(this.s.criteria[i].index === crit.s.index) {
+                    this.s.criteria.splice(i, 1);
+                    break;
+                }
+            }
+
+            for(let i = 0; i < this.s.criteria.length; i++){
+                this.s.criteria[i].index = i;
+                this.s.criteria[i].criteria.s.index = i;
+            }
+        });
     }
 }
