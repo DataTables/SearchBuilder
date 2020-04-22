@@ -135,18 +135,19 @@ export default class Group {
 
     private addCriteria(crit = null){
         let index = this.s.criteria.length;
-
-        if(crit === null){
-            crit = new Criteria(undefined, this.s.dt, index);
-        }
-        else {
-            crit.s.index = index;
+        let criteria = new Criteria(undefined, this.s.dt, index);
+        if(crit !== null) {
+            criteria.c = crit.c;
+            criteria.s = crit.s;
+            criteria.s.index = index;
+            // criteria.dom = crit.dom;
+            criteria.classes = crit.classes;
         }
         
-        $(crit.getNode()).insertBefore(this.dom.add);
+        $(criteria.getNode()).insertBefore(this.dom.add);
 
         this.s.criteria.push({
-            criteria: crit,
+            criteria,
             index
         })
 
@@ -163,7 +164,7 @@ export default class Group {
             }
         }
 
-        $(crit.dom.delete).on('click', () => {
+        $(criteria.dom.delete).on('click', () => {
             for(let i = 0; i < this.s.criteria.length; i++){
                 if(this.s.criteria[i].index === crit.s.index) {
                     this.s.criteria.splice(i, 1);
@@ -181,19 +182,18 @@ export default class Group {
             }
         });
 
-        $(crit.dom.right).on('click', () => {
-            let index = crit.s.index;
-            let group = new Group(this.s.dt, crit.s.index, true);
-            group.addCriteria(crit);
+        $(criteria.dom.right).on('click', () => {
+            let index = criteria.s.index;
+            let group = new Group(this.s.dt, criteria.s.index, true);
+            group.addCriteria(criteria);
+
+            this.s.criteria[index].criteria.destroy();
             this.s.criteria[index].criteria = group;
 
-            console.log(index);
-
-            if(index === 0){
-                $(group.getNode()).insertAfter(this.dom.logic);
-            }
-            else {
-                $(group.getNode()).insertAfter(this.s.criteria[index - 1].criteria.dom.container);
+            $(this.dom.container).empty();
+            $(this.dom.container).append(this.dom.logic).append(this.dom.add);
+            for(let opt of this.s.criteria){
+                $(opt.criteria.dom.container).insertBefore(this.dom.add);
             }
 
             $(group.dom.container).on('dtsb-destroy', () => {
