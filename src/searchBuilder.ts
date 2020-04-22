@@ -73,10 +73,10 @@ export default class SearchBuilder {
     }
 
     private setUp(){
-        this.s.topGroup = new Group(undefined, this.s.dt);
+        this.s.topGroup = new Group(this.s.dt);
 
         $(this.dom.clearAll).on('click', () => {
-            this.s.topGroup = new Group(undefined, this.s.dt);
+            this.s.topGroup = new Group(this.s.dt);
 
             this.build();
         })

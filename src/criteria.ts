@@ -129,7 +129,7 @@ export default class Criteria {
 	public c;
 	public s;
     
-    constructor(criteriaSettings, opts, table, index = 0) {
+    constructor(opts, table, index = 0) {
         // Check that the required version of DataTables is included
         if (! DataTable || ! DataTable.versionCheck || ! DataTable.versionCheck('1.10.0')) {
             throw new Error('SearchPane requires DataTables 1.10 or newer');
@@ -157,7 +157,7 @@ export default class Criteria {
             value: $('<select/>').addClass(this.classes.value).addClass(this.classes.dropDown).addClass(this.classes.disabled),
             valueTitle: $('<option value="" disabled selected hidden/>').text('Value'),
             left: $('<button>&#x2190;</button>').addClass(this.classes.arrow).addClass(this.classes.roundButton),
-            right: $('<button>&#x2192;</button>').addClass(this.classes.arrow).addClass(this.classes.roundButton),
+            right: $('<button disabled>&#x2192;</button>').addClass(this.classes.arrow).addClass(this.classes.roundButton),
             delete: $('<button>x</button>').addClass(this.classes.delete).addClass(this.classes.roundButton),
         }
 
@@ -202,7 +202,7 @@ export default class Criteria {
         })
     }
 
-    private destroy() {
+    public destroy() {
         $(this.dom.field).off('.dtsb');
         $(this.dom.condition).off('.dtsb');
         $(this.dom.value).off('.dtsb');
