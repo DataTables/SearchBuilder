@@ -181,11 +181,13 @@ export default class Criteria {
 	 * Destroys the criteria, removing listeners and container from the dom
 	 */
 	public destroy(): void {
+		// Turn off listeners
 		$(this.dom.field).off('.dtsb');
 		$(this.dom.condition).off('.dtsb');
 		$(this.dom.value).off('.dtsb');
 		$(this.dom.delete).off('.dtsb');
 
+		// Remove container from the dom
 		$(this.dom.container).remove();
 	}
 
@@ -307,7 +309,6 @@ export default class Criteria {
 	 */
 	private _populateValue(): void {
 		let column = $(this.dom.field).children('option:selected').val();
-
 		let indexArray = this.s.dt.rows().indexes();
 		let settings = this.s.dt.settings()[0];
 

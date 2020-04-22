@@ -56,16 +56,18 @@ export default class Group {
 		}
 
 		this._setup();
-
 	}
 
 	/**
 	 * Destroys the groups buttons, clears the internal criteria and removes it from the dom
 	 */
 	public destroy(): void {
+
+		// Turn off listeners
 		$(this.dom.add).off('.dtsb');
 		$(this.dom.logic).off('.dtsb');
 
+		// Trigger event for groups at a higher level to pick up on
 		$(this.dom.container).trigger('dtsb-destroy');
 
 		this.s.criteria = [];
@@ -102,26 +104,31 @@ export default class Group {
 	private _addCriteria(crit: Criteria = null): void {
 		let index = this.s.criteria.length;
 		let criteria = new Criteria(undefined, this.s.dt, index);
+
+		// If a Criteria has been passed in then set the values to continue that
 		if (crit !== null) {
 			criteria.c = crit.c;
 			criteria.s = crit.s;
 			criteria.s.index = index;
-			// criteria.dom = crit.dom;
 			criteria.classes = crit.classes;
 		}
 
+		// If this is a sub group then add the left button
 		if (this.s.isChild) {
 			criteria.addLeft();
 		}
 
+		// Add the node for the new criteria to the end of the current criteria
 		$(criteria.getNode()).insertBefore(this.dom.add);
 
+		// Add the details for this criteria to the array
 		this.s.criteria.push({
 			criteria,
 			index,
 			type: 'criteria'
 		})
 
+		// If there are not more than one criteria in this group then enable the right button, if not disable it
 		if (this.s.criteria.length > 1) {
 			for (let opt of this.s.criteria) {
 				$(opt.criteria.dom.right).removeClass(this.classes.disabled);
@@ -180,6 +187,7 @@ export default class Group {
 	 * Redraws the Contents of the searchBuilder Groups and Criteria
 	 */
 	private _redrawContents(): void {
+		// Clear the container out and add the basic elements
 		$(this.dom.container).empty();
 		$(this.dom.container).append(this.dom.logic).append(this.dom.add);
 
@@ -187,19 +195,30 @@ export default class Group {
 
 		for (let i = 0; i < this.s.criteria.length; i++) {
 			if (this.s.criteria[i].type === 'criteria') {
+				// Reset the index to the new value
 				this.s.criteria[i].index = i;
 				this.s.criteria[i].criteria.s.index = i;
+
+				// Set listeners for various points
 				this._setCriteriaListeners(this.s.criteria[i].criteria);
 				this.s.criteria[i].criteria._setListeners();
+
+				// Add to the group
 				$(this.s.criteria[i].criteria.dom.container).insertBefore(this.dom.add);
 			}
 			else if (this.s.criteria[i].criteria.s.criteria.length > 0) {
+				// Reset the index to the new value
 				this.s.criteria[i].index = i;
 				this.s.criteria[i].criteria.s.index = i;
+
+				// Redraw the contents of the group
 				this.s.criteria[i].criteria._redrawContents();
+
+				// Add the sub group to the group
 				$(this.s.criteria[i].criteria.dom.container).insertBefore(this.dom.add);
 			}
 			else {
+				// The group is empty so remove it
 				this.s.criteria.splice(i, 1);
 				i--;
 			}
@@ -211,16 +230,19 @@ export default class Group {
 	 * @param criteria The criteria instance to be removed
 	 */
 	private _removeCriteria(criteria): void {
+		// If removing a criteria and there is only then then just destroy the group
 		if (this.s.criteria.length === 1 && this.s.isChild) {
 			this.destroy();
 		}
 		else {
+			// Otherwise splice the given criteria out and redo the indexes
 			for (let i = 0; i < this.s.criteria.length; i++) {
 				if (this.s.criteria[i].index === criteria.s.index) {
 					this.s.criteria.splice(i, 1);
 					break;
 				}
 			}
+
 			for (let i = 0; i < this.s.criteria.length; i++) {
 				this.s.criteria[i].index = i;
 				this.s.criteria[i].criteria.s.index = i;
@@ -240,14 +262,19 @@ export default class Group {
 		$(criteria.dom.right).on('click', () => {
 			let idx = criteria.s.index;
 			let group = new Group(this.s.dt, criteria.s.index, true);
+
+			// Add the criteria that is to be moved to the new group
 			group._addCriteria(criteria);
 
+			// Update the details in the current groups criteria array
 			this.s.criteria[idx].criteria = group;
-			this.s.criteria[idx].type = 'group'
+			this.s.criteria[idx].type = 'group';
 
+			// Empty and redraw the group
 			$(this.dom.container).empty();
 			$(this.dom.container).append(this.dom.logic).append(this.dom.add);
 
+			// Set listeners for the new group
 			$(group.dom.container).on('dtsb-destroy', () => {
 				this._removeCriteria(group);
 			});
