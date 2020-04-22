@@ -50,9 +50,7 @@ div.dtsb-searchBuilder {
         margin-bottom: 5px;
         /* background-color: #e4e2e2; */
         border-radius: 3px;
-        margin-left: 5px;
-        width: 690px;
-        padding: 5px;
+        margin-left: 10px;
 
         button.dtsb-logic {
             // -webkit-transform: rotate(90deg);
@@ -73,8 +71,9 @@ div.dtsb-searchBuilder {
                 margin-right: 10px;
                 margin-bottom: 5px;
             }
-            select.field{
 
+            button.dtsb-delete, button.dtsb-right, button.dtsb-left{
+                float: right;
             }
         }
     }

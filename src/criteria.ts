@@ -13,7 +13,10 @@ export default class Criteria {
         container: 'dtsb-criteria',
         field: 'dtsb-field',
         dropDown: 'dtsb-dropDown',
-        roundButton: 'dtsb-rndbtn'
+        roundButton: 'dtsb-rndbtn',
+        delete: 'dtsb-delete',
+        right: 'dtsb-right',
+        left: 'dtsb-left'
     }
 
     private static defaults = {
@@ -156,8 +159,8 @@ export default class Criteria {
             conditionTitle: $('<option value="" disabled selected hidden/>').text('Condition'),
             value: $('<select/>').addClass(this.classes.value).addClass(this.classes.dropDown).addClass(this.classes.disabled),
             valueTitle: $('<option value="" disabled selected hidden/>').text('Value'),
-            left: $('<button>&#x2190;</button>').addClass(this.classes.arrow).addClass(this.classes.roundButton),
-            right: $('<button disabled>&#x2192;</button>').addClass(this.classes.arrow).addClass(this.classes.roundButton),
+            left: $('<button>&#x2190;</button>').addClass(this.classes.left).addClass(this.classes.roundButton),
+            right: $('<button disabled>&#x2192;</button>').addClass(this.classes.right).addClass(this.classes.roundButton),
             delete: $('<button>x</button>').addClass(this.classes.delete).addClass(this.classes.roundButton),
         }
 
@@ -178,7 +181,7 @@ export default class Criteria {
         $(this.dom.field).append(this.dom.fieldTitle);
         $(this.dom.condition).append(this.dom.conditionTitle);
         $(this.dom.value).append(this.dom.valueTitle);
-        $(this.dom.container).append(this.dom.field).append(this.dom.condition).append(this.dom.value).append(this.dom.right).append(this.dom.delete);
+        $(this.dom.container).append(this.dom.field).append(this.dom.condition).append(this.dom.value).append(this.dom.delete).append(this.dom.right);
 
         $(this.dom.field).on('change', () => {
             $(this.dom.fieldTitle).attr('selected', false);
@@ -209,6 +212,11 @@ export default class Criteria {
         $(this.dom.delete).off('.dtsb');
 
         $(this.dom.container).remove();
+    }
+
+    public addLeft(){
+        $(this.dom.container).empty();
+        $(this.dom.container).append(this.dom.field).append(this.dom.condition).append(this.dom.value).append(this.dom.delete).append(this.dom.right).append(this.dom.left);
     }
 
     private populateField() {

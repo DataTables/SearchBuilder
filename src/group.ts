@@ -143,6 +143,10 @@ export default class Group {
             // criteria.dom = crit.dom;
             criteria.classes = crit.classes;
         }
+
+        if(this.s.isChild){
+            criteria.addLeft();
+        }
         
         $(criteria.getNode()).insertBefore(this.dom.add);
 
@@ -192,6 +196,7 @@ export default class Group {
 
             $(this.dom.container).empty();
             $(this.dom.container).append(this.dom.logic).append(this.dom.add);
+            
             for(let opt of this.s.criteria){
                 $(opt.criteria.dom.container).insertBefore(this.dom.add);
             }
