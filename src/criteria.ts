@@ -219,6 +219,11 @@ export default class Criteria {
 		$(this.dom.container).append(this.dom.field).append(this.dom.condition).append(this.dom.value).append(this.dom.delete).append(this.dom.right).append(this.dom.left);
 	}
 
+	public removeLeft() {
+		$(this.dom.container).empty();
+		$(this.dom.container).append(this.dom.field).append(this.dom.condition).append(this.dom.value).append(this.dom.delete).append(this.dom.right);
+	}
+
 	private populateField() {
 		this.s.dt.columns().every((index) => {
 			if (!this.s.fields[index]) {

@@ -116,6 +116,7 @@ export default class Group {
 		$(this.dom.logic.on('click', () => {
 			this.toggleLogic();
 		}))
+
 		$(this.dom.add).text('ADD');
 		$(this.dom.logic).text('Set Logic');
 		$(this.dom.container).append(this.dom.logic);
@@ -170,7 +171,7 @@ export default class Group {
 
 		$(criteria.dom.delete).on('click', () => {
 			for (let i = 0; i < this.s.criteria.length; i++) {
-				if (this.s.criteria[i].index === crit.s.index) {
+				if (this.s.criteria[i].index === criteria.s.index) {
 					this.s.criteria.splice(i, 1);
 					break;
 				}
@@ -218,6 +219,46 @@ export default class Group {
 					this.destroy();
 				}
 			});
+
+			$(group.dom.container).on('dtsb-dropCriteria', () => {
+				let toDrop = group.s.toDrop;
+				let length = this.s.criteria.length;
+				toDrop.s.index = length
+				toDrop.removeLeft();
+
+				this.s.criteria.push({
+					criteria: toDrop,
+					index: length
+				});
+
+				$(this.dom.container).empty();
+				$(this.dom.container).append(this.dom.logic).append(this.dom.add);
+
+				for (let opt of this.s.criteria) {
+					$(opt.criteria.dom.container).insertBefore(this.dom.add);
+				}
+			});
+		});
+
+		$(criteria.dom.left).on('click', () => {
+			this.s.toDrop = criteria;
+			$(this.dom.container).trigger('dtsb-dropCriteria');
+
+			if (this.s.criteria.length === 1 && this.s.isChild) {
+				this.destroy();
+			}
+			else {
+				for (let i = 0; i < this.s.criteria.length; i++) {
+					if (this.s.criteria[i].index === criteria.s.index) {
+						this.s.criteria.splice(i, 1);
+						break;
+					}
+				}
+				for (let i = 0; i < this.s.criteria.length; i++) {
+					this.s.criteria[i].index = i;
+					this.s.criteria[i].criteria.s.index = i;
+				}
+			}
 		});
 	}
 }
