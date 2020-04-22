@@ -183,6 +183,10 @@ export default class Criteria {
 		$(this.dom.value).append(this.dom.valueTitle);
 		$(this.dom.container).append(this.dom.field).append(this.dom.condition).append(this.dom.value).append(this.dom.delete).append(this.dom.right);
 
+		this.setListeners();
+	}
+
+	public setListeners() {
 		$(this.dom.field).on('change', () => {
 			$(this.dom.fieldTitle).attr('selected', false);
 			this.clearCondition();

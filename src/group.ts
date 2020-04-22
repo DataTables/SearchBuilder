@@ -62,9 +62,10 @@ export default class Group {
 	public destroy() {
 		$(this.dom.add).off('.dtsb');
 
-		$(this.dom.container).remove();
-
 		$(this.dom.container).trigger('dtsb-destroy');
+
+		this.s.criteria = [];
+		$(this.dom.container).remove();
 	}
 
 	public getNode() {
@@ -109,18 +110,55 @@ export default class Group {
 	}
 
 	private setup() {
-		$(this.dom.add).on('click', () => {
-			this.addCriteria();
-		})
-
-		$(this.dom.logic.on('click', () => {
-			this.toggleLogic();
-		}))
+		this.setListeners();
 
 		$(this.dom.add).text('ADD');
 		$(this.dom.logic).text('Set Logic');
 		$(this.dom.container).append(this.dom.logic);
 		$(this.dom.container).append(this.dom.add);
+
+		if (!this.s.isChild) {
+			$(document).on('dtsb-redrawContents', () => {
+				this.redrawContents();
+			});
+		}
+	}
+
+	private setListeners() {
+		$(this.dom.add).on('click', () => {
+			this.addCriteria();
+		})
+
+		$(this.dom.logic).on('click', () => {
+			this.toggleLogic();
+		})
+	}
+
+	private redrawContents() {
+		$(this.dom.container).empty();
+		$(this.dom.container).append(this.dom.logic).append(this.dom.add);
+
+		this.setListeners();
+
+		for (let i = 0; i < this.s.criteria.length; i++) {
+			if (this.s.criteria[i].type === 'criteria') {
+				this.s.criteria[i].index = i;
+				this.s.criteria[i].criteria.s.index = i;
+				this.setCriteriaListeners(this.s.criteria[i].criteria);
+				this.s.criteria[i].criteria.setListeners();
+				$(this.s.criteria[i].criteria.dom.container).insertBefore(this.dom.add);
+			}
+			else if (this.s.criteria[i].criteria.s.criteria.length > 0) {
+				this.s.criteria[i].index = i;
+				this.s.criteria[i].criteria.s.index = i;
+				this.s.criteria[i].criteria.redrawContents();
+				$(this.s.criteria[i].criteria.dom.container).insertBefore(this.dom.add);
+			}
+			else {
+				this.s.criteria.splice(i, 1);
+				i--;
+			}
+		}
 	}
 
 	private toggleLogic() {
@@ -153,7 +191,8 @@ export default class Group {
 
 		this.s.criteria.push({
 			criteria,
-			index
+			index,
+			type: 'criteria'
 		})
 
 		if (this.s.criteria.length > 1) {
@@ -169,22 +208,12 @@ export default class Group {
 			}
 		}
 
+		this.setCriteriaListeners(criteria)
+	}
+
+	private setCriteriaListeners(criteria) {
 		$(criteria.dom.delete).on('click', () => {
-			for (let i = 0; i < this.s.criteria.length; i++) {
-				if (this.s.criteria[i].index === criteria.s.index) {
-					this.s.criteria.splice(i, 1);
-					break;
-				}
-			}
-
-			for (let i = 0; i < this.s.criteria.length; i++) {
-				this.s.criteria[i].index = i;
-				this.s.criteria[i].criteria.s.index = i;
-			}
-
-			if (this.s.isChild && this.s.criteria.length === 0) {
-				this.destroy();
-			}
+			this.removeCriteria(criteria);
 		});
 
 		$(criteria.dom.right).on('click', () => {
@@ -192,44 +221,22 @@ export default class Group {
 			let group = new Group(this.s.dt, criteria.s.index, true);
 			group.addCriteria(criteria);
 
-			this.s.criteria[idx].criteria.destroy();
 			this.s.criteria[idx].criteria = group;
+			this.s.criteria[idx].type = 'group'
 
 			$(this.dom.container).empty();
 			$(this.dom.container).append(this.dom.logic).append(this.dom.add);
 
-			for (let opt of this.s.criteria) {
-				$(opt.criteria.dom.container).insertBefore(this.dom.add);
-			}
-
 			$(group.dom.container).on('dtsb-destroy', () => {
-				for (let i = 0; i < this.s.criteria.length; i++) {
-					if (this.s.criteria[i].index === group.s.index) {
-						this.s.criteria.splice(i, 1);
-						break;
-					}
-				}
-
-				for (let i = 0; i < this.s.criteria.length; i++) {
-					this.s.criteria[i].index = i;
-					this.s.criteria[i].criteria.s.index = i;
-				}
-
-				if (!this.s.isChild && this.s.criteria.length === 0) {
-					this.destroy();
-				}
+				this.removeCriteria(group);
 			});
 
 			$(group.dom.container).on('dtsb-dropCriteria', () => {
 				let toDrop = group.s.toDrop;
 				let length = this.s.criteria.length;
-				toDrop.s.index = length
+				toDrop.s.index = length;
 				toDrop.removeLeft();
-
-				this.s.criteria.push({
-					criteria: toDrop,
-					index: length
-				});
+				this.addCriteria(toDrop);
 
 				$(this.dom.container).empty();
 				$(this.dom.container).append(this.dom.logic).append(this.dom.add);
@@ -238,27 +245,38 @@ export default class Group {
 					$(opt.criteria.dom.container).insertBefore(this.dom.add);
 				}
 			});
+
+			for (let opt of this.s.criteria) {
+				$(opt.criteria.dom.container).insertBefore(this.dom.add);
+			}
 		});
 
 		$(criteria.dom.left).on('click', () => {
-			this.s.toDrop = criteria;
+			this.s.toDrop = new Criteria(undefined, this.s.dt, criteria.s.index);
+			this.s.toDrop.s = criteria.s;
+			this.s.toDrop.c = criteria.c;
+			this.s.toDrop.classes = criteria.classes;
 			$(this.dom.container).trigger('dtsb-dropCriteria');
-
-			if (this.s.criteria.length === 1 && this.s.isChild) {
-				this.destroy();
-			}
-			else {
-				for (let i = 0; i < this.s.criteria.length; i++) {
-					if (this.s.criteria[i].index === criteria.s.index) {
-						this.s.criteria.splice(i, 1);
-						break;
-					}
-				}
-				for (let i = 0; i < this.s.criteria.length; i++) {
-					this.s.criteria[i].index = i;
-					this.s.criteria[i].criteria.s.index = i;
-				}
-			}
+			this.removeCriteria(criteria);
+			$(document).trigger('dtsb-redrawContents');
 		});
+	}
+
+	private removeCriteria(criteria) {
+		if (this.s.criteria.length === 1 && this.s.isChild) {
+			this.destroy();
+		}
+		else {
+			for (let i = 0; i < this.s.criteria.length; i++) {
+				if (this.s.criteria[i].index === criteria.s.index) {
+					this.s.criteria.splice(i, 1);
+					break;
+				}
+			}
+			for (let i = 0; i < this.s.criteria.length; i++) {
+				this.s.criteria[i].index = i;
+				this.s.criteria[i].criteria.s.index = i;
+			}
+		}
 	}
 }
