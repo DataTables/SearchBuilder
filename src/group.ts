@@ -112,8 +112,25 @@ export default class Group {
         $(this.dom.add).on('click', () => {
             this.addCriteria();
         })
+
+        $(this.dom.logic.on('click', () => {
+            this.toggleLogic();
+        }))
         $(this.dom.add).text("ADD");
+        $(this.dom.logic).text("Set Logic");
+        $(this.dom.container).append(this.dom.logic);
         $(this.dom.container).append(this.dom.add);
+    }
+
+    private toggleLogic() {
+        if(this.s.logic === undefined || this.s.logic === 'OR'){
+            this.s.logic = 'AND';
+            $(this.dom.logic).text('All Of');
+        }
+        else if(this.s.logic === 'AND'){
+            this.s.logic = 'OR';
+            $(this.dom.logic).text('Any Of');
+        }
     }
 
     private addCriteria(crit = null){
@@ -165,16 +182,18 @@ export default class Group {
         });
 
         $(crit.dom.right).on('click', () => {
+            let index = crit.s.index;
             let group = new Group(this.s.dt, crit.s.index, true);
             group.addCriteria(crit);
-            this.s.criteria[crit.s.index].criteria = group;
-            let prev = $(crit).prev();
+            this.s.criteria[index].criteria = group;
 
-            if(prev.length === 0){
-                $(this.dom.container).prepend(group.getNode());
+            console.log(index);
+
+            if(index === 0){
+                $(group.getNode()).insertAfter(this.dom.logic);
             }
             else {
-                $(group.getNode()).insertAfter(prev);
+                $(group.getNode()).insertAfter(this.s.criteria[index - 1].criteria.dom.container);
             }
 
             $(group.dom.container).on('dtsb-destroy', () => {
