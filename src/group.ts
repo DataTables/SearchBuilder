@@ -318,7 +318,12 @@ export default class Group {
 
 		$(this.dom.add).text('ADD');
 		$(this.dom.logic).text('Set Logic');
-		$(this.dom.container).append(this.dom.logic);
+
+		// Only append the logic button immediately if this is a sub group, otherwise it will be prepended later when adding a criteria
+		if (this.s.isChild) {
+			$(this.dom.container).append(this.dom.logic);
+		}
+
 		$(this.dom.container).append(this.dom.add);
 
 		if (!this.s.isChild) {
@@ -333,6 +338,11 @@ export default class Group {
 	 */
 	private _setListeners(): void {
 		$(this.dom.add).on('click', () => {
+			// If this is the parent group then the logic button has not been added yet
+			if (!this.s.isChild) {
+				$(this.dom.container).prepend(this.dom.logic);
+			}
+
 			this._addCriteria();
 		})
 
