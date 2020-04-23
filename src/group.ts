@@ -191,7 +191,7 @@ export default class Group {
 	/**
 	 * Redraws the Contents of the searchBuilder Groups and Criteria
 	 */
-	private _redrawContents(): void {
+	public _redrawContents(): void {
 		// Clear the container out and add the basic elements
 		$(this.dom.container).empty();
 		$(this.dom.container).append(this.dom.logic).append(this.dom.add);
@@ -221,6 +221,7 @@ export default class Group {
 
 				// Add the sub group to the group
 				$(this.s.criteria[i].criteria.dom.container).insertBefore(this.dom.add);
+				this.s.criteria[i].criteria.setupLogic();
 			}
 			else {
 				// The group is empty so remove it
@@ -229,7 +230,7 @@ export default class Group {
 			}
 		}
 
-		this.setupLogic();
+		// this.setupLogic();
 	}
 
 	/**
@@ -279,11 +280,7 @@ export default class Group {
 			this.s.criteria[idx].criteria = group;
 			this.s.criteria[idx].type = 'group';
 
-			// Empty and redraw the group
-			$(this.dom.container).empty();
-			$(this.dom.container).append(this.dom.logic).append(this.dom.add);
-
-			this._setListeners();
+			$(document).trigger('dtsb-redrawContents');
 
 			$(group.dom.add).on('click', () => {
 				this.setupLogic();
@@ -302,33 +299,8 @@ export default class Group {
 				toDrop.s.index = length;
 				toDrop.removeLeft();
 				this._addCriteria(toDrop);
-
-				$(this.dom.container).empty();
-				$(this.dom.container).append(this.dom.logic).append(this.dom.add);
-
-				for (let opt of this.s.criteria) {
-					$(opt.criteria.dom.container).insertBefore(this.dom.add);
-					if (opt.type === 'group') {
-						opt.criteria.setupLogic();
-					}
-					else if (opt.type === 'criteria') {
-						opt.criteria.setListeners();
-						this._setCriteriaListeners(opt.criteria);
-					}
-				}
+				$(document).trigger('dtsb-redrawContents');
 			});
-
-			for (let opt of this.s.criteria) {
-				$(opt.criteria.dom.container).insertBefore(this.dom.add);
-				if (opt.type === 'group') {
-					opt.criteria.setupLogic();
-				}
-				else if (opt.type === 'criteria') {
-					opt.criteria.setListeners();
-					this._setCriteriaListeners(opt.criteria);
-				}
-			}
-			this.setupLogic();
 		});
 
 		$(criteria.dom.left).on('click', () => {
@@ -362,6 +334,7 @@ export default class Group {
 		if (!this.s.isChild) {
 			$(document).on('dtsb-redrawContents', () => {
 				this._redrawContents();
+				this.setupLogic();
 			});
 		}
 	}
@@ -397,6 +370,8 @@ export default class Group {
 		let shuffleTop = currentTop - firstTop;
 		let newTop = currentTop - shuffleTop;
 		$(this.dom.logic).offset({top: newTop});
+
+		console.log("just to mark");
 	}
 
 	/**
