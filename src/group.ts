@@ -145,6 +145,7 @@ export default class Group {
 		}
 
 		this._setCriteriaListeners(criteria)
+		criteria.setListeners();
 
 		this.setupLogic();
 	}
@@ -312,6 +313,7 @@ export default class Group {
 					}
 					else if (opt.type === 'criteria') {
 						opt.criteria.setListeners();
+						this._setCriteriaListeners(opt.criteria);
 					}
 				}
 			});
