@@ -194,8 +194,13 @@ export default class Criteria {
 	 * @param rowData The data for the row to be compared
 	 * @returns boolean Whether the criteria has passed
 	 */
-	public exec(rowData): boolean {
-		return $(this.dom.condition).children('option:selected').val().comparator(rowData[$(this.dom.field).children('option:selected').val().value])
+	public search(rowData): boolean {
+		for (let condition of this.s.conditions) {
+			if (condition.display = this.s.condition) {
+				return condition.comparator(rowData[this.s.field], this.s.value);
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -245,9 +250,11 @@ export default class Criteria {
 			this._populateValue();
 		});
 
+		$(this.dom.value).unbind('change');
 		$(this.dom.value).on('change', () => {
 			$(this.dom.valueTitle).attr('selected', false);
 			this.s.value = $(this.dom.value).children('option:selected').val();
+			this.s.dt.draw();
 		})
 
 		$(this.dom.delete).on('click', () => {

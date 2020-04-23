@@ -101,18 +101,10 @@ export default class SearchBuilder {
 		this.dom.topGroup = this.s.topGroup.getNode();
 		$(this.dom.container).append(this.dom.topGroup);
 
-		$(this.dom.topGroup).on('dtsb-search', () => {
-			this._search();
-		})
-	}
-
-	/**
-	 * Search function for the SearchBuilder
-	 * @returns boolean whether the row has passed
-	 */
-	private _search() {
-		for (let row of this.s.dt.rows().data().toArray()) {
-			console.log(row, this.s.topGroup.search(row))
+		this.s.search = (settings, searchData, dataIndex, origData) => {
+			return this.s.topGroup.search(searchData);
 		}
+
+		$.fn.dataTable.ext.search.push(this.s.search)
 	}
 }

@@ -35,7 +35,7 @@ export default class Group {
 	constructor(table, index = 0, isChild = false) {
 		// Check that the required version of DataTables is included
 		if (! DataTable || ! DataTable.versionCheck || ! DataTable.versionCheck('1.10.0')) {
-			throw new Error('SearchPane requires DataTables 1.10 or newer');
+			throw new Error('SearchBuilder requires DataTables 1.10 or newer');
 		}
 
 		this.classes = $.extend(true, {}, Group.classes);
@@ -97,7 +97,7 @@ export default class Group {
 		else if (this.s.logic === 'OR') {
 			return this._orSearch(rowData);
 		}
-		return false;
+		return true;
 	}
 
 	/**
@@ -158,13 +158,11 @@ export default class Group {
 	 * @returns boolean The result of the AND search
 	 */
 	private _andSearch(rowData): boolean {
-		for (let crit of this.s.criteria) {
-			if (!crit.exec(rowData)) {
-				return false;
-			}
+		if (this.s.criteria.length === 0) {
+			return true;
 		}
-		for (let gro of this.s.subgroups) {
-			if (!gro.search(rowData)) {
+		for (let crit of this.s.criteria) {
+			if (!crit.criteria.search(rowData)) {
 				return false;
 			}
 		}
@@ -177,13 +175,11 @@ export default class Group {
 	 * @returns boolean The result of the OR search
 	 */
 	private _orSearch(rowData): boolean {
-		for (let crit of this.s.criteria) {
-			if ($(crit.dom.condition).children('option:selected').val().comparator(rowData)) {
-				return true;
-			}
+		if (this.s.criteria.length === 0) {
+			return true;
 		}
-		for (let gro of this.s.subgroups) {
-			if (gro.search(rowData)) {
+		for (let crit of this.s.criteria) {
+			if (crit.criteria.search(rowData)) {
 				return true;
 			}
 		}
