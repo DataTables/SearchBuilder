@@ -30,6 +30,7 @@ export default class Group {
 	public dom;
 	public c;
 	public s;
+	private dropOnce;
 
 	constructor(table, index = 0, isChild = false) {
 		// Check that the required version of DataTables is included
@@ -238,7 +239,7 @@ export default class Group {
 	 */
 	private _removeCriteria(criteria): void {
 		// If removing a criteria and there is only then then just destroy the group
-		if (this.s.criteria.length === 1 && this.s.isChild) {
+		if (this.s.criteria.length <= 1 && this.s.isChild) {
 			this.destroy();
 		}
 		else {
@@ -296,30 +297,34 @@ export default class Group {
 	}
 
 	private _setGroupListeners(group) {
+		// Set listeners for the new group
+		$(group.dom.add).unbind('click');
 		$(group.dom.add).on('click', () => {
 			this.setupLogic();
 			$(this.dom.container).trigger('dtsb-add');
 		})
 
+		$(group.dom.container).unbind('dtsb-add');
 		$(group.dom.container).on('dtsb-add', () => {
 			this.setupLogic();
 			$(this.dom.container).trigger('dtsb-add');
 		})
 
-		// Set listeners for the new group
+		$(group.dom.container).unbind('dtsb-destroy');
 		$(group.dom.container).on('dtsb-destroy', () => {
 			this._removeCriteria(group);
 			$(group.dom.container).remove();
 			this.setupLogic();
 		});
 
-		$(group.dom.container).on('dtsb-dropCriteria', () => {
-			let toDrop = group.s.toDrop;
-			let length = this.s.criteria.length;
-			toDrop.s.index = length;
-			toDrop.removeLeft();
-			this._addCriteria(toDrop);
-			$(document).trigger('dtsb-redrawContents');
+		$(group.dom.container).unbind('dtsb-dropCriteria');
+		$(group.dom.container).one('dtsb-dropCriteria', () => {
+				let toDrop = group.s.toDrop;
+				let length = this.s.criteria.length;
+				toDrop.s.index = length;
+				toDrop.removeLeft();
+				this._addCriteria(toDrop);
+				$(document).trigger('dtsb-redrawContents');
 		});
 	}
 
