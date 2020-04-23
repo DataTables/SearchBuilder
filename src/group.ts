@@ -282,6 +282,8 @@ export default class Group {
 			$(this.dom.container).empty();
 			$(this.dom.container).append(this.dom.logic).append(this.dom.add);
 
+			this._setListeners();
+
 			$(group.dom.add).on('click', () => {
 				this.setupLogic();
 			})
@@ -289,6 +291,8 @@ export default class Group {
 			// Set listeners for the new group
 			$(group.dom.container).on('dtsb-destroy', () => {
 				this._removeCriteria(group);
+				$(group.dom.container).remove();
+				this.setupLogic();
 			});
 
 			$(group.dom.container).on('dtsb-dropCriteria', () => {
