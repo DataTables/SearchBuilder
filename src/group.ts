@@ -116,6 +116,8 @@ export default class Group {
 			criteria.classes = crit.classes;
 		}
 
+		criteria.populate();
+
 		// If this is a sub group then add the left button
 		if (this.s.isChild) {
 			criteria.addLeft();
@@ -290,6 +292,7 @@ export default class Group {
 			this.s.toDrop.s = criteria.s;
 			this.s.toDrop.c = criteria.c;
 			this.s.toDrop.classes = criteria.classes;
+			this.s.toDrop.populate();
 			$(this.dom.container).trigger('dtsb-dropCriteria');
 			this._removeCriteria(criteria);
 			$(document).trigger('dtsb-redrawContents');

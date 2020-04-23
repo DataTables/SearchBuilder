@@ -146,9 +146,9 @@ export default class Criteria {
 		this.s = {
 			dt: table,
 			index,
-			fields: {},
-			conditions: {},
-			values: {}
+			fields: [],
+			conditions: [],
+			values: []
 		}
 
 		this.dom = {
@@ -165,8 +165,6 @@ export default class Criteria {
 		}
 
 		this._buildCriteria();
-
-		this._populateField();
 	}
 
 	/**
@@ -208,6 +206,18 @@ export default class Criteria {
 		return this.dom.container;
 	}
 
+	public populate(): void {
+		this._populateField();
+
+		if (this.s.field !== undefined) {
+			this._populateCondition();
+
+			if (this.s.condition !== undefined) {
+				this._populateValue();
+			}
+		}
+	}
+
 	/**
 	 * Removes the node for the left button
 	 */
@@ -222,6 +232,7 @@ export default class Criteria {
 	public setListeners(): void {
 		$(this.dom.field).on('change', () => {
 			$(this.dom.fieldTitle).attr('selected', false);
+			this.s.field = $(this.dom.field).children('option:selected').val();
 			this._clearCondition();
 			this._clearValue();
 			this._populateCondition();
@@ -229,12 +240,14 @@ export default class Criteria {
 
 		$(this.dom.condition).on('change', () => {
 			$(this.dom.conditionTitle).attr('selected', false);
+			this.s.condition = $(this.dom.condition).children('option:selected').val();
 			this._clearValue();
 			this._populateValue();
 		});
 
 		$(this.dom.value).on('change', () => {
 			$(this.dom.valueTitle).attr('selected', false);
+			this.s.value = $(this.dom.value).children('option:selected').val();
 		})
 
 		$(this.dom.delete).on('click', () => {
@@ -261,6 +274,7 @@ export default class Criteria {
 		$(this.dom.condition).empty()
 		$(this.dom.conditionTitle).attr('selected', true);
 		$(this.dom.condition).append(this.dom.conditionTitle);
+		this.s.conditions = [];
 	}
 
 	/**
@@ -270,21 +284,37 @@ export default class Criteria {
 		$(this.dom.value).empty()
 		$(this.dom.valueTitle).attr('selected', true);
 		$(this.dom.value).append(this.dom.valueTitle);
+		this.s.values = [];
 	}
 
 	/**
 	 * Populates the condition dropdown
 	 */
 	private _populateCondition(): void {
-		let column = $(this.dom.field).children('option:selected').val();
-		let type = typeof this.s.dt.column(column.value).data().toArray()[0];
+		if (this.s.conditions.length === 0) {
+			let column = $(this.dom.field).children('option:selected').val();
+			let type = typeof this.s.dt.column(column.value).data().toArray()[0];
 
-		if (this.c.conditions[type] !== undefined) {
-			for (let condition of this.c.conditions[type]) {
-				$(this.dom.condition).append($('<option>', {
+			if (this.c.conditions[type] !== undefined) {
+				for (let condition of this.c.conditions[type]) {
+					this.s.conditions.push(condition)
+					$(this.dom.condition).append($('<option>', {
+						text : condition.display,
+						value : condition.display,
+					}))
+				}
+			}
+		}
+		else {
+			for (let condition of this.s.conditions) {
+				let newOpt = $('<option>', {
 					text : condition.display,
-					value : condition.display,
-				}))
+					value : condition.display
+				});
+				if (this.s.condition === condition.display) {
+					$(newOpt).attr('selected', true);
+				}
+				$(this.dom.condition).append(newOpt);
 			}
 		}
 	}
@@ -293,34 +323,77 @@ export default class Criteria {
 	 * Populates the field select element
 	 */
 	private _populateField(): void {
-		this.s.dt.columns().every((index) => {
-			if (!this.s.fields[index]) {
-				this.s.fields[index] = this.s.dt.settings()[0].aoColumns[index].sTitle;
-				$(this.dom.field).append($('<option>', {
-					text : this.s.fields[index],
-					value : index
-				}));
+		if (this.s.fields.length === 0) {
+			this.s.dt.columns().every((index) => {
+				let found = false;
+				for (let val of this.s.fields) {
+					if (val.index === index) {
+						found = true;
+						break;
+					}
+				}
+				if (!found) {
+					let opt = {text: this.s.dt.settings()[0].aoColumns[index].sTitle, index};
+					this.s.fields.push(opt);
+					$(this.dom.field).append($('<option>', {
+						text : opt.text,
+						value : opt.index
+					}));
+				}
+			});
+		}
+		else {
+			for (let field of this.s.fields) {
+				let newOpt = $('<option>', {
+					text : field.text,
+					value : field.index
+				});
+				if (+this.s.field === field.index) {
+					$(newOpt).attr('selected', true);
+				}
+				$(this.dom.field).append(newOpt);
 			}
-		});
+		}
 	}
 
 	/**
 	 * Populates the Value select element
 	 */
 	private _populateValue(): void {
-		let column = $(this.dom.field).children('option:selected').val();
-		let indexArray = this.s.dt.rows().indexes();
-		let settings = this.s.dt.settings()[0];
+		if (this.s.values.length === 0) {
+			let column = $(this.dom.field).children('option:selected').val();
+			let indexArray = this.s.dt.rows().indexes();
+			let settings = this.s.dt.settings()[0];
 
-		for (let index of indexArray) {
-			let filter = settings.oApi._fnGetCellData(settings, index, column, this.c.orthogonal.search);
-			if (!this.s.values[filter]) {
-				this.s.values[filter] = settings.oApi._fnGetCellData(settings, index, column, this.c.orthogonal.display);
-
-				$(this.dom.value).append($('<option>', {
-					text : this.s.values[filter],
-					value : filter
-				}));
+			for (let index of indexArray) {
+				let filter = settings.oApi._fnGetCellData(settings, index, column, this.c.orthogonal.search);
+				let found = false;
+				for (let val of this.s.values) {
+					if (val.filter === filter) {
+						found = true;
+						break;
+					}
+				}
+				if (!found) {
+					let val = {filter, text: settings.oApi._fnGetCellData(settings, index, column, this.c.orthogonal.display), index}
+					this.s.values.push(val);
+					$(this.dom.value).append($('<option>', {
+						text : val.text,
+						value : val.filter
+					}));
+				}
+			}
+		}
+		else {
+			for (let val of this.s.values) {
+				let newOpt = $('<option>', {
+					text : val.text,
+					value : val.filter
+				});
+				if (this.s.value === val.filter) {
+					$(newOpt).attr('selected', true);
+				}
+				$(this.dom.value).append(newOpt);
 			}
 		}
 	}
