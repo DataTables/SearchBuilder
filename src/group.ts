@@ -222,6 +222,7 @@ export default class Group {
 				// Add the sub group to the group
 				$(this.s.criteria[i].criteria.dom.container).insertBefore(this.dom.add);
 				this.s.criteria[i].criteria.setupLogic();
+				this._setGroupListeners(this.s.criteria[i].criteria);
 			}
 			else {
 				// The group is empty so remove it
@@ -282,25 +283,7 @@ export default class Group {
 
 			$(document).trigger('dtsb-redrawContents');
 
-			$(group.dom.add).on('click', () => {
-				this.setupLogic();
-			})
-
-			// Set listeners for the new group
-			$(group.dom.container).on('dtsb-destroy', () => {
-				this._removeCriteria(group);
-				$(group.dom.container).remove();
-				this.setupLogic();
-			});
-
-			$(group.dom.container).on('dtsb-dropCriteria', () => {
-				let toDrop = group.s.toDrop;
-				let length = this.s.criteria.length;
-				toDrop.s.index = length;
-				toDrop.removeLeft();
-				this._addCriteria(toDrop);
-				$(document).trigger('dtsb-redrawContents');
-			});
+			this._setGroupListeners(group);
 		});
 
 		$(criteria.dom.left).on('click', () => {
@@ -310,6 +293,28 @@ export default class Group {
 			this.s.toDrop.classes = criteria.classes;
 			$(this.dom.container).trigger('dtsb-dropCriteria');
 			this._removeCriteria(criteria);
+			$(document).trigger('dtsb-redrawContents');
+		});
+	}
+
+	private _setGroupListeners(group) {
+		$(group.dom.add).on('click', () => {
+			this.setupLogic();
+		})
+
+		// Set listeners for the new group
+		$(group.dom.container).on('dtsb-destroy', () => {
+			this._removeCriteria(group);
+			$(group.dom.container).remove();
+			this.setupLogic();
+		});
+
+		$(group.dom.container).on('dtsb-dropCriteria', () => {
+			let toDrop = group.s.toDrop;
+			let length = this.s.criteria.length;
+			toDrop.s.index = length;
+			toDrop.removeLeft();
+			this._addCriteria(toDrop);
 			$(document).trigger('dtsb-redrawContents');
 		});
 	}
