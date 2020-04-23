@@ -146,7 +146,6 @@ export default class Group {
 
 		this._setCriteriaListeners(criteria)
 		criteria.setListeners();
-
 		this.setupLogic();
 	}
 
@@ -216,11 +215,12 @@ export default class Group {
 				this.s.criteria[i].index = i;
 				this.s.criteria[i].criteria.s.index = i;
 
+				// Add the sub group to the group
+				$(this.s.criteria[i].criteria.dom.container).insertBefore(this.dom.add);
+
 				// Redraw the contents of the group
 				this.s.criteria[i].criteria._redrawContents();
 
-				// Add the sub group to the group
-				$(this.s.criteria[i].criteria.dom.container).insertBefore(this.dom.add);
 				this.s.criteria[i].criteria.setupLogic();
 				this._setGroupListeners(this.s.criteria[i].criteria);
 			}
@@ -230,8 +230,6 @@ export default class Group {
 				i--;
 			}
 		}
-
-		// this.setupLogic();
 	}
 
 	/**
@@ -300,6 +298,12 @@ export default class Group {
 	private _setGroupListeners(group) {
 		$(group.dom.add).on('click', () => {
 			this.setupLogic();
+			$(this.dom.container).trigger('dtsb-add');
+		})
+
+		$(group.dom.container).on('dtsb-add', () => {
+			this.setupLogic();
+			$(this.dom.container).trigger('dtsb-add');
 		})
 
 		// Set listeners for the new group
@@ -376,7 +380,6 @@ export default class Group {
 		let newTop = currentTop - shuffleTop;
 		$(this.dom.logic).offset({top: newTop});
 
-		console.log("just to mark");
 	}
 
 	/**
