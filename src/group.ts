@@ -205,7 +205,7 @@ export default class Group {
 
 				// Set listeners for various points
 				this._setCriteriaListeners(this.s.criteria[i].criteria);
-				this.s.criteria[i].criteria._setListeners();
+				this.s.criteria[i].criteria.setListeners();
 
 				// Add to the group
 				$(this.s.criteria[i].criteria.dom.container).insertBefore(this.dom.add);
@@ -227,6 +227,8 @@ export default class Group {
 				i--;
 			}
 		}
+
+		this.setupLogic();
 	}
 
 	/**
@@ -261,6 +263,7 @@ export default class Group {
 	private _setCriteriaListeners(criteria): void {
 		$(criteria.dom.delete).on('click', () => {
 			this._removeCriteria(criteria);
+			$(criteria.dom.container).remove();
 			this.setupLogic();
 		});
 
@@ -329,7 +332,7 @@ export default class Group {
 			this.s.toDrop.classes = criteria.classes;
 			$(this.dom.container).trigger('dtsb-dropCriteria');
 			this._removeCriteria(criteria);
-			$(document).trigger('dtsb-_redrawContents');
+			$(document).trigger('dtsb-redrawContents');
 		});
 	}
 
@@ -351,7 +354,7 @@ export default class Group {
 		$(this.dom.container).append(this.dom.add);
 
 		if (!this.s.isChild) {
-			$(document).on('dtsb-_redrawContents', () => {
+			$(document).on('dtsb-redrawContents', () => {
 				this._redrawContents();
 			});
 		}

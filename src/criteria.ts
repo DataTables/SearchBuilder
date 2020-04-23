@@ -187,6 +187,8 @@ export default class Criteria {
 		$(this.dom.value).off('.dtsb');
 		$(this.dom.delete).off('.dtsb');
 
+		$(this.dom.container).trigger('dtsb-destroy');
+
 		// Remove container from the dom
 		$(this.dom.container).remove();
 	}
