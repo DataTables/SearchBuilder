@@ -47,18 +47,6 @@ export default class Criteria {
 					}
 				},
 				{
-					display: 'After',
-					comparator(value, comparison) {
-						return value < comparison;
-					}
-				},
-				{
-					display: 'Before',
-					comparator(value, comparison) {
-						return value > comparison;
-					}
-				},
-				{
 					display: 'Not',
 					comparator(value, comparison) {
 						return value !== comparison;
@@ -258,7 +246,6 @@ export default class Criteria {
 		})
 
 		$(this.dom.delete).on('click', () => {
-			console.log("crit");
 			this.destroy();
 			this.s.dt.draw();
 		})
