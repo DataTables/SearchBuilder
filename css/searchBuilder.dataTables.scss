@@ -32,6 +32,7 @@ div.dtsb-searchBuilder {
 
     div.dtsb-titleRow{
         justify-content: space-evenly;
+        margin-bottom: 15px;
     
         button.dtsb-clearAll {
             margin-top: 10px;
@@ -53,12 +54,12 @@ div.dtsb-searchBuilder {
         margin-left: 10px;
 
         button.dtsb-logic {
-            // -webkit-transform: rotate(90deg);
-            // -moz-transform: rotate(90deg);
-            // -o-transform: rotate(90deg);
-            // -ms-transform: rotate(90deg);
-            // transform: rotate(90deg);
-            // position: absolute;
+            -webkit-transform: rotate(90deg);
+            -moz-transform: rotate(90deg);
+            -o-transform: rotate(90deg);
+            -ms-transform: rotate(90deg);
+            transform: rotate(90deg);
+            position: absolute;
         }
 
         div.dtsb-criteria {
@@ -76,5 +77,9 @@ div.dtsb-searchBuilder {
                 float: right;
             }
         }
+    }
+
+    div.dtsb-indent {
+        margin-left: 50px;   
     }
 }

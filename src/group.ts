@@ -17,6 +17,7 @@ export default class Group {
 		logic: 'dtsb-logic',
 		button: 'dtsb-button',
 		inputButton: 'dtsb-iptbtn',
+		indent: 'dtsb-indent',
 		roundButton: 'dtsb-rndbtn'
 	}
 
@@ -143,6 +144,8 @@ export default class Group {
 		}
 
 		this._setCriteriaListeners(criteria)
+
+		this._setupLogic();
 	}
 
 	/**
@@ -317,11 +320,12 @@ export default class Group {
 		this._setListeners();
 
 		$(this.dom.add).text('ADD');
-		$(this.dom.logic).text('Set Logic');
+		$(this.dom.logic).text('Set');
 
 		// Only append the logic button immediately if this is a sub group, otherwise it will be prepended later when adding a criteria
 		if (this.s.isChild) {
 			$(this.dom.container).append(this.dom.logic);
+			$(this.dom.container).addClass(this.classes.indent);
 		}
 
 		$(this.dom.container).append(this.dom.add);
@@ -333,6 +337,34 @@ export default class Group {
 		}
 	}
 
+	private _setupLogic() {
+		// Remove logic button
+		$(this.dom.logic).remove();
+
+		// Set width
+		let width = $(this.dom.container).height();
+		$(this.dom.logic).width(width);
+
+		// Prepend logic button
+		$(this.dom.container).prepend(this.dom.logic);
+		this._setLogicListener();
+
+		// Set horizontal alignment
+		let currentLeft = $(this.dom.logic).offset().left;
+		let groupLeft = $(this.dom.container).offset().left;
+		let shuffleLeft = currentLeft - groupLeft;
+		let newPos = currentLeft - shuffleLeft - $(this.dom.logic).height() - 20;
+		$(this.dom.logic).offset({left: newPos});
+
+		// Set vertical alignment
+		let firstCrit = $(this.dom.logic).next();
+		let currentTop = $(this.dom.logic).offset().top;
+		let firstTop = $(firstCrit).offset().top;
+		let shuffleTop = currentTop - firstTop;
+		let newTop = currentTop - shuffleTop;
+		$(this.dom.logic.offset({top: newTop}))
+	}
+
 	/**
 	 * Sets listeners on the groups elements
 	 */
@@ -340,12 +372,17 @@ export default class Group {
 		$(this.dom.add).on('click', () => {
 			// If this is the parent group then the logic button has not been added yet
 			if (!this.s.isChild) {
+				$(this.dom.container).addClass(this.classes.indent);
 				$(this.dom.container).prepend(this.dom.logic);
 			}
 
 			this._addCriteria();
 		})
 
+		this._setLogicListener()
+	}
+
+	private _setLogicListener() {
 		$(this.dom.logic).on('click', () => {
 			this._toggleLogic();
 		})
