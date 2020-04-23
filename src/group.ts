@@ -17,7 +17,8 @@ export default class Group {
 		logic: 'dtsb-logic',
 		button: 'dtsb-button',
 		inputButton: 'dtsb-iptbtn',
-		indent: 'dtsb-indent',
+		indentSub: 'dtsb-indentSub',
+		indentTop: 'dtsb-indentTop',
 		roundButton: 'dtsb-rndbtn'
 	}
 
@@ -145,7 +146,7 @@ export default class Group {
 
 		this._setCriteriaListeners(criteria)
 
-		this._setupLogic();
+		this.setupLogic();
 	}
 
 	/**
@@ -260,6 +261,7 @@ export default class Group {
 	private _setCriteriaListeners(criteria): void {
 		$(criteria.dom.delete).on('click', () => {
 			this._removeCriteria(criteria);
+			this.setupLogic();
 		});
 
 		$(criteria.dom.right).on('click', () => {
@@ -276,6 +278,10 @@ export default class Group {
 			// Empty and redraw the group
 			$(this.dom.container).empty();
 			$(this.dom.container).append(this.dom.logic).append(this.dom.add);
+
+			$(group.dom.add).on('click', () => {
+				this.setupLogic();
+			})
 
 			// Set listeners for the new group
 			$(group.dom.container).on('dtsb-destroy', () => {
@@ -294,12 +300,26 @@ export default class Group {
 
 				for (let opt of this.s.criteria) {
 					$(opt.criteria.dom.container).insertBefore(this.dom.add);
+					if (opt.type === 'group') {
+						opt.criteria.setupLogic();
+					}
+					else if (opt.type === 'criteria') {
+						opt.criteria.setListeners();
+					}
 				}
 			});
 
 			for (let opt of this.s.criteria) {
 				$(opt.criteria.dom.container).insertBefore(this.dom.add);
+				if (opt.type === 'group') {
+					opt.criteria.setupLogic();
+				}
+				else if (opt.type === 'criteria') {
+					opt.criteria.setListeners();
+					this._setCriteriaListeners(opt.criteria);
+				}
 			}
+			this.setupLogic();
 		});
 
 		$(criteria.dom.left).on('click', () => {
@@ -325,7 +345,7 @@ export default class Group {
 		// Only append the logic button immediately if this is a sub group, otherwise it will be prepended later when adding a criteria
 		if (this.s.isChild) {
 			$(this.dom.container).append(this.dom.logic);
-			$(this.dom.container).addClass(this.classes.indent);
+			$(this.dom.container).addClass(this.classes.indentSub);
 		}
 
 		$(this.dom.container).append(this.dom.add);
@@ -337,9 +357,14 @@ export default class Group {
 		}
 	}
 
-	private _setupLogic() {
+	public setupLogic() {
 		// Remove logic button
 		$(this.dom.logic).remove();
+
+		if (this.s.criteria.length < 1) {
+			$(this.dom.container).removeClass(this.classes.indentTop).removeClass(this.classes.indentSub);
+			return;
+		}
 
 		// Set width
 		let width = $(this.dom.container).height();
@@ -362,7 +387,7 @@ export default class Group {
 		let firstTop = $(firstCrit).offset().top;
 		let shuffleTop = currentTop - firstTop;
 		let newTop = currentTop - shuffleTop;
-		$(this.dom.logic.offset({top: newTop}))
+		$(this.dom.logic).offset({top: newTop});
 	}
 
 	/**
@@ -372,7 +397,7 @@ export default class Group {
 		$(this.dom.add).on('click', () => {
 			// If this is the parent group then the logic button has not been added yet
 			if (!this.s.isChild) {
-				$(this.dom.container).addClass(this.classes.indent);
+				$(this.dom.container).addClass(this.classes.indentTop);
 				$(this.dom.container).prepend(this.dom.logic);
 			}
 
