@@ -101,7 +101,7 @@ export default class SearchBuilder {
 		this.dom.topGroup = this.s.topGroup.getNode();
 		$(this.dom.container).append(this.dom.topGroup);
 
-		$(this.dom.topGroup).on('dtsp-search', () => {
+		$(this.dom.topGroup).on('dtsb-search', () => {
 			this._search();
 		})
 	}
