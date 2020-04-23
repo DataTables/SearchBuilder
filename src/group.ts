@@ -262,6 +262,7 @@ export default class Group {
 	 */
 	private _setCriteriaListeners(criteria): void {
 		$(criteria.dom.delete).on('click', () => {
+			console.log("group")
 			this._removeCriteria(criteria);
 			$(criteria.dom.container).remove();
 			this.setupLogic();
@@ -408,6 +409,7 @@ export default class Group {
 		$(this.dom.logic).unbind('click');
 		$(this.dom.logic).on('click', () => {
 			this._toggleLogic();
+			this.s.dt.draw();
 		})
 	}
 
