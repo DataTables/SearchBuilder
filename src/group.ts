@@ -196,7 +196,7 @@ export default class Group {
 		$(this.dom.container).empty();
 		$(this.dom.container).append(this.dom.logic).append(this.dom.add);
 
-		this._setListeners();
+		this.setListeners();
 
 		for (let i = 0; i < this.s.criteria.length; i++) {
 			if (this.s.criteria[i].type === 'criteria') {
@@ -299,6 +299,7 @@ export default class Group {
 	private _setGroupListeners(group) {
 		// Set listeners for the new group
 		$(group.dom.add).unbind('click');
+		group.setListeners();
 		$(group.dom.add).on('click', () => {
 			this.setupLogic();
 			$(this.dom.container).trigger('dtsb-add');
@@ -332,7 +333,7 @@ export default class Group {
 	 * Sets up the Group instance, setting listeners and appending elements
 	 */
 	private _setup(): void {
-		this._setListeners();
+		this.setListeners();
 
 		$(this.dom.add).text('ADD');
 		$(this.dom.logic).text('Set');
@@ -390,7 +391,7 @@ export default class Group {
 	/**
 	 * Sets listeners on the groups elements
 	 */
-	private _setListeners(): void {
+	public setListeners(): void {
 		$(this.dom.add).on('click', () => {
 			// If this is the parent group then the logic button has not been added yet
 			if (!this.s.isChild) {
@@ -405,6 +406,7 @@ export default class Group {
 	}
 
 	private _setLogicListener() {
+		$(this.dom.logic).unbind('click');
 		$(this.dom.logic).on('click', () => {
 			this._toggleLogic();
 		})
