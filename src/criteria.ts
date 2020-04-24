@@ -264,7 +264,6 @@ export default class Criteria {
 
 		$(this.dom.valueInput).unbind('input');
 		$(this.dom.valueInput).on('input', () => {
-			console.log("input");
 			this.s.value = $(this.dom.valueInput).val();
 			this.s.dt.draw();
 		})
@@ -314,7 +313,6 @@ export default class Criteria {
 	private _populateCondition(): void {
 		if (this.s.conditions.length === 0) {
 			let column = $(this.dom.field).children('option:selected').val();
-			console.log(column, this.s.dt.column(column).data().toArray())
 			let type = typeof this.s.dt.column(column.value).data().toArray()[0];
 
 			if (this.c.conditions[type] !== undefined) {
@@ -382,15 +380,21 @@ export default class Criteria {
 	 * Populates the Value select element
 	 */
 	private _populateValue(): void {
-		console.log(this.s.condition);
 		let conditionType = 'select';
+
 		for (let opt of this.s.conditions) {
 			if (opt.display === this.s.condition) {
 				conditionType = opt.type;
 				break;
 			}
 		}
+
 		if (conditionType === 'select') {
+			if ($(this.dom.container).has(this.dom.valueInput).length !== 0) {
+				$(this.dom.value).insertBefore(this.dom.valueInput);
+				$(this.dom.valueInput).remove();
+				this.setListeners();
+			}
 			if (this.s.values.length === 0) {
 				let column = $(this.dom.field).children('option:selected').val();
 				let indexArray = this.s.dt.rows().indexes();
@@ -429,9 +433,11 @@ export default class Criteria {
 			}
 		}
 		else if (conditionType === 'input') {
-			$(this.dom.valueInput).insertBefore(this.dom.value);
-			$(this.dom.value).remove();
-			this.setListeners();
+			if ($(this.dom.container).has(this.dom.value).length !== 0) {
+				$(this.dom.valueInput).insertBefore(this.dom.value);
+				$(this.dom.value).remove();
+				this.setListeners();
+			}
 		}
 	}
 }
