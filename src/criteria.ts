@@ -17,6 +17,7 @@ export default class Criteria {
 	private static version = '0.0.1';
 
 	private static classes = {
+		condition: 'dtsb-condition',
 		container: 'dtsb-criteria',
 		delete: 'dtsb-delete',
 		dropDown: 'dtsb-dropDown',
@@ -24,8 +25,10 @@ export default class Criteria {
 		input: 'dtsb-input',
 		joiner: 'dtsp-joiner',
 		left: 'dtsb-left',
+		option: 'dtsb-option',
 		right: 'dtsb-right',
-		roundButton: 'dtsb-rndbtn'
+		roundButton: 'dtsb-rndbtn',
+		value: 'dtsb-value'
 	};
 
 	private static defaults = {
@@ -426,10 +429,13 @@ export default class Criteria {
 			if (this.c.conditions[type] !== undefined) {
 				for (let condition of this.c.conditions[type]) {
 					this.s.conditions.push(condition);
-					$(this.dom.condition).append($('<option>', {
-						text : condition.display,
-						value : condition.display,
-					}));
+					$(this.dom.condition).append(
+						$('<option>', {
+							text : condition.display,
+							value : condition.display,
+						})
+						.addClass(this.classes.option)
+					);
 				}
 			}
 		}
@@ -438,7 +444,8 @@ export default class Criteria {
 				let newOpt = $('<option>', {
 					text : condition.display,
 					value : condition.display
-				});
+				})
+				.addClass(this.classes.option);
 
 				if (this.s.condition === condition.display) {
 					$(newOpt).attr('selected', true);
@@ -467,10 +474,13 @@ export default class Criteria {
 				if (!found) {
 					let opt = {text: this.s.dt.settings()[0].aoColumns[index].sTitle, index};
 					this.s.fields.push(opt);
-					$(this.dom.field).append($('<option>', {
-						text : opt.text,
-						value : opt.index
-					}));
+					$(this.dom.field).append(
+						$('<option>', {
+							text : opt.text,
+							value : opt.index
+						})
+						.addClass(this.classes.option)
+					);
 				}
 			});
 		}
@@ -479,7 +489,8 @@ export default class Criteria {
 				let newOpt = $('<option>', {
 					text : field.text,
 					value : field.index
-				});
+				})
+				.addClass(this.classes.option);
 
 				if (+this.s.field === field.index) {
 					$(newOpt).attr('selected', true);
@@ -541,10 +552,13 @@ export default class Criteria {
 					if (!found) {
 						let val = {filter, text: settings.oApi._fnGetCellData(settings, index, column, this.c.orthogonal.display), index};
 						this.s.values.push(val);
-						$(this.dom.value).append($('<option>', {
-							text : val.text,
-							value : val.filter
-						}));
+						$(this.dom.value).append(
+							$('<option>', {
+								text : val.text,
+								value : val.filter
+							})
+							.addClass(this.classes.option)
+						);
 					}
 				}
 			}
@@ -553,7 +567,8 @@ export default class Criteria {
 					let newOpt = $('<option>', {
 						text : val.text,
 						value : val.filter
-					});
+					})
+					.addClass(this.classes.option);
 
 					if (this.s.value[0] === val.filter) {
 						$(newOpt).attr('selected', true);

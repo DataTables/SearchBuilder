@@ -60,6 +60,7 @@ div.dtsb-searchBuilder {
             -ms-transform: rotate(90deg);
             transform: rotate(90deg);
             position: absolute;
+            background-color: #80c779;
         }
 
         div.dtsb-criteria {
@@ -71,6 +72,24 @@ div.dtsb-searchBuilder {
                 background-color: #cecece;
                 margin-right: 10px;
                 margin-bottom: 5px;
+            }
+
+            select.dtsb-condition {
+                background-color: #80c779;
+            }
+
+            select.dtsb-field {
+                background-color: #c22e2e;
+            }
+
+            select.dtsb-value, input.dtsb-value {
+                background-color: #7cbcf8;
+            }
+
+            select.dtsb-condition, select.dtsb-field, select.dtsb-value {
+                option.dtsb-option {
+                    background-color: white;
+                }
             }
 
             button.dtsb-delete, button.dtsb-right, button.dtsb-left{
