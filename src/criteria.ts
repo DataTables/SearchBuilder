@@ -22,6 +22,7 @@ export default class Criteria {
 		dropDown: 'dtsb-dropDown',
 		field: 'dtsb-field',
 		input: 'dtsb-input',
+		joiner: 'dtsp-joiner',
 		left: 'dtsb-left',
 		right: 'dtsb-right',
 		roundButton: 'dtsb-rndbtn'
@@ -88,14 +89,16 @@ export default class Criteria {
 							return +comparison[1] < +value && +value < +comparison[0];
 						}
 					},
+					joiner: 'and',
 					type: 'input',
-					valueInputs: 2
+					valueInputs: 2,
 				},
 				{
 					display: 'Between Inclusive',
 					comparator(value, comparison) {
 						return +comparison[0] <= +value && +value <= +comparison[1];
 					},
+					joiner: 'and',
 					type: 'input',
 					valueInputs: 2
 				},
@@ -211,11 +214,13 @@ export default class Criteria {
 		// Get the type of condition and the number of values required so we now how many value inputs to append
 		let conditionType;
 		let valCount;
+		let joinerText;
 
 		for (let opt of this.s.conditions) {
 			if (opt.display === this.s.condition) {
 				conditionType = opt.type;
 				valCount = opt.valueInputs;
+				joinerText = opt.joiner;
 				break;
 			}
 		}
@@ -233,9 +238,12 @@ export default class Criteria {
 		// If it is an input condition then append everything in order and all of the input elements required
 		else if (conditionType === 'input') {
 			$(this.dom.container).append(this.dom.field).append(this.dom.condition);
+			$(this.dom.container.append(this.dom.valueInputs[0]));
 
-			for (let i = 0; i < valCount && i < this.dom.valueInputs.length; i++) {
-				$(this.dom.container.append(this.dom.valueInputs[i]));
+			for (let i = 1; i < valCount && i < this.dom.valueInputs.length; i++) {
+				$(this.dom.container
+					.append($('<span>').addclass(this.classes.joiner).text(joinerText))
+					.append(this.dom.valueInputs[i]));
 			}
 
 			$(this.dom.container).append(this.dom.delete).append(this.dom.right).append(this.dom.left);
@@ -488,6 +496,7 @@ export default class Criteria {
 	private _populateValue(): void {
 		let conditionType = 'select';
 		let valCount = 1;
+		let joinerText;
 		this.s.filled = false;
 
 		// Find the condition type and the number of value inputs required
@@ -495,6 +504,7 @@ export default class Criteria {
 			if (opt.display === this.s.condition) {
 				conditionType = opt.type;
 				valCount = opt.valueInputs;
+				joinerText = opt.joiner;
 				break;
 			}
 		}
@@ -503,6 +513,7 @@ export default class Criteria {
 			// If there are input fields then remove them and add the select field
 			if ($(this.dom.container).has(this.dom.valueInputs[0]).length !== 0) {
 				$(this.dom.value).insertBefore(this.dom.valueInputs[0]);
+				$(this.classes.joiner).remove();
 
 				for (let input of this.dom.valueInputs) {
 					$(input).remove();
@@ -554,7 +565,10 @@ export default class Criteria {
 			}
 		}
 		else if (conditionType === 'input' && $(this.dom.container).has(this.dom.value).length !== 0) {
-			for (let i = 0; i < valCount && i < this.dom.valueInputs.length; i++) {
+			$(this.dom.valueInputs[0]).insertBefore(this.dom.value);
+			$(this.dom.valueInputs[0]).val(this.s.value[0]);
+			for (let i = 1; i < valCount && i < this.dom.valueInputs.length; i++) {
+				$('<span>').addClass(this.classes.joiner).text(joinerText).insertBefore(this.dom.value);
 				$(this.dom.valueInputs[i]).insertBefore(this.dom.value);
 				$(this.dom.valueInputs[i]).val(this.s.value[i]);
 			}
