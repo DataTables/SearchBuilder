@@ -63,7 +63,6 @@ export default class Criteria {
 				{
 					display: 'Equals',
 					comparator(value, comparison) {
-						console.log(value, comparison);
 						return +value === +comparison;
 					},
 					type: 'select'
@@ -71,7 +70,6 @@ export default class Criteria {
 				{
 					display: 'Greater Than',
 					comparator(value, comparison) {
-						console.log(value, comparison, typeof value);
 						return +value > +comparison;
 					},
 					type: 'input'
@@ -248,6 +246,7 @@ export default class Criteria {
 			this._clearCondition();
 			this._clearValue();
 			this._populateCondition();
+			this.s.dt.draw();
 		});
 
 		$(this.dom.condition).unbind('change');
@@ -256,6 +255,7 @@ export default class Criteria {
 			this.s.condition = $(this.dom.condition).children('option:selected').val();
 			this._clearValue();
 			this._populateValue();
+			this.s.dt.draw();
 		});
 
 		$(this.dom.value).unbind('change');
@@ -308,7 +308,8 @@ export default class Criteria {
 	 * Clears the value select element
 	 */
 	private _clearValue(): void {
-		$(this.dom.value).empty()
+		$(this.dom.value).empty();
+		$(this.dom.valueInput).val('');
 		$(this.dom.valueTitle).attr('selected', true);
 		$(this.dom.value).append(this.dom.valueTitle);
 		this.s.values = [];
