@@ -50,12 +50,43 @@
             "allow-pascal-case",
             "allow-leading-underscore"
         ],
+        "comment-format": [
+            true,
+            "check-space"
+        ],
+        "max-line-length": [
+            true,
+            120
+        ],
         "only-arrow-functions": false,
         "no-empty-interface": false,
         "no-implicit-dependencies": false,
         "no-submodule-imports": false,
         "no-namespace": false,
         "no-unused-variable": true,
-        "forin": false
+        "forin": false,
+        "semicolon": true,
+        "object-literal-sort-keys": true,
+        "newline-before-return": true,
+        "no-consecutive-blank-lines": true,
+        "no-irregular-whitespace": true,
+        "prefer-for-of": true,
+        "no-console": true,
+        "no-duplicate-variable": true,
+        "no-empty": true,
+        "no-var-keyword": true,
+        "triple-equals": true,
+        "completed-docs": [
+            true,
+            {
+                "methods":{
+                    "privacies": ["all"]
+                },
+                "classes": true,
+                "functions":true
+            }
+        ],
+        "interface-name": [true, "never-prefix"],
+        "jsdoc-format": true
     }
 }

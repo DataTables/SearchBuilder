@@ -1,28 +1,37 @@
 let $;
 let DataTable;
 
+/**
+ * Sets the value of jQuery for use in the file
+ * @param jq the instance of jQuery to be set
+ */
 export function setJQuery(jq) {
 	$ = jq;
 	DataTable = jq.fn.DataTable;
-};
+}
 
 import Group from './group';
+
+/**
+ * SearchBuilder class for DataTables.
+ * Allows for complex search queries to be constructed and implemented on a DataTable
+ */
 export default class SearchBuilder {
 	private static version = '0.0.1';
 
 	private static classes = {
+		button: 'dtsb-button',
 		clearAll: 'dtsb-clearAll',
 		container: 'dtsb-searchBuilder',
-		title: 'dtsb-title',
-		button: 'dtsb-button',
 		inputButton: 'dtsb-iptbtn',
-		titleRow: 'dtsb-titleRow',
-		roundButton: 'dtsb-rndbtn'
-	}
+		roundButton: 'dtsb-rndbtn',
+		title: 'dtsb-title',
+		titleRow: 'dtsb-titleRow'
+	};
 
 	private static defaults = {
 
-	}
+	};
 
 	public classes;
 	public dom;
@@ -42,18 +51,20 @@ export default class SearchBuilder {
 		this.c = $.extend(true, {}, SearchBuilder.defaults, opts);
 
 		this.dom = {
-			clearAll: $('<button type="button">Clear All</button>').addClass(this.classes.clearAll).addClass(this.classes.button),
+			clearAll: $('<button type="button">Clear All</button>')
+				.addClass(this.classes.clearAll)
+				.addClass(this.classes.button),
 			container: $('<div/>').addClass(this.classes.container),
 			searchBuilder: $('<div/>').addClass(this.classes.builder),
 			title: $('<div/>').addClass(this.classes.title),
 			titleRow: $('<div/>').addClass(this.classes.titleRow),
 			wrapper: $('<div/>'),
-		}
+		};
 
 		this.s = {
 			dt: table,
 			topGroup: undefined
-		}
+		};
 
 		if (table.settings()[0]._searchBuilder !== undefined) {
 			return;
@@ -80,9 +91,8 @@ export default class SearchBuilder {
 
 		$(this.dom.clearAll).on('click', () => {
 			this.s.topGroup = new Group(this.s.dt);
-
 			this._build();
-		})
+		});
 
 		this._build();
 	}
@@ -93,7 +103,7 @@ export default class SearchBuilder {
 	private _build(): void {
 		$(this.dom.container).empty();
 
-		$(this.dom.title).text('SearchBuilder')
+		$(this.dom.title).text('SearchBuilder');
 
 		$(this.dom.titleRow).append(this.dom.title);
 		$(this.dom.titleRow).append(this.dom.clearAll);
@@ -103,9 +113,9 @@ export default class SearchBuilder {
 
 		this.s.search = (settings, searchData, dataIndex, origData) => {
 			return this.s.topGroup.search(searchData);
-		}
+		};
 
-		$.fn.dataTable.ext.search.push(this.s.search)
+		$.fn.dataTable.ext.search.push(this.s.search);
 		$.fn.DataTable.Api.registerPlural('columns().type()', 'column().type()', function (selector, opts) {
 			return this.iterator('column', function (settings, column) {
 				return settings.aoColumns[column].sType;

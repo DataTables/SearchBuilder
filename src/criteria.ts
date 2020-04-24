@@ -1,69 +1,34 @@
 let $;
 let DataTable;
 
+/**
+ * Sets the value of jQuery for use in the file
+ * @param jq the instance of jQuery to be set
+ */
 export function setJQuery(jq) {
   $ = jq;
   DataTable = jq.fn.dataTable;
-};
+}
 
+/**
+ * The Criteria class is used within SearchBuilder to represent a search criteria
+ */
 export default class Criteria {
 	private static version = '0.0.1';
 
 	private static classes = {
 		container: 'dtsb-criteria',
-		field: 'dtsb-field',
-		dropDown: 'dtsb-dropDown',
-		input: 'dtsb-input',
-		roundButton: 'dtsb-rndbtn',
 		delete: 'dtsb-delete',
+		dropDown: 'dtsb-dropDown',
+		field: 'dtsb-field',
+		input: 'dtsb-input',
+		left: 'dtsb-left',
 		right: 'dtsb-right',
-		left: 'dtsb-left'
-	}
+		roundButton: 'dtsb-rndbtn'
+	};
 
 	private static defaults = {
 		conditions: {
-			string: [
-				{
-					display: 'Equals',
-					comparator(value, comparison) {
-						return value === comparison[0];
-					},
-					type: 'select',
-					valueInputs: 1
-				},
-				{
-					display: 'Starts With',
-					comparator(value, comparison) {
-						return value.toLowerCase().indexOf(comparison[0]) === 0;
-					},
-					type: 'input',
-					valueInputs: 1
-				},
-				{
-					display: 'Ends with',
-					comparator(value, comparison) {
-						return value.toLowerCase().indexOf(comparison[0]) === value.length - comparison[0].length;
-					},
-					type: 'input',
-					valueInputs: 1
-				},
-				{
-					display: 'Contains',
-					comparator(value, comparison) {
-						return value.toLowerCase().includes(comparison[0]);
-					},
-					type: 'input',
-					valueInputs: 1
-				},
-				{
-					display: 'Not',
-					comparator(value, comparison) {
-						return value !== comparison[0];
-					},
-					type: 'select',
-					valueInputs: 1
-				},
-			],
 			num: [
 				{
 					display: 'Equals',
@@ -92,7 +57,7 @@ export default class Criteria {
 				{
 					display: 'Greater Than Equal To',
 					comparator(value, comparison) {
-						return +value >= +comparison[0]
+						return +value >= +comparison[0];
 					},
 					type: 'input',
 					valueInputs: 1
@@ -134,6 +99,48 @@ export default class Criteria {
 					type: 'input',
 					valueInputs: 2
 				},
+			],
+			string: [
+				{
+					display: 'Equals',
+					comparator(value, comparison) {
+						return value === comparison[0];
+					},
+					type: 'select',
+					valueInputs: 1
+				},
+				{
+					display: 'Starts With',
+					comparator(value, comparison) {
+						return value.toLowerCase().indexOf(comparison[0]) === 0;
+					},
+					type: 'input',
+					valueInputs: 1
+				},
+				{
+					display: 'Ends with',
+					comparator(value, comparison) {
+						return value.toLowerCase().indexOf(comparison[0]) === value.length - comparison[0].length;
+					},
+					type: 'input',
+					valueInputs: 1
+				},
+				{
+					display: 'Contains',
+					comparator(value, comparison) {
+						return value.toLowerCase().includes(comparison[0]);
+					},
+					type: 'input',
+					valueInputs: 1
+				},
+				{
+					display: 'Not',
+					comparator(value, comparison) {
+						return value !== comparison[0];
+					},
+					type: 'select',
+					valueInputs: 1
+				},
 			]
 		},
 		orthogonal: {
@@ -145,7 +152,7 @@ export default class Criteria {
 			threshold: 0.6,
 			type: 'type'
 		}
-	}
+	};
 
 	public classes;
 	public dom;
@@ -164,30 +171,33 @@ export default class Criteria {
 		this.c = $.extend(true, {}, Criteria.defaults, opts);
 
 		this.s = {
+			conditions: [],
 			dt: table,
-			index,
 			fields: [],
 			filled: false,
-			conditions: [],
+			index,
 			values: []
-		}
+		};
 
 		this.dom = {
+			condition: $('<select/>')
+				.addClass(this.classes.condition)
+				.addClass(this.classes.dropDown)
+				.addClass(this.classes.disabled),
+			conditionTitle: $('<option value="" disabled selected hidden/>').text('Condition'),
 			container: $('<div/>').addClass(this.classes.container),
+			delete: $('<button>x</button>').addClass(this.classes.delete).addClass(this.classes.roundButton),
 			field: $('<select/>').addClass(this.classes.field).addClass(this.classes.dropDown),
 			fieldTitle: $('<option value="" disabled selected hidden/>').text('Field'),
-			condition: $('<select/>').addClass(this.classes.condition).addClass(this.classes.dropDown).addClass(this.classes.disabled),
-			conditionTitle: $('<option value="" disabled selected hidden/>').text('Condition'),
+			left: $('<button>&#x2190;</button>').addClass(this.classes.left).addClass(this.classes.roundButton),
+			right: $('<button disabled>&#x2192;</button>').addClass(this.classes.right).addClass(this.classes.roundButton),
 			value: $('<select/>').addClass(this.classes.value).addClass(this.classes.dropDown).addClass(this.classes.disabled),
 			valueInputs: [
 				$('<input/>').addClass(this.classes.value).addClass(this.classes.input).addClass(this.classes.disabled),
 				$('<input/>').addClass(this.classes.value).addClass(this.classes.input).addClass(this.classes.disabled)
 			],
 			valueTitle: $('<option value="" disabled selected hidden/>').text('Value'),
-			left: $('<button>&#x2190;</button>').addClass(this.classes.left).addClass(this.classes.roundButton),
-			right: $('<button disabled>&#x2192;</button>').addClass(this.classes.right).addClass(this.classes.roundButton),
-			delete: $('<button>x</button>').addClass(this.classes.delete).addClass(this.classes.roundButton),
-		}
+		};
 
 		this._buildCriteria();
 	}
@@ -212,7 +222,13 @@ export default class Criteria {
 
 		// If it is a select condition then just append the select
 		if (conditionType === 'select') {
-			$(this.dom.container).append(this.dom.field).append(this.dom.condition).append(this.dom.value).append(this.dom.delete).append(this.dom.right).append(this.dom.left);
+			$(this.dom.container)
+				.append(this.dom.field)
+				.append(this.dom.condition)
+				.append(this.dom.value)
+				.append(this.dom.delete)
+				.append(this.dom.right)
+				.append(this.dom.left);
 		}
 		// If it is an input condition then append everything in order and all of the input elements required
 		else if (conditionType === 'input') {
@@ -251,6 +267,7 @@ export default class Criteria {
 					return condition.comparator(rowData[this.s.field], this.s.value);
 			}
 		}
+
 		return false;
 	}
 
@@ -262,6 +279,9 @@ export default class Criteria {
 		return this.dom.container;
 	}
 
+	/**
+	 * Populates the criteria field, condition and value(s) as far as has been selected
+	 */
 	public populate(): void {
 		this._populateField();
 
@@ -279,7 +299,12 @@ export default class Criteria {
 	 */
 	public removeLeft(): void {
 		$(this.dom.container).empty();
-		$(this.dom.container).append(this.dom.field).append(this.dom.condition).append(this.dom.value).append(this.dom.delete).append(this.dom.right);
+		$(this.dom.container)
+			.append(this.dom.field)
+			.append(this.dom.condition)
+			.append(this.dom.value)
+			.append(this.dom.delete)
+			.append(this.dom.right);
 	}
 
 	/**
@@ -312,7 +337,7 @@ export default class Criteria {
 			this.s.value = [];
 			this.s.value.push($(this.dom.value).children('option:selected').val());
 			this.s.dt.draw();
-		})
+		});
 
 		for (let i = 0; i < this.dom.valueInputs.length; i++) {
 			$(this.dom.valueInputs[i]).unbind('input');
@@ -330,14 +355,14 @@ export default class Criteria {
 
 				this.s.filled = allFilled;
 				this.s.dt.draw();
-			})
+			});
 		}
 
 		$(this.dom.delete).unbind('change');
 		$(this.dom.delete).on('click', () => {
 			this.destroy();
 			this.s.dt.draw();
-		})
+		});
 	}
 
 	/**
@@ -347,8 +372,12 @@ export default class Criteria {
 		$(this.dom.field).append(this.dom.fieldTitle);
 		$(this.dom.condition).append(this.dom.conditionTitle);
 		$(this.dom.value).append(this.dom.valueTitle);
-		$(this.dom.container).append(this.dom.field).append(this.dom.condition).append(this.dom.value).append(this.dom.delete).append(this.dom.right);
-
+		$(this.dom.container)
+			.append(this.dom.field)
+			.append(this.dom.condition)
+			.append(this.dom.value)
+			.append(this.dom.delete)
+			.append(this.dom.right);
 		this.setListeners();
 	}
 
@@ -356,7 +385,7 @@ export default class Criteria {
 	 * Clears the condition select element
 	 */
 	private _clearCondition(): void {
-		$(this.dom.condition).empty()
+		$(this.dom.condition).empty();
 		$(this.dom.conditionTitle).attr('selected', true);
 		$(this.dom.condition).append(this.dom.conditionTitle);
 		this.s.conditions = [];
@@ -388,11 +417,11 @@ export default class Criteria {
 
 			if (this.c.conditions[type] !== undefined) {
 				for (let condition of this.c.conditions[type]) {
-					this.s.conditions.push(condition)
+					this.s.conditions.push(condition);
 					$(this.dom.condition).append($('<option>', {
 						text : condition.display,
 						value : condition.display,
-					}))
+					}));
 				}
 			}
 		}
@@ -499,7 +528,7 @@ export default class Criteria {
 					}
 
 					if (!found) {
-						let val = {filter, text: settings.oApi._fnGetCellData(settings, index, column, this.c.orthogonal.display), index}
+						let val = {filter, text: settings.oApi._fnGetCellData(settings, index, column, this.c.orthogonal.display), index};
 						this.s.values.push(val);
 						$(this.dom.value).append($('<option>', {
 							text : val.text,
@@ -527,8 +556,9 @@ export default class Criteria {
 		else if (conditionType === 'input' && $(this.dom.container).has(this.dom.value).length !== 0) {
 			for (let i = 0; i < valCount && i < this.dom.valueInputs.length; i++) {
 				$(this.dom.valueInputs[i]).insertBefore(this.dom.value);
-				$(this.dom.valueInputs[i]).val(this.s.value[i])
+				$(this.dom.valueInputs[i]).val(this.s.value[i]);
 			}
+
 			$(this.dom.value).remove();
 			this.setListeners();
 		}

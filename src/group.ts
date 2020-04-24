@@ -1,30 +1,37 @@
 let $;
 let DataTable;
 
+/**
+ * Sets the value of jQuery for use in the file
+ * @param jq the instance of jQuery to be set
+ */
 export function setJQuery(jq) {
   $ = jq;
   DataTable = jq.fn.dataTable;
-};
+}
 
 import Criteria from './criteria';
 
+/**
+ * The Group class is used within SearchBuilder to represent a group of criteria
+ */
 export default class Group {
 	private static version = '0.0.1';
 
 	private static classes = {
-		group: 'dtsb-group',
 		add: 'dtsb-add',
-		logic: 'dtsb-logic',
 		button: 'dtsb-button',
-		inputButton: 'dtsb-iptbtn',
+		group: 'dtsb-group',
 		indentSub: 'dtsb-indentSub',
 		indentTop: 'dtsb-indentTop',
+		inputButton: 'dtsb-iptbtn',
+		logic: 'dtsb-logic',
 		roundButton: 'dtsb-rndbtn'
-	}
+	};
 
 	private static defaults = {
 
-	}
+	};
 
 	public classes;
 	public dom;
@@ -44,19 +51,19 @@ export default class Group {
 		this.c = $.extend(true, {}, Group.defaults);
 
 		this.s = {
-			isChild,
-			dt: table,
 			criteria: [],
+			dt: table,
 			index,
+			isChild,
 			logic: undefined,
 			subgroups: [],
-		}
+		};
 
 		this.dom = {
-			container: $('<div/>').addClass(this.classes.group),
 			add: $('<button/>').addClass(this.classes.add).addClass(this.classes.button),
+			container: $('<div/>').addClass(this.classes.group),
 			logic: $('<button/>').addClass(this.classes.logic).addClass(this.classes.button)
-		}
+		};
 
 		this._setup();
 	}
@@ -132,7 +139,7 @@ export default class Group {
 			criteria,
 			index,
 			type: 'criteria'
-		})
+		});
 
 		// If there are not more than one criteria in this group then enable the right button, if not disable it
 		if (this.s.criteria.length > 1) {
@@ -148,7 +155,7 @@ export default class Group {
 			}
 		}
 
-		this._setCriteriaListeners(criteria)
+		this._setCriteriaListeners(criteria);
 		criteria.setListeners();
 		this.setupLogic();
 	}
@@ -184,7 +191,9 @@ export default class Group {
 		if (this.s.criteria.length === 0) {
 			return true;
 		}
+
 		let filledfound = false;
+
 		for (let crit of this.s.criteria) {
 			if (crit.criteria.s.filled) {
 				filledfound = true;
@@ -193,6 +202,7 @@ export default class Group {
 				}
 			}
 		}
+
 		return !filledfound;
 	}
 
@@ -305,6 +315,10 @@ export default class Group {
 		});
 	}
 
+	/**
+	 * Sets listeners for sub groups of this group
+	 * @param group The sub group that the listeners are to be set on
+	 */
 	private _setGroupListeners(group) {
 		// Set listeners for the new group
 		$(group.dom.add).unbind('click');
@@ -312,13 +326,13 @@ export default class Group {
 		$(group.dom.add).on('click', () => {
 			this.setupLogic();
 			$(this.dom.container).trigger('dtsb-add');
-		})
+		});
 
 		$(group.dom.container).unbind('dtsb-add');
 		$(group.dom.container).on('dtsb-add', () => {
 			this.setupLogic();
 			$(this.dom.container).trigger('dtsb-add');
-		})
+		});
 
 		$(group.dom.container).unbind('dtsb-destroy');
 		$(group.dom.container).on('dtsb-destroy', () => {
@@ -347,7 +361,8 @@ export default class Group {
 		$(this.dom.add).text('ADD');
 		$(this.dom.logic).text('Set');
 
-		// Only append the logic button immediately if this is a sub group, otherwise it will be prepended later when adding a criteria
+		// Only append the logic button immediately if this is a sub group,
+		//  otherwise it will be prepended later when adding a criteria
 		if (this.s.isChild) {
 			$(this.dom.container).append(this.dom.logic);
 			$(this.dom.container).addClass(this.classes.indentSub);
@@ -363,12 +378,16 @@ export default class Group {
 		}
 	}
 
+	/**
+	 * Locates the groups logic button to the correct location on the page
+	 */
 	public setupLogic() {
 		// Remove logic button
 		$(this.dom.logic).remove();
 
 		if (this.s.criteria.length < 1) {
 			$(this.dom.container).removeClass(this.classes.indentTop).removeClass(this.classes.indentSub);
+
 			return;
 		}
 
@@ -409,17 +428,20 @@ export default class Group {
 			}
 
 			this._addCriteria();
-		})
+		});
 
-		this._setLogicListener()
+		this._setLogicListener();
 	}
 
+	/**
+	 * Sets the listener for the logic button
+	 */
 	private _setLogicListener() {
 		$(this.dom.logic).unbind('click');
 		$(this.dom.logic).on('click', () => {
 			this._toggleLogic();
 			this.s.dt.draw();
-		})
+		});
 	}
 
 	/**
