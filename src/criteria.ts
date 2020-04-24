@@ -149,6 +149,7 @@ export default class Criteria {
 			dt: table,
 			index,
 			fields: [],
+			filled: false,
 			conditions: [],
 			values: []
 		}
@@ -265,6 +266,12 @@ export default class Criteria {
 		$(this.dom.valueInput).unbind('input');
 		$(this.dom.valueInput).on('input', () => {
 			this.s.value = $(this.dom.valueInput).val();
+			if (this.s.value.length > 0) {
+				this.s.filled = true;
+			}
+			else {
+				this.s.filled = false;
+			}
 			this.s.dt.draw();
 		})
 
@@ -381,6 +388,7 @@ export default class Criteria {
 	 */
 	private _populateValue(): void {
 		let conditionType = 'select';
+		this.s.filled = false;
 
 		for (let opt of this.s.conditions) {
 			if (opt.display === this.s.condition) {
@@ -427,6 +435,7 @@ export default class Criteria {
 					});
 					if (this.s.value === val.filter) {
 						$(newOpt).attr('selected', true);
+						this.s.filled = true;
 					}
 					$(this.dom.value).append(newOpt);
 				}

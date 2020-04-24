@@ -162,7 +162,10 @@ export default class Group {
 			return true;
 		}
 		for (let crit of this.s.criteria) {
-			if (!crit.criteria.search(rowData)) {
+			if (crit.type === 'criteria' && !crit.criteria.s.filled) {
+				continue;
+			}
+			else if (!crit.criteria.search(rowData)) {
 				return false;
 			}
 		}
@@ -178,12 +181,16 @@ export default class Group {
 		if (this.s.criteria.length === 0) {
 			return true;
 		}
+		let filledfound = false;
 		for (let crit of this.s.criteria) {
-			if (crit.criteria.search(rowData)) {
-				return true;
+			if (crit.criteria.s.filled) {
+				filledfound = true;
+				if (crit.criteria.search(rowData)) {
+					return true;
+				}
 			}
 		}
-		return false;
+		return !filledfound;
 	}
 
 	/**
