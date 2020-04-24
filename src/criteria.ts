@@ -26,95 +26,113 @@ export default class Criteria {
 				{
 					display: 'Equals',
 					comparator(value, comparison) {
-						return value === comparison;
+						return value === comparison[0];
 					},
-					type: 'select'
+					type: 'select',
+					valueInputs: 1
 				},
 				{
 					display: 'Starts With',
 					comparator(value, comparison) {
-						return value.toLowerCase().indexOf(comparison) === 0;
+						return value.toLowerCase().indexOf(comparison[0]) === 0;
 					},
-					type: 'input'
+					type: 'input',
+					valueInputs: 1
 				},
 				{
 					display: 'Ends with',
 					comparator(value, comparison) {
-						return value.toLowerCase().indexOf(comparison) === value.length - comparison.length;
+						return value.toLowerCase().indexOf(comparison[0]) === value.length - comparison[0].length;
 					},
-					type: 'input'
+					type: 'input',
+					valueInputs: 1
 				},
 				{
 					display: 'Contains',
 					comparator(value, comparison) {
-						return value.toLowerCase().includes(comparison);
+						return value.toLowerCase().includes(comparison[0]);
 					},
-					type: 'input'
+					type: 'input',
+					valueInputs: 1
 				},
 				{
 					display: 'Not',
 					comparator(value, comparison) {
-						return value !== comparison;
+						return value !== comparison[0];
 					},
-					type: 'select'
+					type: 'select',
+					valueInputs: 1
 				},
 			],
 			num: [
 				{
 					display: 'Equals',
 					comparator(value, comparison) {
-						return +value === +comparison;
+						return +value === +comparison[0];
 					},
-					type: 'select'
+					type: 'select',
+					valueInputs: 1
 				},
 				{
 					display: 'Greater Than',
 					comparator(value, comparison) {
-						return +value > +comparison;
+						return +value > +comparison[0];
 					},
-					type: 'input'
+					type: 'input',
+					valueInputs: 1
 				},
 				{
 					display: 'Less Than',
 					comparator(value, comparison) {
-						return +value < +comparison;
+						return +value < +comparison[0];
 					},
-					type: 'input'
+					type: 'input',
+					valueInputs: 1
 				},
 				{
 					display: 'Greater Than Equal To',
 					comparator(value, comparison) {
-						return +value >= +comparison
+						return +value >= +comparison[0]
 					},
-					type: 'input'
+					type: 'input',
+					valueInputs: 1
 				},
 				{
 					display: 'Less Than Equal To',
 					comparator(value, comparison) {
-						return +value <= +comparison;
+						return +value <= +comparison[0];
 					},
-					type: 'input'
+					type: 'input',
+					valueInputs: 1
 				},
 				{
 					display: 'Not',
 					comparator(value, comparison) {
-						return +value !== +comparison;
+						return +value !== +comparison[0];
 					},
-					type: 'select'
+					type: 'select',
+					valueInputs: 1
 				},
 				{
 					display: 'Between Exclusive',
-					comparator(comparison1, value, comparison2) {
-						return +comparison1 < +value && +value < +comparison2;
+					comparator(value, comparison) {
+						if (comparison[0] < comparison[1]) {
+							return +comparison[0] < +value && +value < +comparison[1];
+						}
+						else {
+							return +comparison[1] < +value && +value < +comparison[0];
+						}
 					},
-					type: 'input'
+					type: 'input',
+					valueInputs: 2
 				},
 				{
 					display: 'Between Inclusive',
-					comparator(comparison1, value, comparison2) {
-						return +comparison1 <= +value && +value <= +comparison2;
+					comparator(value, comparison) {
+						return +comparison[0] <= +value && +value <= +comparison[1];
 					},
-					type: 'input'
+					type: 'input',
+					valueInputs: 2
 				},
 			]
 		},
@@ -161,7 +179,10 @@ export default class Criteria {
 			condition: $('<select/>').addClass(this.classes.condition).addClass(this.classes.dropDown).addClass(this.classes.disabled),
 			conditionTitle: $('<option value="" disabled selected hidden/>').text('Condition'),
 			value: $('<select/>').addClass(this.classes.value).addClass(this.classes.dropDown).addClass(this.classes.disabled),
-			valueInput: $('<input/>').addClass(this.classes.value).addClass(this.classes.input).addClass(this.classes.disabled),
+			valueInputs: [
+				$('<input/>').addClass(this.classes.value).addClass(this.classes.input).addClass(this.classes.disabled),
+				$('<input/>').addClass(this.classes.value).addClass(this.classes.input).addClass(this.classes.disabled)
+			],
 			valueTitle: $('<option value="" disabled selected hidden/>').text('Value'),
 			left: $('<button>&#x2190;</button>').addClass(this.classes.left).addClass(this.classes.roundButton),
 			right: $('<button disabled>&#x2192;</button>').addClass(this.classes.right).addClass(this.classes.roundButton),
@@ -176,7 +197,33 @@ export default class Criteria {
 	 */
 	public addLeft(): void {
 		$(this.dom.container).empty();
-		$(this.dom.container).append(this.dom.field).append(this.dom.condition).append(this.dom.value).append(this.dom.delete).append(this.dom.right).append(this.dom.left);
+
+		// Get the type of condition and the number of values required so we now how many value inputs to append
+		let conditionType;
+		let valCount;
+
+		for (let opt of this.s.conditions) {
+			if (opt.display === this.s.condition) {
+				conditionType = opt.type;
+				valCount = opt.valueInputs;
+				break;
+			}
+		}
+
+		// If it is a select condition then just append the select
+		if (conditionType === 'select') {
+			$(this.dom.container).append(this.dom.field).append(this.dom.condition).append(this.dom.value).append(this.dom.delete).append(this.dom.right).append(this.dom.left);
+		}
+		// If it is an input condition then append everything in order and all of the input elements required
+		else if (conditionType === 'input') {
+			$(this.dom.container).append(this.dom.field).append(this.dom.condition);
+
+			for (let i = 0; i < valCount && i < this.dom.valueInputs.length; i++) {
+				$(this.dom.container.append(this.dom.valueInputs[i]));
+			}
+
+			$(this.dom.container).append(this.dom.delete).append(this.dom.right).append(this.dom.left);
+		}
 	}
 
 	/**
@@ -262,18 +309,29 @@ export default class Criteria {
 		$(this.dom.value).on('change', () => {
 			this.s.filled = true;
 			$(this.dom.valueTitle).attr('selected', false);
-			this.s.value = $(this.dom.value).children('option:selected').val();
+			this.s.value = [];
+			this.s.value.push($(this.dom.value).children('option:selected').val());
 			this.s.dt.draw();
 		})
 
-		$(this.dom.valueInput).unbind('input');
-		$(this.dom.valueInput).on('input', () => {
-			this.s.value = $(this.dom.valueInput).val();
-			this.s.filled = this.s.value.length > 0 ?
-				true :
-				false;
-			this.s.dt.draw();
-		})
+		for (let i = 0; i < this.dom.valueInputs.length; i++) {
+			$(this.dom.valueInputs[i]).unbind('input');
+			$(this.dom.valueInputs[i]).on('input', () => {
+				this.s.value[i] = $(this.dom.valueInputs[i]).val();
+				let allFilled = true;
+
+				// Check that all of the value inputs have been filled in
+				for (let val = 0; val < this.dom.valueInputs.length; val++) {
+					if (this.s.value[val] !== undefined && this.s.value[val].length === 0) {
+						allFilled = false;
+						break;
+					}
+				}
+
+				this.s.filled = allFilled;
+				this.s.dt.draw();
+			})
+		}
 
 		$(this.dom.delete).unbind('change');
 		$(this.dom.delete).on('click', () => {
@@ -305,14 +363,19 @@ export default class Criteria {
 	}
 
 	/**
-	 * Clears the value select element
+	 * Clears the value elements
 	 */
 	private _clearValue(): void {
 		$(this.dom.value).empty();
-		$(this.dom.valueInput).val('');
+
+		for (let input of this.dom.valueInputs) {
+			$(input).val('');
+		}
+
 		$(this.dom.valueTitle).attr('selected', true);
 		$(this.dom.value).append(this.dom.valueTitle);
 		this.s.values = [];
+		this.s.value = [];
 	}
 
 	/**
@@ -339,9 +402,11 @@ export default class Criteria {
 					text : condition.display,
 					value : condition.display
 				});
+
 				if (this.s.condition === condition.display) {
 					$(newOpt).attr('selected', true);
 				}
+
 				$(this.dom.condition).append(newOpt);
 			}
 		}
@@ -354,12 +419,14 @@ export default class Criteria {
 		if (this.s.fields.length === 0) {
 			this.s.dt.columns().every((index) => {
 				let found = false;
+
 				for (let val of this.s.fields) {
 					if (val.index === index) {
 						found = true;
 						break;
 					}
 				}
+
 				if (!found) {
 					let opt = {text: this.s.dt.settings()[0].aoColumns[index].sTitle, index};
 					this.s.fields.push(opt);
@@ -376,9 +443,11 @@ export default class Criteria {
 					text : field.text,
 					value : field.index
 				});
+
 				if (+this.s.field === field.index) {
 					$(newOpt).attr('selected', true);
 				}
+
 				$(this.dom.field).append(newOpt);
 			}
 		}
@@ -389,21 +458,30 @@ export default class Criteria {
 	 */
 	private _populateValue(): void {
 		let conditionType = 'select';
+		let valCount = 1;
 		this.s.filled = false;
 
+		// Find the condition type and the number of value inputs required
 		for (let opt of this.s.conditions) {
 			if (opt.display === this.s.condition) {
 				conditionType = opt.type;
+				valCount = opt.valueInputs;
 				break;
 			}
 		}
 
 		if (conditionType === 'select') {
-			if ($(this.dom.container).has(this.dom.valueInput).length !== 0) {
-				$(this.dom.value).insertBefore(this.dom.valueInput);
-				$(this.dom.valueInput).remove();
+			// If there are input fields then remove them and add the select field
+			if ($(this.dom.container).has(this.dom.valueInputs[0]).length !== 0) {
+				$(this.dom.value).insertBefore(this.dom.valueInputs[0]);
+
+				for (let input of this.dom.valueInputs) {
+					$(input).remove();
+				}
+
 				this.setListeners();
 			}
+
 			if (this.s.values.length === 0) {
 				let column = $(this.dom.field).children('option:selected').val();
 				let indexArray = this.s.dt.rows().indexes();
@@ -412,12 +490,14 @@ export default class Criteria {
 				for (let index of indexArray) {
 					let filter = settings.oApi._fnGetCellData(settings, index, column, this.c.orthogonal.search);
 					let found = false;
+
 					for (let val of this.s.values) {
 						if (val.filter === filter) {
 							found = true;
 							break;
 						}
 					}
+
 					if (!found) {
 						let val = {filter, text: settings.oApi._fnGetCellData(settings, index, column, this.c.orthogonal.display), index}
 						this.s.values.push(val);
@@ -434,20 +514,23 @@ export default class Criteria {
 						text : val.text,
 						value : val.filter
 					});
-					if (this.s.value === val.filter) {
+
+					if (this.s.value[0] === val.filter) {
 						$(newOpt).attr('selected', true);
 						this.s.filled = true;
 					}
+
 					$(this.dom.value).append(newOpt);
 				}
 			}
 		}
-		else if (conditionType === 'input') {
-			if ($(this.dom.container).has(this.dom.value).length !== 0) {
-				$(this.dom.valueInput).insertBefore(this.dom.value);
-				$(this.dom.value).remove();
-				this.setListeners();
+		else if (conditionType === 'input' && $(this.dom.container).has(this.dom.value).length !== 0) {
+			for (let i = 0; i < valCount && i < this.dom.valueInputs.length; i++) {
+				$(this.dom.valueInputs[i]).insertBefore(this.dom.value);
+				$(this.dom.valueInputs[i]).val(this.s.value[i])
 			}
+			$(this.dom.value).remove();
+			this.setListeners();
 		}
 	}
 }
