@@ -33,22 +33,21 @@ export default class Criteria {
 				{
 					display: 'Starts With',
 					comparator(value, comparison) {
-						return comparison.indexOf(value) === 0;
+						return value.toLowerCase().indexOf(comparison) === 0;
 					},
 					type: 'input'
 				},
 				{
 					display: 'Ends with',
 					comparator(value, comparison) {
-						return comparison.indexOf(value) === comparison.length - value.length;
+						return value.toLowerCase().indexOf(comparison) === value.length - comparison.length;
 					},
 					type: 'input'
 				},
 				{
 					display: 'Contains',
 					comparator(value, comparison) {
-						console.log(comparison, value, value.includes(comparison));
-						return value.includes(comparison);
+						return value.toLowerCase().includes(comparison);
 					},
 					type: 'input'
 				},
