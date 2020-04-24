@@ -13,6 +13,7 @@ export default class Criteria {
 		container: 'dtsb-criteria',
 		field: 'dtsb-field',
 		dropDown: 'dtsb-dropDown',
+		input: 'dtsb-input',
 		roundButton: 'dtsb-rndbtn',
 		delete: 'dtsb-delete',
 		right: 'dtsb-right',
@@ -26,31 +27,37 @@ export default class Criteria {
 					display: 'Equals',
 					comparator(value, comparison) {
 						return value === comparison;
-					}
+					},
+					type: 'select'
 				},
 				{
 					display: 'Starts With',
 					comparator(value, comparison) {
 						return comparison.indexOf(value) === 0;
-					}
+					},
+					type: 'input'
 				},
 				{
 					display: 'Ends with',
 					comparator(value, comparison) {
 						return comparison.indexOf(value) === comparison.length - value.length;
-					}
+					},
+					type: 'input'
 				},
 				{
 					display: 'Contains',
 					comparator(value, comparison) {
-						return comparison.indexOf(value) !== -1;
-					}
+						console.log(comparison, value, value.includes(comparison));
+						return value.includes(comparison);
+					},
+					type: 'input'
 				},
 				{
 					display: 'Not',
 					comparator(value, comparison) {
 						return value !== comparison;
-					}
+					},
+					type: 'select'
 				},
 			],
 			number: [
@@ -58,49 +65,57 @@ export default class Criteria {
 					display: 'Equals',
 					comparator(value, comparison) {
 						return value === comparison;
-					}
+					},
+					type: 'select'
 				},
 				{
 					display: 'Greater Than',
 					comparator(value, comparison) {
 						return comparison > value;
-					}
+					},
+					type: 'input'
 				},
 				{
 					display: 'Less Than',
 					comparator(value, comparison) {
 						return comparison < value;
-					}
+					},
+					type: 'input'
 				},
 				{
 					display: 'Greater Than Equal To',
 					comparator(value, comparison) {
 						return comparison >= value;
-					}
+					},
+					type: 'input'
 				},
 				{
 					display: 'Less Than Equal To',
 					comparator(value, comparison) {
 						return comparison <= value;
-					}
+					},
+					type: 'input'
 				},
 				{
 					display: 'Not',
 					comparator(value, comparison) {
 						return value !== comparison;
-					}
+					},
+					type: 'select'
 				},
 				{
 					display: 'Between Exclusive',
 					comparator(value1, value2, comparison) {
 						return value1 < comparison < value2;
-					}
+					},
+					type: 'input'
 				},
 				{
 					display: 'Between Inclusive',
 					comparator(value1, value2, comparison) {
 						return value1 <= comparison <= value2;
-					}
+					},
+					type: 'input'
 				},
 			]
 		},
@@ -146,6 +161,7 @@ export default class Criteria {
 			condition: $('<select/>').addClass(this.classes.condition).addClass(this.classes.dropDown).addClass(this.classes.disabled),
 			conditionTitle: $('<option value="" disabled selected hidden/>').text('Condition'),
 			value: $('<select/>').addClass(this.classes.value).addClass(this.classes.dropDown).addClass(this.classes.disabled),
+			valueInput: $('<input/>').addClass(this.classes.value).addClass(this.classes.input).addClass(this.classes.disabled),
 			valueTitle: $('<option value="" disabled selected hidden/>').text('Value'),
 			left: $('<button>&#x2190;</button>').addClass(this.classes.left).addClass(this.classes.roundButton),
 			right: $('<button disabled>&#x2192;</button>').addClass(this.classes.right).addClass(this.classes.roundButton),
@@ -184,8 +200,8 @@ export default class Criteria {
 	 */
 	public search(rowData): boolean {
 		for (let condition of this.s.conditions) {
-			if (condition.display = this.s.condition) {
-				return condition.comparator(rowData[this.s.field], this.s.value);
+			if (condition.display === this.s.condition) {
+					return condition.comparator(rowData[this.s.field], this.s.value);
 			}
 		}
 		return false;
@@ -223,6 +239,7 @@ export default class Criteria {
 	 * Sets the listeners for the criteria
 	 */
 	public setListeners(): void {
+		$(this.dom.field).unbind('change');
 		$(this.dom.field).on('change', () => {
 			$(this.dom.fieldTitle).attr('selected', false);
 			this.s.field = $(this.dom.field).children('option:selected').val();
@@ -231,6 +248,7 @@ export default class Criteria {
 			this._populateCondition();
 		});
 
+		$(this.dom.condition).unbind('change');
 		$(this.dom.condition).on('change', () => {
 			$(this.dom.conditionTitle).attr('selected', false);
 			this.s.condition = $(this.dom.condition).children('option:selected').val();
@@ -245,6 +263,14 @@ export default class Criteria {
 			this.s.dt.draw();
 		})
 
+		$(this.dom.valueInput).unbind('input');
+		$(this.dom.valueInput).on('input', () => {
+			console.log("input");
+			this.s.value = $(this.dom.valueInput).val();
+			this.s.dt.draw();
+		})
+
+		$(this.dom.delete).unbind('change');
 		$(this.dom.delete).on('click', () => {
 			this.destroy();
 			this.s.dt.draw();
@@ -289,6 +315,7 @@ export default class Criteria {
 	private _populateCondition(): void {
 		if (this.s.conditions.length === 0) {
 			let column = $(this.dom.field).children('option:selected').val();
+			console.log(column, this.s.dt.column(column).data().toArray())
 			let type = typeof this.s.dt.column(column.value).data().toArray()[0];
 
 			if (this.c.conditions[type] !== undefined) {
@@ -356,41 +383,56 @@ export default class Criteria {
 	 * Populates the Value select element
 	 */
 	private _populateValue(): void {
-		if (this.s.values.length === 0) {
-			let column = $(this.dom.field).children('option:selected').val();
-			let indexArray = this.s.dt.rows().indexes();
-			let settings = this.s.dt.settings()[0];
+		console.log(this.s.condition);
+		let conditionType = 'select';
+		for (let opt of this.s.conditions) {
+			if (opt.display === this.s.condition) {
+				conditionType = opt.type;
+				break;
+			}
+		}
+		if (conditionType === 'select') {
+			if (this.s.values.length === 0) {
+				let column = $(this.dom.field).children('option:selected').val();
+				let indexArray = this.s.dt.rows().indexes();
+				let settings = this.s.dt.settings()[0];
 
-			for (let index of indexArray) {
-				let filter = settings.oApi._fnGetCellData(settings, index, column, this.c.orthogonal.search);
-				let found = false;
-				for (let val of this.s.values) {
-					if (val.filter === filter) {
-						found = true;
-						break;
+				for (let index of indexArray) {
+					let filter = settings.oApi._fnGetCellData(settings, index, column, this.c.orthogonal.search);
+					let found = false;
+					for (let val of this.s.values) {
+						if (val.filter === filter) {
+							found = true;
+							break;
+						}
+					}
+					if (!found) {
+						let val = {filter, text: settings.oApi._fnGetCellData(settings, index, column, this.c.orthogonal.display), index}
+						this.s.values.push(val);
+						$(this.dom.value).append($('<option>', {
+							text : val.text,
+							value : val.filter
+						}));
 					}
 				}
-				if (!found) {
-					let val = {filter, text: settings.oApi._fnGetCellData(settings, index, column, this.c.orthogonal.display), index}
-					this.s.values.push(val);
-					$(this.dom.value).append($('<option>', {
+			}
+			else {
+				for (let val of this.s.values) {
+					let newOpt = $('<option>', {
 						text : val.text,
 						value : val.filter
-					}));
+					});
+					if (this.s.value === val.filter) {
+						$(newOpt).attr('selected', true);
+					}
+					$(this.dom.value).append(newOpt);
 				}
 			}
 		}
-		else {
-			for (let val of this.s.values) {
-				let newOpt = $('<option>', {
-					text : val.text,
-					value : val.filter
-				});
-				if (this.s.value === val.filter) {
-					$(newOpt).attr('selected', true);
-				}
-				$(this.dom.value).append(newOpt);
-			}
+		else if (conditionType === 'input') {
+			$(this.dom.valueInput).insertBefore(this.dom.value);
+			$(this.dom.value).remove();
+			this.setListeners();
 		}
 	}
 }
