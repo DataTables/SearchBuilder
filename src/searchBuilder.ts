@@ -106,5 +106,10 @@ export default class SearchBuilder {
 		}
 
 		$.fn.dataTable.ext.search.push(this.s.search)
+		$.fn.DataTable.Api.registerPlural('columns().type()', 'column().type()', function (selector, opts) {
+			return this.iterator('column', function (settings, column) {
+				return settings.aoColumns[column].sType;
+			}, 1);
+		});
 	}
 }

@@ -59,60 +59,62 @@ export default class Criteria {
 					type: 'select'
 				},
 			],
-			number: [
+			num: [
 				{
 					display: 'Equals',
 					comparator(value, comparison) {
-						return value === comparison;
+						console.log(value, comparison);
+						return +value === +comparison;
 					},
 					type: 'select'
 				},
 				{
 					display: 'Greater Than',
 					comparator(value, comparison) {
-						return comparison > value;
+						console.log(value, comparison, typeof value);
+						return +value > +comparison;
 					},
 					type: 'input'
 				},
 				{
 					display: 'Less Than',
 					comparator(value, comparison) {
-						return comparison < value;
+						return +value < +comparison;
 					},
 					type: 'input'
 				},
 				{
 					display: 'Greater Than Equal To',
 					comparator(value, comparison) {
-						return comparison >= value;
+						return +value >= +comparison
 					},
 					type: 'input'
 				},
 				{
 					display: 'Less Than Equal To',
 					comparator(value, comparison) {
-						return comparison <= value;
+						return +value <= +comparison;
 					},
 					type: 'input'
 				},
 				{
 					display: 'Not',
 					comparator(value, comparison) {
-						return value !== comparison;
+						return +value !== +comparison;
 					},
 					type: 'select'
 				},
 				{
 					display: 'Between Exclusive',
-					comparator(value1, value2, comparison) {
-						return value1 < comparison < value2;
+					comparator(comparison1, value, comparison2) {
+						return +comparison1 < +value && +value < +comparison2;
 					},
 					type: 'input'
 				},
 				{
 					display: 'Between Inclusive',
-					comparator(value1, value2, comparison) {
-						return value1 <= comparison <= value2;
+					comparator(comparison1, value, comparison2) {
+						return +comparison1 <= +value && +value <= +comparison2;
 					},
 					type: 'input'
 				},
@@ -258,6 +260,7 @@ export default class Criteria {
 
 		$(this.dom.value).unbind('change');
 		$(this.dom.value).on('change', () => {
+			this.s.filled = true;
 			$(this.dom.valueTitle).attr('selected', false);
 			this.s.value = $(this.dom.value).children('option:selected').val();
 			this.s.dt.draw();
@@ -266,12 +269,9 @@ export default class Criteria {
 		$(this.dom.valueInput).unbind('input');
 		$(this.dom.valueInput).on('input', () => {
 			this.s.value = $(this.dom.valueInput).val();
-			if (this.s.value.length > 0) {
-				this.s.filled = true;
-			}
-			else {
-				this.s.filled = false;
-			}
+			this.s.filled = this.s.value.length > 0 ?
+				true :
+				false;
 			this.s.dt.draw();
 		})
 
@@ -320,7 +320,7 @@ export default class Criteria {
 	private _populateCondition(): void {
 		if (this.s.conditions.length === 0) {
 			let column = $(this.dom.field).children('option:selected').val();
-			let type = typeof this.s.dt.column(column.value).data().toArray()[0];
+			let type = this.s.dt.columns().type().toArray()[column];
 
 			if (this.c.conditions[type] !== undefined) {
 				for (let condition of this.c.conditions[type]) {

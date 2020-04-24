@@ -97,6 +97,7 @@ export default class Group {
 		else if (this.s.logic === 'OR') {
 			return this._orSearch(rowData);
 		}
+
 		return true;
 	}
 
@@ -161,6 +162,7 @@ export default class Group {
 		if (this.s.criteria.length === 0) {
 			return true;
 		}
+
 		for (let crit of this.s.criteria) {
 			if (crit.type === 'criteria' && !crit.criteria.s.filled) {
 				continue;
@@ -169,6 +171,7 @@ export default class Group {
 				return false;
 			}
 		}
+
 		return true;
 	}
 
