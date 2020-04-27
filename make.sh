@@ -33,10 +33,10 @@ fi
 
 # Copy images
 #rsync -r images $OUT_DIR
-node_modules/typescript/bin/tsc src/searchBuilder.ts --module ES6
-node_modules/typescript/bin/tsc src/index.ts --module ES6
-node_modules/typescript/bin/tsc src/criteria.ts --module ES6
-node_modules/typescript/bin/tsc src/group.ts --module ES6
+node_modules/typescript/bin/tsc src/searchBuilder.ts --module ES6 --moduleResolution Node
+node_modules/typescript/bin/tsc src/index.ts --module ES6 --moduleResolution Node
+node_modules/typescript/bin/tsc src/criteria.ts --module ES6 --moduleResolution Node
+node_modules/typescript/bin/tsc src/group.ts --module ES6 --moduleResolution Node
 
 # Copy JS
 HEADER="$(head -n 3 src/index.ts)"
