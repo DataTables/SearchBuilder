@@ -207,7 +207,7 @@ export default class Criteria {
 					comparator(value, comparison) {
 						value = value.replace(/[^0-9.]/g, '');
 						comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
-						console.log(value, comparison, value.replace(/[^0-9.]/g, ''), comparison[0].replace(/[^0-9.]/g, ''));
+
 						return +value === +comparison[0];
 					},
 					type: 'select',
@@ -218,6 +218,7 @@ export default class Criteria {
 					comparator(value, comparison) {
 						value = value.replace(/[^0-9.]/g, '');
 						comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+
 						return +value > +comparison[0];
 					},
 					type: 'input',
@@ -228,6 +229,7 @@ export default class Criteria {
 					comparator(value, comparison) {
 						value = value.replace(/[^0-9.]/g, '');
 						comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+
 						return +value < +comparison[0];
 					},
 					type: 'input',
@@ -238,6 +240,7 @@ export default class Criteria {
 					comparator(value, comparison) {
 						value = value.replace(/[^0-9.]/g, '');
 						comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+
 						return +value >= +comparison[0];
 					},
 					type: 'input',
@@ -248,6 +251,7 @@ export default class Criteria {
 					comparator(value, comparison) {
 						value = value.replace(/[^0-9.]/g, '');
 						comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+
 						return +value <= +comparison[0];
 					},
 					type: 'input',
@@ -258,6 +262,7 @@ export default class Criteria {
 					comparator(value, comparison) {
 						value = value.replace(/[^0-9.]/g, '');
 						comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+
 						return +value !== +comparison[0];
 					},
 					type: 'select',
