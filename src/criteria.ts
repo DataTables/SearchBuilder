@@ -1,5 +1,5 @@
 
-import DateTime from 'datatables.net-datetime';
+import 'datatables.net-datetime';
 
 let $;
 let DataTable;
@@ -815,26 +815,25 @@ export default class Criteria {
 			(conditionType === 'input' || conditionType === 'date') &&
 			$(this.dom.container).has(this.dom.value).length !== 0
 		) {
-			if (conditionType === 'date') {
-				let $input = $(this.dom.valueInputs[0]) as any;
-				$input.dtDateTime();
-				// new DateTime(this.dom.valueInputs[0], {});
-				// $(this.dom.valueInputs[0]).dtDateTime();
-			}
-
 			$(this.dom.valueInputs[0]).insertBefore(this.dom.value);
 			$(this.dom.valueInputs[0]).val(this.s.value[0]);
 
-			for (let i = 1; i < valCount && i < this.dom.valueInputs.length; i++) {
-				if (conditionType === 'date') {
-					let $input = $(this.dom.valueInputs[i]) as any;
-					$input.dtDateTime();
-					// $(this.dom.valueInputs[i]).dtDateTime();
-				}
+			if (conditionType === 'date') {
+				// let $input = $(this.dom.valueInputs[0]) as any;
+				// $input.dtDateTime();
+				// new DateTime(this.dom.valueInputs[0], undefined);
+				$(this.dom.valueInputs[0]).dtDateTime();
+			}
 
+			for (let i = 1; i < valCount && i < this.dom.valueInputs.length; i++) {
 				$('<span>').addClass(this.classes.joiner).text(joinerText).insertBefore(this.dom.value);
 				$(this.dom.valueInputs[i]).insertBefore(this.dom.value);
 				$(this.dom.valueInputs[i]).val(this.s.value[i]);
+				if (conditionType === 'date') {
+					// let $input = $(this.dom.valueInputs[i]) as any;
+					// $input.dtDateTime();
+					$(this.dom.valueInputs[i]).dtDateTime();
+				}
 			}
 
 			$(this.dom.value).remove();

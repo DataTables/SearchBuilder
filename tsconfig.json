@@ -17,6 +17,5 @@
         "src/index.ts",
         "src/criteria.ts",
         "src/group.ts",
-        "src/types.d.ts"
     ]
 }

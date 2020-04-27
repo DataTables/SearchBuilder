@@ -33,12 +33,12 @@ fi
 
 # Copy images
 #rsync -r images $OUT_DIR
-# node_modules/typescript/bin/tsc --path /home/vagrant/DataTablesSrc/extensions/SearchBuilder/
+node_modules/typescript/bin/tsc
 
-node_modules/typescript/bin/tsc src/searchBuilder.ts --module ES6 --moduleResolution Node
-node_modules/typescript/bin/tsc src/index.ts --module ES6 --moduleResolution Node
-node_modules/typescript/bin/tsc src/criteria.ts --module ES6 --moduleResolution Node
-node_modules/typescript/bin/tsc src/group.ts --module ES6 --moduleResolution Node
+# node_modules/typescript/bin/tsc src/searchBuilder.ts --module ES6 --moduleResolution Node
+# node_modules/typescript/bin/tsc src/index.ts --module ES6 --moduleResolution Node
+# node_modules/typescript/bin/tsc src/criteria.ts --module ES6 --moduleResolution Node
+# node_modules/typescript/bin/tsc src/group.ts --module ES6 --moduleResolution Node
 
 # Copy JS
 HEADER="$(head -n 3 src/index.ts)"
@@ -46,16 +46,20 @@ HEADER="$(head -n 3 src/index.ts)"
 rsync -r src/*.js $OUT_DIR/js
 js_frameworks searchBuilder $OUT_DIR/js
 
-./node_modules/rollup/bin/rollup $OUT_DIR/js/index.js \
-    --format iife \
-    --banner "$HEADER" \
-    --file $OUT_DIR/js/dataTables.searchBuilder.js
+./node_modules/rollup/bin/rollup --config rollup.config.js
+
+# $OUT_DIR/js/index.js \
+#     --format iife \
+#     --banner "$HEADER" \
+#     --file $OUT_DIR/js/dataTables.searchBuilder.js
 
 rm \
     $OUT_DIR/js/index.js \
     $OUT_DIR/js/searchBuilder.js \
     $OUT_DIR/js/criteria.js \
     $OUT_DIR/js/group.js \
+    /home/vagrant/DataTablesSrc/extensions/SearchBuilder/src/*.js \
+    /home/vagrant/DataTablesSrc/extensions/SearchBuilder/src/*.d.ts \
 
 
 js_compress $OUT_DIR/js/dataTables.searchBuilder.js

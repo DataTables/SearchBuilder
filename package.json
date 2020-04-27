@@ -25,12 +25,13 @@
     "@types/datatables.net": "^1.10.17",
     "@types/datatables.net-buttons": "^1.4.2",
     "@types/datatables.net-select": "^1.2.6",
-    "datatables.net-datetime": "0.0.4",
+    "datatables.net-datetime": "0.0.5",
     "rollup": "^1.18.0",
     "tslint": "^5.20.1",
     "tslint-eslint-rules": "^5.4.0"
   },
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^7.1.3",
     "@types/jquery": "^3.3.35",
     "@types/node": "^12.0.10",
     "typescript": "^3.5.3"
