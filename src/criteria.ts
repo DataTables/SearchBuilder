@@ -202,7 +202,135 @@ export default class Criteria {
 				}
 			],
 			'num-fmt': [
-
+				{
+					display: 'Equals',
+					comparator(value, comparison) {
+						value = value.replace(/[^0-9.]/g, '');
+						comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+						console.log(value, comparison, value.replace(/[^0-9.]/g, ''), comparison[0].replace(/[^0-9.]/g, ''));
+						return +value === +comparison[0];
+					},
+					type: 'select',
+					valueInputs: 1
+				},
+				{
+					display: 'Greater Than',
+					comparator(value, comparison) {
+						value = value.replace(/[^0-9.]/g, '');
+						comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+						return +value > +comparison[0];
+					},
+					type: 'input',
+					valueInputs: 1
+				},
+				{
+					display: 'Less Than',
+					comparator(value, comparison) {
+						value = value.replace(/[^0-9.]/g, '');
+						comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+						return +value < +comparison[0];
+					},
+					type: 'input',
+					valueInputs: 1
+				},
+				{
+					display: 'Greater Than Equal To',
+					comparator(value, comparison) {
+						value = value.replace(/[^0-9.]/g, '');
+						comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+						return +value >= +comparison[0];
+					},
+					type: 'input',
+					valueInputs: 1
+				},
+				{
+					display: 'Less Than Equal To',
+					comparator(value, comparison) {
+						value = value.replace(/[^0-9.]/g, '');
+						comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+						return +value <= +comparison[0];
+					},
+					type: 'input',
+					valueInputs: 1
+				},
+				{
+					display: 'Not',
+					comparator(value, comparison) {
+						value = value.replace(/[^0-9.]/g, '');
+						comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+						return +value !== +comparison[0];
+					},
+					type: 'select',
+					valueInputs: 1
+				},
+				{
+					display: 'Between Exclusive',
+					comparator(value, comparison) {
+						value = value.replace(/[^0-9.]/g, '');
+						comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+						comparison[1] = comparison[1].replace(/[^0-9.]/g, '');
+						if (comparison[0] < comparison[1]) {
+							return +comparison[0] < +value && +value < +comparison[1];
+						}
+						else {
+							return +comparison[1] < +value && +value < +comparison[0];
+						}
+					},
+					joiner: 'and',
+					type: 'input',
+					valueInputs: 2,
+				},
+				{
+					display: 'Between Inclusive',
+					comparator(value, comparison) {
+						value = value.replace(/[^0-9.]/g, '');
+						comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+						comparison[1] = comparison[1].replace(/[^0-9.]/g, '');
+						if (comparison[0] < comparison[1]) {
+							return +comparison[0] <= +value && +value <= +comparison[1];
+						}
+						else {
+							return +comparison[1] <= +value && +value <= +comparison[0];
+						}
+					},
+					joiner: 'and',
+					type: 'input',
+					valueInputs: 2
+				},
+				{
+					display: 'Outwith Exclusive',
+					comparator(value, comparison) {
+						value = value.replace(/[^0-9.]/g, '');
+						comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+						comparison[1] = comparison[1].replace(/[^0-9.]/g, '');
+						if (comparison[0] < comparison[1]) {
+							return !(+comparison[0] < +value && +value < +comparison[1]);
+						}
+						else {
+							return !(+comparison[1] < +value && +value < +comparison[0]);
+						}
+					},
+					joiner: 'and',
+					type: 'input',
+					valueInputs: 2,
+				},
+				{
+					display: 'Outwith Inclusive',
+					comparator(value, comparison) {
+						value = value.replace(/[^0-9.]/g, '');
+						comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+						comparison[1] = comparison[1].replace(/[^0-9.]/g, '');
+						if (comparison[0] < comparison[1]) {
+							return !(+comparison[0] <= +value && +value <= +comparison[1]);
+						}
+						else {
+							return !(+comparison[1] <= +value && +value <= +comparison[0]);
+						}
+					},
+					joiner: 'and',
+					type: 'input',
+					valueInputs: 2
+				}
 			],
 			'string': [
 				{
