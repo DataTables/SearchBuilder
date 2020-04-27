@@ -27,11 +27,11 @@
     "@types/datatables.net-select": "^1.2.6",
     "datatables.net-datetime": "0.0.4",
     "rollup": "^1.18.0",
-    "tslint": "^5.18.0",
+    "tslint": "^5.20.1",
     "tslint-eslint-rules": "^5.4.0"
   },
   "devDependencies": {
-    "@types/jquery": "^3.3.31",
+    "@types/jquery": "^3.3.35",
     "@types/node": "^12.0.10",
     "typescript": "^3.5.3"
   }

@@ -27,6 +27,7 @@ declare var define: {
 	amd: string;
 };
 
+// import DateTime from '/home/vagrant/DataTablesSrc/extensions/SearchBuilder/node_modules/datatables.net-datetime/dist/dateTime.js';
 import Criteria, {setJQuery as criteriaJQuery} from './criteria';
 import Group, {setJQuery as groupJQuery} from './group';
 import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
@@ -77,6 +78,7 @@ import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
 		let opts = api.init().searchBuilder || DataTable.defaults.searchBuilder;
 		let searchBuilder =  new SearchBuilder(api, opts);
 		let node = searchBuilder.getNode();
+
 		return node;
 	}
 

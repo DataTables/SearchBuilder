@@ -1,6 +1,9 @@
 let $;
 let DataTable;
 
+// ALLAN
+import DateTime from 'datatables.net-datetime';
+
 /**
  * Sets the value of jQuery for use in the file
  * @param jq the instance of jQuery to be set
@@ -33,6 +36,56 @@ export default class Criteria {
 
 	private static defaults = {
 		conditions: {
+			date: [
+				{
+					display: 'Equals',
+					comparator(value, comparison) {
+						return value === comparison[0];
+					},
+					type: 'date',
+					valueInputs: 1
+				},
+				{
+					display: 'After',
+					comparator(value, comparison) {
+
+					},
+					type: 'date',
+					valueInputs: 1
+				},
+				{
+					display: 'Before',
+					comparator(value, comparison) {
+
+					},
+					type: 'date',
+					valueInputs: 1
+				},
+				{
+					display: 'Not',
+					comparator(value, comparison) {
+						return value !== comparison[0];
+					},
+					type: 'date',
+					valueInputs: 1
+				},
+				{
+					display: 'Between Inclusive',
+					comparator(value, comparison) {
+
+					},
+					type: 'date',
+					valueInputs: 2
+				},
+				{
+					display: 'Between Exclusive',
+					comparator(value, comparison) {
+
+					},
+					type: 'date',
+					valueInputs: 2
+				}
+			],
 			num: [
 				{
 					display: 'Equals',
@@ -105,6 +158,9 @@ export default class Criteria {
 					type: 'input',
 					valueInputs: 2
 				},
+			],
+			"num-fmt": [
+
 			],
 			string: [
 				{
@@ -425,6 +481,7 @@ export default class Criteria {
 		if (this.s.conditions.length === 0) {
 			let column = $(this.dom.field).children('option:selected').val();
 			let type = this.s.dt.columns().type().toArray()[column];
+			console.log(type);
 
 			if (this.c.conditions[type] !== undefined) {
 				for (let condition of this.c.conditions[type]) {
@@ -579,10 +636,29 @@ export default class Criteria {
 				}
 			}
 		}
-		else if (conditionType === 'input' && $(this.dom.container).has(this.dom.value).length !== 0) {
+		else if (
+			(conditionType === 'input' || conditionType === 'date') &&
+			$(this.dom.container).has(this.dom.value).length !== 0
+		) {
+			// ALLAN
+			if (conditionType === 'date') {
+				let $input = $(this.dom.valueInputs[0]) as any;
+				$input.dtDateTime();
+				// new DateTime(this.dom.valueInputs[0], {});
+				// $(this.dom.valueInputs[0]).dtDateTime();
+			}
+
 			$(this.dom.valueInputs[0]).insertBefore(this.dom.value);
 			$(this.dom.valueInputs[0]).val(this.s.value[0]);
+
 			for (let i = 1; i < valCount && i < this.dom.valueInputs.length; i++) {
+				// ALLAN
+				if (conditionType === 'date') {
+					let $input = $(this.dom.valueInputs[i]) as any;
+					$input.dtDateTime();
+					// $(this.dom.valueInputs[i]).dtDateTime();
+				}
+
 				$('<span>').addClass(this.classes.joiner).text(joinerText).insertBefore(this.dom.value);
 				$(this.dom.valueInputs[i]).insertBefore(this.dom.value);
 				$(this.dom.valueInputs[i]).val(this.s.value[i]);
