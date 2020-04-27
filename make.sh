@@ -33,6 +33,8 @@ fi
 
 # Copy images
 #rsync -r images $OUT_DIR
+# node_modules/typescript/bin/tsc --path /home/vagrant/DataTablesSrc/extensions/SearchBuilder/
+
 node_modules/typescript/bin/tsc src/searchBuilder.ts --module ES6 --moduleResolution Node
 node_modules/typescript/bin/tsc src/index.ts --module ES6 --moduleResolution Node
 node_modules/typescript/bin/tsc src/criteria.ts --module ES6 --moduleResolution Node

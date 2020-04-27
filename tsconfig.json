@@ -1,14 +1,22 @@
 {
     "compilerOptions": {
         "target": "ES6",
-        "module": "commonjs",
+        "module": "ES6",
+        "moduleResolution": "Node",
         "lib": ["es2017", "es2016", "dom"],
         "allowUnreachableCode": true,
         "allowSyntheticDefaultImports": true,
         "pretty": true,
         "declaration": true
-        },
+    },
     "exclude": [
         "./node_modules/**/*"
+    ],
+    "files": [
+        "src/searchBuilder.ts",
+        "src/index.ts",
+        "src/criteria.ts",
+        "src/group.ts",
+        "src/types.d.ts"
     ]
 }
