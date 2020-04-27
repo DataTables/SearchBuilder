@@ -1,0 +1,38 @@
+{
+  "name": "datatables.net-searchbuilder",
+  "version": "1.0.1",
+  "description": "Advanced Search Builder for DataTables",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "example": "examples",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DataTables/SearchBuilder.git"
+  },
+  "author": "SpryMedia ltd",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DataTables/SearchBuilder/issues"
+  },
+  "homepage": "https://github.com/DataTables/SearchBuilder#readme",
+  "dependencies": {
+    "@types/datatables.net": "^1.10.17",
+    "@types/datatables.net-buttons": "^1.4.2",
+    "@types/datatables.net-select": "^1.2.6",
+    "datatables.net-datetime": "0.0.4",
+    "rollup": "^1.18.0",
+    "tslint": "^5.18.0",
+    "tslint-eslint-rules": "^5.4.0"
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.3.31",
+    "@types/node": "^12.0.10",
+    "typescript": "^3.5.3"
+  }
+}
