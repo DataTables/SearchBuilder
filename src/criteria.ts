@@ -48,7 +48,7 @@ export default class Criteria {
 				{
 					display: 'After',
 					comparator(value, comparison) {
-
+						return value > comparison[0];
 					},
 					type: 'date',
 					valueInputs: 1
@@ -56,7 +56,7 @@ export default class Criteria {
 				{
 					display: 'Before',
 					comparator(value, comparison) {
-
+						return value < comparison[0];
 					},
 					type: 'date',
 					valueInputs: 1
@@ -72,7 +72,12 @@ export default class Criteria {
 				{
 					display: 'Between Inclusive',
 					comparator(value, comparison) {
-
+						if (comparison[0] < comparison[1]) {
+							return comparison[0] <= value && value <= comparison[1];
+						}
+						else {
+							return comparison[1] <= value && value <= comparison[0];
+						}
 					},
 					type: 'date',
 					valueInputs: 2
@@ -80,7 +85,12 @@ export default class Criteria {
 				{
 					display: 'Between Exclusive',
 					comparator(value, comparison) {
-
+						if (comparison[0] < comparison[1]) {
+							return comparison[0] < value && value < comparison[1];
+						}
+						else {
+							return comparison[1] < value && value < comparison[0];
+						}
 					},
 					type: 'date',
 					valueInputs: 2
@@ -475,6 +485,7 @@ export default class Criteria {
 			$(this.dom.container.append(this.dom.valueInputs[0]));
 
 			for (let i = 1; i < valCount && i < this.dom.valueInputs.length; i++) {
+				console.log(488, "append second");
 				$(this.dom.container
 					.append($('<span>').addclass(this.classes.joiner).text(joinerText))
 					.append(this.dom.valueInputs[i]));
@@ -506,7 +517,7 @@ export default class Criteria {
 	public search(rowData): boolean {
 		for (let condition of this.s.conditions) {
 			if (condition.display === this.s.condition) {
-					return condition.comparator(rowData[this.s.field], this.s.value);
+				return condition.comparator(rowData[this.s.field], this.s.value);
 			}
 		}
 
@@ -582,8 +593,8 @@ export default class Criteria {
 		});
 
 		for (let i = 0; i < this.dom.valueInputs.length; i++) {
-			$(this.dom.valueInputs[i]).unbind('input');
-			$(this.dom.valueInputs[i]).on('input', () => {
+			$(this.dom.valueInputs[i]).unbind('input change');
+			$(this.dom.valueInputs[i]).on('input change', () => {
 				this.s.value[i] = $(this.dom.valueInputs[i]).val();
 				let allFilled = true;
 
@@ -656,7 +667,6 @@ export default class Criteria {
 		if (this.s.conditions.length === 0) {
 			let column = $(this.dom.field).children('option:selected').val();
 			let type = this.s.dt.columns().type().toArray()[column];
-			console.log(type);
 
 			if (this.c.conditions[type] !== undefined) {
 				for (let condition of this.c.conditions[type]) {
@@ -826,6 +836,7 @@ export default class Criteria {
 			}
 
 			for (let i = 1; i < valCount && i < this.dom.valueInputs.length; i++) {
+				console.log(839, "append second");
 				$('<span>').addClass(this.classes.joiner).text(joinerText).insertBefore(this.dom.value);
 				$(this.dom.valueInputs[i]).insertBefore(this.dom.value);
 				$(this.dom.valueInputs[i]).val(this.s.value[i]);

@@ -25,6 +25,7 @@ DT_BUILT="${DT_SRC}/built/DataTables"
 
 # Copy CSS
 rsync -r css $OUT_DIR
+rsync -r node_modules/datatables.net-datetime/css $OUT_DIR
 css_frameworks searchBuilder $OUT_DIR/css
 
 if [ ! -d "node_modules" ]; then

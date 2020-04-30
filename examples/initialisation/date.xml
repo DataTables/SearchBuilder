@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" table-class="display nowrap" order="1">
+
+<css lib="datatables searchbuilder"/>
+
+<js lib="jquery datatables searchbuilder">
+<![CDATA[
+
+$(document).ready(function() {
+    $('#example').DataTable( {
+        dom: 'Qfrtip',
+        columnDefs:[
+            {
+                render: function(data, type, row){
+                    return data.split('/').join('-');
+                },
+                targets: [4]
+            }
+        ]
+    });
+});
+
+]]>
+</js>
+
+<title lib="searchBuilder">Basic SearchBuilder Example</title>
+
+<info><![CDATA[
+
+This is the `-init searchBuilder`extension for DataTables. It allows results to be filtered based on a user constructed query.
+
+See other examples for more detail.
+
+]]></info>
+
+</dt-example>
