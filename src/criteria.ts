@@ -485,7 +485,6 @@ export default class Criteria {
 			$(this.dom.container.append(this.dom.valueInputs[0]));
 
 			for (let i = 1; i < valCount && i < this.dom.valueInputs.length; i++) {
-				console.log(488, "append second");
 				$(this.dom.container
 					.append($('<span>').addclass(this.classes.joiner).text(joinerText))
 					.append(this.dom.valueInputs[i]));
@@ -836,7 +835,6 @@ export default class Criteria {
 			}
 
 			for (let i = 1; i < valCount && i < this.dom.valueInputs.length; i++) {
-				console.log(839, "append second");
 				$('<span>').addClass(this.classes.joiner).text(joinerText).insertBefore(this.dom.value);
 				$(this.dom.valueInputs[i]).insertBefore(this.dom.value);
 				$(this.dom.valueInputs[i]).val(this.s.value[i]);
