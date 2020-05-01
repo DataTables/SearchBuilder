@@ -92,6 +92,7 @@ export default class SearchBuilder {
 		$(this.dom.clearAll).on('click', () => {
 			this.s.topGroup = new Group(this.s.dt);
 			this._build();
+			this.s.dt.draw();
 		});
 
 		this._build();
