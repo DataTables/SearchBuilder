@@ -34,466 +34,365 @@ export default class Criteria {
 		value: 'dtsb-value'
 	};
 
+	private static dateConditions = [
+		{
+			display: 'Equals',
+			comparator(value, comparison) {
+				return value === comparison[0];
+			},
+			type: 'date',
+			valueInputs: 1
+		},
+		{
+			display: 'After',
+			comparator(value, comparison) {
+				return value > comparison[0];
+			},
+			type: 'date',
+			valueInputs: 1
+		},
+		{
+			display: 'Before',
+			comparator(value, comparison) {
+				return value < comparison[0];
+			},
+			type: 'date',
+			valueInputs: 1
+		},
+		{
+			display: 'Not',
+			comparator(value, comparison) {
+				return value !== comparison[0];
+			},
+			type: 'date',
+			valueInputs: 1
+		},
+		{
+			display: 'Between Inclusive',
+			comparator(value, comparison) {
+				if (comparison[0] < comparison[1]) {
+					return comparison[0] <= value && value <= comparison[1];
+				}
+				else {
+					return comparison[1] <= value && value <= comparison[0];
+				}
+			},
+			joiner: 'and',
+			type: 'date',
+			valueInputs: 2
+		},
+		{
+			display: 'Between Exclusive',
+			comparator(value, comparison) {
+				if (comparison[0] < comparison[1]) {
+					return comparison[0] < value && value < comparison[1];
+				}
+				else {
+					return comparison[1] < value && value < comparison[0];
+				}
+			},
+			joiner: 'and',
+			type: 'date',
+			valueInputs: 2
+		}
+	];
+
+	private static numConditions = [
+		{
+			display: 'Equals',
+			comparator(value, comparison) {
+				return +value === +comparison[0];
+			},
+			type: 'select',
+			valueInputs: 1
+		},
+		{
+			display: 'Greater Than',
+			comparator(value, comparison) {
+				return +value > +comparison[0];
+			},
+			type: 'input',
+			valueInputs: 1
+		},
+		{
+			display: 'Less Than',
+			comparator(value, comparison) {
+				return +value < +comparison[0];
+			},
+			type: 'input',
+			valueInputs: 1
+		},
+		{
+			display: 'Greater Than Equal To',
+			comparator(value, comparison) {
+				return +value >= +comparison[0];
+			},
+			type: 'input',
+			valueInputs: 1
+		},
+		{
+			display: 'Less Than Equal To',
+			comparator(value, comparison) {
+				return +value <= +comparison[0];
+			},
+			type: 'input',
+			valueInputs: 1
+		},
+		{
+			display: 'Not',
+			comparator(value, comparison) {
+				return +value !== +comparison[0];
+			},
+			type: 'select',
+			valueInputs: 1
+		},
+		{
+			display: 'Between Exclusive',
+			comparator(value, comparison) {
+				if (comparison[0] < comparison[1]) {
+					return +comparison[0] < +value && +value < +comparison[1];
+				}
+				else {
+					return +comparison[1] < +value && +value < +comparison[0];
+				}
+			},
+			joiner: 'and',
+			type: 'input',
+			valueInputs: 2,
+		},
+		{
+			display: 'Between Inclusive',
+			comparator(value, comparison) {
+				if (comparison[0] < comparison[1]) {
+					return +comparison[0] <= +value && +value <= +comparison[1];
+				}
+				else {
+					return +comparison[1] <= +value && +value <= +comparison[0];
+				}
+			},
+			joiner: 'and',
+			type: 'input',
+			valueInputs: 2
+		},
+		{
+			display: 'Outwith Exclusive',
+			comparator(value, comparison) {
+				if (comparison[0] < comparison[1]) {
+					return !(+comparison[0] <= +value && +value <= +comparison[1]);
+				}
+				else {
+					return !(+comparison[1] <= +value && +value <= +comparison[0]);
+				}
+			},
+			joiner: 'and',
+			type: 'input',
+			valueInputs: 2,
+		},
+		{
+			display: 'Outwith Inclusive',
+			comparator(value, comparison) {
+				if (comparison[0] < comparison[1]) {
+					return !(+comparison[0] < +value && +value < +comparison[1]);
+				}
+				else {
+					return !(+comparison[1] < +value && +value < +comparison[0]);
+				}
+			},
+			joiner: 'and',
+			type: 'input',
+			valueInputs: 2
+		}
+	];
+
+	private static numFmtConditions = [
+		{
+			display: 'Equals',
+			comparator(value, comparison) {
+				value = value.replace(/[^0-9.]/g, '');
+				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+
+				return +value === +comparison[0];
+			},
+			type: 'select',
+			valueInputs: 1
+		},
+		{
+			display: 'Greater Than',
+			comparator(value, comparison) {
+				value = value.replace(/[^0-9.]/g, '');
+				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+
+				return +value > +comparison[0];
+			},
+			type: 'input',
+			valueInputs: 1
+		},
+		{
+			display: 'Less Than',
+			comparator(value, comparison) {
+				value = value.replace(/[^0-9.]/g, '');
+				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+
+				return +value < +comparison[0];
+			},
+			type: 'input',
+			valueInputs: 1
+		},
+		{
+			display: 'Greater Than Equal To',
+			comparator(value, comparison) {
+				value = value.replace(/[^0-9.]/g, '');
+				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+
+				return +value >= +comparison[0];
+			},
+			type: 'input',
+			valueInputs: 1
+		},
+		{
+			display: 'Less Than Equal To',
+			comparator(value, comparison) {
+				value = value.replace(/[^0-9.]/g, '');
+				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+
+				return +value <= +comparison[0];
+			},
+			type: 'input',
+			valueInputs: 1
+		},
+		{
+			display: 'Not',
+			comparator(value, comparison) {
+				value = value.replace(/[^0-9.]/g, '');
+				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+
+				return +value !== +comparison[0];
+			},
+			type: 'select',
+			valueInputs: 1
+		},
+		{
+			display: 'Between Exclusive',
+			comparator(value, comparison) {
+				value = value.replace(/[^0-9.]/g, '');
+				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+				comparison[1] = comparison[1].replace(/[^0-9.]/g, '');
+				if (comparison[0] < comparison[1]) {
+					return +comparison[0] < +value && +value < +comparison[1];
+				}
+				else {
+					return +comparison[1] < +value && +value < +comparison[0];
+				}
+			},
+			joiner: 'and',
+			type: 'input',
+			valueInputs: 2,
+		},
+		{
+			display: 'Between Inclusive',
+			comparator(value, comparison) {
+				value = value.replace(/[^0-9.]/g, '');
+				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+				comparison[1] = comparison[1].replace(/[^0-9.]/g, '');
+				if (comparison[0] < comparison[1]) {
+					return +comparison[0] <= +value && +value <= +comparison[1];
+				}
+				else {
+					return +comparison[1] <= +value && +value <= +comparison[0];
+				}
+			},
+			joiner: 'and',
+			type: 'input',
+			valueInputs: 2
+		},
+		{
+			display: 'Outwith Exclusive',
+			comparator(value, comparison) {
+				value = value.replace(/[^0-9.]/g, '');
+				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+				comparison[1] = comparison[1].replace(/[^0-9.]/g, '');
+				if (comparison[0] < comparison[1]) {
+					return !(+comparison[0] <= +value && +value <= +comparison[1]);
+				}
+				else {
+					return !(+comparison[1] <= +value && +value <= +comparison[0]);
+				}
+			},
+			joiner: 'and',
+			type: 'input',
+			valueInputs: 2,
+		},
+		{
+			display: 'Outwith Inclusive',
+			comparator(value, comparison) {
+				value = value.replace(/[^0-9.]/g, '');
+				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+				comparison[1] = comparison[1].replace(/[^0-9.]/g, '');
+				if (comparison[0] < comparison[1]) {
+					return !(+comparison[0] <= +value && +value <= +comparison[1]);
+				}
+				else {
+					return !(+comparison[1] <= +value && +value <= +comparison[0]);
+				}
+			},
+			joiner: 'and',
+			type: 'input',
+			valueInputs: 2
+		}
+	];
+
+	private static stringConditions = [
+		{
+			display: 'Equals',
+			comparator(value, comparison) {
+				return value === comparison[0];
+			},
+			type: 'select',
+			valueInputs: 1
+		},
+		{
+			display: 'Starts With',
+			comparator(value, comparison) {
+				return value.toLowerCase().indexOf(comparison[0]) === 0;
+			},
+			type: 'input',
+			valueInputs: 1
+		},
+		{
+			display: 'Ends with',
+			comparator(value, comparison) {
+				return value.toLowerCase().indexOf(comparison[0]) === value.length - comparison[0].length;
+			},
+			type: 'input',
+			valueInputs: 1
+		},
+		{
+			display: 'Contains',
+			comparator(value, comparison) {
+				return value.toLowerCase().includes(comparison[0]);
+			},
+			type: 'input',
+			valueInputs: 1
+		},
+		{
+			display: 'Not',
+			comparator(value, comparison) {
+				return value !== comparison[0];
+			},
+			type: 'select',
+			valueInputs: 1
+		},
+	];
+
 	private static defaults = {
 		conditions: {
-			'date': [
-				{
-					display: 'Equals',
-					comparator(value, comparison) {
-						return value === comparison[0];
-					},
-					type: 'date',
-					valueInputs: 1
-				},
-				{
-					display: 'After',
-					comparator(value, comparison) {
-						return value > comparison[0];
-					},
-					type: 'date',
-					valueInputs: 1
-				},
-				{
-					display: 'Before',
-					comparator(value, comparison) {
-						return value < comparison[0];
-					},
-					type: 'date',
-					valueInputs: 1
-				},
-				{
-					display: 'Not',
-					comparator(value, comparison) {
-						return value !== comparison[0];
-					},
-					type: 'date',
-					valueInputs: 1
-				},
-				{
-					display: 'Between Inclusive',
-					comparator(value, comparison) {
-						if (comparison[0] < comparison[1]) {
-							return comparison[0] <= value && value <= comparison[1];
-						}
-						else {
-							return comparison[1] <= value && value <= comparison[0];
-						}
-					},
-					joiner: 'and',
-					type: 'date',
-					valueInputs: 2
-				},
-				{
-					display: 'Between Exclusive',
-					comparator(value, comparison) {
-						if (comparison[0] < comparison[1]) {
-							return comparison[0] < value && value < comparison[1];
-						}
-						else {
-							return comparison[1] < value && value < comparison[0];
-						}
-					},
-					joiner: 'and',
-					type: 'date',
-					valueInputs: 2
-				}
-			],
-			'html': [
-
-			],
-			'html-num': [
-				{
-					display: 'Equals',
-					comparator(value, comparison) {
-						return +value === +comparison[0];
-					},
-					type: 'select',
-					valueInputs: 1
-				},
-				{
-					display: 'Greater Than',
-					comparator(value, comparison) {
-						return +value > +comparison[0];
-					},
-					type: 'input',
-					valueInputs: 1
-				},
-				{
-					display: 'Less Than',
-					comparator(value, comparison) {
-						return +value < +comparison[0];
-					},
-					type: 'input',
-					valueInputs: 1
-				},
-				{
-					display: 'Greater Than Equal To',
-					comparator(value, comparison) {
-						return +value >= +comparison[0];
-					},
-					type: 'input',
-					valueInputs: 1
-				},
-				{
-					display: 'Less Than Equal To',
-					comparator(value, comparison) {
-						return +value <= +comparison[0];
-					},
-					type: 'input',
-					valueInputs: 1
-				},
-				{
-					display: 'Not',
-					comparator(value, comparison) {
-						return +value !== +comparison[0];
-					},
-					type: 'select',
-					valueInputs: 1
-				},
-				{
-					display: 'Between Exclusive',
-					comparator(value, comparison) {
-						if (comparison[0] < comparison[1]) {
-							return +comparison[0] < +value && +value < +comparison[1];
-						}
-						else {
-							return +comparison[1] < +value && +value < +comparison[0];
-						}
-					},
-					joiner: 'and',
-					type: 'input',
-					valueInputs: 2,
-				},
-				{
-					display: 'Between Inclusive',
-					comparator(value, comparison) {
-						if (comparison[0] < comparison[1]) {
-							return +comparison[0] <= +value && +value <= +comparison[1];
-						}
-						else {
-							return +comparison[1] <= +value && +value <= +comparison[0];
-						}
-					},
-					joiner: 'and',
-					type: 'input',
-					valueInputs: 2
-				},
-				{
-					display: 'Outwith Exclusive',
-					comparator(value, comparison) {
-						if (comparison[0] < comparison[1]) {
-							return !(+comparison[0] <= +value && +value <= +comparison[1]);
-						}
-						else {
-							return !(+comparison[1] <= +value && +value <= +comparison[0]);
-						}
-					},
-					joiner: 'and',
-					type: 'input',
-					valueInputs: 2,
-				},
-				{
-					display: 'Outwith Inclusive',
-					comparator(value, comparison) {
-						if (comparison[0] < comparison[1]) {
-							return !(+comparison[0] < +value && +value < +comparison[1]);
-						}
-						else {
-							return !(+comparison[1] < +value && +value < +comparison[0]);
-						}
-					},
-					joiner: 'and',
-					type: 'input',
-					valueInputs: 2
-				}
-			],
-			'html-num-fmt': [
-
-			],
-			'num': [
-				{
-					display: 'Equals',
-					comparator(value, comparison) {
-						return +value === +comparison[0];
-					},
-					type: 'select',
-					valueInputs: 1
-				},
-				{
-					display: 'Greater Than',
-					comparator(value, comparison) {
-						return +value > +comparison[0];
-					},
-					type: 'input',
-					valueInputs: 1
-				},
-				{
-					display: 'Less Than',
-					comparator(value, comparison) {
-						return +value < +comparison[0];
-					},
-					type: 'input',
-					valueInputs: 1
-				},
-				{
-					display: 'Greater Than Equal To',
-					comparator(value, comparison) {
-						return +value >= +comparison[0];
-					},
-					type: 'input',
-					valueInputs: 1
-				},
-				{
-					display: 'Less Than Equal To',
-					comparator(value, comparison) {
-						return +value <= +comparison[0];
-					},
-					type: 'input',
-					valueInputs: 1
-				},
-				{
-					display: 'Not',
-					comparator(value, comparison) {
-						return +value !== +comparison[0];
-					},
-					type: 'select',
-					valueInputs: 1
-				},
-				{
-					display: 'Between Exclusive',
-					comparator(value, comparison) {
-						if (comparison[0] < comparison[1]) {
-							return +comparison[0] < +value && +value < +comparison[1];
-						}
-						else {
-							return +comparison[1] < +value && +value < +comparison[0];
-						}
-					},
-					joiner: 'and',
-					type: 'input',
-					valueInputs: 2,
-				},
-				{
-					display: 'Between Inclusive',
-					comparator(value, comparison) {
-						if (comparison[0] < comparison[1]) {
-							return +comparison[0] <= +value && +value <= +comparison[1];
-						}
-						else {
-							return +comparison[1] <= +value && +value <= +comparison[0];
-						}
-					},
-					joiner: 'and',
-					type: 'input',
-					valueInputs: 2
-				},
-				{
-					display: 'Outwith Exclusive',
-					comparator(value, comparison) {
-						if (comparison[0] < comparison[1]) {
-							return !(+comparison[0] <= +value && +value <= +comparison[1]);
-						}
-						else {
-							return !(+comparison[1] <= +value && +value <= +comparison[0]);
-						}
-					},
-					joiner: 'and',
-					type: 'input',
-					valueInputs: 2,
-				},
-				{
-					display: 'Outwith Inclusive',
-					comparator(value, comparison) {
-						if (comparison[0] < comparison[1]) {
-							return !(+comparison[0] < +value && +value < +comparison[1]);
-						}
-						else {
-							return !(+comparison[1] < +value && +value < +comparison[0]);
-						}
-					},
-					joiner: 'and',
-					type: 'input',
-					valueInputs: 2
-				}
-			],
-			'num-fmt': [
-				{
-					display: 'Equals',
-					comparator(value, comparison) {
-						value = value.replace(/[^0-9.]/g, '');
-						comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
-
-						return +value === +comparison[0];
-					},
-					type: 'select',
-					valueInputs: 1
-				},
-				{
-					display: 'Greater Than',
-					comparator(value, comparison) {
-						value = value.replace(/[^0-9.]/g, '');
-						comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
-
-						return +value > +comparison[0];
-					},
-					type: 'input',
-					valueInputs: 1
-				},
-				{
-					display: 'Less Than',
-					comparator(value, comparison) {
-						value = value.replace(/[^0-9.]/g, '');
-						comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
-
-						return +value < +comparison[0];
-					},
-					type: 'input',
-					valueInputs: 1
-				},
-				{
-					display: 'Greater Than Equal To',
-					comparator(value, comparison) {
-						value = value.replace(/[^0-9.]/g, '');
-						comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
-
-						return +value >= +comparison[0];
-					},
-					type: 'input',
-					valueInputs: 1
-				},
-				{
-					display: 'Less Than Equal To',
-					comparator(value, comparison) {
-						value = value.replace(/[^0-9.]/g, '');
-						comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
-
-						return +value <= +comparison[0];
-					},
-					type: 'input',
-					valueInputs: 1
-				},
-				{
-					display: 'Not',
-					comparator(value, comparison) {
-						value = value.replace(/[^0-9.]/g, '');
-						comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
-
-						return +value !== +comparison[0];
-					},
-					type: 'select',
-					valueInputs: 1
-				},
-				{
-					display: 'Between Exclusive',
-					comparator(value, comparison) {
-						value = value.replace(/[^0-9.]/g, '');
-						comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
-						comparison[1] = comparison[1].replace(/[^0-9.]/g, '');
-						if (comparison[0] < comparison[1]) {
-							return +comparison[0] < +value && +value < +comparison[1];
-						}
-						else {
-							return +comparison[1] < +value && +value < +comparison[0];
-						}
-					},
-					joiner: 'and',
-					type: 'input',
-					valueInputs: 2,
-				},
-				{
-					display: 'Between Inclusive',
-					comparator(value, comparison) {
-						value = value.replace(/[^0-9.]/g, '');
-						comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
-						comparison[1] = comparison[1].replace(/[^0-9.]/g, '');
-						if (comparison[0] < comparison[1]) {
-							return +comparison[0] <= +value && +value <= +comparison[1];
-						}
-						else {
-							return +comparison[1] <= +value && +value <= +comparison[0];
-						}
-					},
-					joiner: 'and',
-					type: 'input',
-					valueInputs: 2
-				},
-				{
-					display: 'Outwith Exclusive',
-					comparator(value, comparison) {
-						value = value.replace(/[^0-9.]/g, '');
-						comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
-						comparison[1] = comparison[1].replace(/[^0-9.]/g, '');
-						if (comparison[0] < comparison[1]) {
-							return !(+comparison[0] <= +value && +value <= +comparison[1]);
-						}
-						else {
-							return !(+comparison[1] <= +value && +value <= +comparison[0]);
-						}
-					},
-					joiner: 'and',
-					type: 'input',
-					valueInputs: 2,
-				},
-				{
-					display: 'Outwith Inclusive',
-					comparator(value, comparison) {
-						value = value.replace(/[^0-9.]/g, '');
-						comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
-						comparison[1] = comparison[1].replace(/[^0-9.]/g, '');
-						if (comparison[0] < comparison[1]) {
-							return !(+comparison[0] <= +value && +value <= +comparison[1]);
-						}
-						else {
-							return !(+comparison[1] <= +value && +value <= +comparison[0]);
-						}
-					},
-					joiner: 'and',
-					type: 'input',
-					valueInputs: 2
-				}
-			],
-			'string': [
-				{
-					display: 'Equals',
-					comparator(value, comparison) {
-						return value === comparison[0];
-					},
-					type: 'select',
-					valueInputs: 1
-				},
-				{
-					display: 'Starts With',
-					comparator(value, comparison) {
-						return value.toLowerCase().indexOf(comparison[0]) === 0;
-					},
-					type: 'input',
-					valueInputs: 1
-				},
-				{
-					display: 'Ends with',
-					comparator(value, comparison) {
-						return value.toLowerCase().indexOf(comparison[0]) === value.length - comparison[0].length;
-					},
-					type: 'input',
-					valueInputs: 1
-				},
-				{
-					display: 'Contains',
-					comparator(value, comparison) {
-						return value.toLowerCase().includes(comparison[0]);
-					},
-					type: 'input',
-					valueInputs: 1
-				},
-				{
-					display: 'Not',
-					comparator(value, comparison) {
-						return value !== comparison[0];
-					},
-					type: 'select',
-					valueInputs: 1
-				},
-			]
+			'date': Criteria.dateConditions,
+			'html': Criteria.stringConditions,
+			'html-num': Criteria.numConditions,
+			'html-num-fmt': Criteria.numFmtConditions,
+			'num': Criteria.numConditions,
+			'num-fmt': Criteria.numFmtConditions,
+			'string': Criteria.stringConditions
 		},
 		orthogonal: {
 			display: 'display',
