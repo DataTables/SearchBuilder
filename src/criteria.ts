@@ -182,10 +182,10 @@ export default class Criteria {
 					display: 'Outwith Exclusive',
 					comparator(value, comparison) {
 						if (comparison[0] < comparison[1]) {
-							return !(+comparison[0] < +value && +value < +comparison[1]);
+							return !(+comparison[0] <= +value && +value <= +comparison[1]);
 						}
 						else {
-							return !(+comparison[1] < +value && +value < +comparison[0]);
+							return !(+comparison[1] <= +value && +value <= +comparison[0]);
 						}
 					},
 					joiner: 'and',
@@ -196,10 +196,10 @@ export default class Criteria {
 					display: 'Outwith Inclusive',
 					comparator(value, comparison) {
 						if (comparison[0] < comparison[1]) {
-							return !(+comparison[0] <= +value && +value <= +comparison[1]);
+							return !(+comparison[0] < +value && +value < +comparison[1]);
 						}
 						else {
-							return !(+comparison[1] <= +value && +value <= +comparison[0]);
+							return !(+comparison[1] < +value && +value < +comparison[0]);
 						}
 					},
 					joiner: 'and',
@@ -291,10 +291,10 @@ export default class Criteria {
 					display: 'Outwith Exclusive',
 					comparator(value, comparison) {
 						if (comparison[0] < comparison[1]) {
-							return !(+comparison[0] < +value && +value < +comparison[1]);
+							return !(+comparison[0] <= +value && +value <= +comparison[1]);
 						}
 						else {
-							return !(+comparison[1] < +value && +value < +comparison[0]);
+							return !(+comparison[1] <= +value && +value <= +comparison[0]);
 						}
 					},
 					joiner: 'and',
@@ -305,10 +305,10 @@ export default class Criteria {
 					display: 'Outwith Inclusive',
 					comparator(value, comparison) {
 						if (comparison[0] < comparison[1]) {
-							return !(+comparison[0] <= +value && +value <= +comparison[1]);
+							return !(+comparison[0] < +value && +value < +comparison[1]);
 						}
 						else {
-							return !(+comparison[1] <= +value && +value <= +comparison[0]);
+							return !(+comparison[1] < +value && +value < +comparison[0]);
 						}
 					},
 					joiner: 'and',
@@ -424,10 +424,10 @@ export default class Criteria {
 						comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
 						comparison[1] = comparison[1].replace(/[^0-9.]/g, '');
 						if (comparison[0] < comparison[1]) {
-							return !(+comparison[0] < +value && +value < +comparison[1]);
+							return !(+comparison[0] <= +value && +value <= +comparison[1]);
 						}
 						else {
-							return !(+comparison[1] < +value && +value < +comparison[0]);
+							return !(+comparison[1] <= +value && +value <= +comparison[0]);
 						}
 					},
 					joiner: 'and',
