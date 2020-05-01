@@ -79,6 +79,7 @@ export default class Criteria {
 							return comparison[1] <= value && value <= comparison[0];
 						}
 					},
+					joiner: 'and',
 					type: 'date',
 					valueInputs: 2
 				},
@@ -92,6 +93,7 @@ export default class Criteria {
 							return comparison[1] < value && value < comparison[0];
 						}
 					},
+					joiner: 'and',
 					type: 'date',
 					valueInputs: 2
 				}
@@ -765,7 +767,7 @@ export default class Criteria {
 			// If there are input fields then remove them and add the select field
 			if ($(this.dom.container).has(this.dom.valueInputs[0]).length !== 0) {
 				$(this.dom.value).insertBefore(this.dom.valueInputs[0]);
-				$(this.classes.joiner).remove();
+				$('.'+this.classes.joiner).remove();
 
 				for (let input of this.dom.valueInputs) {
 					$(input).remove();
@@ -776,7 +778,7 @@ export default class Criteria {
 
 			if (this.s.values.length === 0) {
 				let column = $(this.dom.field).children('option:selected').val();
-				let indexArray = this.s.dt.rows().indexes();
+				let indexArray = this.s.dt.rows().indexes().toArray();
 				let settings = this.s.dt.settings()[0];
 
 				for (let index of indexArray) {
@@ -847,6 +849,17 @@ export default class Criteria {
 
 			$(this.dom.value).remove();
 			this.setListeners();
+		}
+		else if (
+			(conditionType === 'input' || conditionType === 'date') &&
+			$(this.dom.container).has(this.dom.valueInputs[1]).length !== 0 &&
+			valCount === 1
+		) {
+			$('.' + this.classes.joiner).remove();
+
+			for (let i = 1; i < this.dom.valueInputs.length; i++) {
+				$(this.dom.valueInputs[i]).remove();
+			}
 		}
 	}
 }
