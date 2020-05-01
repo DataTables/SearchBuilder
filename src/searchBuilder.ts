@@ -38,7 +38,7 @@ export default class SearchBuilder {
 	public c;
 	public s;
 
-	constructor (builderSettings, opts) {
+	constructor(builderSettings, opts) {
 		// Check that the required version of DataTables is included
 		if (! DataTable || ! DataTable.versionCheck || ! DataTable.versionCheck('1.10.0')) {
 			throw new Error('SearchBuilder requires DataTables 1.10 or newer');
@@ -117,8 +117,8 @@ export default class SearchBuilder {
 		};
 
 		$.fn.dataTable.ext.search.push(this.s.search);
-		$.fn.DataTable.Api.registerPlural('columns().type()', 'column().type()', function (selector, opts) {
-			return this.iterator('column', function (settings, column) {
+		$.fn.DataTable.Api.registerPlural('columns().type()', 'column().type()', function(selector, opts) {
+			return this.iterator('column', function(settings, column) {
 				return settings.aoColumns[column].sType;
 			}, 1);
 		});

@@ -93,6 +93,51 @@ export default class Group {
 	}
 
 	/**
+	 * Redraws the Contents of the searchBuilder Groups and Criteria
+	 */
+	public redrawContents(): void {
+		// Clear the container out and add the basic elements
+		$(this.dom.container).empty();
+		$(this.dom.container).append(this.dom.logic).append(this.dom.add);
+
+		this.setListeners();
+
+		for (let i = 0; i < this.s.criteria.length; i++) {
+			if (this.s.criteria[i].type === 'criteria') {
+				// Reset the index to the new value
+				this.s.criteria[i].index = i;
+				this.s.criteria[i].criteria.s.index = i;
+
+				// Set listeners for various points
+				this._setCriteriaListeners(this.s.criteria[i].criteria);
+				this.s.criteria[i].criteria.setListeners();
+
+				// Add to the group
+				$(this.s.criteria[i].criteria.dom.container).insertBefore(this.dom.add);
+			}
+			else if (this.s.criteria[i].criteria.s.criteria.length > 0) {
+				// Reset the index to the new value
+				this.s.criteria[i].index = i;
+				this.s.criteria[i].criteria.s.index = i;
+
+				// Add the sub group to the group
+				$(this.s.criteria[i].criteria.dom.container).insertBefore(this.dom.add);
+
+				// Redraw the contents of the group
+				this.s.criteria[i].criteria.redrawContents();
+
+				this.s.criteria[i].criteria.setupLogic();
+				this._setGroupListeners(this.s.criteria[i].criteria);
+			}
+			else {
+				// The group is empty so remove it
+				this.s.criteria.splice(i, 1);
+				i--;
+			}
+		}
+	}
+
+	/**
 	 * Search method, checking the row data against the criteria in the group
 	 * @param rowData The row data to be compared
 	 * @returns boolean The result of the search
@@ -106,6 +151,61 @@ export default class Group {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Locates the groups logic button to the correct location on the page
+	 */
+	public setupLogic() {
+		// Remove logic button
+		$(this.dom.logic).remove();
+
+		if (this.s.criteria.length < 1) {
+			$(this.dom.container).removeClass(this.classes.indentTop).removeClass(this.classes.indentSub);
+
+			return;
+		}
+
+		// Set width
+		let width = $(this.dom.container).height();
+		$(this.dom.logic).width(width);
+
+		// Prepend logic button
+		$(this.dom.container).prepend(this.dom.logic);
+		this._setLogicListener();
+
+		// Set horizontal alignment
+		let currentLeft = $(this.dom.logic).offset().left;
+		let groupLeft = $(this.dom.container).offset().left;
+		let shuffleLeft = currentLeft - groupLeft;
+		let newPos = currentLeft - shuffleLeft - $(this.dom.logic).height() - 20;
+		$(this.dom.logic).offset({left: newPos});
+
+		// Set vertical alignment
+		let firstCrit = $(this.dom.logic).next();
+		let currentTop = $(this.dom.logic).offset().top;
+		let firstTop = $(firstCrit).offset().top;
+		let shuffleTop = currentTop - firstTop;
+		let newTop = currentTop - shuffleTop;
+		$(this.dom.logic).offset({top: newTop});
+
+	}
+
+	/**
+	 * Sets listeners on the groups elements
+	 */
+	public setListeners(): void {
+		$(this.dom.add).on('click', () => {
+			// If this is the parent group then the logic button has not been added yet
+			if (!this.s.isChild) {
+				$(this.dom.container).addClass(this.classes.indentTop);
+				$(this.dom.container).prepend(this.dom.logic);
+			}
+
+			this._addCriteria();
+		});
+
+		this._setLogicListener();
 	}
 
 	/**
@@ -204,51 +304,6 @@ export default class Group {
 		}
 
 		return !filledfound;
-	}
-
-	/**
-	 * Redraws the Contents of the searchBuilder Groups and Criteria
-	 */
-	public _redrawContents(): void {
-		// Clear the container out and add the basic elements
-		$(this.dom.container).empty();
-		$(this.dom.container).append(this.dom.logic).append(this.dom.add);
-
-		this.setListeners();
-
-		for (let i = 0; i < this.s.criteria.length; i++) {
-			if (this.s.criteria[i].type === 'criteria') {
-				// Reset the index to the new value
-				this.s.criteria[i].index = i;
-				this.s.criteria[i].criteria.s.index = i;
-
-				// Set listeners for various points
-				this._setCriteriaListeners(this.s.criteria[i].criteria);
-				this.s.criteria[i].criteria.setListeners();
-
-				// Add to the group
-				$(this.s.criteria[i].criteria.dom.container).insertBefore(this.dom.add);
-			}
-			else if (this.s.criteria[i].criteria.s.criteria.length > 0) {
-				// Reset the index to the new value
-				this.s.criteria[i].index = i;
-				this.s.criteria[i].criteria.s.index = i;
-
-				// Add the sub group to the group
-				$(this.s.criteria[i].criteria.dom.container).insertBefore(this.dom.add);
-
-				// Redraw the contents of the group
-				this.s.criteria[i].criteria._redrawContents();
-
-				this.s.criteria[i].criteria.setupLogic();
-				this._setGroupListeners(this.s.criteria[i].criteria);
-			}
-			else {
-				// The group is empty so remove it
-				this.s.criteria.splice(i, 1);
-				i--;
-			}
-		}
 	}
 
 	/**
@@ -372,65 +427,10 @@ export default class Group {
 
 		if (!this.s.isChild) {
 			$(document).on('dtsb-redrawContents', () => {
-				this._redrawContents();
+				this.redrawContents();
 				this.setupLogic();
 			});
 		}
-	}
-
-	/**
-	 * Locates the groups logic button to the correct location on the page
-	 */
-	public setupLogic() {
-		// Remove logic button
-		$(this.dom.logic).remove();
-
-		if (this.s.criteria.length < 1) {
-			$(this.dom.container).removeClass(this.classes.indentTop).removeClass(this.classes.indentSub);
-
-			return;
-		}
-
-		// Set width
-		let width = $(this.dom.container).height();
-		$(this.dom.logic).width(width);
-
-		// Prepend logic button
-		$(this.dom.container).prepend(this.dom.logic);
-		this._setLogicListener();
-
-		// Set horizontal alignment
-		let currentLeft = $(this.dom.logic).offset().left;
-		let groupLeft = $(this.dom.container).offset().left;
-		let shuffleLeft = currentLeft - groupLeft;
-		let newPos = currentLeft - shuffleLeft - $(this.dom.logic).height() - 20;
-		$(this.dom.logic).offset({left: newPos});
-
-		// Set vertical alignment
-		let firstCrit = $(this.dom.logic).next();
-		let currentTop = $(this.dom.logic).offset().top;
-		let firstTop = $(firstCrit).offset().top;
-		let shuffleTop = currentTop - firstTop;
-		let newTop = currentTop - shuffleTop;
-		$(this.dom.logic).offset({top: newTop});
-
-	}
-
-	/**
-	 * Sets listeners on the groups elements
-	 */
-	public setListeners(): void {
-		$(this.dom.add).on('click', () => {
-			// If this is the parent group then the logic button has not been added yet
-			if (!this.s.isChild) {
-				$(this.dom.container).addClass(this.classes.indentTop);
-				$(this.dom.container).prepend(this.dom.logic);
-			}
-
-			this._addCriteria();
-		});
-
-		this._setLogicListener();
 	}
 
 	/**
