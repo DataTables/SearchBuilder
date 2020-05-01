@@ -102,7 +102,110 @@ export default class Criteria {
 
 			],
 			'html-num': [
-
+				{
+					display: 'Equals',
+					comparator(value, comparison) {
+						return +value === +comparison[0];
+					},
+					type: 'select',
+					valueInputs: 1
+				},
+				{
+					display: 'Greater Than',
+					comparator(value, comparison) {
+						return +value > +comparison[0];
+					},
+					type: 'input',
+					valueInputs: 1
+				},
+				{
+					display: 'Less Than',
+					comparator(value, comparison) {
+						return +value < +comparison[0];
+					},
+					type: 'input',
+					valueInputs: 1
+				},
+				{
+					display: 'Greater Than Equal To',
+					comparator(value, comparison) {
+						return +value >= +comparison[0];
+					},
+					type: 'input',
+					valueInputs: 1
+				},
+				{
+					display: 'Less Than Equal To',
+					comparator(value, comparison) {
+						return +value <= +comparison[0];
+					},
+					type: 'input',
+					valueInputs: 1
+				},
+				{
+					display: 'Not',
+					comparator(value, comparison) {
+						return +value !== +comparison[0];
+					},
+					type: 'select',
+					valueInputs: 1
+				},
+				{
+					display: 'Between Exclusive',
+					comparator(value, comparison) {
+						if (comparison[0] < comparison[1]) {
+							return +comparison[0] < +value && +value < +comparison[1];
+						}
+						else {
+							return +comparison[1] < +value && +value < +comparison[0];
+						}
+					},
+					joiner: 'and',
+					type: 'input',
+					valueInputs: 2,
+				},
+				{
+					display: 'Between Inclusive',
+					comparator(value, comparison) {
+						if (comparison[0] < comparison[1]) {
+							return +comparison[0] <= +value && +value <= +comparison[1];
+						}
+						else {
+							return +comparison[1] <= +value && +value <= +comparison[0];
+						}
+					},
+					joiner: 'and',
+					type: 'input',
+					valueInputs: 2
+				},
+				{
+					display: 'Outwith Exclusive',
+					comparator(value, comparison) {
+						if (comparison[0] < comparison[1]) {
+							return !(+comparison[0] < +value && +value < +comparison[1]);
+						}
+						else {
+							return !(+comparison[1] < +value && +value < +comparison[0]);
+						}
+					},
+					joiner: 'and',
+					type: 'input',
+					valueInputs: 2,
+				},
+				{
+					display: 'Outwith Inclusive',
+					comparator(value, comparison) {
+						if (comparison[0] < comparison[1]) {
+							return !(+comparison[0] <= +value && +value <= +comparison[1]);
+						}
+						else {
+							return !(+comparison[1] <= +value && +value <= +comparison[0]);
+						}
+					},
+					joiner: 'and',
+					type: 'input',
+					valueInputs: 2
+				}
 			],
 			'html-num-fmt': [
 
@@ -425,6 +528,7 @@ export default class Criteria {
 			fields: [],
 			filled: false,
 			index,
+			type: '',
 			values: []
 		};
 
@@ -667,10 +771,10 @@ export default class Criteria {
 	private _populateCondition(): void {
 		if (this.s.conditions.length === 0) {
 			let column = $(this.dom.field).children('option:selected').val();
-			let type = this.s.dt.columns().type().toArray()[column];
+			this.s.type = this.s.dt.columns().type().toArray()[column];
 
-			if (this.c.conditions[type] !== undefined) {
-				for (let condition of this.c.conditions[type]) {
+			if (this.c.conditions[this.s.type] !== undefined) {
+				for (let condition of this.c.conditions[this.s.type]) {
 					this.s.conditions.push(condition);
 					$(this.dom.condition).append(
 						$('<option>', {
@@ -767,7 +871,7 @@ export default class Criteria {
 			// If there are input fields then remove them and add the select field
 			if ($(this.dom.container).has(this.dom.valueInputs[0]).length !== 0) {
 				$(this.dom.value).insertBefore(this.dom.valueInputs[0]);
-				$('.'+this.classes.joiner).remove();
+				$('.' + this.classes.joiner).remove();
 
 				for (let input of this.dom.valueInputs) {
 					$(input).remove();
@@ -797,8 +901,8 @@ export default class Criteria {
 						this.s.values.push(val);
 						$(this.dom.value).append(
 							$('<option>', {
-								text : val.text,
-								value : val.filter
+								text : this.s.type.includes('html') ? val.text.replace(/(<([^>]+)>)/ig, '') : val.text,
+								value : this.s.type.includes('html') ? val.filter.replace(/(<([^>]+)>)/ig, '') : val.filter
 							})
 							.addClass(this.classes.option)
 						);
