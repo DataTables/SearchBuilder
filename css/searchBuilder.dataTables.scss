@@ -54,6 +54,11 @@ div.dtsb-searchBuilder {
         border-radius: 3px;
         margin-left: 10px;
 
+        button.dtsb-clearGroup {
+            position: absolute;
+            margin: 2px;
+        }
+
         button.dtsb-logic {
             -webkit-transform: rotate(90deg);
             -moz-transform: rotate(90deg);

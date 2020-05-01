@@ -21,6 +21,7 @@ export default class Group {
 	private static classes = {
 		add: 'dtsb-add',
 		button: 'dtsb-button',
+		clearGroup: 'dtsb-clearGroup',
 		group: 'dtsb-group',
 		indentSub: 'dtsb-indentSub',
 		indentTop: 'dtsb-indentTop',
@@ -61,6 +62,7 @@ export default class Group {
 
 		this.dom = {
 			add: $('<button/>').addClass(this.classes.add).addClass(this.classes.button),
+			clear: $('<button/>').addClass(this.classes.roundButton).addClass(this.classes.clearGroup).text('x'),
 			container: $('<div/>').addClass(this.classes.group),
 			logic: $('<button/>').addClass(this.classes.logic).addClass(this.classes.button)
 		};
@@ -112,6 +114,10 @@ export default class Group {
 				this._setCriteriaListeners(this.s.criteria[i].criteria);
 				this.s.criteria[i].criteria.setListeners();
 
+				if (this.s.criteria.length === 1) {
+					$(this.s.criteria[i].criteria.dom.right).attr('disabled', true);
+				}
+
 				// Add to the group
 				$(this.s.criteria[i].criteria.dom.container).insertBefore(this.dom.add);
 			}
@@ -159,6 +165,7 @@ export default class Group {
 	public setupLogic() {
 		// Remove logic button
 		$(this.dom.logic).remove();
+		$(this.dom.clear).remove();
 
 		if (this.s.criteria.length < 1) {
 			$(this.dom.container).removeClass(this.classes.indentTop).removeClass(this.classes.indentSub);
@@ -167,7 +174,9 @@ export default class Group {
 		}
 
 		// Set width
-		let width = $(this.dom.container).height();
+		let width = this.s.criteria.length < 2 || !this.s.isChild ?
+			$(this.dom.container).height() :
+			$(this.dom.container).height() - 32;
 		$(this.dom.logic).width(width);
 
 		// Prepend logic button
@@ -189,6 +198,25 @@ export default class Group {
 		let newTop = currentTop - shuffleTop;
 		$(this.dom.logic).offset({top: newTop});
 
+		if (this.s.criteria.length > 1 && this.s.isChild) {
+			// Append clear Group
+			$(this.dom.clear).insertAfter(this.dom.logic);
+
+			// Set horizontal alignment
+			let currentLeftBtn = $(this.dom.clear).offset().left;
+			let shuffleLeftBtn = currentLeftBtn - groupLeft;
+			let newPosBtn = currentLeftBtn - shuffleLeftBtn - $(this.dom.clear).width() - 22;
+			$(this.dom.clear).offset({left: newPosBtn});
+
+			// Set vertical alignment
+			let currentTopBtn = $(this.dom.clear).offset().top;
+			let shuffleTopBtn = currentTopBtn - (newTop + $(this.dom.logic).outerWidth() + 3);
+			let newTopBtn = currentTopBtn - shuffleTopBtn;
+			$(this.dom.clear).offset({top: newTopBtn});
+
+			this._setClearListener();
+		}
+
 	}
 
 	/**
@@ -204,6 +232,8 @@ export default class Group {
 
 			this._addCriteria();
 		});
+
+		this._setClearListener();
 
 		this._setLogicListener();
 	}
@@ -327,6 +357,9 @@ export default class Group {
 			for (let i = 0; i < this.s.criteria.length; i++) {
 				this.s.criteria[i].index = i;
 				this.s.criteria[i].criteria.s.index = i;
+				if (this.s.criteria.length === 1) {
+					$(this.s.criteria[i].criteria.dom.right).attr('disabled', true);
+				}
 			}
 		}
 	}
@@ -367,6 +400,13 @@ export default class Group {
 			$(this.dom.container).trigger('dtsb-dropCriteria');
 			this._removeCriteria(criteria);
 			$(document).trigger('dtsb-redrawContents');
+		});
+	}
+
+	private _setClearListener(){
+		$(this.dom.clear).unbind('click');
+		$(this.dom.clear).on('click', () => {
+			this.destroy();
 		});
 	}
 
