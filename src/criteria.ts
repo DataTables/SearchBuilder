@@ -474,18 +474,8 @@ export default class Criteria {
 			}
 		}
 
-		// If it is a select condition then just append the select
-		if (conditionType === 'select') {
-			$(this.dom.container)
-				.append(this.dom.field)
-				.append(this.dom.condition)
-				.append(this.dom.value)
-				.append(this.dom.delete)
-				.append(this.dom.right)
-				.append(this.dom.left);
-		}
 		// If it is an input condition then append everything in order and all of the input elements required
-		else if (conditionType === 'input') {
+		if (conditionType === 'input') {
 			$(this.dom.container).append(this.dom.field).append(this.dom.condition);
 			$(this.dom.container.append(this.dom.valueInputs[0]));
 
@@ -496,6 +486,16 @@ export default class Criteria {
 			}
 
 			$(this.dom.container).append(this.dom.delete).append(this.dom.right).append(this.dom.left);
+		}
+		// If not then it must be a select or not defined yet, in which case should default to select
+		else {
+			$(this.dom.container)
+				.append(this.dom.field)
+				.append(this.dom.condition)
+				.append(this.dom.value)
+				.append(this.dom.delete)
+				.append(this.dom.right)
+				.append(this.dom.left);
 		}
 	}
 
