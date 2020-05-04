@@ -40,7 +40,7 @@ export default class Group {
 	public s;
 	private dropOnce;
 
-	constructor(table, index = 0, isChild = false) {
+	constructor(table, opts, index = 0, isChild = false) {
 		// Check that the required version of DataTables is included
 		if (! DataTable || ! DataTable.versionCheck || ! DataTable.versionCheck('1.10.0')) {
 			throw new Error('SearchBuilder requires DataTables 1.10 or newer');
@@ -49,10 +49,12 @@ export default class Group {
 		this.classes = $.extend(true, {}, Group.classes);
 
 		// Get options from user
-		this.c = $.extend(true, {}, Group.defaults);
+		this.c = $.extend(true, {}, Group.defaults, opts);
+		this.s.opts = opts;
 
 		this.s = {
 			criteria: [],
+			depth: 0,
 			dt: table,
 			index,
 			isChild,
@@ -244,7 +246,7 @@ export default class Group {
 	 */
 	private _addCriteria(crit: Criteria = null): void {
 		let index = this.s.criteria.length;
-		let criteria = new Criteria(undefined, this.s.dt, index);
+		let criteria = new Criteria(this.s.dt, this.s.opts, index);
 
 		// If a Criteria has been passed in then set the values to continue that
 		if (crit !== null) {
@@ -377,7 +379,7 @@ export default class Group {
 
 		$(criteria.dom.right).on('click', () => {
 			let idx = criteria.s.index;
-			let group = new Group(this.s.dt, criteria.s.index, true);
+			let group = new Group(this.s.dt, this.c, criteria.s.index, true);
 
 			// Add the criteria that is to be moved to the new group
 			group._addCriteria(criteria);
@@ -392,7 +394,7 @@ export default class Group {
 		});
 
 		$(criteria.dom.left).on('click', () => {
-			this.s.toDrop = new Criteria(undefined, this.s.dt, criteria.s.index);
+			this.s.toDrop = new Criteria(this.s.dt, this.s.opts, criteria.s.index);
 			this.s.toDrop.s = criteria.s;
 			this.s.toDrop.c = criteria.c;
 			this.s.toDrop.classes = criteria.classes;
@@ -403,6 +405,9 @@ export default class Group {
 		});
 	}
 
+	/**
+	 * Set's the listeners for the group clear button
+	 */
 	private _setClearListener(){
 		$(this.dom.clear).unbind('click');
 		$(this.dom.clear).on('click', () => {

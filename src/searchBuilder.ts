@@ -49,6 +49,7 @@ export default class SearchBuilder {
 
 		// Get options from user
 		this.c = $.extend(true, {}, SearchBuilder.defaults, opts);
+		this.s.opts = opts;
 
 		this.dom = {
 			clearAll: $('<button type="button">Clear All</button>')
@@ -87,10 +88,10 @@ export default class SearchBuilder {
 	 * Set's up the SearchBuilder
 	 */
 	private _setUp(): void {
-		this.s.topGroup = new Group(this.s.dt);
+		this.s.topGroup = new Group(this.s.dt, this.c);
 
 		$(this.dom.clearAll).on('click', () => {
-			this.s.topGroup = new Group(this.s.dt);
+			this.s.topGroup = new Group(this.s.dt, this.s.opts);
 			this._build();
 			this.s.dt.draw();
 		});

@@ -410,7 +410,7 @@ export default class Criteria {
 	public c;
 	public s;
 
-	constructor(opts, table, index = 0) {
+	constructor(table, opts, index = 0) {
 		// Check that the required version of DataTables is included
 		if (! DataTable || ! DataTable.versionCheck || ! DataTable.versionCheck('1.10.0')) {
 			throw new Error('SearchPane requires DataTables 1.10 or newer');
