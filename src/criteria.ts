@@ -452,7 +452,7 @@ export default class Criteria {
 				$('<input/>').addClass(this.classes.value).addClass(this.classes.input).addClass(this.classes.disabled),
 				$('<input/>').addClass(this.classes.value).addClass(this.classes.input).addClass(this.classes.disabled)
 			],
-			valueTitle: $('<option value="" disabled selected hidden/>').text('Value'),
+			valueTitle: $('<option value="" disabled selected hidden/>').text(this.s.dt.i18n('searchBuilder.value', 'Value')),
 		};
 
 		if (this.c.greyscale) {
