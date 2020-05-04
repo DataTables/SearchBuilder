@@ -545,6 +545,18 @@ export default class Criteria {
 	}
 
 	/**
+	 * Gets the details required to rebuild the criteria
+	 */
+	public getDetails() {
+		return {
+			condition: this.s.condition,
+			field: this.s.field,
+			type: 'criteria',
+			value: this.s.value
+		};
+	}
+
+	/**
 	 * Getter for the node for the container of the criteria
 	 * @returns JQuery<HTMLElement> the node for the container
 	 */
@@ -563,6 +575,47 @@ export default class Criteria {
 
 			if (this.s.condition !== undefined) {
 				this._populateValue();
+			}
+		}
+	}
+
+	public rebuild(loadedCriteria) {
+		let foundField = false;
+		$(this.dom.field).children('option').each(function() {
+			if ($(this).val() === loadedCriteria.field) {
+				$(this).attr('selected', true);
+				foundField = true;
+			}
+		});
+
+		if (foundField) {
+			this.s.field = loadedCriteria.field;
+			$(this.dom.fieldTitle).remove();
+			this._populateCondition();
+			let foundCond = false;
+			$(this.dom.condition).children('option').each(function() {
+				if ($(this).val() === loadedCriteria.condition) {
+					$(this).attr('selected', true);
+					foundCond = true;
+				}
+			});
+
+			if (foundCond) {
+				this.s.condition = loadedCriteria.condition;
+				$(this.dom.conditionTitle).remove();
+				this._populateValue();
+				if ($(this.dom.container).has(this.dom.value).length !== 0) {
+					$(this.dom.value).children('option').each(function() {
+						if ($(this).val() === loadedCriteria.value[0]) {
+							$(this).attr('selected', true);
+						}
+					});
+				}
+				else {
+					$(this.dom.valueInputs[0]).text(loadedCriteria.value[0]);
+					$(this.dom.valueInputs[1]).text(loadedCriteria.value[1]);
+				}
+				this.s.dt.draw();
 			}
 		}
 	}
@@ -677,6 +730,7 @@ export default class Criteria {
 	private _populateCondition(): void {
 		if (this.s.conditions.length === 0) {
 			let column = $(this.dom.field).children('option:selected').val();
+			console.log(this.s.dt.columns().type().toArray())
 			this.s.type = this.s.dt.columns().type().toArray()[column];
 
 			if (this.c.conditions[this.s.type] !== undefined) {

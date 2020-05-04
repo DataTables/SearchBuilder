@@ -73,7 +73,14 @@ export default class SearchBuilder {
 
 		table.settings()[0]._searchBuilder = this;
 
-		this._setUp();
+		if (this.s.dt.settings()[0]._bInitComplete) {
+			this._setUp();
+		}
+		else {
+			table.one('init.dt', (settings) => {
+				this._setUp();
+			});
+		}
 	}
 
 	/**
@@ -96,7 +103,18 @@ export default class SearchBuilder {
 			this.s.dt.draw();
 		});
 
+		this.s.dt.on('stateSaveParams', (e, settings, data) => {
+			data.searchBuilder = this._saveDetails();
+		});
+
 		this._build();
+
+		let loadedState = this.s.dt.state.loaded();
+
+		if (loadedState !== null && loadedState.searchBuilder !== undefined) {
+			this.s.topGroup.rebuild(loadedState.searchBuilder);
+			$(document).trigger('dtsb-redrawContents');
+		}
 	}
 
 	/**
@@ -120,8 +138,13 @@ export default class SearchBuilder {
 		$.fn.dataTable.ext.search.push(this.s.search);
 		$.fn.DataTable.Api.registerPlural('columns().type()', 'column().type()', function(selector, opts) {
 			return this.iterator('column', function(settings, column) {
+				console.log(settings.aoColumns[column])
 				return settings.aoColumns[column].sType;
 			}, 1);
 		});
+	}
+
+	private _saveDetails() {
+		return this.s.topGroup.getDetails();
 	}
 }

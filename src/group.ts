@@ -92,11 +92,38 @@ export default class Group {
 	}
 
 	/**
+	 * Gets the details required to rebuild the group
+	 */
+	public getDetails() {
+		let details = {
+			criteria: [],
+			type: 'group'
+		};
+
+		for (let crit of this.s.criteria) {
+			details.criteria.push(crit.criteria.getDetails());
+		}
+		
+		return details;
+	}
+
+	/**
 	 * Getter for the node for the container of the group
 	 * @returns Node for the container of the group
 	 */
 	public getNode(): JQuery<HTMLElement> {
 		return this.dom.container;
+	}
+
+	public rebuild(loadedDetails) {
+		for (let crit of loadedDetails.criteria) {
+			if (crit.type === 'group') {
+				this._addPrevGroup(crit);
+			}
+			else if (crit.type === 'criteria') {
+				this._addPrevCriteria(crit);
+			}
+		}
 	}
 
 	/**
@@ -294,6 +321,46 @@ export default class Group {
 		this.setupLogic();
 	}
 
+	private _addPrevGroup(loadedGroup) {
+		let idx = this.s.criteria.length;
+		let group = new Group(this.s.dt, this.c, idx, true, this.s.depth + 1);
+
+		this.s.criteria.push({
+			criteria: group,
+			index: idx,
+			type: 'group'
+		});
+
+		group.rebuild(loadedGroup);
+
+		this.s.criteria[idx].criteria = group;
+
+		$(document).trigger('dtsb-redrawContents');
+
+		this._setGroupListeners(group);
+	}
+
+	private _addPrevCriteria(loadedCriteria) {
+		let idx = this.s.criteria.length;
+		let criteria = new Criteria(this.s.dt, this.s.opts, idx);
+
+		criteria.populate();
+
+		this.s.criteria.push({
+			criteria,
+			index: idx,
+			type: 'criteria'
+		});
+
+		$(document).trigger('dtsb-redrawContents');
+
+		criteria.rebuild(loadedCriteria);
+
+		this.s.criteria[idx].criteria = criteria;
+
+		$(document).trigger('dtsb-redrawContents');
+	}
+
 	/**
 	 * Checks all of the criteria using AND logic
 	 * @param rowData The row data to be checked against the search criteria
@@ -381,7 +448,7 @@ export default class Group {
 
 		$(criteria.dom.right).on('click', () => {
 			let idx = criteria.s.index;
-			let group = new Group(this.s.dt, this.c, criteria.s.index, true, this.s.depth + 1);
+			let group = new Group(this.s.dt, this.s.opts, criteria.s.index, true, this.s.depth + 1);
 
 			// Add the criteria that is to be moved to the new group
 			group.addCriteria(criteria);
