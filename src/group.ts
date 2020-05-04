@@ -33,7 +33,8 @@ export default class Group {
 
 	private static defaults = {
 		depthLimit: false,
-		greyscale: false
+		greyscale: false,
+		logic: 'AND'
 	};
 
 	public classes;
@@ -460,7 +461,8 @@ export default class Group {
 		this.setListeners();
 
 		$(this.dom.add).text('ADD');
-		$(this.dom.logic).text('Set');
+		$(this.dom.logic).text(this.c.logic === 'OR' ? 'Any Of' : 'All Of');
+		this.s.logic = this.c.logic === 'OR' ? 'OR' : 'AND';
 
 		if (this.c.greyscale) {
 			$(this.dom.logic).addClass(this.classes.greyscale);
@@ -498,7 +500,7 @@ export default class Group {
 	 * Toggles the logic for the group
 	 */
 	private _toggleLogic(): void {
-		if (this.s.logic === undefined || this.s.logic === 'OR') {
+		if (this.s.logic === 'OR') {
 			this.s.logic = 'AND';
 			$(this.dom.logic).text('All Of');
 		}

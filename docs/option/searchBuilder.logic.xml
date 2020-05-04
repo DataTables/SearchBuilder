@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>SearchBuilder.logic</name>
+	<summary>Set the default logic operator</summary>
+	<since>SearchBuilder 0.0.1</since>
+
+	<type type="string">
+		<description>
+            The value for the default logic operator for groups.
+        </description>
+	</type>
+
+	<default value="AND">
+        The default value for the `-init searchBuilder.depthLimit` option is `AND` meaning that as standard the initial logic applied to groups will be `AND` logic.
+	</default>
+	<description>
+		<![CDATA[
+		This is useful as it allows the default logic to be defined.
+        ]]>
+	</description>
+
+	<example title="Setting the default logic to 'OR'"><![CDATA[
+
+    $('#example').DataTable( {
+        searchBuilder: {
+            logic: 'OR'
+        },    
+		dom: 'Qfrtip'
+    });
+
+]]></example>
+
+</dt-option>

@@ -354,7 +354,7 @@ export default class Criteria {
 		{
 			display: 'Starts With',
 			comparator(value, comparison) {
-				return value.toLowerCase().indexOf(comparison[0]) === 0;
+				return value.toLowerCase().indexOf(comparison[0].toLowerCase()) === 0;
 			},
 			type: 'input',
 			valueInputs: 1
@@ -362,7 +362,7 @@ export default class Criteria {
 		{
 			display: 'Ends with',
 			comparator(value, comparison) {
-				return value.toLowerCase().indexOf(comparison[0]) === value.length - comparison[0].length;
+				return value.toLowerCase().indexOf(comparison[0].toLowerCase()) === value.length - comparison[0].length;
 			},
 			type: 'input',
 			valueInputs: 1
@@ -370,7 +370,7 @@ export default class Criteria {
 		{
 			display: 'Contains',
 			comparator(value, comparison) {
-				return value.toLowerCase().includes(comparison[0]);
+				return value.toLowerCase().includes(comparison[0].toLowerCase());
 			},
 			type: 'input',
 			valueInputs: 1
