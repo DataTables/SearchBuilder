@@ -4,7 +4,7 @@ export default {
   input: 'src/index.js',
   output: {
     // dir: 'dist/',
-    file: '/home/vagrant/DataTablesSrc/built/DataTables/extensions/SearchBuilder/js/dataTables.searchBuilder.js',
+    file: process.env.OUT + '/js/dataTables.searchBuilder.js',
     format: 'iife'
   },
   plugins: [resolve()]

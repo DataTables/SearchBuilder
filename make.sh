@@ -47,7 +47,7 @@ HEADER="$(head -n 3 src/index.ts)"
 rsync -r src/*.js $OUT_DIR/js
 js_frameworks searchBuilder $OUT_DIR/js
 
-./node_modules/rollup/bin/rollup --config rollup.config.js
+OUT=$OUT_DIR ./node_modules/rollup/bin/rollup --config rollup.config.js
 
 # $OUT_DIR/js/index.js \
 #     --format iife \
