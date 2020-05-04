@@ -576,6 +576,7 @@ export default class Criteria {
 			this.s.field = $(this.dom.field).children('option:selected').val();
 			this._clearCondition();
 			this._clearValue();
+			this._resetValue();
 			this._populateCondition();
 			this.s.dt.draw();
 		});
@@ -868,6 +869,18 @@ export default class Criteria {
 			for (let i = 1; i < this.dom.valueInputs.length; i++) {
 				$(this.dom.valueInputs[i]).remove();
 			}
+		}
+	}
+
+	/**
+	 * Resets the value inputs to be an empty select
+	 */
+	private _resetValue() {
+		if ($(this.dom.container).has(this.dom.valueInputs[0]).length !== 0) {
+			$(this.dom.value).empty().append(this.dom.valueTitle).insertBefore(this.dom.valueInputs[0]);
+			$(this.dom.valueInputs[0]).remove();
+			$(this.dom.valueInputs[1]).remove();
+			$('.' + this.classes.joiner).remove();
 		}
 	}
 }
