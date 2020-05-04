@@ -232,7 +232,7 @@ export default class Group {
 				$(this.dom.container).prepend(this.dom.logic);
 			}
 
-			this._addCriteria();
+			this.addCriteria();
 		});
 
 		this._setClearListener();
@@ -244,14 +244,15 @@ export default class Group {
 	 * Adds a criteria to the group
 	 * @param crit Instance of Criteria to be added to the group
 	 */
-	private _addCriteria(crit: Criteria = null): void {
+	public addCriteria(crit: Criteria = null): void {
 		let index = this.s.criteria.length;
-		let criteria = new Criteria(this.s.dt, this.s.opts, index);
+		let criteria = new Criteria(this.s.dt, this.s.opts, index, this.s.depth);
 
 		// If a Criteria has been passed in then set the values to continue that
 		if (crit !== null) {
 			criteria.c = crit.c;
 			criteria.s = crit.s;
+			criteria.s.depth = this.s.depth;
 			criteria.s.index = index;
 			criteria.classes = crit.classes;
 		}
@@ -259,9 +260,7 @@ export default class Group {
 		criteria.populate();
 
 		// If this is a sub group then add the left button
-		if (this.s.isChild) {
-			criteria.addLeft();
-		}
+		criteria.updateArrows();
 
 		// Add the node for the new criteria to the end of the current criteria
 		$(criteria.getNode()).insertBefore(this.dom.add);
@@ -382,7 +381,7 @@ export default class Group {
 			let group = new Group(this.s.dt, this.c, criteria.s.index, true, this.s.depth + 1);
 
 			// Add the criteria that is to be moved to the new group
-			group._addCriteria(criteria);
+			group.addCriteria(criteria);
 
 			// Update the details in the current groups criteria array
 			this.s.criteria[idx].criteria = group;
@@ -408,7 +407,7 @@ export default class Group {
 	/**
 	 * Set's the listeners for the group clear button
 	 */
-	private _setClearListener(){
+	private _setClearListener() {
 		$(this.dom.clear).unbind('click');
 		$(this.dom.clear).on('click', () => {
 			this.destroy();
@@ -446,8 +445,8 @@ export default class Group {
 				let toDrop = group.s.toDrop;
 				let length = this.s.criteria.length;
 				toDrop.s.index = length;
-				toDrop.removeLeft();
-				this._addCriteria(toDrop);
+				toDrop.updateArrows();
+				this.addCriteria(toDrop);
 				$(document).trigger('dtsb-redrawContents');
 		});
 	}

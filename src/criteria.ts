@@ -394,6 +394,7 @@ export default class Criteria {
 			'num-fmt': Criteria.numFmtConditions,
 			'string': Criteria.stringConditions
 		},
+		depthLimit: false,
 		orthogonal: {
 			display: 'display',
 			hideCount: false,
@@ -410,7 +411,7 @@ export default class Criteria {
 	public c;
 	public s;
 
-	constructor(table, opts, index = 0) {
+	constructor(table, opts, index = 0, depth = 1) {
 		// Check that the required version of DataTables is included
 		if (! DataTable || ! DataTable.versionCheck || ! DataTable.versionCheck('1.10.0')) {
 			throw new Error('SearchPane requires DataTables 1.10 or newer');
@@ -423,6 +424,7 @@ export default class Criteria {
 
 		this.s = {
 			conditions: [],
+			depth,
 			dt: table,
 			fields: [],
 			filled: false,
@@ -457,7 +459,7 @@ export default class Criteria {
 	/**
 	 * Adds the left button to the criteria
 	 */
-	public addLeft(): void {
+	public updateArrows(): void {
 		$(this.dom.container).empty();
 
 		// Get the type of condition and the number of values required so we now how many value inputs to append
@@ -474,9 +476,10 @@ export default class Criteria {
 			}
 		}
 
+		$(this.dom.container).append(this.dom.field).append(this.dom.condition);
+
 		// If it is an input condition then append everything in order and all of the input elements required
 		if (conditionType === 'input') {
-			$(this.dom.container).append(this.dom.field).append(this.dom.condition);
 			$(this.dom.container.append(this.dom.valueInputs[0]));
 
 			for (let i = 1; i < valCount && i < this.dom.valueInputs.length; i++) {
@@ -484,18 +487,20 @@ export default class Criteria {
 					.append($('<span>').addclass(this.classes.joiner).text(joinerText))
 					.append(this.dom.valueInputs[i]));
 			}
-
-			$(this.dom.container).append(this.dom.delete).append(this.dom.right).append(this.dom.left);
 		}
 		// If not then it must be a select or not defined yet, in which case should default to select
 		else {
-			$(this.dom.container)
-				.append(this.dom.field)
-				.append(this.dom.condition)
-				.append(this.dom.value)
-				.append(this.dom.delete)
-				.append(this.dom.right)
-				.append(this.dom.left);
+			$(this.dom.container).append(this.dom.value);
+		}
+
+		$(this.dom.container).append(this.dom.delete);
+
+		if (this.c.depthLimit === false || this.s.depth < this.c.depthLimit) {
+			$(this.dom.container).append(this.dom.right);
+		}
+
+		if (this.s.depth > 1) {
+			$(this.dom.container).append(this.dom.left);
 		}
 	}
 
@@ -549,19 +554,6 @@ export default class Criteria {
 				this._populateValue();
 			}
 		}
-	}
-
-	/**
-	 * Removes the node for the left button
-	 */
-	public removeLeft(): void {
-		$(this.dom.container).empty();
-		$(this.dom.container)
-			.append(this.dom.field)
-			.append(this.dom.condition)
-			.append(this.dom.value)
-			.append(this.dom.delete)
-			.append(this.dom.right);
 	}
 
 	/**
