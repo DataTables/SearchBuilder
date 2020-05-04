@@ -386,6 +386,7 @@ export default class Criteria {
 	];
 
 	private static defaults = {
+		allowed: true,
 		conditions: {
 			'date': Criteria.dateConditions,
 			'html': Criteria.stringConditions,
@@ -714,25 +715,27 @@ export default class Criteria {
 	private _populateField(): void {
 		if (this.s.fields.length === 0) {
 			this.s.dt.columns().every((index) => {
-				let found = false;
+				if (this.c.allowed === true || (this.c.allowed.length > 0 && this.c.allowed.indexOf(index) !== -1)) {
+					let found = false;
 
-				for (let val of this.s.fields) {
-					if (val.index === index) {
-						found = true;
-						break;
+					for (let val of this.s.fields) {
+						if (val.index === index) {
+							found = true;
+							break;
+						}
 					}
-				}
 
-				if (!found) {
-					let opt = {text: this.s.dt.settings()[0].aoColumns[index].sTitle, index};
-					this.s.fields.push(opt);
-					$(this.dom.field).append(
-						$('<option>', {
-							text : opt.text,
-							value : opt.index
-						})
-						.addClass(this.classes.option)
-					);
+					if (!found) {
+						let opt = {text: this.s.dt.settings()[0].aoColumns[index].sTitle, index};
+						this.s.fields.push(opt);
+						$(this.dom.field).append(
+							$('<option>', {
+								text : opt.text,
+								value : opt.index
+							})
+							.addClass(this.classes.option)
+						);
+					}
 				}
 			});
 		}

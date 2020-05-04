@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>SearchBuilder.allowed</name>
+	<summary>Impose a limit on which fields can be filtered on</summary>
+	<since>SearchBuilder 0.0.1</since>
+
+	<type type="integer[]">
+		<description>
+            An array of the indexes which can be filtered on.
+        </description>
+	</type>
+
+	<default value="true">
+        The default value for the `-init searchBuilder.allowed` option is `true` meaning that as standard all of the fields can be filtered on.
+	</default>
+	<description>
+		<![CDATA[
+		This is useful as it allows restrictions to be made on which fields can be filtered on. For tables with a large amount of columns, this prevents having a large set of options within the select element.
+        ]]>
+	</description>
+
+	<example title="Allowing 3 fields to be filtered on"><![CDATA[
+
+    $('#example').DataTable( {
+        searchBuilder: {
+            allowed: [1,2,3]
+        },    
+		dom: 'Qfrtip'
+    });
+
+]]></example>
+
+</dt-option>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html-iso8601" table-class="display nowrap" order="2">
+
+<css lib="datatables searchbuilder"/>
+
+<js lib="jquery datatables searchbuilder">
+<![CDATA[
+
+$(document).ready(function() {
+    $('#example').DataTable( {
+        dom: 'Qfrtip',
+        searchBuilder: {
+            allowed: [1,2,3]
+        }
+    });
+});
+
+]]>
+</js>
+
+<title lib="searchBuilder">Only allow filtering on certain columns</title>
+
+<info><![CDATA[
+
+This is the `-init searchBuilder` extension for DataTables. It allows results to be filtered based on a user constructed query.
+
+This example demonstrates the behaviour of `-init searchBuilder` when the `-init searchBuilder.allowed` is set to limit which columns can be filtered on. 
+
+]]></info>
+
+</dt-example>
