@@ -22,6 +22,7 @@ export default class Group {
 		add: 'dtsb-add',
 		button: 'dtsb-button',
 		clearGroup: 'dtsb-clearGroup',
+		greyscale: 'dtsb-greyscale',
 		group: 'dtsb-group',
 		indentSub: 'dtsb-indentSub',
 		indentTop: 'dtsb-indentTop',
@@ -31,7 +32,8 @@ export default class Group {
 	};
 
 	private static defaults = {
-		depthLimit: false
+		depthLimit: false,
+		greyscale: false
 	};
 
 	public classes;
@@ -459,6 +461,10 @@ export default class Group {
 
 		$(this.dom.add).text('ADD');
 		$(this.dom.logic).text('Set');
+
+		if (this.c.greyscale) {
+			$(this.dom.logic).addClass(this.classes.greyscale);
+		}
 
 		// Only append the logic button immediately if this is a sub group,
 		//  otherwise it will be prepended later when adding a criteria

@@ -69,6 +69,10 @@ div.dtsb-searchBuilder {
             background-color: #80c779;
         }
 
+        button.dtsb-greyscale {
+            background-color: #cecece;
+        }
+
         div.dtsb-criteria {
 
             select.dtsb-dropDown, input.dtsb-input{
@@ -92,6 +96,9 @@ div.dtsb-searchBuilder {
                 background-color: #7cbcf8;
             }
 
+            select.dtsb-greyscale, input.dtsb-greyscale {
+                background-color: #cecece;
+            }
             select.dtsb-condition, select.dtsb-field, select.dtsb-value {
                 option.dtsb-option {
                     background-color: white;

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>SearchBuilder.greyscale</name>
+	<summary>Removes the colours from SearchBuilder</summary>
+	<since>SearchBuilder 0.0.1</since>
+
+	<type type="boolean">
+		<description>
+			When true, remove the colours from SearchBuilder.
+		</description>
+	</type>
+
+	<default value="false">
+        The default value for the `-init searchBuilder.greyscale` option is `false` meaning that as standard the colours will be applied to SearchBuilder.
+	</default>
+	<description>
+		<![CDATA[
+		This is useful as it allows the colours to be quickly removed if this fits your applications style better.
+        ]]>
+	</description>
+
+	<example title="Removing the colours from SearchBuilder"><![CDATA[
+
+    $('#example').DataTable( {
+        searchBuilder: {
+            greyscale: true
+        },    
+		dom: 'Qfrtip'
+    });
+
+]]></example>
+
+</dt-option>

@@ -25,6 +25,7 @@ export default class Criteria {
 		delete: 'dtsb-delete',
 		dropDown: 'dtsb-dropDown',
 		field: 'dtsb-field',
+		greyscale: 'dtsb-greyscale',
 		input: 'dtsb-input',
 		joiner: 'dtsp-joiner',
 		left: 'dtsb-left',
@@ -395,6 +396,7 @@ export default class Criteria {
 			'string': Criteria.stringConditions
 		},
 		depthLimit: false,
+		greyscale: false,
 		orthogonal: {
 			display: 'display',
 			hideCount: false,
@@ -452,6 +454,14 @@ export default class Criteria {
 			],
 			valueTitle: $('<option value="" disabled selected hidden/>').text('Value'),
 		};
+
+		if (this.c.greyscale) {
+			$(this.dom.field).addClass(this.classes.greyscale);
+			$(this.dom.condition).addClass(this.classes.greyscale);
+			$(this.dom.value).addClass(this.classes.greyscale);
+			$(this.dom.valueInputs[0]).addClass(this.classes.greyscale);
+			$(this.dom.valueInputs[1]).addClass(this.classes.greyscale);
+		}
 
 		this._buildCriteria();
 	}
