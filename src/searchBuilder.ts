@@ -51,7 +51,7 @@ export default class SearchBuilder {
 		this.c = $.extend(true, {}, SearchBuilder.defaults, opts);
 
 		this.dom = {
-			clearAll: $('<button type="button">Clear All</button>')
+			clearAll: $('<button type="button">' + table.i18n('searchBuilder.clearAll', 'Clear All') + '</button>')
 				.addClass(this.classes.clearAll)
 				.addClass(this.classes.button),
 			container: $('<div/>').addClass(this.classes.container),
