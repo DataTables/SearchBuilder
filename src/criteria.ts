@@ -444,7 +444,7 @@ export default class Criteria {
 			container: $('<div/>').addClass(this.classes.container),
 			delete: $('<button>x</button>').addClass(this.classes.delete).addClass(this.classes.roundButton),
 			field: $('<select/>').addClass(this.classes.field).addClass(this.classes.dropDown),
-			fieldTitle: $('<option value="" disabled selected hidden/>').text('Field'),
+			fieldTitle: $('<option value="" disabled selected hidden/>').text(this.s.dt.i18n('searchBuilder.field', 'Field')),
 			left: $('<button>&#x2190;</button>').addClass(this.classes.left).addClass(this.classes.roundButton),
 			right: $('<button disabled>&#x2192;</button>').addClass(this.classes.right).addClass(this.classes.roundButton),
 			value: $('<select/>').addClass(this.classes.value).addClass(this.classes.dropDown).addClass(this.classes.disabled),
