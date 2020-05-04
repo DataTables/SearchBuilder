@@ -460,7 +460,7 @@ export default class Group {
 	private _setup(): void {
 		this.setListeners();
 
-		$(this.dom.add).text('ADD');
+		$(this.dom.add).text(this.s.dt.i18n('searchBuilder.add', 'ADD'));
 		$(this.dom.logic).text(this.c.logic === 'OR' ? 'Any Of' : 'All Of');
 		this.s.logic = this.c.logic === 'OR' ? 'OR' : 'AND';
 
