@@ -10,7 +10,7 @@
 		</description>
 	</type>
 
-	<default value="'SearchBuilder'">
+	<default value="'Clear All'">
 		The default value for the `-init language.searchBuilder.clearAll` parameter is `'Clear All'`. 
 	</default>
 	<description>
