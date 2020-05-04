@@ -59,8 +59,8 @@ rm \
     $OUT_DIR/js/searchBuilder.js \
     $OUT_DIR/js/criteria.js \
     $OUT_DIR/js/group.js \
-    /home/vagrant/DataTablesSrc/extensions/SearchBuilder/src/*.js \
-    /home/vagrant/DataTablesSrc/extensions/SearchBuilder/src/*.d.ts \
+    ./src/*.js \
+    ./src/*.d.ts \
 
 
 js_compress $OUT_DIR/js/dataTables.searchBuilder.js
