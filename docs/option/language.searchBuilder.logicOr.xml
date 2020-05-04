@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>language.searchBuilder.add</name>
+	<summary>Set the message to be displayed in the SearchBuilder logic button when OR logic is in place</summary>
+	<since>SearchBuilder 0.0.1</since>
+
+	<type type="string | object">
+		<description>
+			`-init language.searchBuilder.logicOr` changes what will be displayed in the text of the SearchBuilder logic button when OR logic is set.
+		</description>
+	</type>
+
+	<default value="'Any Of'">
+		The default value for the `-init language.searchBuilder.logicOr` parameter is `'Any Of'`. 
+	</default>
+	<description>
+		<![CDATA[
+			As standard, SearchBuilder will set the logic button to display a default text when OR logic is in place, in this case `'All Of'`.
+
+            The value of `-init language.searchBuilder.logicOr` is passed into an `-api i18n()` function.
+		]]>
+	</description>
+
+	<example title="Change message for SearchBuilder logic button under OR conditions"><![CDATA[
+$(document).ready(function() {
+    $('#example').DataTable( {
+        language: {
+            SearchBuilder: {
+                logicOr: 'Or'
+            }
+        },
+        dom: 'Qfrtip',
+    });
+});
+
+]]></example>
+
+<related type="api">i18n()</related>
+
+</dt-option>

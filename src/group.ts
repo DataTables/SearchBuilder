@@ -461,7 +461,7 @@ export default class Group {
 		this.setListeners();
 
 		$(this.dom.add).text(this.s.dt.i18n('searchBuilder.add', 'ADD'));
-		$(this.dom.logic).text(this.c.logic === 'OR' ? 'Any Of' : 'All Of');
+		$(this.dom.logic).text(this.c.logic === 'OR' ? this.s.dt.i18n('searchBuilder.logicOr', 'Any Of') : this.s.dt.i18n('searchBuilder.logicAnd', 'All Of'));
 		this.s.logic = this.c.logic === 'OR' ? 'OR' : 'AND';
 
 		if (this.c.greyscale) {
@@ -502,11 +502,11 @@ export default class Group {
 	private _toggleLogic(): void {
 		if (this.s.logic === 'OR') {
 			this.s.logic = 'AND';
-			$(this.dom.logic).text('All Of');
+			$(this.dom.logic).text(this.s.dt.i18n('searchBuilder.logicAnd', 'All Of'));
 		}
 		else if (this.s.logic === 'AND') {
 			this.s.logic = 'OR';
-			$(this.dom.logic).text('Any Of');
+			$(this.dom.logic).text(this.s.dt.i18n('searchBuilder.logicOr', 'Any Of'));
 		}
 	}
 }
