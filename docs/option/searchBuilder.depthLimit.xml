@@ -17,7 +17,7 @@
 	</type>
 
 	<default value="false">
-        The default value for the `-init SearchBuilder.depthLimit` option is `false` meaning that as standard there will be no limit on the depth of the groups.
+        The default value for the `-init searchBuilder.depthLimit` option is `false` meaning that as standard there will be no limit on the depth of the groups.
 	</default>
 	<description>
 		<![CDATA[
