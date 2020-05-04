@@ -49,7 +49,6 @@ export default class SearchBuilder {
 
 		// Get options from user
 		this.c = $.extend(true, {}, SearchBuilder.defaults, opts);
-		this.s.opts = opts;
 
 		this.dom = {
 			clearAll: $('<button type="button">Clear All</button>')
@@ -64,6 +63,7 @@ export default class SearchBuilder {
 
 		this.s = {
 			dt: table,
+			opts,
 			topGroup: undefined
 		};
 

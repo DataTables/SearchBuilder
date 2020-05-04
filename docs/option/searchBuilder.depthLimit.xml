@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>SearchBuilder.depthLimit</name>
+	<summary>Impose a limit on the depth of the groups</summary>
+	<since>SearchBuilder 0.0.1</since>
+
+	<type type="integer">
+		<description>
+            The value for how many layers deep a group can be at most.
+        </description>
+	</type>
+
+	<type type="boolean">
+		<description>
+			When false, don't impose a limit on the depth of groups.
+		</description>
+	</type>
+
+	<default value="false">
+        The default value for the `-init SearchBuilder.depthLimit` option is `false` meaning that as standard there will be no limit on the depth of the groups.
+	</default>
+	<description>
+		<![CDATA[
+		This is useful as it allows limits to be set on the depth and therefore complexity of the generated queries.
+        ]]>
+	</description>
+
+	<example title="Setting the limit to 3"><![CDATA[
+
+    $('#example').DataTable( {
+        searchBuilder: {
+            depthLimit: 3
+        },    
+		dom: 'Qfrtip'
+    });
+
+]]></example>
+
+<example title="Never allow sub grouping"><![CDATA[
+
+    $('#example').DataTable( {
+        searchBuilder: {
+            depthLimit: 1
+        },    
+		dom: 'Qfrtip'
+    });
+
+]]></example>
+
+</dt-option>

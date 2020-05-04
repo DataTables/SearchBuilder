@@ -31,7 +31,7 @@ export default class Group {
 	};
 
 	private static defaults = {
-
+		depthLimit: false
 	};
 
 	public classes;
@@ -40,7 +40,7 @@ export default class Group {
 	public s;
 	private dropOnce;
 
-	constructor(table, opts, index = 0, isChild = false) {
+	constructor(table, opts, index = 0, isChild = false, depth = 1) {
 		// Check that the required version of DataTables is included
 		if (! DataTable || ! DataTable.versionCheck || ! DataTable.versionCheck('1.10.0')) {
 			throw new Error('SearchBuilder requires DataTables 1.10 or newer');
@@ -50,15 +50,15 @@ export default class Group {
 
 		// Get options from user
 		this.c = $.extend(true, {}, Group.defaults, opts);
-		this.s.opts = opts;
 
 		this.s = {
 			criteria: [],
-			depth: 0,
+			depth,
 			dt: table,
 			index,
 			isChild,
 			logic: undefined,
+			opts,
 			subgroups: [],
 		};
 
@@ -116,7 +116,7 @@ export default class Group {
 				this._setCriteriaListeners(this.s.criteria[i].criteria);
 				this.s.criteria[i].criteria.setListeners();
 
-				if (this.s.criteria.length === 1) {
+				if (this.s.criteria.length === 1 || this.s.depth === this.c.depthLimit) {
 					$(this.s.criteria[i].criteria.dom.right).attr('disabled', true);
 				}
 
@@ -274,7 +274,7 @@ export default class Group {
 		});
 
 		// If there are not more than one criteria in this group then enable the right button, if not disable it
-		if (this.s.criteria.length > 1) {
+		if (this.s.criteria.length > 1 && (this.c.depthLimit === false || this.s.depth < this.c.depthLimit)) {
 			for (let opt of this.s.criteria) {
 				$(opt.criteria.dom.right).removeClass(this.classes.disabled);
 				$(opt.criteria.dom.right).attr('disabled', false);
@@ -359,7 +359,7 @@ export default class Group {
 			for (let i = 0; i < this.s.criteria.length; i++) {
 				this.s.criteria[i].index = i;
 				this.s.criteria[i].criteria.s.index = i;
-				if (this.s.criteria.length === 1) {
+				if (this.s.criteria.length === 1 || this.s.depth === this.c.depthLimit) {
 					$(this.s.criteria[i].criteria.dom.right).attr('disabled', true);
 				}
 			}
@@ -379,7 +379,7 @@ export default class Group {
 
 		$(criteria.dom.right).on('click', () => {
 			let idx = criteria.s.index;
-			let group = new Group(this.s.dt, this.c, criteria.s.index, true);
+			let group = new Group(this.s.dt, this.c, criteria.s.index, true, this.s.depth + 1);
 
 			// Add the criteria that is to be moved to the new group
 			group._addCriteria(criteria);
