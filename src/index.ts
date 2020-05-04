@@ -73,6 +73,23 @@ import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
 
 	let apiRegister = ($.fn.dataTable.Api as any).register;
 
+	$.fn.dataTable.ext.buttons.searchBuilder = {
+		action(e, dt, node, config) {
+			e.stopPropagation();
+			this.popover(config._searchBuilder.getNode(), {
+				align: 'dt-container'
+			});
+		},
+		config: {},
+		init(dt, node, config) {
+			let sb = new $.fn.dataTable.SearchBuilder(dt, config.config);
+			let message = dt.i18n('searchBuilder.button', 'SearchBuilder', 0);
+			dt.button(node).text(message);
+			config._searchBuilder = sb;
+		},
+		text: 'Search Builder',
+	};
+
 	function _init(settings, fromPre = false) {
 		let api = new DataTable.Api(settings);
 		let opts = api.init().searchBuilder || DataTable.defaults.searchBuilder;

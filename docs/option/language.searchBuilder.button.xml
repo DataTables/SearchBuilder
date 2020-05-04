@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>language.searchBuilder.button</name>
+	<summary>Set the message to be displayed in the SearchBuilder Button</summary>
+	<since>SearchBuilder 0.0.1</since>
+
+	<type type="string | object">
+		<description>
+			`-init language.searchBuilder.button` changes what will be displayed in the text of the SearchBuilder Button.
+		</description>
+	</type>
+
+	<default value="'SearchBuilder'">
+		The default value for the `-init language.searchBuilder.button` parameter is `'SearchBuilder'`. 
+	</default>
+	<description>
+		<![CDATA[
+			As standard, SearchBuilder will set the SearchBuilder Button to display a default text, in this case `'SearchBuilder'`.
+
+            The value of `-init language.searchBuilder.button` is passed into an `-api i18n()` function.
+		]]>
+	</description>
+
+	<example title="Change message for SearchBuilder button"><![CDATA[
+$(document).ready(function() {
+    $('#example').DataTable( {
+        language: {
+            SearchBuilder: {
+                button: 'SearchBuilder'
+            }
+        },
+        buttons:[
+            'SearchBuilder'
+        ],
+        dom: 'Bfrtip',
+    });
+});
+
+]]></example>
+
+]]></example>
+
+<related type="api">i18n()</related>
+
+</dt-option>

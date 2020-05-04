@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" table-class="display nowrap" order="5">
+
+<css lib="datatables searchbuilder buttons"/>
+
+<js lib="jquery datatables searchbuilder buttons">
+<![CDATA[
+
+$(document).ready(function() {
+    $('#example').DataTable( {
+        buttons:['searchBuilder'],
+        dom: 'Bfrtip',
+    });
+});
+
+]]>
+</js>
+
+<title lib="searchBuilder">SearchBuilder using a Button</title>
+
+<info><![CDATA[
+
+This is the `-init searchBuilder`extension for DataTables. It allows results to be filtered based on a user constructed query.
+
+This example demonstrates the behaviour of `-init searchBuilder` when initialised using a button.
+
+]]></info>
+
+</dt-example>
