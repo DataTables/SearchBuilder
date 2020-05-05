@@ -123,6 +123,9 @@ export default class Group {
 	 * @param loadedDetails the details required to rebuild the group
 	 */
 	public rebuild(loadedDetails: typeInterfaces.IDetails): void {
+		if (loadedDetails.criteria === undefined || loadedDetails.criteria === null) {
+			return;
+		}
 		if (loadedDetails.criteria.length > 0 && !this.s.isChild) {
 			$(this.dom.container).addClass(this.classes.indentTop);
 		}

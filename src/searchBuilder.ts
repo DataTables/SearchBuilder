@@ -99,6 +99,15 @@ export default class SearchBuilder {
 		return this.dom.container;
 	}
 
+	public rebuild(details) {
+		$(this.dom.clearAll).trigger('click');
+
+		if (details === undefined || details === null) {
+			return;
+		}
+		this.s.topGroup.rebuild(details);
+	}
+
 	/**
 	 * Set's up the SearchBuilder
 	 */

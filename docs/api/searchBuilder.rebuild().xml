@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api library="SearchBuilder">
+	<name>searchBuilder.rebuild()</name>
+	<summary>Rebuild the search to a given state</summary>
+	<since>1.0.0</since>
+
+	<type type="function">
+		<signature>searchBuilder.rebuild()</signature>
+		<description>Rebuilds the search to be the same as that provided by the details parameter.</description>
+        <parameter type="Object">Object to the same structure as `-api searchBuilder.getDetails()`</parameter>
+		<returns type="Object">Object containing the current details of the search</returns>
+	</type>
+
+	<description>
+		This method provides the ability to get the set the search in SearchBuilder as detailed by the details argument.
+
+		`-init searchBuilder.rebuild()` takes one argument, it is an object in the same structure as is returned from `-api searchBuilder.getDetails()` and is the basis for the rebuild.
+
+	</description>
+
+	<example title="Get the details of a Search:"><![CDATA[
+    var stored;
+
+    $('#example').DataTable( {
+        dom: 'Qfrtip'
+    });
+
+    $('#getDetails').on('click', function() {
+        stored = $('#example').DataTable().searchBuilder.getDetails();
+    })
+
+    $('#revert').on('click', function() {
+        stored = $('#example').DataTable().searchBuilder.rebuild(stored);
+    })
+]]></example>
+
+</dt-api>
