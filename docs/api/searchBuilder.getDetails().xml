@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api library="SearchBuilder">
+	<name>searchBuilder.getDetails()</name>
+	<summary>Get the details of the current search setup</summary>
+	<since>1.0.0</since>
+
+	<type type="function">
+		<signature>searchBuilder.getDetails()</signature>
+		<description>Gets the details of the current search.</description>
+		<returns type="Object">Object containing the current details of the search</returns>
+	</type>
+
+	<description>
+		This method provides the ability to get the details of the data structure and search criteria that is being applied to the DataTable.
+
+		`-init searchBuilder.getDetails()` takes no argument, the details are returned for the overall search criteria.
+
+	</description>
+
+	<example title="Get the details of a Search:"><![CDATA[
+    var dt = $('#example').DataTable( {
+        dom: 'Pfrtip'
+    });
+
+    $('#example').DataTable().searchBuilder.getDetails();
+]]></example>
+
+</dt-api>

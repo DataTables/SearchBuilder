@@ -85,6 +85,13 @@ export default class SearchBuilder {
 	}
 
 	/**
+	 * Gets the details required to rebuild the SearchBuilder as it currently is
+	 */
+	public getDetails(): typeInterfaces.IDetails {
+		return this.s.topGroup.getDetails();
+	}
+
+	/**
 	 * Getter for the node of the container for the searchBuilder
 	 * @returns JQuery<HTMLElement> the node of the container
 	 */
@@ -105,7 +112,7 @@ export default class SearchBuilder {
 		});
 
 		this.s.dt.on('stateSaveParams', (e, settings, data) => {
-			data.searchBuilder = this._saveDetails();
+			data.searchBuilder = this.getDetails();
 		});
 
 		this._build();
@@ -143,12 +150,5 @@ export default class SearchBuilder {
 				return settings.aoColumns[column].sType;
 			}, 1);
 		});
-	}
-
-	/**
-	 * Gets the details required to rebuild the SearchBuilder as it currently is
-	 */
-	private _saveDetails(): typeInterfaces.IDetails {
-		return this.s.topGroup.getDetails();
 	}
 }
