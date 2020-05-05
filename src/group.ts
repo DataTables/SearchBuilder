@@ -97,6 +97,7 @@ export default class Group {
 	public getDetails() {
 		let details = {
 			criteria: [],
+			logic: this.s.logic,
 			type: 'group'
 		};
 
@@ -116,6 +117,16 @@ export default class Group {
 	}
 
 	public rebuild(loadedDetails) {
+		if (loadedDetails.criteria.length > 0 && !this.s.isChild) {
+			$(this.dom.container).addClass(this.classes.indentTop);
+		}
+		else if (this.s.isChild) {
+			$(this.dom.container).addClass(this.classes.indentSub);
+		}
+
+		this.s.logic = loadedDetails.logic;
+		$(this.dom.logic).text(this.s.logic === 'OR' ? this.s.dt.i18n('searchBuilder.logicOr', 'Any Of') : this.s.dt.i18n('searchBuilder.logicAnd', 'All Of'));
+
 		for (let crit of loadedDetails.criteria) {
 			if (crit.type === 'group') {
 				this._addPrevGroup(crit);

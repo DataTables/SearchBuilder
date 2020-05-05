@@ -605,15 +605,35 @@ export default class Criteria {
 				$(this.dom.conditionTitle).remove();
 				this._populateValue();
 				if ($(this.dom.container).has(this.dom.value).length !== 0) {
+					let foundVal = false;
 					$(this.dom.value).children('option').each(function() {
 						if ($(this).val() === loadedCriteria.value[0]) {
 							$(this).attr('selected', true);
+							foundVal = true;
 						}
 					});
+					this.s.filled = foundVal;
+					this.s.value = loadedCriteria.value;
 				}
 				else {
 					$(this.dom.valueInputs[0]).text(loadedCriteria.value[0]);
 					$(this.dom.valueInputs[1]).text(loadedCriteria.value[1]);
+
+					let allFilled = true;
+
+					// Check that all of the value inputs have been filled in
+					for (let val = 0; val < this.dom.valueInputs.length; val++) {
+						if (
+							$(document).has(this.dom.valueInputs[val]).length !== 0 &&
+							(this.s.value[val] === undefined || this.s.value[val].length === 0)
+						) {
+							allFilled = false;
+							break;
+						}
+					}
+
+					this.s.filled = allFilled;
+					this.s.value = loadedCriteria.value;
 				}
 				this.s.dt.draw();
 			}
@@ -730,7 +750,6 @@ export default class Criteria {
 	private _populateCondition(): void {
 		if (this.s.conditions.length === 0) {
 			let column = $(this.dom.field).children('option:selected').val();
-			console.log(this.s.dt.columns().type().toArray())
 			this.s.type = this.s.dt.columns().type().toArray()[column];
 
 			if (this.c.conditions[this.s.type] !== undefined) {

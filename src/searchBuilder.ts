@@ -114,6 +114,7 @@ export default class SearchBuilder {
 		if (loadedState !== null && loadedState.searchBuilder !== undefined) {
 			this.s.topGroup.rebuild(loadedState.searchBuilder);
 			$(document).trigger('dtsb-redrawContents');
+			this.s.dt.draw();
 		}
 	}
 
@@ -138,7 +139,6 @@ export default class SearchBuilder {
 		$.fn.dataTable.ext.search.push(this.s.search);
 		$.fn.DataTable.Api.registerPlural('columns().type()', 'column().type()', function(selector, opts) {
 			return this.iterator('column', function(settings, column) {
-				console.log(settings.aoColumns[column])
 				return settings.aoColumns[column].sType;
 			}, 1);
 		});
