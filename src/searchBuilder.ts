@@ -144,6 +144,9 @@ export default class SearchBuilder {
 		});
 	}
 
+	/**
+	 * Gets the details required to rebuild the SearchBuilder as it currently is
+	 */
 	private _saveDetails() {
 		return this.s.topGroup.getDetails();
 	}

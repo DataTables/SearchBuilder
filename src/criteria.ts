@@ -582,6 +582,10 @@ export default class Criteria {
 		}
 	}
 
+	/**
+	 * Rebuilds the criteria based upon the details passed in
+	 * @param loadedCriteria the details required to rebuild the criteria
+	 */
 	public rebuild(loadedCriteria) {
 		let foundField = false;
 		$(this.dom.field).children('option').each(function() {
@@ -619,7 +623,6 @@ export default class Criteria {
 					this.s.value = loadedCriteria.value;
 				}
 				else {
-					console.log(loadedCriteria);
 					$(this.dom.valueInputs[0]).val(loadedCriteria.value[0]);
 					$(this.dom.valueInputs[1]).val(loadedCriteria.value[1]);
 

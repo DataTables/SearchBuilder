@@ -104,7 +104,7 @@ export default class Group {
 		for (let crit of this.s.criteria) {
 			details.criteria.push(crit.criteria.getDetails());
 		}
-		
+
 		return details;
 	}
 
@@ -116,6 +116,10 @@ export default class Group {
 		return this.dom.container;
 	}
 
+	/**
+	 * Rebuilds the group based upon the details passed in
+	 * @param loadedDetails the details required to rebuild the group
+	 */
 	public rebuild(loadedDetails) {
 		if (loadedDetails.criteria.length > 0 && !this.s.isChild) {
 			$(this.dom.container).addClass(this.classes.indentTop);
@@ -332,6 +336,10 @@ export default class Group {
 		this.setupLogic();
 	}
 
+	/**
+	 * Rebuilds a sub group that previously existed
+	 * @param loadedGroup The details of a group within this group
+	 */
 	private _addPrevGroup(loadedGroup) {
 		let idx = this.s.criteria.length;
 		let group = new Group(this.s.dt, this.c, idx, true, this.s.depth + 1);
@@ -351,6 +359,10 @@ export default class Group {
 		this._setGroupListeners(group);
 	}
 
+	/**
+	 * Rebuilds a criteria of this group that previously existed
+	 * @param loadedCriteria The details of a criteria within the group
+	 */
 	private _addPrevCriteria(loadedCriteria) {
 		let idx = this.s.criteria.length;
 		let criteria = new Criteria(this.s.dt, this.s.opts, idx);
