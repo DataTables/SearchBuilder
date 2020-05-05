@@ -1,14 +1,15 @@
 
 import 'datatables.net-datetime';
+import * as typeInterfaces from './criteriaType';
 
-let $;
-let DataTable;
+let $: any;
+let DataTable: any;
 
 /**
  * Sets the value of jQuery for use in the file
  * @param jq the instance of jQuery to be set
  */
-export function setJQuery(jq) {
+export function setJQuery(jq: any): void {
   $ = jq;
   DataTable = jq.fn.dataTable;
 }
@@ -19,7 +20,7 @@ export function setJQuery(jq) {
 export default class Criteria {
 	private static version = '0.0.1';
 
-	private static classes = {
+	private static classes: typeInterfaces.IClasses = {
 		condition: 'dtsb-condition',
 		container: 'dtsb-criteria',
 		delete: 'dtsb-delete',
@@ -35,10 +36,10 @@ export default class Criteria {
 		value: 'dtsb-value'
 	};
 
-	private static dateConditions = [
+	private static dateConditions: typeInterfaces.ICondition[] = [
 		{
 			display: 'Equals',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				return value === comparison[0];
 			},
 			type: 'date',
@@ -46,7 +47,7 @@ export default class Criteria {
 		},
 		{
 			display: 'After',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				return value > comparison[0];
 			},
 			type: 'date',
@@ -54,7 +55,7 @@ export default class Criteria {
 		},
 		{
 			display: 'Before',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				return value < comparison[0];
 			},
 			type: 'date',
@@ -62,7 +63,7 @@ export default class Criteria {
 		},
 		{
 			display: 'Not',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				return value !== comparison[0];
 			},
 			type: 'date',
@@ -70,7 +71,7 @@ export default class Criteria {
 		},
 		{
 			display: 'Between Inclusive',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				if (comparison[0] < comparison[1]) {
 					return comparison[0] <= value && value <= comparison[1];
 				}
@@ -84,7 +85,7 @@ export default class Criteria {
 		},
 		{
 			display: 'Between Exclusive',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				if (comparison[0] < comparison[1]) {
 					return comparison[0] < value && value < comparison[1];
 				}
@@ -98,10 +99,10 @@ export default class Criteria {
 		}
 	];
 
-	private static numConditions = [
+	private static numConditions: typeInterfaces.ICondition[] = [
 		{
 			display: 'Equals',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				return +value === +comparison[0];
 			},
 			type: 'select',
@@ -109,7 +110,7 @@ export default class Criteria {
 		},
 		{
 			display: 'Greater Than',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				return +value > +comparison[0];
 			},
 			type: 'input',
@@ -117,7 +118,7 @@ export default class Criteria {
 		},
 		{
 			display: 'Less Than',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				return +value < +comparison[0];
 			},
 			type: 'input',
@@ -125,7 +126,7 @@ export default class Criteria {
 		},
 		{
 			display: 'Greater Than Equal To',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				return +value >= +comparison[0];
 			},
 			type: 'input',
@@ -133,7 +134,7 @@ export default class Criteria {
 		},
 		{
 			display: 'Less Than Equal To',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				return +value <= +comparison[0];
 			},
 			type: 'input',
@@ -141,7 +142,7 @@ export default class Criteria {
 		},
 		{
 			display: 'Not',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				return +value !== +comparison[0];
 			},
 			type: 'select',
@@ -149,7 +150,7 @@ export default class Criteria {
 		},
 		{
 			display: 'Between Exclusive',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				if (comparison[0] < comparison[1]) {
 					return +comparison[0] < +value && +value < +comparison[1];
 				}
@@ -163,7 +164,7 @@ export default class Criteria {
 		},
 		{
 			display: 'Between Inclusive',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				if (comparison[0] < comparison[1]) {
 					return +comparison[0] <= +value && +value <= +comparison[1];
 				}
@@ -177,7 +178,7 @@ export default class Criteria {
 		},
 		{
 			display: 'Outwith Exclusive',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				if (comparison[0] < comparison[1]) {
 					return !(+comparison[0] <= +value && +value <= +comparison[1]);
 				}
@@ -191,7 +192,7 @@ export default class Criteria {
 		},
 		{
 			display: 'Outwith Inclusive',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				if (comparison[0] < comparison[1]) {
 					return !(+comparison[0] < +value && +value < +comparison[1]);
 				}
@@ -205,10 +206,10 @@ export default class Criteria {
 		}
 	];
 
-	private static numFmtConditions = [
+	private static numFmtConditions: typeInterfaces.ICondition[] = [
 		{
 			display: 'Equals',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				value = value.replace(/[^0-9.]/g, '');
 				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
 
@@ -219,7 +220,7 @@ export default class Criteria {
 		},
 		{
 			display: 'Greater Than',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				value = value.replace(/[^0-9.]/g, '');
 				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
 
@@ -230,7 +231,7 @@ export default class Criteria {
 		},
 		{
 			display: 'Less Than',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				value = value.replace(/[^0-9.]/g, '');
 				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
 
@@ -241,7 +242,7 @@ export default class Criteria {
 		},
 		{
 			display: 'Greater Than Equal To',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				value = value.replace(/[^0-9.]/g, '');
 				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
 
@@ -252,7 +253,7 @@ export default class Criteria {
 		},
 		{
 			display: 'Less Than Equal To',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				value = value.replace(/[^0-9.]/g, '');
 				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
 
@@ -263,7 +264,7 @@ export default class Criteria {
 		},
 		{
 			display: 'Not',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				value = value.replace(/[^0-9.]/g, '');
 				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
 
@@ -274,7 +275,7 @@ export default class Criteria {
 		},
 		{
 			display: 'Between Exclusive',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				value = value.replace(/[^0-9.]/g, '');
 				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
 				comparison[1] = comparison[1].replace(/[^0-9.]/g, '');
@@ -291,7 +292,7 @@ export default class Criteria {
 		},
 		{
 			display: 'Between Inclusive',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				value = value.replace(/[^0-9.]/g, '');
 				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
 				comparison[1] = comparison[1].replace(/[^0-9.]/g, '');
@@ -308,7 +309,7 @@ export default class Criteria {
 		},
 		{
 			display: 'Outwith Exclusive',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				value = value.replace(/[^0-9.]/g, '');
 				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
 				comparison[1] = comparison[1].replace(/[^0-9.]/g, '');
@@ -325,7 +326,7 @@ export default class Criteria {
 		},
 		{
 			display: 'Outwith Inclusive',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				value = value.replace(/[^0-9.]/g, '');
 				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
 				comparison[1] = comparison[1].replace(/[^0-9.]/g, '');
@@ -342,10 +343,10 @@ export default class Criteria {
 		}
 	];
 
-	private static stringConditions = [
+	private static stringConditions: typeInterfaces.ICondition[] = [
 		{
 			display: 'Equals',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				return value === comparison[0];
 			},
 			type: 'select',
@@ -353,7 +354,7 @@ export default class Criteria {
 		},
 		{
 			display: 'Starts With',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				return value.toLowerCase().indexOf(comparison[0].toLowerCase()) === 0;
 			},
 			type: 'input',
@@ -361,7 +362,7 @@ export default class Criteria {
 		},
 		{
 			display: 'Ends with',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				return value.toLowerCase().indexOf(comparison[0].toLowerCase()) === value.length - comparison[0].length;
 			},
 			type: 'input',
@@ -369,7 +370,7 @@ export default class Criteria {
 		},
 		{
 			display: 'Contains',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				return value.toLowerCase().includes(comparison[0].toLowerCase());
 			},
 			type: 'input',
@@ -377,7 +378,7 @@ export default class Criteria {
 		},
 		{
 			display: 'Not',
-			comparator(value, comparison) {
+			comparator(value: any, comparison: any[]): boolean {
 				return value !== comparison[0];
 			},
 			type: 'select',
@@ -385,7 +386,7 @@ export default class Criteria {
 		},
 	];
 
-	private static defaults = {
+	private static defaults: typeInterfaces.IDefaults = {
 		allowed: true,
 		conditions: {
 			'date': Criteria.dateConditions,
@@ -400,21 +401,16 @@ export default class Criteria {
 		greyscale: false,
 		orthogonal: {
 			display: 'display',
-			hideCount: false,
 			search: 'filter',
-			show: undefined,
-			sort: 'sort',
-			threshold: 0.6,
-			type: 'type'
 		}
 	};
 
-	public classes;
-	public dom;
-	public c;
-	public s;
+	public classes: typeInterfaces.IClasses;
+	public dom: typeInterfaces.IDom;
+	public c: typeInterfaces.IDefaults;
+	public s: typeInterfaces.IS;
 
-	constructor(table, opts, index = 0, depth = 1) {
+	constructor(table: any, opts: any, index: number = 0, depth: number = 1) {
 		// Check that the required version of DataTables is included
 		if (! DataTable || ! DataTable.versionCheck || ! DataTable.versionCheck('1.10.0')) {
 			throw new Error('SearchPane requires DataTables 1.10 or newer');
@@ -442,8 +438,7 @@ export default class Criteria {
 		this.dom = {
 			condition: $('<select/>')
 				.addClass(this.classes.condition)
-				.addClass(this.classes.dropDown)
-				.addClass(this.classes.disabled),
+				.addClass(this.classes.dropDown),
 			conditionTitle: $('<option value="" disabled selected hidden/>').text(this.s.dt.i18n('searchBuilder.condition', 'Condition')),
 			container: $('<div/>').addClass(this.classes.container),
 			delete: $('<button>x</button>').addClass(this.classes.delete).addClass(this.classes.roundButton),
@@ -451,10 +446,10 @@ export default class Criteria {
 			fieldTitle: $('<option value="" disabled selected hidden/>').text(this.s.dt.i18n('searchBuilder.field', 'Field')),
 			left: $('<button>&#x2190;</button>').addClass(this.classes.left).addClass(this.classes.roundButton),
 			right: $('<button disabled>&#x2192;</button>').addClass(this.classes.right).addClass(this.classes.roundButton),
-			value: $('<select/>').addClass(this.classes.value).addClass(this.classes.dropDown).addClass(this.classes.disabled),
+			value: $('<select/>').addClass(this.classes.value).addClass(this.classes.dropDown),
 			valueInputs: [
-				$('<input/>').addClass(this.classes.value).addClass(this.classes.input).addClass(this.classes.disabled),
-				$('<input/>').addClass(this.classes.value).addClass(this.classes.input).addClass(this.classes.disabled)
+				$('<input/>').addClass(this.classes.value).addClass(this.classes.input),
+				$('<input/>').addClass(this.classes.value).addClass(this.classes.input)
 			],
 			valueTitle: $('<option value="" disabled selected hidden/>').text(this.s.dt.i18n('searchBuilder.value', 'Value')),
 		};
@@ -477,9 +472,9 @@ export default class Criteria {
 		$(this.dom.container).empty();
 
 		// Get the type of condition and the number of values required so we now how many value inputs to append
-		let conditionType;
-		let valCount;
-		let joinerText;
+		let conditionType: string;
+		let valCount: number;
+		let joinerText: string;
 
 		for (let opt of this.s.conditions) {
 			if (opt.display === this.s.condition) {
@@ -537,7 +532,7 @@ export default class Criteria {
 	 * @param rowData The data for the row to be compared
 	 * @returns boolean Whether the criteria has passed
 	 */
-	public search(rowData): boolean {
+	public search(rowData: any[]): boolean {
 		for (let condition of this.s.conditions) {
 			if (condition.display === this.s.condition) {
 				return condition.comparator(rowData[this.s.field], this.s.value);
@@ -550,7 +545,7 @@ export default class Criteria {
 	/**
 	 * Gets the details required to rebuild the criteria
 	 */
-	public getDetails() {
+	public getDetails(): typeInterfaces.IDetails {
 		return {
 			condition: this.s.condition,
 			field: this.s.field,
@@ -586,7 +581,7 @@ export default class Criteria {
 	 * Rebuilds the criteria based upon the details passed in
 	 * @param loadedCriteria the details required to rebuild the criteria
 	 */
-	public rebuild(loadedCriteria) {
+	public rebuild(loadedCriteria: typeInterfaces.IDetails): void {
 		let foundField = false;
 		$(this.dom.field).children('option').each(function() {
 			if ($(this).val() === loadedCriteria.field) {
@@ -797,7 +792,10 @@ export default class Criteria {
 	private _populateField(): void {
 		if (this.s.fields.length === 0) {
 			this.s.dt.columns().every((index) => {
-				if (this.c.allowed === true || (this.c.allowed.length > 0 && this.c.allowed.indexOf(index) !== -1)) {
+				if (
+					this.c.allowed === true ||
+					(typeof this.c.allowed !== 'boolean' && this.c.allowed.length > 0 && this.c.allowed.indexOf(index) !== -1)
+				) {
 					let found = false;
 
 					for (let val of this.s.fields) {
@@ -844,7 +842,7 @@ export default class Criteria {
 	private _populateValue(): void {
 		let conditionType = 'select';
 		let valCount = 1;
-		let joinerText;
+		let joinerText = 'and';
 		this.s.filled = false;
 
 		// Find the condition type and the number of value inputs required
@@ -924,9 +922,6 @@ export default class Criteria {
 			$(this.dom.valueInputs[0]).val(this.s.value[0]);
 
 			if (conditionType === 'date') {
-				// let $input = $(this.dom.valueInputs[0]) as any;
-				// $input.dtDateTime();
-				// new DateTime(this.dom.valueInputs[0], undefined);
 				$(this.dom.valueInputs[0]).dtDateTime();
 			}
 
@@ -935,8 +930,6 @@ export default class Criteria {
 				$(this.dom.valueInputs[i]).insertBefore(this.dom.value);
 				$(this.dom.valueInputs[i]).val(this.s.value[i]);
 				if (conditionType === 'date') {
-					// let $input = $(this.dom.valueInputs[i]) as any;
-					// $input.dtDateTime();
 					$(this.dom.valueInputs[i]).dtDateTime();
 				}
 			}
@@ -960,7 +953,7 @@ export default class Criteria {
 	/**
 	 * Resets the value inputs to be an empty select
 	 */
-	private _resetValue() {
+	private _resetValue(): void {
 		if ($(this.dom.container).has(this.dom.valueInputs[0]).length !== 0) {
 			$(this.dom.value).empty().append(this.dom.valueTitle).insertBefore(this.dom.valueInputs[0]);
 			$(this.dom.valueInputs[0]).remove();

@@ -86,7 +86,7 @@
                 "functions":true
             }
         ],
-        "interface-name": [true, "never-prefix"],
+        "interface-name": [true, "always-prefix"],
         "jsdoc-format": true
     }
 }

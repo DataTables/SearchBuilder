@@ -1,11 +1,14 @@
-let $;
-let DataTable;
+import * as critTypeInterfaces from './criteriaType';
+import * as typeInterfaces from './groupType';
+
+let $: any;
+let DataTable: any;
 
 /**
  * Sets the value of jQuery for use in the file
  * @param jq the instance of jQuery to be set
  */
-export function setJQuery(jq) {
+export function setJQuery(jq: any): void {
   $ = jq;
   DataTable = jq.fn.dataTable;
 }
@@ -18,7 +21,7 @@ import Criteria from './criteria';
 export default class Group {
 	private static version = '0.0.1';
 
-	private static classes = {
+	private static classes: typeInterfaces.IClassses = {
 		add: 'dtsb-add',
 		button: 'dtsb-button',
 		clearGroup: 'dtsb-clearGroup',
@@ -31,19 +34,18 @@ export default class Group {
 		roundButton: 'dtsb-rndbtn'
 	};
 
-	private static defaults = {
+	private static defaults: typeInterfaces.IDefaults = {
 		depthLimit: false,
 		greyscale: false,
 		logic: 'AND'
 	};
 
-	public classes;
-	public dom;
-	public c;
-	public s;
-	private dropOnce;
+	public classes: typeInterfaces.IClassses;
+	public dom: typeInterfaces.IDom;
+	public c: typeInterfaces.IDefaults;
+	public s: typeInterfaces.IS;
 
-	constructor(table, opts, index = 0, isChild = false, depth = 1) {
+	constructor(table: any, opts: any, index = 0, isChild = false, depth = 1) {
 		// Check that the required version of DataTables is included
 		if (! DataTable || ! DataTable.versionCheck || ! DataTable.versionCheck('1.10.0')) {
 			throw new Error('SearchBuilder requires DataTables 1.10 or newer');
@@ -62,7 +64,7 @@ export default class Group {
 			isChild,
 			logic: undefined,
 			opts,
-			subgroups: [],
+			toDrop: undefined
 		};
 
 		this.dom = {
@@ -94,8 +96,8 @@ export default class Group {
 	/**
 	 * Gets the details required to rebuild the group
 	 */
-	public getDetails() {
-		let details = {
+	public getDetails(): typeInterfaces.IDetails {
+		let details: typeInterfaces.IDetails = {
 			criteria: [],
 			logic: this.s.logic,
 			type: 'group'
@@ -120,7 +122,7 @@ export default class Group {
 	 * Rebuilds the group based upon the details passed in
 	 * @param loadedDetails the details required to rebuild the group
 	 */
-	public rebuild(loadedDetails) {
+	public rebuild(loadedDetails: typeInterfaces.IDetails): void {
 		if (loadedDetails.criteria.length > 0 && !this.s.isChild) {
 			$(this.dom.container).addClass(this.classes.indentTop);
 		}
@@ -161,7 +163,7 @@ export default class Group {
 				this._setCriteriaListeners(this.s.criteria[i].criteria);
 				this.s.criteria[i].criteria.setListeners();
 
-				if (this.s.criteria.length === 1 || this.s.depth === this.c.depthLimit) {
+				if ((this.s.criteria.length === 1 || this.s.depth === this.c.depthLimit)) {
 					$(this.s.criteria[i].criteria.dom.right).attr('disabled', true);
 				}
 
@@ -195,7 +197,7 @@ export default class Group {
 	 * @param rowData The row data to be compared
 	 * @returns boolean The result of the search
 	 */
-	public search(rowData): boolean {
+	public search(rowData: any[]): boolean {
 		if (this.s.logic === 'AND') {
 			return this._andSearch(rowData);
 		}
@@ -209,7 +211,7 @@ export default class Group {
 	/**
 	 * Locates the groups logic button to the correct location on the page
 	 */
-	public setupLogic() {
+	public setupLogic(): void {
 		// Remove logic button
 		$(this.dom.logic).remove();
 		$(this.dom.clear).remove();
@@ -320,13 +322,11 @@ export default class Group {
 		// If there are not more than one criteria in this group then enable the right button, if not disable it
 		if (this.s.criteria.length > 1 && (this.c.depthLimit === false || this.s.depth < this.c.depthLimit)) {
 			for (let opt of this.s.criteria) {
-				$(opt.criteria.dom.right).removeClass(this.classes.disabled);
 				$(opt.criteria.dom.right).attr('disabled', false);
 			}
 		}
 		else {
 			for (let opt of this.s.criteria) {
-				$(opt.criteria.dom.right).addClass(this.classes.disabled);
 				$(opt.criteria.dom.right).attr('disabled', true);
 			}
 		}
@@ -340,7 +340,7 @@ export default class Group {
 	 * Rebuilds a sub group that previously existed
 	 * @param loadedGroup The details of a group within this group
 	 */
-	private _addPrevGroup(loadedGroup) {
+	private _addPrevGroup(loadedGroup: typeInterfaces.IDetails): void {
 		let idx = this.s.criteria.length;
 		let group = new Group(this.s.dt, this.c, idx, true, this.s.depth + 1);
 
@@ -363,7 +363,7 @@ export default class Group {
 	 * Rebuilds a criteria of this group that previously existed
 	 * @param loadedCriteria The details of a criteria within the group
 	 */
-	private _addPrevCriteria(loadedCriteria) {
+	private _addPrevCriteria(loadedCriteria: critTypeInterfaces.IDetails): void {
 		let idx = this.s.criteria.length;
 		let criteria = new Criteria(this.s.dt, this.s.opts, idx);
 
@@ -389,7 +389,7 @@ export default class Group {
 	 * @param rowData The row data to be checked against the search criteria
 	 * @returns boolean The result of the AND search
 	 */
-	private _andSearch(rowData): boolean {
+	private _andSearch(rowData: any[]): boolean {
 		if (this.s.criteria.length === 0) {
 			return true;
 		}
@@ -411,7 +411,7 @@ export default class Group {
 	 * @param rowData The row data to be checked against the search criteria
 	 * @returns boolean The result of the OR search
 	 */
-	private _orSearch(rowData): boolean {
+	private _orSearch(rowData: any[]): boolean {
 		if (this.s.criteria.length === 0) {
 			return true;
 		}
@@ -434,7 +434,7 @@ export default class Group {
 	 * Removes a criteria from the group
 	 * @param criteria The criteria instance to be removed
 	 */
-	private _removeCriteria(criteria): void {
+	private _removeCriteria(criteria: Criteria): void {
 		// If removing a criteria and there is only then then just destroy the group
 		if (this.s.criteria.length <= 1 && this.s.isChild) {
 			this.destroy();
@@ -462,7 +462,7 @@ export default class Group {
 	 * Sets the listeners in group for a criteria
 	 * @param criteria The criteria for the listeners to be set on
 	 */
-	private _setCriteriaListeners(criteria): void {
+	private _setCriteriaListeners(criteria: Criteria): void {
 		$(criteria.dom.delete).on('click', () => {
 			this._removeCriteria(criteria);
 			$(criteria.dom.container).remove();
@@ -500,7 +500,7 @@ export default class Group {
 	/**
 	 * Set's the listeners for the group clear button
 	 */
-	private _setClearListener() {
+	private _setClearListener(): void {
 		$(this.dom.clear).unbind('click');
 		$(this.dom.clear).on('click', () => {
 			this.destroy();
@@ -511,7 +511,7 @@ export default class Group {
 	 * Sets listeners for sub groups of this group
 	 * @param group The sub group that the listeners are to be set on
 	 */
-	private _setGroupListeners(group) {
+	private _setGroupListeners(group: any): void {
 		// Set listeners for the new group
 		$(group.dom.add).unbind('click');
 		group.setListeners();
@@ -578,7 +578,7 @@ export default class Group {
 	/**
 	 * Sets the listener for the logic button
 	 */
-	private _setLogicListener() {
+	private _setLogicListener(): void {
 		$(this.dom.logic).unbind('click');
 		$(this.dom.logic).on('click', () => {
 			this._toggleLogic();

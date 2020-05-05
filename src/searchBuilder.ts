@@ -1,15 +1,16 @@
-let $;
-let DataTable;
+let $: any;
+let DataTable: any;
 
 /**
  * Sets the value of jQuery for use in the file
  * @param jq the instance of jQuery to be set
  */
-export function setJQuery(jq) {
+export function setJQuery(jq: any): void {
 	$ = jq;
 	DataTable = jq.fn.DataTable;
 }
 
+import * as typeInterfaces from './builderType';
 import Group from './group';
 
 /**
@@ -19,7 +20,7 @@ import Group from './group';
 export default class SearchBuilder {
 	private static version = '0.0.1';
 
-	private static classes = {
+	private static classes: typeInterfaces.IClasses = {
 		button: 'dtsb-button',
 		clearAll: 'dtsb-clearAll',
 		container: 'dtsb-searchBuilder',
@@ -29,16 +30,16 @@ export default class SearchBuilder {
 		titleRow: 'dtsb-titleRow'
 	};
 
-	private static defaults = {
+	private static defaults: typeInterfaces.IDefaults = {
 
 	};
 
-	public classes;
-	public dom;
-	public c;
-	public s;
+	public classes: typeInterfaces.IClasses;
+	public dom: typeInterfaces.IDom;
+	public c: typeInterfaces.IDefaults;
+	public s: typeInterfaces.IS;
 
-	constructor(builderSettings, opts) {
+	constructor(builderSettings: any, opts: any) {
 		// Check that the required version of DataTables is included
 		if (! DataTable || ! DataTable.versionCheck || ! DataTable.versionCheck('1.10.0')) {
 			throw new Error('SearchBuilder requires DataTables 1.10 or newer');
@@ -55,15 +56,15 @@ export default class SearchBuilder {
 				.addClass(this.classes.clearAll)
 				.addClass(this.classes.button),
 			container: $('<div/>').addClass(this.classes.container),
-			searchBuilder: $('<div/>').addClass(this.classes.builder),
 			title: $('<div/>').addClass(this.classes.title),
 			titleRow: $('<div/>').addClass(this.classes.titleRow),
-			wrapper: $('<div/>'),
+			topGroup: undefined
 		};
 
 		this.s = {
 			dt: table,
 			opts,
+			search: undefined,
 			topGroup: undefined
 		};
 
@@ -77,7 +78,7 @@ export default class SearchBuilder {
 			this._setUp();
 		}
 		else {
-			table.one('init.dt', (settings) => {
+			table.one('init.dt', () => {
 				this._setUp();
 			});
 		}
@@ -147,7 +148,7 @@ export default class SearchBuilder {
 	/**
 	 * Gets the details required to rebuild the SearchBuilder as it currently is
 	 */
-	private _saveDetails() {
+	private _saveDetails(): typeInterfaces.IDetails {
 		return this.s.topGroup.getDetails();
 	}
 }
