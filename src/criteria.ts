@@ -426,14 +426,17 @@ export default class Criteria {
 		this.c = $.extend(true, {}, Criteria.defaults, opts);
 
 		this.s = {
+			condition: '',
 			conditions: [],
 			depth,
 			dt: table,
+			field: undefined,
 			fields: [],
 			filled: false,
 			index,
 			type: '',
-			values: []
+			value: [],
+			values: [],
 		};
 
 		this.dom = {
@@ -616,8 +619,11 @@ export default class Criteria {
 					this.s.value = loadedCriteria.value;
 				}
 				else {
-					$(this.dom.valueInputs[0]).text(loadedCriteria.value[0]);
-					$(this.dom.valueInputs[1]).text(loadedCriteria.value[1]);
+					console.log(loadedCriteria);
+					$(this.dom.valueInputs[0]).val(loadedCriteria.value[0]);
+					$(this.dom.valueInputs[1]).val(loadedCriteria.value[1]);
+
+					this.s.value = loadedCriteria.value;
 
 					let allFilled = true;
 
@@ -633,7 +639,6 @@ export default class Criteria {
 					}
 
 					this.s.filled = allFilled;
-					this.s.value = loadedCriteria.value;
 				}
 				this.s.dt.draw();
 			}
@@ -652,6 +657,7 @@ export default class Criteria {
 			this._clearValue();
 			this._resetValue();
 			this._populateCondition();
+			this.s.filled = false;
 			this.s.dt.draw();
 		});
 
