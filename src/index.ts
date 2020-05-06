@@ -70,6 +70,10 @@ import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
 
 	($.fn as any).dataTable.SearchBuilder = SearchBuilder;
 	($.fn as any).DataTable.SearchBuilder = SearchBuilder;
+	($.fn as any).dataTable.Group = Group;
+	($.fn as any).DataTable.Group = Group;
+	($.fn as any).dataTable.Criteria = Criteria;
+	($.fn as any).DataTable.Criteria = Criteria;
 
 	let apiRegister = ($.fn.dataTable.Api as any).register;
 
