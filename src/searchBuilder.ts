@@ -99,9 +99,12 @@ export default class SearchBuilder {
 		return this.dom.container;
 	}
 
+	/**
+	 * Rebuilds the SearchBuilder to a state that is provided
+	 * @param details The details required to perform a rebuild
+	 */
 	public rebuild(details) {
-		$(this.dom.clearAll).trigger('click');
-
+		$(this.dom.clearAll).click();
 		if (details === undefined || details === null) {
 			return;
 		}
@@ -114,11 +117,7 @@ export default class SearchBuilder {
 	private _setUp(): void {
 		this.s.topGroup = new Group(this.s.dt, this.c);
 
-		$(this.dom.clearAll).on('click', () => {
-			this.s.topGroup = new Group(this.s.dt, this.s.opts);
-			this._build();
-			this.s.dt.draw();
-		});
+		this._setClearListener();
 
 		this.s.dt.on('stateSaveParams', (e, settings, data) => {
 			data.searchBuilder = this.getDetails();
@@ -149,6 +148,8 @@ export default class SearchBuilder {
 		this.dom.topGroup = this.s.topGroup.getNode();
 		$(this.dom.container).append(this.dom.topGroup);
 
+		this._setClearListener();
+
 		this.s.search = (settings, searchData, dataIndex, origData) => {
 			return this.s.topGroup.search(searchData);
 		};
@@ -158,6 +159,16 @@ export default class SearchBuilder {
 			return this.iterator('column', function(settings, column) {
 				return settings.aoColumns[column].sType;
 			}, 1);
+		});
+	}
+
+	private _setClearListener() {
+		$(this.dom.clearAll).unbind('click');
+		$(this.dom.clearAll).on('click', () => {
+			console.log("click")
+			this.s.topGroup = new Group(this.s.dt, this.s.opts);
+			this._build();
+			this.s.dt.draw();
 		});
 	}
 }
