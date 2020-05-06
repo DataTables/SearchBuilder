@@ -244,7 +244,7 @@ export default class Group {
 		let currentLeft = $(this.dom.logic).offset().left;
 		let groupLeft = $(this.dom.container).offset().left;
 		let shuffleLeft = currentLeft - groupLeft;
-		let newPos = currentLeft - shuffleLeft - $(this.dom.logic).height() - 20;
+		let newPos = currentLeft - shuffleLeft - $(this.dom.logic).outerHeight() - 10;
 		$(this.dom.logic).offset({left: newPos});
 
 		// Set vertical alignment
