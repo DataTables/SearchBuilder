@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" order="3" framework="foundation">
+
+<css lib="datatables searchbuilder"/>
+s
+<js lib="jquery datatables searchbuilder">
+<![CDATA[
+
+$(document).ready(function() {
+    var table = $('#example').DataTable({
+        searchBuilder: true
+    });
+    table.searchBuilder.container().prependTo(table.table().container());
+});
+
+]]>
+</js>
+
+<title lib="SearchBuilder">Foundation</title>
+
+<info><![CDATA[
+
+This is the `-init searchbuilder`extension for DataTables. It allows results to be filtered based on a complex search query.
+
+This example shows searchbuilder being used with the [Zurb Foundation](http://foundation.zurb.com/) CSS framework.
+
+
+]]></info>
+
+</dt-example>

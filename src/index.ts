@@ -103,6 +103,12 @@ import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
 		return this;
 	});
 
+	apiRegister('searchBuilder.container()', function() {
+		let ctx = this.context[0];
+
+		return ctx._searchBuilder.getNode();
+	});
+
 	function _init(settings, fromPre = false) {
 		let api = new DataTable.Api(settings);
 		let opts = api.init().searchBuilder || DataTable.defaults.searchBuilder;

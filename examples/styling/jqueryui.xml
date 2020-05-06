@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" order="4" framework="jqueryui">
+
+<css lib="datatables searchbuilder"/>
+
+<js lib="jquery datatables searchbuilder">
+<![CDATA[
+
+$(document).ready(function() {
+    var table = $('#example').DataTable({
+        searchBuilder: true
+    });
+    table.searchBuilder.container().prependTo(table.table().container());
+});
+
+]]>
+</js>
+
+<title lib="SearchBuilder">jQuery UI styling</title>
+
+<info><![CDATA[
+
+This is the `-init searchbuilder`extension for DataTables. It allows results to be filtered based on a complex search query.
+
+This example shows searchbuilder being used with [jQuery UI](http://jqueryui.com/) being used as the CSS display framework.
+
+]]></info>
+
+</dt-example>

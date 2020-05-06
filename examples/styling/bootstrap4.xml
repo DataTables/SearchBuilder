@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" table-class="display nowrap" order="2" framework="bootstrap4">
+
+<css lib="datatables searchbuilder"/>
+
+<js lib="jquery datatables searchbuilder">
+<![CDATA[
+
+$(document).ready(function() {
+    var table = $('#example').DataTable({
+        searchBuilder: true
+    });
+    table.searchBuilder.container().prependTo(table.table().container());
+});
+
+]]>
+</js>
+
+<title lib="SearchBuilder">Bootstrap 4</title>
+
+<info><![CDATA[
+
+This is the `-init searchbuilder`extension for DataTables. It allows results to be filtered based on a complex search query.
+
+This example shows DataTables and the searchbuilder extension being used with [Bootstrap 4](http://getbootstrap.com) providing the styling. The DataTables / Bootstrap integration provides seamless integration for DataTables to be used in a Bootstrap 4 page.
+
+
+]]></info>
+
+</dt-example>

@@ -14,8 +14,17 @@
     ],
     "files": [
         "src/searchBuilder.ts",
+        "src/builderType.ts",
         "src/index.ts",
         "src/criteria.ts",
+        "src/criteriaType.ts",
         "src/group.ts",
+        "src/groupType.ts",
+        "src/searchBuilder.bootstrap.ts",
+        "src/searchBuilder.bootstrap4.ts",
+        "src/searchBuilder.dataTables.ts",
+        "src/searchBuilder.foundation.ts",
+        "src/searchBuilder.jqueryui.ts",
+        "src/searchBuilder.semanticui.ts",
     ]
 }
