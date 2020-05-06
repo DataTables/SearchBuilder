@@ -40,7 +40,22 @@ declare var define: {
 let DataTable = $.fn.dataTable;
 
 $.extend(true, DataTable.SearchBuilder.classes, {
+	clearAll: 'btn btn-light dtsb-clearAll'
+});
 
+$.extend(true, DataTable.Group.classes, {
+	add: 'btn btn-light dtsb-add',
+	logic: 'btn btn-light dtsb-logic',
+	clearGroup: 'btn btn-light dtsb-clearGroup'
+});
+
+$.extend(true, DataTable.Criteria.classes, {
+	condition: 'form-control dtsb-condition',
+	delete: 'btn btn-default dtsb-delete',
+	field: 'form-control dtsb-field',
+	left: 'btn btn-default dtsb-left',
+	right: 'btn btn-default dtsb-right',
+	value: 'form-control dtsb-value',
 });
 
 return DataTable.searchPanes;

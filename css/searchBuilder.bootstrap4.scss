@@ -1,0 +1,39 @@
+@import './dateTime.scss';
+@import './common.scss';
+
+div.dtsb-searchBuilder {
+    div.dtsb-indentSub {
+        margin-left: 40px;
+    }
+
+    div.dtsb-indentTop {
+        margin-left: 47px;
+    }
+
+    div.dtsb-titleRow {
+        height: 40px;
+
+        div.dtsb-title {
+            padding-top: 10px;
+            padding-left: 10px;
+        }
+        
+        button.dtsb-clearAll {
+            margin-right: 10px;;
+        }
+    }
+    div.dtsb-group{
+        div.dtsb-criteria{
+            button.dtsb-rndbtn {
+                padding: 0px !important;
+            }
+            .form-control {
+                width: auto;
+                display: inline-block;
+            }
+        }
+        button.dtsb-rndbtn {
+            padding: 0px !important;
+        }
+    }
+}
