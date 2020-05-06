@@ -40,7 +40,22 @@ declare var define: {
 let DataTable = $.fn.dataTable;
 
 $.extend(true, DataTable.SearchBuilder.classes, {
+	clearAll: 'ui-button ui-corner-all ui-widget dtsb-clearAll'
+});
 
+$.extend(true, DataTable.Group.classes, {
+	add: 'ui-button ui-corner-all ui-widget dtsb-add',
+	logic: 'ui-button ui-corner-all ui-widget dtsb-logic',
+	clearGroup: 'ui-button ui-corner-all ui-widget dtsb-clearGroup'
+});
+
+$.extend(true, DataTable.Criteria.classes, {
+	condition: 'ui-selectmenu-button ui-button ui-widget ui-selectmenu-button-closed ui-corner-all dtsb-condition',
+	delete: 'ui-button ui-corner-all ui-widget dtsb-delete',
+	field: 'ui-selectmenu-button ui-button ui-widget ui-selectmenu-button-closed ui-corner-all dtsb-field',
+	left: 'ui-button ui-corner-all ui-widget dtsb-left',
+	right: 'ui-button ui-corner-all ui-widget dtsb-right',
+	value: 'ui-selectmenu-button ui-button ui-widget ui-selectmenu-button-closed ui-corner-all dtsb-value',
 });
 
 return DataTable.searchPanes;
