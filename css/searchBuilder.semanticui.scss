@@ -1,0 +1,41 @@
+@import './common.scss';
+@import './dateTime.scss';
+
+div.dtsb-searchBuilder {
+    button.dtsb-button {
+        padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    }
+
+    div.dtsb-titleRow {
+        height: 50px;
+
+        div.dtsb-title {
+            padding-top: 10px;
+            padding-left: 10px;
+            font-size: 1.4375rem;
+        }
+        
+        button.dtsb-clearAll {
+            margin-right: 10px;
+            margin-bottom: 0px;
+        }
+    }
+    div.dtsb-group{
+        div.dtsb-criteria{
+            button.dtsb-rndbtn {
+                padding: 0px !important;
+            }
+
+            select {
+                width: auto !important;
+            }
+        }
+
+        button.dtsb-rndbtn {
+            padding: 0px !important;
+        }
+    }
+}
