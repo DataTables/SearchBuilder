@@ -15,6 +15,7 @@ $(document).ready(function() {
 
     $('#getDetails').on('click', function() {
         stored = $('#example').DataTable().searchBuilder.getDetails();
+        console.log(stored);
     })
 
     $('#revert').on('click', function() {

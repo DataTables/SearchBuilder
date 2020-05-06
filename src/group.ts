@@ -162,16 +162,21 @@ export default class Group {
 				this.s.criteria[i].index = i;
 				this.s.criteria[i].criteria.s.index = i;
 
-				// Set listeners for various points
-				this._setCriteriaListeners(this.s.criteria[i].criteria);
-				this.s.criteria[i].criteria.setListeners();
+				this.s.criteria[i].criteria.updateArrows();
 
 				if ((this.s.criteria.length === 1 || this.s.depth === this.c.depthLimit)) {
 					$(this.s.criteria[i].criteria.dom.right).attr('disabled', true);
 				}
+				else {
+					$(this.s.criteria[i].criteria.dom.right).attr('disabled', false);
+				}
 
 				// Add to the group
 				$(this.s.criteria[i].criteria.dom.container).insertBefore(this.dom.add);
+
+				// Set listeners for various points
+				this._setCriteriaListeners(this.s.criteria[i].criteria);
+				this.s.criteria[i].criteria.setListeners();
 			}
 			else if (this.s.criteria[i].criteria.s.criteria.length > 0) {
 				// Reset the index to the new value
@@ -368,7 +373,7 @@ export default class Group {
 	 */
 	private _addPrevCriteria(loadedCriteria: critTypeInterfaces.IDetails): void {
 		let idx = this.s.criteria.length;
-		let criteria = new Criteria(this.s.dt, this.s.opts, idx);
+		let criteria = new Criteria(this.s.dt, this.s.opts, idx, this.s.depth);
 
 		criteria.populate();
 
@@ -494,7 +499,11 @@ export default class Group {
 			this.s.toDrop.c = criteria.c;
 			this.s.toDrop.classes = criteria.classes;
 			this.s.toDrop.populate();
+
+			// The dropCriteria event mutates the reference to the index so need to store it
+			let index = this.s.toDrop.s.index;
 			$(this.dom.container).trigger('dtsb-dropCriteria');
+			criteria.s.index = index;
 			this._removeCriteria(criteria);
 			$(document).trigger('dtsb-redrawContents');
 		});

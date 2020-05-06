@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>SearchBuilder.preDefined</name>
+	<summary>Set a predefined search query</summary>
+	<since>SearchBuilder 0.0.1</since>
+
+	<type type="Object">
+		<description>
+            The details object for the top level group.
+        </description>
+	</type>
+
+    <type type="boolean">
+		<description>
+            When false no predefined search is applied.
+        </description>
+	</type>
+
+	<default value="false">
+        The default value for the `-init searchBuilder.preDefined` option is false meaning that as standard there will be no preDefined search applied.
+	</default>
+	<description>
+		<![CDATA[
+		This is useful as it allows for complex preDefined searches to be applied to a DataTable.
+
+        This object contains 3 properties.
+
+        * `-init searchBuilder.preDefined.criteria` This holds the criteria that must be applied to the top group. This property is an array of objects, which can either by criteria objects or group objects.
+        * `-init searchBuilder.logic` This is the logic that is to be applied to the group.
+        * `-init searchBuilder.type` This indicates that this object is a group of criteria.
+        ]]>
+	</description>
+
+	<example title="Simple single level search"><![CDATA[
+
+    $('#example').DataTable( {
+        dom: 'Qfrtip',
+        searchBuilder: {
+            preDefined: {
+                criteria:[
+                    {
+                        condition: 'Equals',
+                        field: 2,
+                        type: 'criteria',
+                        value: ['Edinburgh']
+                    }
+                ],
+                logic: 'AND',
+                type: 'group'
+            }
+        }
+    });
+
+]]></example>
+
+	<example title="More Complex Multi level search"><![CDATA[
+
+    $('#example').DataTable( {
+        dom: 'Qfrtip',
+        searchBuilder: {
+            preDefined: {
+                criteria:[
+                    {
+                        condition: 'Equals',
+                        field: 2,
+                        type: 'criteria',
+                        value: ['Edinburgh']
+                    },
+                    {
+                        criteria: [
+                            {
+                                condition: 'Equals',
+                                field: 0,
+                                type: 'criteria',
+                                value: ['Cedric Kelly']
+                            },
+                            {
+                                condition: 'Equals',
+                                field: 0,
+                                type: 'criteria',
+                                value: ['Dai Rios']
+                            }
+                        ],
+                        logic: 'OR',
+                        type: 'group'
+                    }
+                ],
+                logic: 'AND',
+                type: 'group'
+            }
+        }
+    });
+
+]]></example>
+
+</dt-option>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>SearchBuilder.preDefined.type</name>
+	<summary>Set the type for an object on the `-init searchBuilder.preDefined.criteria`</summary>
+	<since>SearchBuilder 0.0.1</since>
+
+	<type type="string">
+		<description>
+            The value for the type of an object on the `-init searchBuilder.preDefined.criteria` array.
+        </description>
+	</type>
+
+	<default value="undefined">
+        The default value for the `-init searchBuilder.preDefined.type` option is `undefined`. A type must be set to indicate whether the object is a group or a criteria.
+	</default>
+	<description>
+		<![CDATA[
+		This is useful as it allows type to be defined objects on the `-init searchBuilder.preDefined.criteria` array.
+
+        This must have a value of either `criteria` or `group` to indicate whether the object is a criteria or group respectively.
+        ]]>
+	</description>
+
+	<example title="Simple single level search showing both types"><![CDATA[
+
+    $('#example').DataTable( {
+        dom: 'Qfrtip',
+        searchBuilder: {
+            preDefined: {
+                criteria:[
+                    {
+                        condition: 'Equals',
+                        field: 2,
+                        type: 'criteria',
+                        value: ['Edinburgh']
+                    }
+                ],
+                type: 'AND',
+                type: 'group'
+            }
+        }
+    });
+
+]]></example>
+
+</dt-option>

@@ -11,7 +11,7 @@
 	</type>
 
 	<default value="AND">
-        The default value for the `-init searchBuilder.depthLimit` option is `AND` meaning that as standard the initial logic applied to groups will be `AND` logic.
+        The default value for the `-init searchBuilder.logic` option is `AND` meaning that as standard the initial logic applied to groups will be `AND` logic.
 	</default>
 	<description>
 		<![CDATA[

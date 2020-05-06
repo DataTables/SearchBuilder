@@ -641,6 +641,8 @@ export default class Criteria {
 				this.s.dt.draw();
 			}
 		}
+
+		this.updateArrows();
 	}
 
 	/**

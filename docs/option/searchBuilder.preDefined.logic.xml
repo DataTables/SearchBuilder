@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>SearchBuilder.preDefined.logic</name>
+	<summary>Set the logic operator for a predefined group</summary>
+	<since>SearchBuilder 0.0.1</since>
+
+	<type type="string">
+		<description>
+            The value for the logic operator of the predefined group.
+        </description>
+	</type>
+
+	<default value="undefined">
+        The default value for the `-init searchBuilder.preDefined.logic` option is `AND` meaning that the initial logic applied to the predefined group will be `AND` logic.
+	</default>
+	<description>
+		<![CDATA[
+		This is useful as it allows logic to be defined for groups within predefined searches.
+        ]]>
+	</description>
+
+	<example title="Simple single level search with AND logic"><![CDATA[
+
+    $('#example').DataTable( {
+        dom: 'Qfrtip',
+        searchBuilder: {
+            preDefined: {
+                criteria:[
+                    {
+                        condition: 'Equals',
+                        field: 2,
+                        type: 'criteria',
+                        value: ['Edinburgh']
+                    }
+                ],
+                logic: 'AND',
+                type: 'group'
+            }
+        }
+    });
+
+]]></example>
+
+	<example title="Simple single level search with OR logic"><![CDATA[
+
+    $('#example').DataTable( {
+        dom: 'Qfrtip',
+        searchBuilder: {
+            preDefined: {
+                criteria:[
+                    {
+                        condition: 'Equals',
+                        field: 2,
+                        type: 'criteria',
+                        value: ['Edinburgh']
+                    }
+                ],
+                logic: 'OR',
+                type: 'group'
+            }
+        }
+    });
+
+]]></example>
+
+</dt-option>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>SearchBuilder.preDefined.criteria.value</name>
+	<summary>Define the value to be selected</summary>
+	<since>SearchBuilder 0.0.1</since>
+
+	<type type="string[]">
+		<description>
+            The the value(s) to be selected.
+        </description>
+	</type>
+
+	<default value="undefined">
+        The default value for the `-init searchBuilder.preDefined.criteria.value` option is `undefined` meaning that if this is not defined then no values will be applied to the criteria.
+	</default>
+	<description>
+		<![CDATA[
+		This is useful as it allows predefined criteria values to be set.
+
+        `-init searchBuilder.preDefined.criteria.value` is an array so that conditions that require multiple inputs can be set easily.
+        ]]>
+	</description>
+
+	<example title="Defining the value for use in a criteria"><![CDATA[
+
+    $('#example').DataTable( {
+        dom: 'Qfrtip',
+        searchBuilder: {
+            preDefined: {
+                criteria:[
+                    {
+                        condition: 'Equals',
+                        field: 2,
+                        type: 'criteria',
+                        value: ['Edinburgh']
+                    }
+                ],
+                logic: 'AND',
+                type: 'group'
+            }
+        }
+    });
+
+]]></example>
+
+	<example title="Defining the values for use in a multi value criteria"><![CDATA[
+
+    $('#example').DataTable( {
+        dom: 'Qfrtip',
+        searchBuilder: {
+            preDefined: {
+                criteria:[
+                    {
+                        condition: 'Between inclusive',
+                        field: 4,
+                        type: 'criteria',
+                        value: ['2020-05-12', '2001-10-17]
+                    }
+                ],
+                logic: 'AND',
+                type: 'group'
+            }
+        }
+    });
+
+]]></example>
+
+</dt-option>

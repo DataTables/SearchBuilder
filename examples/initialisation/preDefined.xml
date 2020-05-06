@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html-iso8601" table-class="display nowrap" order="2">
+
+<css lib="datatables searchbuilder"/>
+
+<js lib="jquery datatables searchbuilder">
+<![CDATA[
+
+$(document).ready(function() {
+    $('#example').DataTable( {
+        dom: 'Qfrtip',
+        searchBuilder: {
+            preDefined: {
+                criteria:[
+                    {
+                        condition: 'Equals',
+                        field: '2',
+                        type: 'criteria',
+                        value: ['Edinburgh']
+                    },
+                    {
+                        criteria: [
+                            {
+                                condition: 'Equals',
+                                field: '0',
+                                type: 'criteria',
+                                value: ['Cedric Kelly']
+                            },
+                            {
+                                condition: 'Equals',
+                                field: '0',
+                                type: 'criteria',
+                                value: ['Dai Rios']
+                            }
+                        ],
+                        logic: 'OR',
+                        type: 'group'
+                    }
+                ],
+                logic: 'AND',
+                type: 'group'
+            }
+        }
+    });
+});
+
+]]>
+</js>
+
+<title lib="searchBuilder">PreDefined Search</title>
+
+<info><![CDATA[
+
+This is the `-init searchBuilder`extension for DataTables. It allows results to be filtered based on a user constructed query.
+
+This example demonstrates the behaviour of `-init searchBuilder` when the `-init searchBuilder.depthLimit` is set to limit how deep the Sub-Groups can be nested.
+
+]]></info>
+
+</dt-example>

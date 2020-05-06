@@ -17,7 +17,7 @@ export interface IClasses {
 }
 
 export interface IDefaults {
-
+	preDefined: boolean | IDetails;
 }
 
 export interface IDom {

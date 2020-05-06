@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>SearchBuilder.preDefined.criteria.field</name>
+	<summary>Define the field to be selected</summary>
+	<since>SearchBuilder 0.0.1</since>
+
+	<type type="number">
+		<description>
+            The title of the field to be selected.
+        </description>
+	</type>
+
+	<default value="undefined">
+        The default value for the `-init searchBuilder.preDefined.criteria.field` option is `undefined` meaning that if this is not defined then it is impossible to apply a condition or value to this criteria.
+	</default>
+	<description>
+		<![CDATA[
+		This is useful as it allows predefined criteria fields to be set.
+        ]]>
+	</description>
+
+	<example title="Defining the second field for use in a criteria"><![CDATA[
+
+    $('#example').DataTable( {
+        dom: 'Qfrtip',
+        searchBuilder: {
+            preDefined: {
+                criteria:[
+                    {
+                        condition: 'Equals',
+                        field: 2,
+                        type: 'criteria',
+                        value: ['Edinburgh']
+                    }
+                ],
+                logic: 'AND',
+                type: 'group'
+            }
+        }
+    });
+
+]]></example>
+
+</dt-option>

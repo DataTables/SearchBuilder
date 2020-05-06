@@ -31,7 +31,7 @@ export default class SearchBuilder {
 	};
 
 	private static defaults: typeInterfaces.IDefaults = {
-
+		preDefined: false,
 	};
 
 	public classes: typeInterfaces.IClasses;
@@ -132,6 +132,9 @@ export default class SearchBuilder {
 			$(document).trigger('dtsb-redrawContents');
 			this.s.dt.draw();
 		}
+		else if (this.c.preDefined !== false) {
+			this.rebuild(this.c.preDefined);
+		}
 	}
 
 	/**
@@ -165,7 +168,6 @@ export default class SearchBuilder {
 	private _setClearListener() {
 		$(this.dom.clearAll).unbind('click');
 		$(this.dom.clearAll).on('click', () => {
-			console.log("click")
 			this.s.topGroup = new Group(this.s.dt, this.s.opts);
 			this._build();
 			this.s.dt.draw();
