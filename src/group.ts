@@ -188,8 +188,6 @@ export default class Group {
 
 				// Redraw the contents of the group
 				this.s.criteria[i].criteria.redrawContents();
-
-				this.s.criteria[i].criteria.setupLogic();
 				this._setGroupListeners(this.s.criteria[i].criteria);
 			}
 			else {
@@ -198,6 +196,7 @@ export default class Group {
 				i--;
 			}
 		}
+		this.setupLogic();
 	}
 
 	/**
@@ -370,7 +369,7 @@ export default class Group {
 
 		this.s.criteria[idx].criteria = group;
 
-		$(document).trigger('dtsb-redrawContents');
+		$(this.dom.container).trigger('dtsb-redrawContents');
 
 		this._setGroupListeners(group);
 	}
@@ -391,13 +390,13 @@ export default class Group {
 			type: 'criteria'
 		});
 
-		$(document).trigger('dtsb-redrawContents');
+		$(this.dom.container).trigger('dtsb-redrawContents');
 
 		criteria.rebuild(loadedCriteria);
 
 		this.s.criteria[idx].criteria = criteria;
 
-		$(document).trigger('dtsb-redrawContents');
+		$(this.dom.container).trigger('dtsb-redrawContents');
 	}
 
 	/**
@@ -496,7 +495,7 @@ export default class Group {
 			this.s.criteria[idx].criteria = group;
 			this.s.criteria[idx].type = 'group';
 
-			$(document).trigger('dtsb-redrawContents');
+			$(this.dom.container).trigger('dtsb-redrawContents');
 
 			this._setGroupListeners(group);
 		});
@@ -513,7 +512,7 @@ export default class Group {
 			$(this.dom.container).trigger('dtsb-dropCriteria');
 			criteria.s.index = index;
 			this._removeCriteria(criteria);
-			$(document).trigger('dtsb-redrawContents');
+			$(this.dom.container).trigger('dtsb-redrawContents');
 		});
 	}
 
@@ -560,7 +559,7 @@ export default class Group {
 				toDrop.s.index = length;
 				toDrop.updateArrows();
 				this.addCriteria(toDrop);
-				$(document).trigger('dtsb-redrawContents');
+				$(this.dom.container).trigger('dtsb-redrawContents');
 		});
 	}
 
@@ -586,13 +585,6 @@ export default class Group {
 		}
 
 		$(this.dom.container).append(this.dom.add);
-
-		if (!this.s.isChild) {
-			$(document).on('dtsb-redrawContents', () => {
-				this.redrawContents();
-				this.setupLogic();
-			});
-		}
 	}
 
 	/**

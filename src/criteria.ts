@@ -628,7 +628,7 @@ export default class Criteria {
 					// Check that all of the value inputs have been filled in
 					for (let val = 0; val < this.dom.valueInputs.length; val++) {
 						if (
-							$(document).has(this.dom.valueInputs[val]).length !== 0 &&
+							$(this.dom.container).has(this.dom.valueInputs[val]).length !== 0 &&
 							(this.s.value[val] === undefined || this.s.value[val].length === 0)
 						) {
 							allFilled = false;
@@ -688,7 +688,7 @@ export default class Criteria {
 				// Check that all of the value inputs have been filled in
 				for (let val = 0; val < this.dom.valueInputs.length; val++) {
 					if (
-						$(document).has(this.dom.valueInputs[val]).length !== 0 &&
+						$(this.dom.container).has(this.dom.valueInputs[val]).length !== 0 &&
 						(this.s.value[val] === undefined || this.s.value[val].length === 0)
 					) {
 						allFilled = false;

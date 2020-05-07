@@ -129,7 +129,7 @@ export default class SearchBuilder {
 
 		if (loadedState !== null && loadedState.searchBuilder !== undefined) {
 			this.s.topGroup.rebuild(loadedState.searchBuilder);
-			$(document).trigger('dtsb-redrawContents');
+			$(this.s.topGroup.dom.container).trigger('dtsb-redrawContents');
 			this.s.dt.draw();
 		}
 		else if (this.c.preDefined !== false) {
@@ -152,6 +152,7 @@ export default class SearchBuilder {
 		$(this.dom.container).append(this.dom.topGroup);
 
 		this._setClearListener();
+		this._setRedrawListener();
 
 		this.s.search = (settings, searchData, dataIndex, origData) => {
 			return this.s.topGroup.search(searchData);
@@ -171,6 +172,14 @@ export default class SearchBuilder {
 			this.s.topGroup = new Group(this.s.dt, this.s.opts);
 			this._build();
 			this.s.dt.draw();
+		});
+	}
+
+	private _setRedrawListener() {
+		$(this.s.topGroup.dom.container).unbind('dtsb-redrawContents');
+		$(this.s.topGroup.dom.container).on('dtsb-redrawContents', () => {
+			this.s.topGroup.redrawContents();
+			this.s.topGroup.setupLogic();
 		});
 	}
 }
