@@ -230,10 +230,18 @@ export default class Group {
 			return;
 		}
 
+		let width: number;
 		// Set width
-		let width = this.s.criteria.length < 2 || !this.s.isChild ?
-			$(this.dom.container).height() :
-			$(this.dom.container).height() - 32;
+		if (!this.s.isChild || this.s.criteria.length < 2) {
+			width = $(this.dom.container).height();
+		}
+		else {
+			$(this.dom.container).append(this.dom.clear);
+			let buttheight = $(this.dom.clear).outerHeight(true);
+			$(this.dom.clear).remove();
+			width = $(this.dom.container).innerHeight() - buttheight;
+		}
+
 		$(this.dom.logic).width(width);
 
 		// Prepend logic button
@@ -244,7 +252,7 @@ export default class Group {
 		let currentLeft = $(this.dom.logic).offset().left;
 		let groupLeft = $(this.dom.container).offset().left;
 		let shuffleLeft = currentLeft - groupLeft;
-		let newPos = currentLeft - shuffleLeft - $(this.dom.logic).outerHeight() - 10;
+		let newPos = currentLeft - shuffleLeft - $(this.dom.logic).outerHeight(true);
 		$(this.dom.logic).offset({left: newPos});
 
 		// Set vertical alignment
@@ -262,12 +270,12 @@ export default class Group {
 			// Set horizontal alignment
 			let currentLeftBtn = $(this.dom.clear).offset().left;
 			let shuffleLeftBtn = currentLeftBtn - groupLeft;
-			let newPosBtn = currentLeftBtn - shuffleLeftBtn - $(this.dom.clear).width() - 22;
+			let newPosBtn = currentLeftBtn - shuffleLeftBtn - $(this.dom.clear).outerWidth(true);
 			$(this.dom.clear).offset({left: newPosBtn});
 
 			// Set vertical alignment
 			let currentTopBtn = $(this.dom.clear).offset().top;
-			let shuffleTopBtn = currentTopBtn - (newTop + $(this.dom.logic).outerWidth() + 3);
+			let shuffleTopBtn = currentTopBtn - (newTop + $(this.dom.logic).outerWidth(true));
 			let newTopBtn = currentTopBtn - shuffleTopBtn;
 			$(this.dom.clear).offset({top: newTopBtn});
 
