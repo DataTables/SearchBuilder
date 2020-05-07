@@ -7,11 +7,11 @@ div.dtsb-searchBuilder {
     }
 
     div.dtsb-indentSub {
-        margin-left: 40px;
+        margin-left: 36px;
     }
 
     div.dtsb-indentTop {
-        margin-left: 50px;
+        margin-left: 41px;
     }
 
     div.dtsb-group{
@@ -23,6 +23,9 @@ div.dtsb-searchBuilder {
 
         button.dtsb-rndbtn {
             padding: 0px !important;
+            border-radius: 25px;
+            width: 29px;
+            height: 29px;
         }
     }
 }
