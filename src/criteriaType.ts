@@ -12,6 +12,7 @@ export interface IClasses {
 	right: string;
 	roundButton: string;
 	value: string;
+	vertical: string;
 }
 
 export interface ICondition {

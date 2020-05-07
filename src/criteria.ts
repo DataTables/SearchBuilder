@@ -33,7 +33,8 @@ export default class Criteria {
 		option: 'dtsb-option',
 		right: 'dtsb-right',
 		roundButton: 'dtsb-rndbtn',
-		value: 'dtsb-value'
+		value: 'dtsb-value',
+		vertical: 'dtsb-vertical'
 	};
 
 	private static dateConditions: typeInterfaces.ICondition[] = [
@@ -462,6 +463,18 @@ export default class Criteria {
 			$(this.dom.valueInputs[1]).addClass(this.classes.greyscale);
 		}
 
+		this.s.dt.on('draw.dtsp', () => {
+			this._adjustTopRow();
+		});
+
+		this.s.dt.on('buttons-action', () => {
+			this._adjustTopRow();
+		});
+
+		$(window).on('resize.dtsp', DataTable.util.throttle(() => {
+			this._adjustTopRow();
+		}));
+
 		this._buildCriteria();
 	}
 
@@ -511,6 +524,8 @@ export default class Criteria {
 		if (this.s.depth > 1) {
 			$(this.dom.container).append(this.dom.left);
 		}
+
+		this._adjustTopRow();
 	}
 
 	/**
@@ -706,6 +721,54 @@ export default class Criteria {
 			this.destroy();
 			this.s.dt.draw();
 		});
+	}
+
+	private _adjustTopRow(): void {
+		if ($(document).has(this.dom.container).length === 0) {
+			return;
+		}
+
+		let valRight: number;
+		let valWidth:number;
+
+		if ($(this.dom.container).has(this.dom.value).length !== 0) {
+			valWidth =  $(this.dom.value).outerWidth(true);
+			valRight = $(this.dom.value).offset().left + valWidth;
+		}
+		else if ($(this.dom.container).has(this.dom.valueInputs[1]).length !== 0) {
+			let valWidthOuter = $(this.dom.valueInputs[1]).outerWidth(true);
+			valWidth = $(this.dom.valueInputs[1]).outerWidth(true) + $(this.dom.valueInputs[0]).outerWidth(true);
+			valRight = $(this.dom.valueInputs[1]).offset().left + valWidthOuter;
+		}
+		else if ($(this.dom.container).has(this.dom.valueInputs[0]).length !== 0) {
+			valWidth = $(this.dom.valueInputs[1]).outerWidth(true);
+			valRight = $(this.dom.valueInputs[0]).offset().left + valWidth;
+		}
+		else {
+			return;
+		}
+		let leftOffset = $(this.dom.left).offset();
+		let rightOffset = $(this.dom.right).offset();
+		let hasLeft = $(this.dom.container).has(this.dom.left).length !== 0;
+		let buttonsLeft = hasLeft ?
+			leftOffset.left :
+			rightOffset.left;
+
+		if (buttonsLeft - valRight < 15 || (hasLeft && leftOffset.top !== rightOffset.top) || rightOffset.top !== $(this.dom.delete).offset().top) {
+			$(this.dom.container).parent().addClass(this.classes.vertical);
+			$(this.dom.container).trigger('dtsb-redrawContents');
+		}
+		else if (
+			buttonsLeft -
+			(
+				$(this.dom.field).offset().left +
+				$(this.dom.field).outerWidth(true) +
+				$(this.dom.condition).outerWidth(true) +
+				valWidth
+			) > 15) {
+			$(this.dom.container).parent().removeClass(this.classes.vertical);
+			$(this.dom.container).trigger('dtsb-redrawContents');
+		}
 	}
 
 	/**

@@ -247,8 +247,10 @@ export default class Group {
 		$(this.dom.container).prepend(this.dom.logic);
 		this._setLogicListener();
 
+		let logicOffset = $(this.dom.logic).offset();
+
 		// Set horizontal alignment
-		let currentLeft = $(this.dom.logic).offset().left;
+		let currentLeft = logicOffset.left;
 		let groupLeft = $(this.dom.container).offset().left;
 		let shuffleLeft = currentLeft - groupLeft;
 		let newPos = currentLeft - shuffleLeft - $(this.dom.logic).outerHeight(true);
@@ -256,7 +258,7 @@ export default class Group {
 
 		// Set vertical alignment
 		let firstCrit = $(this.dom.logic).next();
-		let currentTop = $(this.dom.logic).offset().top;
+		let currentTop = logicOffset.top;
 		let firstTop = $(firstCrit).offset().top;
 		let shuffleTop = currentTop - firstTop;
 		let newTop = currentTop - shuffleTop;
@@ -266,14 +268,16 @@ export default class Group {
 			// Append clear Group
 			$(this.dom.clear).insertAfter(this.dom.logic);
 
+			let clearOffset = $(this.dom.clear).offset();
+
 			// Set horizontal alignment
-			let currentLeftBtn = $(this.dom.clear).offset().left;
+			let currentLeftBtn = clearOffset.left;
 			let shuffleLeftBtn = currentLeftBtn - groupLeft;
 			let newPosBtn = currentLeftBtn - shuffleLeftBtn - $(this.dom.clear).outerWidth(true);
 			$(this.dom.clear).offset({left: newPosBtn});
 
 			// Set vertical alignment
-			let currentTopBtn = $(this.dom.clear).offset().top;
+			let currentTopBtn = clearOffset.top;
 			let shuffleTopBtn = currentTopBtn - (newTop + $(this.dom.logic).outerWidth(true));
 			let newTopBtn = currentTopBtn - shuffleTopBtn;
 			$(this.dom.clear).offset({top: newTopBtn});
@@ -514,6 +518,11 @@ export default class Group {
 			this._removeCriteria(criteria);
 			$(this.dom.container).trigger('dtsb-redrawContents');
 		});
+
+		$(criteria.dom.container).on('dtsb-redrawContents', () => {
+			$(this.dom.container).trigger('dtsb-redrawContents');
+		});
+		
 	}
 
 	/**
@@ -560,6 +569,10 @@ export default class Group {
 				toDrop.updateArrows();
 				this.addCriteria(toDrop);
 				$(this.dom.container).trigger('dtsb-redrawContents');
+		});
+
+		$(group.dom.container).on('dtsb-redrawContents', () => {
+			$(this.dom.container).trigger('dtsb-redrawContents');
 		});
 	}
 

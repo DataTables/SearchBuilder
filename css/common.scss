@@ -30,6 +30,12 @@ div.dtsb-searchBuilder {
         }
     }
 
+    div.dtsb-vertical {
+        .dtsb-value, .dtsb-field, .dtsb-condition {
+            display: block;
+        }
+    }
+
     div.dtsb-group {
         position: relative;
         margin-bottom: 5px;
@@ -58,6 +64,8 @@ div.dtsb-searchBuilder {
         }
 
         div.dtsb-criteria {
+            
+
             select.dtsb-dropDown, input.dtsb-input{
                 padding: 5px;
                 margin-right: 10px;
