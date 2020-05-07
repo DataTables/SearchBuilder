@@ -51,10 +51,10 @@ $.extend(true, DataTable.Group.classes, {
 
 $.extend(true, DataTable.Criteria.classes, {
 	condition: 'form-control dtsb-condition',
-	delete: 'btn btn-default dtsb-delete',
+	delete: 'btn btn-light dtsb-delete',
 	field: 'form-control dtsb-field',
-	left: 'btn btn-default dtsb-left',
-	right: 'btn btn-default dtsb-right',
+	left: 'btn btn-light dtsb-left',
+	right: 'btn btn-light dtsb-right',
 	value: 'form-control dtsb-value',
 });
 
