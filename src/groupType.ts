@@ -36,6 +36,7 @@ export interface IS {
 	logic: string;
 	opts: any;
 	toDrop: Criteria;
+	topGroup: JQuery<HTMLElement>;
 }
 
 export interface ICriteria {

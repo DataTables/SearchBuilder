@@ -45,7 +45,7 @@ export default class Group {
 	public c: typeInterfaces.IDefaults;
 	public s: typeInterfaces.IS;
 
-	constructor(table: any, opts: any, index = 0, isChild = false, depth = 1) {
+	constructor(table: any, opts: any, topGroup: JQuery<HTMLElement>, index = 0, isChild = false, depth = 1) {
 		// Check that the required version of DataTables is included
 		if (! DataTable || ! DataTable.versionCheck || ! DataTable.versionCheck('1.10.0')) {
 			throw new Error('SearchBuilder requires DataTables 1.10 or newer');
@@ -64,7 +64,8 @@ export default class Group {
 			isChild,
 			logic: undefined,
 			opts,
-			toDrop: undefined
+			toDrop: undefined,
+			topGroup
 		};
 
 		this.dom = {
@@ -73,6 +74,10 @@ export default class Group {
 			container: $('<div/>').addClass(this.classes.group),
 			logic: $('<button/>').addClass(this.classes.logic).addClass(this.classes.button)
 		};
+
+		if (this.s.topGroup === undefined) {
+			this.s.topGroup = this.dom.container;
+		}
 
 		this._setup();
 	}
@@ -312,7 +317,7 @@ export default class Group {
 	 */
 	public addCriteria(crit: Criteria = null): void {
 		let index = this.s.criteria.length;
-		let criteria = new Criteria(this.s.dt, this.s.opts, index, this.s.depth);
+		let criteria = new Criteria(this.s.dt, this.s.opts, this.s.topGroup, index, this.s.depth);
 
 		// If a Criteria has been passed in then set the values to continue that
 		if (crit !== null) {
@@ -361,7 +366,7 @@ export default class Group {
 	 */
 	private _addPrevGroup(loadedGroup: typeInterfaces.IDetails): void {
 		let idx = this.s.criteria.length;
-		let group = new Group(this.s.dt, this.c, idx, true, this.s.depth + 1);
+		let group = new Group(this.s.dt, this.c, this.s.topGroup, idx, true, this.s.depth + 1);
 
 		this.s.criteria.push({
 			criteria: group,
@@ -373,7 +378,7 @@ export default class Group {
 
 		this.s.criteria[idx].criteria = group;
 
-		$(this.dom.container).trigger('dtsb-redrawContents');
+		$(this.s.topGroup).trigger('dtsb-redrawContents');
 
 		this._setGroupListeners(group);
 	}
@@ -384,7 +389,7 @@ export default class Group {
 	 */
 	private _addPrevCriteria(loadedCriteria: critTypeInterfaces.IDetails): void {
 		let idx = this.s.criteria.length;
-		let criteria = new Criteria(this.s.dt, this.s.opts, idx, this.s.depth);
+		let criteria = new Criteria(this.s.dt, this.s.opts, this.s.topGroup, idx, this.s.depth);
 
 		criteria.populate();
 
@@ -394,13 +399,13 @@ export default class Group {
 			type: 'criteria'
 		});
 
-		$(this.dom.container).trigger('dtsb-redrawContents');
+		$(this.s.topGroup).trigger('dtsb-redrawContents');
 
 		criteria.rebuild(loadedCriteria);
 
 		this.s.criteria[idx].criteria = criteria;
 
-		$(this.dom.container).trigger('dtsb-redrawContents');
+		$(this.s.topGroup).trigger('dtsb-redrawContents');
 	}
 
 	/**
@@ -490,7 +495,7 @@ export default class Group {
 
 		$(criteria.dom.right).on('click', () => {
 			let idx = criteria.s.index;
-			let group = new Group(this.s.dt, this.s.opts, criteria.s.index, true, this.s.depth + 1);
+			let group = new Group(this.s.dt, this.s.opts, this.s.topGroup, criteria.s.index, true, this.s.depth + 1);
 
 			// Add the criteria that is to be moved to the new group
 			group.addCriteria(criteria);
@@ -499,13 +504,13 @@ export default class Group {
 			this.s.criteria[idx].criteria = group;
 			this.s.criteria[idx].type = 'group';
 
-			$(this.dom.container).trigger('dtsb-redrawContents');
+			$(this.s.topGroup).trigger('dtsb-redrawContents');
 
 			this._setGroupListeners(group);
 		});
 
 		$(criteria.dom.left).on('click', () => {
-			this.s.toDrop = new Criteria(this.s.dt, this.s.opts, criteria.s.index);
+			this.s.toDrop = new Criteria(this.s.dt, this.s.opts, this.s.topGroup, criteria.s.index);
 			this.s.toDrop.s = criteria.s;
 			this.s.toDrop.c = criteria.c;
 			this.s.toDrop.classes = criteria.classes;
@@ -516,13 +521,13 @@ export default class Group {
 			$(this.dom.container).trigger('dtsb-dropCriteria');
 			criteria.s.index = index;
 			this._removeCriteria(criteria);
-			$(this.dom.container).trigger('dtsb-redrawContents');
+			$(this.s.topGroup).trigger('dtsb-redrawContents');
 		});
 
-		$(criteria.dom.container).on('dtsb-redrawContents', () => {
-			$(this.dom.container).trigger('dtsb-redrawContents');
-		});
-		
+		// This is nicer so that it bubbles up, but it is slow
+		// $(criteria.dom.container).on('dtsb-redrawContents', () => {
+		// 	$(this.dom.container).trigger('dtsb-redrawContents');
+		// });
 	}
 
 	/**
@@ -568,12 +573,13 @@ export default class Group {
 				toDrop.s.index = length;
 				toDrop.updateArrows();
 				this.addCriteria(toDrop);
-				$(this.dom.container).trigger('dtsb-redrawContents');
+				$(this.s.topGroup).trigger('dtsb-redrawContents');
 		});
 
-		$(group.dom.container).on('dtsb-redrawContents', () => {
-			$(this.dom.container).trigger('dtsb-redrawContents');
-		});
+		// This is nicer but slower
+		// $(group.dom.container).on('dtsb-redrawContents', () => {
+		// 	$(this.dom.container).trigger('dtsb-redrawContents');
+		// });
 	}
 
 	/**

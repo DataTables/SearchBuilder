@@ -59,6 +59,7 @@ export interface IS {
 	fields: IFieldOpt[];
 	filled: boolean;
 	index: number;
+	topGroup: JQuery<HTMLElement>;
 	type: string;
 	value: any[];
 	values: any[];

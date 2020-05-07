@@ -115,7 +115,7 @@ export default class SearchBuilder {
 	 * Set's up the SearchBuilder
 	 */
 	private _setUp(): void {
-		this.s.topGroup = new Group(this.s.dt, this.c);
+		this.s.topGroup = new Group(this.s.dt, this.c, undefined);
 
 		this._setClearListener();
 
@@ -172,7 +172,7 @@ export default class SearchBuilder {
 	private _setClearListener() {
 		$(this.dom.clearAll).unbind('click');
 		$(this.dom.clearAll).on('click', () => {
-			this.s.topGroup = new Group(this.s.dt, this.s.opts);
+			this.s.topGroup = new Group(this.s.dt, this.s.opts, undefined);
 			this._build();
 			this.s.dt.draw();
 		});

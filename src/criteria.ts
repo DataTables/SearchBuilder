@@ -411,7 +411,7 @@ export default class Criteria {
 	public c: typeInterfaces.IDefaults;
 	public s: typeInterfaces.IS;
 
-	constructor(table: any, opts: any, index: number = 0, depth: number = 1) {
+	constructor(table: any, opts: any, topGroup: JQuery<HTMLElement>, index: number = 0, depth: number = 1) {
 		// Check that the required version of DataTables is included
 		if (! DataTable || ! DataTable.versionCheck || ! DataTable.versionCheck('1.10.0')) {
 			throw new Error('SearchPane requires DataTables 1.10 or newer');
@@ -431,6 +431,7 @@ export default class Criteria {
 			fields: [],
 			filled: false,
 			index,
+			topGroup,
 			type: '',
 			value: [],
 			values: [],
@@ -464,15 +465,15 @@ export default class Criteria {
 		}
 
 		this.s.dt.on('draw.dtsp', () => {
-			this._adjustTopRow();
+			this._adjustCriteria();
 		});
 
 		this.s.dt.on('buttons-action', () => {
-			this._adjustTopRow();
+			this._adjustCriteria();
 		});
 
 		$(window).on('resize.dtsp', DataTable.util.throttle(() => {
-			this._adjustTopRow();
+			this._adjustCriteria();
 		}));
 
 		this._buildCriteria();
@@ -525,7 +526,7 @@ export default class Criteria {
 			$(this.dom.container).append(this.dom.left);
 		}
 
-		this._adjustTopRow();
+		this._adjustCriteria();
 	}
 
 	/**
@@ -723,13 +724,16 @@ export default class Criteria {
 		});
 	}
 
-	private _adjustTopRow(): void {
+	/**
+	 * Adjusts the criteria to make SearchBuilder responsive
+	 */
+	private _adjustCriteria(): void {
 		if ($(document).has(this.dom.container).length === 0) {
 			return;
 		}
 
 		let valRight: number;
-		let valWidth:number;
+		let valWidth: number;
 
 		if ($(this.dom.container).has(this.dom.value).length !== 0) {
 			valWidth =  $(this.dom.value).outerWidth(true);
@@ -754,9 +758,16 @@ export default class Criteria {
 			leftOffset.left :
 			rightOffset.left;
 
-		if (buttonsLeft - valRight < 15 || (hasLeft && leftOffset.top !== rightOffset.top) || rightOffset.top !== $(this.dom.delete).offset().top) {
+		if (
+			buttonsLeft - valRight < 15 ||
+			(
+				hasLeft &&
+				leftOffset.top !== rightOffset.top
+			) ||
+			rightOffset.top !== $(this.dom.delete).offset().top
+		) {
 			$(this.dom.container).parent().addClass(this.classes.vertical);
-			$(this.dom.container).trigger('dtsb-redrawContents');
+			$(this.s.topGroup).trigger('dtsb-redrawContents');
 		}
 		else if (
 			buttonsLeft -
@@ -767,7 +778,7 @@ export default class Criteria {
 				valWidth
 			) > 15) {
 			$(this.dom.container).parent().removeClass(this.classes.vertical);
-			$(this.dom.container).trigger('dtsb-redrawContents');
+			$(this.s.topGroup).trigger('dtsb-redrawContents');
 		}
 	}
 
