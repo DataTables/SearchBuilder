@@ -45,8 +45,8 @@ $.extend(true, DataTable.SearchBuilder.classes, {
 
 $.extend(true, DataTable.Group.classes, {
 	add: 'btn btn-light dtsb-add',
-	logic: 'btn btn-light dtsb-logic',
-	clearGroup: 'btn btn-light dtsb-clearGroup'
+	clearGroup: 'btn btn-light dtsb-clearGroup',
+	logic: 'btn btn-light dtsb-logic'
 });
 
 $.extend(true, DataTable.Criteria.classes, {
