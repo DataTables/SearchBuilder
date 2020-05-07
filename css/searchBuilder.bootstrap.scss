@@ -3,11 +3,11 @@
 
 div.dtsb-searchBuilder {
     div.dtsb-indentSub {
-        margin-left: 45px;
+        margin-left: 40px;
     }
 
     div.dtsb-indentTop {
-        margin-left: 53px;
+        margin-left: 45px;
     }
 
     div.dtsb-titleRow {
@@ -31,6 +31,20 @@ div.dtsb-searchBuilder {
 
         button.dtsb-rndbtn {
             padding: 0px !important;
+            border-radius: 30px;
+            width: 34px;
+            height: 34px;
+        }
+
+        button.dtsb-clearGroup {
+            margin-left: 0px;
+            margin-right: 5px;
+            margin-top: 3px;
+            margin-bottom: 3px;
+        }
+
+        button.dtsb-logic {
+            margin-right: 6px;
         }
     }
 }
