@@ -166,6 +166,9 @@ export default class SearchBuilder {
 		});
 	}
 
+	/**
+	 * Set the listener for the clear button
+	 */
 	private _setClearListener() {
 		$(this.dom.clearAll).unbind('click');
 		$(this.dom.clearAll).on('click', () => {
@@ -175,6 +178,9 @@ export default class SearchBuilder {
 		});
 	}
 
+	/**
+	 * Set the listener for the Redraw event
+	 */
 	private _setRedrawListener() {
 		$(this.s.topGroup.dom.container).unbind('dtsb-redrawContents');
 		$(this.s.topGroup.dom.container).on('dtsb-redrawContents', () => {
