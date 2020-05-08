@@ -31,7 +31,7 @@ export default class Group {
 		indentTop: 'dtsb-indentTop',
 		inputButton: 'dtsb-iptbtn',
 		logic: 'dtsb-logic',
-		roundButton: 'dtsb-rndbtn'
+		logicContainer: 'dtsb-logicContainer'
 	};
 
 	private static defaults: typeInterfaces.IDefaults = {
@@ -70,9 +70,10 @@ export default class Group {
 
 		this.dom = {
 			add: $('<button/>').addClass(this.classes.add).addClass(this.classes.button),
-			clear: $('<button/>').addClass(this.classes.roundButton).addClass(this.classes.clearGroup).text('x'),
+			clear: $('<button/>').addClass(this.classes.button).addClass(this.classes.clearGroup).text('x'),
 			container: $('<div/>').addClass(this.classes.group),
-			logic: $('<button/>').addClass(this.classes.logic).addClass(this.classes.button)
+			logic: $('<button/>').addClass(this.classes.logic).addClass(this.classes.button),
+			logicContainer: $('<div/>').addClass(this.classes.logicContainer)
 		};
 
 		if (this.s.topGroup === undefined) {
@@ -139,7 +140,7 @@ export default class Group {
 		}
 
 		this.s.logic = loadedDetails.logic;
-		$(this.dom.logic).text(this.s.logic === 'OR' ? this.s.dt.i18n('searchBuilder.logicOr', 'Any Of') : this.s.dt.i18n('searchBuilder.logicAnd', 'All Of'));
+		$(this.dom.logic).text(this.s.logic === 'OR' ? this.s.dt.i18n('searchBuilder.logicOr', 'Or') : this.s.dt.i18n('searchBuilder.logicAnd', 'And'));
 
 		for (let crit of loadedDetails.criteria) {
 			if (crit.type === 'group') {
@@ -157,7 +158,7 @@ export default class Group {
 	public redrawContents(): void {
 		// Clear the container out and add the basic elements
 		$(this.dom.container).empty();
-		$(this.dom.container).append(this.dom.logic).append(this.dom.add);
+		$(this.dom.container).append(this.dom.logicContainer).append(this.dom.add);
 
 		this.setListeners();
 
@@ -225,7 +226,7 @@ export default class Group {
 	 */
 	public setupLogic(): void {
 		// Remove logic button
-		$(this.dom.logic).remove();
+		$(this.dom.logicContainer).remove();
 		$(this.dom.clear).remove();
 
 		if (this.s.criteria.length < 1) {
@@ -234,59 +235,33 @@ export default class Group {
 			return;
 		}
 
-		let width: number;
 		// Set width
-		if (!this.s.isChild || this.s.criteria.length < 2) {
-			width = $(this.dom.container).height();
-		}
-		else {
-			$(this.dom.container).append(this.dom.clear);
-			let buttheight = $(this.dom.clear).outerHeight(true);
-			$(this.dom.clear).remove();
-			width = $(this.dom.container).innerHeight() - buttheight;
-		}
-
-		$(this.dom.logic).width(width);
+		$(this.dom.logicContainer).width($(this.dom.container).height());
 
 		// Prepend logic button
-		$(this.dom.container).prepend(this.dom.logic);
+		$(this.dom.container).prepend(this.dom.logicContainer);
 		this._setLogicListener();
 
-		let logicOffset = $(this.dom.logic).offset();
+		let logicOffset = $(this.dom.logicContainer).offset();
 
 		// Set horizontal alignment
 		let currentLeft = logicOffset.left;
 		let groupLeft = $(this.dom.container).offset().left;
 		let shuffleLeft = currentLeft - groupLeft;
-		let newPos = currentLeft - shuffleLeft - $(this.dom.logic).outerHeight(true);
-		$(this.dom.logic).offset({left: newPos});
+		let newPos = currentLeft - shuffleLeft - $(this.dom.logicContainer).outerHeight(true);
+		$(this.dom.logicContainer).offset({left: newPos});
 
 		// Set vertical alignment
-		let firstCrit = $(this.dom.logic).next();
+		let firstCrit = $(this.dom.logicContainer).next();
 		let currentTop = logicOffset.top;
 		let firstTop = $(firstCrit).offset().top;
 		let shuffleTop = currentTop - firstTop;
 		let newTop = currentTop - shuffleTop;
-		$(this.dom.logic).offset({top: newTop});
+		$(this.dom.logicContainer).offset({top: newTop});
 
 		if (this.s.criteria.length > 1 && this.s.isChild) {
 			// Append clear Group
 			$(this.dom.clear).insertAfter(this.dom.logic);
-
-			let clearOffset = $(this.dom.clear).offset();
-
-			// Set horizontal alignment
-			let currentLeftBtn = clearOffset.left;
-			let shuffleLeftBtn = currentLeftBtn - groupLeft;
-			let newPosBtn = currentLeftBtn - shuffleLeftBtn - $(this.dom.clear).outerWidth(true);
-			$(this.dom.clear).offset({left: newPosBtn});
-
-			// Set vertical alignment
-			let currentTopBtn = clearOffset.top;
-			let shuffleTopBtn = currentTopBtn - (newTop + $(this.dom.logic).outerWidth(true));
-			let newTopBtn = currentTopBtn - shuffleTopBtn;
-			$(this.dom.clear).offset({top: newTopBtn});
-
 			this._setClearListener();
 		}
 
@@ -300,7 +275,7 @@ export default class Group {
 			// If this is the parent group then the logic button has not been added yet
 			if (!this.s.isChild) {
 				$(this.dom.container).addClass(this.classes.indentTop);
-				$(this.dom.container).prepend(this.dom.logic);
+				$(this.dom.container).prepend(this.dom.logicContainer);
 			}
 
 			this.addCriteria();
@@ -409,7 +384,7 @@ export default class Group {
 	}
 
 	/**
-	 * Checks all of the criteria using AND logic
+	 * Checks And the criteria using AND logic
 	 * @param rowData The row data to be checked against the search criteria
 	 * @returns boolean The result of the AND search
 	 */
@@ -431,7 +406,7 @@ export default class Group {
 	}
 
 	/**
-	 * Checks all of the criteria using OR logic
+	 * Checks And the criteria using OR logic
 	 * @param rowData The row data to be checked against the search criteria
 	 * @returns boolean The result of the OR search
 	 */
@@ -588,18 +563,20 @@ export default class Group {
 	private _setup(): void {
 		this.setListeners();
 
-		$(this.dom.add).text(this.s.dt.i18n('searchBuilder.add', 'ADD'));
-		$(this.dom.logic).text(this.c.logic === 'OR' ? this.s.dt.i18n('searchBuilder.logicOr', 'Any Of') : this.s.dt.i18n('searchBuilder.logicAnd', 'All Of'));
+		$(this.dom.add).text(this.s.dt.i18n('searchBuilder.add', 'Add'));
+		$(this.dom.logic).text(this.c.logic === 'OR' ? this.s.dt.i18n('searchBuilder.logicOr', 'Or') : this.s.dt.i18n('searchBuilder.logicAnd', 'And'));
 		this.s.logic = this.c.logic === 'OR' ? 'OR' : 'AND';
 
 		if (this.c.greyscale) {
 			$(this.dom.logic).addClass(this.classes.greyscale);
 		}
 
+		$(this.dom.logicContainer).prepend(this.dom.logic);
+
 		// Only append the logic button immediately if this is a sub group,
 		//  otherwise it will be prepended later when adding a criteria
 		if (this.s.isChild) {
-			$(this.dom.container).append(this.dom.logic);
+			$(this.dom.container).append(this.dom.logicContainer);
 			$(this.dom.container).addClass(this.classes.indentSub);
 		}
 
@@ -623,11 +600,11 @@ export default class Group {
 	private _toggleLogic(): void {
 		if (this.s.logic === 'OR') {
 			this.s.logic = 'AND';
-			$(this.dom.logic).text(this.s.dt.i18n('searchBuilder.logicAnd', 'All Of'));
+			$(this.dom.logic).text(this.s.dt.i18n('searchBuilder.logicAnd', 'And'));
 		}
 		else if (this.s.logic === 'AND') {
 			this.s.logic = 'OR';
-			$(this.dom.logic).text(this.s.dt.i18n('searchBuilder.logicOr', 'Any Of'));
+			$(this.dom.logic).text(this.s.dt.i18n('searchBuilder.logicOr', 'Or'));
 		}
 	}
 }

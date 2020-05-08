@@ -1,4 +1,5 @@
 export interface IClasses {
+	button: string;
 	condition: string;
 	container: string;
 	delete: string;
@@ -10,7 +11,6 @@ export interface IClasses {
 	left: string;
 	option: string;
 	right: string;
-	roundButton: string;
 	value: string;
 	vertical: string;
 }

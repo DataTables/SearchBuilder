@@ -4,15 +4,7 @@ div.dtsb-searchBuilder {
     margin-bottom: 50px;
     border: 2px solid #cecece;
     border-radius: 3px;
-
-    button.dtsb-rndbtn {
-        border-radius: 20px;
-        width: 25px;
-        height: 25px;
-        margin-left: 10px;
-        margin-right: 10px;
-        margin-bottom: 5px;
-    }
+    padding-bottom: 10px;
 
     div.dtsb-titleRow{
         justify-content: space-evenly;
@@ -22,6 +14,8 @@ div.dtsb-searchBuilder {
             display: inline-block;
             font-size: 1em;
             padding: 5px;
+            margin-top: 9px;
+            margin-left: 10px;
         }
 
         button.dtsb-clearAll {
@@ -38,17 +32,24 @@ div.dtsb-searchBuilder {
 
     div.dtsb-group {
         position: relative;
-        margin-bottom: 5px;
         /* background-color: #e4e2e2; */
         border-radius: 3px;
         margin-left: 10px;
 
         button.dtsb-clearGroup {
-            position: absolute;
             margin: 2px;
         }
 
-        button.dtsb-logic {
+        button.dtsb-add {
+            margin-bottom: 0px;
+            margin-top: 10px;
+            padding-left: 8px;
+            padding-right: 8px;
+            min-width: 80px !important;
+            text-align: left;
+        }
+
+        div.dtsb-logicContainer {
             -webkit-transform: rotate(90deg);
             -moz-transform: rotate(90deg);
             -o-transform: rotate(90deg);
@@ -56,7 +57,7 @@ div.dtsb-searchBuilder {
             transform: rotate(90deg);
             position: absolute;
             margin-top: 5px;
-            margin-right: 4px;
+            margin-right: 10px;
         }
 
         button.dtsb-greyscale {
@@ -64,16 +65,16 @@ div.dtsb-searchBuilder {
         }
 
         div.dtsb-criteria {
-            
+            margin-top: 10px;
 
             select.dtsb-dropDown, input.dtsb-input{
                 padding: 5px;
                 margin-right: 10px;
-                margin-bottom: 5px;
             }
 
             button.dtsb-delete, button.dtsb-right, button.dtsb-left{
                 float: right;
+                margin-right: 10px;
             }
 
             span.dtsp-joiner {
@@ -83,10 +84,10 @@ div.dtsb-searchBuilder {
     }
 
     div.dtsb-indentTop {
-        margin-left: 45px;   
+        margin-left: 50px;   
     }
 
     div.dtsb-indentSub {
-        margin-left: 35px;
+        margin-left: 40px;
     }
 }

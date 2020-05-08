@@ -25,7 +25,6 @@ export default class SearchBuilder {
 		clearAll: 'dtsb-clearAll',
 		container: 'dtsb-searchBuilder',
 		inputButton: 'dtsb-iptbtn',
-		roundButton: 'dtsb-rndbtn',
 		title: 'dtsb-title',
 		titleRow: 'dtsb-titleRow'
 	};

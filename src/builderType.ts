@@ -11,7 +11,6 @@ export interface IClasses {
 	clearAll: string;
 	container: string;
 	inputButton: string;
-	roundButton: string;
 	title: string;
 	titleRow: string;
 }

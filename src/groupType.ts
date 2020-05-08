@@ -11,7 +11,7 @@ export interface IClassses {
 	indentTop: string;
 	inputButton: string;
 	logic: string;
-	roundButton: string;
+	logicContainer: string;
 }
 
 export interface IDom {
@@ -19,6 +19,7 @@ export interface IDom {
 	clear: JQuery<HTMLElement>;
 	container: JQuery<HTMLElement>;
 	logic: JQuery<HTMLElement>;
+	logicContainer: JQuery<HTMLElement>;
 }
 
 export interface IDefaults {

@@ -3,11 +3,11 @@
 
 div.dtsb-searchBuilder {
     div.dtsb-indentSub {
-        margin-left: 44px;
+        margin-left: 49px;
     }
 
     div.dtsb-indentTop {
-        margin-left: 50px;
+        margin-left: 60px;
     }
 
     div.dtsb-titleRow {
@@ -16,6 +16,7 @@ div.dtsb-searchBuilder {
         div.dtsb-title {
             padding-top: 10px;
             padding-left: 10px;
+            font-size: 1rem;
         }
         
         button.dtsb-clearAll {
@@ -23,20 +24,41 @@ div.dtsb-searchBuilder {
         }
     }
     div.dtsb-group{
+        button.dtsb-clearGroup {
+            margin-right: 8px;
+        }
         div.dtsb-criteria{
-            button.dtsb-rndbtn {
-                padding: 0px !important;
-            }
             .form-control {
                 width: auto;
                 display: inline-block;
             }
         }
-        button.dtsb-rndbtn {
-            padding: 0px !important;
-            border-radius: 35px;
-            width: 38px;
-            height: 38px;
+
+        div.dtsb-logicContainer{
+            border-radius: 4px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-content: flex-start;
+            align-items: flex-start;
+            margin-top: 10px;
+
+            button.dtsb-logic {
+                border: none;
+                border-radius: 0px;
+                flex-grow: 1;
+                flex-shrink: 0;
+                flex-basis: 40px;
+                margin: 0px;
+            }
+    
+            button.dtsb-clearGroup {
+                border: none;
+                border-radius: 0px;
+                width: 30px;
+                margin: 0px;
+            }
         }
     }
 }

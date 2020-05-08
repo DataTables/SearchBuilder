@@ -21,6 +21,7 @@ export default class Criteria {
 	private static version = '0.0.1';
 
 	private static classes: typeInterfaces.IClasses = {
+		button: 'dtsb-button',
 		condition: 'dtsb-condition',
 		container: 'dtsb-criteria',
 		delete: 'dtsb-delete',
@@ -32,7 +33,6 @@ export default class Criteria {
 		left: 'dtsb-left',
 		option: 'dtsb-option',
 		right: 'dtsb-right',
-		roundButton: 'dtsb-rndbtn',
 		value: 'dtsb-value',
 		vertical: 'dtsb-vertical'
 	};
@@ -443,11 +443,11 @@ export default class Criteria {
 				.addClass(this.classes.dropDown),
 			conditionTitle: $('<option value="" disabled selected hidden/>').text(this.s.dt.i18n('searchBuilder.condition', 'Condition')),
 			container: $('<div/>').addClass(this.classes.container),
-			delete: $('<button>x</button>').addClass(this.classes.delete).addClass(this.classes.roundButton),
+			delete: $('<button>x</button>').addClass(this.classes.delete).addClass(this.classes.button),
 			field: $('<select/>').addClass(this.classes.field).addClass(this.classes.dropDown),
 			fieldTitle: $('<option value="" disabled selected hidden/>').text(this.s.dt.i18n('searchBuilder.field', 'Field')),
-			left: $('<button>&#x2190;</button>').addClass(this.classes.left).addClass(this.classes.roundButton),
-			right: $('<button disabled>&#x2192;</button>').addClass(this.classes.right).addClass(this.classes.roundButton),
+			left: $('<button>\<</button>').addClass(this.classes.left).addClass(this.classes.button),
+			right: $('<button disabled>\></button>').addClass(this.classes.right).addClass(this.classes.button),
 			value: $('<select/>').addClass(this.classes.value).addClass(this.classes.dropDown),
 			valueInputs: [
 				$('<input/>').addClass(this.classes.value).addClass(this.classes.input),

@@ -1,18 +1,24 @@
 @import './dateTime.scss';
 @import './common.scss';
 div.dtsb-searchBuilder {
-    button.dtsb-button {
-        border: none;
-        border-radius: 3px;
-        padding: 5px;
+    
+    .dtsb-greyscale {
         background-color: #cecece;
-        margin-right: 10px;
-        margin-bottom: 5px;
+        border: none;
     }
 
-    button.dtsb-rndbtn {
-        background-color: #cecece;
-        border: none;
+    button.dtsb-button {
+        border: 2px solid #cecece;
+        background-color: transparent;
+        border-radius: 3px;
+        padding: 5px;
+        margin-right: 10px;
+        margin-bottom: 5px;
+        min-width: 29px;
+        &:hover {
+            background-color: #cecece !important;
+            cursor: pointer;
+        }
     }
 
     button.dtsb-iptbtn {
@@ -21,42 +27,58 @@ div.dtsb-searchBuilder {
     }
 
     div.dtsb-group {
-        button.dtsb-logic {
-            background-color: #80c779;
-        }
+        div.dtsb-logicContainer{
+            border: 2px solid;
+            border-color: #cecece;
+            border-radius: 3px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-content: flex-start;
+            align-items: flex-start;
 
-        button.dtsb-add {
-            margin-bottom: 0px;
-        }
-
-        button.dtsb-clearGroup {
-            margin-left: 5px;
-            margin-right: 5px;
+            button.dtsb-logic {
+                border: none;
+                background-color: transparent;
+                border-radius: 0px;
+                // background-color: #48b13c;
+                flex-grow: 1;
+                flex-shrink: 0;
+                flex-basis: 40px;
+                margin: 0px;
+            }
+    
+            button.dtsb-clearGroup {
+                border: none;
+                border-radius: 0px;
+                width: 30px;
+                margin: 0px;
+            }
         }
 
         div.dtsb-criteria {
-
             select.dtsb-dropDown, input.dtsb-input{
-                border: none;
+                border: 2px solid;
                 border-radius: 3px;
-                background-color: #cecece;
+                //background-color: #cecece;
             }
 
             select.dtsb-condition {
-                background-color: #80c779;
+                border-color: #48b13c;
+                // background-color: #48b13c;
             }
 
             select.dtsb-field {
-                background-color: #c22e2e;
+                border-color: #e70f00;
+                // background-color: #e70f00;
             }
 
             select.dtsb-value, input.dtsb-value {
-                background-color: #7cbcf8;
+                border-color: #0069ba;
+                // background-color: #0069ba;
             }
 
-            select.dtsb-greyscale, input.dtsb-greyscale {
-                background-color: #cecece;
-            }
             select.dtsb-condition, select.dtsb-field, select.dtsb-value {
                 option.dtsb-option {
                     background-color: white;
