@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>language.searchBuilder.leftTitle</name>
+	<summary>Set the title attribute of the SearchBuilder left button</summary>
+	<since>SearchBuilder 0.0.1</since>
+
+	<type type="string | object">
+		<description>
+			`-init language.searchBuilder.leftTitle` changes the title of the SearchBuilder left button.
+		</description>
+	</type>
+
+	<default value="'delete-filtering-rule'">
+		The default value for the `-init language.searchBuilder.leftTitle` parameter is `'indent criteria'`. 
+	</default>
+	<description>
+		<![CDATA[
+			As standard, SearchBuilder will set the left button's title to `'indent criteria'`.
+
+            The value of `-init language.searchBuilder.leftTitle` is passed into an `-api i18n()` function.
+		]]>
+	</description>
+
+	<example title="Change title attribute for SearchBuilder left button"><![CDATA[
+$(document).ready(function() {
+    $('#example').DataTable( {
+        language: {
+            SearchBuilder: {
+                leftTitle: 'Left'
+            }
+        },
+        dom: 'Qfrtip',
+    });
+});
+
+]]></example>
+
+<related type="api">i18n()</related>
+
+</dt-option>
