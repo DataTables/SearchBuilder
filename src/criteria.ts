@@ -712,6 +712,8 @@ export default class Criteria {
 				this.s.filled = false;
 				this.s.dt.draw();
 			}
+
+			this.s.dt.state.save();
 		});
 
 		$(this.dom.condition).unbind('change');
@@ -728,6 +730,8 @@ export default class Criteria {
 				this.s.filled = false;
 				this.s.dt.draw();
 			}
+
+			this.s.dt.state.save();
 		});
 
 		$(this.dom.value).unbind('change');
@@ -742,6 +746,8 @@ export default class Criteria {
 
 			// Trigger a search
 			this.s.dt.draw();
+
+			this.s.dt.state.save();
 		});
 
 		// Set the listeners for all of the elements in the valueInputs array
