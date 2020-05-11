@@ -23,7 +23,7 @@ $(document).ready(function() {
 ]]>
 </js>
 
-<title lib="searchBuilder">SearchBuilder using a Button</title>
+<title lib="searchBuilder">SearchBuilder Configuration with Buttons</title>
 
 <info><![CDATA[
 
