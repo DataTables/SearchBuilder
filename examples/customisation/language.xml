@@ -10,7 +10,17 @@ $(document).ready(function() {
     $('#example').DataTable( {
         language: {
             searchBuilder: {
+                add: '+',
+                condition: 'Comparator',
                 clearAll: 'Reset',
+                deleteTitle: 'Delete',
+                field: 'Column',
+                leftTitle: 'Left',
+                logicAnd: 'And',
+                logicOr: 'Or',
+                rightTitle: 'Right',
+                title: 'Search Builder Title',
+                value: 'Option',
             }
         },
         dom: 'Qfrtip',
@@ -20,13 +30,13 @@ $(document).ready(function() {
 ]]>
 </js>
 
-<title lib="searchBuilder">SearchBuilder Clear All Button Text</title>
+<title lib="searchBuilder">SearchBuilder Add Button Text</title>
 
 <info><![CDATA[
 
 This is the `-init searchBuilder`extension for DataTables. It allows results to be filtered based on a user constructed query.
 
-This example demonstrates how to set the value of `-init language.searchBuilder.clearAll`.
+This example demonstrates how to set the value of `-init language.searchBuilder.add`.
 
 ]]></info>
 
