@@ -70,7 +70,7 @@ export default class Group {
 
 		this.dom = {
 			add: $('<button/>').addClass(this.classes.add).addClass(this.classes.button),
-			clear: $('<button/>').addClass(this.classes.button).addClass(this.classes.clearGroup).text('x'),
+			clear: $('<button/>').addClass(this.classes.button).addClass(this.classes.clearGroup).text('&times'),
 			container: $('<div/>').addClass(this.classes.group),
 			logic: $('<button/>').addClass(this.classes.logic).addClass(this.classes.button),
 			logicContainer: $('<div/>').addClass(this.classes.logicContainer)
@@ -571,7 +571,7 @@ export default class Group {
 	private _setup(): void {
 		this.setListeners();
 
-		$(this.dom.add).text(this.s.dt.i18n('searchBuilder.add', 'Add'));
+		$(this.dom.add).text(this.s.dt.i18n('searchBuilder.add', 'Add Condition'));
 		$(this.dom.logic).text(this.c.logic === 'OR' ? this.s.dt.i18n('searchBuilder.logicOr', 'Or') : this.s.dt.i18n('searchBuilder.logicAnd', 'And'));
 		this.s.logic = this.c.logic === 'OR' ? 'OR' : 'AND';
 
