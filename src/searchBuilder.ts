@@ -152,7 +152,7 @@ export default class SearchBuilder {
 	private _build(): void {
 		$(this.dom.container).empty();
 
-		$(this.dom.title).text('SearchBuilder');
+		$(this.dom.title).text(this.s.dt.i18n('searchBuilder.title', 'SearchBuilder'));
 
 		$(this.dom.titleRow).append(this.dom.title);
 		$(this.dom.titleRow).append(this.dom.clearAll);

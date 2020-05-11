@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" table-class="display nowrap" order="5">
+
+<css lib="datatables searchbuilder"/>
+
+<js lib="jquery datatables searchbuilder">
+<![CDATA[
+
+$(document).ready(function() {
+    $('#example').DataTable( {
+        language: {
+            searchBuilder: {
+                title: 'Search Builder Title',
+            }
+        },
+        dom: 'Qfrtip',
+    });
+});
+
+]]>
+</js>
+
+<title lib="searchBuilder">SearchBuilder Title</title>
+
+<info><![CDATA[
+
+This is the `-init searchBuilder`extension for DataTables. It allows results to be filtered based on a user constructed query.
+
+This example demonstrates how to set the value of `-init language.searchBuilder.title`, which in turn sets the title for the SearchBuilder.
+
+]]></info>
+
+</dt-example>
