@@ -438,7 +438,7 @@ export default class Criteria {
 		};
 
 		this.dom = {
-			condition: $('<select/>')
+			condition: $('<select disabled/>')
 				.addClass(this.classes.condition)
 				.addClass(this.classes.dropDown),
 			conditionTitle: $('<option value="" disabled selected hidden/>').text(this.s.dt.i18n('searchBuilder.condition', 'Condition')),
@@ -457,7 +457,7 @@ export default class Criteria {
 				.addClass(this.classes.right)
 				.addClass(this.classes.button)
 				.attr('title', this.s.dt.i18n('searchBuilder.rightTitle', 'idnent criteria')),
-			value: $('<select/>').addClass(this.classes.value).addClass(this.classes.dropDown),
+			value: $('<select disabled/>').addClass(this.classes.value).addClass(this.classes.dropDown),
 			valueInputs: [
 				$('<input/>').addClass(this.classes.value).addClass(this.classes.input),
 				$('<input/>').addClass(this.classes.value).addClass(this.classes.input)
@@ -861,7 +861,7 @@ export default class Criteria {
 	 */
 	private _clearCondition(): void {
 		$(this.dom.condition).empty();
-		$(this.dom.conditionTitle).attr('selected', true);
+		$(this.dom.conditionTitle).attr('selected', true).attr('disabled', true);
 		$(this.dom.condition).append(this.dom.conditionTitle);
 		this.s.conditions = [];
 	}
@@ -876,7 +876,7 @@ export default class Criteria {
 			$(input).val('');
 		}
 
-		$(this.dom.valueTitle).attr('selected', true);
+		$(this.dom.valueTitle).attr('selected', true).attr('disabled', true);
 		$(this.dom.value).append(this.dom.valueTitle);
 		this.s.values = [];
 		this.s.value = [];
@@ -892,6 +892,7 @@ export default class Criteria {
 			this.s.type = this.s.dt.columns().type().toArray()[column];
 
 			if (this.c.conditions[this.s.type] !== undefined) {
+				$(this.dom.condition).attr('disabled', false);
 				for (let condition of this.c.conditions[this.s.type]) {
 					this.s.conditions.push(condition);
 					$(this.dom.condition).append(
@@ -905,7 +906,9 @@ export default class Criteria {
 			}
 		}
 		// Otherwise we can just load them in
-		else {
+		else if (this.s.conditions.length > 1) {
+			$(this.dom.condition).attr('disabled', false);
+
 			for (let condition of this.s.conditions) {
 				let newOpt = $('<option>', {
 					text : condition.display,
@@ -919,6 +922,9 @@ export default class Criteria {
 
 				$(this.dom.condition).append(newOpt);
 			}
+		}
+		else {
+			$(this.dom.condition).attr('disabled', true);
 		}
 	}
 
@@ -1007,6 +1013,8 @@ export default class Criteria {
 
 				this.setListeners();
 			}
+
+			$(this.dom.value).attr('disabled', false);
 
 			// If there are no values set then we need to lead them in based on the columns data
 			if (this.s.values.length === 0) {
