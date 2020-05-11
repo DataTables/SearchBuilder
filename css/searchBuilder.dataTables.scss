@@ -4,9 +4,12 @@
 $border-width: 1px;
 
 div.dtsb-searchBuilder {
+    button, select, input {
+        background-color: rgb(230, 227, 227);
+    }
+
     button.dtsb-button {
         border: $border-width solid #cecece;
-        background-color: transparent;
         border-radius: 3px;
         padding: 5px;
         margin-right: 10px;
@@ -47,9 +50,7 @@ div.dtsb-searchBuilder {
 
             button.dtsb-logic {
                 border: none;
-                background-color: transparent;
                 border-radius: 0px;
-                // background-color: #48b13c;
                 flex-grow: 1;
                 flex-shrink: 0;
                 flex-basis: 40px;
@@ -68,22 +69,18 @@ div.dtsb-searchBuilder {
             select.dtsb-dropDown, input.dtsb-input{
                 border: $border-width solid;
                 border-radius: 3px;
-                //background-color: #cecece;
             }
 
             select.dtsb-condition {
                 border-color: #48b13c;
-                // background-color: #48b13c;
             }
 
             select.dtsb-data {
                 border-color: #e70f00;
-                // background-color: #e70f00;
             }
 
             select.dtsb-value, input.dtsb-value {
                 border-color: #0069ba;
-                // background-color: #0069ba;
             }
 
             select.dtsb-condition, select.dtsb-data, select.dtsb-value {
