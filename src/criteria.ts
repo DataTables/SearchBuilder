@@ -495,7 +495,7 @@ export default class Criteria {
 	/**
 	 * Adds the left button to the criteria
 	 */
-	public updateArrows(): void {
+	public updateArrows(hasSiblings = false): void {
 		$(this.dom.container).empty();
 
 		// Get the type of condition and the number of values required so we now how many value inputs to append
@@ -532,7 +532,7 @@ export default class Criteria {
 		$(this.dom.container).append(this.dom.delete);
 
 		// If the depthLimit of the query has been hit then don't add the right button
-		if (this.c.depthLimit === false || this.s.depth < this.c.depthLimit) {
+		if ((this.c.depthLimit === false || this.s.depth < this.c.depthLimit) && hasSiblings) {
 			$(this.dom.container).append(this.dom.right);
 		}
 
@@ -807,16 +807,20 @@ export default class Criteria {
 
 		let leftOffset = $(this.dom.left).offset();
 		let rightOffset = $(this.dom.right).offset();
+		let clearOffset = $(this.dom.delete).offset();
 		let hasLeft = $(this.dom.container).has(this.dom.left).length !== 0;
+		let hasRight = $(this.dom.container).has(this.dom.right).length !== 0;
 		let buttonsLeft = hasLeft ?
 			leftOffset.left :
-			rightOffset.left;
+			hasRight ?
+				rightOffset.left :
+				clearOffset.left;
 
 		// Perform the responsive calculations and redraw where necessary
 		if (
 			buttonsLeft - valRight < 15 ||
 			(hasLeft && leftOffset.top !== rightOffset.top) ||
-			rightOffset.top !== $(this.dom.delete).offset().top
+			(hasRight && rightOffset.top !== $(this.dom.delete).offset().top)
 		) {
 			$(this.dom.container).parent().addClass(this.classes.vertical);
 			$(this.s.topGroup).trigger('dtsb-redrawContents');

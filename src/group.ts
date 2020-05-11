@@ -169,7 +169,7 @@ export default class Group {
 				this.s.criteria[i].index = i;
 				this.s.criteria[i].criteria.s.index = i;
 
-				this.s.criteria[i].criteria.updateArrows();
+				this.s.criteria[i].criteria.updateArrows(this.s.criteria.length > 1);
 
 				// If there is only one criteria or the depthLimit has been reached then don't allow right movement
 				if ((this.s.criteria.length === 1 || this.s.depth === this.c.depthLimit)) {
@@ -312,9 +312,6 @@ export default class Group {
 
 		criteria.populate();
 
-		// If this is a sub group then add the left button
-		criteria.updateArrows();
-
 		// Add the node for the new criteria to the end of the current criteria
 		$(criteria.getNode()).insertBefore(this.dom.add);
 
@@ -324,6 +321,12 @@ export default class Group {
 			index,
 			type: 'criteria'
 		});
+
+		for (let opt of this.s.criteria) {
+			if (opt.type === 'criteria') {
+				opt.criteria.updateArrows(this.s.criteria.length > 1);
+			}
+		}
 
 		// If there are not more than one criteria in this group then enable the right button, if not disable it
 		if (this.s.criteria.length > 1 && (this.c.depthLimit === false || this.s.depth < this.c.depthLimit)) {
@@ -560,7 +563,7 @@ export default class Group {
 				let toDrop = group.s.toDrop;
 				let length = this.s.criteria.length;
 				toDrop.s.index = length;
-				toDrop.updateArrows();
+				toDrop.updateArrows(this.s.criteria.length > 1);
 				this.addCriteria(toDrop);
 				$(this.s.topGroup).trigger('dtsb-redrawContents');
 		});
