@@ -14,7 +14,7 @@ $(document).ready(function() {
                 criteria:[
                     {
                         condition: 'Equals',
-                        field: '2',
+                        data: '2',
                         type: 'criteria',
                         value: ['Edinburgh']
                     },
@@ -22,13 +22,13 @@ $(document).ready(function() {
                         criteria: [
                             {
                                 condition: 'Equals',
-                                field: '0',
+                                data: '0',
                                 type: 'criteria',
                                 value: ['Cedric Kelly']
                             },
                             {
                                 condition: 'Equals',
-                                field: '0',
+                                data: '0',
                                 type: 'criteria',
                                 value: ['Dai Rios']
                             }

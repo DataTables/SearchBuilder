@@ -70,7 +70,7 @@ export default class Group {
 
 		this.dom = {
 			add: $('<button/>').addClass(this.classes.add).addClass(this.classes.button),
-			clear: $('<button/>').addClass(this.classes.button).addClass(this.classes.clearGroup).text('&times'),
+			clear: $('<button>&times</button>').addClass(this.classes.button).addClass(this.classes.clearGroup),
 			container: $('<div/>').addClass(this.classes.group),
 			logic: $('<button/>').addClass(this.classes.logic).addClass(this.classes.button),
 			logicContainer: $('<div/>').addClass(this.classes.logicContainer)

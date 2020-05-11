@@ -28,7 +28,7 @@
                 criteria:[
                     {
                         condition: 'Equals',
-                        field: 2,
+                        data: 2,
                         type: 'criteria',
                         value: ['Edinburgh']
                     }

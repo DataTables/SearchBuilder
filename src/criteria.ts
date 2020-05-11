@@ -24,9 +24,9 @@ export default class Criteria {
 		button: 'dtsb-button',
 		condition: 'dtsb-condition',
 		container: 'dtsb-criteria',
+		data: 'dtsb-data',
 		delete: 'dtsb-delete',
 		dropDown: 'dtsb-dropDown',
-		field: 'dtsb-field',
 		greyscale: 'dtsb-greyscale',
 		input: 'dtsb-input',
 		joiner: 'dtsp-joiner',
@@ -425,10 +425,10 @@ export default class Criteria {
 		this.s = {
 			condition: '',
 			conditions: [],
+			data: undefined,
+			dataPoints: [],
 			depth,
 			dt: table,
-			field: undefined,
-			fields: [],
 			filled: false,
 			index,
 			topGroup,
@@ -443,12 +443,12 @@ export default class Criteria {
 				.addClass(this.classes.dropDown),
 			conditionTitle: $('<option value="" disabled selected hidden/>').text(this.s.dt.i18n('searchBuilder.condition', 'Condition')),
 			container: $('<div/>').addClass(this.classes.container),
+			data: $('<select/>').addClass(this.classes.data).addClass(this.classes.dropDown),
+			dataTitle: $('<option value="" disabled selected hidden/>').text(this.s.dt.i18n('searchBuilder.data', 'Data Point')),
 			delete: $('<button>&times</button>')
 				.addClass(this.classes.delete)
 				.addClass(this.classes.button)
 				.attr('title', this.s.dt.i18n('searchBuilder.deleteTitle', 'delete filtering rule')),
-			field: $('<select/>').addClass(this.classes.field).addClass(this.classes.dropDown),
-			fieldTitle: $('<option value="" disabled selected hidden/>').text(this.s.dt.i18n('searchBuilder.field', 'Field')),
 			left: $('<button>\<</button>')
 				.addClass(this.classes.left)
 				.addClass(this.classes.button)
@@ -467,7 +467,7 @@ export default class Criteria {
 
 		// If the greyscale option is selected then add the class to add the grey colour to SearchBuilder
 		if (this.c.greyscale) {
-			$(this.dom.field).addClass(this.classes.greyscale);
+			$(this.dom.data).addClass(this.classes.greyscale);
 			$(this.dom.condition).addClass(this.classes.greyscale);
 			$(this.dom.value).addClass(this.classes.greyscale);
 			$(this.dom.valueInputs[0]).addClass(this.classes.greyscale);
@@ -512,7 +512,7 @@ export default class Criteria {
 			}
 		}
 
-		$(this.dom.container).append(this.dom.field).append(this.dom.condition);
+		$(this.dom.container).append(this.dom.data).append(this.dom.condition);
 
 		// If it is an input condition then append everything in order and all of the input elements required
 		if (conditionType === 'input') {
@@ -550,7 +550,7 @@ export default class Criteria {
 	 */
 	public destroy(): void {
 		// Turn off listeners
-		$(this.dom.field).off('.dtsb');
+		$(this.dom.data).off('.dtsb');
 		$(this.dom.condition).off('.dtsb');
 		$(this.dom.value).off('.dtsb');
 		$(this.dom.delete).off('.dtsb');
@@ -567,7 +567,7 @@ export default class Criteria {
 	public search(rowData: any[]): boolean {
 		for (let condition of this.s.conditions) {
 			if (condition.display === this.s.condition) {
-				return condition.comparator(rowData[this.s.field], this.s.value);
+				return condition.comparator(rowData[this.s.data], this.s.value);
 			}
 		}
 
@@ -580,7 +580,7 @@ export default class Criteria {
 	public getDetails(): typeInterfaces.IDetails {
 		return {
 			condition: this.s.condition,
-			field: this.s.field,
+			data: this.s.data,
 			type: 'criteria',
 			value: this.s.value
 		};
@@ -595,12 +595,12 @@ export default class Criteria {
 	}
 
 	/**
-	 * Populates the criteria field, condition and value(s) as far as has been selected
+	 * Populates the criteria data, condition and value(s) as far as has been selected
 	 */
 	public populate(): void {
-		this._populateField();
+		this._populateData();
 
-		if (this.s.field !== undefined) {
+		if (this.s.data !== undefined) {
 			this._populateCondition();
 
 			if (this.s.condition !== undefined) {
@@ -614,19 +614,19 @@ export default class Criteria {
 	 * @param loadedCriteria the details required to rebuild the criteria
 	 */
 	public rebuild(loadedCriteria: typeInterfaces.IDetails): void {
-		// Check to see if the previously selected field exists, if so select it
-		let foundField = false;
-		$(this.dom.field).children('option').each(function() {
-			if ($(this).val() === loadedCriteria.field) {
+		// Check to see if the previously selected data exists, if so select it
+		let foundData = false;
+		$(this.dom.data).children('option').each(function() {
+			if ($(this).val() === loadedCriteria.data) {
 				$(this).attr('selected', true);
-				foundField = true;
+				foundData = true;
 			}
 		});
 
-		// If the field has been found and selected then the condition can be populated and searched
-		if (foundField) {
-			this.s.field = loadedCriteria.field;
-			$(this.dom.fieldTitle).remove();
+		// If the data has been found and selected then the condition can be populated and searched
+		if (foundData) {
+			this.s.data = loadedCriteria.data;
+			$(this.dom.dataTitle).remove();
 			this._populateCondition();
 
 			// Check to see if the previously selected condition exists, if so select it
@@ -696,12 +696,12 @@ export default class Criteria {
 	 * Sets the listeners for the criteria
 	 */
 	public setListeners(): void {
-		$(this.dom.field).unbind('change');
-		$(this.dom.field).on('change', () => {
-			$(this.dom.fieldTitle).attr('selected', false);
-			this.s.field = $(this.dom.field).children('option:selected').val();
+		$(this.dom.data).unbind('change');
+		$(this.dom.data).on('change', () => {
+			$(this.dom.dataTitle).attr('selected', false);
+			this.s.data = $(this.dom.data).children('option:selected').val();
 
-			// When the field is changed, the values in condition and value may also change so need to renew them
+			// When the data is changed, the values in condition and value may also change so need to renew them
 			this._clearCondition();
 			this._clearValue();
 			this._resetValue();
@@ -824,8 +824,8 @@ export default class Criteria {
 		else if (
 			buttonsLeft -
 			(
-				$(this.dom.field).offset().left +
-				$(this.dom.field).outerWidth(true) +
+				$(this.dom.data).offset().left +
+				$(this.dom.data).outerWidth(true) +
 				$(this.dom.condition).outerWidth(true) +
 				valWidth
 			) > 15
@@ -840,11 +840,11 @@ export default class Criteria {
 	 */
 	private _buildCriteria(): void {
 		// Append Titles for select elements
-		$(this.dom.field).append(this.dom.fieldTitle);
+		$(this.dom.data).append(this.dom.dataTitle);
 		$(this.dom.condition).append(this.dom.conditionTitle);
 		$(this.dom.value).append(this.dom.valueTitle);
 		$(this.dom.container)
-			.append(this.dom.field)
+			.append(this.dom.data)
 			.append(this.dom.condition)
 			.append(this.dom.value)
 			.append(this.dom.delete)
@@ -884,7 +884,7 @@ export default class Criteria {
 	private _populateCondition(): void {
 		// If there are no conditions stored then we need to get them from the appropriate type
 		if (this.s.conditions.length === 0) {
-			let column = $(this.dom.field).children('option:selected').val();
+			let column = $(this.dom.data).children('option:selected').val();
 			this.s.type = this.s.dt.columns().type().toArray()[column];
 
 			if (this.c.conditions[this.s.type] !== undefined) {
@@ -919,11 +919,11 @@ export default class Criteria {
 	}
 
 	/**
-	 * Populates the field select element
+	 * Populates the data select element
 	 */
-	private _populateField(): void {
-		// If there are no fields stored then we need to get them from the table
-		if (this.s.fields.length === 0) {
+	private _populateData(): void {
+		// If there are no datas stored then we need to get them from the table
+		if (this.s.dataPoints.length === 0) {
 			this.s.dt.columns().every((index) => {
 				// Need to check that the column can be filtered on before adding it
 				if (
@@ -932,7 +932,7 @@ export default class Criteria {
 				) {
 					let found = false;
 
-					for (let val of this.s.fields) {
+					for (let val of this.s.dataPoints) {
 						if (val.index === index) {
 							found = true;
 							break;
@@ -941,8 +941,8 @@ export default class Criteria {
 
 					if (!found) {
 						let opt = {text: this.s.dt.settings()[0].aoColumns[index].sTitle, index};
-						this.s.fields.push(opt);
-						$(this.dom.field).append(
+						this.s.dataPoints.push(opt);
+						$(this.dom.data).append(
 							$('<option>', {
 								text : opt.text,
 								value : opt.index
@@ -955,18 +955,18 @@ export default class Criteria {
 		}
 		// Otherwise we can just load them in
 		else {
-			for (let field of this.s.fields) {
+			for (let data of this.s.dataPoints) {
 				let newOpt = $('<option>', {
-					text : field.text,
-					value : field.index
+					text : data.text,
+					value : data.index
 				})
 				.addClass(this.classes.option);
 
-				if (+this.s.field === field.index) {
+				if (+this.s.data === data.index) {
 					$(newOpt).attr('selected', true);
 				}
 
-				$(this.dom.field).append(newOpt);
+				$(this.dom.data).append(newOpt);
 			}
 		}
 	}
@@ -992,7 +992,7 @@ export default class Criteria {
 
 		// If the condition requires a selection from a select element
 		if (conditionType === 'select') {
-			// If there are input fields then remove them and add the select field
+			// If there are input fields then remove them and add the select fields
 			if ($(this.dom.container).has(this.dom.valueInputs[0]).length !== 0) {
 				$(this.dom.value).insertBefore(this.dom.valueInputs[0]);
 				$('.' + this.classes.joiner).remove();
@@ -1006,7 +1006,7 @@ export default class Criteria {
 
 			// If there are no values set then we need to lead them in based on the columns data
 			if (this.s.values.length === 0) {
-				let column = $(this.dom.field).children('option:selected').val();
+				let column = $(this.dom.data).children('option:selected').val();
 				let indexArray = this.s.dt.rows().indexes().toArray();
 				let settings = this.s.dt.settings()[0];
 

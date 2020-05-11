@@ -45,14 +45,14 @@ $.extend(true, DataTable.SearchBuilder.classes, {
 
 $.extend(true, DataTable.Group.classes, {
 	add: 'btn btn-default dtsb-add',
-	logic: 'btn btn-default dtsb-logic',
 	clearGroup: 'btn btn-default dtsb-clearGroup',
+	logic: 'btn btn-default dtsb-logic',
 });
 
 $.extend(true, DataTable.Criteria.classes, {
 	condition: 'form-control dtsb-condition',
+	data: 'form-control dtsb-data',
 	delete: 'btn btn-default dtsb-delete',
-	field: 'form-control dtsb-field',
 	left: 'btn btn-default dtsb-left',
 	right: 'btn btn-default dtsb-right',
 	value: 'form-control dtsb-value',

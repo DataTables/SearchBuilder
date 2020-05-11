@@ -24,7 +24,7 @@
         To add a criteria an object with the following properties should be added.
 
         * `-init searchBuilder.preDefined.criteria.condition` The condition that is to be selected from the select element.
-        * `-init searchBuilder.preDefined.criteria.field` The field that is to be selected from the select element.
+        * `-init searchBuilder.preDefined.criteria.data` The data that is to be selected from the select element.
         * `-init searchBuilder.preDefined.criteria.value` The condition that is to be applied, be it to either a select element, input or date selector.
         * A type property in the same form as `-init searchBuilder.preDefined.type`.
 
@@ -40,7 +40,7 @@
                 criteria:[
                     {
                         condition: 'Equals',
-                        field: 2,
+                        data: 2,
                         type: 'criteria',
                         value: ['Edinburgh']
                     }
@@ -62,7 +62,7 @@
                 criteria:[
                     {
                         condition: 'Equals',
-                        field: 2,
+                        data: 2,
                         type: 'criteria',
                         value: ['Edinburgh']
                     },
@@ -70,13 +70,13 @@
                         criteria: [
                             {
                                 condition: 'Equals',
-                                field: 0,
+                                data: 0,
                                 type: 'criteria',
                                 value: ['Cedric Kelly']
                             },
                             {
                                 condition: 'Equals',
-                                field: 0,
+                                data: 0,
                                 type: 'criteria',
                                 value: ['Dai Rios']
                             }

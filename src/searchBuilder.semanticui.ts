@@ -45,14 +45,14 @@ $.extend(true, DataTable.SearchBuilder.classes, {
 
 $.extend(true, DataTable.Group.classes, {
 	add: 'ui button dtsb-add',
+	clearGroup: 'ui button dtsb-clearGroup',
 	logic: 'ui button dtsb-logic',
-	clearGroup: 'ui button dtsb-clearGroup'
 });
 
 $.extend(true, DataTable.Criteria.classes, {
 	condition: 'ui selection dropdown dtsb-condition',
 	delete: 'ui button dtsb-delete',
-	field: 'ui selection dropdown dtsb-field',
+	field: 'ui selection dropdown dtsb-data',
 	left: 'ui button dtsb-left',
 	right: 'ui button dtsb-right',
 	value: 'ui selection dropdown dtsb-value',

@@ -4,7 +4,7 @@ export interface IClasses {
 	container: string;
 	delete: string;
 	dropDown: string;
-	field: string;
+	data: string;
 	greyscale: string;
 	input: string;
 	joiner: string;
@@ -41,8 +41,8 @@ export interface IDom {
 	conditionTitle: JQuery<HTMLElement>;
 	container: JQuery<HTMLElement>;
 	delete: JQuery<HTMLElement>;
-	field: JQuery<HTMLElement>;
-	fieldTitle: JQuery<HTMLElement>;
+	data: JQuery<HTMLElement>;
+	dataTitle: JQuery<HTMLElement>;
 	left: JQuery<HTMLElement>;
 	right: JQuery<HTMLElement>;
 	value: JQuery<HTMLElement>;
@@ -55,8 +55,8 @@ export interface IS {
 	conditions: ICondition[];
 	depth: number;
 	dt: any;
-	field: number;
-	fields: IFieldOpt[];
+	data: number;
+	dataPoints: IDataOpt[];
 	filled: boolean;
 	index: number;
 	topGroup: JQuery<HTMLElement>;
@@ -65,14 +65,14 @@ export interface IS {
 	values: any[];
 }
 
-export interface IFieldOpt {
+export interface IDataOpt {
 	text: string;
 	index: number;
 }
 
 export interface IDetails {
 	condition: string;
-	field: number;
+	data: number;
 	type: string;
 	value: any[];
 }

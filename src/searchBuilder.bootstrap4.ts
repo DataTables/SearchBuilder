@@ -51,8 +51,8 @@ $.extend(true, DataTable.Group.classes, {
 
 $.extend(true, DataTable.Criteria.classes, {
 	condition: 'form-control dtsb-condition',
+	data: 'form-control dtsb-data',
 	delete: 'btn btn-light dtsb-delete',
-	field: 'form-control dtsb-field',
 	left: 'btn btn-light dtsb-left',
 	right: 'btn btn-light dtsb-right',
 	value: 'form-control dtsb-value',

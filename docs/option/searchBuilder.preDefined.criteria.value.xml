@@ -30,7 +30,7 @@
                 criteria:[
                     {
                         condition: 'Equals',
-                        field: 2,
+                        data: 2,
                         type: 'criteria',
                         value: ['Edinburgh']
                     }
@@ -52,7 +52,7 @@
                 criteria:[
                     {
                         condition: 'Between inclusive',
-                        field: 4,
+                        data: 4,
                         type: 'criteria',
                         value: ['2020-05-12', '2001-10-17]
                     }
