@@ -770,6 +770,7 @@ export default class Criteria {
 
 				this.s.filled = allFilled;
 				this.s.dt.draw();
+				$(this.dom.valueInputs[i]).focus();
 			});
 		}
 
