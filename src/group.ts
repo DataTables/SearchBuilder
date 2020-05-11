@@ -484,13 +484,16 @@ export default class Group {
 	 * @param criteria The criteria for the listeners to be set on
 	 */
 	private _setCriteriaListeners(criteria: Criteria): void {
+		$(criteria.dom.delete).unbind('click');
 		$(criteria.dom.delete).on('click', () => {
 			this._removeCriteria(criteria);
 			$(criteria.dom.container).remove();
 			this.setupLogic();
 		});
 
+		$(criteria.dom.right).unbind('click');
 		$(criteria.dom.right).on('click', () => {
+			console.log("right");
 			let idx = criteria.s.index;
 			let group = new Group(this.s.dt, this.s.opts, this.s.topGroup, criteria.s.index, true, this.s.depth + 1);
 
@@ -506,6 +509,7 @@ export default class Group {
 			this._setGroupListeners(group);
 		});
 
+		$(criteria.dom.left).unbind('click');
 		$(criteria.dom.left).on('click', () => {
 			this.s.toDrop = new Criteria(this.s.dt, this.s.opts, this.s.topGroup, criteria.s.index);
 			this.s.toDrop.s = criteria.s;
