@@ -76,11 +76,14 @@ export default class Group {
 			logicContainer: $('<div/>').addClass(this.classes.logicContainer)
 		};
 
+		// A reference to the top level group is maintained throughout any subgroups and criteria that may be created
 		if (this.s.topGroup === undefined) {
 			this.s.topGroup = this.dom.container;
 		}
 
 		this._setup();
+
+		return this;
 	}
 
 	/**
@@ -109,6 +112,7 @@ export default class Group {
 			type: 'group'
 		};
 
+		// NOTE here crit could be either a subgroup or a criteria
 		for (let crit of this.s.criteria) {
 			details.criteria.push(crit.criteria.getDetails());
 		}
@@ -129,19 +133,16 @@ export default class Group {
 	 * @param loadedDetails the details required to rebuild the group
 	 */
 	public rebuild(loadedDetails: typeInterfaces.IDetails): void {
-		if (loadedDetails.criteria === undefined || loadedDetails.criteria === null) {
+		// If no criteria are stored then just return
+		if (loadedDetails.criteria === undefined || loadedDetails.criteria === null || loadedDetails.criteria.length === 0) {
 			return;
 		}
-		if (loadedDetails.criteria.length > 0 && !this.s.isChild) {
-			$(this.dom.container).addClass(this.classes.indentTop);
-		}
-		else if (this.s.isChild) {
-			$(this.dom.container).addClass(this.classes.indentSub);
-		}
 
+		$(this.dom.container).addClass(this.s.isChild ? this.classes.indentSub : this.classes.indentTop);
 		this.s.logic = loadedDetails.logic;
 		$(this.dom.logic).text(this.s.logic === 'OR' ? this.s.dt.i18n('searchBuilder.logicOr', 'Or') : this.s.dt.i18n('searchBuilder.logicAnd', 'And'));
 
+		// Add all of the criteria, be it a sub group or a criteria
 		for (let crit of loadedDetails.criteria) {
 			if (crit.type === 'group') {
 				this._addPrevGroup(crit);
@@ -170,6 +171,7 @@ export default class Group {
 
 				this.s.criteria[i].criteria.updateArrows();
 
+				// If there is only one criteria or the depthLimit has been reached then don't allow right movement
 				if ((this.s.criteria.length === 1 || this.s.depth === this.c.depthLimit)) {
 					$(this.s.criteria[i].criteria.dom.right).attr('disabled', true);
 				}
@@ -202,6 +204,7 @@ export default class Group {
 				i--;
 			}
 		}
+
 		this.setupLogic();
 	}
 
@@ -229,6 +232,7 @@ export default class Group {
 		$(this.dom.logicContainer).remove();
 		$(this.dom.clear).remove();
 
+		// If there are no criteria in the group then keep the logic removed and return
 		if (this.s.criteria.length < 1) {
 			$(this.dom.container).removeClass(this.classes.indentTop).removeClass(this.classes.indentSub);
 
@@ -389,19 +393,23 @@ export default class Group {
 	 * @returns boolean The result of the AND search
 	 */
 	private _andSearch(rowData: any[]): boolean {
+		// If there are no criteria then return true for this group
 		if (this.s.criteria.length === 0) {
 			return true;
 		}
 
 		for (let crit of this.s.criteria) {
+			// If the criteria is not complete then skip it
 			if (crit.type === 'criteria' && !crit.criteria.s.filled) {
 				continue;
 			}
+			// Otherwise if a single one fails return false
 			else if (!crit.criteria.search(rowData)) {
 				return false;
 			}
 		}
 
+		// If we get to here then everything has passed, so return true for the group
 		return true;
 	}
 
@@ -411,21 +419,27 @@ export default class Group {
 	 * @returns boolean The result of the OR search
 	 */
 	private _orSearch(rowData: any[]): boolean {
+		// If there are no criteria in the group then return true
 		if (this.s.criteria.length === 0) {
 			return true;
 		}
 
+		// This will check to make sure that at least one criteria in the group is complete
 		let filledfound = false;
 
 		for (let crit of this.s.criteria) {
 			if (crit.criteria.s.filled) {
+				// A completed criteria has been found so set the flag
 				filledfound = true;
+				// If the search passes then return true
 				if (crit.criteria.search(rowData)) {
 					return true;
 				}
 			}
 		}
 
+		// If we get here we need to return the inverse of filledfound,
+		//  as if any have been found and we are here then none have passed
 		return !filledfound;
 	}
 
@@ -496,13 +510,11 @@ export default class Group {
 			$(this.dom.container).trigger('dtsb-dropCriteria');
 			criteria.s.index = index;
 			this._removeCriteria(criteria);
+
+			// By tracking the top level group we can directly trigger a redraw on it,
+			//  bubbling is also possible, but that is slow with deep levelled groups
 			$(this.s.topGroup).trigger('dtsb-redrawContents');
 		});
-
-		// This is nicer so that it bubbles up, but it is slow
-		// $(criteria.dom.container).on('dtsb-redrawContents', () => {
-		// 	$(this.dom.container).trigger('dtsb-redrawContents');
-		// });
 	}
 
 	/**
@@ -522,7 +534,6 @@ export default class Group {
 	private _setGroupListeners(group: any): void {
 		// Set listeners for the new group
 		$(group.dom.add).unbind('click');
-		group.setListeners();
 		$(group.dom.add).on('click', () => {
 			this.setupLogic();
 			$(this.dom.container).trigger('dtsb-add');
@@ -551,10 +562,7 @@ export default class Group {
 				$(this.s.topGroup).trigger('dtsb-redrawContents');
 		});
 
-		// This is nicer but slower
-		// $(group.dom.container).on('dtsb-redrawContents', () => {
-		// 	$(this.dom.container).trigger('dtsb-redrawContents');
-		// });
+		group.setListeners();
 	}
 
 	/**

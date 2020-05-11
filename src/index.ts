@@ -113,7 +113,12 @@ import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
 		return ctx._searchBuilder.getNode();
 	});
 
-	function _init(settings, fromPre = false) {
+	/**
+	 * Init function for SearchBuilder
+	 * @param settings the settings to be applied
+	 * @returns JQUERY<HTMLElement> Returns the node of the SearchBuilder
+	 */
+	function _init(settings): JQuery<HTMLElement> {
 		let api = new DataTable.Api(settings);
 		let opts = api.init().searchBuilder || DataTable.defaults.searchBuilder;
 		let searchBuilder =  new SearchBuilder(api, opts);
@@ -133,7 +138,7 @@ import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
 			DataTable.defaults.searchBuilder
 		) {
 			if (!settings._searchBuilder) {
-				_init(settings, true);
+				_init(settings);
 			}
 		}
 	});

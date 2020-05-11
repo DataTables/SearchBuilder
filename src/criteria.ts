@@ -465,6 +465,7 @@ export default class Criteria {
 			valueTitle: $('<option value="" disabled selected hidden/>').text(this.s.dt.i18n('searchBuilder.value', 'Value')),
 		};
 
+		// If the greyscale option is selected then add the class to add the grey colour to SearchBuilder
 		if (this.c.greyscale) {
 			$(this.dom.field).addClass(this.classes.greyscale);
 			$(this.dom.condition).addClass(this.classes.greyscale);
@@ -473,6 +474,7 @@ export default class Criteria {
 			$(this.dom.valueInputs[1]).addClass(this.classes.greyscale);
 		}
 
+		// For responsive design, adjust the criterias properties on the following events
 		this.s.dt.on('draw.dtsp', () => {
 			this._adjustCriteria();
 		});
@@ -486,6 +488,8 @@ export default class Criteria {
 		}));
 
 		this._buildCriteria();
+
+		return this;
 	}
 
 	/**
@@ -527,14 +531,17 @@ export default class Criteria {
 
 		$(this.dom.container).append(this.dom.delete);
 
+		// If the depthLimit of the query has been hit then don't add the right button
 		if (this.c.depthLimit === false || this.s.depth < this.c.depthLimit) {
 			$(this.dom.container).append(this.dom.right);
 		}
 
+		// If this is a top level criteria then don't let it move left
 		if (this.s.depth > 1) {
 			$(this.dom.container).append(this.dom.left);
 		}
 
+		// A different combination of arrows and selectors may lead to a need for responsive to be triggered
 		this._adjustCriteria();
 	}
 
@@ -607,6 +614,7 @@ export default class Criteria {
 	 * @param loadedCriteria the details required to rebuild the criteria
 	 */
 	public rebuild(loadedCriteria: typeInterfaces.IDetails): void {
+		// Check to see if the previously selected field exists, if so select it
 		let foundField = false;
 		$(this.dom.field).children('option').each(function() {
 			if ($(this).val() === loadedCriteria.field) {
@@ -615,10 +623,13 @@ export default class Criteria {
 			}
 		});
 
+		// If the field has been found and selected then the condition can be populated and searched
 		if (foundField) {
 			this.s.field = loadedCriteria.field;
 			$(this.dom.fieldTitle).remove();
 			this._populateCondition();
+
+			// Check to see if the previously selected condition exists, if so select it
 			let foundCond = false;
 			$(this.dom.condition).children('option').each(function() {
 				if ($(this).val() === loadedCriteria.condition) {
@@ -627,11 +638,15 @@ export default class Criteria {
 				}
 			});
 
+			// If the condition has been found and selected then the value can be populated and searched
 			if (foundCond) {
 				this.s.condition = loadedCriteria.condition;
 				$(this.dom.conditionTitle).remove();
 				this._populateValue();
+
+				// If it is a select condition
 				if ($(this.dom.container).has(this.dom.value).length !== 0) {
+					// Check to see if the previously selected value exists, if so select it
 					let foundVal = false;
 					$(this.dom.value).children('option').each(function() {
 						if ($(this).val() === loadedCriteria.value[0]) {
@@ -639,19 +654,27 @@ export default class Criteria {
 							foundVal = true;
 						}
 					});
-					this.s.filled = foundVal;
-					this.s.value = loadedCriteria.value;
+
+					// If the value has been found then set filled so that this criteria is used in searches
+					if (foundVal) {
+						this.s.filled = foundVal;
+						this.s.value = loadedCriteria.value;
+					}
 				}
+				// Otherwise it must be an input condition
 				else {
+					// Input values can just be given the stored values as there is nothing to select from
 					$(this.dom.valueInputs[0]).val(loadedCriteria.value[0]);
 					$(this.dom.valueInputs[1]).val(loadedCriteria.value[1]);
 
 					this.s.value = loadedCriteria.value;
 
+					// Run checks to see if the criteria is complete, to allow it to be included in the search
 					let allFilled = true;
 
 					// Check that all of the value inputs have been filled in
 					for (let val = 0; val < this.dom.valueInputs.length; val++) {
+						// If the value input is present and no value has been set in the array then it is not complete
 						if (
 							$(this.dom.container).has(this.dom.valueInputs[val]).length !== 0 &&
 							(this.s.value[val] === undefined || this.s.value[val].length === 0)
@@ -663,7 +686,6 @@ export default class Criteria {
 
 					this.s.filled = allFilled;
 				}
-				this.s.dt.draw();
 			}
 		}
 
@@ -678,32 +700,51 @@ export default class Criteria {
 		$(this.dom.field).on('change', () => {
 			$(this.dom.fieldTitle).attr('selected', false);
 			this.s.field = $(this.dom.field).children('option:selected').val();
+
+			// When the field is changed, the values in condition and value may also change so need to renew them
 			this._clearCondition();
 			this._clearValue();
 			this._resetValue();
 			this._populateCondition();
-			this.s.filled = false;
-			this.s.dt.draw();
+
+			// If this criteria was previously active in the search then remove it from the search and trigger a new search
+			if (this.s.filled) {
+				this.s.filled = false;
+				this.s.dt.draw();
+			}
 		});
 
 		$(this.dom.condition).unbind('change');
 		$(this.dom.condition).on('change', () => {
 			$(this.dom.conditionTitle).attr('selected', false);
 			this.s.condition = $(this.dom.condition).children('option:selected').val();
+
+			// When the condition is changed, the value selector may switch between a select element and an input element
 			this._clearValue();
 			this._populateValue();
-			this.s.dt.draw();
+
+			// If this criteria was previously active in the search then remove it from the search and trigger a new search
+			if (this.s.filled) {
+				this.s.filled = false;
+				this.s.dt.draw();
+			}
 		});
 
 		$(this.dom.value).unbind('change');
 		$(this.dom.value).on('change', () => {
+			// When the value is changed the criteria is now complete so can be included in searches
 			this.s.filled = true;
+
+			// Deselect the title in the select element
 			$(this.dom.valueTitle).attr('selected', false);
 			this.s.value = [];
 			this.s.value.push($(this.dom.value).children('option:selected').val());
+
+			// Trigger a search
 			this.s.dt.draw();
 		});
 
+		// Set the listeners for all of the elements in the valueInputs array
 		for (let i = 0; i < this.dom.valueInputs.length; i++) {
 			$(this.dom.valueInputs[i]).unbind('input change');
 			$(this.dom.valueInputs[i]).on('input change', () => {
@@ -726,6 +767,7 @@ export default class Criteria {
 			});
 		}
 
+		// When delete is pressed destroy this criteria
 		$(this.dom.delete).unbind('change');
 		$(this.dom.delete).on('click', () => {
 			this.destroy();
@@ -737,6 +779,7 @@ export default class Criteria {
 	 * Adjusts the criteria to make SearchBuilder responsive
 	 */
 	private _adjustCriteria(): void {
+		// If this criteria is not present then don't bother adjusting it
 		if ($(document).has(this.dom.container).length === 0) {
 			return;
 		}
@@ -744,13 +787,14 @@ export default class Criteria {
 		let valRight: number;
 		let valWidth: number;
 
+		// Calculate the width and right value of the value input(s)/select element
 		if ($(this.dom.container).has(this.dom.value).length !== 0) {
 			valWidth =  $(this.dom.value).outerWidth(true);
 			valRight = $(this.dom.value).offset().left + valWidth;
 		}
 		else if ($(this.dom.container).has(this.dom.valueInputs[1]).length !== 0) {
 			let valWidthOuter = $(this.dom.valueInputs[1]).outerWidth(true);
-			valWidth = $(this.dom.valueInputs[1]).outerWidth(true) + $(this.dom.valueInputs[0]).outerWidth(true);
+			valWidth = valWidthOuter + $(this.dom.valueInputs[0]).outerWidth(true);
 			valRight = $(this.dom.valueInputs[1]).offset().left + valWidthOuter;
 		}
 		else if ($(this.dom.container).has(this.dom.valueInputs[0]).length !== 0) {
@@ -760,6 +804,7 @@ export default class Criteria {
 		else {
 			return;
 		}
+
 		let leftOffset = $(this.dom.left).offset();
 		let rightOffset = $(this.dom.right).offset();
 		let hasLeft = $(this.dom.container).has(this.dom.left).length !== 0;
@@ -767,12 +812,10 @@ export default class Criteria {
 			leftOffset.left :
 			rightOffset.left;
 
+		// Perform the responsive calculations and redraw where necessary
 		if (
 			buttonsLeft - valRight < 15 ||
-			(
-				hasLeft &&
-				leftOffset.top !== rightOffset.top
-			) ||
+			(hasLeft && leftOffset.top !== rightOffset.top) ||
 			rightOffset.top !== $(this.dom.delete).offset().top
 		) {
 			$(this.dom.container).parent().addClass(this.classes.vertical);
@@ -785,7 +828,8 @@ export default class Criteria {
 				$(this.dom.field).outerWidth(true) +
 				$(this.dom.condition).outerWidth(true) +
 				valWidth
-			) > 15) {
+			) > 15
+		) {
 			$(this.dom.container).parent().removeClass(this.classes.vertical);
 			$(this.s.topGroup).trigger('dtsb-redrawContents');
 		}
@@ -795,6 +839,7 @@ export default class Criteria {
 	 * Builds the elements of the dom together
 	 */
 	private _buildCriteria(): void {
+		// Append Titles for select elements
 		$(this.dom.field).append(this.dom.fieldTitle);
 		$(this.dom.condition).append(this.dom.conditionTitle);
 		$(this.dom.value).append(this.dom.valueTitle);
@@ -837,6 +882,7 @@ export default class Criteria {
 	 * Populates the condition dropdown
 	 */
 	private _populateCondition(): void {
+		// If there are no conditions stored then we need to get them from the appropriate type
 		if (this.s.conditions.length === 0) {
 			let column = $(this.dom.field).children('option:selected').val();
 			this.s.type = this.s.dt.columns().type().toArray()[column];
@@ -854,6 +900,7 @@ export default class Criteria {
 				}
 			}
 		}
+		// Otherwise we can just load them in
 		else {
 			for (let condition of this.s.conditions) {
 				let newOpt = $('<option>', {
@@ -875,8 +922,10 @@ export default class Criteria {
 	 * Populates the field select element
 	 */
 	private _populateField(): void {
+		// If there are no fields stored then we need to get them from the table
 		if (this.s.fields.length === 0) {
 			this.s.dt.columns().every((index) => {
+				// Need to check that the column can be filtered on before adding it
 				if (
 					this.c.allowed === true ||
 					(typeof this.c.allowed !== 'boolean' && this.c.allowed.length > 0 && this.c.allowed.indexOf(index) !== -1)
@@ -904,6 +953,7 @@ export default class Criteria {
 				}
 			});
 		}
+		// Otherwise we can just load them in
 		else {
 			for (let field of this.s.fields) {
 				let newOpt = $('<option>', {
@@ -940,6 +990,7 @@ export default class Criteria {
 			}
 		}
 
+		// If the condition requires a selection from a select element
 		if (conditionType === 'select') {
 			// If there are input fields then remove them and add the select field
 			if ($(this.dom.container).has(this.dom.valueInputs[0]).length !== 0) {
@@ -953,6 +1004,7 @@ export default class Criteria {
 				this.setListeners();
 			}
 
+			// If there are no values set then we need to lead them in based on the columns data
 			if (this.s.values.length === 0) {
 				let column = $(this.dom.field).children('option:selected').val();
 				let indexArray = this.s.dt.rows().indexes().toArray();
@@ -982,6 +1034,7 @@ export default class Criteria {
 					}
 				}
 			}
+			// Otherwise we can just load them in
 			else {
 				for (let val of this.s.values) {
 					let newOpt = $('<option>', {
@@ -999,6 +1052,8 @@ export default class Criteria {
 				}
 			}
 		}
+		// Otherwise it must be either an input or a date, both have very similar processes here
+		// If the select element is present then
 		else if (
 			(conditionType === 'input' || conditionType === 'date') &&
 			$(this.dom.container).has(this.dom.value).length !== 0
@@ -1006,14 +1061,18 @@ export default class Criteria {
 			$(this.dom.valueInputs[0]).insertBefore(this.dom.value);
 			$(this.dom.valueInputs[0]).val(this.s.value[0]);
 
+			// If it's a date then we need to initialise the DataTables datePicker
 			if (conditionType === 'date') {
 				$(this.dom.valueInputs[0]).dtDateTime();
 			}
 
+			// Insert all of the required valueInputs and update their values
 			for (let i = 1; i < valCount && i < this.dom.valueInputs.length; i++) {
+				// Insert a joiner span to break up the valueInputs
 				$('<span>').addClass(this.classes.joiner).text(joinerText).insertBefore(this.dom.value);
 				$(this.dom.valueInputs[i]).insertBefore(this.dom.value);
 				$(this.dom.valueInputs[i]).val(this.s.value[i]);
+
 				if (conditionType === 'date') {
 					$(this.dom.valueInputs[i]).dtDateTime();
 				}
@@ -1022,6 +1081,7 @@ export default class Criteria {
 			$(this.dom.value).remove();
 			this.setListeners();
 		}
+		// Otherwise if the input elements are present , but there are two and only one is needed
 		else if (
 			(conditionType === 'input' || conditionType === 'date') &&
 			$(this.dom.container).has(this.dom.valueInputs[1]).length !== 0 &&

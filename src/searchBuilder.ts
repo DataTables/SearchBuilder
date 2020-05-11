@@ -81,6 +81,8 @@ export default class SearchBuilder {
 				this._setUp();
 			});
 		}
+
+		return this;
 	}
 
 	/**
@@ -102,12 +104,18 @@ export default class SearchBuilder {
 	 * Rebuilds the SearchBuilder to a state that is provided
 	 * @param details The details required to perform a rebuild
 	 */
-	public rebuild(details) {
+	public rebuild(details): SearchBuilder {
 		$(this.dom.clearAll).click();
+
+		// If there are no details to rebuild then return
 		if (details === undefined || details === null) {
-			return;
+			return this;
 		}
+
 		this.s.topGroup.rebuild(details);
+		this.s.dt.draw();
+
+		return this;
 	}
 
 	/**
@@ -126,11 +134,13 @@ export default class SearchBuilder {
 
 		let loadedState = this.s.dt.state.loaded();
 
+		// If the loaded State is not null rebuild based on it for statesave
 		if (loadedState !== null && loadedState.searchBuilder !== undefined) {
 			this.s.topGroup.rebuild(loadedState.searchBuilder);
 			$(this.s.topGroup.dom.container).trigger('dtsb-redrawContents');
 			this.s.dt.draw();
 		}
+		// Otherwise load any predefined options
 		else if (this.c.preDefined !== false) {
 			this.rebuild(this.c.preDefined);
 		}
@@ -157,7 +167,10 @@ export default class SearchBuilder {
 			return this.s.topGroup.search(searchData);
 		};
 
+		// Add SearchBuilder search function to the dataTables search array
 		$.fn.dataTable.ext.search.push(this.s.search);
+
+		// Register an Api method for getting the column type
 		$.fn.DataTable.Api.registerPlural('columns().type()', 'column().type()', function(selector, opts) {
 			return this.iterator('column', function(settings, column) {
 				return settings.aoColumns[column].sType;
