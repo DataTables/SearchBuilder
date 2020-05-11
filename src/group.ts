@@ -235,6 +235,9 @@ export default class Group {
 		// If there are no criteria in the group then keep the logic removed and return
 		if (this.s.criteria.length < 1) {
 			$(this.dom.container).removeClass(this.classes.indentTop).removeClass(this.classes.indentSub);
+			if (!this.s.isChild) {
+				$(this.dom.container).trigger('dtsb-destroy');
+			}
 
 			return;
 		}

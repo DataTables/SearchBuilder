@@ -144,6 +144,8 @@ export default class SearchBuilder {
 		else if (this.c.preDefined !== false) {
 			this.rebuild(this.c.preDefined);
 		}
+
+		this._setEmptyListener();
 	}
 
 	/**
@@ -155,12 +157,10 @@ export default class SearchBuilder {
 		$(this.dom.title).text(this.s.dt.i18n('searchBuilder.title', 'Search builder'));
 
 		$(this.dom.titleRow).append(this.dom.title);
-		$(this.dom.titleRow).append(this.dom.clearAll);
 		$(this.dom.container).append(this.dom.titleRow);
 		this.dom.topGroup = this.s.topGroup.getNode();
 		$(this.dom.container).append(this.dom.topGroup);
 
-		this._setClearListener();
 		this._setRedrawListener();
 
 		this.s.search = (settings, searchData, dataIndex, origData) => {
@@ -179,6 +179,19 @@ export default class SearchBuilder {
 	}
 
 	/**
+	 * Checks if the clearAll button should be added or not
+	 */
+	private _checkClear() {
+		if (this.s.topGroup.s.criteria.length > 0) {
+			$(this.dom.clearAll).insertAfter(this.dom.title);
+			this._setClearListener();
+		}
+		else {
+			$(this.dom.clearAll).remove();
+		}
+	}
+
+	/**
 	 * Set the listener for the clear button
 	 */
 	private _setClearListener() {
@@ -187,6 +200,8 @@ export default class SearchBuilder {
 			this.s.topGroup = new Group(this.s.dt, this.s.opts, undefined);
 			this._build();
 			this.s.dt.draw();
+			$(this.dom.clearAll).remove();
+			this._setEmptyListener();
 		});
 	}
 
@@ -196,8 +211,23 @@ export default class SearchBuilder {
 	private _setRedrawListener() {
 		$(this.s.topGroup.dom.container).unbind('dtsb-redrawContents');
 		$(this.s.topGroup.dom.container).on('dtsb-redrawContents', () => {
+			this._checkClear();
 			this.s.topGroup.redrawContents();
 			this.s.topGroup.setupLogic();
+			this._setEmptyListener();
+		});
+	}
+
+	/**
+	 * Sets listeners to check whether clearAll should be added or removed
+	 */
+	private _setEmptyListener() {
+		$(this.s.topGroup.dom.add).on('click', () => {
+			this._checkClear();
+		});
+
+		$(this.s.topGroup.dom.container).on('dtsb-destroy', () => {
+			$(this.dom.clearAll).remove();
 		});
 	}
 }
