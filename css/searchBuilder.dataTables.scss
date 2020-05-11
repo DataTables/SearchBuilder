@@ -1,12 +1,6 @@
 @import './dateTime.scss';
 @import './common.scss';
 div.dtsb-searchBuilder {
-    
-    .dtsb-greyscale {
-        background-color: #cecece;
-        border: none;
-    }
-
     button.dtsb-button {
         border: 2px solid #cecece;
         background-color: transparent;
@@ -18,6 +12,16 @@ div.dtsb-searchBuilder {
         &:hover {
             background-color: #cecece !important;
             cursor: pointer;
+        }
+    }
+
+    .dtsb-greyscale {
+        border: 2px solid #cecece !important;
+    }
+
+    div.dtsb-logicContainer {
+        .dtsb-greyscale {
+            border: none !important;
         }
     }
 
