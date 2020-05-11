@@ -242,8 +242,10 @@ export default class Group {
 			return;
 		}
 
-		// Set width
-		$(this.dom.logicContainer).width($(this.dom.container).height());
+		// Set width, take 2 for the border
+		let height = $(this.dom.container).height() - 2;
+		$(this.dom.logicContainer).width(height);
+		// $(this.dom.logicContainer).outerWidth(height, true);
 
 		// Prepend logic button
 		$(this.dom.container).prepend(this.dom.logicContainer);
