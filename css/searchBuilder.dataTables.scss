@@ -1,8 +1,11 @@
 @import './dateTime.scss';
 @import './common.scss';
+
+$border-width: 1px;
+
 div.dtsb-searchBuilder {
     button.dtsb-button {
-        border: 2px solid #cecece;
+        border: $border-width solid #cecece;
         background-color: transparent;
         border-radius: 3px;
         padding: 5px;
@@ -16,7 +19,7 @@ div.dtsb-searchBuilder {
     }
 
     .dtsb-greyscale {
-        border: 2px solid #cecece !important;
+        border: $border-width solid #cecece !important;
     }
 
     div.dtsb-logicContainer {
@@ -32,7 +35,7 @@ div.dtsb-searchBuilder {
 
     div.dtsb-group {
         div.dtsb-logicContainer{
-            border: 2px solid;
+            border: $border-width solid;
             border-color: #cecece;
             border-radius: 3px;
             display: flex;
@@ -63,7 +66,7 @@ div.dtsb-searchBuilder {
 
         div.dtsb-criteria {
             select.dtsb-dropDown, input.dtsb-input{
-                border: 2px solid;
+                border: $border-width solid;
                 border-radius: 3px;
                 //background-color: #cecece;
             }
