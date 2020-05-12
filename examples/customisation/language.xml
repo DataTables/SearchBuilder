@@ -30,7 +30,7 @@ $(document).ready(function() {
 ]]>
 </js>
 
-<title lib="searchBuilder">SearchBuilder Add Button Text</title>
+<title lib="searchBuilder">SearchBuilder Language Options</title>
 
 <info><![CDATA[
 
