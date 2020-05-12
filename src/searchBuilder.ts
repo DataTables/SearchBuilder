@@ -203,6 +203,8 @@ export default class SearchBuilder {
 			this.s.dt.draw();
 			$(this.dom.clearAll).remove();
 			this._setEmptyListener();
+
+			return false;
 		});
 	}
 

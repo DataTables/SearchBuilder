@@ -288,6 +288,8 @@ export default class Group {
 			}
 
 			this.addCriteria();
+
+			return false;
 		});
 
 		this._setClearListener();
@@ -507,11 +509,12 @@ export default class Group {
 			this._removeCriteria(criteria);
 			$(criteria.dom.container).remove();
 			this.setupLogic();
+
+			return false;
 		});
 
 		$(criteria.dom.right).unbind('click');
 		$(criteria.dom.right).on('click', () => {
-			console.log("right");
 			let idx = criteria.s.index;
 			let group = new Group(this.s.dt, this.s.opts, this.s.topGroup, criteria.s.index, true, this.s.depth + 1);
 
@@ -525,6 +528,8 @@ export default class Group {
 			$(this.s.topGroup).trigger('dtsb-redrawContents');
 
 			this._setGroupListeners(group);
+
+			return false;
 		});
 
 		$(criteria.dom.left).unbind('click');
@@ -544,6 +549,8 @@ export default class Group {
 			// By tracking the top level group we can directly trigger a redraw on it,
 			//  bubbling is also possible, but that is slow with deep levelled groups
 			$(this.s.topGroup).trigger('dtsb-redrawContents');
+
+			return false;
 		});
 	}
 
@@ -554,6 +561,8 @@ export default class Group {
 		$(this.dom.clear).unbind('click');
 		$(this.dom.clear).on('click', () => {
 			this.destroy();
+
+			return false;
 		});
 	}
 
@@ -567,6 +576,8 @@ export default class Group {
 		$(group.dom.add).on('click', () => {
 			this.setupLogic();
 			$(this.dom.container).trigger('dtsb-add');
+
+			return false;
 		});
 
 		$(group.dom.container).unbind('dtsb-add');
@@ -590,6 +601,8 @@ export default class Group {
 				toDrop.updateArrows(this.s.criteria.length > 1);
 				this.addCriteria(toDrop);
 				$(this.s.topGroup).trigger('dtsb-redrawContents');
+
+				return false;
 		});
 
 		group.setListeners();

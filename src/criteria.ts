@@ -779,6 +779,8 @@ export default class Criteria {
 		$(this.dom.delete).on('click', () => {
 			this.destroy();
 			this.s.dt.draw();
+
+			return false;
 		});
 	}
 
