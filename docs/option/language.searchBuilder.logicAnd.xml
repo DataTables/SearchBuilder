@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
-	<name>language.searchBuilder.add</name>
+	<name>language.searchBuilder.logicAnd</name>
 	<summary>Set the message to be displayed in the SearchBuilder logic button when AND logic is in place</summary>
 	<since>SearchBuilder 0.0.1</since>
 

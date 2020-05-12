@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
-	<name>SearchBuilder.preDefined.type</name>
+	<name>searchBuilder.preDefined.type</name>
 	<summary>Set the type for an object on the `-init searchBuilder.preDefined.criteria`</summary>
 	<since>SearchBuilder 0.0.1</since>
 

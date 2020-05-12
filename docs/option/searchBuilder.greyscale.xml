@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
-	<name>SearchBuilder.greyscale</name>
+	<name>searchBuilder.greyscale</name>
 	<summary>Removes the colours from SearchBuilder</summary>
 	<since>SearchBuilder 0.0.1</since>
 
 	<type type="boolean">
 		<description>
-			When true, remove the colours from SearchBuilder.
+			When true, remove the colours from searchBuilder.
 		</description>
 	</type>
 
 	<default value="false">
-        The default value for the `-init searchBuilder.greyscale` option is `false` meaning that as standard the colours will be applied to SearchBuilder.
+        The default value for the `-init searchBuilder.greyscale` option is `false` meaning that as standard the colours will be applied to searchBuilder.
 	</default>
 	<description>
 		<![CDATA[

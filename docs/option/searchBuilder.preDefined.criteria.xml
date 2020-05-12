@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
-	<name>SearchBuilder.preDefined.criteria</name>
+	<name>searchBuilder.preDefined.criteria</name>
 	<summary>Declares criteria and sub groups within the array</summary>
 	<since>SearchBuilder 0.0.1</since>
 

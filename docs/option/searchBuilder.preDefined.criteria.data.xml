@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
-	<name>SearchBuilder.preDefined.criteria.data</name>
+	<name>searchBuilder.preDefined.criteria.data</name>
 	<summary>Define the data point to be selected</summary>
 	<since>SearchBuilder 0.0.1</since>
 

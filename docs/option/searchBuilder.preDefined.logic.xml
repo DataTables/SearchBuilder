@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
-	<name>SearchBuilder.preDefined.logic</name>
+	<name>searchBuilder.preDefined.logic</name>
 	<summary>Set the logic operator for a predefined group</summary>
 	<since>SearchBuilder 0.0.1</since>
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
-	<name>SearchBuilder.allowed</name>
+	<name>searchBuilder.allowed</name>
 	<summary>Impose a limit on which data points can be filtered on</summary>
 	<since>SearchBuilder 0.0.1</since>
 

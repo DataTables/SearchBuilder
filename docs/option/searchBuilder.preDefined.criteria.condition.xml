@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
-	<name>SearchBuilder.preDefined.criteria.condition</name>
+	<name>searchBuilder.preDefined.criteria.condition</name>
 	<summary>Define the condition to be selected</summary>
 	<since>SearchBuilder 0.0.1</since>
 

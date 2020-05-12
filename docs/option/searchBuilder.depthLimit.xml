@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
-	<name>SearchBuilder.depthLimit</name>
+	<name>searchBuilder.depthLimit</name>
 	<summary>Impose a limit on the depth of the groups</summary>
 	<since>SearchBuilder 0.0.1</since>
 
