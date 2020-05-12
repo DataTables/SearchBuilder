@@ -23,14 +23,14 @@ DT_SRC=$(dirname $(dirname $(pwd)))
 DT_BUILT="${DT_SRC}/built/DataTables"
 . $DT_SRC/build/include.sh
 
+if [ ! -d "node_modules" ]; then
+    npm install
+fi
+
 # Copy CSS
 rsync -r css $OUT_DIR
 rsync -r node_modules/datatables.net-datetime/css $OUT_DIR
 css_frameworks searchBuilder $OUT_DIR/css
-
-if [ ! -d "node_modules" ]; then
-    npm install
-fi
 
 # Copy images
 #rsync -r images $OUT_DIR
