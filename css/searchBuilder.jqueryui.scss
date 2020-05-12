@@ -19,6 +19,18 @@ div.dtsb-searchBuilder {
             select{
                 width: auto !important;
             }
+
+            select.dtsb-condition {
+                border-color: #48b13c;
+            }
+
+            select.dtsb-data {
+                border-color: #e70f00;
+            }
+
+            select.dtsb-value, input.dtsb-value {
+                border-color: #0069ba;
+            }
         }
 
         button.dtsb-button {

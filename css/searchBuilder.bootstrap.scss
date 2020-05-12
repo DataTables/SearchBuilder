@@ -51,5 +51,18 @@ div.dtsb-searchBuilder {
                 margin: 0px;
             }
         }
+        div.dtsb-criteria {
+            select.dtsb-condition {
+                border-color: #4cae4c;
+            }
+
+            select.dtsb-data {
+                border-color: #d43f3a;
+            }
+
+            select.dtsb-value, input.dtsb-value {
+                border-color: #2e6da4;
+            }
+        }
     }
 }

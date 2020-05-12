@@ -51,8 +51,8 @@ $.extend(true, DataTable.Group.classes, {
 
 $.extend(true, DataTable.Criteria.classes, {
 	condition: 'ui selection dropdown dtsb-condition',
+	data: 'ui selection dropdown dtsb-data',
 	delete: 'ui button dtsb-delete',
-	field: 'ui selection dropdown dtsb-data',
 	left: 'ui button dtsb-left',
 	right: 'ui button dtsb-right',
 	value: 'ui selection dropdown dtsb-value',

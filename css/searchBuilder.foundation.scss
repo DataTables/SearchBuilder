@@ -34,6 +34,18 @@ div.dtsb-searchBuilder {
             input {
                 height: 2.4375rem;
             }
+
+            select.dtsb-condition {
+                border-color: #3adb76;
+            }
+
+            select.dtsb-data {
+                border-color: #cc4b37;
+            }
+
+            select.dtsb-value, input.dtsb-value {
+                border-color: #1779ba;
+            }
         }
 
         div.dtsb-logicContainer{
