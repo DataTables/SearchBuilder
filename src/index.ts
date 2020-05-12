@@ -86,7 +86,14 @@ import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
 		},
 		config: {},
 		init(dt, node, config) {
-			let sb = new $.fn.dataTable.SearchBuilder(dt, config.config);
+			let sb = new $.fn.dataTable.SearchBuilder(dt, $.extend(
+				{
+					filterChanged(count) {
+						dt.button(node).text(dt.i18n('searchBuilder.button', {0: 'Search Builder', _: 'Search Builder (%d)'}, count));
+					}
+				},
+				config.config
+			));
 			let message = dt.i18n('searchBuilder.button', 'SearchBuilder', 0);
 			dt.button(node).text(message);
 			config._searchBuilder = sb;

@@ -16,6 +16,7 @@ export interface IClasses {
 }
 
 export interface IDefaults {
+	filterChanged: any;
 	preDefined: boolean | IDetails;
 }
 

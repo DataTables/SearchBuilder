@@ -6,20 +6,40 @@
 
 	<type type="string | object">
 		<description>
-			`-init language.searchBuilder.button` changes what will be displayed in the text of the SearchBuilder Button.
+			`-init language.searchBuilder.button` changes what will be displayed in the text of the SearchBuilder Button. It can also display the number of criteria that are active.
 		</description>
 	</type>
 
-	<default value="'SearchBuilder'">
-		The default value for the `-init language.searchBuilder.button` parameter is `'SearchBuilder'`. 
+	<default value="{0: 'Search Builder', _: 'Search Builder (%d)'}">
+		The default value for the `-init language.searchBuilder.button` parameter is `{0: 'Search Builder', _: 'Search Builder (%d)'}`. 
 	</default>
 	<description>
 		<![CDATA[
-			As standard, SearchBuilder will set the SearchBuilder Button to display a default text, in this case `'SearchBuilder'`.
+			As standard, SearchBuilder will set the SearchBuilder Button to display a default text, in this case `{0: 'Search Builder', _: 'Search Builder (%d)'}`. where %d is the total number of criteria that are active.
 
-            The value of `-init language.searchBuilder.button` is passed into an `-api i18n()` function.
+            The value of `-init language.searchBuilder.button` is passed into an `-api i18n()` function. `%d` is replaces by the number of criteria that are in place. To just set the Button text to be a string no matter the count, just set `-init language.searchBuilder.button` to be the desired `-type string`.
 		]]>
 	</description>
+
+		<example title="Change message for SearchBuilder button which also displays criteria count:"><![CDATA[
+$(document).ready(function() {
+    $('#example').DataTable( {
+        language: {
+            searchBuilder: {
+                button: {
+					0: 'Criteria',
+					1: 'Criteria (one selected)',
+					_: 'Criteria (%d)'
+				}
+            }
+        },
+        buttons:[
+            'searchBuilder'
+        ],
+        dom: 'Bfrtip',
+    });
+});
+]]></example>
 
 	<example title="Change message for SearchBuilder button"><![CDATA[
 $(document).ready(function() {

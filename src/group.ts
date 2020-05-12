@@ -348,6 +348,24 @@ export default class Group {
 	}
 
 	/**
+	 * Gets the count for the number of criteria in this group and any sub groups
+	 */
+	public count(): number {
+		let count = 0;
+
+		for (let crit of this.s.criteria) {
+			if (crit.type === 'group') {
+				count += crit.criteria.count();
+			}
+			else {
+				count ++;
+			}
+		}
+
+		return count;
+	}
+
+	/**
 	 * Rebuilds a sub group that previously existed
 	 * @param loadedGroup The details of a group within this group
 	 */

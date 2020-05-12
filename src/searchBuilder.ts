@@ -30,6 +30,7 @@ export default class SearchBuilder {
 	};
 
 	private static defaults: typeInterfaces.IDefaults = {
+		filterChanged: undefined,
 		preDefined: false,
 	};
 
@@ -215,6 +216,11 @@ export default class SearchBuilder {
 			this.s.topGroup.redrawContents();
 			this.s.topGroup.setupLogic();
 			this._setEmptyListener();
+
+			// Update the count in the title/button
+			if (this.c.filterChanged !== undefined && typeof this.c.filterChanged === 'function') {
+				this.c.filterChanged(this.s.topGroup.count());
+			}
 		});
 	}
 
