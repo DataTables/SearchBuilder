@@ -22,7 +22,7 @@
 	<example title="Simple single level search with AND logic"><![CDATA[
 
     $('#example').DataTable( {
-        dom: 'Qfrtip',
+        dom: 'Qlfrtip',
         searchBuilder: {
             preDefined: {
                 criteria:[
@@ -44,7 +44,7 @@
 	<example title="Simple single level search with OR logic"><![CDATA[
 
     $('#example').DataTable( {
-        dom: 'Qfrtip',
+        dom: 'Qlfrtip',
         searchBuilder: {
             preDefined: {
                 criteria:[

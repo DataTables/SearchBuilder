@@ -34,7 +34,7 @@
 	<example title="Simple single level search"><![CDATA[
 
     $('#example').DataTable( {
-        dom: 'Qfrtip',
+        dom: 'Qlfrtip',
         searchBuilder: {
             preDefined: {
                 criteria:[
@@ -56,7 +56,7 @@
 	<example title="More Complex Multi level search"><![CDATA[
 
     $('#example').DataTable( {
-        dom: 'Qfrtip',
+        dom: 'Qlfrtip',
         searchBuilder: {
             preDefined: {
                 criteria:[

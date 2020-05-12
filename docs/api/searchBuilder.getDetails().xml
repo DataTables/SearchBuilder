@@ -19,7 +19,7 @@
 
 	<example title="Get the details of a Search:"><![CDATA[
     var dt = $('#example').DataTable( {
-        dom: 'Pfrtip'
+        dom: 'Qlfrtip'
     });
 
     $('#example').DataTable().searchBuilder.getDetails();

@@ -24,7 +24,7 @@
 	<example title="Simple single level search showing both types"><![CDATA[
 
     $('#example').DataTable( {
-        dom: 'Qfrtip',
+        dom: 'Qlfrtip',
         searchBuilder: {
             preDefined: {
                 criteria:[

@@ -24,7 +24,7 @@
 	<example title="Defining the value for use in a criteria"><![CDATA[
 
     $('#example').DataTable( {
-        dom: 'Qfrtip',
+        dom: 'Qlfrtip',
         searchBuilder: {
             preDefined: {
                 criteria:[
@@ -46,7 +46,7 @@
 	<example title="Defining the values for use in a multi value criteria"><![CDATA[
 
     $('#example').DataTable( {
-        dom: 'Qfrtip',
+        dom: 'Qlfrtip',
         searchBuilder: {
             preDefined: {
                 criteria:[

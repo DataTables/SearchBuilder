@@ -31,7 +31,7 @@
         searchBuilder: {
             depthLimit: 3
         },    
-		dom: 'Qfrtip'
+		dom: 'Qlfrtip'
     });
 
 ]]></example>
@@ -42,7 +42,7 @@
         searchBuilder: {
             depthLimit: 1
         },    
-		dom: 'Qfrtip'
+		dom: 'Qlfrtip'
     });
 
 ]]></example>

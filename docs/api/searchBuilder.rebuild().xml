@@ -22,7 +22,7 @@
     var stored;
 
     $('#example').DataTable( {
-        dom: 'Qfrtip'
+        dom: 'Qlfrtip'
     });
 
     $('#getDetails').on('click', function() {

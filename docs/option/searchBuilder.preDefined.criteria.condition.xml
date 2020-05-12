@@ -22,7 +22,7 @@
 	<example title="Defining Equals for a condition"><![CDATA[
 
     $('#example').DataTable( {
-        dom: 'Qfrtip',
+        dom: 'Qlfrtip',
         searchBuilder: {
             preDefined: {
                 criteria:[

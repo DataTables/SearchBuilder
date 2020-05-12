@@ -25,7 +25,7 @@
         searchBuilder: {
             allowed: [1,2,3]
         },    
-		dom: 'Qfrtip'
+		dom: 'Qlfrtip'
     });
 
 ]]></example>

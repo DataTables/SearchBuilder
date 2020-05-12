@@ -22,7 +22,7 @@
 	<example title="Defining the second data point for use in a criteria"><![CDATA[
 
     $('#example').DataTable( {
-        dom: 'Qfrtip',
+        dom: 'Qlfrtip',
         searchBuilder: {
             preDefined: {
                 criteria:[

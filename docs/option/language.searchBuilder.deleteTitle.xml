@@ -29,7 +29,7 @@ $(document).ready(function() {
                 deleteTitle: 'Delete'
             }
         },
-        dom: 'Qfrtip',
+        dom: 'Qlfrtip',
     });
 });
 
