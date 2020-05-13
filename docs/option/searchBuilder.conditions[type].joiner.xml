@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>searchBuilder.conditions[type].joiner</name>
+	<summary>Define the string to seperate the inputs if there are more than one</summary>
+	<since>SearchBuilder 0.0.1</since>
+
+	<type type="string">
+		<description>
+            String value representing the joiner to go between the value inputs when there are multiple.
+        </description>
+	</type>
+
+	<description>
+		<![CDATA[
+		This allows the value inputs to be broken up by having a joiner string between each one.
+        ]]>
+	</description>
+
+	<example title="Define the joiner string to go between the value inputs"><![CDATA[
+
+
+    $('#example').DataTable( {
+        dom: 'Qfrtip',
+        searchBuilder: {
+            conditions[type]: {
+                "num":[{
+                    display: 'Outwith Exclusive',
+                    comparator(value: any, comparison: any[]): boolean {
+                        if (comparison[0] < comparison[1]) {
+                            return !(+comparison[0] <= +value && +value <= +comparison[1]);
+                        }
+                        else {
+                            return !(+comparison[1] <= +value && +value <= +comparison[0]);
+                        }
+                    },
+                    joiner: 'and',
+                    type: 'input',
+                    valueInputs: 2,
+                }]
+            }
+        }
+    });
+
+]]></example>
+
+</dt-option>

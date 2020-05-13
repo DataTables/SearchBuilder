@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html-iso8601" table-class="display nowrap" order="1">
+
+<css lib="datatables searchbuilder"/>
+
+<js lib="jquery datatables searchbuilder">
+<![CDATA[
+
+$(document).ready(function() {
+    var dt = $('#example').DataTable( {
+        dom: 'Qfrtip',
+        searchBuilder: {
+            conditions: {
+                "num":[{
+                    display: 'Made up',
+                    comparator: function(value, comparison) {
+                        return +value === +comparison[0];
+                    },
+                    type: 'select',
+                    valueInputs: 1
+                }]
+            }
+        }
+    });
+});
+
+]]>
+</js>
+
+<title lib="searchBuilder">TEST</title>
+
+<info><![CDATA[
+
+This is the `-init searchBuilder`extension for DataTables. It allows results to be filtered based on a user constructed query.
+
+This example shows how to make use of `-init searchBuilder.conditions` to add a custom condition. The `-init searchBuilder.conditions` option holds 7 properties, one for each type that DataTables is able to detect.
+
+* `-type string`
+* `-type date`
+* `-type num`
+* `-type num-fmt`
+* `-type html`
+* `-type html-num`
+* `-type html-num-fmt`
+
+In this example `-init searchBuilder.conditions.num` is used to add a custom condition to any columns that are of type num.
+
+]]></info>
+
+</dt-example>

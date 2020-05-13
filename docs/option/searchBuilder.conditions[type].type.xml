@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>searchBuilder.conditions[type].type</name>
+	<summary>Define the type of value input required for this condition</summary>
+	<since>SearchBuilder 0.0.1</since>
+
+	<type type="string">
+		<description>
+            String value representing the type of value input required for the condition. Either `select`, `input` or `date`.
+        </description>
+	</type>
+
+	<description>
+		<![CDATA[
+		This allows the type of the value inputs to be defined. Either `select`, `input` or `date`.
+        ]]>
+	</description>
+
+	<example title="Define the type of value inputs that are required"><![CDATA[
+
+    $('#example').DataTable( {
+        dom: 'Qfrtip',
+        searchBuilder: {
+            conditions[type]: {
+                "num":[{
+                    display: 'Made up',
+                    comparator: function(value, comparison) {
+                        return +value === +comparison[0];
+                    },
+                    type: 'select',
+                    valueInputs: 1
+                }]
+            }
+        }
+    });
+
+]]></example>
+
+</dt-option>

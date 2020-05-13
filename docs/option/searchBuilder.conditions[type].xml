@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>searchBuilder.conditions[type]</name>
+	<summary>The object structure for additional conditions for SearchBuilder</summary>
+	<since>SearchBuilder 0.0.1</since>
+
+	<type type="Object">
+		<description>
+            An object that contains the information necessary to add a new condition.
+        </description>
+	</type>
+
+	<default value="Object">
+        The default value for the `-init searchBuilder.conditions[type]` option is an object with 7 properties, one for each of the DataTables types. Each property in turn contains an array of conditions[type].
+	</default>
+	<description>
+		<![CDATA[
+		This is useful as it allows custom conditions to be added to SearchBuilder should the standard ones not be enough.
+
+        This object contains 5 properties.
+
+        * `-init searchBuilder.conditions[type].display` The string that is to be displayed in the option for this condition. Also what it is referred to throughout.
+        * `-init searchBuilder.conditions[type].comparator` This is the function that compares the row data and the value selected in this criteria.
+        * `-init searchBuilder.conditions[type].joiner` This optional property is the text that will be displayed if there is more than one value required for the condition.
+        * `-init searchBuilder.conditions[type].type` This is the type of input required for the condition. It can be either `select`, `input` or `date`
+        * `-init searchBuilder.conditions[type].valueInputs` This is the number of inputs that are required for the condition.
+
+        ]]>
+	</description>
+
+	<example title="Simple extra num condition"><![CDATA[
+
+    $('#example').DataTable( {
+        dom: 'Qfrtip',
+        searchBuilder: {
+            conditions[type]: {
+                "num":[{
+                    display: 'Made up',
+                    comparator: function(value, comparison) {
+                        return +value === +comparison[0];
+                    },
+                    type: 'select',
+                    valueInputs: 1
+                }]
+            }
+        }
+    });
+
+]]></example>
+
+<example title="Complex double value num condition"><![CDATA[
+
+    $('#example').DataTable( {
+        dom: 'Qfrtip',
+        searchBuilder: {
+            conditions[type]: {
+                "num":[{
+                    display: 'Outwith Exclusive',
+                    comparator(value: any, comparison: any[]): boolean {
+                        if (comparison[0] < comparison[1]) {
+                            return !(+comparison[0] <= +value && +value <= +comparison[1]);
+                        }
+                        else {
+                            return !(+comparison[1] <= +value && +value <= +comparison[0]);
+                        }
+                    },
+                    joiner: 'and',
+                    type: 'input',
+                    valueInputs: 2,
+                }]
+            }
+        }
+    });
+
+]]></example>
+
+</dt-option>

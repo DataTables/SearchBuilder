@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>searchBuilder.conditions.html</name>
+	<summary>An array of objects containing the conditions for the html type</summary>
+	<since>SearchBuilder 0.0.1</since>
+
+	<type type="Object[]">
+		<description>
+            An array of objects that hold the details of the conditions used for the html type.
+        </description>
+	</type>
+
+	<default value="Object[]">
+        The default value for the `-init searchBuilder.conditions.html` option is an array of Objects in the form of `-init searchBuilder.conditions[type]`.
+	</default>
+	<description>
+		<![CDATA[
+		This is useful as it allows extra html conditions to be defined that can add to the filtering options.
+        ]]>
+	</description>
+
+	<example title="Simple extra html condition"><![CDATA[
+
+    $('#example').DataTable( {
+        dom: 'Qfrtip',
+        searchBuilder: {
+            conditions: {
+                "html":[{
+                    display: 'Made up Equals',
+                    comparator: function(value, comparison) {
+                        return value === comparison[0];
+                    },
+                    type: 'select',
+                    valueInputs: 1
+                }]
+            }
+        }
+    });
+
+]]></example>
+
+</dt-option>

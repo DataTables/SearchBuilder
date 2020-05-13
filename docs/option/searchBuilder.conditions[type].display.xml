@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>searchBuilder.conditions[type].display</name>
+	<summary>The value that is displayed in the select element</summary>
+	<since>SearchBuilder 0.0.1</since>
+
+	<type type="number">
+		<description>
+            This is the value that will be displayed in the select element, it is also what is used as a reference throughout the internals.
+        </description>
+	</type>
+
+	<description>
+		<![CDATA[
+		This allows the display value of the condition to be set.
+        ]]>
+	</description>
+
+	<example title="Define the display value to be shown in the condition select"><![CDATA[
+
+    $('#example').DataTable( {
+        dom: 'Qfrtip',
+        searchBuilder: {
+            conditions[type]: {
+                "num":[{
+                    display: 'Made up',
+                    comparator: function(value, comparison) {
+                        return +value === +comparison[0];
+                    },
+                    type: 'select',
+                    valueInputs: 1
+                }]
+            }
+        }
+    });
+
+]]></example>
+
+</dt-option>

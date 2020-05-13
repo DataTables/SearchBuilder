@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>searchBuilder.conditions</name>
+	<summary>Define custom conditions for SearchBuilder</summary>
+	<since>SearchBuilder 0.0.1</since>
+
+	<type type="Object">
+		<description>
+            An object that contains conditions for each of the 7 DataTables types.
+        </description>
+	</type>
+
+	<default value="Object">
+        The default value for the `-init searchBuilder.conditions` option is an object with 7 properties, one for each of the DataTables types. Each property in turn contains an array of conditions.
+	</default>
+	<description>
+		<![CDATA[
+		This is useful as it allows custom conditions to be added to SearchBuilder should the standard ones not be enough.
+
+        This object contains 7 properties.
+
+        * `-init searchBuilder.conditions.string` This property holds an array of conditions that can be applied to the `-type string`
+        * `-init searchBuilder.conditions.date` This property holds an array of conditions that can be applied to the `-type date`
+        * `-init searchBuilder.conditions.num` This property holds an array of conditions that can be applied to the `-type num`
+        * `-init searchBuilder.conditions.num-fmt` This property holds an array of conditions that can be applied to the `-type num-fmt`
+        * `-init searchBuilder.conditions.html` This property holds an array of conditions that can be applied to the `-type html`
+        * `-init searchBuilder.conditions.html-num` This property holds an array of conditions that can be applied to the `-type html-num`
+        * `-init searchBuilder.conditions.html-num-fmt` This property holds an array of conditions that can be applied to the `-type html-num-fmt`
+        ]]>
+	</description>
+
+	<example title="Simple extra num condition"><![CDATA[
+
+    $('#example').DataTable( {
+        dom: 'Qfrtip',
+        searchBuilder: {
+            conditions: {
+                "num":[{
+                    display: 'Made up',
+                    comparator: function(value, comparison) {
+                        return +value === +comparison[0];
+                    },
+                    type: 'select',
+                    valueInputs: 1
+                }]
+            }
+        }
+    });
+
+]]></example>
+
+</dt-option>
