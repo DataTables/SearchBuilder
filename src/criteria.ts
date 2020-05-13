@@ -97,6 +97,14 @@ export default class Criteria {
 			joiner: 'and',
 			type: 'date',
 			valueInputs: 2
+		},
+		{
+			display: 'Empty',
+			comparator(value: any, comparison: any[]): boolean {
+				return (value === null || value === undefined || value.length === 0);
+			},
+			type: 'select',
+			valueInputs: 0
 		}
 	];
 
@@ -204,6 +212,14 @@ export default class Criteria {
 			joiner: 'and',
 			type: 'input',
 			valueInputs: 2
+		},
+		{
+			display: 'Empty',
+			comparator(value: any, comparison: any[]): boolean {
+				return (value === null || value === undefined || value.length === 0);
+			},
+			type: 'select',
+			valueInputs: 0
 		}
 	];
 
@@ -341,6 +357,14 @@ export default class Criteria {
 			joiner: 'and',
 			type: 'input',
 			valueInputs: 2
+		},
+		{
+			display: 'Empty',
+			comparator(value: any, comparison: any[]): boolean {
+				return (value === null || value === undefined || value.length === 0);
+			},
+			type: 'select',
+			valueInputs: 0
 		}
 	];
 
@@ -385,6 +409,14 @@ export default class Criteria {
 			type: 'select',
 			valueInputs: 1
 		},
+		{
+			display: 'Empty',
+			comparator(value: any, comparison: any[]): boolean {
+				return (value === null || value === undefined || value.length === 0);
+			},
+			type: 'select',
+			valueInputs: 0
+		}
 	];
 
 	private static defaults: typeInterfaces.IDefaults = {
@@ -726,7 +758,13 @@ export default class Criteria {
 			this._populateValue();
 
 			// If this criteria was previously active in the search then remove it from the search and trigger a new search
-			if (this.s.filled) {
+			if (
+				this.s.filled &&
+				(
+					$(this.dom.container).has(this.dom.value).length !== 0 ||
+					$(this.dom.container).has(this.dom.valueInputs[0]).length !== 0
+				)
+			) {
 				this.s.filled = false;
 				this.s.dt.draw();
 			}
@@ -1009,6 +1047,17 @@ export default class Criteria {
 			}
 		}
 
+		if (valCount === 0) {
+			$(this.dom.value).remove();
+			for (let input of this.dom.valueInputs) {
+				$(input).remove();
+			}
+			this.s.filled = true;
+			this.s.dt.draw();
+
+			return;
+		}
+
 		// If the condition requires a selection from a select element
 		if (conditionType === 'select') {
 			// If there are input fields then remove them and add the select fields
@@ -1021,6 +1070,9 @@ export default class Criteria {
 				}
 
 				this.setListeners();
+			}
+			else if ($(this.dom.container).has(this.dom.value).length === 0) {
+				$(this.dom.value).insertAfter(this.dom.condition);
 			}
 
 			$(this.dom.value).attr('disabled', false);
@@ -1076,10 +1128,9 @@ export default class Criteria {
 		// Otherwise it must be either an input or a date, both have very similar processes here
 		// If the select element is present then
 		else if (
-			(conditionType === 'input' || conditionType === 'date') &&
-			$(this.dom.container).has(this.dom.value).length !== 0
+			(conditionType === 'input' || conditionType === 'date')
 		) {
-			$(this.dom.valueInputs[0]).insertBefore(this.dom.value);
+			$(this.dom.valueInputs[0]).insertAfter(this.dom.condition);
 			$(this.dom.valueInputs[0]).val(this.s.value[0]);
 
 			// If it's a date then we need to initialise the DataTables datePicker
@@ -1090,8 +1141,8 @@ export default class Criteria {
 			// Insert all of the required valueInputs and update their values
 			for (let i = 1; i < valCount && i < this.dom.valueInputs.length; i++) {
 				// Insert a joiner span to break up the valueInputs
-				$('<span>').addClass(this.classes.joiner).text(joinerText).insertBefore(this.dom.value);
-				$(this.dom.valueInputs[i]).insertBefore(this.dom.value);
+				let joiner = $('<span>').addClass(this.classes.joiner).text(joinerText).insertAfter(this.dom.valueInputs[i - 1]);
+				$(this.dom.valueInputs[i]).insertAfter(joiner);
 				$(this.dom.valueInputs[i]).val(this.s.value[i]);
 
 				if (conditionType === 'date') {
@@ -1114,6 +1165,8 @@ export default class Criteria {
 				$(this.dom.valueInputs[i]).remove();
 			}
 		}
+
+		this.s.dt.draw();
 	}
 
 	/**
