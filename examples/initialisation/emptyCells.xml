@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html-iso8601" table-class="display nowrap" order="1">
+
+<css lib="datatables searchbuilder"/>
+
+<js lib="jquery datatables searchbuilder">
+<![CDATA[
+
+$(document).ready(function() {
+    var dt = $('#example').DataTable( {
+        dom: 'Qfrtip',
+    });
+
+    dt.cell(2,2).data('');
+    dt.cell(4,2).data('');
+    dt.cell(6,2).data('');
+    dt.cell(2,3).data('');
+});
+
+]]>
+</js>
+
+<title lib="searchBuilder">Interaction with empty cells</title>
+
+<info><![CDATA[
+
+This is the `-init searchBuilder`extension for DataTables. It allows results to be filtered based on a user constructed query.
+
+This example shows how SearchBuilder interacts with empty cells and allows for a demonstration of the `Empty` option.
+
+]]></info>
+
+</dt-example>

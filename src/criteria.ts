@@ -938,6 +938,11 @@ export default class Criteria {
 			let column = $(this.dom.data).children('option:selected').val();
 			this.s.type = this.s.dt.columns().type().toArray()[column];
 
+			if (this.s.type === null) {
+				this.s.dt.draw();
+				this.s.type = this.s.dt.columns().type().toArray()[column];
+			}
+
 			if (this.c.conditions[this.s.type] !== undefined) {
 				$(this.dom.condition).attr('disabled', false);
 				for (let condition of this.c.conditions[this.s.type]) {
