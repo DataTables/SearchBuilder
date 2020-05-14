@@ -729,8 +729,6 @@ export default class Criteria {
 				$(this.dom.conditionTitle).attr('selected', true);
 			}
 		}
-
-		this.updateArrows();
 	}
 
 	/**

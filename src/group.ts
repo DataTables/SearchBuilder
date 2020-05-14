@@ -154,7 +154,7 @@ export default class Group {
 
 		for (let crit of this.s.criteria) {
 			if (crit.type === 'criteria') {
-				crit.criteria.updateArrows(this.s.criteria.length > 1);
+				crit.criteria.updateArrows(this.s.criteria.length > 1, false);
 				this._setCriteriaListeners(crit.criteria);
 			}
 		}
@@ -413,8 +413,6 @@ export default class Group {
 			index: idx,
 			type: 'criteria'
 		});
-
-		$(this.s.topGroup).trigger('dtsb-redrawContents');
 
 		criteria.rebuild(loadedCriteria);
 
