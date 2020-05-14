@@ -1145,6 +1145,8 @@ export default class Criteria {
 			$(this.dom.valueInputs[0]).insertAfter(this.dom.condition);
 			$(this.dom.valueInputs[0]).val(this.s.value[0]);
 
+			this.s.filled = this.s.value[0] !== undefined && this.s.value[0].length !== 0;
+
 			// If it's a date then we need to initialise the DataTables datePicker
 			if (conditionType === 'date') {
 				$(this.dom.valueInputs[0]).dtDateTime();
@@ -1160,6 +1162,10 @@ export default class Criteria {
 				if (conditionType === 'date') {
 					$(this.dom.valueInputs[i]).dtDateTime();
 				}
+
+				if (this.s.filled) {
+					this.s.filled = this.s.value[i] !== undefined && this.s.value[i].length !== 0;
+				}
 			}
 
 			$(this.dom.value).remove();
@@ -1172,10 +1178,12 @@ export default class Criteria {
 			valCount === 1
 		) {
 			$('.' + this.classes.joiner).remove();
+			$(this.dom.valueInputs[0]).val('');
 
 			for (let i = 1; i < this.dom.valueInputs.length; i++) {
 				$(this.dom.valueInputs[i]).remove();
 			}
+			this.s.filled = false;
 		}
 
 		this.s.dt.draw();
