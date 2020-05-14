@@ -151,6 +151,13 @@ export default class Group {
 				this._addPrevCriteria(crit);
 			}
 		}
+
+		for (let crit of this.s.criteria) {
+			if (crit.type === 'criteria') {
+				crit.criteria.updateArrows(this.s.criteria.length > 1);
+				this._setCriteriaListeners(crit.criteria);
+			}
+		}
 	}
 
 	/**
@@ -302,7 +309,7 @@ export default class Group {
 	 * Adds a criteria to the group
 	 * @param crit Instance of Criteria to be added to the group
 	 */
-	public addCriteria(crit: Criteria = null): void {
+	public addCriteria(crit: Criteria = null, redraw = true): void {
 		let index = crit === null ? this.s.criteria.length : crit.s.index;
 		let criteria = new Criteria(this.s.dt, this.s.opts, this.s.topGroup, index, this.s.depth);
 
@@ -328,19 +335,7 @@ export default class Group {
 
 		for (let opt of this.s.criteria) {
 			if (opt.type === 'criteria') {
-				opt.criteria.updateArrows(this.s.criteria.length > 1);
-			}
-		}
-
-		// If there are not more than one criteria in this group then enable the right button, if not disable it
-		if (this.s.criteria.length > 1 && (this.c.depthLimit === false || this.s.depth < this.c.depthLimit)) {
-			for (let opt of this.s.criteria) {
-				$(opt.criteria.dom.right).attr('disabled', false);
-			}
-		}
-		else {
-			for (let opt of this.s.criteria) {
-				$(opt.criteria.dom.right).attr('disabled', true);
+				opt.criteria.updateArrows(this.s.criteria.length > 1, redraw);
 			}
 		}
 
@@ -511,13 +506,9 @@ export default class Group {
 			for (let i = 0; i < this.s.criteria.length; i++) {
 				this.s.criteria[i].index = i;
 				this.s.criteria[i].criteria.s.index = i;
-				if (this.s.criteria.length === 1 || this.s.depth === this.c.depthLimit) {
-					$(this.s.criteria[i].criteria.dom.right).attr('disabled', true);
-				}
 			}
 		}
 	}
-
 	/**
 	 * Sets the listeners in group for a criteria
 	 * @param criteria The criteria for the listeners to be set on
@@ -529,7 +520,7 @@ export default class Group {
 			$(criteria.dom.container).remove();
 			this.setupLogic();
 
-			for (let crit of this.s.criteria){
+			for (let crit of this.s.criteria) {
 				if (crit.type === 'criteria') {
 					crit.criteria.updateArrows(this.s.criteria.length > 1);
 				}
@@ -609,6 +600,8 @@ export default class Group {
 		$(group.dom.container).on('dtsb-add', () => {
 			this.setupLogic();
 			$(this.dom.container).trigger('dtsb-add');
+
+			return false;
 		});
 
 		$(group.dom.container).unbind('dtsb-destroy');
@@ -616,15 +609,16 @@ export default class Group {
 			this._removeCriteria(group);
 			$(group.dom.container).remove();
 			this.setupLogic();
+
+			return false;
 		});
 
 		$(group.dom.container).unbind('dtsb-dropCriteria');
 		$(group.dom.container).one('dtsb-dropCriteria', () => {
 				let toDrop = group.s.toDrop;
 				toDrop.s.index = group.s.index;
-				toDrop.updateArrows(this.s.criteria.length > 1);
-				this.addCriteria(toDrop);
-				$(this.s.topGroup).trigger('dtsb-redrawContents');
+				toDrop.updateArrows(this.s.criteria.length > 1, false);
+				this.addCriteria(toDrop, false);
 
 				return false;
 		});

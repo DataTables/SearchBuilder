@@ -485,7 +485,7 @@ export default class Criteria {
 				.addClass(this.classes.left)
 				.addClass(this.classes.button)
 				.attr('title', this.s.dt.i18n('searchBuilder.leftTitle', 'drop criteria')),
-			right: $('<button disabled>\></button>')
+			right: $('<button>\></button>')
 				.addClass(this.classes.right)
 				.addClass(this.classes.button)
 				.attr('title', this.s.dt.i18n('searchBuilder.rightTitle', 'idnent criteria')),
@@ -527,7 +527,7 @@ export default class Criteria {
 	/**
 	 * Adds the left button to the criteria
 	 */
-	public updateArrows(hasSiblings = false): void {
+	public updateArrows(hasSiblings = false, redraw = true): void {
 		$(this.dom.container).empty();
 
 		// Get the type of condition and the number of values required so we now how many value inputs to append
@@ -573,8 +573,10 @@ export default class Criteria {
 			$(this.dom.container).append(this.dom.left);
 		}
 
-		// A different combination of arrows and selectors may lead to a need for responsive to be triggered
-		this._adjustCriteria();
+		if (redraw) {
+			// A different combination of arrows and selectors may lead to a need for responsive to be triggered
+			this._adjustCriteria();
+		}
 	}
 
 	/**
