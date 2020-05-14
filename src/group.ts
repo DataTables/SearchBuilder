@@ -161,6 +161,17 @@ export default class Group {
 		$(this.dom.container).empty();
 		$(this.dom.container).append(this.dom.logicContainer).append(this.dom.add);
 
+		this.s.criteria.sort(function(a, b) {
+			if (a.criteria.s.index < b.criteria.s.index) {
+				return -1;
+			}
+			else if (a.criteria.s.index > b.criteria.s.index) {
+				return 1;
+			}
+
+			return 0;
+		});
+
 		this.setListeners();
 
 		for (let i = 0; i < this.s.criteria.length; i++) {
@@ -302,7 +313,7 @@ export default class Group {
 	 * @param crit Instance of Criteria to be added to the group
 	 */
 	public addCriteria(crit: Criteria = null): void {
-		let index = this.s.criteria.length;
+		let index = crit === null ? this.s.criteria.length : crit.s.index;
 		let criteria = new Criteria(this.s.dt, this.s.opts, this.s.topGroup, index, this.s.depth);
 
 		// If a Criteria has been passed in then set the values to continue that
@@ -310,7 +321,6 @@ export default class Group {
 			criteria.c = crit.c;
 			criteria.s = crit.s;
 			criteria.s.depth = this.s.depth;
-			criteria.s.index = index;
 			criteria.classes = crit.classes;
 		}
 
@@ -615,8 +625,7 @@ export default class Group {
 		$(group.dom.container).unbind('dtsb-dropCriteria');
 		$(group.dom.container).one('dtsb-dropCriteria', () => {
 				let toDrop = group.s.toDrop;
-				let length = this.s.criteria.length;
-				toDrop.s.index = length;
+				toDrop.s.index = group.s.index;
 				toDrop.updateArrows(this.s.criteria.length > 1);
 				this.addCriteria(toDrop);
 				$(this.s.topGroup).trigger('dtsb-redrawContents');
