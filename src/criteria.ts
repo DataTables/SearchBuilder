@@ -457,7 +457,7 @@ export default class Criteria {
 		this.s = {
 			condition: '',
 			conditions: [],
-			data: undefined,
+			data: -1,
 			dataPoints: [],
 			depth,
 			dt: table,
@@ -632,10 +632,10 @@ export default class Criteria {
 	public populate(): void {
 		this._populateData();
 
-		if (this.s.data !== undefined) {
+		if (this.s.data !== -1) {
 			this._populateCondition();
 
-			if (this.s.condition !== undefined) {
+			if (this.s.condition.length !== 0) {
 				this._populateValue();
 			}
 		}
@@ -648,18 +648,21 @@ export default class Criteria {
 	public rebuild(loadedCriteria: typeInterfaces.IDetails): void {
 		// Check to see if the previously selected data exists, if so select it
 		let foundData = false;
-		$(this.dom.data).children('option').each(function() {
-			if ($(this).val() === loadedCriteria.data) {
-				$(this).attr('selected', true);
-				foundData = true;
-			}
-		});
+		if (loadedCriteria.data !== -1) {
+			$(this.dom.data).children('option').each(function() {
+				if ($(this).val() === loadedCriteria.data) {
+					$(this).attr('selected', true);
+					foundData = true;
+				}
+			});
+		}
 
 		// If the data has been found and selected then the condition can be populated and searched
 		if (foundData) {
 			this.s.data = loadedCriteria.data;
 			$(this.dom.dataTitle).remove();
 			this._populateCondition();
+			$(this.dom.conditionTitle).remove();
 
 			// Check to see if the previously selected condition exists, if so select it
 			let foundCond = false;
@@ -718,6 +721,10 @@ export default class Criteria {
 
 					this.s.filled = allFilled;
 				}
+			}
+			else {
+				$(this.dom.conditionTitle).prependTo(this.dom.condition);
+				$(this.dom.conditionTitle).attr('selected', true);
 			}
 		}
 
@@ -866,8 +873,8 @@ export default class Criteria {
 		// Perform the responsive calculations and redraw where necessary
 		if (
 			buttonsLeft - valRight < 15 ||
-			(hasLeft && leftOffset.top !== rightOffset.top) ||
-			(hasRight && rightOffset.top !== $(this.dom.delete).offset().top)
+			(hasLeft && leftOffset.top !== clearOffset.top) ||
+			(hasRight && rightOffset.top !== clearOffset.top)
 		) {
 			$(this.dom.container).parent().addClass(this.classes.vertical);
 			$(this.s.topGroup).trigger('dtsb-redrawContents');
@@ -949,7 +956,7 @@ export default class Criteria {
 					this.s.conditions.push(condition);
 					$(this.dom.condition).append(
 						$('<option>', {
-							text : this.s.dt.i18n(condition.display),
+							text : condition.display,
 							value : condition.display,
 						})
 						.addClass(this.classes.option)
@@ -963,7 +970,7 @@ export default class Criteria {
 
 			for (let condition of this.s.conditions) {
 				let newOpt = $('<option>', {
-					text : this.s.dt.i18n(condition.display),
+					text : condition.display,
 					value : condition.display
 				})
 				.addClass(this.classes.option);

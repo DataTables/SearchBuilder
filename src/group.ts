@@ -350,6 +350,19 @@ export default class Group {
 	}
 
 	/**
+	 * Checks the group to see if it has any filled criteria
+	 */
+	public checkFilled() {
+		for (let crit of this.s.criteria) {
+			if ((crit.type === 'criteria' && crit.criteria.s.filled) || (crit.type === 'group' && crit.criteria.checkFilled())) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Gets the count for the number of criteria in this group and any sub groups
 	 */
 	public count(): number {
@@ -460,6 +473,12 @@ export default class Group {
 				// A completed criteria has been found so set the flag
 				filledfound = true;
 				// If the search passes then return true
+				if (crit.criteria.search(rowData)) {
+					return true;
+				}
+			}
+			else if (crit.type === 'group' && crit.criteria.checkFilled()) {
+				filledfound = true;
 				if (crit.criteria.search(rowData)) {
 					return true;
 				}
