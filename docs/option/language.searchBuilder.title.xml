@@ -38,6 +38,26 @@ $(document).ready(function() {
 
 ]]></example>
 
+<example title="Include counts in the title"><![CDATA[
+$(document).ready(function() {
+    $('#example').DataTable( {
+        language: {
+            searchBuilder: {
+                title: {
+					0: 'Search Builder',
+					_: 'Search Builder (%d)'
+				}
+            }
+        },
+        titles:[
+            'SearchBuilder'
+        ],
+        dom: 'Bfrtip',
+    });
+});
+
+]]></example>
+
 <related type="api">i18n()</related>
 
 </dt-option>

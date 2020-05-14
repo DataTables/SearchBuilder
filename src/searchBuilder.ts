@@ -150,12 +150,23 @@ export default class SearchBuilder {
 	}
 
 	/**
+	 * Updates the title of the SearchBuilder
+	 * @param count the number of filters in the SearchBuilder
+	 */
+	private _updateTitle(count) {
+		$(this.dom.title).text(
+			this.s.dt.i18n('searchBuilder.title', {0: 'Search Builder', _: 'Search Builder (%d)'}, count)
+		);
+	}
+
+	/**
 	 * Builds all of the dom elements together
 	 */
 	private _build(): void {
 		$(this.dom.container).empty();
 
-		$(this.dom.title).text(this.s.dt.i18n('searchBuilder.title', 'Search builder'));
+		let count = this.s.topGroup.count();
+		this._updateTitle(count);
 
 		$(this.dom.titleRow).append(this.dom.title);
 		$(this.dom.container).append(this.dom.titleRow);
@@ -218,16 +229,20 @@ export default class SearchBuilder {
 			this.s.topGroup.redrawContents();
 			this.s.topGroup.setupLogic();
 			this._setEmptyListener();
+			let count = this.s.topGroup.count();
+			this._updateTitle(count);
 			// Update the count in the title/button
 			if (this.c.filterChanged !== undefined && typeof this.c.filterChanged === 'function') {
-				this.c.filterChanged(this.s.topGroup.count());
+				this.c.filterChanged(count);
 			}
 		});
 
 		$(this.s.topGroup.dom.container).on('dtsb-updateTitle', () => {
+			let count = this.s.topGroup.count();
+			this._updateTitle(count);
 			// Update the count in the title/button
 			if (this.c.filterChanged !== undefined && typeof this.c.filterChanged === 'function') {
-				this.c.filterChanged(this.s.topGroup.count());
+				this.c.filterChanged(count);
 			}
 		});
 	}

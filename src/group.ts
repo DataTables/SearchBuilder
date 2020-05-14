@@ -579,6 +579,7 @@ export default class Group {
 		$(this.dom.clear).unbind('click');
 		$(this.dom.clear).on('click', () => {
 			this.destroy();
+			$(this.s.topGroup).trigger('dtsb-updateTitle');
 
 			return false;
 		});
