@@ -12,7 +12,7 @@
 
 	<description>
 		<![CDATA[
-		This allows the number of value inputs to be set for the custom condition
+		This allows the number of value inputs to be set for the custom condition. Up to 2 are supported.
         ]]>
 	</description>
 
