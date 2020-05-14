@@ -949,7 +949,7 @@ export default class Criteria {
 					this.s.conditions.push(condition);
 					$(this.dom.condition).append(
 						$('<option>', {
-							text : condition.display,
+							text : this.s.dt.i18n(condition.display),
 							value : condition.display,
 						})
 						.addClass(this.classes.option)
@@ -963,7 +963,7 @@ export default class Criteria {
 
 			for (let condition of this.s.conditions) {
 				let newOpt = $('<option>', {
-					text : condition.display,
+					text : this.s.dt.i18n(condition.display),
 					value : condition.display
 				})
 				.addClass(this.classes.option);
