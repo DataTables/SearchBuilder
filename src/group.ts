@@ -529,6 +529,12 @@ export default class Group {
 			$(criteria.dom.container).remove();
 			this.setupLogic();
 
+			for (let crit of this.s.criteria){
+				if (crit.type === 'criteria') {
+					crit.criteria.updateArrows(this.s.criteria.length > 1);
+				}
+			}
+
 			return false;
 		});
 
