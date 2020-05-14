@@ -1181,6 +1181,10 @@ export default class Criteria {
 			$('.' + this.classes.joiner).remove();
 			$(this.dom.valueInputs[0]).val('');
 
+			if (conditionType === 'date') {
+				$(this.dom.valueInputs[0]).dtDateTime();
+			}
+
 			for (let i = 1; i < this.dom.valueInputs.length; i++) {
 				$(this.dom.valueInputs[i]).remove();
 			}
