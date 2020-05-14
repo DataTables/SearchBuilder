@@ -297,6 +297,8 @@ export default class Group {
 
 			this.addCriteria();
 
+			$(this.dom.container).trigger('dtsb-add');
+
 			return false;
 		});
 
@@ -523,6 +525,8 @@ export default class Group {
 					crit.criteria.updateArrows(this.s.criteria.length > 1);
 				}
 			}
+
+			$(this.s.topGroup).trigger('dtsb-updateTitle');
 
 			return false;
 		});
