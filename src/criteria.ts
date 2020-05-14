@@ -1047,6 +1047,7 @@ export default class Criteria {
 		let conditionType = 'select';
 		let valCount = 1;
 		let joinerText = 'and';
+		let prevFilled = this.s.filled;
 		this.s.filled = false;
 
 		// Find the condition type and the number of value inputs required
@@ -1186,7 +1187,9 @@ export default class Criteria {
 			this.s.filled = false;
 		}
 
-		this.s.dt.draw();
+		if (prevFilled !== this.s.filled) {
+			this.s.dt.draw();
+		}
 	}
 
 	/**

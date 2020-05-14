@@ -180,16 +180,6 @@ export default class Group {
 				this.s.criteria[i].index = i;
 				this.s.criteria[i].criteria.s.index = i;
 
-				this.s.criteria[i].criteria.updateArrows(this.s.criteria.length > 1);
-
-				// If there is only one criteria or the depthLimit has been reached then don't allow right movement
-				if ((this.s.criteria.length === 1 || this.s.depth === this.c.depthLimit)) {
-					$(this.s.criteria[i].criteria.dom.right).attr('disabled', true);
-				}
-				else {
-					$(this.s.criteria[i].criteria.dom.right).attr('disabled', false);
-				}
-
 				// Add to the group
 				$(this.s.criteria[i].criteria.dom.container).insertBefore(this.dom.add);
 
