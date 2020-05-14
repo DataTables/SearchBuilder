@@ -552,7 +552,7 @@ export default class Criteria {
 
 			for (let i = 1; i < valCount && i < this.dom.valueInputs.length; i++) {
 				$(this.dom.container
-					.append($('<span>').addclass(this.classes.joiner).text(joinerText))
+					.append($('<span>').addClass(this.classes.joiner).text(joinerText))
 					.append(this.dom.valueInputs[i]));
 			}
 		}

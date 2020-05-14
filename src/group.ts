@@ -296,8 +296,8 @@ export default class Group {
 			}
 
 			this.addCriteria();
-
 			$(this.dom.container).trigger('dtsb-add');
+			this.s.dt.state.save();
 
 			return false;
 		});
