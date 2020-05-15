@@ -59,12 +59,31 @@ export default class Criteria {
 				allFilled = false;
 			}
 		}
+
 		return allFilled;
 	};
 
-	private static activeInput = function(val) {};
+	private static activeInput = function(val, that) {
+		let allFilled = true;
+		for (let v of val) {
+			if ($(v).val().length === 0) {
+				allFilled = false;
+			}
+		}
 
-	private static activeDate = function(val) {};
+		return allFilled;
+	};
+
+	private static activeDate = function(val) {
+		let allFilled = true;
+		for (let v of val) {
+			if ($(v).val().length === 0) {
+				allFilled = false;
+			}
+		}
+
+		return allFilled;
+	};
 
 	private static getSelect = function(val, that) {
 		let values = [];
@@ -76,9 +95,25 @@ export default class Criteria {
 		return values;
 	};
 
-	private static getInput = function(val) {};
+	private static getInput = function(val, that) {
+		let values = [];
 
-	private static getDate = function(val) {};
+		for (let v of val) {
+			values.push($(v).val());
+		}
+
+		return values;
+	};
+
+	private static getDate = function(val, that) {
+		let values = [];
+
+		for (let v of val) {
+			values.push($(v).val());
+		}
+
+		return values;
+	};
 
 	private static setSelect = function(val, that) {
 		let column = $(that.dom.data).children('option:selected').val();
@@ -112,9 +147,13 @@ export default class Criteria {
 		}
 	};
 
-	private static setInput = function(val) {};
+	private static setInput = function(val) {
+		return;
+	};
 
-	private static setDate = function(val) {};
+	private static setDate = function(val) {
+		$(val).dtDateTime();
+	};
 
 	private static dateConditions: typeInterfaces.ICondition[] = [
 		{
