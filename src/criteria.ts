@@ -38,15 +38,15 @@ export default class Criteria {
 	};
 
 	private static initSelect = function() {
-		return $('<select/>').addClass(Criteria.classes.value).addClass(Criteria.classes.dropDown);
+		return $('<select/>').addClass(Criteria.classes.value).addClass(Criteria.classes.dropDown).addClass("frominit");
 	};
 
 	private static initInput = function() {
-		return $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input);
+		return $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input).addClass("frominit");
 	};
 
 	private static initDate = function() {
-		return $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input);
+		return $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input).addClass("frominit");
 	};
 
 	private static activeSelect = function(val) {};
@@ -692,7 +692,10 @@ export default class Criteria {
 		$(this.dom.container).empty();
 
 		// Get the type of condition and the number of values required so we now how many value inputs to append
-		let joinerText = this.s.condition.joiner;
+		let joinerText = 'and';
+		if (this.s.condition !== undefined) {
+			joinerText = this.s.condition.joiner;
+		}
 
 		$(this.dom.container).append(this.dom.data).append(this.dom.condition);
 
@@ -744,7 +747,9 @@ export default class Criteria {
 	 * @returns boolean Whether the criteria has passed
 	 */
 	public search(rowData: any[]): boolean {
-		return this.s.condition.comparator(rowData[this.s.data], this.s.value);
+		if (this.s.condition !== undefined) {
+			return this.s.condition.comparator(rowData[this.s.data], this.s.value);
+		}
 	}
 
 	/**
@@ -805,18 +810,28 @@ export default class Criteria {
 			this._populateCondition();
 			$(this.dom.conditionTitle).remove();
 
+			let condition;
+			let conditions = this.s.conditions;
+
 			// Check to see if the previously selected condition exists, if so select it
-			let foundCond = false;
 			$(this.dom.condition).children('option').each(function() {
 				if ($(this).val() === loadedCriteria.condition) {
 					$(this).attr('selected', true);
-					foundCond = true;
+					let condDisp = $(this).val();
+					for (let cond of conditions) {
+						if (cond.display === condDisp) {
+							condition = cond;
+
+							return;
+						}
+					}
 				}
 			});
 
+			this.s.condition = condition;
+
 			// If the condition has been found and selected then the value can be populated and searched
-			if (foundCond) {
-				this.s.condition = loadedCriteria.condition;
+			if (this.s.condition !== undefined) {
 				$(this.dom.conditionTitle).remove();
 				this._populateValue();
 
@@ -856,7 +871,13 @@ export default class Criteria {
 		$(this.dom.condition).unbind('change');
 		$(this.dom.condition).on('change', () => {
 			$(this.dom.conditionTitle).attr('selected', false);
-			this.s.condition = $(this.dom.condition).children('option:selected').val();
+			let condDisp = $(this.dom.condition).children('option:selected').val();
+			for (let cond of this.s.conditions) {
+				if (cond.display === condDisp) {
+					this.s.condition = cond;
+					break;
+				}
+			}
 
 			// When the condition is changed, the value selector may switch between a select element and an input element
 			this._clearValue();
@@ -878,18 +899,20 @@ export default class Criteria {
 			this.s.dt.state.save();
 		});
 
-		for (let val of this.dom.value) {
-			$(val).unbind(this.s.condition.updateOn);
-			$(val).on(this.s.condition.updateOn, () => {
-				// When the value is changed the criteria is now complete so can be included in searches
-				this.s.filled = this.s.condition.active();
-				this.s.value = this.s.condition.get();
+		if (this.s.condition !== undefined) {
+			for (let val of this.dom.value) {
+				$(val).unbind(this.s.condition.updateOn);
+				$(val).on(this.s.condition.updateOn, () => {
+					// When the value is changed the criteria is now complete so can be included in searches
+					this.s.filled = this.s.condition.active();
+					this.s.value = this.s.condition.get();
 
-				// Trigger a search
-				this.s.dt.draw();
+					// Trigger a search
+					this.s.dt.draw();
 
-				this.s.dt.state.save();
-			});
+					this.s.dt.state.save();
+				});
+			}
 		}
 
 		// When delete is pressed destroy this criteria
@@ -970,6 +993,7 @@ export default class Criteria {
 			.append(this.dom.condition);
 
 		for (let val of this.dom.value) {
+			$(val).append(this.dom.valueTitle);
 			$(this.dom.container).append(val);
 		}
 
@@ -993,8 +1017,10 @@ export default class Criteria {
 	 * Clears the value elements
 	 */
 	private _clearValue(): void {
-		for (let val of this.dom.value) {
-			val = this.s.condition.init();
+		if (this.s.condition !== undefined) {
+			for (let val of this.dom.value) {
+				val = this.s.condition.init();
+			}
 		}
 
 		this.s.values = [];
@@ -1040,7 +1066,7 @@ export default class Criteria {
 				})
 				.addClass(this.classes.option);
 
-				if (this.s.condition.display === condition.display) {
+				if (this.s.condition !== undefined && this.s.condition.display === condition.display) {
 					$(newOpt).attr('selected', true);
 				}
 
@@ -1112,7 +1138,30 @@ export default class Criteria {
 		let prevFilled = this.s.filled;
 		this.s.filled = false;
 
-		this.s.condition.set();
+		for (let val of this.dom.value) {
+			$(val).remove();
+		}
+
+		let value = this.s.condition.init();
+		this.dom.value = Array.isArray(value) ?
+			value :
+			[value];
+
+		let joinerText = 'and';
+		if (this.s.condition !== undefined) {
+			joinerText = this.s.condition.joiner;
+		}
+
+		$(this.dom.value[0]).insertAfter(this.dom.condition);
+
+		for (let i = 1; i < this.dom.value.length; i++) {
+			$(this.dom.value[i]).insertAfter(this.dom.value[i - 1]);
+			$($('<span>').addClass(this.classes.joiner).text(joinerText)).insertAfter(this.dom.value[i - 1]);
+		}
+
+		if (this.s.condition !== undefined) {
+			this.s.condition.set();
+		}
 
 		if (prevFilled !== this.s.filled) {
 			this.s.dt.draw();
@@ -1123,6 +1172,8 @@ export default class Criteria {
 	 * Resets the value inputs to be an empty select
 	 */
 	private _resetValue(): void {
-		this.dom.value = this.s.condition.init();
+		if (this.s.condition !== undefined) {
+			this.dom.value = this.s.condition.init();
+		}
 	}
 }
