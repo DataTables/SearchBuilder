@@ -77,6 +77,11 @@ import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
 
 	let apiRegister = ($.fn.dataTable.Api as any).register;
 
+	// Set up object for plugins
+	$.fn.dataTable.ext.searchBuilder = {
+		conditions: {}
+	};
+
 	$.fn.dataTable.ext.buttons.searchBuilder = {
 		action(e, dt, node, config) {
 			e.stopPropagation();

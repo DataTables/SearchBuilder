@@ -16,10 +16,13 @@ export interface IClasses {
 }
 
 export interface ICondition {
+	active: any;
 	display: string;
 	comparator: any;
-	type: string;
-	valueInputs: number;
+	init: any;
+	get: any;
+	set: any;
+	updateOn: string;
 	joiner?: string;
 }
 
@@ -45,13 +48,12 @@ export interface IDom {
 	dataTitle: JQuery<HTMLElement>;
 	left: JQuery<HTMLElement>;
 	right: JQuery<HTMLElement>;
-	value: JQuery<HTMLElement>;
-	valueInputs: Array<JQuery<HTMLElement>>;
+	value: Array<JQuery<HTMLElement>>;
 	valueTitle: JQuery<HTMLElement>;
 }
 
 export interface IS {
-	condition: string;
+	condition: ICondition;
 	conditions: ICondition[];
 	depth: number;
 	dt: any;
@@ -71,7 +73,7 @@ export interface IDataOpt {
 }
 
 export interface IDetails {
-	condition: string;
+	condition: ICondition;
 	data: number;
 	type: string;
 	value: any[];

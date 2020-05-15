@@ -87,6 +87,15 @@
             }
         ],
         "interface-name": [true, "always-prefix"],
-        "jsdoc-format": true
+        "jsdoc-format": true,
+        "member-ordering": [
+            true,
+            {
+                "order": [
+                    "private-static-method",
+                    "private-statis-field"
+                ]
+            }
+        ]
     }
 }

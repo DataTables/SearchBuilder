@@ -37,41 +37,89 @@ export default class Criteria {
 		vertical: 'dtsb-vertical'
 	};
 
+	private static initSelect = function() {
+		return $('<select/>').addClass(Criteria.classes.value).addClass(Criteria.classes.dropDown);
+	};
+
+	private static initInput = function() {
+		return $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input);
+	};
+
+	private static initDate = function() {
+		return $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input);
+	};
+
+	private static activeSelect = function(val) {};
+
+	private static activeInput = function(val) {};
+
+	private static activeDate = function(val) {};
+
+	private static getSelect = function(val) {};
+
+	private static getInput = function(val) {};
+
+	private static getDate = function(val) {};
+
+	private static setSelect = function(val) {};
+
+	private static setInput = function(val) {};
+
+	private static setDate = function(val) {};
+
 	private static dateConditions: typeInterfaces.ICondition[] = [
 		{
+			active: Criteria.activeDate,
 			display: 'Equals',
+			get: Criteria.getDate,
+			init: Criteria.initDate,
+			set: Criteria.setDate,
+			updateOn: 'change',
 			comparator(value: any, comparison: any[]): boolean {
 				return value === comparison[0];
 			},
-			type: 'date',
-			valueInputs: 1
 		},
 		{
+			active: Criteria.activeDate,
 			display: 'After',
+			get: Criteria.getDate,
+			init: Criteria.initDate,
+			set: Criteria.setDate,
+			updateOn: 'input change',
 			comparator(value: any, comparison: any[]): boolean {
 				return value > comparison[0];
 			},
-			type: 'date',
-			valueInputs: 1
 		},
 		{
+			active: Criteria.activeDate,
 			display: 'Before',
+			get: Criteria.getDate,
+			init: Criteria.initDate,
+			set: Criteria.setDate,
+			updateOn: 'input change',
 			comparator(value: any, comparison: any[]): boolean {
 				return value < comparison[0];
 			},
-			type: 'date',
-			valueInputs: 1
 		},
 		{
+			active: Criteria.activeDate,
 			display: 'Not',
+			get: Criteria.getDate,
+			init: Criteria.initDate,
+			set: Criteria.setDate,
+			updateOn: 'change',
 			comparator(value: any, comparison: any[]): boolean {
 				return value !== comparison[0];
 			},
-			type: 'date',
-			valueInputs: 1
 		},
 		{
+			active: Criteria.activeDate,
 			display: 'Between Inclusive',
+			get: Criteria.getDate,
+			init: Criteria.initDate,
+			joiner: 'and',
+			set: Criteria.setDate,
+			updateOn: 'input change',
 			comparator(value: any, comparison: any[]): boolean {
 				if (comparison[0] < comparison[1]) {
 					return comparison[0] <= value && value <= comparison[1];
@@ -80,12 +128,15 @@ export default class Criteria {
 					return comparison[1] <= value && value <= comparison[0];
 				}
 			},
-			joiner: 'and',
-			type: 'date',
-			valueInputs: 2
 		},
 		{
+			active: Criteria.activeDate,
 			display: 'Between Exclusive',
+			get: Criteria.getDate,
+			init: Criteria.initDate,
+			joiner: 'and',
+			set: Criteria.setDate,
+			updateOn: 'input change',
 			comparator(value: any, comparison: any[]): boolean {
 				if (comparison[0] < comparison[1]) {
 					return comparison[0] < value && value < comparison[1];
@@ -94,71 +145,101 @@ export default class Criteria {
 					return comparison[1] < value && value < comparison[0];
 				}
 			},
-			joiner: 'and',
-			type: 'date',
-			valueInputs: 2
 		},
 		{
+			active: Criteria.activeDate,
 			display: 'Empty',
+			init() {
+				return;
+			},
+			get() {
+				return;
+			},
+			set() {
+				return;
+			},
+			updateOn: '',
 			comparator(value: any, comparison: any[]): boolean {
 				return (value === null || value === undefined || value.length === 0);
 			},
-			type: 'select',
-			valueInputs: 0
 		}
 	];
 
 	private static numConditions: typeInterfaces.ICondition[] = [
 		{
+			active: Criteria.activeSelect,
 			display: 'Equals',
+			get: Criteria.getSelect,
+			init: Criteria.initSelect,
+			set: Criteria.setSelect,
+			updateOn: 'change',
 			comparator(value: any, comparison: any[]): boolean {
 				return +value === +comparison[0];
 			},
-			type: 'select',
-			valueInputs: 1
 		},
 		{
+			active: Criteria.activeInput,
 			display: 'Greater Than',
+			get: Criteria.getInput,
+			init: Criteria.initInput,
+			set: Criteria.setInput,
+			updateOn: 'input change',
 			comparator(value: any, comparison: any[]): boolean {
 				return +value > +comparison[0];
 			},
-			type: 'input',
-			valueInputs: 1
 		},
 		{
+			active: Criteria.activeInput,
 			display: 'Less Than',
+			get: Criteria.getInput,
+			init: Criteria.initInput,
+			set: Criteria.setInput,
+			updateOn: 'input change',
 			comparator(value: any, comparison: any[]): boolean {
 				return +value < +comparison[0];
 			},
-			type: 'input',
-			valueInputs: 1
 		},
 		{
+			active: Criteria.activeInput,
 			display: 'Greater Than Equal To',
+			get: Criteria.getInput,
+			init: Criteria.initInput,
+			set: Criteria.setInput,
+			updateOn: 'input change',
 			comparator(value: any, comparison: any[]): boolean {
 				return +value >= +comparison[0];
 			},
-			type: 'input',
-			valueInputs: 1
 		},
 		{
+			active: Criteria.activeInput,
 			display: 'Less Than Equal To',
+			get: Criteria.getInput,
+			init: Criteria.initInput,
+			set: Criteria.setInput,
+			updateOn: 'input change',
 			comparator(value: any, comparison: any[]): boolean {
 				return +value <= +comparison[0];
 			},
-			type: 'input',
-			valueInputs: 1
 		},
 		{
+			active: Criteria.activeSelect,
 			display: 'Not',
+			get: Criteria.getSelect,
+			init: Criteria.initSelect,
+			set: Criteria.setSelect,
+			updateOn: 'input change',
 			comparator(value: any, comparison: any[]): boolean {
 				return +value !== +comparison[0];
 			},
-			type: 'select',
-			valueInputs: 1
 		},
 		{
+			active: Criteria.activeInput,
 			display: 'Between Exclusive',
+			get: Criteria.getInput,
+			init: Criteria.initInput,
+			joiner: 'and',
+			set: Criteria.setInput,
+			updateOn: 'input change',
 			comparator(value: any, comparison: any[]): boolean {
 				if (comparison[0] < comparison[1]) {
 					return +comparison[0] < +value && +value < +comparison[1];
@@ -167,12 +248,15 @@ export default class Criteria {
 					return +comparison[1] < +value && +value < +comparison[0];
 				}
 			},
-			joiner: 'and',
-			type: 'input',
-			valueInputs: 2,
 		},
 		{
+			active: Criteria.activeInput,
 			display: 'Between Inclusive',
+			get: Criteria.getInput,
+			init: Criteria.initInput,
+			joiner: 'and',
+			set: Criteria.setInput,
+			updateOn: 'input change',
 			comparator(value: any, comparison: any[]): boolean {
 				if (comparison[0] < comparison[1]) {
 					return +comparison[0] <= +value && +value <= +comparison[1];
@@ -181,12 +265,15 @@ export default class Criteria {
 					return +comparison[1] <= +value && +value <= +comparison[0];
 				}
 			},
-			joiner: 'and',
-			type: 'input',
-			valueInputs: 2
 		},
 		{
+			active: Criteria.activeInput,
 			display: 'Outwith Exclusive',
+			get: Criteria.getInput,
+			init: Criteria.initInput,
+			joiner: 'and',
+			set: Criteria.setInput,
+			updateOn: 'input change',
 			comparator(value: any, comparison: any[]): boolean {
 				if (comparison[0] < comparison[1]) {
 					return !(+comparison[0] <= +value && +value <= +comparison[1]);
@@ -195,12 +282,15 @@ export default class Criteria {
 					return !(+comparison[1] <= +value && +value <= +comparison[0]);
 				}
 			},
-			joiner: 'and',
-			type: 'input',
-			valueInputs: 2,
 		},
 		{
+			active: Criteria.activeInput,
 			display: 'Outwith Inclusive',
+			get: Criteria.getInput,
+			init: Criteria.initInput,
+			joiner: 'and',
+			set: Criteria.setInput,
+			updateOn: 'input change',
 			comparator(value: any, comparison: any[]): boolean {
 				if (comparison[0] < comparison[1]) {
 					return !(+comparison[0] < +value && +value < +comparison[1]);
@@ -209,89 +299,121 @@ export default class Criteria {
 					return !(+comparison[1] < +value && +value < +comparison[0]);
 				}
 			},
-			joiner: 'and',
-			type: 'input',
-			valueInputs: 2
 		},
 		{
+			active() {
+				return true;
+			},
 			display: 'Empty',
+			init() {
+				return;
+			},
+			get() {
+				return;
+			},
+			set() {
+				return;
+			},
+			updateOn: 'input change',
 			comparator(value: any, comparison: any[]): boolean {
 				return (value === null || value === undefined || value.length === 0);
 			},
-			type: 'select',
-			valueInputs: 0
 		}
 	];
 
 	private static numFmtConditions: typeInterfaces.ICondition[] = [
 		{
+			active: Criteria.activeSelect,
 			display: 'Equals',
+			get: Criteria.getSelect,
+			init: Criteria.initSelect,
+			set: Criteria.setSelect,
+			updateOn: 'change',
 			comparator(value: any, comparison: any[]): boolean {
 				value = value.replace(/[^0-9.]/g, '');
 				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
 
 				return +value === +comparison[0];
 			},
-			type: 'select',
-			valueInputs: 1
 		},
 		{
+			active: Criteria.activeInput,
 			display: 'Greater Than',
+			get: Criteria.getInput,
+			init: Criteria.initInput,
+			set: Criteria.setInput,
+			updateOn: 'input change',
 			comparator(value: any, comparison: any[]): boolean {
 				value = value.replace(/[^0-9.]/g, '');
 				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
 
 				return +value > +comparison[0];
 			},
-			type: 'input',
-			valueInputs: 1
 		},
 		{
+			active: Criteria.activeInput,
 			display: 'Less Than',
+			get: Criteria.getInput,
+			init: Criteria.initInput,
+			set: Criteria.setInput,
+			updateOn: 'input change',
 			comparator(value: any, comparison: any[]): boolean {
 				value = value.replace(/[^0-9.]/g, '');
 				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
 
 				return +value < +comparison[0];
 			},
-			type: 'input',
-			valueInputs: 1
 		},
 		{
+			active: Criteria.activeInput,
 			display: 'Greater Than Equal To',
+			get: Criteria.getInput,
+			init: Criteria.initInput,
+			set: Criteria.setInput,
+			updateOn: 'input change',
 			comparator(value: any, comparison: any[]): boolean {
 				value = value.replace(/[^0-9.]/g, '');
 				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
 
 				return +value >= +comparison[0];
 			},
-			type: 'input',
-			valueInputs: 1
 		},
 		{
+			active: Criteria.activeInput,
 			display: 'Less Than Equal To',
+			get: Criteria.getInput,
+			init: Criteria.initInput,
+			set: Criteria.setInput,
+			updateOn: 'input change',
 			comparator(value: any, comparison: any[]): boolean {
 				value = value.replace(/[^0-9.]/g, '');
 				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
 
 				return +value <= +comparison[0];
 			},
-			type: 'input',
-			valueInputs: 1
 		},
 		{
+			active: Criteria.activeInput,
 			display: 'Not',
+			get: Criteria.getSelect,
+			init: Criteria.initSelect,
+			set: Criteria.setSelect,
+			updateOn: 'input change',
 			comparator(value: any, comparison: any[]): boolean {
 				value = value.replace(/[^0-9.]/g, '');
 				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
 
 				return +value !== +comparison[0];
 			},
-			type: 'select',
-			valueInputs: 1
 		},
 		{
+			active: Criteria.activeInput,
 			display: 'Between Exclusive',
+			get: Criteria.getInput,
+			init: Criteria.initInput,
+			joiner: 'and',
+			set: Criteria.setInput,
+			updateOn: 'input change',
 			comparator(value: any, comparison: any[]): boolean {
 				value = value.replace(/[^0-9.]/g, '');
 				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
@@ -303,12 +425,15 @@ export default class Criteria {
 					return +comparison[1] < +value && +value < +comparison[0];
 				}
 			},
-			joiner: 'and',
-			type: 'input',
-			valueInputs: 2,
 		},
 		{
+			active: Criteria.activeInput,
 			display: 'Between Inclusive',
+			get: Criteria.getInput,
+			init: Criteria.initInput,
+			joiner: 'and',
+			set: Criteria.setInput,
+			updateOn: 'input change',
 			comparator(value: any, comparison: any[]): boolean {
 				value = value.replace(/[^0-9.]/g, '');
 				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
@@ -320,12 +445,15 @@ export default class Criteria {
 					return +comparison[1] <= +value && +value <= +comparison[0];
 				}
 			},
-			joiner: 'and',
-			type: 'input',
-			valueInputs: 2
 		},
 		{
+			active: Criteria.activeInput,
 			display: 'Outwith Exclusive',
+			get: Criteria.getInput,
+			init: Criteria.initInput,
+			joiner: 'and',
+			set: Criteria.setInput,
+			updateOn: 'input change',
 			comparator(value: any, comparison: any[]): boolean {
 				value = value.replace(/[^0-9.]/g, '');
 				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
@@ -337,12 +465,15 @@ export default class Criteria {
 					return !(+comparison[1] <= +value && +value <= +comparison[0]);
 				}
 			},
-			joiner: 'and',
-			type: 'input',
-			valueInputs: 2,
 		},
 		{
+			active: Criteria.activeInput,
 			display: 'Outwith Inclusive',
+			get: Criteria.getInput,
+			init: Criteria.initInput,
+			joiner: 'and',
+			set: Criteria.setInput,
+			updateOn: 'input change',
 			comparator(value: any, comparison: any[]): boolean {
 				value = value.replace(/[^0-9.]/g, '');
 				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
@@ -354,68 +485,102 @@ export default class Criteria {
 					return !(+comparison[1] <= +value && +value <= +comparison[0]);
 				}
 			},
-			joiner: 'and',
-			type: 'input',
-			valueInputs: 2
 		},
 		{
+			active() {
+				return true;
+			},
 			display: 'Empty',
+			init() {
+				return;
+			},
+			get() {
+				return;
+			},
+			set() {
+				return;
+			},
+			updateOn: 'input change',
 			comparator(value: any, comparison: any[]): boolean {
 				return (value === null || value === undefined || value.length === 0);
 			},
-			type: 'select',
-			valueInputs: 0
 		}
 	];
 
 	private static stringConditions: typeInterfaces.ICondition[] = [
 		{
+			active: Criteria.activeSelect,
 			display: 'Equals',
+			get: Criteria.getSelect,
+			init: Criteria.initSelect,
+			set: Criteria.setSelect,
+			updateOn: 'change',
 			comparator(value: any, comparison: any[]): boolean {
 				return value === comparison[0];
 			},
-			type: 'select',
-			valueInputs: 1
 		},
 		{
+			active: Criteria.activeInput,
 			display: 'Starts With',
+			get: Criteria.getInput,
+			init: Criteria.initInput,
+			set: Criteria.setInput,
+			updateOn: 'input change',
 			comparator(value: any, comparison: any[]): boolean {
 				return value.toLowerCase().indexOf(comparison[0].toLowerCase()) === 0;
 			},
-			type: 'input',
-			valueInputs: 1
 		},
 		{
+			active: Criteria.activeInput,
 			display: 'Ends with',
+			get: Criteria.getInput,
+			init: Criteria.initInput,
+			set: Criteria.setInput,
+			updateOn: 'input change',
 			comparator(value: any, comparison: any[]): boolean {
 				return value.toLowerCase().indexOf(comparison[0].toLowerCase()) === value.length - comparison[0].length;
 			},
-			type: 'input',
-			valueInputs: 1
 		},
 		{
+			active: Criteria.activeInput,
 			display: 'Contains',
+			get: Criteria.getInput,
+			init: Criteria.initInput,
+			set: Criteria.setInput,
+			updateOn: 'input change',
 			comparator(value: any, comparison: any[]): boolean {
 				return value.toLowerCase().includes(comparison[0].toLowerCase());
 			},
-			type: 'input',
-			valueInputs: 1
 		},
 		{
+			active: Criteria.activeInput,
 			display: 'Not',
+			get: Criteria.getInput,
+			init: Criteria.initSelect,
+			set: Criteria.setInput,
+			updateOn: 'input change',
 			comparator(value: any, comparison: any[]): boolean {
 				return value !== comparison[0];
 			},
-			type: 'select',
-			valueInputs: 1
 		},
 		{
+			active() {
+				return true;
+			},
 			display: 'Empty',
+			init() {
+				return;
+			},
+			get() {
+				return;
+			},
+			set() {
+				return;
+			},
+			updateOn: 'input change',
 			comparator(value: any, comparison: any[]): boolean {
 				return (value === null || value === undefined || value.length === 0);
 			},
-			type: 'select',
-			valueInputs: 0
 		}
 	];
 
@@ -451,11 +616,11 @@ export default class Criteria {
 
 		this.classes = $.extend(true, {}, Criteria.classes);
 
-		// Get options from user
-		this.c = $.extend(true, {}, Criteria.defaults, opts);
+		// Get options from user and any extra conditions/column types defined by plug-ins
+		this.c = $.extend(true, {}, Criteria.defaults, $.fn.dataTable.ext.searchBuilder, opts);
 
 		this.s = {
-			condition: '',
+			condition: undefined,
 			conditions: [],
 			data: -1,
 			dataPoints: [],
@@ -489,11 +654,7 @@ export default class Criteria {
 				.addClass(this.classes.right)
 				.addClass(this.classes.button)
 				.attr('title', this.s.dt.i18n('searchBuilder.rightTitle', 'idnent criteria')),
-			value: $('<select disabled/>').addClass(this.classes.value).addClass(this.classes.dropDown),
-			valueInputs: [
-				$('<input/>').addClass(this.classes.value).addClass(this.classes.input),
-				$('<input/>').addClass(this.classes.value).addClass(this.classes.input)
-			],
+			value: [$('<select disabled/>').addClass(this.classes.value).addClass(this.classes.dropDown)],
 			valueTitle: $('<option value="" disabled selected hidden/>').text(this.s.dt.i18n('searchBuilder.value', 'Value')),
 		};
 
@@ -501,9 +662,9 @@ export default class Criteria {
 		if (this.c.greyscale) {
 			$(this.dom.data).addClass(this.classes.greyscale);
 			$(this.dom.condition).addClass(this.classes.greyscale);
-			$(this.dom.value).addClass(this.classes.greyscale);
-			$(this.dom.valueInputs[0]).addClass(this.classes.greyscale);
-			$(this.dom.valueInputs[1]).addClass(this.classes.greyscale);
+			for (let val of this.dom.value) {
+				$(val).addClass(this.classes.greyscale);
+			}
 		}
 
 		// For responsive design, adjust the criterias properties on the following events
@@ -531,34 +692,16 @@ export default class Criteria {
 		$(this.dom.container).empty();
 
 		// Get the type of condition and the number of values required so we now how many value inputs to append
-		let conditionType: string;
-		let valCount: number;
-		let joinerText: string;
-
-		for (let opt of this.s.conditions) {
-			if (opt.display === this.s.condition) {
-				conditionType = opt.type;
-				valCount = opt.valueInputs;
-				joinerText = opt.joiner;
-				break;
-			}
-		}
+		let joinerText = this.s.condition.joiner;
 
 		$(this.dom.container).append(this.dom.data).append(this.dom.condition);
 
-		// If it is an input condition then append everything in order and all of the input elements required
-		if (conditionType === 'input') {
-			$(this.dom.container.append(this.dom.valueInputs[0]));
+		$(this.dom.container.append(this.dom.value[0]));
 
-			for (let i = 1; i < valCount && i < this.dom.valueInputs.length; i++) {
-				$(this.dom.container
-					.append($('<span>').addClass(this.classes.joiner).text(joinerText))
-					.append(this.dom.valueInputs[i]));
-			}
-		}
-		// If not then it must be a select or not defined yet, in which case should default to select
-		else {
-			$(this.dom.container).append(this.dom.value);
+		for (let i = 1; i < this.dom.value.length; i++) {
+			$(this.dom.container
+				.append($('<span>').addClass(this.classes.joiner).text(joinerText))
+				.append(this.dom.value));
 		}
 
 		$(this.dom.container).append(this.dom.delete);
@@ -586,7 +729,9 @@ export default class Criteria {
 		// Turn off listeners
 		$(this.dom.data).off('.dtsb');
 		$(this.dom.condition).off('.dtsb');
-		$(this.dom.value).off('.dtsb');
+		for (let val of this.dom.value) {
+			$(val).off('.dtsb');
+		}
 		$(this.dom.delete).off('.dtsb');
 
 		// Remove container from the dom
@@ -599,13 +744,7 @@ export default class Criteria {
 	 * @returns boolean Whether the criteria has passed
 	 */
 	public search(rowData: any[]): boolean {
-		for (let condition of this.s.conditions) {
-			if (condition.display === this.s.condition) {
-				return condition.comparator(rowData[this.s.data], this.s.value);
-			}
-		}
-
-		return false;
+		return this.s.condition.comparator(rowData[this.s.data], this.s.value);
 	}
 
 	/**
@@ -637,7 +776,7 @@ export default class Criteria {
 		if (this.s.data !== -1) {
 			this._populateCondition();
 
-			if (this.s.condition.length !== 0) {
+			if (this.s.condition !== undefined) {
 				this._populateValue();
 			}
 		}
@@ -681,48 +820,7 @@ export default class Criteria {
 				$(this.dom.conditionTitle).remove();
 				this._populateValue();
 
-				// If it is a select condition
-				if ($(this.dom.container).has(this.dom.value).length !== 0) {
-					// Check to see if the previously selected value exists, if so select it
-					let foundVal = false;
-					$(this.dom.value).children('option').each(function() {
-						if ($(this).val() === loadedCriteria.value[0]) {
-							$(this).attr('selected', true);
-							foundVal = true;
-						}
-					});
-
-					// If the value has been found then set filled so that this criteria is used in searches
-					if (foundVal) {
-						this.s.filled = foundVal;
-						this.s.value = loadedCriteria.value;
-					}
-				}
-				// Otherwise it must be an input condition
-				else {
-					// Input values can just be given the stored values as there is nothing to select from
-					$(this.dom.valueInputs[0]).val(loadedCriteria.value[0]);
-					$(this.dom.valueInputs[1]).val(loadedCriteria.value[1]);
-
-					this.s.value = loadedCriteria.value;
-
-					// Run checks to see if the criteria is complete, to allow it to be included in the search
-					let allFilled = true;
-
-					// Check that all of the value inputs have been filled in
-					for (let val = 0; val < this.dom.valueInputs.length; val++) {
-						// If the value input is present and no value has been set in the array then it is not complete
-						if (
-							$(this.dom.container).has(this.dom.valueInputs[val]).length !== 0 &&
-							(this.s.value[val] === undefined || this.s.value[val].length === 0)
-						) {
-							allFilled = false;
-							break;
-						}
-					}
-
-					this.s.filled = allFilled;
-				}
+				this.s.condition.set(loadedCriteria.value);
 			}
 			else {
 				$(this.dom.conditionTitle).prependTo(this.dom.condition);
@@ -764,58 +862,33 @@ export default class Criteria {
 			this._clearValue();
 			this._populateValue();
 
-			// If this criteria was previously active in the search then remove it from the search and trigger a new search
-			if (
-				this.s.filled &&
-				(
-					$(this.dom.container).has(this.dom.value).length !== 0 ||
-					$(this.dom.container).has(this.dom.valueInputs[0]).length !== 0
-				)
-			) {
-				this.s.filled = false;
-				this.s.dt.draw();
+			for (let val of this.dom.value) {
+				// If this criteria was previously active in the search then remove it from the search and trigger a new search
+				if (
+					this.s.filled &&
+					(
+						$(this.dom.container).has(val).length !== 0
+					)
+				) {
+					this.s.filled = false;
+					this.s.dt.draw();
+				}
 			}
 
 			this.s.dt.state.save();
 		});
 
-		$(this.dom.value).unbind('change');
-		$(this.dom.value).on('change', () => {
-			// When the value is changed the criteria is now complete so can be included in searches
-			this.s.filled = true;
+		for (let val of this.dom.value) {
+			$(val).unbind(this.s.condition.updateOn);
+			$(val).on(this.s.condition.updateOn, () => {
+				// When the value is changed the criteria is now complete so can be included in searches
+				this.s.filled = this.s.condition.active();
+				this.s.value = this.s.condition.get();
 
-			// Deselect the title in the select element
-			$(this.dom.valueTitle).attr('selected', false);
-			this.s.value = [];
-			this.s.value.push($(this.dom.value).children('option:selected').val());
-
-			// Trigger a search
-			this.s.dt.draw();
-
-			this.s.dt.state.save();
-		});
-
-		// Set the listeners for all of the elements in the valueInputs array
-		for (let i = 0; i < this.dom.valueInputs.length; i++) {
-			$(this.dom.valueInputs[i]).unbind('input change');
-			$(this.dom.valueInputs[i]).on('input change', () => {
-				this.s.value[i] = $(this.dom.valueInputs[i]).val();
-				let allFilled = true;
-
-				// Check that all of the value inputs have been filled in
-				for (let val = 0; val < this.dom.valueInputs.length; val++) {
-					if (
-						$(this.dom.container).has(this.dom.valueInputs[val]).length !== 0 &&
-						(this.s.value[val] === undefined || this.s.value[val].length === 0)
-					) {
-						allFilled = false;
-						break;
-					}
-				}
-
-				this.s.filled = allFilled;
+				// Trigger a search
 				this.s.dt.draw();
-				$(this.dom.valueInputs[i]).focus();
+
+				this.s.dt.state.save();
 			});
 		}
 
@@ -840,20 +913,12 @@ export default class Criteria {
 
 		let valRight: number;
 		let valWidth: number;
+		let outmostval = this.dom.value[this.dom.value.length - 1];
 
-		// Calculate the width and right value of the value input(s)/select element
-		if ($(this.dom.container).has(this.dom.value).length !== 0) {
-			valWidth =  $(this.dom.value).outerWidth(true);
-			valRight = $(this.dom.value).offset().left + valWidth;
-		}
-		else if ($(this.dom.container).has(this.dom.valueInputs[1]).length !== 0) {
-			let valWidthOuter = $(this.dom.valueInputs[1]).outerWidth(true);
-			valWidth = valWidthOuter + $(this.dom.valueInputs[0]).outerWidth(true);
-			valRight = $(this.dom.valueInputs[1]).offset().left + valWidthOuter;
-		}
-		else if ($(this.dom.container).has(this.dom.valueInputs[0]).length !== 0) {
-			valWidth = $(this.dom.valueInputs[1]).outerWidth(true);
-			valRight = $(this.dom.valueInputs[0]).offset().left + valWidth;
+		// Calculate the width and right value of the outmost value element
+		if ($(this.dom.container).has(outmostval).length !== 0) {
+			valWidth =  $(outmostval).outerWidth(true);
+			valRight = $(outmostval).offset().left + valWidth;
 		}
 		else {
 			return;
@@ -900,11 +965,15 @@ export default class Criteria {
 		// Append Titles for select elements
 		$(this.dom.data).append(this.dom.dataTitle);
 		$(this.dom.condition).append(this.dom.conditionTitle);
-		$(this.dom.value).append(this.dom.valueTitle);
 		$(this.dom.container)
 			.append(this.dom.data)
-			.append(this.dom.condition)
-			.append(this.dom.value)
+			.append(this.dom.condition);
+
+		for (let val of this.dom.value) {
+			$(this.dom.container).append(val);
+		}
+
+		$(this.dom.container)
 			.append(this.dom.delete)
 			.append(this.dom.right);
 		this.setListeners();
@@ -924,14 +993,10 @@ export default class Criteria {
 	 * Clears the value elements
 	 */
 	private _clearValue(): void {
-		$(this.dom.value).empty();
-
-		for (let input of this.dom.valueInputs) {
-			$(input).val('');
+		for (let val of this.dom.value) {
+			val = this.s.condition.init();
 		}
 
-		$(this.dom.valueTitle).attr('selected', true).attr('disabled', true);
-		$(this.dom.value).append(this.dom.valueTitle);
 		this.s.values = [];
 		this.s.value = [];
 	}
@@ -975,7 +1040,7 @@ export default class Criteria {
 				})
 				.addClass(this.classes.option);
 
-				if (this.s.condition === condition.display) {
+				if (this.s.condition.display === condition.display) {
 					$(newOpt).attr('selected', true);
 				}
 
@@ -1044,152 +1109,10 @@ export default class Criteria {
 	 * Populates the Value select element
 	 */
 	private _populateValue(): void {
-		let conditionType = 'select';
-		let valCount = 1;
-		let joinerText = 'and';
 		let prevFilled = this.s.filled;
 		this.s.filled = false;
 
-		// Find the condition type and the number of value inputs required
-		for (let opt of this.s.conditions) {
-			if (opt.display === this.s.condition) {
-				conditionType = opt.type;
-				valCount = opt.valueInputs;
-				joinerText = opt.joiner;
-				break;
-			}
-		}
-
-		if (valCount === 0) {
-			$(this.dom.value).remove();
-			for (let input of this.dom.valueInputs) {
-				$(input).remove();
-			}
-			this.s.filled = true;
-			this.s.dt.draw();
-
-			return;
-		}
-
-		// If the condition requires a selection from a select element
-		if (conditionType === 'select') {
-			// If there are input fields then remove them and add the select fields
-			if ($(this.dom.container).has(this.dom.valueInputs[0]).length !== 0) {
-				$(this.dom.value).insertBefore(this.dom.valueInputs[0]);
-				$('.' + this.classes.joiner).remove();
-
-				for (let input of this.dom.valueInputs) {
-					$(input).remove();
-				}
-
-				this.setListeners();
-			}
-			else if ($(this.dom.container).has(this.dom.value).length === 0) {
-				$(this.dom.value).insertAfter(this.dom.condition);
-			}
-
-			$(this.dom.value).attr('disabled', false);
-
-			// If there are no values set then we need to lead them in based on the columns data
-			if (this.s.values.length === 0) {
-				let column = $(this.dom.data).children('option:selected').val();
-				let indexArray = this.s.dt.rows().indexes().toArray();
-				let settings = this.s.dt.settings()[0];
-
-				for (let index of indexArray) {
-					let filter = settings.oApi._fnGetCellData(settings, index, column, this.c.orthogonal.search);
-					let found = false;
-
-					for (let val of this.s.values) {
-						if (val.filter === filter) {
-							found = true;
-							break;
-						}
-					}
-
-					if (!found) {
-						let val = {filter, text: settings.oApi._fnGetCellData(settings, index, column, this.c.orthogonal.display), index};
-						this.s.values.push(val);
-						$(this.dom.value).append(
-							$('<option>', {
-								text : this.s.type.includes('html') ? val.text.replace(/(<([^>]+)>)/ig, '') : val.text,
-								value : this.s.type.includes('html') ? val.filter.replace(/(<([^>]+)>)/ig, '') : val.filter
-							})
-							.addClass(this.classes.option)
-						);
-					}
-				}
-			}
-			// Otherwise we can just load them in
-			else {
-				for (let val of this.s.values) {
-					let newOpt = $('<option>', {
-						text : val.text,
-						value : val.filter
-					})
-					.addClass(this.classes.option);
-
-					if (this.s.value[0] === val.filter) {
-						$(newOpt).attr('selected', true);
-						this.s.filled = true;
-					}
-
-					$(this.dom.value).append(newOpt);
-				}
-			}
-		}
-		// Otherwise it must be either an input or a date, both have very similar processes here
-		// If the select element is present then
-		else if (
-			(conditionType === 'input' || conditionType === 'date')
-		) {
-			$(this.dom.valueInputs[0]).insertAfter(this.dom.condition);
-			$(this.dom.valueInputs[0]).val(this.s.value[0]);
-
-			this.s.filled = this.s.value[0] !== undefined && this.s.value[0].length !== 0;
-
-			// If it's a date then we need to initialise the DataTables datePicker
-			if (conditionType === 'date') {
-				$(this.dom.valueInputs[0]).dtDateTime();
-			}
-
-			// Insert all of the required valueInputs and update their values
-			for (let i = 1; i < valCount && i < this.dom.valueInputs.length; i++) {
-				// Insert a joiner span to break up the valueInputs
-				let joiner = $('<span>').addClass(this.classes.joiner).text(joinerText).insertAfter(this.dom.valueInputs[i - 1]);
-				$(this.dom.valueInputs[i]).insertAfter(joiner);
-				$(this.dom.valueInputs[i]).val(this.s.value[i]);
-
-				if (conditionType === 'date') {
-					$(this.dom.valueInputs[i]).dtDateTime();
-				}
-
-				if (this.s.filled) {
-					this.s.filled = this.s.value[i] !== undefined && this.s.value[i].length !== 0;
-				}
-			}
-
-			$(this.dom.value).remove();
-			this.setListeners();
-		}
-		// Otherwise if the input elements are present , but there are two and only one is needed
-		else if (
-			(conditionType === 'input' || conditionType === 'date') &&
-			$(this.dom.container).has(this.dom.valueInputs[1]).length !== 0 &&
-			valCount === 1
-		) {
-			$('.' + this.classes.joiner).remove();
-			$(this.dom.valueInputs[0]).val('');
-
-			if (conditionType === 'date') {
-				$(this.dom.valueInputs[0]).dtDateTime();
-			}
-
-			for (let i = 1; i < this.dom.valueInputs.length; i++) {
-				$(this.dom.valueInputs[i]).remove();
-			}
-			this.s.filled = false;
-		}
+		this.s.condition.set();
 
 		if (prevFilled !== this.s.filled) {
 			this.s.dt.draw();
@@ -1200,11 +1123,6 @@ export default class Criteria {
 	 * Resets the value inputs to be an empty select
 	 */
 	private _resetValue(): void {
-		if ($(this.dom.container).has(this.dom.valueInputs[0]).length !== 0) {
-			$(this.dom.value).empty().append(this.dom.valueTitle).insertBefore(this.dom.valueInputs[0]);
-			$(this.dom.valueInputs[0]).remove();
-			$(this.dom.valueInputs[1]).remove();
-			$('.' + this.classes.joiner).remove();
-		}
+		this.dom.value = this.s.condition.init();
 	}
 }
