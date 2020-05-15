@@ -37,31 +37,80 @@ export default class Criteria {
 		vertical: 'dtsb-vertical'
 	};
 
-	private static initSelect = function() {
-		return $('<select/>').addClass(Criteria.classes.value).addClass(Criteria.classes.dropDown).addClass("frominit");
+	private static initSelect = function(that) {
+		let select = $('<select/>').addClass(Criteria.classes.value).addClass(Criteria.classes.dropDown).addClass("frominit");
+		$(select).append(that.dom.valueTitle);
+		return select;
 	};
 
-	private static initInput = function() {
+	private static initInput = function(that) {
 		return $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input).addClass("frominit");
 	};
 
-	private static initDate = function() {
+	private static initDate = function(that) {
 		return $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input).addClass("frominit");
 	};
 
-	private static activeSelect = function(val) {};
+	private static activeSelect = function(val, that) {
+		$(that.dom.valueTitle).attr('selected', false);
+		let allFilled = true;
+		for (let v of val) {
+			if ($(v).has('option:selected').length < 1) {
+				allFilled = false;
+			}
+		}
+		return allFilled;
+	};
 
 	private static activeInput = function(val) {};
 
 	private static activeDate = function(val) {};
 
-	private static getSelect = function(val) {};
+	private static getSelect = function(val, that) {
+		let values = [];
+
+		for (let v of val) {
+			values.push($(v).children('option:selected').val());
+		}
+
+		return values;
+	};
 
 	private static getInput = function(val) {};
 
 	private static getDate = function(val) {};
 
-	private static setSelect = function(val) {};
+	private static setSelect = function(val, that) {
+		let column = $(that.dom.data).children('option:selected').val();
+		let indexArray = that.s.dt.rows().indexes().toArray();
+		let settings = that.s.dt.settings()[0];
+
+		for (let index of indexArray) {
+			let filter = settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.search);
+			let found = false;
+
+			for (let value of that.s.values) {
+				if (value.filter === filter) {
+					found = true;
+					break;
+				}
+			}
+
+			if (!found) {
+				let value = {filter, text: settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.display), index};
+				that.s.values.push(value);
+				for (let v of val) {
+					$(v).append(
+						$('<option>', {
+							text : that.s.type.includes('html') ? value.text.replace(/(<([^>]+)>)/ig, '') : value.text,
+							value : that.s.type.includes('html') ? value.filter.replace(/(<([^>]+)>)/ig, '') : value.filter
+						})
+						.addClass(that.classes.option)
+					);
+				}
+			}
+		}
+	};
 
 	private static setInput = function(val) {};
 
@@ -904,8 +953,8 @@ export default class Criteria {
 				$(val).unbind(this.s.condition.updateOn);
 				$(val).on(this.s.condition.updateOn, () => {
 					// When the value is changed the criteria is now complete so can be included in searches
-					this.s.filled = this.s.condition.active();
-					this.s.value = this.s.condition.get();
+					this.s.filled = this.s.condition.active(val, this);
+					this.s.value = this.s.condition.get(val, this);
 
 					// Trigger a search
 					this.s.dt.draw();
@@ -1019,7 +1068,7 @@ export default class Criteria {
 	private _clearValue(): void {
 		if (this.s.condition !== undefined) {
 			for (let val of this.dom.value) {
-				val = this.s.condition.init();
+				val = this.s.condition.init(this);
 			}
 		}
 
@@ -1142,7 +1191,7 @@ export default class Criteria {
 			$(val).remove();
 		}
 
-		let value = this.s.condition.init();
+		let value = this.s.condition.init(this);
 		this.dom.value = Array.isArray(value) ?
 			value :
 			[value];
@@ -1160,7 +1209,8 @@ export default class Criteria {
 		}
 
 		if (this.s.condition !== undefined) {
-			this.s.condition.set();
+			this.s.condition.set(this.dom.value, this);
+			this.setListeners();
 		}
 
 		if (prevFilled !== this.s.filled) {
@@ -1173,7 +1223,7 @@ export default class Criteria {
 	 */
 	private _resetValue(): void {
 		if (this.s.condition !== undefined) {
-			this.dom.value = this.s.condition.init();
+			this.dom.value = this.s.condition.init(this);
 		}
 	}
 }
