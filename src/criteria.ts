@@ -790,9 +790,9 @@ export default class Criteria {
 		$(this.dom.container.append(this.dom.value[0]));
 
 		for (let i = 1; i < this.dom.value.length; i++) {
-			$(this.dom.container
+			$(this.dom.container)
 				.append($('<span>').addClass(this.classes.joiner).text(joinerText))
-				.append(this.dom.value));
+				.append(this.dom.value[i]);
 		}
 
 		$(this.dom.container).append(this.dom.delete);
@@ -1106,8 +1106,10 @@ export default class Criteria {
 	 */
 	private _clearValue(): void {
 		if (this.s.condition !== undefined) {
-			for (let val of this.dom.value) {
-				val = this.s.condition.init(this);
+			for (let i = 0; i < this.dom.value.length; i++) {
+				$(this.dom.value[i]).remove();
+				this.dom.value[i] = this.s.condition.init(this);
+				$(this.dom.value[i]).insertAfter(this.dom.condition);
 			}
 		}
 
@@ -1262,7 +1264,13 @@ export default class Criteria {
 	 */
 	private _resetValue(): void {
 		if (this.s.condition !== undefined) {
+			for (let val of this.dom.value) {
+				$(val).remove();
+			}
 			this.dom.value = this.s.condition.init(this);
+			for (let val of this.dom.value) {
+				$(val).insertAfter(this.dom.condition);
+			}
 		}
 	}
 }
