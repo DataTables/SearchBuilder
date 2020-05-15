@@ -999,6 +999,8 @@ export default class Criteria {
 					this.s.dt.draw();
 
 					this.s.dt.state.save();
+
+					$(val).focus();
 				});
 			}
 		}
