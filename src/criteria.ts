@@ -47,8 +47,16 @@ export default class Criteria {
 		return $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input).addClass("frominit");
 	};
 
+	private static init2Input = function(that) {
+		return [$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input), $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input)];
+	};
+
 	private static initDate = function(that) {
-		return $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input).addClass("frominit");
+		return $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input);
+	};
+
+	private static init2Date = function(that) {
+		return [$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input), $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input)];
 	};
 
 	private static activeSelect = function(val, that) {
@@ -204,7 +212,7 @@ export default class Criteria {
 			active: Criteria.activeDate,
 			display: 'Between Inclusive',
 			get: Criteria.getDate,
-			init: Criteria.initDate,
+			init: Criteria.init2Date,
 			joiner: 'and',
 			set: Criteria.setDate,
 			updateOn: 'input change',
@@ -221,7 +229,7 @@ export default class Criteria {
 			active: Criteria.activeDate,
 			display: 'Between Exclusive',
 			get: Criteria.getDate,
-			init: Criteria.initDate,
+			init: Criteria.init2Date,
 			joiner: 'and',
 			set: Criteria.setDate,
 			updateOn: 'input change',
@@ -235,7 +243,9 @@ export default class Criteria {
 			},
 		},
 		{
-			active: Criteria.activeDate,
+			active() {
+				return true;
+			},
 			display: 'Empty',
 			init() {
 				return;
@@ -324,7 +334,7 @@ export default class Criteria {
 			active: Criteria.activeInput,
 			display: 'Between Exclusive',
 			get: Criteria.getInput,
-			init: Criteria.initInput,
+			init: Criteria.init2Input,
 			joiner: 'and',
 			set: Criteria.setInput,
 			updateOn: 'input change',
@@ -341,7 +351,7 @@ export default class Criteria {
 			active: Criteria.activeInput,
 			display: 'Between Inclusive',
 			get: Criteria.getInput,
-			init: Criteria.initInput,
+			init: Criteria.init2Input,
 			joiner: 'and',
 			set: Criteria.setInput,
 			updateOn: 'input change',
@@ -358,7 +368,7 @@ export default class Criteria {
 			active: Criteria.activeInput,
 			display: 'Outwith Exclusive',
 			get: Criteria.getInput,
-			init: Criteria.initInput,
+			init: Criteria.init2Input,
 			joiner: 'and',
 			set: Criteria.setInput,
 			updateOn: 'input change',
@@ -375,7 +385,7 @@ export default class Criteria {
 			active: Criteria.activeInput,
 			display: 'Outwith Inclusive',
 			get: Criteria.getInput,
-			init: Criteria.initInput,
+			init: Criteria.init2Input,
 			joiner: 'and',
 			set: Criteria.setInput,
 			updateOn: 'input change',
@@ -498,7 +508,7 @@ export default class Criteria {
 			active: Criteria.activeInput,
 			display: 'Between Exclusive',
 			get: Criteria.getInput,
-			init: Criteria.initInput,
+			init: Criteria.init2Input,
 			joiner: 'and',
 			set: Criteria.setInput,
 			updateOn: 'input change',
@@ -518,7 +528,7 @@ export default class Criteria {
 			active: Criteria.activeInput,
 			display: 'Between Inclusive',
 			get: Criteria.getInput,
-			init: Criteria.initInput,
+			init: Criteria.init2Input,
 			joiner: 'and',
 			set: Criteria.setInput,
 			updateOn: 'input change',
@@ -538,7 +548,7 @@ export default class Criteria {
 			active: Criteria.activeInput,
 			display: 'Outwith Exclusive',
 			get: Criteria.getInput,
-			init: Criteria.initInput,
+			init: Criteria.init2Input,
 			joiner: 'and',
 			set: Criteria.setInput,
 			updateOn: 'input change',
@@ -558,7 +568,7 @@ export default class Criteria {
 			active: Criteria.activeInput,
 			display: 'Outwith Inclusive',
 			get: Criteria.getInput,
-			init: Criteria.initInput,
+			init: Criteria.init2Input,
 			joiner: 'and',
 			set: Criteria.setInput,
 			updateOn: 'input change',
@@ -992,8 +1002,8 @@ export default class Criteria {
 				$(val).unbind(this.s.condition.updateOn);
 				$(val).on(this.s.condition.updateOn, () => {
 					// When the value is changed the criteria is now complete so can be included in searches
-					this.s.filled = this.s.condition.active(val, this);
-					this.s.value = this.s.condition.get(val, this);
+					this.s.filled = this.s.condition.active(this.dom.value, this);
+					this.s.value = this.s.condition.get(this.dom.value, this);
 
 					// Trigger a search
 					this.s.dt.draw();
@@ -1110,7 +1120,12 @@ export default class Criteria {
 		if (this.s.condition !== undefined) {
 			for (let i = 0; i < this.dom.value.length; i++) {
 				$(this.dom.value[i]).remove();
-				this.dom.value[i] = this.s.condition.init(this);
+			}
+			let value = this.s.condition.init(this);
+			this.dom.value = Array.isArray(value) ?
+				value :
+				[value];
+			for (let i = 0; i < this.dom.value.length; i++) {
 				$(this.dom.value[i]).insertAfter(this.dom.condition);
 			}
 		}
@@ -1269,7 +1284,10 @@ export default class Criteria {
 			for (let val of this.dom.value) {
 				$(val).remove();
 			}
-			this.dom.value = this.s.condition.init(this);
+			let value = this.s.condition.init(this);
+			this.dom.value = Array.isArray(value) ?
+				value :
+				[value];
 			for (let val of this.dom.value) {
 				$(val).insertAfter(this.dom.condition);
 			}
