@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html-iso8601" table-class="display nowrap" order="1">
+
+<css lib="datatables searchbuilder"/>
+<css lib="//cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css"/>
+
+<js lib="jquery datatables searchbuilder">
+<![CDATA[
+
+$(document).ready(function() {
+    $.fn.dataTable.ext.searchBuilder.conditions.special = [{
+        // This is used to determine if the criteria should be used in the overall filter
+        active(val, that) {
+            if($(val[0]).attr('active') === "false"){
+                $(val[0]).attr('active', true);
+                return true;
+            }
+            else {
+                $(val[0]).attr('active', false);
+                return false;
+            }
+        },
+        // This is the value that is displayed in the condition select element
+        display: 'Edinburgh',
+        // This is used to return the value that the valuess from the table that should be compared against
+        get(val, that) {
+            return ['Edinburgh']
+        },
+        // This is used to initialise the value element
+        init(that) {
+            return $('<button>Edinburgh</button>').attr('active', false);
+        },
+        // This is used to populate a element if that is required, i.e. a select element
+        set(val, that) {
+            return;
+        },
+        // This is the event on any of the value elements that should trigger a search
+        updateOn: 'click',
+        // This is the function that is run to determine whether to include a row or not
+        comparator( value, comparison) {
+            return value === comparison[0];
+        }
+    }]
+
+    var dt = $('#example').DataTable( {
+        dom: 'Qfrtip',
+        columnDefs: [{type: "special", targets: 2}]
+    });
+
+    
+    console.log($.fn.dataTable.ext)
+
+});
+
+]]>
+</js>
+<js lib="//cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"/>
+
+<title lib="searchBuilder">Plug in example</title>
+
+<info><![CDATA[
+
+This is the `-init searchBuilder`extension for DataTables. It allows results to be filtered based on a user constructed query.
+
+This example shows how to use a plugin for a custom column
+
+]]></info>
+
+</dt-example>
