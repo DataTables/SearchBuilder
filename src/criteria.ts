@@ -38,17 +38,21 @@ export default class Criteria {
 	};
 
 	private static initSelect = function(that) {
-		let select = $('<select/>').addClass(Criteria.classes.value).addClass(Criteria.classes.dropDown).addClass("frominit");
+		let select = $('<select/>').addClass(Criteria.classes.value).addClass(Criteria.classes.dropDown);
 		$(select).append(that.dom.valueTitle);
+
 		return select;
 	};
 
 	private static initInput = function(that) {
-		return $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input).addClass("frominit");
+		return $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input);
 	};
 
 	private static init2Input = function(that) {
-		return [$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input), $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input)];
+		return [
+			$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input),
+			$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input)
+		];
 	};
 
 	private static initDate = function(that) {
@@ -56,7 +60,10 @@ export default class Criteria {
 	};
 
 	private static init2Date = function(that) {
-		return [$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input), $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input)];
+		return [
+			$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input),
+			$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input)
+		];
 	};
 
 	private static activeSelect = function(val, that) {
