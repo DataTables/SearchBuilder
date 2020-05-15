@@ -1125,15 +1125,15 @@ export default class Criteria {
 	 */
 	private _clearValue(): void {
 		if (this.s.condition !== undefined) {
-			for (let i = 0; i < this.dom.value.length; i++) {
-				$(this.dom.value[i]).remove();
+			for (let val of this.dom.value) {
+				$(val).remove();
 			}
 			let value = this.s.condition.init(this);
 			this.dom.value = Array.isArray(value) ?
 				value :
 				[value];
-			for (let i = 0; i < this.dom.value.length; i++) {
-				$(this.dom.value[i]).insertAfter(this.dom.condition);
+			for (let val of this.dom.value) {
+				$(val).insertAfter(this.dom.condition);
 			}
 		}
 
