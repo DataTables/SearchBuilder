@@ -28,6 +28,10 @@
 		let indexArray = that.s.dt.rows().indexes().toArray();
 		let settings = that.s.dt.settings()[0];
 
+		for (let v of val) {
+			$(v).append(that.dom.valueTitle);
+		}
+
 		for (let index of indexArray) {
 			let filter = settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.search);
 			let found = false;
@@ -42,16 +46,20 @@
 			if (!found) {
 				let value = {filter, text: settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.display), index};
 				that.s.values.push(value);
-				for (let v of val) {
-					$(v).append(
-						$('<option>', {
-							text : that.s.type.includes('html') ? value.text.replace(/(<([^>]+)>)/ig, '') : value.text,
-							value : that.s.type.includes('html') ? value.filter.replace(/(<([^>]+)>)/ig, '') : value.filter
-						})
-						.addClass(that.classes.option)
-					);
+				for (let v = 0; v < val.length; v++) {
+					let opt = $('<option>', {
+						text : that.s.type.includes('html') ? value.text.replace(/(<([^>]+)>)/ig, '') : value.text,
+						value : that.s.type.includes('html') ? value.filter.replace(/(<([^>]+)>)/ig, '') : value.filter
+					})
+					.addClass(that.classes.option);
+					$(val[v]).append(opt);
+					if (preDefined !== undefined && opt.val() === preDefined[v]) {
+						opt.attr('selected', true);
+						that.dom.valueTitle.remove();
+					}
 				}
 			}
+		}
     }
     ...
 ]]></example>
