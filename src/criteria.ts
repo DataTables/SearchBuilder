@@ -66,10 +66,9 @@ export default class Criteria {
 	};
 
 	private static activeSelect = function(val, that) {
-		$(that.dom.valueTitle).attr('selected', false);
 		let allFilled = true;
 		for (let v of val) {
-			if ($(v).has('option:selected').length < 1) {
+			if ($(v).has('option:selected').length < 1 || ($(v).has('option:selected').length === 1 && $($(v).children('option:selected')[0]).text() === $(that.dom.value).text())) {
 				allFilled = false;
 			}
 		}
@@ -133,6 +132,10 @@ export default class Criteria {
 		let column = $(that.dom.data).children('option:selected').val();
 		let indexArray = that.s.dt.rows().indexes().toArray();
 		let settings = that.s.dt.settings()[0];
+
+		for (let v of val) {
+			$(v).append(that.dom.valueTitle);
+		}
 
 		for (let index of indexArray) {
 			let filter = settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.search);
@@ -935,7 +938,7 @@ export default class Criteria {
 
 			// Check to see if the previously selected condition exists, if so select it
 			$(this.dom.condition).children('option').each(function() {
-				if ($(this).val() === loadedCriteria.condition) {
+				if (loadedCriteria.condition !== undefined && $(this).val() === loadedCriteria.condition.display) {
 					$(this).attr('selected', true);
 					let condDisp = $(this).val();
 					for (let cond of conditions) {
@@ -1288,8 +1291,8 @@ export default class Criteria {
 		}
 
 		if (this.s.condition !== undefined) {
-			this.s.condition.set(this.dom.value, this, loadedCriteria.value);
-			if (loadedCriteria.value !== undefined) {
+			this.s.condition.set(this.dom.value, this, loadedCriteria !== undefined ? loadedCriteria.value : undefined);
+			if (loadedCriteria !== undefined && loadedCriteria.value !== undefined) {
 				this.s.value = loadedCriteria.value;
 			}
 			this.s.filled = this.s.condition.active(this.dom.value, this);
