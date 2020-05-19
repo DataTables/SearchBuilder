@@ -129,7 +129,7 @@ export default class Criteria {
 		return values;
 	};
 
-	private static setSelect = function(val, that) {
+	private static setSelect = function(val, that, preDefined = undefined) {
 		let column = $(that.dom.data).children('option:selected').val();
 		let indexArray = that.s.dt.rows().indexes().toArray();
 		let settings = that.s.dt.settings()[0];
@@ -148,25 +148,41 @@ export default class Criteria {
 			if (!found) {
 				let value = {filter, text: settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.display), index};
 				that.s.values.push(value);
-				for (let v of val) {
-					$(v).append(
-						$('<option>', {
-							text : that.s.type.includes('html') ? value.text.replace(/(<([^>]+)>)/ig, '') : value.text,
-							value : that.s.type.includes('html') ? value.filter.replace(/(<([^>]+)>)/ig, '') : value.filter
-						})
-						.addClass(that.classes.option)
-					);
+				for (let v = 0; v < val.length; v++) {
+					let opt = $('<option>', {
+						text : that.s.type.includes('html') ? value.text.replace(/(<([^>]+)>)/ig, '') : value.text,
+						value : that.s.type.includes('html') ? value.filter.replace(/(<([^>]+)>)/ig, '') : value.filter
+					})
+					.addClass(that.classes.option);
+					$(val[v]).append(opt);
+					if (preDefined !== undefined && opt.val() === preDefined[v]) {
+						opt.attr('selected', true);
+						that.dom.valueTitle.remove();
+					}
 				}
 			}
 		}
 	};
 
-	private static setInput = function(val) {
+	private static setInput = function(val, that, preDefined) {
+		for (let v = 0; v < val.length; v++) {
+			if (preDefined !== undefined) {
+				$(val[v]).text(preDefined[v]);
+			}
+		}
+
 		return;
 	};
 
-	private static setDate = function(val) {
+	private static setDate = function(val, that, preDefined) {
 		$(val).dtDateTime();
+		for (let v = 0; v < val.length; v++) {
+			if (preDefined !== undefined) {
+				$(val[v]).text(preDefined[v]);
+			}
+		}
+
+		return;
 	};
 
 	private static dateConditions: typeInterfaces.ICondition[] = [
@@ -937,9 +953,7 @@ export default class Criteria {
 			// If the condition has been found and selected then the value can be populated and searched
 			if (this.s.condition !== undefined) {
 				$(this.dom.conditionTitle).remove();
-				this._populateValue();
-
-				this.s.condition.set(loadedCriteria.value);
+				this._populateValue(loadedCriteria);
 			}
 			else {
 				$(this.dom.conditionTitle).prependTo(this.dom.condition);
@@ -1246,8 +1260,9 @@ export default class Criteria {
 
 	/**
 	 * Populates the Value select element
+	 * @param loadedCriteria optional, used to reload criteria from predefined filters
 	 */
-	private _populateValue(): void {
+	private _populateValue(loadedCriteria?): void {
 		let prevFilled = this.s.filled;
 		this.s.filled = false;
 
@@ -1273,7 +1288,11 @@ export default class Criteria {
 		}
 
 		if (this.s.condition !== undefined) {
-			this.s.condition.set(this.dom.value, this);
+			this.s.condition.set(this.dom.value, this, loadedCriteria.value);
+			if (loadedCriteria.value !== undefined) {
+				this.s.value = loadedCriteria.value;
+			}
+			this.s.filled = this.s.condition.active(this.dom.value, this);
 			this.setListeners();
 		}
 
