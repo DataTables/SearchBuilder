@@ -12,12 +12,69 @@ $(document).ready(function() {
         searchBuilder: {
             conditions: {
                 "num":[{
+                    active(val, that) {
+                        $(that.dom.valueTitle).attr('selected', false);
+                        let allFilled = true;
+
+                        for (let v of val) {
+                            if ($(v).has('option:selected').length < 1) {
+                                allFilled = false;
+                            }
+                        }
+
+                        return allFilled;
+                    }
                     display: 'Made up',
+                    get(val, that) {
+                        let values = [];
+
+                        for (let v of val) {
+                            values.push($(v).children('option:selected').val());
+                        }
+
+                        return values;
+                    },
+                    init(that) {
+                        let select = $('<select/>').addClass(Criteria.classes.value).addClass(Criteria.classes.dropDown);
+                        $(select).append(that.dom.valueTitle);
+
+                        return select;
+                    },
+                    set(val, that) {
+                        let column = $(that.dom.data).children('option:selected').val();
+                        let indexArray = that.s.dt.rows().indexes().toArray();
+                        let settings = that.s.dt.settings()[0];
+
+                        for (let index of indexArray) {
+                            let filter = settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.search);
+                            let found = false;
+
+                            for (let value of that.s.values) {
+                                if (value.filter === filter) {
+                                    found = true;
+                                    break;
+                                }
+                            }
+
+                            if (!found) {
+                                let value = {filter, text: settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.display), index};
+                                that.s.values.push(value);
+                                for (let v of val) {
+                                    $(v).append(
+                                        $('<option>', {
+                                            text : that.s.type.includes('html') ? value.text.replace(/(<([^>]+)>)/ig, '') : value.text,
+                                            value : that.s.type.includes('html') ? value.filter.replace(/(<([^>]+)>)/ig, '') : value.filter
+                                        })
+                                        .addClass(that.classes.option)
+                                    );
+                                }
+                            }
+                        }
+                    },
+                    updateOn('change'),
                     comparator: function(value, comparison) {
                         return +value === +comparison[0];
-                    },
-                    type: 'select',
-                    valueInputs: 1
+                    }
                 }]
             }
         }
@@ -43,7 +100,16 @@ This example shows how to make use of `-init searchBuilder.conditions` to add a 
 * `-type html-num`
 * `-type html-num-fmt`
 
-In this example `-init searchBuilder.conditions.num` is used to add a custom condition to any columns that are of type num.
+In this example `-init searchBuilder.conditions.num` is used to add a custom condition to any columns that are of type num. The properties within the object are documented at
+
+* `-init searchBuilder.conditions[type].active`
+* `-init searchBuilder.conditions[type].display`
+* `-init searchBuilder.conditions[type].get`
+* `-init searchBuilder.conditions[type].init`
+* `-init searchBuilder.conditions[type].set`
+* `-init searchBuilder.conditions[type].updateOn`
+* `-init searchBuilder.conditions[type].comparator`
+* `-init searchBuilder.conditions[type].joiner`
 
 ]]></info>
 

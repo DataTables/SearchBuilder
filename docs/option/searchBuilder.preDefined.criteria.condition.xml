@@ -27,7 +27,7 @@
             preDefined: {
                 criteria:[
                     {
-                        condition: 'Equals',
+                        condition: ,
                         data: 2,
                         type: 'criteria',
                         value: ['Edinburgh']

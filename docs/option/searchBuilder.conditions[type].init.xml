@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>searchBuilder.conditions[type].init</name>
+	<summary>Function which returns the JQuery element to be used as the value element</summary>
+	<since>SearchBuilder 0.0.1</since>
+
+	<type type="function">
+		<description>
+            This function returns the JQuery element that is to be used as the value element.
+        </description>
+	</type>
+
+	<description>
+		<![CDATA[
+		This function returns the JQuery element that is to be used as the value element. It takes 1 parameter.
+
+            * `that` the criteria instance that is being checked.
+
+            The internals of the function are down to the functionality that you wish to create. Some examples are shown below for select and input elements.
+        ]]>
+	</description>
+
+<example title="Select init function"><![CDATA[
+    ...
+    init (that) {
+		let select = $('<select/>').addClass(Criteria.classes.value).addClass(Criteria.classes.dropDown);
+		$(select).append(that.dom.valueTitle);
+
+		return select;
+    }
+    ...
+]]></example>
+
+<example title="Input init function"><![CDATA[
+    ...
+    init (that) {
+        return $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input);
+    }
+    ...
+]]></example>
+
+</dt-option>

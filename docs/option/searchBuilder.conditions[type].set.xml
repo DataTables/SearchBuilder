@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>searchBuilder.conditions[type].set</name>
+	<summary>Function that "populates" the value element</summary>
+	<since>SearchBuilder 0.0.1</since>
+
+	<type type="function">
+		<description>
+            This function makes changes to the value element if they are required to populate it. This is mainly used for Select elements to add the options from the table.
+        </description>
+	</type>
+
+	<description>
+		<![CDATA[
+		This function makes changes to the value element if they are required to populate it. This is mainly used for Select elements to add the options from the table, although it could be used to set default values. It takes 2 parameters.
+
+            * `val` the array of value elements that belong to this criteria.
+            * `that` the criteria instance that is being checked.
+
+            The internals of the function are down to the functionality that you wish to create. Some examples are shown below for select elements
+        ]]>
+	</description>
+
+<example title="Select set function"><![CDATA[
+    ...
+    set (val, that) {
+        let column = $(that.dom.data).children('option:selected').val();
+		let indexArray = that.s.dt.rows().indexes().toArray();
+		let settings = that.s.dt.settings()[0];
+
+		for (let index of indexArray) {
+			let filter = settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.search);
+			let found = false;
+
+			for (let value of that.s.values) {
+				if (value.filter === filter) {
+					found = true;
+					break;
+				}
+			}
+
+			if (!found) {
+				let value = {filter, text: settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.display), index};
+				that.s.values.push(value);
+				for (let v of val) {
+					$(v).append(
+						$('<option>', {
+							text : that.s.type.includes('html') ? value.text.replace(/(<([^>]+)>)/ig, '') : value.text,
+							value : that.s.type.includes('html') ? value.filter.replace(/(<([^>]+)>)/ig, '') : value.filter
+						})
+						.addClass(that.classes.option)
+					);
+				}
+			}
+    }
+    ...
+]]></example>
+
+</dt-option>

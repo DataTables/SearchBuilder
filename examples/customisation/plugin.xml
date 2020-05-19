@@ -2,7 +2,6 @@
 <dt-example table-type="html-iso8601" table-class="display nowrap" order="1">
 
 <css lib="datatables searchbuilder"/>
-<css lib="//cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css"/>
 
 <js lib="jquery datatables searchbuilder">
 <![CDATA[
@@ -47,14 +46,10 @@ $(document).ready(function() {
         columnDefs: [{type: "special", targets: 2}]
     });
 
-    
-    console.log($.fn.dataTable.ext)
-
 });
 
 ]]>
 </js>
-<js lib="//cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"/>
 
 <title lib="searchBuilder">Plug in example</title>
 
@@ -62,7 +57,7 @@ $(document).ready(function() {
 
 This is the `-init searchBuilder`extension for DataTables. It allows results to be filtered based on a user constructed query.
 
-This example shows how to use a plugin for a custom column
+This example shows how to use a plugin for a custom column type.
 
 ]]></info>
 

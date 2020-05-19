@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>searchBuilder.conditions[type].get</name>
+	<summary>Function to get the values that are to be used in the comparisons</summary>
+	<since>SearchBuilder 0.0.1</since>
+
+	<type type="function">
+		<description>
+            This function returns an array of values that are to be used to compare against the data in the table.
+        </description>
+	</type>
+
+	<description>
+		<![CDATA[
+		This function returns an array of values that are to be used to compare against the data in the table. It takes 2 parameters.
+
+            * `val` the array of value elements that belong to this criteria.
+            * `that` the criteria instance that is being checked.
+
+            The internals of the function are down to the functionality that you wish to create. The values that are returned here will be passed into the `-init searchBuilder.conditions[type].comparator()` function. This is given a seperate function, rather than running it all in the `-init searchBuilder.conditions[type].comparator()` to make it more efficient, it only needs to run this way. Some examples are shown below.
+        ]]>
+	</description>
+
+<example title="Select get function"><![CDATA[
+    ...
+    get (val, that) {
+        let values = [];
+
+		for (let v of val) {
+			values.push($(v).children('option:selected').val());
+		}
+
+		return values;
+    }
+    ...
+]]></example>
+
+<example title="Input get function"><![CDATA[
+    ...
+    get (val, that) {
+		let values = [];
+
+		for (let v of val) {
+			values.push($(v).val());
+		}
+
+		return values;
+    }
+    ...
+]]></example>
+
+</dt-option>

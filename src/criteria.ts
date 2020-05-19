@@ -1,4 +1,3 @@
-
 import 'datatables.net-datetime';
 import * as typeInterfaces from './criteriaType';
 
