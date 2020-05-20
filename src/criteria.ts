@@ -765,6 +765,7 @@ export default class Criteria {
 			container: $('<div/>').addClass(this.classes.container),
 			data: $('<select/>').addClass(this.classes.data).addClass(this.classes.dropDown),
 			dataTitle: $('<option value="" disabled selected hidden/>').text(this.s.dt.i18n('searchBuilder.data', 'Data Point')),
+			defaultValue: $('<select disabled/>').addClass(this.classes.value).addClass(this.classes.dropDown),
 			delete: $('<button>&times</button>')
 				.addClass(this.classes.delete)
 				.addClass(this.classes.button)
@@ -977,7 +978,6 @@ export default class Criteria {
 			// When the data is changed, the values in condition and value may also change so need to renew them
 			this._clearCondition();
 			this._clearValue();
-			this._resetValue();
 			this._populateCondition();
 
 			// If this criteria was previously active in the search then remove it from the search and trigger a new search
@@ -1134,6 +1134,7 @@ export default class Criteria {
 		$(this.dom.conditionTitle).attr('selected', true).attr('disabled', true);
 		$(this.dom.condition).append(this.dom.conditionTitle);
 		this.s.conditions = [];
+		this.s.condition = undefined;
 	}
 
 	/**
@@ -1151,6 +1152,16 @@ export default class Criteria {
 			for (let val of this.dom.value) {
 				$(val).insertAfter(this.dom.condition);
 			}
+		}
+		else {
+			for (let val of this.dom.value) {
+				$(val).remove();
+			}
+			$('.' + this.classes.joiner).remove();
+			$(this.dom.valueTitle).attr('selected', true);
+			$(this.dom.valueTitle).attr('disabled', false);
+			$(this.dom.defaultValue).append(this.dom.valueTitle);
+			$(this.dom.defaultValue).insertAfter(this.dom.condition);
 		}
 
 		this.s.values = [];
@@ -1269,6 +1280,8 @@ export default class Criteria {
 		let prevFilled = this.s.filled;
 		this.s.filled = false;
 
+		$(this.dom.defaultValue).remove();
+
 		for (let val of this.dom.value) {
 			$(val).remove();
 		}
@@ -1301,24 +1314,6 @@ export default class Criteria {
 
 		if (prevFilled !== this.s.filled) {
 			this.s.dt.draw();
-		}
-	}
-
-	/**
-	 * Resets the value inputs to be an empty select
-	 */
-	private _resetValue(): void {
-		if (this.s.condition !== undefined) {
-			for (let val of this.dom.value) {
-				$(val).remove();
-			}
-			let value = this.s.condition.init(this);
-			this.dom.value = Array.isArray(value) ?
-				value :
-				[value];
-			for (let val of this.dom.value) {
-				$(val).insertAfter(this.dom.condition);
-			}
 		}
 	}
 }

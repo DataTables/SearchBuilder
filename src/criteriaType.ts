@@ -46,6 +46,7 @@ export interface IDom {
 	delete: JQuery<HTMLElement>;
 	data: JQuery<HTMLElement>;
 	dataTitle: JQuery<HTMLElement>;
+	defaultValue: JQuery<HTMLElement>;
 	left: JQuery<HTMLElement>;
 	right: JQuery<HTMLElement>;
 	value: Array<JQuery<HTMLElement>>;
