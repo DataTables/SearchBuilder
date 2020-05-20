@@ -29,7 +29,7 @@ $(document).ready(function() {
     })
 
     $('#revert').on('click', function() {
-        stored = $('#example').DataTable().searchBuilder.rebuild(stored);
+        $('#example').DataTable().searchBuilder.rebuild(stored);
     })
 });
 
