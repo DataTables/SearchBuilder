@@ -170,7 +170,7 @@ export default class Criteria {
 	private static setInput = function(val, that, preDefined) {
 		for (let v = 0; v < val.length; v++) {
 			if (preDefined !== undefined) {
-				$(val[v]).text(preDefined[v]);
+				$(val[v]).val(preDefined[v]);
 			}
 		}
 
@@ -181,7 +181,7 @@ export default class Criteria {
 		$(val).dtDateTime();
 		for (let v = 0; v < val.length; v++) {
 			if (preDefined !== undefined) {
-				$(val[v]).text(preDefined[v]);
+				$(val[v]).val(preDefined[v]);
 			}
 		}
 
