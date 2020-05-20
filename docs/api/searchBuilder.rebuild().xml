@@ -30,8 +30,10 @@
     })
 
     $('#revert').on('click', function() {
-        stored = $('#example').DataTable().searchBuilder.rebuild(stored);
+        $('#example').DataTable().searchBuilder.rebuild(stored);
     })
 ]]></example>
+
+<related type="api">searchBuilder.getDetails()</related>
 
 </dt-api>

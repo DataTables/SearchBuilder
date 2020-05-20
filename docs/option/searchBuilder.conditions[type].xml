@@ -107,4 +107,14 @@
 
 ]]></example>
 
+<related type="init">searchBuilder.conditions</related>
+<related type="init">searchBuilder.conditions[type].active</related>
+<related type="init">searchBuilder.conditions[type].comparator</related>
+<related type="init">searchBuilder.conditions[type].display</related>
+<related type="init">searchBuilder.conditions[type].get</related>
+<related type="init">searchBuilder.conditions[type].init</related>
+<related type="init">searchBuilder.conditions[type].joiner</related>
+<related type="init">searchBuilder.conditions[type].set</related>
+<related type="init">searchBuilder.conditions[type].updateOn</related>
+
 </dt-option>

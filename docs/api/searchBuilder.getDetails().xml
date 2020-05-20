@@ -25,4 +25,6 @@
     $('#example').DataTable().searchBuilder.getDetails();
 ]]></example>
 
+<related type="api">searchBuilder.rebuild()</related>
+
 </dt-api>

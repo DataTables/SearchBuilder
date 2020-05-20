@@ -11,11 +11,11 @@
 	</type>
 
 	<default value="'SearchBuilder'">
-		The default value for the `-init language.searchBuilder.add` parameter is `'ADD'`. 
+		The default value for the `-init language.searchBuilder.add` parameter is `'Add'`. 
 	</default>
 	<description>
 		<![CDATA[
-			As standard, SearchBuilder will set the add button to display a default text, in this case `'ADD'`.
+			As standard, SearchBuilder will set the add button to display a default text, in this case `'Add'`.
 
             The value of `-init language.searchBuilder.add` is passed into an `-api i18n()` function.
 		]]>

@@ -59,5 +59,6 @@ $(document).ready(function() {
 ]]></example>
 
 <related type="api">i18n()</related>
+<related type="init">searchBuilder.button</related>
 
 </dt-option>

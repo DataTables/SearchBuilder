@@ -36,4 +36,6 @@
 
 ]]></example>
 
+<related type="init">searchBuilder.conditions[type]</related>
+
 </dt-option>

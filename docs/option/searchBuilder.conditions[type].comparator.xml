@@ -5,9 +5,13 @@
 	<since>SearchBuilder 0.0.1</since>
 
 	<type type="function">
+        <signature>searchBuilder.conditions[type].comparator</signature>
 		<description>
             The function that is used when filtering the DataTable.
         </description>
+        <parameter type="string">The data from the table to be compared</parameter>
+        <parameter type="string[]">The data collected from the value elements using the `-init searchBuilder.conditions[type].get` function</parameter>
+        <returns type="boolean">Returns a boolean indicating whether it has passed the criteria or not</returns>
 	</type>
 
 	<description>
@@ -23,22 +27,15 @@
 
 	<example title="Include the row if it equals the selected value"><![CDATA[
 
-    $('#example').DataTable( {
-        dom: 'Qfrtip',
-        searchBuilder: {
-            conditions[type]: {
-                "num":[{
-                    display: 'Made up',
-                    comparator: function(value, comparison) {
-                        return +value === +comparison[0];
-                    },
-                    type: 'select',
-                    valueInputs: 1
-                }]
-            }
+        ...    
+        comparator: function(value, comparison) {
+            return +value === +comparison[0];
         }
-    });
+        ...
 
 ]]></example>
+
+<related type="init">searchBuilder.conditions[type]</related>
+<related type="init">searchBuilder.conditions[type].get</related>
 
 </dt-option>

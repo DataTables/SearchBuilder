@@ -6,7 +6,7 @@
 
 	<type type="string | object">
 		<description>
-			`-init language.searchBuilder.value` changes what will be displayed in the text of the SearchBuilder value select.
+			`-init language.searchBuilder.value` changes what will be displayed in the text of the SearchBuilder default value select.
 		</description>
 	</type>
 
@@ -15,7 +15,7 @@
 	</default>
 	<description>
 		<![CDATA[
-			As standard, SearchBuilder will set the value select to display a default text, in this case `'Value'`.
+			As standard, SearchBuilder will set the deafult value select to display a default text, in this case `'Value'`. This dom element is available in custom conditions and plugins also.
 
             The value of `-init language.searchBuilder.value` is passed into an `-api i18n()` function.
 		]]>
@@ -36,5 +36,6 @@ $(document).ready(function() {
 ]]></example>
 
 <related type="api">i18n()</related>
+<related type="init">searchBuilder.conditions[type]</related>
 
 </dt-option>

@@ -8,6 +8,8 @@
 		<description>
             This function returns the JQuery element that is to be used as the value element.
         </description>
+        <parameter type="Criteria">Instance of the criteria that is being checked</parameter>
+        <returns type="JQuery<HTMLElement> | JQuery<HTMLElement>[]">The Jquery elements that are to be used to represent the value inputs</returns>
 	</type>
 
 	<description>
@@ -38,5 +40,7 @@
     }
     ...
 ]]></example>
+
+<related type="init">searchBuilder.conditions[type]</related>
 
 </dt-option>

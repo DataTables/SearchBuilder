@@ -106,4 +106,13 @@
 
 ]]></example>
 
+<related type="init">searchBuilder.conditions[type]</related>
+<related type="init">searchBuilder.conditions.date</related>
+<related type="init">searchBuilder.conditions.num</related>
+<related type="init">searchBuilder.conditions.num-fmt</related>
+<related type="init">searchBuilder.conditions.string</related>
+<related type="init">searchBuilder.conditions.html</related>
+<related type="init">searchBuilder.conditions.html-num</related>
+<related type="init">searchBuilder.conditions.html-num-fmt</related>
+
 </dt-option>

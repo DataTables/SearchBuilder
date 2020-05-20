@@ -7,7 +7,7 @@
 	<description>
 		When working with SearchBuilder you will typically wish to configure SearchBuilder options to customise either appearance or functionality.
 
-		By providing an `config` object `b-init buttons.buttons.config` the SearchBuilder within the button can be customised as desired. The `config` object is structured in the same way as the SearchBuilder config Object is normally.
+		By providing an `config` object `b-init buttons.buttons.config` the SearchBuilder within the button can be customised as desired. The `config` object is structured in the same way as the SearchBuilder `config` object is normally.
 	</description>
 
 	<defaults>
@@ -38,4 +38,10 @@ $('#example').DataTable( {
     dom: 'Bfrtip',
 });
 ]]></example>
+
+<related type="init">language.searchBuilder.button</related>
+<related type="init">buttons.buttons.text</related>
+<related type="init">buttons.buttons.init</related>
+<related type="init">buttons.buttons.action</related>
+<related type="init">buttons.buttons.config</related>
 </dt-button>

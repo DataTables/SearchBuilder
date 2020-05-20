@@ -26,17 +26,50 @@
         searchBuilder: {
             conditions: {
                 "date":[{
-                    display: 'Made up Equals',
-                    comparator: function(value, comparison) {
+                    active(val) {
+                        let allFilled = true;
+                        for (let v of val) {
+                            if ($(v).val().length === 0) {
+                                allFilled = false;
+                            }
+                        }
+
+                        return allFilled;
+                    },
+                    display: 'Made Up',
+                    get(val, that) {
+                        let values = [];
+
+                        for (let v of val) {
+                            values.push($(v).val());
+                        }
+
+                        return values;
+                    },
+                    init(that) {
+                        return $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input);
+                    },
+                    set (val, that, preDefined) {
+                        $(val).dtDateTime();
+                        for (let v = 0; v < val.length; v++) {
+                            if (preDefined !== undefined) {
+                                $(val[v]).val(preDefined[v]);
+                            }
+                        }
+
+                        return;
+                    },
+                    updateOn: 'change',
+                    comparator(value: any, comparison: any[]): boolean {
                         return value === comparison[0];
                     },
-                    type: 'date',
-                    valueInputs: 1
-                }]
+                },]
             }
         }
     });
 
 ]]></example>
+
+<related type="init">searchBuilder.conditions[type]</related>
 
 </dt-option>
