@@ -764,7 +764,7 @@ export default class Criteria {
 			conditionTitle: $('<option value="" disabled selected hidden/>').text(this.s.dt.i18n('searchBuilder.condition', 'Condition')),
 			container: $('<div/>').addClass(this.classes.container),
 			data: $('<select/>').addClass(this.classes.data).addClass(this.classes.dropDown),
-			dataTitle: $('<option value="" disabled selected hidden/>').text(this.s.dt.i18n('searchBuilder.data', 'Data Point')),
+			dataTitle: $('<option value="" disabled selected hidden/>').text(this.s.dt.i18n('searchBuilder.data', 'Data')),
 			defaultValue: $('<select disabled/>').addClass(this.classes.value).addClass(this.classes.dropDown),
 			delete: $('<button>&times</button>')
 				.addClass(this.classes.delete)
