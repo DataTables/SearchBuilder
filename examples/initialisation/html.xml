@@ -19,9 +19,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This is the `-init searchBuilder`extension for DataTables. It allows results to be filtered based on a user constructed query.
-
-See other examples for more detail.
+This example shows the behaviour of SearchBuilder with columns of type `html`.
 
 ]]></info>
 

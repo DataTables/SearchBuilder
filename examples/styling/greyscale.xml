@@ -22,8 +22,6 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This is the `-init searchBuilder`extension for DataTables. It allows results to be filtered based on a user constructed query.
-
 This example demonstrates how to make the SearchBuilder styling turn to greyscale, this is an alternative to showing the colours around the select and input elements.
 ]]></info>
 

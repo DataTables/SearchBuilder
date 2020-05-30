@@ -20,10 +20,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This is the `-init searchbuilder`extension for DataTables. It allows results to be filtered based on a complex search query.
-
 This example shows searchbuilder being used with the [Zurb Foundation](http://foundation.zurb.com/) CSS framework.
-
 
 ]]></info>
 
