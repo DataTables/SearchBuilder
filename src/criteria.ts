@@ -1194,20 +1194,22 @@ export default class Criteria {
 				this.s.type = this.s.dt.columns().type().toArray()[column];
 			}
 
-			if (this.c.conditions[this.s.type] !== undefined) {
-				$(this.dom.condition).attr('disabled', false).append(this.dom.conditionTitle).addClass(this.classes.italic);
-				$(this.dom.conditionTitle).attr('selected', true);
-				for (let condition of this.c.conditions[this.s.type]) {
-					this.s.conditions.push(condition);
-					$(this.dom.condition).append(
-						$('<option>', {
-							text : condition.display,
-							value : condition.display,
-						})
-						.addClass(this.classes.option)
-						.addClass(this.classes.notItalic)
-					);
-				}
+			$(this.dom.condition).attr('disabled', false).append(this.dom.conditionTitle).addClass(this.classes.italic);
+			$(this.dom.conditionTitle).attr('selected', true);
+			for (
+				let condition of this.c.conditions[this.s.type] !== undefined ?
+					this.c.conditions[this.s.type] :
+					this.c.conditions.string
+			) {
+				this.s.conditions.push(condition);
+				$(this.dom.condition).append(
+					$('<option>', {
+						text : condition.display,
+						value : condition.display,
+					})
+					.addClass(this.classes.option)
+					.addClass(this.classes.notItalic)
+				);
 			}
 		}
 		// Otherwise we can just load them in
