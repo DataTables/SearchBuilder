@@ -1184,6 +1184,8 @@ export default class Criteria {
 
 			if (this.c.conditions[this.s.type] !== undefined) {
 				$(this.dom.condition).attr('disabled', false);
+				$(this.dom.condition).append(this.dom.conditionTitle);
+				$(this.dom.conditionTitle).attr('selected', true);
 				for (let condition of this.c.conditions[this.s.type]) {
 					this.s.conditions.push(condition);
 					$(this.dom.condition).append(
