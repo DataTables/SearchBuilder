@@ -1286,6 +1286,8 @@ export default class Criteria {
 			$(val).remove();
 		}
 
+		$('.' + this.classes.joiner).remove();
+
 		let value = this.s.condition.init(this);
 		this.dom.value = Array.isArray(value) ?
 			value :
