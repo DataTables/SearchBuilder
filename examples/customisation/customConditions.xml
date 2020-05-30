@@ -91,7 +91,7 @@ $(document).ready(function() {
 ]]>
 </js>
 
-<title lib="searchBuilder">TEST</title>
+<title lib="searchBuilder">Custom Conditions</title>
 
 <info><![CDATA[
 
