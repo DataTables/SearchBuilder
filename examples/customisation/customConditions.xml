@@ -23,7 +23,7 @@ $(document).ready(function() {
                         }
 
                         return allFilled;
-                    }
+                    },
                     display: 'Made up',
                     get(val, that) {
                         let values = [];
@@ -78,7 +78,7 @@ $(document).ready(function() {
                             }
                         }
                     },
-                    updateOn('change'),
+                    updateOn:'change',
                     comparator: function(value, comparison) {
                         return +value === +comparison[0];
                     }

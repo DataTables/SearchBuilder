@@ -7,8 +7,10 @@ export interface IClasses {
 	data: string;
 	greyscale: string;
 	input: string;
+	italic: string;
 	joiner: string;
 	left: string;
+	notItalic: string;
 	option: string;
 	right: string;
 	value: string;

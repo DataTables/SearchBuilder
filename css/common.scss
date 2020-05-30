@@ -63,6 +63,14 @@ div.dtsb-searchBuilder {
             select.dtsb-dropDown, input.dtsb-input{
                 padding: 5px;
                 margin-right: 10px;
+
+                option.dtsb-notItalic {
+                    font-style: normal;
+                }
+            }
+
+            select.dtsb-italic{
+                font-style: italic;
             }
 
             button.dtsb-delete, button.dtsb-right, button.dtsb-left{

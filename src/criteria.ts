@@ -28,8 +28,10 @@ export default class Criteria {
 		dropDown: 'dtsb-dropDown',
 		greyscale: 'dtsb-greyscale',
 		input: 'dtsb-input',
+		italic: 'dtsb-italic',
 		joiner: 'dtsp-joiner',
 		left: 'dtsb-left',
+		notItalic: 'dtsb-notItalic',
 		option: 'dtsb-option',
 		right: 'dtsb-right',
 		value: 'dtsb-value',
@@ -37,7 +39,10 @@ export default class Criteria {
 	};
 
 	private static initSelect = function(that) {
-		let select = $('<select/>').addClass(Criteria.classes.value).addClass(Criteria.classes.dropDown);
+		let select = $('<select/>')
+			.addClass(Criteria.classes.value)
+			.addClass(Criteria.classes.dropDown)
+			.addClass(Criteria.classes.italic);
 		$(select).append(that.dom.valueTitle);
 
 		return select;
@@ -156,7 +161,8 @@ export default class Criteria {
 						text : that.s.type.includes('html') ? value.text.replace(/(<([^>]+)>)/ig, '') : value.text,
 						value : that.s.type.includes('html') ? value.filter.replace(/(<([^>]+)>)/ig, '') : value.filter
 					})
-					.addClass(that.classes.option);
+					.addClass(that.classes.option)
+					.addClass(that.classes.notItalic);
 					$(val[v]).append(opt);
 					if (preDefined !== undefined && opt.val() === preDefined[v]) {
 						opt.attr('selected', true);
@@ -760,10 +766,11 @@ export default class Criteria {
 		this.dom = {
 			condition: $('<select disabled/>')
 				.addClass(this.classes.condition)
-				.addClass(this.classes.dropDown),
+				.addClass(this.classes.dropDown)
+				.addClass(this.classes.italic),
 			conditionTitle: $('<option value="" disabled selected hidden/>').text(this.s.dt.i18n('searchBuilder.condition', 'Condition')),
 			container: $('<div/>').addClass(this.classes.container),
-			data: $('<select/>').addClass(this.classes.data).addClass(this.classes.dropDown),
+			data: $('<select/>').addClass(this.classes.data).addClass(this.classes.dropDown).addClass(this.classes.italic),
 			dataTitle: $('<option value="" disabled selected hidden/>').text(this.s.dt.i18n('searchBuilder.data', 'Data')),
 			defaultValue: $('<select disabled/>').addClass(this.classes.value).addClass(this.classes.dropDown),
 			delete: $('<button>&times</button>')
@@ -778,7 +785,9 @@ export default class Criteria {
 				.addClass(this.classes.right)
 				.addClass(this.classes.button)
 				.attr('title', this.s.dt.i18n('searchBuilder.rightTitle', 'idnent criteria')),
-			value: [$('<select disabled/>').addClass(this.classes.value).addClass(this.classes.dropDown)],
+			value: [
+				$('<select disabled/>').addClass(this.classes.value).addClass(this.classes.dropDown).addClass(this.classes.italic)
+			],
 			valueTitle: $('<option value="" disabled selected hidden/>').text(this.s.dt.i18n('searchBuilder.value', 'Value')),
 		};
 
@@ -973,6 +982,7 @@ export default class Criteria {
 		$(this.dom.data).unbind('change');
 		$(this.dom.data).on('change', () => {
 			$(this.dom.dataTitle).attr('selected', false);
+			$(this.dom.data).removeClass(this.classes.italic);
 			this.s.data = $(this.dom.data).children('option:selected').val();
 
 			// When the data is changed, the values in condition and value may also change so need to renew them
@@ -992,6 +1002,7 @@ export default class Criteria {
 		$(this.dom.condition).unbind('change');
 		$(this.dom.condition).on('change', () => {
 			$(this.dom.conditionTitle).attr('selected', false);
+			$(this.dom.condition).removeClass(this.classes.italic);
 			let condDisp = $(this.dom.condition).children('option:selected').val();
 			for (let cond of this.s.conditions) {
 				if (cond.display === condDisp) {
@@ -1024,6 +1035,7 @@ export default class Criteria {
 			for (let val of this.dom.value) {
 				$(val).unbind(this.s.condition.updateOn);
 				$(val).on(this.s.condition.updateOn, () => {
+					$(val).removeClass(this.classes.italic);
 					// When the value is changed the criteria is now complete so can be included in searches
 					this.s.filled = this.s.condition.active(this.dom.value, this);
 					this.s.value = this.s.condition.get(this.dom.value, this);
@@ -1183,8 +1195,7 @@ export default class Criteria {
 			}
 
 			if (this.c.conditions[this.s.type] !== undefined) {
-				$(this.dom.condition).attr('disabled', false);
-				$(this.dom.condition).append(this.dom.conditionTitle);
+				$(this.dom.condition).attr('disabled', false).append(this.dom.conditionTitle).addClass(this.classes.italic);
 				$(this.dom.conditionTitle).attr('selected', true);
 				for (let condition of this.c.conditions[this.s.type]) {
 					this.s.conditions.push(condition);
@@ -1194,30 +1205,33 @@ export default class Criteria {
 							value : condition.display,
 						})
 						.addClass(this.classes.option)
+						.addClass(this.classes.notItalic)
 					);
 				}
 			}
 		}
 		// Otherwise we can just load them in
 		else if (this.s.conditions.length > 1) {
-			$(this.dom.condition).attr('disabled', false);
+			$(this.dom.condition).attr('disabled', false).addClass(this.classes.italic);
 
 			for (let condition of this.s.conditions) {
 				let newOpt = $('<option>', {
 					text : condition.display,
 					value : condition.display
 				})
-				.addClass(this.classes.option);
+				.addClass(this.classes.option)
+				.addClass(this.classes.notItalic);
 
 				if (this.s.condition !== undefined && this.s.condition.display === condition.display) {
 					$(newOpt).attr('selected', true);
+					$(this.dom.condition).removeClass(this.classes.italic);
 				}
 
 				$(this.dom.condition).append(newOpt);
 			}
 		}
 		else {
-			$(this.dom.condition).attr('disabled', true);
+			$(this.dom.condition).attr('disabled', true).addClass(this.classes.italic);
 		}
 	}
 
@@ -1251,6 +1265,7 @@ export default class Criteria {
 								value : opt.index
 							})
 							.addClass(this.classes.option)
+							.addClass(this.classes.notItalic)
 						);
 					}
 				}
@@ -1263,7 +1278,8 @@ export default class Criteria {
 					text : data.text,
 					value : data.index
 				})
-				.addClass(this.classes.option);
+				.addClass(this.classes.option)
+				.addClass(this.classes.notItalic);
 
 				if (+this.s.data === data.index) {
 					$(newOpt).attr('selected', true);
@@ -1300,10 +1316,10 @@ export default class Criteria {
 			joinerText = this.s.condition.joiner;
 		}
 
-		$(this.dom.value[0]).insertAfter(this.dom.condition);
+		$(this.dom.value[0]).insertAfter(this.dom.condition).addClass(this.classes.italic);
 
 		for (let i = 1; i < this.dom.value.length; i++) {
-			$(this.dom.value[i]).insertAfter(this.dom.value[i - 1]);
+			$(this.dom.value[i]).insertAfter(this.dom.value[i - 1]).addClass(this.classes.italic);
 			$($('<span>').addClass(this.classes.joiner).text(joinerText)).insertAfter(this.dom.value[i - 1]);
 		}
 
