@@ -119,7 +119,7 @@ export default class Criteria {
 
 	private static initDate = function(that, preDefined = null) {
 		let el = Criteria.updateListener(
-				$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input),
+				$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input).dtDateTime(),
 				that,
 				'input change'
 			);
@@ -134,13 +134,13 @@ export default class Criteria {
 	private static init2Date = function(that, preDefined = null) {
 		let els = [
 			Criteria.updateListener(
-				$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input),
+				$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input).dtDateTime(),
 				that,
 				'input change'
 			),
 			$('<span>').addClass(that.classes.joiner).text('and'),
 			Criteria.updateListener(
-				$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input),
+				$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input).dtDateTime(),
 				that,
 				'input change'
 			)
@@ -179,7 +179,7 @@ export default class Criteria {
 	private static isInputValidDate = function(val) {
 		let allFilled = true;
 		for (let v of val) {
-			if ($(v).val().length === 0) {
+			if ($(v).is('input') && $(v).val().length === 0) {
 				allFilled = false;
 			}
 		}
