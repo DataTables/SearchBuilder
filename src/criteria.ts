@@ -239,7 +239,6 @@ export default class Criteria {
 	private static updateListener = function(val, that, updateOn) {
 		$(val).unbind(updateOn);
 		$(val).on(updateOn, () => {
-			$(val).removeClass(that.classes.italic);
 			// When the value is changed the criteria is now complete so can be included in searches
 			that.s.filled = that.s.condition.isInputValid(that.dom.value, that);
 			that.s.value = that.s.condition.inputValue(that.dom.value);
@@ -258,6 +257,7 @@ export default class Criteria {
 
 			if (idx !== null) {
 				$(that.dom.value[idx]).focus();
+				$(that.dom.value[idx]).removeClass(that.classes.italic);
 			}
 		});
 
@@ -620,7 +620,7 @@ export default class Criteria {
 		'!=': {
 			conditionName: 'Not',
 			init: Criteria.initSelect,
-			inputValue: Criteria.inputValueInput,
+			inputValue: Criteria.inputValueSelect,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[]): boolean {
 				return value !== comparison[0];
