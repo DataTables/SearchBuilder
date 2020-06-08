@@ -38,233 +38,244 @@ export default class Criteria {
 		vertical: 'dtsb-vertical'
 	};
 
-	private static initSelect = function(that) {
-		let select = $('<select/>')
-			.addClass(Criteria.classes.value)
-			.addClass(Criteria.classes.dropDown)
-			.addClass(Criteria.classes.italic);
-		$(select).append(that.dom.valueTitle);
-
-		return select;
-	};
-
-	private static initInput = function(that) {
-		return $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input);
-	};
-
-	private static init2Input = function(that) {
-		return [
-			$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input),
-			$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input)
-		];
-	};
-
-	private static initDate = function(that) {
-		return $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input);
-	};
-
-	private static init2Date = function(that) {
-		return [
-			$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input),
-			$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input)
-		];
-	};
-
-	private static activeSelect = function(val, that) {
-		let allFilled = true;
-		for (let v of val) {
-			if ($(v).has('option:selected').length < 1 || ($(v).has('option:selected').length === 1 && $($(v).children('option:selected')[0]).text() === $(that.dom.value).text())) {
-				allFilled = false;
-			}
-		}
-
-		return allFilled;
-	};
-
-	private static activeInput = function(val, that) {
-		let allFilled = true;
-		for (let v of val) {
-			if ($(v).val().length === 0) {
-				allFilled = false;
-			}
-		}
-
-		return allFilled;
-	};
-
-	private static activeDate = function(val) {
-		let allFilled = true;
-		for (let v of val) {
-			if ($(v).val().length === 0) {
-				allFilled = false;
-			}
-		}
-
-		return allFilled;
-	};
-
-	private static getSelect = function(val, that) {
-		let values = [];
-
-		for (let v of val) {
-			values.push($(v).children('option:selected').val());
-		}
-
-		return values;
-	};
-
-	private static getInput = function(val, that) {
-		let values = [];
-
-		for (let v of val) {
-			values.push($(v).val());
-		}
-
-		return values;
-	};
-
-	private static getDate = function(val, that) {
-		let values = [];
-
-		for (let v of val) {
-			values.push($(v).val());
-		}
-
-		return values;
-	};
-
-	private static setSelect = function(val, that, preDefined = undefined) {
+	private static initSelect = function(that, preDefined = null) {
 		let column = $(that.dom.data).children('option:selected').val();
 		let indexArray = that.s.dt.rows().indexes().toArray();
 		let settings = that.s.dt.settings()[0];
 
-		for (let v of val) {
-			$(v).append(that.dom.valueTitle);
-		}
+		let el = Criteria.updateListener(
+			$('<select/>')
+				.addClass(Criteria.classes.value)
+				.addClass(Criteria.classes.dropDown)
+				.addClass(Criteria.classes.italic)
+				.append(that.dom.valueTitle),
+			that,
+			'input change'
+		);
+
+		that.s.values = [];
 
 		for (let index of indexArray) {
 			let filter = settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.search);
-			let found = false;
 
-			for (let value of that.s.values) {
-				if (value.filter === filter) {
-					found = true;
-					break;
-				}
+			let value = {
+				filter,
+				index,
+				text: settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.conditionName)
+			};
+			that.s.values.push(value);
+			let opt = $('<option>', {
+				text : that.s.type.includes('html') ? value.text.replace(/(<([^>]+)>)/ig, '') : value.text,
+				value : that.s.type.includes('html') ? value.filter.replace(/(<([^>]+)>)/ig, '') : value.filter
+			})
+			.addClass(that.classes.option)
+			.addClass(that.classes.notItalic);
+			$(el).append(opt);
+			if (preDefined !== null && opt.val() === preDefined[0]) {
+				opt.attr('selected', true);
+				that.dom.valueTitle.remove();
 			}
+		}
 
-			if (!found) {
-				let value = {filter, text: settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.display), index};
-				that.s.values.push(value);
-				for (let v = 0; v < val.length; v++) {
-					let opt = $('<option>', {
-						text : that.s.type.includes('html') ? value.text.replace(/(<([^>]+)>)/ig, '') : value.text,
-						value : that.s.type.includes('html') ? value.filter.replace(/(<([^>]+)>)/ig, '') : value.filter
-					})
-					.addClass(that.classes.option)
-					.addClass(that.classes.notItalic);
-					$(val[v]).append(opt);
-					if (preDefined !== undefined && opt.val() === preDefined[v]) {
-						opt.attr('selected', true);
-						that.dom.valueTitle.remove();
+		return el;
+	};
+
+	private static initInput = function(that, preDefined = null) {
+		let el = Criteria.updateListener(
+			$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input),
+			that,
+			'input change'
+		);
+
+		if (preDefined !== null) {
+			$(el).val(preDefined[0]);
+		}
+
+		return el;
+	};
+
+	private static init2Input = function(that, preDefined = null) {
+		let els = [
+			Criteria.updateListener(
+				$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input),
+				that,
+				'input change'
+			),
+			$('<span>').addClass(this.classes.joiner).text('and'),
+			Criteria.updateListener(
+				$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input),
+				that,
+				'input change'
+			)
+		];
+
+		if (preDefined !== null) {
+			$(els[0]).val(preDefined[0]);
+			$(els[1]).val(preDefined[1]);
+		}
+
+		return els;
+	};
+
+	private static initDate = function(that, preDefined = null) {
+		let el = Criteria.updateListener(
+				$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input),
+				that,
+				'input change'
+			);
+
+		if (preDefined !== undefined) {
+			$(el).val(preDefined[0]);
+		}
+
+		return el;
+	};
+
+	private static init2Date = function(that, preDefined = null) {
+		let els = [
+			Criteria.updateListener(
+				$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input),
+				that,
+				'input change'
+			),
+			$('<span>').addClass(this.classes.joiner).text('and'),
+			Criteria.updateListener(
+				$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input),
+				that,
+				'input change'
+			)
+		];
+
+		if (preDefined !== null) {
+			$(els[0]).val(preDefined[0]);
+			$(els[1]).val(preDefined[1]);
+		}
+
+		return els;
+	};
+
+	private static isInputValidSelect = function(val, that) {
+		let allFilled = true;
+		for (let v of val) {
+			if ($(v).has('option:selected').length < 1 || ($(v).has('option:selected').length === 1 && $($(v).children('option:selected')[0]).text() === $(that.dom.valueTitle).text())) {
+				allFilled = false;
+			}
+		}
+
+		return allFilled;
+	};
+
+	private static isInputValidInput = function(val, that) {
+		let allFilled = true;
+		for (let v of val) {
+			if ($(v).val().length === 0) {
+				allFilled = false;
+			}
+		}
+
+		return allFilled;
+	};
+
+	private static isInputValidDate = function(val) {
+		let allFilled = true;
+		for (let v of val) {
+			if ($(v).val().length === 0) {
+				allFilled = false;
+			}
+		}
+
+		return allFilled;
+	};
+
+	private static inputValueSelect = function(val, value = null) {
+		let values = [];
+
+		if (value === null) {
+			for (let v of val) {
+				values.push($(v).children('option:selected').val());
+			}
+		}
+		else {
+			for (let v = 0; v < val.length; v ++) {
+				if ($(val[v]).is('select')) {
+					let children = $(v).children().toArray;
+					for (let child of children) {
+						if ($(child).val() === value[v]) {
+							$(child).attr('selected', true);
+							values.push(value[v]);
+						}
 					}
 				}
 			}
 		}
+
+		return values;
 	};
 
-	private static setInput = function(val, that, preDefined) {
-		for (let v = 0; v < val.length; v++) {
-			if (preDefined !== undefined) {
-				$(val[v]).val(preDefined[v]);
+	private static inputValueInput = function(val, value = null) {
+		let values = [];
+
+		if (value === null) {
+			for (let v of val) {
+				values.push($(v).val());
+			}
+		}
+		else {
+			for (let v = 0; v < val.length; v++) {
+				if ($(val[v]).is('input')) {
+					$(val[v]).val(value[v]);
+					values.push(value[v]);
+				}
 			}
 		}
 
-		return;
+		return values;
 	};
 
-	private static setDate = function(val, that, preDefined) {
-		$(val).dtDateTime();
-		for (let v = 0; v < val.length; v++) {
-			if (preDefined !== undefined) {
-				$(val[v]).val(preDefined[v]);
-			}
-		}
+	private static updateListener = function(val, that, updateOn) {
+		$(val).unbind(updateOn);
+		$(val).on(updateOn, () => {
+			$(val).removeClass(that.classes.italic);
+			// When the value is changed the criteria is now complete so can be included in searches
+			that.s.filled = that.s.condition.isInputValid(that.dom.value, that);
+			that.s.value = that.s.condition.inputValue(that.dom.value);
 
-		return;
+			// Trigger a search
+			that.s.dt.draw();
+
+			that.s.dt.state.save();
+
+			$(val).focus();
+		});
+
+		return val;
 	};
 
-	private static dateConditions: typeInterfaces.ICondition[] = [
-		{
-			active: Criteria.activeDate,
-			display: 'Equals',
-			get: Criteria.getDate,
+	private static dateConditions: {[keys: string]: typeInterfaces.ICondition} = {
+		'!=': {
+			conditionName: 'Not',
 			init: Criteria.initDate,
-			set: Criteria.setDate,
-			updateOn: 'change',
-			comparator(value: any, comparison: any[]): boolean {
-				return value === comparison[0];
-			},
-		},
-		{
-			active: Criteria.activeDate,
-			display: 'After',
-			get: Criteria.getDate,
-			init: Criteria.initDate,
-			set: Criteria.setDate,
-			updateOn: 'input change',
-			comparator(value: any, comparison: any[]): boolean {
-				return value > comparison[0];
-			},
-		},
-		{
-			active: Criteria.activeDate,
-			display: 'Before',
-			get: Criteria.getDate,
-			init: Criteria.initDate,
-			set: Criteria.setDate,
-			updateOn: 'input change',
-			comparator(value: any, comparison: any[]): boolean {
-				return value < comparison[0];
-			},
-		},
-		{
-			active: Criteria.activeDate,
-			display: 'Not',
-			get: Criteria.getDate,
-			init: Criteria.initDate,
-			set: Criteria.setDate,
-			updateOn: 'change',
-			comparator(value: any, comparison: any[]): boolean {
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidDate,
+			search(value: any, comparison: any[]): boolean {
 				return value !== comparison[0];
 			},
 		},
-		{
-			active: Criteria.activeDate,
-			display: 'Between Inclusive',
-			get: Criteria.getDate,
-			init: Criteria.init2Date,
-			joiner: 'and',
-			set: Criteria.setDate,
-			updateOn: 'input change',
-			comparator(value: any, comparison: any[]): boolean {
-				if (comparison[0] < comparison[1]) {
-					return comparison[0] <= value && value <= comparison[1];
-				}
-				else {
-					return comparison[1] <= value && value <= comparison[0];
-				}
+		'<': {
+			conditionName: 'Before',
+			init: Criteria.initDate,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidDate,
+			search(value: any, comparison: any[]): boolean {
+				return value < comparison[0];
 			},
 		},
-		{
-			active: Criteria.activeDate,
-			display: 'Between Exclusive',
-			get: Criteria.getDate,
+		'<<': {
+			conditionName: 'Between Exclusive',
 			init: Criteria.init2Date,
-			joiner: 'and',
-			set: Criteria.setDate,
-			updateOn: 'input change',
-			comparator(value: any, comparison: any[]): boolean {
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidDate,
+			search(value: any, comparison: any[]): boolean {
 				if (comparison[0] < comparison[1]) {
 					return comparison[0] < value && value < comparison[1];
 				}
@@ -273,103 +284,76 @@ export default class Criteria {
 				}
 			},
 		},
-		{
-			active() {
-				return true;
+		'<=<=': {
+			conditionName: 'Between Inclusive',
+			init: Criteria.init2Date,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidDate,
+			search(value: any, comparison: any[]): boolean {
+				if (comparison[0] < comparison[1]) {
+					return comparison[0] <= value && value <= comparison[1];
+				}
+				else {
+					return comparison[1] <= value && value <= comparison[0];
+				}
 			},
-			display: 'Empty',
-			init() {
+		},
+		'=': {
+			conditionName: 'Equals',
+			init: Criteria.initDate,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidDate,
+			search(value: any, comparison: any[]): boolean {
+				return value === comparison[0];
+			},
+		},
+		'>': {
+			conditionName: 'After',
+			init: Criteria.initDate,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidDate,
+			search(value: any, comparison: any[]): boolean {
+				return value > comparison[0];
+			},
+		},
+		'null': {
+			conditionName: 'Empty',
+			isInputValid() { return true; },
+			init() { return; },
+			inputValue() {
 				return;
 			},
-			get() {
-				return;
-			},
-			set() {
-				return;
-			},
-			updateOn: '',
-			comparator(value: any, comparison: any[]): boolean {
+			search(value: any, comparison: any[]): boolean {
 				return (value === null || value === undefined || value.length === 0);
 			},
 		}
-	];
+};
 
-	private static numConditions: typeInterfaces.ICondition[] = [
-		{
-			active: Criteria.activeSelect,
-			display: 'Equals',
-			get: Criteria.getSelect,
+	private static numConditions: {[keys: string]: typeInterfaces.ICondition} = {
+		'!=': {
+			conditionName: 'Not',
 			init: Criteria.initSelect,
-			set: Criteria.setSelect,
-			updateOn: 'change',
-			comparator(value: any, comparison: any[]): boolean {
-				return +value === +comparison[0];
-			},
-		},
-		{
-			active: Criteria.activeInput,
-			display: 'Greater Than',
-			get: Criteria.getInput,
-			init: Criteria.initInput,
-			set: Criteria.setInput,
-			updateOn: 'input change',
-			comparator(value: any, comparison: any[]): boolean {
-				return +value > +comparison[0];
-			},
-		},
-		{
-			active: Criteria.activeInput,
-			display: 'Less Than',
-			get: Criteria.getInput,
-			init: Criteria.initInput,
-			set: Criteria.setInput,
-			updateOn: 'input change',
-			comparator(value: any, comparison: any[]): boolean {
-				return +value < +comparison[0];
-			},
-		},
-		{
-			active: Criteria.activeInput,
-			display: 'Greater Than Equal To',
-			get: Criteria.getInput,
-			init: Criteria.initInput,
-			set: Criteria.setInput,
-			updateOn: 'input change',
-			comparator(value: any, comparison: any[]): boolean {
-				return +value >= +comparison[0];
-			},
-		},
-		{
-			active: Criteria.activeInput,
-			display: 'Less Than Equal To',
-			get: Criteria.getInput,
-			init: Criteria.initInput,
-			set: Criteria.setInput,
-			updateOn: 'input change',
-			comparator(value: any, comparison: any[]): boolean {
-				return +value <= +comparison[0];
-			},
-		},
-		{
-			active: Criteria.activeSelect,
-			display: 'Not',
-			get: Criteria.getSelect,
-			init: Criteria.initSelect,
-			set: Criteria.setSelect,
-			updateOn: 'input change',
-			comparator(value: any, comparison: any[]): boolean {
+			inputValue: Criteria.inputValueSelect,
+			isInputValid: Criteria.isInputValidSelect,
+			search(value: any, comparison: any[]): boolean {
 				return +value !== +comparison[0];
 			},
 		},
-		{
-			active: Criteria.activeInput,
-			display: 'Between Exclusive',
-			get: Criteria.getInput,
+		'<': {
+			conditionName: 'Less Than',
+			init: Criteria.initInput,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[]): boolean {
+				return +value < +comparison[0];
+			},
+		},
+		'<<': {
+			conditionName: 'Between Exclusive',
 			init: Criteria.init2Input,
-			joiner: 'and',
-			set: Criteria.setInput,
-			updateOn: 'input change',
-			comparator(value: any, comparison: any[]): boolean {
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[]): boolean {
 				if (comparison[0] < comparison[1]) {
 					return +comparison[0] < +value && +value < +comparison[1];
 				}
@@ -378,15 +362,21 @@ export default class Criteria {
 				}
 			},
 		},
-		{
-			active: Criteria.activeInput,
-			display: 'Between Inclusive',
-			get: Criteria.getInput,
+		'<=': {
+			conditionName: 'Less Than Equal To',
+			init: Criteria.initInput,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[]): boolean {
+				return +value <= +comparison[0];
+			},
+		},
+		'<=<=': {
+			conditionName: 'Between Inclusive',
 			init: Criteria.init2Input,
-			joiner: 'and',
-			set: Criteria.setInput,
-			updateOn: 'input change',
-			comparator(value: any, comparison: any[]): boolean {
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[]): boolean {
 				if (comparison[0] < comparison[1]) {
 					return +comparison[0] <= +value && +value <= +comparison[1];
 				}
@@ -395,15 +385,48 @@ export default class Criteria {
 				}
 			},
 		},
-		{
-			active: Criteria.activeInput,
-			display: 'Outwith Exclusive',
-			get: Criteria.getInput,
+		'=': {
+			conditionName: 'Equals',
+			init: Criteria.initSelect,
+			inputValue: Criteria.inputValueSelect,
+			isInputValid: Criteria.isInputValidSelect,
+			search(value: any, comparison: any[]): boolean {
+				return +value === +comparison[0];
+			},
+		},
+		'>': {
+			conditionName: 'Greater Than',
+			init: Criteria.initInput,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[]): boolean {
+				return +value > +comparison[0];
+			},
+		},
+		'>=': {
+			conditionName: 'Greater Than Equal To',
+			init: Criteria.initInput,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[]): boolean {
+				return +value >= +comparison[0];
+			},
+		},
+		'null': {
+			conditionName: 'Empty',
+			init() { return; },
+			inputValue() { return; },
+			isInputValid() { return true; },
+			search(value: any, comparison: any[]): boolean {
+				return (value === null || value === undefined || value.length === 0);
+			},
+		},
+		'outwithExc': {
+			conditionName: 'Outwith Exclusive',
 			init: Criteria.init2Input,
-			joiner: 'and',
-			set: Criteria.setInput,
-			updateOn: 'input change',
-			comparator(value: any, comparison: any[]): boolean {
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[]): boolean {
 				if (comparison[0] < comparison[1]) {
 					return !(+comparison[0] <= +value && +value <= +comparison[1]);
 				}
@@ -412,15 +435,12 @@ export default class Criteria {
 				}
 			},
 		},
-		{
-			active: Criteria.activeInput,
-			display: 'Outwith Inclusive',
-			get: Criteria.getInput,
+		'outwithInc': {
+			conditionName: 'Outwith Inclusive',
 			init: Criteria.init2Input,
-			joiner: 'and',
-			set: Criteria.setInput,
-			updateOn: 'input change',
-			comparator(value: any, comparison: any[]): boolean {
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[]): boolean {
 				if (comparison[0] < comparison[1]) {
 					return !(+comparison[0] < +value && +value < +comparison[1]);
 				}
@@ -429,121 +449,39 @@ export default class Criteria {
 				}
 			},
 		},
-		{
-			active() {
-				return true;
-			},
-			display: 'Empty',
-			init() {
-				return;
-			},
-			get() {
-				return;
-			},
-			set() {
-				return;
-			},
-			updateOn: 'input change',
-			comparator(value: any, comparison: any[]): boolean {
-				return (value === null || value === undefined || value.length === 0);
-			},
-		}
-	];
+	};
 
-	private static numFmtConditions: typeInterfaces.ICondition[] = [
-		{
-			active: Criteria.activeSelect,
-			display: 'Equals',
-			get: Criteria.getSelect,
+	private static numFmtConditions: {[keys: string]: typeInterfaces.ICondition} = {
+		'!=': {
+			conditionName: 'Not',
 			init: Criteria.initSelect,
-			set: Criteria.setSelect,
-			updateOn: 'change',
-			comparator(value: any, comparison: any[]): boolean {
-				value = value.replace(/[^0-9.]/g, '');
-				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
-
-				return +value === +comparison[0];
-			},
-		},
-		{
-			active: Criteria.activeInput,
-			display: 'Greater Than',
-			get: Criteria.getInput,
-			init: Criteria.initInput,
-			set: Criteria.setInput,
-			updateOn: 'input change',
-			comparator(value: any, comparison: any[]): boolean {
-				value = value.replace(/[^0-9.]/g, '');
-				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
-
-				return +value > +comparison[0];
-			},
-		},
-		{
-			active: Criteria.activeInput,
-			display: 'Less Than',
-			get: Criteria.getInput,
-			init: Criteria.initInput,
-			set: Criteria.setInput,
-			updateOn: 'input change',
-			comparator(value: any, comparison: any[]): boolean {
-				value = value.replace(/[^0-9.]/g, '');
-				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
-
-				return +value < +comparison[0];
-			},
-		},
-		{
-			active: Criteria.activeInput,
-			display: 'Greater Than Equal To',
-			get: Criteria.getInput,
-			init: Criteria.initInput,
-			set: Criteria.setInput,
-			updateOn: 'input change',
-			comparator(value: any, comparison: any[]): boolean {
-				value = value.replace(/[^0-9.]/g, '');
-				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
-
-				return +value >= +comparison[0];
-			},
-		},
-		{
-			active: Criteria.activeInput,
-			display: 'Less Than Equal To',
-			get: Criteria.getInput,
-			init: Criteria.initInput,
-			set: Criteria.setInput,
-			updateOn: 'input change',
-			comparator(value: any, comparison: any[]): boolean {
-				value = value.replace(/[^0-9.]/g, '');
-				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
-
-				return +value <= +comparison[0];
-			},
-		},
-		{
-			active: Criteria.activeInput,
-			display: 'Not',
-			get: Criteria.getSelect,
-			init: Criteria.initSelect,
-			set: Criteria.setSelect,
-			updateOn: 'input change',
-			comparator(value: any, comparison: any[]): boolean {
+			inputValue: Criteria.inputValueSelect,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[]): boolean {
 				value = value.replace(/[^0-9.]/g, '');
 				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
 
 				return +value !== +comparison[0];
 			},
 		},
-		{
-			active: Criteria.activeInput,
-			display: 'Between Exclusive',
-			get: Criteria.getInput,
+		'<': {
+			conditionName: 'Less Than',
+			init: Criteria.initInput,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[]): boolean {
+				value = value.replace(/[^0-9.]/g, '');
+				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+
+				return +value < +comparison[0];
+			},
+		},
+		'<<': {
+			conditionName: 'Between Exclusive',
 			init: Criteria.init2Input,
-			joiner: 'and',
-			set: Criteria.setInput,
-			updateOn: 'input change',
-			comparator(value: any, comparison: any[]): boolean {
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[]): boolean {
 				value = value.replace(/[^0-9.]/g, '');
 				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
 				comparison[1] = comparison[1].replace(/[^0-9.]/g, '');
@@ -555,15 +493,24 @@ export default class Criteria {
 				}
 			},
 		},
-		{
-			active: Criteria.activeInput,
-			display: 'Between Inclusive',
-			get: Criteria.getInput,
+		'<=': {
+			conditionName: 'Less Than Equal To',
+			init: Criteria.initInput,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[]): boolean {
+				value = value.replace(/[^0-9.]/g, '');
+				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+
+				return +value <= +comparison[0];
+			},
+		},
+		'<=<=': {
+			conditionName: 'Between Inclusive',
 			init: Criteria.init2Input,
-			joiner: 'and',
-			set: Criteria.setInput,
-			updateOn: 'input change',
-			comparator(value: any, comparison: any[]): boolean {
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[]): boolean {
 				value = value.replace(/[^0-9.]/g, '');
 				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
 				comparison[1] = comparison[1].replace(/[^0-9.]/g, '');
@@ -575,143 +522,143 @@ export default class Criteria {
 				}
 			},
 		},
-		{
-			active: Criteria.activeInput,
-			display: 'Outwith Exclusive',
-			get: Criteria.getInput,
-			init: Criteria.init2Input,
-			joiner: 'and',
-			set: Criteria.setInput,
-			updateOn: 'input change',
-			comparator(value: any, comparison: any[]): boolean {
+		'=': {
+			conditionName: 'Equals',
+			init: Criteria.initSelect,
+			inputValue: Criteria.inputValueSelect,
+			isInputValid: Criteria.isInputValidSelect,
+			search(value: any, comparison: any[]): boolean {
 				value = value.replace(/[^0-9.]/g, '');
 				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
-				comparison[1] = comparison[1].replace(/[^0-9.]/g, '');
-				if (comparison[0] < comparison[1]) {
-					return !(+comparison[0] <= +value && +value <= +comparison[1]);
-				}
-				else {
-					return !(+comparison[1] <= +value && +value <= +comparison[0]);
-				}
+
+				return +value === +comparison[0];
 			},
 		},
-		{
-			active: Criteria.activeInput,
-			display: 'Outwith Inclusive',
-			get: Criteria.getInput,
-			init: Criteria.init2Input,
-			joiner: 'and',
-			set: Criteria.setInput,
-			updateOn: 'input change',
-			comparator(value: any, comparison: any[]): boolean {
+		'>': {
+			conditionName: 'Greater Than',
+			init: Criteria.initInput,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[]): boolean {
 				value = value.replace(/[^0-9.]/g, '');
 				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
-				comparison[1] = comparison[1].replace(/[^0-9.]/g, '');
-				if (comparison[0] < comparison[1]) {
-					return !(+comparison[0] <= +value && +value <= +comparison[1]);
-				}
-				else {
-					return !(+comparison[1] <= +value && +value <= +comparison[0]);
-				}
+
+				return +value > +comparison[0];
 			},
 		},
-		{
-			active() {
-				return true;
+		'>=': {
+			conditionName: 'Greater Than Equal To',
+			init: Criteria.initInput,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[]): boolean {
+				value = value.replace(/[^0-9.]/g, '');
+				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+
+				return +value >= +comparison[0];
 			},
-			display: 'Empty',
-			init() {
-				return;
-			},
-			get() {
-				return;
-			},
-			set() {
-				return;
-			},
-			updateOn: 'input change',
-			comparator(value: any, comparison: any[]): boolean {
+		},
+		'null': {
+			conditionName: 'Empty',
+			init() { return; },
+			inputValue() { return; },
+			isInputValid() { return true; },
+			search(value: any, comparison: any[]): boolean {
 				return (value === null || value === undefined || value.length === 0);
 			},
-		}
-	];
+		},
+		'outwithExc': {
+			conditionName: 'Outwith Exclusive',
+			init: Criteria.init2Input,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[]): boolean {
+				value = value.replace(/[^0-9.]/g, '');
+				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+				comparison[1] = comparison[1].replace(/[^0-9.]/g, '');
+				if (comparison[0] < comparison[1]) {
+					return !(+comparison[0] <= +value && +value <= +comparison[1]);
+				}
+				else {
+					return !(+comparison[1] <= +value && +value <= +comparison[0]);
+				}
+			},
+		},
+		'outwithInc': {
+			conditionName: 'Outwith Inclusive',
+			init: Criteria.init2Input,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[]): boolean {
+				value = value.replace(/[^0-9.]/g, '');
+				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+				comparison[1] = comparison[1].replace(/[^0-9.]/g, '');
+				if (comparison[0] < comparison[1]) {
+					return !(+comparison[0] <= +value && +value <= +comparison[1]);
+				}
+				else {
+					return !(+comparison[1] <= +value && +value <= +comparison[0]);
+				}
+			},
+		},
+	};
 
-	private static stringConditions: typeInterfaces.ICondition[] = [
-		{
-			active: Criteria.activeSelect,
-			display: 'Equals',
-			get: Criteria.getSelect,
+	private static stringConditions: {[keys: string]: typeInterfaces.ICondition} = {
+		'!=': {
+			conditionName: 'Not',
 			init: Criteria.initSelect,
-			set: Criteria.setSelect,
-			updateOn: 'change',
-			comparator(value: any, comparison: any[]): boolean {
-				return value === comparison[0];
-			},
-		},
-		{
-			active: Criteria.activeInput,
-			display: 'Starts With',
-			get: Criteria.getInput,
-			init: Criteria.initInput,
-			set: Criteria.setInput,
-			updateOn: 'input change',
-			comparator(value: any, comparison: any[]): boolean {
-				return value.toLowerCase().indexOf(comparison[0].toLowerCase()) === 0;
-			},
-		},
-		{
-			active: Criteria.activeInput,
-			display: 'Ends with',
-			get: Criteria.getInput,
-			init: Criteria.initInput,
-			set: Criteria.setInput,
-			updateOn: 'input change',
-			comparator(value: any, comparison: any[]): boolean {
-				return value.toLowerCase().indexOf(comparison[0].toLowerCase()) === value.length - comparison[0].length;
-			},
-		},
-		{
-			active: Criteria.activeInput,
-			display: 'Contains',
-			get: Criteria.getInput,
-			init: Criteria.initInput,
-			set: Criteria.setInput,
-			updateOn: 'input change',
-			comparator(value: any, comparison: any[]): boolean {
-				return value.toLowerCase().includes(comparison[0].toLowerCase());
-			},
-		},
-		{
-			active: Criteria.activeInput,
-			display: 'Not',
-			get: Criteria.getInput,
-			init: Criteria.initSelect,
-			set: Criteria.setInput,
-			updateOn: 'input change',
-			comparator(value: any, comparison: any[]): boolean {
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[]): boolean {
 				return value !== comparison[0];
 			},
 		},
-		{
-			active() {
-				return true;
+		'=': {
+			conditionName: 'Equals',
+			init: Criteria.initSelect,
+			inputValue: Criteria.inputValueSelect,
+			isInputValid: Criteria.isInputValidSelect,
+			search(value: any, comparison: any[]): boolean {
+				return value === comparison[0];
 			},
-			display: 'Empty',
-			init() {
-				return;
+		},
+		'contains': {
+			conditionName: 'Contains',
+			init: Criteria.initInput,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[]): boolean {
+				return value.toLowerCase().includes(comparison[0].toLowerCase());
 			},
-			get() {
-				return;
+		},
+		'ends': {
+			conditionName: 'Ends with',
+			init: Criteria.initInput,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[]): boolean {
+				return value.toLowerCase().indexOf(comparison[0].toLowerCase()) === value.length - comparison[0].length;
 			},
-			set() {
-				return;
-			},
-			updateOn: 'input change',
-			comparator(value: any, comparison: any[]): boolean {
+		},
+		'null': {
+			conditionName: 'Empty',
+			init() { return; },
+			inputValue() { return; },
+			isInputValid() { return true; },
+			search(value: any, comparison: any[]): boolean {
 				return (value === null || value === undefined || value.length === 0);
 			},
-		}
-	];
+		},
+		'starts': {
+			conditionName: 'Starts With',
+			init: Criteria.initInput,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[]): boolean {
+				return value.toLowerCase().indexOf(comparison[0].toLowerCase()) === 0;
+			},
+		},
+	};
 
 	private static defaults: typeInterfaces.IDefaults = {
 		allowed: true,
@@ -727,7 +674,7 @@ export default class Criteria {
 		depthLimit: false,
 		greyscale: false,
 		orthogonal: {
-			display: 'display',
+			conditionName: 'Condition Name',
 			search: 'filter',
 		}
 	};
@@ -824,19 +771,12 @@ export default class Criteria {
 	public updateArrows(hasSiblings = false, redraw = true): void {
 		$(this.dom.container).empty();
 
-		// Get the type of condition and the number of values required so we now how many value inputs to append
-		let joinerText = 'and';
-		if (this.s.condition !== undefined) {
-			joinerText = this.s.condition.joiner;
-		}
-
 		$(this.dom.container).append(this.dom.data).append(this.dom.condition);
 
 		$(this.dom.container.append(this.dom.value[0]));
 
 		for (let i = 1; i < this.dom.value.length; i++) {
 			$(this.dom.container)
-				.append($('<span>').addClass(this.classes.joiner).text(joinerText))
 				.append(this.dom.value[i]);
 		}
 
@@ -881,7 +821,7 @@ export default class Criteria {
 	 */
 	public search(rowData: any[]): boolean {
 		if (this.s.condition !== undefined) {
-			return this.s.condition.comparator(rowData[this.s.data], this.s.value);
+			return this.s.condition.search(rowData[this.s.data], this.s.value);
 		}
 	}
 
@@ -948,11 +888,11 @@ export default class Criteria {
 
 			// Check to see if the previously selected condition exists, if so select it
 			$(this.dom.condition).children('option').each(function() {
-				if (loadedCriteria.condition !== undefined && $(this).val() === loadedCriteria.condition.display) {
+				if (loadedCriteria.condition !== undefined && $(this).val() === loadedCriteria.condition.conditionName) {
 					$(this).attr('selected', true);
 					let condDisp = $(this).val();
 					for (let cond of conditions) {
-						if (cond.display === condDisp) {
+						if (cond.conditionName === condDisp) {
 							condition = cond;
 
 							return;
@@ -1005,7 +945,7 @@ export default class Criteria {
 			$(this.dom.condition).removeClass(this.classes.italic);
 			let condDisp = $(this.dom.condition).children('option:selected').val();
 			for (let cond of this.s.conditions) {
-				if (cond.display === condDisp) {
+				if (cond.conditionName === condDisp) {
 					this.s.condition = cond;
 					break;
 				}
@@ -1030,25 +970,6 @@ export default class Criteria {
 
 			this.s.dt.state.save();
 		});
-
-		if (this.s.condition !== undefined) {
-			for (let val of this.dom.value) {
-				$(val).unbind(this.s.condition.updateOn);
-				$(val).on(this.s.condition.updateOn, () => {
-					$(val).removeClass(this.classes.italic);
-					// When the value is changed the criteria is now complete so can be included in searches
-					this.s.filled = this.s.condition.active(this.dom.value, this);
-					this.s.value = this.s.condition.get(this.dom.value, this);
-
-					// Trigger a search
-					this.s.dt.draw();
-
-					this.s.dt.state.save();
-
-					$(val).focus();
-				});
-			}
-		}
 
 		// When delete is pressed destroy this criteria
 		$(this.dom.delete).unbind('change');
@@ -1196,16 +1117,19 @@ export default class Criteria {
 
 			$(this.dom.condition).attr('disabled', false).append(this.dom.conditionTitle).addClass(this.classes.italic);
 			$(this.dom.conditionTitle).attr('selected', true);
+
+			let conditionObj = this.c.conditions[this.s.type] !== undefined ?
+				this.c.conditions[this.s.type] :
+				this.c.conditions.string;
+
 			for (
-				let condition of this.c.conditions[this.s.type] !== undefined ?
-					this.c.conditions[this.s.type] :
-					this.c.conditions.string
+				let condition of Object.keys(conditionObj)
 			) {
-				this.s.conditions.push(condition);
+				this.s.conditions.push(conditionObj[condition]);
 				$(this.dom.condition).append(
 					$('<option>', {
-						text : condition.display,
-						value : condition.display,
+						text : conditionObj[condition].conditionName,
+						value : conditionObj[condition].conditionName,
 					})
 					.addClass(this.classes.option)
 					.addClass(this.classes.notItalic)
@@ -1218,13 +1142,13 @@ export default class Criteria {
 
 			for (let condition of this.s.conditions) {
 				let newOpt = $('<option>', {
-					text : condition.display,
-					value : condition.display
+					text : condition.conditionName,
+					value : condition.conditionName
 				})
 				.addClass(this.classes.option)
 				.addClass(this.classes.notItalic);
 
-				if (this.s.condition !== undefined && this.s.condition.display === condition.display) {
+				if (this.s.condition !== undefined && this.s.condition.conditionName === condition.conditionName) {
 					$(newOpt).attr('selected', true);
 					$(this.dom.condition).removeClass(this.classes.italic);
 				}
@@ -1308,31 +1232,24 @@ export default class Criteria {
 
 		$('.' + this.classes.joiner).remove();
 
-		let value = this.s.condition.init(this);
+		let value = this.s.condition.init(this, loadedCriteria !== undefined ? loadedCriteria.value : undefined);
+
+		if (loadedCriteria !== undefined && loadedCriteria.value !== undefined) {
+			this.s.value = loadedCriteria.value;
+		}
+
 		this.dom.value = Array.isArray(value) ?
 			value :
 			[value];
-
-		let joinerText = 'and';
-		if (this.s.condition !== undefined) {
-			joinerText = this.s.condition.joiner;
-		}
 
 		$(this.dom.value[0]).insertAfter(this.dom.condition).addClass(this.classes.italic);
 
 		for (let i = 1; i < this.dom.value.length; i++) {
 			$(this.dom.value[i]).insertAfter(this.dom.value[i - 1]).addClass(this.classes.italic);
-			$($('<span>').addClass(this.classes.joiner).text(joinerText)).insertAfter(this.dom.value[i - 1]);
 		}
 
-		if (this.s.condition !== undefined) {
-			this.s.condition.set(this.dom.value, this, loadedCriteria !== undefined ? loadedCriteria.value : undefined);
-			if (loadedCriteria !== undefined && loadedCriteria.value !== undefined) {
-				this.s.value = loadedCriteria.value;
-			}
-			this.s.filled = this.s.condition.active(this.dom.value, this);
-			this.setListeners();
-		}
+		this.s.filled = this.s.condition.isInputValid(this.dom.value, this);
+		this.setListeners();
 
 		if (prevFilled !== this.s.filled) {
 			this.s.dt.draw();

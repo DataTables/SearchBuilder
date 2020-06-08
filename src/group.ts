@@ -206,7 +206,7 @@ export default class Group {
 
 				// Set listeners for various points
 				this._setCriteriaListeners(this.s.criteria[i].criteria);
-				this.s.criteria[i].criteria.setListeners();
+				this.s.criteria[i].criteria.rebuild(this.s.criteria[i].criteria.getDetails());
 			}
 			else if (this.s.criteria[i].criteria.s.criteria.length > 0) {
 				// Reset the index to the new value

@@ -18,26 +18,23 @@ export interface IClasses {
 }
 
 export interface ICondition {
-	active: any;
-	display: string;
-	comparator: any;
+	isInputValid: any;
+	conditionName: string;
+	search: any;
 	init: any;
-	get: any;
-	set: any;
-	updateOn: string;
-	joiner?: string;
+	inputValue: any;
 }
 
 export interface IDefaults {
 	allowed: number[] | boolean;
-	conditions: {[keys: string]: ICondition[]};
+	conditions: {[keys: string]: {[keys: string]: ICondition}};
 	depthLimit: number | boolean;
 	greyscale: boolean;
 	orthogonal: IOrthogonal;
 }
 
 export interface IOrthogonal {
-	display: string;
+	conditionName: string;
 	search: string;
 }
 
