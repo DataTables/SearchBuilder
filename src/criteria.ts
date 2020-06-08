@@ -38,20 +38,17 @@ export default class Criteria {
 		vertical: 'dtsb-vertical'
 	};
 
-	private static initSelect = function(that, preDefined = null) {
+	private static initSelect = function(that, fn, preDefined = null) {
 		let column = $(that.dom.data).children('option:selected').val();
 		let indexArray = that.s.dt.rows().indexes().toArray();
 		let settings = that.s.dt.settings()[0];
 
-		let el = Criteria.updateListener(
-			$('<select/>')
-				.addClass(Criteria.classes.value)
-				.addClass(Criteria.classes.dropDown)
-				.addClass(Criteria.classes.italic)
-				.append(that.dom.valueTitle),
-			that,
-			'input change'
-		);
+		let el = $('<select/>')
+					.addClass(Criteria.classes.value)
+					.addClass(Criteria.classes.dropDown)
+					.addClass(Criteria.classes.italic)
+					.append(that.dom.valueTitle);
+		el.on('change', function() {fn(that, el)});
 
 		that.s.values = [];
 
@@ -80,13 +77,9 @@ export default class Criteria {
 		return el;
 	};
 
-	private static initInput = function(that, preDefined = null) {
-		let el = Criteria.updateListener(
-			$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input),
-			that,
-			'input change'
-		);
-
+	private static initInput = function(that, fn, preDefined = null) {
+		let el = $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input);
+		el.on('input', function() {fn(that, el)});
 		if (preDefined !== null) {
 			$(el).val(preDefined[0]);
 		}
@@ -94,20 +87,15 @@ export default class Criteria {
 		return el;
 	};
 
-	private static init2Input = function(that, preDefined = null) {
+	private static init2Input = function(that, fn, preDefined = null) {
 		let els = [
-			Criteria.updateListener(
-				$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input),
-				that,
-				'input change'
-			),
+			$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input),
 			$('<span>').addClass(that.classes.joiner).text('and'),
-			Criteria.updateListener(
-				$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input),
-				that,
-				'input change'
-			)
+			$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input),
 		];
+
+		els[0].on('input', function() {fn(that, els[0])});
+		els[2].on('input', function() {fn(that, els[2])});
 
 		if (preDefined !== null) {
 			$(els[0]).val(preDefined[0]);
@@ -117,12 +105,10 @@ export default class Criteria {
 		return els;
 	};
 
-	private static initDate = function(that, preDefined = null) {
-		let el = Criteria.updateListener(
-				$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input).dtDateTime(),
-				that,
-				'input change'
-			);
+	private static initDate = function(that, fn, preDefined = null) {
+		let el = $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input).dtDateTime();
+
+		el.on('input', function() {fn(that, el)});
 
 		if (preDefined !== undefined) {
 			$(el).val(preDefined[0]);
@@ -131,20 +117,15 @@ export default class Criteria {
 		return el;
 	};
 
-	private static init2Date = function(that, preDefined = null) {
+	private static init2Date = function(that, fn, preDefined = null) {
 		let els = [
-			Criteria.updateListener(
-				$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input).dtDateTime(),
-				that,
-				'input change'
-			),
+			$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input).dtDateTime(),
 			$('<span>').addClass(that.classes.joiner).text('and'),
-			Criteria.updateListener(
-				$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input).dtDateTime(),
-				that,
-				'input change'
-			)
+			$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input).dtDateTime(),
 		];
+
+		els[0].on('input', function() {fn(that, els[0])});
+		els[2].on('input', function() {fn(that, els[2])});
 
 		if (preDefined !== null) {
 			$(els[0]).val(preDefined[0]);
@@ -236,32 +217,25 @@ export default class Criteria {
 		return values;
 	};
 
-	private static updateListener = function(val, that, updateOn) {
-		$(val).unbind(updateOn);
-		$(val).on(updateOn, () => {
-			// When the value is changed the criteria is now complete so can be included in searches
-			that.s.filled = that.s.condition.isInputValid(that.dom.value, that);
-			that.s.value = that.s.condition.inputValue(that.dom.value);
+	private static updateListener = function(that, el) {
+		// When the value is changed the criteria is now complete so can be included in searches
+		that.s.filled = that.s.condition.isInputValid(that.dom.value, that);
+		that.s.value = that.s.condition.inputValue(that.dom.value);
 
-			let idx = null;
-			for (let i = 0; i < that.dom.value.length; i++) {
-				if (val === that.dom.value[i]) {
-					idx = i;
-				}
+		let idx = null;
+		for (let i = 0; i < that.dom.value.length; i++) {
+			if (el === that.dom.value[i]) {
+				idx = i;
 			}
+		}
 
-			// Trigger a search
-			that.s.dt.draw();
+		// Trigger a search
+		that.s.dt.draw();
 
-			that.s.dt.state.save();
-
-			if (idx !== null) {
-				$(that.dom.value[idx]).focus();
-				$(that.dom.value[idx]).removeClass(that.classes.italic);
-			}
-		});
-
-		return val;
+		if (idx !== null) {
+			$(that.dom.value[idx]).focus();
+			$(that.dom.value[idx]).removeClass(that.classes.italic);
+		}
 	};
 
 	private static dateConditions: {[keys: string]: typeInterfaces.ICondition} = {
@@ -1091,7 +1065,7 @@ export default class Criteria {
 			for (let val of this.dom.value) {
 				$(val).remove();
 			}
-			let value = this.s.condition.init(this);
+			let value = this.s.condition.init(this, Criteria.updateListener);
 			this.dom.value = Array.isArray(value) ?
 				value :
 				[value];
@@ -1245,7 +1219,11 @@ export default class Criteria {
 
 		$('.' + this.classes.joiner).remove();
 
-		let value = this.s.condition.init(this, loadedCriteria !== undefined ? loadedCriteria.value : undefined);
+		let value = this.s.condition.init(
+			this,
+			Criteria.updateListener,
+			loadedCriteria !== undefined ? loadedCriteria.value : undefined
+		);
 
 		if (loadedCriteria !== undefined && loadedCriteria.value !== undefined) {
 			this.s.value = loadedCriteria.value;
