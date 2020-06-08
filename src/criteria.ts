@@ -101,7 +101,7 @@ export default class Criteria {
 				that,
 				'input change'
 			),
-			$('<span>').addClass(this.classes.joiner).text('and'),
+			$('<span>').addClass(that.classes.joiner).text('and'),
 			Criteria.updateListener(
 				$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input),
 				that,
@@ -111,7 +111,7 @@ export default class Criteria {
 
 		if (preDefined !== null) {
 			$(els[0]).val(preDefined[0]);
-			$(els[1]).val(preDefined[1]);
+			$(els[2]).val(preDefined[1]);
 		}
 
 		return els;
@@ -138,7 +138,7 @@ export default class Criteria {
 				that,
 				'input change'
 			),
-			$('<span>').addClass(this.classes.joiner).text('and'),
+			$('<span>').addClass(that.classes.joiner).text('and'),
 			Criteria.updateListener(
 				$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input),
 				that,
@@ -148,7 +148,7 @@ export default class Criteria {
 
 		if (preDefined !== null) {
 			$(els[0]).val(preDefined[0]);
-			$(els[1]).val(preDefined[1]);
+			$(els[2]).val(preDefined[1]);
 		}
 
 		return els;
@@ -168,7 +168,7 @@ export default class Criteria {
 	private static isInputValidInput = function(val, that) {
 		let allFilled = true;
 		for (let v of val) {
-			if ($(v).val().length === 0) {
+			if ($(v).is('input') && $(v).val().length === 0) {
 				allFilled = false;
 			}
 		}
@@ -192,7 +192,9 @@ export default class Criteria {
 
 		if (value === null) {
 			for (let v of val) {
-				values.push($(v).children('option:selected').val());
+				if ($(v).is('select')) {
+					values.push($(v).children('option:selected').val());
+				}
 			}
 		}
 		else {
@@ -217,7 +219,9 @@ export default class Criteria {
 
 		if (value === null) {
 			for (let v of val) {
-				values.push($(v).val());
+				if ($(v).is('input')) {
+					values.push($(v).val());
+				}
 			}
 		}
 		else {
@@ -240,12 +244,21 @@ export default class Criteria {
 			that.s.filled = that.s.condition.isInputValid(that.dom.value, that);
 			that.s.value = that.s.condition.inputValue(that.dom.value);
 
+			let idx = null;
+			for (let i = 0; i < that.dom.value.length; i++) {
+				if (val === that.dom.value[i]) {
+					idx = i;
+				}
+			}
+
 			// Trigger a search
 			that.s.dt.draw();
 
 			that.s.dt.state.save();
 
-			$(val).focus();
+			if (idx !== null) {
+				$(that.dom.value[idx]).focus();
+			}
 		});
 
 		return val;
