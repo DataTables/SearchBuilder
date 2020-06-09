@@ -17,16 +17,13 @@
 		<![CDATA[
 		This is useful as it allows custom conditions to be added to SearchBuilder should the standard ones not be enough.
 
-        This object contains 8 properties.
+        This object contains 5 properties.
 
-        * `-init searchBuilder.conditions[type].display` The string that is to be displayed in the option for this condition. Also what it is referred to throughout.
-        * `-init searchBuilder.conditions[type].comparator` This is the function that compares the row data and the value selected in this criteria.
-        * `-init searchBuilder.conditions[type].joiner` This optional property is the text that will be displayed if there is more than one value required for the condition.
-        * `-init searchBuilder.conditions[type].updateOn` This property is a string that contains the events occuring on the value element that should trigger a search. 
-        * `-init searchBuilder.conditions[type].active` This function is used to determine if the criteria should be used in the overall filter
-        * `-init searchBuilder.conditions[type].get` This function is used to return the value that the values from the table should be compared against
+        * `-init searchBuilder.conditions[type].conditionName` The string that is to be displayed in the option for this condition. Also what it is referred to throughout.
         * `-init searchBuilder.conditions[type].init` This function is used to initialise the vlaue element
-        * `-init searchBuilder.conditions[type].set` This function is used to populate an element if that is required
+        * `-init searchBuilder.conditions[type].inputValue` This function is used to return the value that the values from the table should be compared against
+        * `-init searchBuilder.conditions[type].isInputValid` This function is used to determine if the criteria should be used in the overall filter
+        * `-init searchBuilder.conditions[type].search` This is the function that compares the row data and the value selected in this criteria.
         ]]>
 	</description>
 
@@ -37,7 +34,7 @@
         searchBuilder: {
             conditions: {
                 "num":[{
-                    active(val, that) {
+                    isInputValid(val, that) {
                         $(that.dom.valueTitle).attr('selected', false);
                         let allFilled = true;
 
@@ -49,55 +46,68 @@
 
                         return allFilled;
                     }
-                    display: 'Made up',
-                    get(val, that) {
+                    conditionName: 'Made up',
+                    inputValue(val, value = null) {
                         let values = [];
 
-                        for (let v of val) {
-                            values.push($(v).children('option:selected').val());
+                        if (value === null) {
+                            for (let v of val) {
+                                if ($(v).is('select')) {
+                                    values.push($(v).children('option:selected').val());
+                                }
+                            }
+                        }
+                        else {
+                            for (let v = 0; v < val.length; v ++) {
+                                if ($(val[v]).is('select')) {
+                                    let children = $(v).children().toArray;
+                                    for (let child of children) {
+                                        if ($(child).val() === value[v]) {
+                                            $(child).attr('selected', true);
+                                            values.push(value[v]);
+                                        }
+                                    }
+                                }
+                            }
                         }
 
                         return values;
                     },
-                    init(that) {
-                        let select = $('<select/>').addClass(Criteria.classes.value).addClass(Criteria.classes.dropDown);
-                        $(select).append(that.dom.valueTitle);
-
-                        return select;
-                    },
-                    set(val, that) {
+                    init(that, fn, preDefined) {
                         let column = $(that.dom.data).children('option:selected').val();
                         let indexArray = that.s.dt.rows().indexes().toArray();
                         let settings = that.s.dt.settings()[0];
 
+                        let el = $('<select/>').append(that.dom.valueTitle);
+                        el.on('change', function() {fn(that, el)});
+
+                        that.s.values = [];
+
                         for (let index of indexArray) {
                             let filter = settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.search);
-                            let found = false;
 
-                            for (let value of that.s.values) {
-                                if (value.filter === filter) {
-                                    found = true;
-                                    break;
-                                }
-                            }
-
-                            if (!found) {
-                                let value = {filter, text: settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.display), index};
-                                that.s.values.push(value);
-                                for (let v of val) {
-                                    $(v).append(
-                                        $('<option>', {
-                                            text : that.s.type.includes('html') ? value.text.replace(/(<([^>]+)>)/ig, '') : value.text,
-                                            value : that.s.type.includes('html') ? value.filter.replace(/(<([^>]+)>)/ig, '') : value.filter
-                                        })
-                                        .addClass(that.classes.option)
-                                    );
-                                }
+                            let value = {
+                                filter,
+                                index,
+                                text: settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.conditionName)
+                            };
+                            that.s.values.push(value);
+                            let opt = $('<option>', {
+                                text : that.s.type.includes('html') ? value.text.replace(/(<([^>]+)>)/ig, '') : value.text,
+                                value : that.s.type.includes('html') ? value.filter.replace(/(<([^>]+)>)/ig, '') : value.filter
+                            })
+                            .addClass(that.classes.option)
+                            .addClass(that.classes.notItalic);
+                            $(el).append(opt);
+                            if (preDefined !== null && opt.val() === preDefined[0]) {
+                                opt.attr('selected', true);
+                                that.dom.valueTitle.remove();
                             }
                         }
+
+                        return el;
                     },
-                    updateOn('change'),
-                    comparator: function(value, comparison) {
+                    search (value, comparison) {
                         return +value === +comparison[0];
                     }
                 }]
@@ -108,13 +118,10 @@
 ]]></example>
 
 <related type="init">searchBuilder.conditions</related>
-<related type="init">searchBuilder.conditions[type].active</related>
-<related type="init">searchBuilder.conditions[type].comparator</related>
-<related type="init">searchBuilder.conditions[type].display</related>
-<related type="init">searchBuilder.conditions[type].get</related>
+<related type="init">searchBuilder.conditions[type].isInputValid</related>
+<related type="init">searchBuilder.conditions[type].search</related>
+<related type="init">searchBuilder.conditions[type].conditionName</related>
+<related type="init">searchBuilder.conditions[type].inputValue</related>
 <related type="init">searchBuilder.conditions[type].init</related>
-<related type="init">searchBuilder.conditions[type].joiner</related>
-<related type="init">searchBuilder.conditions[type].set</related>
-<related type="init">searchBuilder.conditions[type].updateOn</related>
 
 </dt-option>

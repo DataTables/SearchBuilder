@@ -19,43 +19,50 @@ $(document).ready(function() {
         searchBuilder: {
             conditions: {
                 "moment-YYYY/MM/DD":[{
-                    active(val, that) {
+                    isInputValid(val, that) {
                         let allFilled = true;
-
                         for (let v of val) {
-                            if ($(v).val().length === 0) {
+                            if ($(v).is('input') && $(v).val().length === 0) {
                                 allFilled = false;
                             }
                         }
 
                         return allFilled;
-                    },
-                    display: 'Equals',
-                    get(val, that) {
+                    }
+                    conditionName: 'Equals',
+                    inputValue(val, value = null) {
                         let values = [];
 
-                        for (let v of val) {
-                            values.push($(v).val());
+                        if (value === null) {
+                            for (let v of val) {
+                                if ($(v).is('input')) {
+                                    values.push($(v).val());
+                                }
+                            }
+                        }
+                        else {
+                            for (let v = 0; v < val.length; v++) {
+                                if ($(val[v]).is('input')) {
+                                    $(val[v]).val(value[v]);
+                                    values.push(value[v]);
+                                }
+                            }
                         }
 
                         return values;
                     },
-                    init(that) {
-                        return $('<input/>').addClass('dtsb-value').addClass('dtsb-input');
-                    },
-                    set(val, that, preDefined) {
-                        $(val).dtDateTime();
+                    init(that, fn, preDefined) {
+                        let el = $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input).dtDateTime();
 
-                        for (let v = 0; v < val.length; v++) {
-                            if (preDefined !== undefined) {
-                                $(val[v]).val(preDefined[v]);
-                            }
+                        el.on('input', function() {fn(that, el)});
+
+                        if (preDefined !== undefined) {
+                            $(el).val(preDefined[0]);
                         }
 
-                        return;
+                        return el;
                     },
-                    updateOn:'change',
-                    comparator: function(value, comparison) {
+                    search: function(value, comparison) {
 				        return value.replace(/\//g, '-') === comparison[0];
                     }
                 }]

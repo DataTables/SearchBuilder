@@ -15,7 +15,7 @@
 	</default>
 	<description>
 		<![CDATA[
-			As standard, SearchBuilder will set the condition select to display a default text, in this case `'Condition'`.
+			As standard, SearchBuilder will set the condition select to display a default text, in this case `'Comparator'`.
 
             The value of `-init language.searchBuilder.condition` is passed into an `-api i18n()` function.
 		]]>

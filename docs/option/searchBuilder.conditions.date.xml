@@ -26,44 +26,53 @@
         searchBuilder: {
             conditions: {
                 "date":[{
-                    active(val) {
+                    isInputValid(val, that) {
                         let allFilled = true;
                         for (let v of val) {
-                            if ($(v).val().length === 0) {
+                            if ($(v).is('input') && $(v).val().length === 0) {
                                 allFilled = false;
                             }
                         }
 
                         return allFilled;
-                    },
-                    display: 'Made Up',
-                    get(val, that) {
+                    }
+                    conditionName: 'Made up',
+                    inputValue(val, value = null) {
                         let values = [];
 
-                        for (let v of val) {
-                            values.push($(v).val());
+                        if (value === null) {
+                            for (let v of val) {
+                                if ($(v).is('input')) {
+                                    values.push($(v).val());
+                                }
+                            }
+                        }
+                        else {
+                            for (let v = 0; v < val.length; v++) {
+                                if ($(val[v]).is('input')) {
+                                    $(val[v]).val(value[v]);
+                                    values.push(value[v]);
+                                }
+                            }
                         }
 
                         return values;
                     },
-                    init(that) {
-                        return $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input);
-                    },
-                    set (val, that, preDefined) {
-                        $(val).dtDateTime();
-                        for (let v = 0; v < val.length; v++) {
-                            if (preDefined !== undefined) {
-                                $(val[v]).val(preDefined[v]);
-                            }
+                    init(that, fn, preDefined) {
+                        let el = $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input).dtDateTime();
+
+                        el.on('input', function() {fn(that, el)});
+
+                        if (preDefined !== undefined) {
+                            $(el).val(preDefined[0]);
                         }
 
-                        return;
+                        return el;
                     },
-                    updateOn: 'change',
-                    comparator(value: any, comparison: any[]): boolean {
+                    search (value, comparison) {
                         return value === comparison[0];
-                    },
-                },]
+                    }
+                }]
             }
         }
     });

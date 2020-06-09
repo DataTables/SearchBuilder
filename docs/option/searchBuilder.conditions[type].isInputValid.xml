@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
-	<name>searchBuilder.conditions[type].active</name>
-	<summary>Function to determine if the criteria is active</summary>
+	<name>searchBuilder.conditions[type].isInputValid</name>
+	<summary>Function to determine if the criteria is isInputValid</summary>
 	<since>SearchBuilder 0.0.1</since>
 
 	<type type="function">
-        <signature>searchBuilder.conditions[type].active()</signature>
+        <signature>searchBuilder.conditions[type].isInputValid()</signature>
 		<description>
             This function returns a boolean representing whether the criteria should be included or not.
         </description>
-        <parameter type="JQuery<HTMLElement>[]">Array of the elements used to collect values</parameter>
-        <parameter type="Criteria">Instance of the criteria that is being checked</parameter>
+        <parameter type="JQuery<HTMLElement>[]">Array of the elements used to collect values as set by `-init searchBuilder.conditions[type].init`</parameter>
         <returns type="boolean">Returns a boolean indicating whether the criteria is to be included in searching.</returns>
 	</type>
 
@@ -18,16 +17,16 @@
 		<![CDATA[
 		This function returns a boolean representing whether the criteria should be included or not. It takes 2 parameters.
 
-            * `val` the array of value elements that belong to this criteria.
+            * `val` the array of value elements that belong to this criteria. These are set in `-init searchBuilder.conditions[type].init`.
             * `that` the criteria instance that is being checked.
 
             The internals of the function are down to the functionality that you wish to create. Some examples are shown below for select and input elements
         ]]>
 	</description>
 
-<example title="Select active function"><![CDATA[
+<example title="Select isInputValid function"><![CDATA[
     ...
-    active (val, that) {
+    isInputValid (val, that) {
         $(that.dom.valueTitle).attr('selected', false);
         let allFilled = true;
 
@@ -42,9 +41,9 @@
     ...
 ]]></example>
 
-<example title="Input active function"><![CDATA[
+<example title="Input isInputValid function"><![CDATA[
     ...
-    active (val, that) {
+    isInputValid (val, that) {
         let allFilled = true;
 		for (let v of val) {
 			if ($(v).val().length === 0) {
@@ -58,5 +57,9 @@
 ]]></example>
 
 <related type="init">searchBuilder.conditions[type]</related>
+<related type="init">searchBuilder.conditions[type].conditionName</related>
+<related type="init">searchBuilder.conditions[type].inputValue</related>
+<related type="init">searchBuilder.conditions[type].isInputValid</related>
+<related type="init">searchBuilder.conditions[type].search</related>
 
 </dt-option>

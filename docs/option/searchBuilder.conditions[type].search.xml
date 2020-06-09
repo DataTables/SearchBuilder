@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
-	<name>searchBuilder.conditions[type].comparator</name>
+	<name>searchBuilder.conditions[type].search</name>
 	<summary>Define the comparison function for the condition</summary>
 	<since>SearchBuilder 0.0.1</since>
 
 	<type type="function">
-        <signature>searchBuilder.conditions[type].comparator</signature>
+        <signature>searchBuilder.conditions[type].search</signature>
 		<description>
             The function that is used when filtering the DataTable.
         </description>
@@ -28,7 +28,7 @@
 	<example title="Include the row if it equals the selected value"><![CDATA[
 
         ...    
-        comparator: function(value, comparison) {
+        search: function(value, comparison) {
             return +value === +comparison[0];
         }
         ...
@@ -36,6 +36,9 @@
 ]]></example>
 
 <related type="init">searchBuilder.conditions[type]</related>
-<related type="init">searchBuilder.conditions[type].get</related>
+<related type="init">searchBuilder.conditions[type].conditionName</related>
+<related type="init">searchBuilder.conditions[type].init</related>
+<related type="init">searchBuilder.conditions[type].inputValue</related>
+<related type="init">searchBuilder.conditions[type].isInputValid</related>
 
 </dt-option>

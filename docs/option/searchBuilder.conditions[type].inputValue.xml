@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>searchBuilder.conditions[type].inputValue</name>
+	<summary>Function to get the values that are to be used in the comparisons</summary>
+	<since>SearchBuilder 0.0.1</since>
+
+	<type type="function">
+		<signature>searchBuilder.conditions[type].inputValue</signature>
+		<description>
+            This function returns an array of values that are to be used to compare against the data in the table.
+        </description>
+		<parameter type="JQuery<HTMLElement>[]">Array of the elements used to collect values</parameter>
+        <parameter type="Criteria">Instance of the criteria that is being checked</parameter>
+	</type>
+
+	<description>
+		<![CDATA[
+		This function is a getter/setter. It either returns an array of values that are to be used to compare against the data in the table or sets the values based on the `value` parameter. It takes 2 parameters.
+
+            * `val` the array of value elements that belong to this criteria.
+            * `value` Optional. Any values that are to be set.
+
+		The internals of the function are down to the functionality that you wish to create. The values that are returned here will be passed into the `-init searchBuilder.conditions[type].search()` function. This is given a seperate function, rather than running it all in the `-init searchBuilder.conditions[type].search()` to make it more efficient, it only needs to run this way. Some examples are shown below.
+        ]]>
+	</description>
+
+<example title="Select inputValue function"><![CDATA[
+    ...
+    inputValue (val, value = null) {
+        let values = [];
+
+		if (value === null) {
+			for (let v of val) {
+				if ($(v).is('select')) {
+					values.push($(v).children('option:selected').val());
+				}
+			}
+		}
+		else {
+			for (let v = 0; v < val.length; v ++) {
+				if ($(val[v]).is('select')) {
+					let children = $(v).children().toArray;
+					for (let child of children) {
+						if ($(child).val() === value[v]) {
+							$(child).attr('selected', true);
+							values.push(value[v]);
+						}
+					}
+				}
+			}
+		}
+
+		return values;
+    }
+    ...
+]]></example>
+
+<example title="Input inputValue function"><![CDATA[
+    ...
+    inputValue (val, value = null) {
+		let values = [];
+
+		if (value === null) {
+			for (let v of val) {
+				if ($(v).is('input')) {
+					values.push($(v).val());
+				}
+			}
+		}
+		else {
+			for (let v = 0; v < val.length; v++) {
+				if ($(val[v]).is('input')) {
+					$(val[v]).val(value[v]);
+					values.push(value[v]);
+				}
+			}
+		}
+
+		return values;
+    }
+    ...
+]]></example>
+
+<related type="init">searchBuilder.conditions[type]</related>
+<related type="init">searchBuilder.conditions[type].conditionName</related>
+<related type="init">searchBuilder.conditions[type].init</related>
+<related type="init">searchBuilder.conditions[type].isInputValid</related>
+<related type="init">searchBuilder.conditions[type].search</related>
+
+</dt-option>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
-	<name>searchBuilder.conditions[type].display</name>
+	<name>searchBuilder.conditions[type].conditionName</name>
 	<summary>The value that is displayed in the select element</summary>
 	<since>SearchBuilder 0.0.1</since>
 
-	<type type="number">
+	<type type="string">
 		<description>
             This is the value that will be displayed in the select element, it is also what is used as a reference throughout the internals.
         </description>
@@ -23,12 +23,19 @@
         searchBuilder: {
             conditions[type]: {
                 "num":[{
-                    display: 'Made up',
-                    comparator: function(value, comparison) {
-                        return +value === +comparison[0];
+                    conditionName: 'Made up',
+                    init: function(that, fn, preDefined = null){
+                        ...
                     },
-                    type: 'select',
-                    valueInputs: 1
+                    inputValue: function(val, value = null){
+                        ...
+                    },
+                    isInputValid: function(val, that){
+                        ...
+                    },
+                    search: function(value, comparison) {
+                        ...
+                    },
                 }]
             }
         }
@@ -37,5 +44,9 @@
 ]]></example>
 
 <related type="init">searchBuilder.conditions[type]</related>
+<related type="init">searchBuilder.conditions[type].init</related>
+<related type="init">searchBuilder.conditions[type].inputValue</related>
+<related type="init">searchBuilder.conditions[type].isInputValid</related>
+<related type="init">searchBuilder.conditions[type].search</related>
 
 </dt-option>

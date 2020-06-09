@@ -14,9 +14,11 @@
 
 	<description>
 		<![CDATA[
-		This function returns the JQuery element that is to be used as the value element. It takes 1 parameter.
+		This function returns the JQuery element that is to be used as the value element. It takes 3 parameters.
 
             * `that` the criteria instance that is being checked.
+            * `fn` the callback function that must be called on the event which is desired to trigger a search.
+            * `preDefined` optional. Any values that should be applied to the elements that are being created.
 
             The internals of the function are down to the functionality that you wish to create. Some examples are shown below for select and input elements.
         ]]>
@@ -24,23 +26,60 @@
 
 <example title="Select init function"><![CDATA[
     ...
-    init (that) {
-		let select = $('<select/>').addClass(Criteria.classes.value).addClass(Criteria.classes.dropDown);
-		$(select).append(that.dom.valueTitle);
+	init: function(that, fn, preDefined = null) {
+		let column = $(that.dom.data).children('option:selected').val();
+		let indexArray = that.s.dt.rows().indexes().toArray();
+		let settings = that.s.dt.settings()[0];
 
-		return select;
-    }
+		let el = $('<select/>').append(that.dom.valueTitle);
+		el.on('change', function() {fn(that, el)});
+
+		that.s.values = [];
+
+		for (let index of indexArray) {
+			let filter = settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.search);
+
+			let value = {
+				filter,
+				index,
+				text: settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.conditionName)
+			};
+			that.s.values.push(value);
+			let opt = $('<option>', {
+				text : that.s.type.includes('html') ? value.text.replace(/(<([^>]+)>)/ig, '') : value.text,
+				value : that.s.type.includes('html') ? value.filter.replace(/(<([^>]+)>)/ig, '') : value.filter
+			})
+			.addClass(that.classes.option)
+			.addClass(that.classes.notItalic);
+			$(el).append(opt);
+			if (preDefined !== null && opt.val() === preDefined[0]) {
+				opt.attr('selected', true);
+				that.dom.valueTitle.remove();
+			}
+		}
+
+		return el;
+	}
     ...
 ]]></example>
 
 <example title="Input init function"><![CDATA[
     ...
-    init (that) {
-        return $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input);
-    }
+    init: function(that, fn, preDefined = null) {
+		let el = $('<input/>');
+		el.on('input', function() {fn(that, el)});
+		if (preDefined !== null) {
+			$(el).val(preDefined[0]);
+		}
+
+		return el;
+	}
     ...
 ]]></example>
 
 <related type="init">searchBuilder.conditions[type]</related>
-
+<related type="init">searchBuilder.conditions[type].conditionName</related>
+<related type="init">searchBuilder.conditions[type].inputValue</related>
+<related type="init">searchBuilder.conditions[type].isInputValid</related>
+<related type="init">searchBuilder.conditions[type].search</related>
 </dt-option>

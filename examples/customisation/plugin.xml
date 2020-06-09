@@ -9,7 +9,7 @@
 $(document).ready(function() {
     $.fn.dataTable.ext.searchBuilder.conditions.special = [{
         // This is used to determine if the criteria should be used in the overall filter
-        active(val, that) {
+        isInputValid(val, that) {
             if($(val[0]).attr('active') === "false"){
                 $(val[0]).attr('active', true);
                 return true;
@@ -20,23 +20,21 @@ $(document).ready(function() {
             }
         },
         // This is the value that is displayed in the condition select element
-        display: 'Edinburgh',
+        conditionName: 'Edinburgh',
         // This is used to return the value that the valuess from the table that should be compared against
-        get(val, that) {
+        inputValue(val, that) {
             return ['Edinburgh']
         },
         // This is used to initialise the value element
-        init(that) {
-            return $('<button>Edinburgh</button>').attr('active', false);
+        init(that, fn, preDefined) {
+            var el = $('<button>Edinburgh</button>').attr('active', false);
+
+            el.on('click', function() {fn{that, el}});
+
+            return el;
         },
-        // This is used to populate a element if that is required, i.e. a select element
-        set(val, that) {
-            return;
-        },
-        // This is the event on any of the value elements that should trigger a search
-        updateOn: 'click',
         // This is the function that is run to determine whether to include a row or not
-        comparator( value, comparison) {
+        search( value, comparison) {
             return value === comparison[0];
         }
     }]

@@ -12,7 +12,7 @@ $(document).ready(function() {
         searchBuilder: {
             conditions: {
                 "num":[{
-                    active(val, that) {
+                    isInputValid(val, that) {
                         $(that.dom.valueTitle).attr('selected', false);
                         let allFilled = true;
 
@@ -23,63 +23,69 @@ $(document).ready(function() {
                         }
 
                         return allFilled;
-                    },
-                    display: 'Made up',
-                    get(val, that) {
+                    }
+                    conditionName: 'Made up',
+                    inputValue(val, value = null) {
                         let values = [];
 
-                        for (let v of val) {
-                            values.push($(v).children('option:selected').val());
-                        }
-
-                        return values;
-                    },
-                    init(that) {
-                        let select = $('<select/>').addClass(Criteria.classes.value).addClass(Criteria.classes.dropDown);
-                        $(select).append(that.dom.valueTitle);
-
-                        return select;
-                    },
-                    set(val, that) {
-                        let column = $(that.dom.data).children('option:selected').val();
-                        let indexArray = that.s.dt.rows().indexes().toArray();
-                        let settings = that.s.dt.settings()[0];
-
-                        for (let v of val) {
-                            $(v).append(that.dom.valueTitle);
-                        }
-
-                        for (let index of indexArray) {
-                            let filter = settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.search);
-                            let found = false;
-
-                            for (let value of that.s.values) {
-                                if (value.filter === filter) {
-                                    found = true;
-                                    break;
+                        if (value === null) {
+                            for (let v of val) {
+                                if ($(v).is('select')) {
+                                    values.push($(v).children('option:selected').val());
                                 }
                             }
-
-                            if (!found) {
-                                let value = {filter, text: settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.display), index};
-                                that.s.values.push(value);
-                                for (let v = 0; v < val.length; v++) {
-                                    let opt = $('<option>', {
-                                        text : that.s.type.includes('html') ? value.text.replace(/(<([^>]+)>)/ig, '') : value.text,
-                                        value : that.s.type.includes('html') ? value.filter.replace(/(<([^>]+)>)/ig, '') : value.filter
-                                    })
-                                    .addClass(that.classes.option);
-                                    $(val[v]).append(opt);
-                                    if (preDefined !== undefined && opt.val() === preDefined[v]) {
-                                        opt.attr('selected', true);
-                                        that.dom.valueTitle.remove();
+                        }
+                        else {
+                            for (let v = 0; v < val.length; v ++) {
+                                if ($(val[v]).is('select')) {
+                                    let children = $(v).children().toArray;
+                                    for (let child of children) {
+                                        if ($(child).val() === value[v]) {
+                                            $(child).attr('selected', true);
+                                            values.push(value[v]);
+                                        }
                                     }
                                 }
                             }
                         }
+
+                        return values;
                     },
-                    updateOn:'change',
-                    comparator: function(value, comparison) {
+                    init(that, fn, preDefined) {
+                        let column = $(that.dom.data).children('option:selected').val();
+                        let indexArray = that.s.dt.rows().indexes().toArray();
+                        let settings = that.s.dt.settings()[0];
+
+                        let el = $('<select/>').append(that.dom.valueTitle);
+                        el.on('change', function() {fn(that, el)});
+
+                        that.s.values = [];
+
+                        for (let index of indexArray) {
+                            let filter = settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.search);
+
+                            let value = {
+                                filter,
+                                index,
+                                text: settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.conditionName)
+                            };
+                            that.s.values.push(value);
+                            let opt = $('<option>', {
+                                text : that.s.type.includes('html') ? value.text.replace(/(<([^>]+)>)/ig, '') : value.text,
+                                value : that.s.type.includes('html') ? value.filter.replace(/(<([^>]+)>)/ig, '') : value.filter
+                            })
+                            .addClass(that.classes.option)
+                            .addClass(that.classes.notItalic);
+                            $(el).append(opt);
+                            if (preDefined !== null && opt.val() === preDefined[0]) {
+                                opt.attr('selected', true);
+                                that.dom.valueTitle.remove();
+                            }
+                        }
+
+                        return el;
+                    },
+                    search (value, comparison) {
                         return +value === +comparison[0];
                     }
                 }]
@@ -107,14 +113,11 @@ This example shows how to make use of `-init searchBuilder.conditions` to add a 
 
 In this example `-init searchBuilder.conditions.num` is used to add a custom condition to any columns that are of type num. The properties within the object are documented at
 
-* `-init searchBuilder.conditions[type].active`
-* `-init searchBuilder.conditions[type].display`
-* `-init searchBuilder.conditions[type].get`
+* `-init searchBuilder.conditions[type].isInputValid`
+* `-init searchBuilder.conditions[type].conditionName`
+* `-init searchBuilder.conditions[type].inputValue`
 * `-init searchBuilder.conditions[type].init`
-* `-init searchBuilder.conditions[type].set`
-* `-init searchBuilder.conditions[type].updateOn`
-* `-init searchBuilder.conditions[type].comparator`
-* `-init searchBuilder.conditions[type].joiner`
+* `-init searchBuilder.conditions[type].search`
 
 ]]></info>
 
