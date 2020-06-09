@@ -48,7 +48,7 @@ export default class Criteria {
 					.addClass(Criteria.classes.dropDown)
 					.addClass(Criteria.classes.italic)
 					.append(that.dom.valueTitle);
-		el.on('change', function() {fn(that, el)});
+		el.on('change', function() { fn(that, el); });
 
 		that.s.values = [];
 
@@ -79,7 +79,7 @@ export default class Criteria {
 
 	private static initInput = function(that, fn, preDefined = null) {
 		let el = $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input);
-		el.on('input', function() {fn(that, el)});
+		el.on('input', function() { fn(that, el); });
 		if (preDefined !== null) {
 			$(el).val(preDefined[0]);
 		}
@@ -94,8 +94,8 @@ export default class Criteria {
 			$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input),
 		];
 
-		els[0].on('input', function() {fn(that, els[0])});
-		els[2].on('input', function() {fn(that, els[2])});
+		els[0].on('input', function() { fn(that, els[0]); });
+		els[2].on('input', function() { fn(that, els[2]); });
 
 		if (preDefined !== null) {
 			$(els[0]).val(preDefined[0]);
@@ -108,7 +108,7 @@ export default class Criteria {
 	private static initDate = function(that, fn, preDefined = null) {
 		let el = $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input).dtDateTime();
 
-		el.on('input', function() {fn(that, el)});
+		el.on('input', function() { fn(that, el); });
 
 		if (preDefined !== undefined) {
 			$(el).val(preDefined[0]);
@@ -124,8 +124,8 @@ export default class Criteria {
 			$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input).dtDateTime(),
 		];
 
-		els[0].on('input', function() {fn(that, els[0])});
-		els[2].on('input', function() {fn(that, els[2])});
+		els[0].on('input', function() { fn(that, els[0]); });
+		els[2].on('input', function() { fn(that, els[2]); });
 
 		if (preDefined !== null) {
 			$(els[0]).val(preDefined[0]);
