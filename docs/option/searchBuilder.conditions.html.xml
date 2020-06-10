@@ -26,7 +26,7 @@
         searchBuilder: {
             conditions: {
                 "html":[{
-                    isInputValid(el, that) {
+                    isInputValid: function (el, that) {
                         $(that.dom.valueTitle).attr('selected', false);
                         let allFilled = true;
 
@@ -39,7 +39,7 @@
                         return allFilled;
                     }
                     conditionName: 'Made up',
-                    inputValue(el, value = null) {
+                    inputValue: function (el, value = null) {
                         let values = [];
 
                         if (value === null) {
@@ -65,7 +65,7 @@
 
                         return values;
                     },
-                    init(that, fn, preDefined) {
+                    init: function (that, fn, preDefined) {
                         let column = $(that.dom.data).children('option:selected').val();
                         let indexArray = that.s.dt.rows().indexes().toArray();
                         let settings = that.s.dt.settings()[0];
@@ -99,7 +99,7 @@
 
                         return el;
                     },
-                    search (value, comparison) {
+                    search: function (value, comparison) {
                         return value === comparison[0];
                     }
                 }]

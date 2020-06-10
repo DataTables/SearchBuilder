@@ -19,7 +19,7 @@ $(document).ready(function() {
         searchBuilder: {
             conditions: {
                 "moment-YYYY/MM/DD":[{
-                    isInputValid(el, that) {
+                    isInputValid: function (el, that) {
                         let allFilled = true;
                         for (let element of el) {
                             if ($(element).is('input') && $(element).val().length === 0) {
@@ -29,7 +29,7 @@ $(document).ready(function() {
                         return allFilled;
                     },
                     conditionName: 'Equals',
-                    inputValue(el, value = null) {
+                    inputValue: function (el, value = null) {
                         let values = [];
 
                         if (value === null) {
@@ -50,7 +50,7 @@ $(document).ready(function() {
 
                         return values;
                     },
-                    init(that, fn, preDefined) {
+                    init: function (that, fn, preDefined) {
                         let el = $('<input/>').dtDateTime();
                         el.on('input change', function() {fn(that, el)});
 

@@ -8,7 +8,7 @@
 
 $(document).ready(function() {
     $.fn.dataTable.ext.searchBuilder.conditions.special = [{
-        isInputValid(el, that) {
+        isInputValid: function (el, that) {
             if($(el[0]).attr('active') === "false"){
                 $(el[0]).attr('active', true);
                 return true;
@@ -19,15 +19,15 @@ $(document).ready(function() {
             }
         },
         conditionName: 'Edinburgh',
-        inputValue(el, that) {
+        inputValue: function (el, that) {
             return ['Edinburgh']
         },
-        init(that, fn, preDefined) {
+        init: function (that, fn, preDefined) {
             var el = $('<button>Edinburgh</button>').attr('active', false);
 
             return el.on('click', function() {fn(that, el)});
         },
-        search( value, comparison) {
+        search: function ( value, comparison) {
             return value === comparison[0];
         }
     }]
