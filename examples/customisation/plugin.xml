@@ -50,6 +50,8 @@ This example shows how to use a plugin for a custom column type. The `$.fn.dataT
 
 Here the office column has been given a custom column type of `special`. We are also adding some conditions for a `special` type to SearchBuilder. To use the custom filter from the plugin select Office > Edinburgh and press the `Edinburgh` button that is displayed to toggle whether rows with `Edinburgh` are displayed.
 
+For more information on creating your own plug-ins take a look at [this document](/extensions/searchbuilder.plugins)
+
 ]]></info>
 
 </dt-example>
