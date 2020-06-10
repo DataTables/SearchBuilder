@@ -29,7 +29,7 @@ $(document).ready(function() {
         init(that, fn, preDefined) {
             var el = $('<button>Edinburgh</button>').attr('active', false);
 
-            el.on('click', function() {fn{that, el}});
+            el.on('click', function() {fn(that, el)});
 
             return el;
         },
