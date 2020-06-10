@@ -8,7 +8,6 @@
 
 $(document).ready(function() {
     $.fn.dataTable.ext.searchBuilder.conditions.special = [{
-        // This is used to determine if the criteria should be used in the overall filter
         isInputValid(val, that) {
             if($(val[0]).attr('active') === "false"){
                 $(val[0]).attr('active', true);
@@ -19,21 +18,15 @@ $(document).ready(function() {
                 return false;
             }
         },
-        // This is the value that is displayed in the condition select element
         conditionName: 'Edinburgh',
-        // This is used to return the value that the valuess from the table that should be compared against
         inputValue(val, that) {
             return ['Edinburgh']
         },
-        // This is used to initialise the value element
         init(that, fn, preDefined) {
             var el = $('<button>Edinburgh</button>').attr('active', false);
 
-            el.on('click', function() {fn(that, el)});
-
-            return el;
+            return el.on('click', function() {fn(that, el)});
         },
-        // This is the function that is run to determine whether to include a row or not
         search( value, comparison) {
             return value === comparison[0];
         }
