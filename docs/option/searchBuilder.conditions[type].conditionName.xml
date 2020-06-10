@@ -27,10 +27,10 @@
                     init: function(that, fn, preDefined = null){
                         ...
                     },
-                    inputValue: function(val, value = null){
+                    inputValue: function(el, value = null){
                         ...
                     },
-                    isInputValid: function(val, that){
+                    isInputValid: function(el, that){
                         ...
                     },
                     search: function(value, comparison) {

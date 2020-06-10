@@ -19,31 +19,30 @@ $(document).ready(function() {
         searchBuilder: {
             conditions: {
                 "moment-YYYY/MM/DD":[{
-                    isInputValid(val, that) {
+                    isInputValid(el, that) {
                         let allFilled = true;
-                        for (let v of val) {
-                            if ($(v).is('input') && $(v).val().length === 0) {
+                        for (let element of el) {
+                            if ($(element).is('input') && $(element).val().length === 0) {
                                 allFilled = false;
                             }
                         }
-
                         return allFilled;
-                    }
+                    },
                     conditionName: 'Equals',
-                    inputValue(val, value = null) {
+                    inputValue(el, value = null) {
                         let values = [];
 
                         if (value === null) {
-                            for (let v of val) {
-                                if ($(v).is('input')) {
-                                    values.push($(v).val());
+                            for (let element of el) {
+                                if ($(element).is('input')) {
+                                    values.push($(element).val());
                                 }
                             }
                         }
                         else {
-                            for (let v = 0; v < val.length; v++) {
-                                if ($(val[v]).is('input')) {
-                                    $(val[v]).val(value[v]);
+                            for (let v = 0; v < el.length; v++) {
+                                if ($(el[v]).is('input')) {
+                                    $(el[v]).val(value[v]);
                                     values.push(value[v]);
                                 }
                             }
@@ -52,9 +51,8 @@ $(document).ready(function() {
                         return values;
                     },
                     init(that, fn, preDefined) {
-                        let el = $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input).dtDateTime();
-
-                        el.on('input', function() {fn(that, el)});
+                        let el = $('<input/>').dtDateTime();
+                        el.on('input change', function() {fn(that, el)});
 
                         if (preDefined !== undefined) {
                             $(el).val(preDefined[0]);

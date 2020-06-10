@@ -108,7 +108,7 @@ export default class Criteria {
 	private static initDate = function(that, fn, preDefined = null) {
 		let el = $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input).dtDateTime();
 
-		el.on('input', function() { fn(that, el); });
+		el.on('input change', function() { fn(that, el); });
 
 		if (preDefined !== undefined) {
 			$(el).val(preDefined[0]);
@@ -135,10 +135,16 @@ export default class Criteria {
 		return els;
 	};
 
-	private static isInputValidSelect = function(val, that) {
+	private static isInputValidSelect = function(el, that) {
 		let allFilled = true;
-		for (let v of val) {
-			if ($(v).has('option:selected').length < 1 || ($(v).has('option:selected').length === 1 && $($(v).children('option:selected')[0]).text() === $(that.dom.valueTitle).text())) {
+		for (let element of el) {
+			if (
+				$(element).has('option:selected').length < 1 ||
+				(
+					$(element).has('option:selected').length === 1 &&
+					$($(element).children('option:selected')[0]).text() === $(that.dom.valueTitle).text()
+				)
+			) {
 				allFilled = false;
 			}
 		}
@@ -146,10 +152,10 @@ export default class Criteria {
 		return allFilled;
 	};
 
-	private static isInputValidInput = function(val, that) {
+	private static isInputValidInput = function(el, that) {
 		let allFilled = true;
-		for (let v of val) {
-			if ($(v).is('input') && $(v).val().length === 0) {
+		for (let element of el) {
+			if ($(element).is('input') && $(element).val().length === 0) {
 				allFilled = false;
 			}
 		}
@@ -157,10 +163,10 @@ export default class Criteria {
 		return allFilled;
 	};
 
-	private static isInputValidDate = function(val) {
+	private static isInputValidDate = function(el) {
 		let allFilled = true;
-		for (let v of val) {
-			if ($(v).is('input') && $(v).val().length === 0) {
+		for (let element of el) {
+			if ($(element).is('input') && $(element).val().length === 0) {
 				allFilled = false;
 			}
 		}
@@ -168,20 +174,20 @@ export default class Criteria {
 		return allFilled;
 	};
 
-	private static inputValueSelect = function(val, value = null) {
+	private static inputValueSelect = function(el, value = null) {
 		let values = [];
 
 		if (value === null) {
-			for (let v of val) {
-				if ($(v).is('select')) {
-					values.push($(v).children('option:selected').val());
+			for (let element of el) {
+				if ($(element).is('select')) {
+					values.push($(element).children('option:selected').val());
 				}
 			}
 		}
 		else {
-			for (let v = 0; v < val.length; v ++) {
-				if ($(val[v]).is('select')) {
-					let children = $(v).children().toArray;
+			for (let v = 0; v < el.length; v ++) {
+				if ($(el[v]).is('select')) {
+					let children = $(el[v]).children().toArray;
 					for (let child of children) {
 						if ($(child).val() === value[v]) {
 							$(child).attr('selected', true);
@@ -195,20 +201,20 @@ export default class Criteria {
 		return values;
 	};
 
-	private static inputValueInput = function(val, value = null) {
+	private static inputValueInput = function(el, value = null) {
 		let values = [];
 
 		if (value === null) {
-			for (let v of val) {
-				if ($(v).is('input')) {
-					values.push($(v).val());
+			for (let element of el) {
+				if ($(element).is('input')) {
+					values.push($(element).val());
 				}
 			}
 		}
 		else {
-			for (let v = 0; v < val.length; v++) {
-				if ($(val[v]).is('input')) {
-					$(val[v]).val(value[v]);
+			for (let v = 0; v < el.length; v++) {
+				if ($(el[v]).is('input')) {
+					$(el[v]).val(value[v]);
 					values.push(value[v]);
 				}
 			}

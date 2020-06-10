@@ -12,33 +12,33 @@ $(document).ready(function() {
         searchBuilder: {
             conditions: {
                 "num":[{
-                    isInputValid(val, that) {
+                    isInputValid(el, that) {
                         $(that.dom.valueTitle).attr('selected', false);
                         let allFilled = true;
 
-                        for (let v of val) {
-                            if ($(v).has('option:selected').length < 1) {
+                        for (let element of el) {
+                            if ($(element).has('option:selected').length < 1) {
                                 allFilled = false;
                             }
                         }
 
                         return allFilled;
-                    }
+                    },
                     conditionName: 'Made up',
-                    inputValue(val, value = null) {
+                    inputValue(el, value = null) {
                         let values = [];
 
                         if (value === null) {
-                            for (let v of val) {
-                                if ($(v).is('select')) {
-                                    values.push($(v).children('option:selected').val());
+                            for (let element of el) {
+                                if ($(element).is('select')) {
+                                    values.push($(element).children('option:selected').val());
                                 }
                             }
                         }
                         else {
-                            for (let v = 0; v < val.length; v ++) {
-                                if ($(val[v]).is('select')) {
-                                    let children = $(v).children().toArray;
+                            for (let v = 0; v < el.length; v ++) {
+                                if ($(el[v]).is('select')) {
+                                    let children = $(el[v]).children().toArray;
                                     for (let child of children) {
                                         if ($(child).val() === value[v]) {
                                             $(child).attr('selected', true);
@@ -51,7 +51,7 @@ $(document).ready(function() {
 
                         return values;
                     },
-                    init(that, fn, preDefined) {
+                    init(that, fn, preDefined = null) {
                         let column = $(that.dom.data).children('option:selected').val();
                         let indexArray = that.s.dt.rows().indexes().toArray();
                         let settings = that.s.dt.settings()[0];

@@ -26,20 +26,20 @@
 
 <example title="Select inputValue function"><![CDATA[
     ...
-    inputValue (val, value = null) {
+    inputValue (el, value = null) {
         let values = [];
 
 		if (value === null) {
-			for (let v of val) {
-				if ($(v).is('select')) {
-					values.push($(v).children('option:selected').val());
+			for (let element of el) {
+				if ($(element).is('select')) {
+					values.push($(element).children('option:selected').val());
 				}
 			}
 		}
 		else {
-			for (let v = 0; v < val.length; v ++) {
-				if ($(val[v]).is('select')) {
-					let children = $(v).children().toArray;
+			for (let v = 0; v < el.length; v ++) {
+				if ($(el[v]).is('select')) {
+					let children = $(el[v]).children().toArray;
 					for (let child of children) {
 						if ($(child).val() === value[v]) {
 							$(child).attr('selected', true);
@@ -57,20 +57,20 @@
 
 <example title="Input inputValue function"><![CDATA[
     ...
-    inputValue (val, value = null) {
+    inputValue (el, value = null) {
 		let values = [];
 
 		if (value === null) {
-			for (let v of val) {
-				if ($(v).is('input')) {
-					values.push($(v).val());
+			for (let element of ell) {
+				if ($(element).is('input')) {
+					values.push($(element).val());
 				}
 			}
 		}
 		else {
-			for (let v = 0; v < val.length; v++) {
-				if ($(val[v]).is('input')) {
-					$(val[v]).val(value[v]);
+			for (let v = 0; v < el.length; v++) {
+				if ($(el[v]).is('input')) {
+					$(el[v]).val(value[v]);
 					values.push(value[v]);
 				}
 			}

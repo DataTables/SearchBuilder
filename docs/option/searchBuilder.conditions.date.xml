@@ -26,10 +26,10 @@
         searchBuilder: {
             conditions: {
                 "date":[{
-                    isInputValid(val, that) {
+                    isInputValid(el, that) {
                         let allFilled = true;
-                        for (let v of val) {
-                            if ($(v).is('input') && $(v).val().length === 0) {
+                        for (let element of el) {
+                            if ($(element).is('input') && $(element).val().length === 0) {
                                 allFilled = false;
                             }
                         }
@@ -37,20 +37,20 @@
                         return allFilled;
                     }
                     conditionName: 'Made up',
-                    inputValue(val, value = null) {
+                    inputValue(el, value = null) {
                         let values = [];
 
                         if (value === null) {
-                            for (let v of val) {
-                                if ($(v).is('input')) {
-                                    values.push($(v).val());
+                            for (let element of el) {
+                                if ($(element).is('input')) {
+                                    values.push($(element).val());
                                 }
                             }
                         }
                         else {
-                            for (let v = 0; v < val.length; v++) {
-                                if ($(val[v]).is('input')) {
-                                    $(val[v]).val(value[v]);
+                            for (let v = 0; v < el.length; v++) {
+                                if ($(el[v]).is('input')) {
+                                    $(el[v]).el(value[v]);
                                     values.push(value[v]);
                                 }
                             }

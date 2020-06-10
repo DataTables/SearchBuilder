@@ -26,12 +26,12 @@
 
 <example title="Select isInputValid function"><![CDATA[
     ...
-    isInputValid (val, that) {
+    isInputValid (el, that) {
         $(that.dom.valueTitle).attr('selected', false);
         let allFilled = true;
 
-        for (let v of val) {
-            if ($(v).has('option:selected').length < 1) {
+        for (let element of el) {
+            if ($(element).has('option:selected').length < 1) {
                 allFilled = false;
             }
         }
@@ -43,10 +43,10 @@
 
 <example title="Input isInputValid function"><![CDATA[
     ...
-    isInputValid (val, that) {
+    isInputValid (el, that) {
         let allFilled = true;
-		for (let v of val) {
-			if ($(v).val().length === 0) {
+		for (let element of el) {
+			if ($(element).val().length === 0) {
 				allFilled = false;
 			}
 		}
