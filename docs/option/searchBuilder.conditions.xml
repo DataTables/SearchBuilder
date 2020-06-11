@@ -26,6 +26,7 @@
         * `-init searchBuilder.conditions.html` This property holds an array of conditions that can be applied to the `-type html`
         * `-init searchBuilder.conditions.html-num` This property holds an array of conditions that can be applied to the `-type html-num`
         * `-init searchBuilder.conditions.html-num-fmt` This property holds an array of conditions that can be applied to the `-type html-num-fmt`
+        * `-init searchBuilder.conditions.moment` This property holds an array of conditions that can be used the the DataTables Ultimate Sorting Plug-in is being used
         ]]>
 	</description>
 

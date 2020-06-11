@@ -11,61 +11,11 @@
 <![CDATA[
 
 $(document).ready(function() {
-    $.fn.dataTable.moment( 'YYYY/MM/DD' );
+	$.fn.dataTable.moment( 'HH:mm MMM D, YY' );
+	$.fn.dataTable.moment( 'dddd, MMMM Do, YYYY' );
 
     $('#example').DataTable( {
-        dom: 'Qlfrtip',
-
-        searchBuilder: {
-            conditions: {
-                "moment-YYYY/MM/DD":[{
-                    isInputValid: function (el, that) {
-                        let allFilled = true;
-                        for (let element of el) {
-                            if ($(element).is('input') && $(element).val().length === 0) {
-                                allFilled = false;
-                            }
-                        }
-                        return allFilled;
-                    },
-                    conditionName: 'Equals',
-                    inputValue: function (el, value = null) {
-                        let values = [];
-
-                        if (value === null) {
-                            for (let element of el) {
-                                if ($(element).is('input')) {
-                                    values.push($(element).val());
-                                }
-                            }
-                        }
-                        else {
-                            for (let v = 0; v < el.length; v++) {
-                                if ($(el[v]).is('input')) {
-                                    $(el[v]).val(value[v]);
-                                    values.push(value[v]);
-                                }
-                            }
-                        }
-
-                        return values;
-                    },
-                    init: function (that, fn, preDefined) {
-                        let el = $('<input/>').dtDateTime();
-                        el.on('input change', function() {fn(that, el)});
-
-                        if (preDefined !== undefined) {
-                            $(el).val(preDefined[0]);
-                        }
-
-                        return el;
-                    },
-                    search: function(value, comparison) {
-				        return value.replace(/\//g, '-') === comparison[0];
-                    }
-                }]
-            }
-        }
+        dom: 'Qlfrtip'
     });
 });
 
@@ -76,499 +26,625 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This example includes a date that is not in the standard format to demonstrate how SearchBuilder operates with formatted dates.
+This example includes multiple date formats that are not in the standard format to demonstrate how SearchBuilder operates with formatted dates.
+
+This example also makes use of the Ultimate Sorting plug in for dates, along with moment js.
 
 ]]></info>
 
 <custom-table>
-  <table id="example" class="display nowrap" style="width:100%">
-      <thead>
-          <tr>
-              <th>Name</th>
-              <th>Position</th>
-              <th>Office</th>
-              <th>Age</th>
-              <th>Start date</th>
-              <th>Salary</th>
-          </tr>
-      </thead>
-      <tbody>
-          <tr>
-              <td>Tiger Nixon</td>
-              <td>System Architect</td>
-              <td>Edinburgh</td>
-              <td>61</td>
-              <td>2011/04/25</td>
-              <td>$320,800.50</td>
-          </tr>
-          <tr>
-              <td>Sandy Galloway</td>
-              <td>Janitor</td>
-              <td>Edinburgh</td>
-              <td>106</td>
-              <td>2011/04/25</td>
-              <td>$320,800</td>
-          </tr>
-          <tr>
-              <td>Garrett Winters</td>
-              <td>Accountant</td>
-              <td>Tokyo</td>
-              <td>63</td>
-              <td>2011/07/25</td>
-              <td>$170,750</td>
-          </tr>
-          <tr>
-              <td>Ashton Cox</td>
-              <td>Junior Technical Author</td>
-              <td>San Francisco</td>
-              <td>66</td>
-              <td>2009/01/12</td>
-              <td>$86,000</td>
-          </tr>
-          <tr>
-              <td>Cedric Kelly</td>
-              <td>Senior Javascript Developer</td>
-              <td>Edinburgh</td>
-              <td>22</td>
-              <td>2012/03/29</td>
-              <td>$433,060</td>
-          </tr>
-          <tr>
-              <td>Airi Satou</td>
-              <td>Accountant</td>
-              <td>Tokyo</td>
-              <td>33</td>
-              <td>2008/11/28</td>
-              <td>$162,700</td>
-          </tr>
-          <tr>
-              <td>Brielle Williamson</td>
-              <td>Integration Specialist</td>
-              <td>New York</td>
-              <td>61</td>
-              <td>2012/12/02</td>
-              <td>$372,000</td>
-          </tr>
-          <tr>
-              <td>Herrod Chandler</td>
-              <td>Sales Assistant</td>
-              <td>San Francisco</td>
-              <td>59</td>
-              <td>2012/08/06</td>
-              <td>$137,500</td>
-          </tr>
-          <tr>
-              <td>Rhona Davidson</td>
-              <td>Integration Specialist</td>
-              <td>Tokyo</td>
-              <td>55</td>
-              <td>2010/10/14</td>
-              <td>$327,900</td>
-          </tr>
-          <tr>
-              <td>Colleen Hurst</td>
-              <td>Javascript Developer</td>
-              <td>San Francisco</td>
-              <td>39</td>
-              <td>2009/09/15</td>
-              <td>$205,500</td>
-          </tr>
-          <tr>
-              <td>Sonya Frost</td>
-              <td>Software Engineer</td>
-              <td>Edinburgh</td>
-              <td>23</td>
-              <td>2008/12/13</td>
-              <td>$103,600</td>
-          </tr>
-          <tr>
-              <td>Jena Gaines</td>
-              <td>Office Manager</td>
-              <td>London</td>
-              <td>30</td>
-              <td>2008/12/19</td>
-              <td>$90,560</td>
-          </tr>
-          <tr>
-              <td>Quinn Flynn</td>
-              <td>Support Lead</td>
-              <td>Edinburgh</td>
-              <td>22</td>
-              <td>2013/03/03</td>
-              <td>$342,000</td>
-          </tr>
-          <tr>
-              <td>Charde Marshall</td>
-              <td>Regional Director</td>
-              <td>San Francisco</td>
-              <td>36</td>
-              <td>2008/10/16</td>
-              <td>$470,600</td>
-          </tr>
-          <tr>
-              <td>Haley Kennedy</td>
-              <td>Senior Marketing Designer</td>
-              <td>London</td>
-              <td>43</td>
-              <td>2012/12/18</td>
-              <td>$313,500</td>
-          </tr>
-          <tr>
-              <td>Tatyana Fitzpatrick</td>
-              <td>Regional Director</td>
-              <td>London</td>
-              <td>19</td>
-              <td>2010/03/17</td>
-              <td>$385,750</td>
-          </tr>
-          <tr>
-              <td>Michael Silva</td>
-              <td>Marketing Designer</td>
-              <td>London</td>
-              <td>66</td>
-              <td>2012/11/27</td>
-              <td>$198,500</td>
-          </tr>
-          <tr>
-              <td>Paul Byrd</td>
-              <td>Chief Financial Officer (CFO)</td>
-              <td>New York</td>
-              <td>64</td>
-              <td>2010/06/09</td>
-              <td>$725,000</td>
-          </tr>
-          <tr>
-              <td>Gloria Little</td>
-              <td>Systems Administrator</td>
-              <td>New York</td>
-              <td>59</td>
-              <td>2009/04/10</td>
-              <td>$237,500</td>
-          </tr>
-          <tr>
-              <td>Bradley Greer</td>
-              <td>Software Engineer</td>
-              <td>London</td>
-              <td>41</td>
-              <td>2012/10/13</td>
-              <td>$132,000</td>
-          </tr>
-          <tr>
-              <td>Dai Rios</td>
-              <td>Personnel Lead</td>
-              <td>Edinburgh</td>
-              <td>35</td>
-              <td>2012/09/26</td>
-              <td>$217,500</td>
-          </tr>
-          <tr>
-              <td>Jenette Caldwell</td>
-              <td>Development Lead</td>
-              <td>New York</td>
-              <td>30</td>
-              <td>2011/09/03</td>
-              <td>$345,000</td>
-          </tr>
-          <tr>
-              <td>Yuri Berry</td>
-              <td>Chief Marketing Officer (CMO)</td>
-              <td>New York</td>
-              <td>40</td>
-              <td>2009/06/25</td>
-              <td>$675,000</td>
-          </tr>
-          <tr>
-              <td>Caesar Vance</td>
-              <td>Pre-Sales Support</td>
-              <td>New York</td>
-              <td>21</td>
-              <td>2011/12/12</td>
-              <td>$106,450</td>
-          </tr>
-          <tr>
-              <td>Doris Wilder</td>
-              <td>Sales Assistant</td>
-              <td>Sydney</td>
-              <td>23</td>
-              <td>2010/09/20</td>
-              <td>$85,600</td>
-          </tr>
-          <tr>
-              <td>Angelica Ramos</td>
-              <td>Chief Executive Officer (CEO)</td>
-              <td>London</td>
-              <td>47</td>
-              <td>2009/10/09</td>
-              <td>$1,200,000</td>
-          </tr>
-          <tr>
-              <td>Gavin Joyce</td>
-              <td>Developer</td>
-              <td>Edinburgh</td>
-              <td>42</td>
-              <td>2010/12/22</td>
-              <td>$92,575</td>
-          </tr>
-          <tr>
-              <td>Jennifer Chang</td>
-              <td>Regional Director</td>
-              <td>Singapore</td>
-              <td>28</td>
-              <td>2010/11/14</td>
-              <td>$357,650</td>
-          </tr>
-          <tr>
-              <td>Brenden Wagner</td>
-              <td>Software Engineer</td>
-              <td>San Francisco</td>
-              <td>28</td>
-              <td>2011/06/07</td>
-              <td>$206,850</td>
-          </tr>
-          <tr>
-              <td>Fiona Green</td>
-              <td>Chief Operating Officer (COO)</td>
-              <td>San Francisco</td>
-              <td>48</td>
-              <td>2010/03/11</td>
-              <td>$850,000</td>
-          </tr>
-          <tr>
-              <td>Shou Itou</td>
-              <td>Regional Marketing</td>
-              <td>Tokyo</td>
-              <td>20</td>
-              <td>2011/08/14</td>
-              <td>$163,000</td>
-          </tr>
-          <tr>
-              <td>Michelle House</td>
-              <td>Integration Specialist</td>
-              <td>Sydney</td>
-              <td>37</td>
-              <td>2011/06/02</td>
-              <td>$95,400</td>
-          </tr>
-          <tr>
-              <td>Suki Burks</td>
-              <td>Developer</td>
-              <td>London</td>
-              <td>53</td>
-              <td>2009/10/22</td>
-              <td>$114,500</td>
-          </tr>
-          <tr>
-              <td>Prescott Bartlett</td>
-              <td>Technical Author</td>
-              <td>London</td>
-              <td>27</td>
-              <td>2011/05/07</td>
-              <td>$145,000</td>
-          </tr>
-          <tr>
-              <td>Gavin Cortez</td>
-              <td>Team Leader</td>
-              <td>San Francisco</td>
-              <td>22</td>
-              <td>2008/10/26</td>
-              <td>$235,500</td>
-          </tr>
-          <tr>
-              <td>Martena Mccray</td>
-              <td>Post-Sales support</td>
-              <td>Edinburgh</td>
-              <td>46</td>
-              <td>2011/03/09</td>
-              <td>$324,050</td>
-          </tr>
-          <tr>
-              <td>Unity Butler</td>
-              <td>Marketing Designer</td>
-              <td>San Francisco</td>
-              <td>47</td>
-              <td>2009/12/09</td>
-              <td>$85,675</td>
-          </tr>
-          <tr>
-              <td>Howard Hatfield</td>
-              <td>Office Manager</td>
-              <td>San Francisco</td>
-              <td>51</td>
-              <td>2008/12/16</td>
-              <td>$164,500</td>
-          </tr>
-          <tr>
-              <td>Hope Fuentes</td>
-              <td>Secretary</td>
-              <td>San Francisco</td>
-              <td>41</td>
-              <td>2010/02/12</td>
-              <td>$109,850</td>
-          </tr>
-          <tr>
-              <td>Vivian Harrell</td>
-              <td>Financial Controller</td>
-              <td>San Francisco</td>
-              <td>62</td>
-              <td>2009/02/14</td>
-              <td>$452,500</td>
-          </tr>
-          <tr>
-              <td>Timothy Mooney</td>
-              <td>Office Manager</td>
-              <td>London</td>
-              <td>37</td>
-              <td>2008/12/11</td>
-              <td>$136,200</td>
-          </tr>
-          <tr>
-              <td>Jackson Bradshaw</td>
-              <td>Director</td>
-              <td>New York</td>
-              <td>65</td>
-              <td>2008/09/26</td>
-              <td>$645,750</td>
-          </tr>
-          <tr>
-              <td>Olivia Liang</td>
-              <td>Support Engineer</td>
-              <td>Singapore</td>
-              <td>64</td>
-              <td>2011/02/03</td>
-              <td>$234,500</td>
-          </tr>
-          <tr>
-              <td>Bruno Nash</td>
-              <td>Software Engineer</td>
-              <td>London</td>
-              <td>38</td>
-              <td>2011/05/03</td>
-              <td>$163,500</td>
-          </tr>
-          <tr>
-              <td>Sakura Yamamoto</td>
-              <td>Support Engineer</td>
-              <td>Tokyo</td>
-              <td>37</td>
-              <td>2009/08/19</td>
-              <td>$139,575</td>
-          </tr>
-          <tr>
-              <td>Thor Walton</td>
-              <td>Developer</td>
-              <td>New York</td>
-              <td>61</td>
-              <td>2013/08/11</td>
-              <td>$98,540</td>
-          </tr>
-          <tr>
-              <td>Finn Camacho</td>
-              <td>Support Engineer</td>
-              <td>San Francisco</td>
-              <td>47</td>
-              <td>2009/07/07</td>
-              <td>$87,500</td>
-          </tr>
-          <tr>
-              <td>Serge Baldwin</td>
-              <td>Data Coordinator</td>
-              <td>Singapore</td>
-              <td>64</td>
-              <td>2012/04/09</td>
-              <td>$138,575</td>
-          </tr>
-          <tr>
-              <td>Zenaida Frank</td>
-              <td>Software Engineer</td>
-              <td>New York</td>
-              <td>63</td>
-              <td>2010/01/04</td>
-              <td>$125,250</td>
-          </tr>
-          <tr>
-              <td>Zorita Serrano</td>
-              <td>Software Engineer</td>
-              <td>San Francisco</td>
-              <td>56</td>
-              <td>2012/06/01</td>
-              <td>$115,000</td>
-          </tr>
-          <tr>
-              <td>Jennifer Acosta</td>
-              <td>Junior Javascript Developer</td>
-              <td>Edinburgh</td>
-              <td>43</td>
-              <td>2013/02/01</td>
-              <td>$75,650</td>
-          </tr>
-          <tr>
-              <td>Cara Stevens</td>
-              <td>Sales Assistant</td>
-              <td>New York</td>
-              <td>46</td>
-              <td>2011/12/06</td>
-              <td>$145,600</td>
-          </tr>
-          <tr>
-              <td>Hermione Butler</td>
-              <td>Regional Director</td>
-              <td>London</td>
-              <td>47</td>
-              <td>2011/03/21</td>
-              <td>$356,250</td>
-          </tr>
-          <tr>
-              <td>Lael Greer</td>
-              <td>Systems Administrator</td>
-              <td>London</td>
-              <td>21</td>
-              <td>2009/02/27</td>
-              <td>$103,500</td>
-          </tr>
-          <tr>
-              <td>Jonas Alexander</td>
-              <td>Developer</td>
-              <td>San Francisco</td>
-              <td>30</td>
-              <td>2010/07/14</td>
-              <td>$86,500</td>
-          </tr>
-          <tr>
-              <td>Shad Decker</td>
-              <td>Regional Director</td>
-              <td>Edinburgh</td>
-              <td>51</td>
-              <td>2008/11/13</td>
-              <td>$183,000</td>
-          </tr>
-          <tr>
-              <td>Michael Bruce</td>
-              <td>Javascript Developer</td>
-              <td>Singapore</td>
-              <td>29</td>
-              <td>2011/06/27</td>
-              <td>$183,000</td>
-          </tr>
-          <tr>
-              <td>Donna Snider</td>
-              <td>Customer Support</td>
-              <td>New York</td>
-              <td>27</td>
-              <td>2011/01/25</td>
-              <td>$112,000</td>
-          </tr>
-      </tbody>
-      <tfoot>
-          <tr>
-              <th>Name</th>
-              <th>Position</th>
-              <th>Office</th>
-              <th>Age</th>
-              <th>Start date</th>
-              <th>Salary</th>
-          </tr>
-      </tfoot>
-  </table>
+  <table id="example" class="display" cellspacing="0" width="100%">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th width="20%">Company</th>
+			<th>Created</th>
+			<th>Updated</th>
+		</tr>
+	</thead>
+	<tbody>
+<tr>
+	<td>Dai Weeks</td>
+	<td>Eu Foundation</td>
+	<td>11:10 Oct 18, 14</td>
+	<td>Sat, May 16th, 2015</td>
+</tr>
+<tr>
+	<td>Jade Dale</td>
+	<td>Sit Amet Inc.</td>
+	<td>07:04 Apr 29, 14</td>
+	<td>Sat, July 25th, 2015</td>
+</tr>
+<tr>
+	<td>Melanie Buckner</td>
+	<td>Tempus Lorem LLC</td>
+	<td>02:01 Jan 28, 15</td>
+	<td>Sun, October 11th, 2015</td>
+</tr>
+<tr>
+	<td>Cyrus Haney</td>
+	<td>Phasellus Corp.</td>
+	<td>10:01 Jan 28, 14</td>
+	<td>Sat, December 28th, 2013</td>
+</tr>
+<tr>
+	<td>Melinda Salas</td>
+	<td>Molestie Sed Id Limited</td>
+	<td>11:05 May 1, 14</td>
+	<td>Fri, May 15th, 2015</td>
+</tr>
+<tr>
+	<td>Rebecca Cline</td>
+	<td>Eget Dictum Placerat Limited</td>
+	<td>02:12 Dec 20, 13</td>
+	<td>Wed, August 6th, 2014</td>
+</tr>
+<tr>
+	<td>India Lawson</td>
+	<td>Eget Company</td>
+	<td>11:03 Mar 21, 15</td>
+	<td>Fri, July 11th, 2014</td>
+</tr>
+<tr>
+	<td>Elvis Whitfield</td>
+	<td>Mollis Corporation</td>
+	<td>08:07 Jul 30, 15</td>
+	<td>Sat, February 28th, 2015</td>
+</tr>
+<tr>
+	<td>Castor Monroe</td>
+	<td>Iaculis LLC</td>
+	<td>12:06 Jun 22, 14</td>
+	<td>Mon, June 2nd, 2014</td>
+</tr>
+<tr>
+	<td>Gareth Berry</td>
+	<td>Malesuada Corp.</td>
+	<td>04:02 Feb 26, 14</td>
+	<td>Fri, February 27th, 2015</td>
+</tr>
+<tr>
+	<td>Anne Knox</td>
+	<td>Neque Sed Consulting</td>
+	<td>04:04 Apr 11, 14</td>
+	<td>Sat, May 24th, 2014</td>
+</tr>
+<tr>
+	<td>Kasimir Martin</td>
+	<td>Tortor Nunc Consulting</td>
+	<td>11:12 Dec 24, 14</td>
+	<td>Sat, July 25th, 2015</td>
+</tr>
+<tr>
+	<td>Drake Pugh</td>
+	<td>Mattis Velit Industries</td>
+	<td>03:09 Sep 23, 15</td>
+	<td>Wed, March 5th, 2014</td>
+</tr>
+<tr>
+	<td>Carla Head</td>
+	<td>Pretium Aliquet Institute</td>
+	<td>06:09 Sep 2, 15</td>
+	<td>Wed, January 8th, 2014</td>
+</tr>
+<tr>
+	<td>Shellie Henry</td>
+	<td>Scelerisque Ltd</td>
+	<td>11:01 Jan 28, 15</td>
+	<td>Sun, February 1st, 2015</td>
+</tr>
+<tr>
+	<td>Patrick Koch</td>
+	<td>Scelerisque Dui LLC</td>
+	<td>10:10 Oct 3, 14</td>
+	<td>Sun, May 17th, 2015</td>
+</tr>
+<tr>
+	<td>Dara Roberts</td>
+	<td>Urna Convallis Erat Industries</td>
+	<td>11:08 Aug 13, 15</td>
+	<td>Sun, June 22nd, 2014</td>
+</tr>
+<tr>
+	<td>Yuli Wright</td>
+	<td>Auctor Consulting</td>
+	<td>05:07 Jul 22, 14</td>
+	<td>Tue, March 25th, 2014</td>
+</tr>
+<tr>
+	<td>Cyrus Jensen</td>
+	<td>Et Risus Associates</td>
+	<td>10:09 Sep 19, 15</td>
+	<td>Sat, May 16th, 2015</td>
+</tr>
+<tr>
+	<td>Holmes Talley</td>
+	<td>Urna Nullam Lobortis Consulting</td>
+	<td>01:12 Dec 25, 14</td>
+	<td>Thu, February 13th, 2014</td>
+</tr>
+<tr>
+	<td>Iris Carver</td>
+	<td>Laoreet Lectus Quis LLC</td>
+	<td>12:10 Oct 13, 14</td>
+	<td>Fri, November 7th, 2014</td>
+</tr>
+<tr>
+	<td>Leroy Cantrell</td>
+	<td>In LLC</td>
+	<td>03:05 May 5, 15</td>
+	<td>Tue, June 2nd, 2015</td>
+</tr>
+<tr>
+	<td>Maggie Aguilar</td>
+	<td>Mauris PC</td>
+	<td>02:12 Dec 7, 14</td>
+	<td>Thu, November 20th, 2014</td>
+</tr>
+<tr>
+	<td>Maggy Porter</td>
+	<td>Mauris Blandit Ltd</td>
+	<td>11:06 Jun 4, 14</td>
+	<td>Tue, November 11th, 2014</td>
+</tr>
+<tr>
+	<td>Liberty Warner</td>
+	<td>Ipsum Company</td>
+	<td>05:11 Nov 17, 15</td>
+	<td>Mon, October 5th, 2015</td>
+</tr>
+<tr>
+	<td>Raya Dean</td>
+	<td>Felis Foundation</td>
+	<td>02:12 Dec 18, 14</td>
+	<td>Mon, February 10th, 2014</td>
+</tr>
+<tr>
+	<td>Jack Juarez</td>
+	<td>Nunc Limited</td>
+	<td>01:09 Sep 7, 15</td>
+	<td>Mon, December 22nd, 2014</td>
+</tr>
+<tr>
+	<td>Nola King</td>
+	<td>Varius Orci Incorporated</td>
+	<td>04:05 May 12, 15</td>
+	<td>Tue, June 24th, 2014</td>
+</tr>
+<tr>
+	<td>Carlos Holman</td>
+	<td>Odio LLC</td>
+	<td>01:08 Aug 16, 15</td>
+	<td>Thu, August 20th, 2015</td>
+</tr>
+<tr>
+	<td>Aquila Finch</td>
+	<td>Egestas Ligula Nullam Institute</td>
+	<td>12:09 Sep 3, 15</td>
+	<td>Sat, March 22nd, 2014</td>
+</tr>
+<tr>
+	<td>Seth Porter</td>
+	<td>Sem Ut Inc.</td>
+	<td>01:06 Jun 4, 15</td>
+	<td>Sun, March 1st, 2015</td>
+</tr>
+<tr>
+	<td>Oleg Mcpherson</td>
+	<td>Nunc Ac Sem LLP</td>
+	<td>03:08 Aug 3, 14</td>
+	<td>Sun, September 21st, 2014</td>
+</tr>
+<tr>
+	<td>Kennan Snyder</td>
+	<td>Amet Consectetuer Associates</td>
+	<td>06:01 Jan 23, 14</td>
+	<td>Mon, April 7th, 2014</td>
+</tr>
+<tr>
+	<td>Emery Donovan</td>
+	<td>Dapibus Inc.</td>
+	<td>08:06 Jun 14, 14</td>
+	<td>Tue, September 30th, 2014</td>
+</tr>
+<tr>
+	<td>Naida Hunter</td>
+	<td>Augue Scelerisque Mollis Inc.</td>
+	<td>11:12 Dec 23, 13</td>
+	<td>Sun, July 19th, 2015</td>
+</tr>
+<tr>
+	<td>Clinton Morrison</td>
+	<td>Non Lacinia Industries</td>
+	<td>02:03 Mar 18, 14</td>
+	<td>Fri, March 6th, 2015</td>
+</tr>
+<tr>
+	<td>Helen Gutierrez</td>
+	<td>Faucibus Incorporated</td>
+	<td>07:08 Aug 7, 15</td>
+	<td>Tue, February 4th, 2014</td>
+</tr>
+<tr>
+	<td>Candice Bonner</td>
+	<td>Donec LLP</td>
+	<td>05:12 Dec 28, 13</td>
+	<td>Mon, March 16th, 2015</td>
+</tr>
+<tr>
+	<td>Nissim Carter</td>
+	<td>Suspendisse Sed Limited</td>
+	<td>01:03 Mar 19, 14</td>
+	<td>Mon, June 29th, 2015</td>
+</tr>
+<tr>
+	<td>Kasimir Hoffman</td>
+	<td>Id Libero Donec Consulting</td>
+	<td>05:12 Dec 23, 14</td>
+	<td>Wed, September 23rd, 2015</td>
+</tr>
+<tr>
+	<td>Imogene Mcconnell</td>
+	<td>Vitae Associates</td>
+	<td>07:02 Feb 17, 15</td>
+	<td>Tue, July 22nd, 2014</td>
+</tr>
+<tr>
+	<td>Sage Mosley</td>
+	<td>Metus In Inc.</td>
+	<td>05:05 May 24, 15</td>
+	<td>Mon, April 21st, 2014</td>
+</tr>
+<tr>
+	<td>Sybil Puckett</td>
+	<td>Vel Lectus LLP</td>
+	<td>09:06 Jun 9, 14</td>
+	<td>Sat, September 6th, 2014</td>
+</tr>
+<tr>
+	<td>Kylynn Solis</td>
+	<td>Ac Limited</td>
+	<td>10:01 Jan 20, 15</td>
+	<td>Tue, September 15th, 2015</td>
+</tr>
+<tr>
+	<td>Beatrice Hurley</td>
+	<td>Mauris A Nunc Corporation</td>
+	<td>04:05 May 11, 14</td>
+	<td>Sun, April 26th, 2015</td>
+</tr>
+<tr>
+	<td>Troy Marquez</td>
+	<td>Dapibus Quam Institute</td>
+	<td>12:02 Feb 7, 15</td>
+	<td>Thu, April 23rd, 2015</td>
+</tr>
+<tr>
+	<td>Malcolm Payne</td>
+	<td>Adipiscing Ligula Institute</td>
+	<td>04:08 Aug 17, 15</td>
+	<td>Tue, September 2nd, 2014</td>
+</tr>
+<tr>
+	<td>Wade Valenzuela</td>
+	<td>Sagittis Duis Gravida Corporation</td>
+	<td>03:05 May 22, 14</td>
+	<td>Mon, January 13th, 2014</td>
+</tr>
+<tr>
+	<td>Kathleen Gilmore</td>
+	<td>Urna Nec Ltd</td>
+	<td>05:03 Mar 5, 14</td>
+	<td>Mon, November 16th, 2015</td>
+</tr>
+<tr>
+	<td>Maite Scott</td>
+	<td>Ipsum Cursus Inc.</td>
+	<td>01:05 May 28, 14</td>
+	<td>Sun, June 8th, 2014</td>
+</tr>
+<tr>
+	<td>Kamal Nash</td>
+	<td>Sem Vitae Company</td>
+	<td>05:10 Oct 7, 14</td>
+	<td>Thu, June 26th, 2014</td>
+</tr>
+<tr>
+	<td>Iliana West</td>
+	<td>Ac Eleifend Limited</td>
+	<td>01:10 Oct 24, 15</td>
+	<td>Wed, July 2nd, 2014</td>
+</tr>
+<tr>
+	<td>Susan Osborn</td>
+	<td>Sollicitudin Adipiscing Ligula Institute</td>
+	<td>03:02 Feb 18, 14</td>
+	<td>Sat, June 13th, 2015</td>
+</tr>
+<tr>
+	<td>Adena Carter</td>
+	<td>Nibh Industries</td>
+	<td>04:01 Jan 27, 15</td>
+	<td>Tue, February 3rd, 2015</td>
+</tr>
+<tr>
+	<td>Duncan Mckinney</td>
+	<td>Vel Convallis In Inc.</td>
+	<td>09:11 Nov 23, 15</td>
+	<td>Sat, December 12th, 2015</td>
+</tr>
+<tr>
+	<td>Ariana Whitehead</td>
+	<td>Fermentum Metus Associates</td>
+	<td>03:06 Jun 9, 14</td>
+	<td>Tue, December 15th, 2015</td>
+</tr>
+<tr>
+	<td>Fiona Henderson</td>
+	<td>Eget Tincidunt Dui Inc.</td>
+	<td>03:01 Jan 1, 14</td>
+	<td>Fri, January 9th, 2015</td>
+</tr>
+<tr>
+	<td>Judah Gates</td>
+	<td>Donec Felis Associates</td>
+	<td>04:11 Nov 30, 15</td>
+	<td>Mon, September 28th, 2015</td>
+</tr>
+<tr>
+	<td>Hasad Mccarthy</td>
+	<td>Ac Tellus Company</td>
+	<td>12:01 Jan 21, 14</td>
+	<td>Mon, January 27th, 2014</td>
+</tr>
+<tr>
+	<td>Shay Valencia</td>
+	<td>Natoque Associates</td>
+	<td>05:03 Mar 4, 14</td>
+	<td>Mon, December 15th, 2014</td>
+</tr>
+<tr>
+	<td>Hillary Tran</td>
+	<td>Integer Mollis Foundation</td>
+	<td>08:12 Dec 31, 14</td>
+	<td>Wed, August 26th, 2015</td>
+</tr>
+<tr>
+	<td>Margaret Sellers</td>
+	<td>Lacus Quisque Corporation</td>
+	<td>11:10 Oct 17, 15</td>
+	<td>Sun, July 5th, 2015</td>
+</tr>
+<tr>
+	<td>Prescott Morton</td>
+	<td>Vestibulum Associates</td>
+	<td>01:04 Apr 27, 15</td>
+	<td>Sun, June 14th, 2015</td>
+</tr>
+<tr>
+	<td>Charity Gilbert</td>
+	<td>Tortor At Risus Associates</td>
+	<td>01:07 Jul 31, 14</td>
+	<td>Thu, December 18th, 2014</td>
+</tr>
+<tr>
+	<td>Freya Randolph</td>
+	<td>Ut Institute</td>
+	<td>07:11 Nov 3, 15</td>
+	<td>Sat, September 27th, 2014</td>
+</tr>
+<tr>
+	<td>Nita Howe</td>
+	<td>Ornare Fusce Inc.</td>
+	<td>11:02 Feb 12, 14</td>
+	<td>Tue, June 9th, 2015</td>
+</tr>
+<tr>
+	<td>Kirby Whitney</td>
+	<td>Faucibus Morbi Vehicula Foundation</td>
+	<td>11:12 Dec 22, 13</td>
+	<td>Wed, August 26th, 2015</td>
+</tr>
+<tr>
+	<td>Amos Jarvis</td>
+	<td>Mauris Suspendisse Aliquet LLP</td>
+	<td>01:05 May 10, 15</td>
+	<td>Mon, July 14th, 2014</td>
+</tr>
+<tr>
+	<td>Kim Hunter</td>
+	<td>Ligula Donec Luctus Corp.</td>
+	<td>07:11 Nov 25, 15</td>
+	<td>Thu, October 23rd, 2014</td>
+</tr>
+<tr>
+	<td>Rosalyn Benton</td>
+	<td>Iaculis Quis Pede Corp.</td>
+	<td>02:09 Sep 16, 14</td>
+	<td>Sun, November 15th, 2015</td>
+</tr>
+<tr>
+	<td>Anjolie Floyd</td>
+	<td>Nunc Corp.</td>
+	<td>12:03 Mar 28, 14</td>
+	<td>Mon, December 1st, 2014</td>
+</tr>
+<tr>
+	<td>Basil Harmon</td>
+	<td>Semper Rutrum Fusce PC</td>
+	<td>05:12 Dec 9, 15</td>
+	<td>Wed, September 17th, 2014</td>
+</tr>
+<tr>
+	<td>Kermit Herrera</td>
+	<td>Sed Tortor Integer Limited</td>
+	<td>03:09 Sep 26, 14</td>
+	<td>Sun, June 14th, 2015</td>
+</tr>
+<tr>
+	<td>Winifred Pearson</td>
+	<td>Augue Industries</td>
+	<td>10:09 Sep 18, 15</td>
+	<td>Tue, August 4th, 2015</td>
+</tr>
+<tr>
+	<td>Lester Fischer</td>
+	<td>Aenean PC</td>
+	<td>02:09 Sep 15, 15</td>
+	<td>Wed, July 29th, 2015</td>
+</tr>
+<tr>
+	<td>Tatum Daugherty</td>
+	<td>Nunc Nulla LLP</td>
+	<td>09:06 Jun 25, 15</td>
+	<td>Wed, February 19th, 2014</td>
+</tr>
+<tr>
+	<td>Zachary Wilder</td>
+	<td>Nec LLC</td>
+	<td>03:09 Sep 19, 14</td>
+	<td>Wed, April 8th, 2015</td>
+</tr>
+<tr>
+	<td>Laith Peters</td>
+	<td>Ipsum Leo Elementum Institute</td>
+	<td>11:06 Jun 17, 14</td>
+	<td>Thu, November 13th, 2014</td>
+</tr>
+<tr>
+	<td>Evelyn Ramos</td>
+	<td>Nunc Industries</td>
+	<td>01:06 Jun 3, 14</td>
+	<td>Thu, April 10th, 2014</td>
+</tr>
+<tr>
+	<td>Mara Michael</td>
+	<td>Ut Aliquam LLC</td>
+	<td>10:07 Jul 14, 14</td>
+	<td>Thu, November 26th, 2015</td>
+</tr>
+<tr>
+	<td>Jemima Powers</td>
+	<td>Eu Arcu Morbi LLP</td>
+	<td>06:08 Aug 4, 14</td>
+	<td>Fri, May 1st, 2015</td>
+</tr>
+<tr>
+	<td>Tanek Guthrie</td>
+	<td>Sit Associates</td>
+	<td>09:02 Feb 19, 15</td>
+	<td>Thu, May 28th, 2015</td>
+</tr>
+<tr>
+	<td>Harriet Crane</td>
+	<td>Quis Accumsan Ltd</td>
+	<td>12:08 Aug 2, 14</td>
+	<td>Sun, December 13th, 2015</td>
+</tr>
+<tr>
+	<td>Jin Bond</td>
+	<td>Auctor Quis Corp.</td>
+	<td>09:08 Aug 25, 15</td>
+	<td>Tue, November 18th, 2014</td>
+</tr>
+<tr>
+	<td>Ursa Jacobs</td>
+	<td>Convallis Ante PC</td>
+	<td>08:04 Apr 5, 14</td>
+	<td>Tue, February 18th, 2014</td>
+</tr>
+<tr>
+	<td>Jason Collier</td>
+	<td>Vel Pede Blandit Ltd</td>
+	<td>01:05 May 12, 14</td>
+	<td>Mon, September 21st, 2015</td>
+</tr>
+<tr>
+	<td>Quemby Stone</td>
+	<td>Lacus Quisque Incorporated</td>
+	<td>09:08 Aug 10, 15</td>
+	<td>Thu, July 2nd, 2015</td>
+</tr>
+<tr>
+	<td>Melvin Sweet</td>
+	<td>Nec Foundation</td>
+	<td>05:01 Jan 17, 15</td>
+	<td>Thu, May 22nd, 2014</td>
+</tr>
+<tr>
+	<td>Thor Wilson</td>
+	<td>Arcu Vivamus Sit Industries</td>
+	<td>02:02 Feb 17, 15</td>
+	<td>Thu, August 7th, 2014</td>
+</tr>
+<tr>
+	<td>Burton Marquez</td>
+	<td>Augue Corporation</td>
+	<td>09:12 Dec 2, 15</td>
+	<td>Wed, November 26th, 2014</td>
+</tr>
+<tr>
+	<td>Kai Ware</td>
+	<td>Facilisis Vitae Limited</td>
+	<td>12:06 Jun 23, 14</td>
+	<td>Sun, June 29th, 2014</td>
+</tr>
+<tr>
+	<td>Holmes Murphy</td>
+	<td>Dui Nec Tempus Inc.</td>
+	<td>12:10 Oct 25, 15</td>
+	<td>Sun, April 26th, 2015</td>
+</tr>
+<tr>
+	<td>Blaine Valentine</td>
+	<td>Proin Institute</td>
+	<td>04:10 Oct 16, 14</td>
+	<td>Mon, March 30th, 2015</td>
+</tr>
+<tr>
+	<td>Lionel Pacheco</td>
+	<td>Dolor Company</td>
+	<td>07:03 Mar 18, 14</td>
+	<td>Sat, May 24th, 2014</td>
+</tr>
+<tr>
+	<td>Keefe Fletcher</td>
+	<td>A Mi Fringilla Industries</td>
+	<td>03:09 Sep 25, 15</td>
+	<td>Thu, October 22nd, 2015</td>
+</tr>
+<tr>
+	<td>Slade Rojas</td>
+	<td>Sodales Nisi Magna PC</td>
+	<td>08:09 Sep 1, 15</td>
+	<td>Wed, June 11th, 2014</td>
+</tr>
+<tr>
+	<td>Vanna Kirkland</td>
+	<td>Tempus Inc.</td>
+	<td>03:02 Feb 14, 15</td>
+	<td>Wed, December 9th, 2015</td>
+</tr>
+<tr>
+	<td>Cameron Peters</td>
+	<td>Lobortis Tellus Justo Limited</td>
+	<td>06:02 Feb 9, 15</td>
+	<td>Fri, January 2nd, 2015</td>
+</tr>
+<tr>
+	<td>Reed Freeman</td>
+	<td>Augue Sed Molestie LLP</td>
+	<td>01:09 Sep 24, 15</td>
+	<td>Sun, July 19th, 2015</td>
+</tr>
+<tr>
+	<td>Florence Burgess</td>
+	<td>Aliquam Auctor Velit Incorporated</td>
+	<td>05:04 Apr 20, 14</td>
+	<td>Mon, September 8th, 2014</td>
+</tr>
+	</tbody>
+</table>
 </custom-table>
 
 </dt-example>

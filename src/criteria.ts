@@ -3,6 +3,7 @@ import * as typeInterfaces from './criteriaType';
 
 let $: any;
 let DataTable: any;
+const moment = (window as any).moment;
 
 /**
  * Sets the value of jQuery for use in the file
@@ -114,7 +115,7 @@ export default class Criteria {
 
 		el.on('input change', function() { fn(that, el); });
 
-		if (preDefined !== undefined) {
+		if (preDefined !== null) {
 			$(el).val(preDefined[0]);
 		}
 
@@ -178,7 +179,7 @@ export default class Criteria {
 		return allFilled;
 	};
 
-	private static inputValueSelect = function(el, value = null) {
+	private static inputValueSelect = function(el, that, value = null) {
 		let values = [];
 
 		if (value === null) {
@@ -205,7 +206,7 @@ export default class Criteria {
 		return values;
 	};
 
-	private static inputValueInput = function(el, value = null) {
+	private static inputValueInput = function(el, that, value = null) {
 		let values = [];
 
 		if (value === null) {
@@ -227,10 +228,32 @@ export default class Criteria {
 		return values;
 	};
 
+	private static inputValueInputMoment = function(el, that, value = null) {
+		let values = [];
+
+		if (value === null) {
+			for (let element of el) {
+				if ($(element).is('input')) {
+					values.push(moment($(element).val()).format(that.s.momentFormat));
+				}
+			}
+		}
+		else {
+			for (let v = 0; v < el.length; v++) {
+				if ($(el[v]).is('input')) {
+					$(el[v]).val(value[v]);
+					values.push(value[v]);
+				}
+			}
+		}
+
+		return values;
+	};
+
 	private static updateListener = function(that, el) {
 		// When the value is changed the criteria is now complete so can be included in searches
 		that.s.filled = that.s.condition.isInputValid(that.dom.value, that);
-		that.s.value = that.s.condition.inputValue(that.dom.value);
+		that.s.value = that.s.condition.inputValue(that.dom.value, that);
 
 		let idx = null;
 		for (let i = 0; i < that.dom.value.length; i++) {
@@ -324,7 +347,91 @@ export default class Criteria {
 				return (value === null || value === undefined || value.length === 0);
 			},
 		}
-};
+	};
+
+	private static momentDateConditions: {[keys: string]: typeInterfaces.ICondition} = {
+		'!=': {
+			conditionName: 'Not',
+			init: Criteria.initDate,
+			inputValue: Criteria.inputValueInputMoment,
+			isInputValid: Criteria.isInputValidDate,
+			search(value: any, comparison: any[], that): boolean {
+				return moment(value, that.s.momentFormat).valueOf() !== moment(comparison[0], that.s.momentFormat).valueOf();
+			},
+		},
+		'<': {
+			conditionName: 'Before',
+			init: Criteria.initDate,
+			inputValue: Criteria.inputValueInputMoment,
+			isInputValid: Criteria.isInputValidDate,
+			search(value: any, comparison: any[], that): boolean {
+				return moment(value, that.s.momentFormat).valueOf() < moment(comparison[0], that.s.momentFormat).valueOf();
+			},
+		},
+		'<<': {
+			conditionName: 'Between Exclusive',
+			init: Criteria.init2Date,
+			inputValue: Criteria.inputValueInputMoment,
+			isInputValid: Criteria.isInputValidDate,
+			search(value: any, comparison: any[], that): boolean {
+				value = moment(value, that.s.momentFormat).valueOf();
+				comparison[0] = moment(comparison[0], that.s.momentFormat).valueOf();
+				comparison[1] = moment(comparison[1], that.s.momentFormat).valueOf();
+				if (comparison[0] < comparison[1]) {
+					return comparison[0] < value && value < comparison[1];
+				}
+				else {
+					return comparison[1] < value && value < comparison[0];
+				}
+			},
+		},
+		'<=<=': {
+			conditionName: 'Between Inclusive',
+			init: Criteria.init2Date,
+			inputValue: Criteria.inputValueInputMoment,
+			isInputValid: Criteria.isInputValidDate,
+			search(value: any, comparison: any[], that): boolean {
+				value = moment(value, that.s.momentFormat).valueOf();
+				comparison[0] = moment(comparison[0], that.s.momentFormat).valueOf();
+				comparison[1] = moment(comparison[1], that.s.momentFormat).valueOf();
+				if (comparison[0] < comparison[1]) {
+					return comparison[0] <= value && value <= comparison[1];
+				}
+				else {
+					return comparison[1] <= value && value <= comparison[0];
+				}
+			},
+		},
+		'=': {
+			conditionName: 'Equals',
+			init: Criteria.initDate,
+			inputValue: Criteria.inputValueInputMoment,
+			isInputValid: Criteria.isInputValidDate,
+			search(value: any, comparison: any[], that): boolean {
+				return moment(value, that.s.momentFormat).valueOf() === moment(comparison[0], that.s.momentFormat).valueOf();
+			},
+		},
+		'>': {
+			conditionName: 'After',
+			init: Criteria.initDate,
+			inputValue: Criteria.inputValueInputMoment,
+			isInputValid: Criteria.isInputValidDate,
+			search(value: any, comparison: any[], that): boolean {
+				return moment(value, that.s.momentFormat).valueOf() > moment(comparison[0], that.s.momentFormat).valueOf();
+			},
+		},
+		'null': {
+			conditionName: 'Empty',
+			isInputValid() { return true; },
+			init() { return; },
+			inputValue() {
+				return;
+			},
+			search(value: any, comparison: any[]): boolean {
+				return (value === null || value === undefined || value.length === 0);
+			},
+		}
+	};
 
 	private static numConditions: {[keys: string]: typeInterfaces.ICondition} = {
 		'!=': {
@@ -664,6 +771,7 @@ export default class Criteria {
 			'html': Criteria.stringConditions,
 			'html-num': Criteria.numConditions,
 			'html-num-fmt': Criteria.numFmtConditions,
+			'moment': Criteria.momentDateConditions,
 			'num': Criteria.numConditions,
 			'num-fmt': Criteria.numFmtConditions,
 			'string': Criteria.stringConditions
@@ -701,6 +809,7 @@ export default class Criteria {
 			dt: table,
 			filled: false,
 			index,
+			momentFormat: false,
 			topGroup,
 			type: '',
 			value: [],
@@ -819,7 +928,7 @@ export default class Criteria {
 	 */
 	public search(rowData: any[]): boolean {
 		if (this.s.condition !== undefined) {
-			return this.s.condition.search(rowData[this.s.data], this.s.value);
+			return this.s.condition.search(rowData[this.s.data], this.s.value, this);
 		}
 	}
 
@@ -1119,7 +1228,13 @@ export default class Criteria {
 
 			let conditionObj = this.c.conditions[this.s.type] !== undefined ?
 				this.c.conditions[this.s.type] :
-				this.c.conditions.string;
+				this.s.type.indexOf('moment') !== -1 && $.fn.dataTable.moment !== undefined ?
+					this.c.conditions.moment :
+					this.c.conditions.string;
+
+			if (this.s.type.indexOf('moment') !== -1) {
+				this.s.momentFormat = this.s.type.replace(/moment\-/g, '');
+			}
 
 			for (
 				let condition of Object.keys(conditionObj)

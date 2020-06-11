@@ -61,6 +61,7 @@ export interface IS {
 	dataPoints: IDataOpt[];
 	filled: boolean;
 	index: number;
+	momentFormat: string | boolean;
 	topGroup: JQuery<HTMLElement>;
 	type: string;
 	value: any[];
