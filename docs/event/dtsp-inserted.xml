@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-event library="SearchBuilder">
+	<name>dtsb-inserted</name>
+	<summary>An element from the init function has been inserted into the dom</summary>
+	<since>0.0.1</since>
+
+	<type type="function">
+		<signature>function()</signature>
+		<scope>HTML element created in the `-init searchBuilder.conditions[type].init` function</scope>
+	</type>
+
+	<description>
+		This event is triggered whenever one of the elements created in the `-init searchBuilder.conditions[type].init` is inserted by SearchBuilder. The event is triggered on the original element, so it is best to access the event within the init function itself.
+	</description>
+
+	<example title="Initialise Select2 on a Select Element Once Inserted"><![CDATA[
+
+                init: function(that, fn, preDefined = null) {
+                    let el = $('<select>');
+                    ...
+                    $(el).on('dtsb-inserted', function(){
+                        for(let element of el) {
+                            if($(el).hasClass('select2-hidden-accessible')) {
+                                $(el).select2('destroy');
+                            }
+
+                            $(el).prepend('<option selected></option>');
+                            $(el).select2({placeholder:'Value'});
+
+                            if(preDefined !== null) {
+                                $(el).val(preDefined[0]);
+                                $(el).trigger('change');
+                            }
+                        }
+                    }
+                    ...
+                })
+
+]]></example>
+</dt-event>

@@ -51,6 +51,7 @@ export default class Criteria {
 		el.on('change', function() { fn(that, el); });
 
 		that.s.values = [];
+		let added = [];
 
 		for (let index of indexArray) {
 			let filter = settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.search);
@@ -67,10 +68,13 @@ export default class Criteria {
 			})
 			.addClass(that.classes.option)
 			.addClass(that.classes.notItalic);
-			$(el).append(opt);
-			if (preDefined !== null && opt.val() === preDefined[0]) {
-				opt.attr('selected', true);
-				that.dom.valueTitle.remove();
+			if (added.indexOf(opt.val()) === -1) {
+				$(el).append(opt);
+				added.push(opt.val());
+				if (preDefined !== null && opt.val() === preDefined[0]) {
+					opt.attr('selected', true);
+					that.dom.valueTitle.remove();
+				}
 			}
 		}
 
@@ -771,6 +775,7 @@ export default class Criteria {
 		for (let i = 1; i < this.dom.value.length; i++) {
 			$(this.dom.container)
 				.append(this.dom.value[i]);
+			$(this.dom.value[i]).trigger('dtsb-inserted');
 		}
 
 		$(this.dom.container).append(this.dom.delete);
@@ -1077,6 +1082,7 @@ export default class Criteria {
 				[value];
 			for (let val of this.dom.value) {
 				$(val).insertAfter(this.dom.condition);
+				$(val).trigger('dtsb-inserted');
 			}
 		}
 		else {
@@ -1108,7 +1114,7 @@ export default class Criteria {
 				this.s.type = this.s.dt.columns().type().toArray()[column];
 			}
 
-			$(this.dom.condition).attr('disabled', false).append(this.dom.conditionTitle).addClass(this.classes.italic);
+			$(this.dom.condition).attr('disabled', false).empty().append(this.dom.conditionTitle).addClass(this.classes.italic);
 			$(this.dom.conditionTitle).attr('selected', true);
 
 			let conditionObj = this.c.conditions[this.s.type] !== undefined ?
@@ -1130,8 +1136,8 @@ export default class Criteria {
 			}
 		}
 		// Otherwise we can just load them in
-		else if (this.s.conditions.length > 1) {
-			$(this.dom.condition).attr('disabled', false).addClass(this.classes.italic);
+		else if (this.s.conditions.length > 0) {
+			$(this.dom.condition).empty().attr('disabled', false).addClass(this.classes.italic);
 
 			for (let condition of this.s.conditions) {
 				let newOpt = $('<option>', {
@@ -1240,9 +1246,11 @@ export default class Criteria {
 			[value];
 
 		$(this.dom.value[0]).insertAfter(this.dom.condition).addClass(this.classes.italic);
+		$(this.dom.value[0]).trigger('dtsb-inserted');
 
 		for (let i = 1; i < this.dom.value.length; i++) {
 			$(this.dom.value[i]).insertAfter(this.dom.value[i - 1]).addClass(this.classes.italic);
+			$(this.dom.value[i]).trigger('dtsb-inserted');
 		}
 
 		this.s.filled = this.s.condition.isInputValid(this.dom.value, this);
