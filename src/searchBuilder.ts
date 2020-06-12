@@ -55,9 +55,12 @@ export default class SearchBuilder {
 			clearAll: $('<button type="button">' + table.i18n('searchBuilder.clearAll', 'Clear All') + '</button>')
 				.addClass(this.classes.clearAll)
 				.addClass(this.classes.button),
-			container: $('<div/>').addClass(this.classes.container),
-			title: $('<div/>').addClass(this.classes.title),
-			titleRow: $('<div/>').addClass(this.classes.titleRow),
+			container: $('<div/>')
+				.addClass(this.classes.container),
+			title: $('<div/>')
+				.addClass(this.classes.title),
+			titleRow: $('<div/>')
+				.addClass(this.classes.titleRow),
 			topGroup: undefined
 		};
 
@@ -115,6 +118,7 @@ export default class SearchBuilder {
 
 		this.s.topGroup.rebuild(details);
 		this.s.dt.draw();
+		this.s.topGroup.setListeners();
 
 		return this;
 	}
@@ -140,6 +144,7 @@ export default class SearchBuilder {
 			this.s.topGroup.rebuild(loadedState.searchBuilder);
 			$(this.s.topGroup.dom.container).trigger('dtsb-redrawContents');
 			this.s.dt.draw();
+			this.s.topGroup.setListeners();
 		}
 		// Otherwise load any predefined options
 		else if (this.c.preDefined !== false) {
@@ -212,6 +217,7 @@ export default class SearchBuilder {
 			this.s.topGroup = new Group(this.s.dt, this.s.opts, undefined);
 			this._build();
 			this.s.dt.draw();
+			this.s.topGroup.setListeners();
 			$(this.dom.clearAll).remove();
 			this._setEmptyListener();
 
@@ -231,6 +237,7 @@ export default class SearchBuilder {
 			this._setEmptyListener();
 			let count = this.s.topGroup.count();
 			this._updateTitle(count);
+
 			// Update the count in the title/button
 			if (this.c.filterChanged !== undefined && typeof this.c.filterChanged === 'function') {
 				this.c.filterChanged(count);
@@ -240,6 +247,7 @@ export default class SearchBuilder {
 		$(this.s.topGroup.dom.container).on('dtsb-updateTitle', () => {
 			let count = this.s.topGroup.count();
 			this._updateTitle(count);
+
 			// Update the count in the title/button
 			if (this.c.filterChanged !== undefined && typeof this.c.filterChanged === 'function') {
 				this.c.filterChanged(count);

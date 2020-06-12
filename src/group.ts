@@ -69,11 +69,19 @@ export default class Group {
 		};
 
 		this.dom = {
-			add: $('<button/>').addClass(this.classes.add).addClass(this.classes.button),
-			clear: $('<button>&times</button>').addClass(this.classes.button).addClass(this.classes.clearGroup),
-			container: $('<div/>').addClass(this.classes.group),
-			logic: $('<button/>').addClass(this.classes.logic).addClass(this.classes.button),
-			logicContainer: $('<div/>').addClass(this.classes.logicContainer)
+			add: $('<button/>')
+				.addClass(this.classes.add)
+				.addClass(this.classes.button),
+			clear: $('<button>&times</button>')
+				.addClass(this.classes.button)
+				.addClass(this.classes.clearGroup),
+			container: $('<div/>')
+				.addClass(this.classes.group),
+			logic: $('<button/>')
+				.addClass(this.classes.logic)
+				.addClass(this.classes.button),
+			logicContainer: $('<div/>')
+				.addClass(this.classes.logicContainer)
 		};
 
 		// A reference to the top level group is maintained throughout any subgroups and criteria that may be created
@@ -96,10 +104,11 @@ export default class Group {
 		$(this.dom.logic).off('.dtsb');
 
 		// Trigger event for groups at a higher level to pick up on
-		$(this.dom.container).trigger('dtsb-destroy');
+		$(this.dom.container)
+			.trigger('dtsb-destroy')
+			.remove();
 
 		this.s.criteria = [];
-		$(this.dom.container).remove();
 	}
 
 	/**
@@ -165,8 +174,10 @@ export default class Group {
 	 */
 	public redrawContents(): void {
 		// Clear the container out and add the basic elements
-		$(this.dom.container).empty();
-		$(this.dom.container).append(this.dom.logicContainer).append(this.dom.add);
+		$(this.dom.container)
+			.empty()
+			.append(this.dom.logicContainer)
+			.append(this.dom.add);
 
 		this.s.criteria.sort(function(a, b) {
 			if (a.criteria.s.index < b.criteria.s.index) {
@@ -189,8 +200,8 @@ export default class Group {
 
 				// Add to the group
 				$(this.s.criteria[i].criteria.dom.container).insertBefore(this.dom.add);
-
 				let date = false;
+
 				for (let opt of this.s.criteria[i].criteria.s.conditions) {
 					if (opt.display === this.s.criteria[i].criteria.s.condition) {
 						date = opt.type === 'date';
@@ -257,6 +268,7 @@ export default class Group {
 		// If there are no criteria in the group then keep the logic removed and return
 		if (this.s.criteria.length < 1) {
 			$(this.dom.container).removeClass(this.classes.indentTop).removeClass(this.classes.indentSub);
+
 			if (!this.s.isChild) {
 				$(this.dom.container).trigger('dtsb-destroy');
 			}
@@ -302,11 +314,13 @@ export default class Group {
 	 * Sets listeners on the groups elements
 	 */
 	public setListeners(): void {
+		$(this.dom.add).unbind('click');
 		$(this.dom.add).on('click', () => {
 			// If this is the parent group then the logic button has not been added yet
 			if (!this.s.isChild) {
-				$(this.dom.container).addClass(this.classes.indentTop);
-				$(this.dom.container).prepend(this.dom.logicContainer);
+				$(this.dom.container)
+					.addClass(this.classes.indentTop)
+					.prepend(this.dom.logicContainer);
 			}
 
 			this.addCriteria();
@@ -315,6 +329,10 @@ export default class Group {
 
 			return false;
 		});
+
+		for (let crit of this.s.criteria) {
+			crit.criteria.setListeners();
+		}
 
 		this._setClearListener();
 
@@ -481,6 +499,7 @@ export default class Group {
 			if (crit.criteria.s.filled) {
 				// A completed criteria has been found so set the flag
 				filledfound = true;
+
 				// If the search passes then return true
 				if (crit.criteria.search(rowData)) {
 					return true;
@@ -528,75 +547,79 @@ export default class Group {
 	 * @param criteria The criteria for the listeners to be set on
 	 */
 	private _setCriteriaListeners(criteria: Criteria): void {
-		$(criteria.dom.delete).unbind('click');
-		$(criteria.dom.delete).on('click', () => {
-			this._removeCriteria(criteria);
-			$(criteria.dom.container).remove();
-			this.setupLogic();
+		$(criteria.dom.delete)
+			.unbind('click')
+			.on('click', () => {
+				this._removeCriteria(criteria);
+				$(criteria.dom.container).remove();
+				this.setupLogic();
 
-			for (let crit of this.s.criteria) {
-				if (crit.type === 'criteria') {
-					crit.criteria.updateArrows(this.s.criteria.length > 1);
+				for (let crit of this.s.criteria) {
+					if (crit.type === 'criteria') {
+						crit.criteria.updateArrows(this.s.criteria.length > 1);
+					}
 				}
-			}
 
-			$(this.s.topGroup).trigger('dtsb-updateTitle');
+				$(this.s.topGroup).trigger('dtsb-updateTitle');
 
-			return false;
-		});
+				return false;
+			});
 
-		$(criteria.dom.right).unbind('click');
-		$(criteria.dom.right).on('click', () => {
-			let idx = criteria.s.index;
-			let group = new Group(this.s.dt, this.s.opts, this.s.topGroup, criteria.s.index, true, this.s.depth + 1);
+		$(criteria.dom.right)
+			.unbind('click')
+			.on('click', () => {
+				let idx = criteria.s.index;
+				let group = new Group(this.s.dt, this.s.opts, this.s.topGroup, criteria.s.index, true, this.s.depth + 1);
 
-			// Add the criteria that is to be moved to the new group
-			group.addCriteria(criteria);
+				// Add the criteria that is to be moved to the new group
+				group.addCriteria(criteria);
 
-			// Update the details in the current groups criteria array
-			this.s.criteria[idx].criteria = group;
-			this.s.criteria[idx].type = 'group';
+				// Update the details in the current groups criteria array
+				this.s.criteria[idx].criteria = group;
+				this.s.criteria[idx].type = 'group';
 
-			$(this.s.topGroup).trigger('dtsb-redrawContents');
+				$(this.s.topGroup).trigger('dtsb-redrawContents');
 
-			this._setGroupListeners(group);
+				this._setGroupListeners(group);
 
-			return false;
-		});
+				return false;
+			});
 
-		$(criteria.dom.left).unbind('click');
-		$(criteria.dom.left).on('click', () => {
-			this.s.toDrop = new Criteria(this.s.dt, this.s.opts, this.s.topGroup, criteria.s.index);
-			this.s.toDrop.s = criteria.s;
-			this.s.toDrop.c = criteria.c;
-			this.s.toDrop.classes = criteria.classes;
-			this.s.toDrop.populate();
+		$(criteria.dom.left)
+			.unbind('click')
+			.on('click', () => {
+				this.s.toDrop = new Criteria(this.s.dt, this.s.opts, this.s.topGroup, criteria.s.index);
+				this.s.toDrop.s = criteria.s;
+				this.s.toDrop.c = criteria.c;
+				this.s.toDrop.classes = criteria.classes;
+				this.s.toDrop.populate();
 
-			// The dropCriteria event mutates the reference to the index so need to store it
-			let index = this.s.toDrop.s.index;
-			$(this.dom.container).trigger('dtsb-dropCriteria');
-			criteria.s.index = index;
-			this._removeCriteria(criteria);
+				// The dropCriteria event mutates the reference to the index so need to store it
+				let index = this.s.toDrop.s.index;
+				$(this.dom.container).trigger('dtsb-dropCriteria');
+				criteria.s.index = index;
+				this._removeCriteria(criteria);
 
-			// By tracking the top level group we can directly trigger a redraw on it,
-			//  bubbling is also possible, but that is slow with deep levelled groups
-			$(this.s.topGroup).trigger('dtsb-redrawContents');
+				// By tracking the top level group we can directly trigger a redraw on it,
+				//  bubbling is also possible, but that is slow with deep levelled groups
+				$(this.s.topGroup).trigger('dtsb-redrawContents');
 
-			return false;
-		});
+				return false;
+			});
 	}
 
 	/**
 	 * Set's the listeners for the group clear button
 	 */
 	private _setClearListener(): void {
-		$(this.dom.clear).unbind('click');
-		$(this.dom.clear).on('click', () => {
-			this.destroy();
-			$(this.s.topGroup).trigger('dtsb-updateTitle');
+		$(this.dom.clear)
+			.unbind('click')
+			.on('click', () => {
+				this.destroy();
+				$(this.s.topGroup).trigger('dtsb-updateTitle');
 
-			return false;
-		});
+				return false;
+			});
 	}
 
 	/**
@@ -605,40 +628,44 @@ export default class Group {
 	 */
 	private _setGroupListeners(group: any): void {
 		// Set listeners for the new group
-		$(group.dom.add).unbind('click');
-		$(group.dom.add).on('click', () => {
-			this.setupLogic();
-			$(this.dom.container).trigger('dtsb-add');
-
-			return false;
-		});
-
-		$(group.dom.container).unbind('dtsb-add');
-		$(group.dom.container).on('dtsb-add', () => {
-			this.setupLogic();
-			$(this.dom.container).trigger('dtsb-add');
-
-			return false;
-		});
-
-		$(group.dom.container).unbind('dtsb-destroy');
-		$(group.dom.container).on('dtsb-destroy', () => {
-			this._removeCriteria(group);
-			$(group.dom.container).remove();
-			this.setupLogic();
-
-			return false;
-		});
-
-		$(group.dom.container).unbind('dtsb-dropCriteria');
-		$(group.dom.container).one('dtsb-dropCriteria', () => {
-				let toDrop = group.s.toDrop;
-				toDrop.s.index = group.s.index;
-				toDrop.updateArrows(this.s.criteria.length > 1, false);
-				this.addCriteria(toDrop, false);
+		$(group.dom.add)
+			.unbind('click')
+			.on('click', () => {
+				this.setupLogic();
+				$(this.dom.container).trigger('dtsb-add');
 
 				return false;
-		});
+			});
+
+		$(group.dom.container)
+			.unbind('dtsb-add')
+			.on('dtsb-add', () => {
+				this.setupLogic();
+				$(this.dom.container).trigger('dtsb-add');
+
+				return false;
+			});
+
+		$(group.dom.container)
+			.unbind('dtsb-destroy')
+			.on('dtsb-destroy', () => {
+				this._removeCriteria(group);
+				$(group.dom.container).remove();
+				this.setupLogic();
+
+				return false;
+			});
+
+		$(group.dom.container)
+			.unbind('dtsb-dropCriteria')
+			.one('dtsb-dropCriteria', () => {
+					let toDrop = group.s.toDrop;
+					toDrop.s.index = group.s.index;
+					toDrop.updateArrows(this.s.criteria.length > 1, false);
+					this.addCriteria(toDrop, false);
+
+					return false;
+			});
 
 		group.setListeners();
 	}
@@ -662,8 +689,9 @@ export default class Group {
 		// Only append the logic button immediately if this is a sub group,
 		//  otherwise it will be prepended later when adding a criteria
 		if (this.s.isChild) {
-			$(this.dom.container).append(this.dom.logicContainer);
-			$(this.dom.container).addClass(this.classes.indentSub);
+			$(this.dom.container)
+				.append(this.dom.logicContainer)
+				.addClass(this.classes.indentSub);
 		}
 
 		$(this.dom.container).append(this.dom.add);
@@ -673,11 +701,16 @@ export default class Group {
 	 * Sets the listener for the logic button
 	 */
 	private _setLogicListener(): void {
-		$(this.dom.logic).unbind('click');
-		$(this.dom.logic).on('click', () => {
-			this._toggleLogic();
-			this.s.dt.draw();
-		});
+		$(this.dom.logic)
+			.unbind('click')
+			.on('click', () => {
+				this._toggleLogic();
+				this.s.dt.draw();
+
+				for (let crit of this.s.criteria) {
+					crit.criteria.setListeners();
+				}
+			});
 	}
 
 	/**

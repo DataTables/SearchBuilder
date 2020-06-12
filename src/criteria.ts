@@ -39,21 +39,30 @@ export default class Criteria {
 		vertical: 'dtsb-vertical'
 	};
 
+	/**
+	 * Default initialisation function for select conditions
+	 */
 	private static initSelect = function(that, fn, preDefined = null) {
 		let column = $(that.dom.data).children('option:selected').val();
 		let indexArray = that.s.dt.rows().indexes().toArray();
 		let settings = that.s.dt.settings()[0];
 
+		// Declare select element to be used with all of the default classes and listeners.
 		let el = $('<select/>')
-					.addClass(Criteria.classes.value)
-					.addClass(Criteria.classes.dropDown)
-					.addClass(Criteria.classes.italic)
-					.append(that.dom.valueTitle);
-		el.on('change', function() { fn(that, el); });
+			.addClass(Criteria.classes.value)
+			.addClass(Criteria.classes.dropDown)
+			.addClass(Criteria.classes.italic)
+			.append(that.dom.valueTitle)
+			.on('change', function() {
+				$(this).removeClass(Criteria.classes.italic);
+				fn(that, this);
+			});
 
 		that.s.values = [];
 		let added = [];
 
+		// Add all of the options from the table to the select element.
+		// Only add one option for each possible value
 		for (let index of indexArray) {
 			let filter = settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.search);
 
@@ -62,19 +71,29 @@ export default class Criteria {
 				index,
 				text: settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.conditionName)
 			};
+
 			that.s.values.push(value);
+
+			// Add text and value, stripping out any html if that is the column type
 			let opt = $('<option>', {
 				text : that.s.type.includes('html') ? value.text.replace(/(<([^>]+)>)/ig, '') : value.text,
 				value : that.s.type.includes('html') ? value.filter.replace(/(<([^>]+)>)/ig, '') : value.filter
 			})
-			.addClass(that.classes.option)
-			.addClass(that.classes.notItalic);
-			if (added.indexOf(opt.val()) === -1) {
+				.addClass(that.classes.option)
+				.addClass(that.classes.notItalic);
+
+			let val = $(opt).val();
+
+				// Check that this value has not already been added
+			if (added.indexOf(val) === -1) {
 				$(el).append(opt);
-				added.push(opt.val());
+				added.push(val);
+
+				// If this value was previously selected as indicated by preDefined, then select it again
 				if (preDefined !== null && opt.val() === preDefined[0]) {
 					opt.attr('selected', true);
 					that.dom.valueTitle.remove();
+					$(el).removeClass(Criteria.classes.italic);
 				}
 			}
 		}
@@ -82,9 +101,17 @@ export default class Criteria {
 		return el;
 	};
 
+	/**
+	 * Default initialisation function for input conditions
+	 */
 	private static initInput = function(that, fn, preDefined = null) {
-		let el = $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input);
-		el.on('input', function() { fn(that, el); });
+		// Declare the input element
+		let el = $('<input/>')
+			.addClass(Criteria.classes.value)
+			.addClass(Criteria.classes.input)
+			.on('input', function() { fn(that, this); });
+
+		// If there is a preDefined value then add it
 		if (preDefined !== null) {
 			$(el).val(preDefined[0]);
 		}
@@ -92,16 +119,25 @@ export default class Criteria {
 		return el;
 	};
 
+	/**
+	 * Default initialisation function for conditions requiring 2 inputs
+	 */
 	private static init2Input = function(that, fn, preDefined = null) {
+		// Declare all of the necessary jQuery elements
 		let els = [
-			$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input),
-			$('<span>').addClass(that.classes.joiner).text('and'),
-			$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input),
+			$('<input/>')
+				.addClass(Criteria.classes.value)
+				.addClass(Criteria.classes.input)
+				.on('input', function() { fn(that, this); }),
+			$('<span>')
+				.addClass(that.classes.joiner).text('and'),
+			$('<input/>')
+				.addClass(Criteria.classes.value)
+				.addClass(Criteria.classes.input)
+				.on('input', function() { fn(that, this); }),
 		];
 
-		els[0].on('input', function() { fn(that, els[0]); });
-		els[2].on('input', function() { fn(that, els[2]); });
-
+		// If there is a preDefined value then add it
 		if (preDefined !== null) {
 			$(els[0]).val(preDefined[0]);
 			$(els[2]).val(preDefined[1]);
@@ -110,11 +146,18 @@ export default class Criteria {
 		return els;
 	};
 
+	/**
+	 * Default initialisation function for date conditions
+	 */
 	private static initDate = function(that, fn, preDefined = null) {
-		let el = $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input).dtDateTime();
+		// Declare date element using DataTables dateTime plugin
+		let el = $('<input/>')
+			.addClass(Criteria.classes.value)
+			.addClass(Criteria.classes.input)
+			.dtDateTime()
+			.on('input change', function() { fn(that, this); });
 
-		el.on('input change', function() { fn(that, el); });
-
+		// If there is a preDefined value then add it
 		if (preDefined !== null) {
 			$(el).val(preDefined[0]);
 		}
@@ -123,15 +166,24 @@ export default class Criteria {
 	};
 
 	private static init2Date = function(that, fn, preDefined = null) {
+		// Declare all of the date elements that are required using DataTables dateTime plugin
 		let els = [
-			$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input).dtDateTime(),
-			$('<span>').addClass(that.classes.joiner).text('and'),
-			$('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input).dtDateTime(),
+			$('<input/>')
+				.addClass(Criteria.classes.value)
+				.addClass(Criteria.classes.input)
+				.dtDateTime()
+				.on('input', function() { fn(that, this); }),
+			$('<span>')
+				.addClass(that.classes.joiner)
+				.text('and'),
+			$('<input/>')
+				.addClass(Criteria.classes.value)
+				.addClass(Criteria.classes.input)
+				.dtDateTime()
+				.on('input', function() { fn(that, this); }),
 		];
 
-		els[0].on('input', function() { fn(that, els[0]); });
-		els[2].on('input', function() { fn(that, els[2]); });
-
+		// If there are and preDefined values then add them
 		if (preDefined !== null) {
 			$(els[0]).val(preDefined[0]);
 			$(els[2]).val(preDefined[1]);
@@ -140,15 +192,18 @@ export default class Criteria {
 		return els;
 	};
 
-	private static isInputValidSelect = function(el, that) {
+	/**
+	 * Default function for select elements to validate condition
+	 */
+	private static isInputValidSelect = function(el) {
 		let allFilled = true;
+
+		// Check each element to make sure that the selections are valid
 		for (let element of el) {
 			if (
-				$(element).has('option:selected').length < 1 ||
-				(
-					$(element).has('option:selected').length === 1 &&
-					$($(element).children('option:selected')[0]).text() === $(that.dom.valueTitle).text()
-				)
+				$(element).children('option:selected').length === $(element).children('option').length - $(element).children('option.' + Criteria.classes.notItalic).length &&
+				$(element).children('option:selected').length === 1 &&
+				$(element).children('option:selected')[0] === $(element).children('option:hidden')[0]
 			) {
 				allFilled = false;
 			}
@@ -157,8 +212,13 @@ export default class Criteria {
 		return allFilled;
 	};
 
-	private static isInputValidInput = function(el, that) {
+	/**
+	 * Default function for input and date elements to validate condition
+	 */
+	private static isInputValidInput = function(el) {
 		let allFilled = true;
+
+		// Check each element to make sure that the inputs are valid
 		for (let element of el) {
 			if ($(element).is('input') && $(element).val().length === 0) {
 				allFilled = false;
@@ -168,21 +228,15 @@ export default class Criteria {
 		return allFilled;
 	};
 
-	private static isInputValidDate = function(el) {
-		let allFilled = true;
-		for (let element of el) {
-			if ($(element).is('input') && $(element).val().length === 0) {
-				allFilled = false;
-			}
-		}
-
-		return allFilled;
-	};
-
-	private static inputValueSelect = function(el, that, value = null) {
+	/**
+	 * Default function for getting/setting select conditions
+	 */
+	private static inputValueSelect = function(el, value = null) {
 		let values = [];
 
+		// If there are no values to set
 		if (value === null) {
+			// Go through the select elements and push each selected option to the return array
 			for (let element of el) {
 				if ($(element).is('select')) {
 					values.push($(element).children('option:selected').val());
@@ -190,9 +244,11 @@ export default class Criteria {
 			}
 		}
 		else {
+			// Set each select element if it exists
 			for (let v = 0; v < el.length; v ++) {
 				if ($(el[v]).is('select')) {
 					let children = $(el[v]).children().toArray;
+
 					for (let child of children) {
 						if ($(child).val() === value[v]) {
 							$(child).attr('selected', true);
@@ -206,10 +262,15 @@ export default class Criteria {
 		return values;
 	};
 
-	private static inputValueInput = function(el, that, value = null) {
+	/**
+	 * Default function for getting/setting input conditions
+	 */
+	private static inputValueInput = function(el, value = null) {
 		let values = [];
 
+		// If there are no values to set
 		if (value === null) {
+			// Go through the input elements and push each value to the return array
 			for (let element of el) {
 				if ($(element).is('input')) {
 					values.push($(element).val());
@@ -217,6 +278,7 @@ export default class Criteria {
 			}
 		}
 		else {
+			// Set the value for each input element
 			for (let v = 0; v < el.length; v++) {
 				if ($(el[v]).is('input')) {
 					$(el[v]).val(value[v]);
@@ -228,17 +290,24 @@ export default class Criteria {
 		return values;
 	};
 
-	private static inputValueInputMoment = function(el, that, value = null) {
+	/**
+	 * Default function for getting/setting Moment conditions
+	 */
+	private static inputValueInputMoment = function(el, value = null, that) {
 		let values = [];
 
+		// If there are no values to set
 		if (value === null) {
+			// Go through the input elements and push each value to the return array
 			for (let element of el) {
 				if ($(element).is('input')) {
+					// Having converted it to the correct format
 					values.push(moment($(element).val()).format(that.s.momentFormat));
 				}
 			}
 		}
 		else {
+			// Set the values for each of the input elements
 			for (let v = 0; v < el.length; v++) {
 				if ($(el[v]).is('input')) {
 					$(el[v]).val(value[v]);
@@ -250,10 +319,13 @@ export default class Criteria {
 		return values;
 	};
 
+	/**
+	 * Function that is run on each element as a call back when a search should be triggered
+	 */
 	private static updateListener = function(that, el) {
 		// When the value is changed the criteria is now complete so can be included in searches
 		that.s.filled = that.s.condition.isInputValid(that.dom.value, that);
-		that.s.value = that.s.condition.inputValue(that.dom.value, that);
+		that.s.value = that.s.condition.inputValue(that.dom.value, undefined, that);
 
 		let idx = null;
 		for (let i = 0; i < that.dom.value.length; i++) {
@@ -276,7 +348,7 @@ export default class Criteria {
 			conditionName: 'Not',
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidDate,
+			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[]): boolean {
 				return value !== comparison[0];
 			},
@@ -285,7 +357,7 @@ export default class Criteria {
 			conditionName: 'Before',
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidDate,
+			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[]): boolean {
 				return value < comparison[0];
 			},
@@ -294,7 +366,7 @@ export default class Criteria {
 			conditionName: 'Between Exclusive',
 			init: Criteria.init2Date,
 			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidDate,
+			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[]): boolean {
 				if (comparison[0] < comparison[1]) {
 					return comparison[0] < value && value < comparison[1];
@@ -308,7 +380,7 @@ export default class Criteria {
 			conditionName: 'Between Inclusive',
 			init: Criteria.init2Date,
 			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidDate,
+			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[]): boolean {
 				if (comparison[0] < comparison[1]) {
 					return comparison[0] <= value && value <= comparison[1];
@@ -322,7 +394,7 @@ export default class Criteria {
 			conditionName: 'Equals',
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidDate,
+			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[]): boolean {
 				return value === comparison[0];
 			},
@@ -331,7 +403,7 @@ export default class Criteria {
 			conditionName: 'After',
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidDate,
+			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[]): boolean {
 				return value > comparison[0];
 			},
@@ -354,7 +426,7 @@ export default class Criteria {
 			conditionName: 'Not',
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInputMoment,
-			isInputValid: Criteria.isInputValidDate,
+			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[], that): boolean {
 				return moment(value, that.s.momentFormat).valueOf() !== moment(comparison[0], that.s.momentFormat).valueOf();
 			},
@@ -363,7 +435,7 @@ export default class Criteria {
 			conditionName: 'Before',
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInputMoment,
-			isInputValid: Criteria.isInputValidDate,
+			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[], that): boolean {
 				return moment(value, that.s.momentFormat).valueOf() < moment(comparison[0], that.s.momentFormat).valueOf();
 			},
@@ -372,7 +444,7 @@ export default class Criteria {
 			conditionName: 'Between Exclusive',
 			init: Criteria.init2Date,
 			inputValue: Criteria.inputValueInputMoment,
-			isInputValid: Criteria.isInputValidDate,
+			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[], that): boolean {
 				value = moment(value, that.s.momentFormat).valueOf();
 				comparison[0] = moment(comparison[0], that.s.momentFormat).valueOf();
@@ -389,7 +461,7 @@ export default class Criteria {
 			conditionName: 'Between Inclusive',
 			init: Criteria.init2Date,
 			inputValue: Criteria.inputValueInputMoment,
-			isInputValid: Criteria.isInputValidDate,
+			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[], that): boolean {
 				value = moment(value, that.s.momentFormat).valueOf();
 				comparison[0] = moment(comparison[0], that.s.momentFormat).valueOf();
@@ -406,7 +478,7 @@ export default class Criteria {
 			conditionName: 'Equals',
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInputMoment,
-			isInputValid: Criteria.isInputValidDate,
+			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[], that): boolean {
 				return moment(value, that.s.momentFormat).valueOf() === moment(comparison[0], that.s.momentFormat).valueOf();
 			},
@@ -415,7 +487,7 @@ export default class Criteria {
 			conditionName: 'After',
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInputMoment,
-			isInputValid: Criteria.isInputValidDate,
+			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[], that): boolean {
 				return moment(value, that.s.momentFormat).valueOf() > moment(comparison[0], that.s.momentFormat).valueOf();
 			},
@@ -821,11 +893,19 @@ export default class Criteria {
 				.addClass(this.classes.condition)
 				.addClass(this.classes.dropDown)
 				.addClass(this.classes.italic),
-			conditionTitle: $('<option value="" disabled selected hidden/>').text(this.s.dt.i18n('searchBuilder.condition', 'Condition')),
-			container: $('<div/>').addClass(this.classes.container),
-			data: $('<select/>').addClass(this.classes.data).addClass(this.classes.dropDown).addClass(this.classes.italic),
-			dataTitle: $('<option value="" disabled selected hidden/>').text(this.s.dt.i18n('searchBuilder.data', 'Data')),
-			defaultValue: $('<select disabled/>').addClass(this.classes.value).addClass(this.classes.dropDown),
+			conditionTitle: $('<option value="" disabled selected hidden/>')
+				.text(this.s.dt.i18n('searchBuilder.condition', 'Condition')),
+			container: $('<div/>')
+				.addClass(this.classes.container),
+			data: $('<select/>')
+				.addClass(this.classes.data)
+				.addClass(this.classes.dropDown)
+				.addClass(this.classes.italic),
+			dataTitle: $('<option value="" disabled selected hidden/>')
+				.text(this.s.dt.i18n('searchBuilder.data', 'Data')),
+			defaultValue: $('<select disabled/>')
+				.addClass(this.classes.value)
+				.addClass(this.classes.dropDown),
 			delete: $('<button>&times</button>')
 				.addClass(this.classes.delete)
 				.addClass(this.classes.button)
@@ -848,6 +928,7 @@ export default class Criteria {
 		if (this.c.greyscale) {
 			$(this.dom.data).addClass(this.classes.greyscale);
 			$(this.dom.condition).addClass(this.classes.greyscale);
+
 			for (let val of this.dom.value) {
 				$(val).addClass(this.classes.greyscale);
 			}
@@ -875,11 +956,11 @@ export default class Criteria {
 	 * Adds the left button to the criteria
 	 */
 	public updateArrows(hasSiblings = false, redraw = true): void {
-		$(this.dom.container).empty();
-
-		$(this.dom.container).append(this.dom.data).append(this.dom.condition);
-
-		$(this.dom.container.append(this.dom.value[0]));
+		$(this.dom.container)
+			.empty()
+			.append(this.dom.data)
+			.append(this.dom.condition)
+			.append(this.dom.value[0]);
 
 		for (let i = 1; i < this.dom.value.length; i++) {
 			$(this.dom.container)
@@ -912,10 +993,11 @@ export default class Criteria {
 		// Turn off listeners
 		$(this.dom.data).off('.dtsb');
 		$(this.dom.condition).off('.dtsb');
+		$(this.dom.delete).off('.dtsb');
+
 		for (let val of this.dom.value) {
 			$(val).off('.dtsb');
 		}
-		$(this.dom.delete).off('.dtsb');
 
 		// Remove container from the dom
 		$(this.dom.container).remove();
@@ -974,10 +1056,15 @@ export default class Criteria {
 	public rebuild(loadedCriteria: typeInterfaces.IDetails): void {
 		// Check to see if the previously selected data exists, if so select it
 		let foundData = false;
+
 		if (loadedCriteria.data !== -1) {
+			let italic = this.classes.italic;
+			let data = this.dom.data;
+
 			$(this.dom.data).children('option').each(function() {
 				if ($(this).val() === loadedCriteria.data) {
 					$(this).attr('selected', true);
+					$(data).removeClass(italic);
 					foundData = true;
 				}
 			});
@@ -989,15 +1076,25 @@ export default class Criteria {
 			$(this.dom.dataTitle).remove();
 			this._populateCondition();
 			$(this.dom.conditionTitle).remove();
-
 			let condition;
 			let conditions = this.s.conditions;
 
 			// Check to see if the previously selected condition exists, if so select it
 			$(this.dom.condition).children('option').each(function() {
-				if (loadedCriteria.condition !== undefined && $(this).val() === loadedCriteria.condition.conditionName) {
+				if (
+					(
+						loadedCriteria.condition !== undefined &&
+						$(this).val() === loadedCriteria.condition &&
+						typeof loadedCriteria.condition === 'string'
+					) ||
+					(
+						loadedCriteria.condition !== undefined &&
+						$(this).val() === loadedCriteria.condition.conditionName
+					)
+				) {
 					$(this).attr('selected', true);
 					let condDisp = $(this).val();
+
 					for (let cond of conditions) {
 						if (cond.conditionName === condDisp) {
 							condition = cond;
@@ -1016,8 +1113,7 @@ export default class Criteria {
 				this._populateValue(loadedCriteria);
 			}
 			else {
-				$(this.dom.conditionTitle).prependTo(this.dom.condition);
-				$(this.dom.conditionTitle).attr('selected', true);
+				$(this.dom.conditionTitle).prependTo(this.dom.condition).attr('selected', true);
 			}
 		}
 	}
@@ -1026,63 +1122,63 @@ export default class Criteria {
 	 * Sets the listeners for the criteria
 	 */
 	public setListeners(): void {
-		$(this.dom.data).unbind('change');
-		$(this.dom.data).on('change', () => {
-			$(this.dom.dataTitle).attr('selected', false);
-			$(this.dom.data).removeClass(this.classes.italic);
-			this.s.data = $(this.dom.data).children('option:selected').val();
+		$(this.dom.data)
+			.unbind('change')
+			.on('change', () => {
+				$(this.dom.dataTitle).attr('selected', false);
+				$(this.dom.data).removeClass(this.classes.italic);
+				this.s.data = $(this.dom.data).children('option:selected').val();
 
-			// When the data is changed, the values in condition and value may also change so need to renew them
-			this._clearCondition();
-			this._clearValue();
-			this._populateCondition();
+				// When the data is changed, the values in condition and value may also change so need to renew them
+				this._clearCondition();
+				this._clearValue();
+				this._populateCondition();
 
-			// If this criteria was previously active in the search then remove it from the search and trigger a new search
-			if (this.s.filled) {
-				this.s.filled = false;
-				this.s.dt.draw();
-			}
-
-			this.s.dt.state.save();
-		});
-
-		$(this.dom.condition).unbind('change');
-		$(this.dom.condition).on('change', () => {
-			$(this.dom.conditionTitle).attr('selected', false);
-			$(this.dom.condition).removeClass(this.classes.italic);
-			let condDisp = $(this.dom.condition).children('option:selected').val();
-			for (let cond of this.s.conditions) {
-				if (cond.conditionName === condDisp) {
-					this.s.condition = cond;
-					break;
-				}
-			}
-
-			// When the condition is changed, the value selector may switch between a select element and an input element
-			this._clearValue();
-			this._populateValue();
-
-			for (let val of this.dom.value) {
 				// If this criteria was previously active in the search then remove it from the search and trigger a new search
-				if (
-					this.s.filled &&
-					(
-						$(this.dom.container).has(val).length !== 0
-					)
-				) {
+				if (this.s.filled) {
 					this.s.filled = false;
 					this.s.dt.draw();
+					this.setListeners();
 				}
-			}
 
-			this.s.dt.state.save();
-		});
+				this.s.dt.state.save();
+			});
+
+		$(this.dom.condition)
+			.unbind('change')
+			.on('change', () => {
+				$(this.dom.conditionTitle).attr('selected', false);
+				$(this.dom.condition).removeClass(this.classes.italic);
+				let condDisp = $(this.dom.condition).children('option:selected').val();
+
+				for (let cond of this.s.conditions) {
+					if (cond.conditionName === condDisp) {
+						this.s.condition = cond;
+						break;
+					}
+				}
+
+				// When the condition is changed, the value selector may switch between a select element and an input element
+				this._clearValue();
+				this._populateValue();
+
+				for (let val of this.dom.value) {
+					// If this criteria was previously active in the search then remove it from the search and trigger a new search
+					if (this.s.filled && $(this.dom.container).has(val).length !== 0) {
+						this.s.filled = false;
+						this.s.dt.draw();
+						this.setListeners();
+					}
+				}
+
+				this.s.dt.state.save();
+			});
 
 		// When delete is pressed destroy this criteria
-		$(this.dom.delete).unbind('change');
-		$(this.dom.delete).on('click', () => {
+		$(this.dom.delete).unbind('change').on('click', () => {
 			this.destroy();
 			this.s.dt.draw();
+			this.setListeners();
 
 			return false;
 		});
@@ -1163,6 +1259,7 @@ export default class Criteria {
 		$(this.dom.container)
 			.append(this.dom.delete)
 			.append(this.dom.right);
+
 		this.setListeners();
 	}
 
@@ -1185,10 +1282,12 @@ export default class Criteria {
 			for (let val of this.dom.value) {
 				$(val).remove();
 			}
+
 			let value = this.s.condition.init(this, Criteria.updateListener);
 			this.dom.value = Array.isArray(value) ?
 				value :
 				[value];
+
 			for (let val of this.dom.value) {
 				$(val).insertAfter(this.dom.condition);
 				$(val).trigger('dtsb-inserted');
@@ -1198,11 +1297,14 @@ export default class Criteria {
 			for (let val of this.dom.value) {
 				$(val).remove();
 			}
+
 			$('.' + this.classes.joiner).remove();
-			$(this.dom.valueTitle).attr('selected', true);
-			$(this.dom.valueTitle).attr('disabled', false);
-			$(this.dom.defaultValue).append(this.dom.valueTitle);
-			$(this.dom.defaultValue).insertAfter(this.dom.condition);
+			$(this.dom.valueTitle)
+				.attr('selected', true)
+				.attr('disabled', false);
+			$(this.dom.defaultValue)
+				.append(this.dom.valueTitle)
+				.insertAfter(this.dom.condition);
 		}
 
 		this.s.values = [];
@@ -1220,11 +1322,17 @@ export default class Criteria {
 
 			if (this.s.type === null) {
 				this.s.dt.draw();
+				this.setListeners();
 				this.s.type = this.s.dt.columns().type().toArray()[column];
 			}
 
-			$(this.dom.condition).attr('disabled', false).empty().append(this.dom.conditionTitle).addClass(this.classes.italic);
-			$(this.dom.conditionTitle).attr('selected', true);
+			$(this.dom.condition)
+				.attr('disabled', false)
+				.empty()
+				.append(this.dom.conditionTitle)
+				.addClass(this.classes.italic);
+			$(this.dom.conditionTitle)
+				.attr('selected', true);
 
 			let conditionObj = this.c.conditions[this.s.type] !== undefined ?
 				this.c.conditions[this.s.type] :
@@ -1245,8 +1353,8 @@ export default class Criteria {
 						text : conditionObj[condition].conditionName,
 						value : conditionObj[condition].conditionName,
 					})
-					.addClass(this.classes.option)
-					.addClass(this.classes.notItalic)
+						.addClass(this.classes.option)
+						.addClass(this.classes.notItalic)
 				);
 			}
 		}
@@ -1259,8 +1367,8 @@ export default class Criteria {
 					text : condition.conditionName,
 					value : condition.conditionName
 				})
-				.addClass(this.classes.option)
-				.addClass(this.classes.notItalic);
+					.addClass(this.classes.option)
+					.addClass(this.classes.notItalic);
 
 				if (this.s.condition !== undefined && this.s.condition.conditionName === condition.conditionName) {
 					$(newOpt).attr('selected', true);
@@ -1271,7 +1379,9 @@ export default class Criteria {
 			}
 		}
 		else {
-			$(this.dom.condition).attr('disabled', true).addClass(this.classes.italic);
+			$(this.dom.condition)
+				.attr('disabled', true)
+				.addClass(this.classes.italic);
 		}
 	}
 
@@ -1304,8 +1414,8 @@ export default class Criteria {
 								text : opt.text,
 								value : opt.index
 							})
-							.addClass(this.classes.option)
-							.addClass(this.classes.notItalic)
+								.addClass(this.classes.option)
+								.addClass(this.classes.notItalic)
 						);
 					}
 				}
@@ -1318,11 +1428,12 @@ export default class Criteria {
 					text : data.text,
 					value : data.index
 				})
-				.addClass(this.classes.option)
-				.addClass(this.classes.notItalic);
+					.addClass(this.classes.option)
+					.addClass(this.classes.notItalic);
 
 				if (+this.s.data === data.index) {
 					$(newOpt).attr('selected', true);
+					$(this.dom.data).removeClass(this.classes.italic);
 				}
 
 				$(this.dom.data).append(newOpt);
@@ -1344,8 +1455,6 @@ export default class Criteria {
 			$(val).remove();
 		}
 
-		$('.' + this.classes.joiner).remove();
-
 		let value = this.s.condition.init(
 			this,
 			Criteria.updateListener,
@@ -1360,12 +1469,14 @@ export default class Criteria {
 			value :
 			[value];
 
-		$(this.dom.value[0]).insertAfter(this.dom.condition).addClass(this.classes.italic);
-		$(this.dom.value[0]).trigger('dtsb-inserted');
+		$(this.dom.value[0])
+			.insertAfter(this.dom.condition)
+			.trigger('dtsb-inserted');
 
 		for (let i = 1; i < this.dom.value.length; i++) {
-			$(this.dom.value[i]).insertAfter(this.dom.value[i - 1]).addClass(this.classes.italic);
-			$(this.dom.value[i]).trigger('dtsb-inserted');
+			$(this.dom.value[i])
+				.insertAfter(this.dom.value[i - 1])
+				.trigger('dtsb-inserted');
 		}
 
 		this.s.filled = this.s.condition.isInputValid(this.dom.value, this);
@@ -1373,6 +1484,7 @@ export default class Criteria {
 
 		if (prevFilled !== this.s.filled) {
 			this.s.dt.draw();
+			this.setListeners();
 		}
 	}
 }
