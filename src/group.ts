@@ -604,6 +604,8 @@ export default class Group {
 				//  bubbling is also possible, but that is slow with deep levelled groups
 				$(this.s.topGroup).trigger('dtsb-redrawContents');
 
+				this.s.dt.draw();
+
 				return false;
 			});
 	}
