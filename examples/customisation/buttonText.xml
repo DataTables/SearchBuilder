@@ -27,7 +27,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This example demonstrates the behaviour of `-init searchBuilder` when initialised using a button and how to set the text of the button.
+This example demonstrates the behaviour of `-init searchBuilder` when initialised using a button and how to set the text of the button using `-init language.searchBuilder.button`.
 
 ]]></info>
 

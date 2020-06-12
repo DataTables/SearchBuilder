@@ -19,7 +19,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This example shows the behaviour of SearchBuilder with columns of type `html`.
+This example shows the behaviour of SearchBuilder with columns of type `html` which is present in the salary column.
 
 ]]></info>
 

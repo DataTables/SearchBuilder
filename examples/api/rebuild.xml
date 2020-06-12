@@ -42,6 +42,8 @@ $(document).ready(function() {
 
 This example demonstrates the use of `-api searchBuilder.getDetails()` and `-api searchBuilder.rebuild()`.
 
+The output panel below show's the JSON structure for the most recently stored details
+
 <button id="getDetails">Get Details</button>
 <button id="revert">Revert to last get</button>
 <div id="output"></div>

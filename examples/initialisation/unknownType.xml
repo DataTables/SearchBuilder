@@ -14,7 +14,11 @@ $(document).ready(function() {
     $.fn.dataTable.moment( 'YYYY/MM/DD' );
 
     $('#example').DataTable( {
-        dom: 'Qlfrtip'
+        dom: 'Qlfrtip',
+        columnDefs:[{
+            type: 'MadeUp',
+            targets: [3]
+        }]
     });
 });
 
@@ -25,7 +29,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This example includes a date that is not in the standard formatand therefore has a custom column type. This example demonstrates how SearchBuilder interacts with columns of an unknown type
+This example includes a date that is not in the standard formatand therefore has a custom column type. This example demonstrates how SearchBuilder interacts with columns of an unknown type. SearchBuilder will default to the `-type string` type for unknown columns.
 
 ]]></info>
 

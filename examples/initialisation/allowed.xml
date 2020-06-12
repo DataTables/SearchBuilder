@@ -22,7 +22,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This example demonstrates the behaviour of `-init searchBuilder` when the `-init searchBuilder.allowed` is set to limit which columns can be filtered on. 
+This example demonstrates the behaviour of `-init searchBuilder` when the `-init searchBuilder.allowed` is set to limit which columns can be filtered on. It is an array that contains the column indexes.
 
 ]]></info>
 

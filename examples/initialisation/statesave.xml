@@ -20,7 +20,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This example demonstrates the behaviour of `-init searchBuilder` when state saving is enabled. 
+This example demonstrates the behaviour of `-init searchBuilder` when state saving is enabled using `-init stateSave`. 
 
 ]]></info>
 
