@@ -12,7 +12,9 @@
 
 	<description>
 		<![CDATA[
-		This allows the display value of the condition to be set.
+		This allows the display value of the condition to be set. The custom condition defined in the example will set a new `new` condition in the `-type num` condition set.
+
+        More details on the structure that is used can be found at `-init searchBuilder[type]`
         ]]>
 	</description>
 
@@ -22,21 +24,23 @@
         dom: 'Qfrtip',
         searchBuilder: {
             conditions[type]: {
-                "num":[{
-                    conditionName: 'Made up',
-                    init: function(that, fn, preDefined = null){
-                        ...
-                    },
-                    inputValue: function(el, value = null){
-                        ...
-                    },
-                    isInputValid: function(el, that){
-                        ...
-                    },
-                    search: function(value, comparison) {
-                        ...
-                    },
-                }]
+                "num":{
+                    'new': {
+                        conditionName: 'Made up',
+                        init: function(that, fn, preDefined = null){
+                            ...
+                        },
+                        inputValue: function(el, value = null){
+                            ...
+                        },
+                        isInputValid: function(el, that){
+                            ...
+                        },
+                        search: function(value, comparison) {
+                            ...
+                        },
+                    }
+                }
             }
         }
     });

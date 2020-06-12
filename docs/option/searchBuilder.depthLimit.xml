@@ -21,7 +21,7 @@
 	</default>
 	<description>
 		<![CDATA[
-		This is useful as it allows limits to be set on the depth and therefore complexity of the generated queries.
+		This is useful as it allows limits to be set on the depth of the sub groups and therefore complexity of the generated queries.
         ]]>
 	</description>
 

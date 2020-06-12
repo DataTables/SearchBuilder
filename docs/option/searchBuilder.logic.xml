@@ -15,7 +15,7 @@
 	</default>
 	<description>
 		<![CDATA[
-		This is useful as it allows the default logic to be defined.
+		This is useful as it allows the default logic to be defined on a groups initialisation.
         ]]>
 	</description>
 

@@ -15,7 +15,9 @@
 	</default>
 	<description>
 		<![CDATA[
-		This is useful as it allows extra date conditions to be defined that can add to the filtering options.
+		This is useful as it allows extra date conditions to be defined that can add to the filtering options. The custom condition defined in the example will override the `=` condition in the `-type date` condition set.
+
+        More details on the structure that is used can be found at `-init searchBuilder[type]`
         ]]>
 	</description>
 
@@ -25,54 +27,56 @@
         dom: 'Qfrtip',
         searchBuilder: {
             conditions: {
-                "date":[{
-                    isInputValid: function (el, that) {
-                        let allFilled = true;
-                        for (let element of el) {
-                            if ($(element).is('input') && $(element).val().length === 0) {
-                                allFilled = false;
-                            }
-                        }
-
-                        return allFilled;
-                    }
-                    conditionName: 'Made up',
-                    inputValue: function (el, value = null) {
-                        let values = [];
-
-                        if (value === null) {
+                "date":{
+                    '=': {
+                        isInputValid: function (el, that) {
+                            let allFilled = true;
                             for (let element of el) {
-                                if ($(element).is('input')) {
-                                    values.push($(element).val());
+                                if ($(element).is('input') && $(element).val().length === 0) {
+                                    allFilled = false;
                                 }
                             }
+
+                            return allFilled;
                         }
-                        else {
-                            for (let v = 0; v < el.length; v++) {
-                                if ($(el[v]).is('input')) {
-                                    $(el[v]).el(value[v]);
-                                    values.push(value[v]);
+                        conditionName: 'Made up',
+                        inputValue: function (el, value = null) {
+                            let values = [];
+
+                            if (value === null) {
+                                for (let element of el) {
+                                    if ($(element).is('input')) {
+                                        values.push($(element).val());
+                                    }
                                 }
                             }
+                            else {
+                                for (let v = 0; v < el.length; v++) {
+                                    if ($(el[v]).is('input')) {
+                                        $(el[v]).el(value[v]);
+                                        values.push(value[v]);
+                                    }
+                                }
+                            }
+
+                            return values;
+                        },
+                        init: function (that, fn, preDefined) {
+                            let el = $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input).dtDateTime();
+
+                            el.on('input', function() {fn(that, el)});
+
+                            if (preDefined !== undefined) {
+                                $(el).val(preDefined[0]);
+                            }
+
+                            return el;
+                        },
+                        search: function (value, comparison) {
+                            return value === comparison[0];
                         }
-
-                        return values;
-                    },
-                    init: function (that, fn, preDefined) {
-                        let el = $('<input/>').addClass(Criteria.classes.value).addClass(Criteria.classes.input).dtDateTime();
-
-                        el.on('input', function() {fn(that, el)});
-
-                        if (preDefined !== undefined) {
-                            $(el).val(preDefined[0]);
-                        }
-
-                        return el;
-                    },
-                    search: function (value, comparison) {
-                        return value === comparison[0];
                     }
-                }]
+                }
             }
         }
     });

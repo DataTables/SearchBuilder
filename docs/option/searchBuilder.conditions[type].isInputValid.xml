@@ -20,7 +20,7 @@
             * `val` the array of value elements that belong to this criteria. These are set in `-init searchBuilder.conditions[type].init`.
             * `that` the criteria instance that is being checked.
 
-            The internals of the function are down to the functionality that you wish to create. Some examples are shown below for select and input elements
+            The internals of the function are down to the functionality that you wish to create. Some examples are shown below for select and input elements.
         ]]>
 	</description>
 
