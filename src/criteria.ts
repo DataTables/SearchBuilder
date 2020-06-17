@@ -632,12 +632,12 @@ export default class Criteria {
 			conditionName: 'Not',
 			init: Criteria.initSelect,
 			inputValue: Criteria.inputValueSelect,
-			isInputValid: Criteria.isInputValidInput,
+			isInputValid: Criteria.isInputValidSelect,
 			search(value: any, comparison: any[]): boolean {
-				value = value.replace(/[^0-9.]/g, '');
-				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+				let val = value.replace(/[^0-9.]/g, '');
+				let comp = comparison[0].replace(/[^0-9.]/g, '');
 
-				return +value !== +comparison[0];
+				return +val !== +comp;
 			},
 		},
 		'<': {
@@ -646,10 +646,10 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[]): boolean {
-				value = value.replace(/[^0-9.]/g, '');
-				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+				let val = value.replace(/[^0-9.]/g, '');
+				let comp = comparison[0].replace(/[^0-9.]/g, '');
 
-				return +value < +comparison[0];
+				return +val < +comp;
 			},
 		},
 		'<<': {
@@ -658,14 +658,14 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[]): boolean {
-				value = value.replace(/[^0-9.]/g, '');
-				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
-				comparison[1] = comparison[1].replace(/[^0-9.]/g, '');
-				if (comparison[0] < comparison[1]) {
-					return +comparison[0] < +value && +value < +comparison[1];
+				let val = value.replace(/[^0-9.]/g, '');
+				let comp0 = comparison[0].replace(/[^0-9.]/g, '');
+				let comp1 = comparison[1].replace(/[^0-9.]/g, '');
+				if (comp0 < comp1) {
+					return +comp0 < +val && +val < +comp1;
 				}
 				else {
-					return +comparison[1] < +value && +value < +comparison[0];
+					return +comp1 < +val && +val < +comp0;
 				}
 			},
 		},
@@ -675,10 +675,10 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[]): boolean {
-				value = value.replace(/[^0-9.]/g, '');
-				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+				let val = value.replace(/[^0-9.]/g, '');
+				let comp0 = comparison[0].replace(/[^0-9.]/g, '');
 
-				return +value <= +comparison[0];
+				return +val <= +comp0;
 			},
 		},
 		'<=<=': {
@@ -687,14 +687,14 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[]): boolean {
-				value = value.replace(/[^0-9.]/g, '');
-				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
-				comparison[1] = comparison[1].replace(/[^0-9.]/g, '');
-				if (comparison[0] < comparison[1]) {
-					return +comparison[0] <= +value && +value <= +comparison[1];
+				let val = value.replace(/[^0-9.]/g, '');
+				let comp0 = comparison[0].replace(/[^0-9.]/g, '');
+				let comp1 = comparison[1].replace(/[^0-9.]/g, '');
+				if (comp0 < comp1) {
+					return +comp0 <= +val && +val <= +comp1;
 				}
 				else {
-					return +comparison[1] <= +value && +value <= +comparison[0];
+					return +comp1 <= +val && +val <= +comp0;
 				}
 			},
 		},
@@ -704,10 +704,10 @@ export default class Criteria {
 			inputValue: Criteria.inputValueSelect,
 			isInputValid: Criteria.isInputValidSelect,
 			search(value: any, comparison: any[]): boolean {
-				value = value.replace(/[^0-9.]/g, '');
-				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+				let val = value.replace(/[^0-9.]/g, '');
+				let comp0 = comparison[0].replace(/[^0-9.]/g, '');
 
-				return +value === +comparison[0];
+				return +val === +comp0;
 			},
 		},
 		'>': {
@@ -716,10 +716,10 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[]): boolean {
-				value = value.replace(/[^0-9.]/g, '');
-				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+				let val = value.replace(/[^0-9.]/g, '');
+				let comp0 = comparison[0].replace(/[^0-9.]/g, '');
 
-				return +value > +comparison[0];
+				return +val > +comp0;
 			},
 		},
 		'>=': {
@@ -728,10 +728,10 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[]): boolean {
-				value = value.replace(/[^0-9.]/g, '');
-				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
+				let val = value.replace(/[^0-9.]/g, '');
+				let comp0 = comparison[0].replace(/[^0-9.]/g, '');
 
-				return +value >= +comparison[0];
+				return +val >= +comp0;
 			},
 		},
 		'null': {
@@ -749,14 +749,14 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[]): boolean {
-				value = value.replace(/[^0-9.]/g, '');
-				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
-				comparison[1] = comparison[1].replace(/[^0-9.]/g, '');
-				if (comparison[0] < comparison[1]) {
-					return !(+comparison[0] <= +value && +value <= +comparison[1]);
+				let val = value.replace(/[^0-9.]/g, '');
+				let comp0 = comparison[0].replace(/[^0-9.]/g, '');
+				let comp1 = comparison[1].replace(/[^0-9.]/g, '');
+				if (comp0 < comp1) {
+					return !(+comp0 <= +val && +val <= +comp1);
 				}
 				else {
-					return !(+comparison[1] <= +value && +value <= +comparison[0]);
+					return !(+comp1 <= +val && +val <= +comp0);
 				}
 			},
 		},
@@ -766,14 +766,14 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[]): boolean {
-				value = value.replace(/[^0-9.]/g, '');
-				comparison[0] = comparison[0].replace(/[^0-9.]/g, '');
-				comparison[1] = comparison[1].replace(/[^0-9.]/g, '');
-				if (comparison[0] < comparison[1]) {
-					return !(+comparison[0] <= +value && +value <= +comparison[1]);
+				let val = value.replace(/[^0-9.]/g, '');
+				let comp0 = comparison[0].replace(/[^0-9.]/g, '');
+				let comp1 = comparison[1].replace(/[^0-9.]/g, '');
+				if (comp0 < comp1) {
+					return !(+comp0 <= +val && +val <= +comp1);
 				}
 				else {
-					return !(+comparison[1] <= +value && +value <= +comparison[0]);
+					return !(+comp1 <= +val && +val <= +comp0);
 				}
 			},
 		},

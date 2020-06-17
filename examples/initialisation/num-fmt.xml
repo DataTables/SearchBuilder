@@ -42,7 +42,7 @@ This example includes a salary with a decimal place for testing the `num-fmt` co
               <td>Edinburgh</td>
               <td>61</td>
               <td>2011/04/25</td>
-              <td>$320,800.50</td>
+              <td>$320,800</td>
           </tr>
           <tr>
               <td>Sandy Galloway</td>
@@ -66,7 +66,7 @@ This example includes a salary with a decimal place for testing the `num-fmt` co
               <td>San Francisco</td>
               <td>66</td>
               <td>2009/01/12</td>
-              <td>$86,000</td>
+              <td>$86,000.50</td>
           </tr>
           <tr>
               <td>Cedric Kelly</td>
