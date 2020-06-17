@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-example table-type="html-salary" table-class="display nowrap" order="4">
 
-<css lib="datatables searchbuilder"/>
+<css lib="datatables searchbuilder">
+    .old {
+        color: red;
+    }
+    .middleaged {
+        color: yellow;
+    }
+    .young {
+        color: green;
+    }
+</css>
 
 <js lib="jquery datatables searchbuilder">
 <![CDATA[
@@ -19,7 +29,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This example shows the behaviour of SearchBuilder with columns of type `html` which is present in the salary column.
+This example shows the behaviour of SearchBuilder with columns of type `html` which is present in the age column.
 
 ]]></info>
 
