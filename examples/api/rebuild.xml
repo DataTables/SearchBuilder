@@ -10,6 +10,7 @@
 		border-radius: 3px;
 		height: 100px;
 		overflow: auto;
+        white-space:pre-wrap;
 	}
 </css>
 
@@ -25,7 +26,8 @@ $(document).ready(function() {
 
     $('#getDetails').on('click', function() {
         stored = $('#example').DataTable().searchBuilder.getDetails();
-        $('#output').text(JSON.stringify(stored));
+        console.log(JSON.stringify(stored, null, '\t'))
+        $('#output').text(JSON.stringify(stored, null, '\t'));
     })
 
     $('#revert').on('click', function() {
