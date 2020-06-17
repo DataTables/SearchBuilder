@@ -329,7 +329,7 @@ export default class Criteria {
 
 		let idx = null;
 		for (let i = 0; i < that.dom.value.length; i++) {
-			if (el === that.dom.value[i]) {
+			if (el === that.dom.value[i][0]) {
 				idx = i;
 			}
 		}
@@ -338,8 +338,8 @@ export default class Criteria {
 		that.s.dt.draw();
 
 		if (idx !== null) {
-			$(that.dom.value[idx]).focus();
 			$(that.dom.value[idx]).removeClass(that.classes.italic);
+			$(that.dom.value[idx]).focus();
 		}
 	};
 
