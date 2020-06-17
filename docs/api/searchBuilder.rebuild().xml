@@ -14,7 +14,7 @@
 	<description>
 		This method provides the ability to get the set the search in SearchBuilder as detailed by the details argument.
 
-		`-init searchBuilder.rebuild()` takes one argument, it is an object in the same structure as is returned from `-api searchBuilder.getDetails()` and is the basis for the rebuild.
+		`-init searchBuilder.rebuild()` takes one argument, it is an object in the same structure as is returned from `-api searchBuilder.getDetails()` and is the basis for the rebuild. If no argument is given, the search will be cleared.
 
 	</description>
 
