@@ -1346,6 +1346,7 @@ export default class Criteria {
 	 * Populates the condition dropdown
 	 */
 	private _populateCondition(): void {
+		let conditionOpts = [];
 		// If there are no conditions stored then we need to get them from the appropriate type
 		if (this.s.conditions.length === 0) {
 			let column = $(this.dom.data).children('option:selected').val();
@@ -1379,7 +1380,7 @@ export default class Criteria {
 				let condition of Object.keys(conditionObj)
 			) {
 				this.s.conditions.push(conditionObj[condition]);
-				$(this.dom.condition).append(
+				conditionOpts.push(
 					$('<option>', {
 						text : conditionObj[condition].conditionName,
 						value : conditionObj[condition].conditionName,
@@ -1406,14 +1407,33 @@ export default class Criteria {
 					$(this.dom.condition).removeClass(this.classes.italic);
 				}
 
-				$(this.dom.condition).append(newOpt);
+				conditionOpts.push(newOpt);
 			}
 		}
 		else {
 			$(this.dom.condition)
 				.attr('disabled', true)
 				.addClass(this.classes.italic);
+
+			return;
 		}
+
+		conditionOpts.sort((a, b) => {
+			if ($(a).val() < $(b).val()) {
+				return -1;
+			}
+			else if ($(a).val() < $(b).val()) {
+				return 1;
+			}
+			else {
+				return 0;
+			}
+		});
+
+		for (let opt of conditionOpts) {
+			$(this.dom.condition).append(opt);
+		}
+
 	}
 
 	/**
