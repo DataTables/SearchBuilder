@@ -20,7 +20,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This example shows DataTables and the searchbuilder extension being used with [Semantic UI](http://semantic-ui.com) providing the styling. The DataTables / Semantic UI integration provides seamless integration for DataTables to be used in a Semantic UI page.
+This example shows DataTables and the SearchBuilder extension being used with [Semantic UI](http://semantic-ui.com) providing the styling. The DataTables / Semantic UI integration provides seamless integration for DataTables to be used in a Semantic UI page.
 
 ]]></info>
 

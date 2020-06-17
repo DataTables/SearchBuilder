@@ -20,7 +20,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This example shows searchbuilder being used with the [Zurb Foundation](http://foundation.zurb.com/) CSS framework.
+This example shows SearchBuilder being used with the [Zurb Foundation](http://foundation.zurb.com/) CSS framework.
 
 ]]></info>
 
