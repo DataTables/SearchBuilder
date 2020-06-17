@@ -60,6 +60,7 @@ export default class Criteria {
 
 		that.s.values = [];
 		let added = [];
+		let options = [];
 
 		// Add all of the options from the table to the select element.
 		// Only add one option for each possible value
@@ -86,8 +87,9 @@ export default class Criteria {
 
 				// Check that this value has not already been added
 			if (added.indexOf(val) === -1) {
-				$(el).append(opt);
+				// $(el).append(opt);
 				added.push(val);
+				options.push(opt);
 
 				// If this value was previously selected as indicated by preDefined, then select it again
 				if (preDefined !== null && opt.val() === preDefined[0]) {
@@ -96,6 +98,35 @@ export default class Criteria {
 					$(el).removeClass(Criteria.classes.italic);
 				}
 			}
+		}
+
+		options.sort((a, b) => {
+			if (that.s.type === 'string' || that.s.type === 'num' || that.s.type === 'html' || that.s.type === 'html-num') {
+				if ($(a).val() < $(b).val()) {
+					return -1;
+				}
+				else if ($(a).val() < $(b).val()) {
+					return 1;
+				}
+				else {
+					return 0;
+				}
+			}
+			else if (that.s.type === 'num-fmt' || that.s.type === 'html-num-fmt') {
+				if (+$(a).val().replace(/[^0-9.]/g, '') < +$(b).val().replace(/[^0-9.]/g, '')) {
+					return -1;
+				}
+				else if (+$(a).val().replace(/[^0-9.]/g, '') < +$(b).val().replace(/[^0-9.]/g, '')) {
+					return 1;
+				}
+				else {
+					return 0;
+				}
+			}
+		});
+
+		for (let opt of options) {
+			$(el).append(opt);
 		}
 
 		return el;
