@@ -4,10 +4,10 @@
 <css lib="datatables searchbuilder"/>
 
 <js lib="jquery"/>
+<js lib="//cdn.datatables.net/plug-ins/1.10.21/sorting/datetime-moment.js">
 <js lib="datatables searchbuilder"/>
 
 <js lib="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"/>
-<js lib="//cdn.datatables.net/plug-ins/1.10.21/sorting/datetime-moment.js">
 <![CDATA[
 
 $(document).ready(function() {
