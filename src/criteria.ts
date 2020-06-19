@@ -359,9 +359,11 @@ export default class Criteria {
 		that.s.value = that.s.condition.inputValue(that.dom.value, undefined, that);
 
 		let idx = null;
+		let cursorPos = null;
 		for (let i = 0; i < that.dom.value.length; i++) {
 			if (el === that.dom.value[i][0]) {
 				idx = i;
+				cursorPos = el.selectionStart();
 			}
 		}
 
@@ -371,6 +373,7 @@ export default class Criteria {
 		if (idx !== null) {
 			$(that.dom.value[idx]).removeClass(that.classes.italic);
 			$(that.dom.value[idx]).focus();
+			$(that.dom.value[idx])[0].setSelectionRange(cursorPos, cursorPos);
 		}
 	};
 
