@@ -1569,7 +1569,7 @@ export default class Criteria {
 	 * Populates the data select element
 	 */
 	private _populateData(): void {
-		$(this.dom.data).empty();
+		$(this.dom.data).empty().append(this.dom.dataTitle);
 		// If there are no datas stored then we need to get them from the table
 		if (this.s.dataPoints.length === 0) {
 			this.s.dt.columns().every((index) => {
