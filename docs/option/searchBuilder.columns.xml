@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
-	<name>searchBuilder.allowed</name>
+	<name>searchBuilder.columns</name>
 	<summary>Impose a limit on which data points can be filtered on</summary>
 	<since>SearchBuilder 0.0.1</since>
 
@@ -11,7 +11,7 @@
 	</type>
 
 	<default value="true">
-        The default value for the `-init searchBuilder.allowed` option is `true` meaning that as standard all of the data points can be filtered on.
+        The default value for the `-init searchBuilder.columns` option is `true` meaning that as standard all of the data points can be filtered on.
 	</default>
 	<description>
 		<![CDATA[
@@ -23,7 +23,7 @@
 
     $('#example').DataTable( {
         searchBuilder: {
-            allowed: [1,2,3]
+            columns: [1,2,3]
         },    
 		dom: 'Qlfrtip'
     });

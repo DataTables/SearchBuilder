@@ -10,7 +10,7 @@ $(document).ready(function() {
     $('#example').DataTable( {
         dom: 'Qlfrtip',
         searchBuilder: {
-            allowed: [1,2,3]
+            columns: [1,2,3]
         }
     });
 });
@@ -22,7 +22,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This example demonstrates the behaviour of `-init searchBuilder` when the `-init searchBuilder.allowed` is set to limit which columns can be filtered on. It is an array that contains the column indexes.
+This example demonstrates the behaviour of `-init searchBuilder` when the `-init searchBuilder.columns` is set to limit which columns can be filtered on. It is of the type `-type column-selector`, allowing a wide range of different ways of selecting columns.
 
 ]]></info>
 

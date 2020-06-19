@@ -26,7 +26,7 @@ export interface ICondition {
 }
 
 export interface IDefaults {
-	allowed: number[] | boolean;
+	columns: number[] | boolean;
 	conditions: {[keys: string]: {[keys: string]: ICondition}};
 	depthLimit: number | boolean;
 	greyscale: boolean;

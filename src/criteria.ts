@@ -994,7 +994,7 @@ export default class Criteria {
 	};
 
 	private static defaults: typeInterfaces.IDefaults = {
-		allowed: true,
+		columns: true,
 		conditions: {
 			'date': Criteria.dateConditions,
 			'html': Criteria.stringConditions,
@@ -1576,8 +1576,8 @@ export default class Criteria {
 			this.s.dt.columns().every((index) => {
 				// Need to check that the column can be filtered on before adding it
 				if (
-					this.c.allowed === true ||
-					(typeof this.c.allowed !== 'boolean' && this.c.allowed.length > 0 && this.c.allowed.indexOf(index) !== -1)
+					this.c.columns === true ||
+					(this.s.dt.columns(this.c.columns).indexes().toArray().indexOf(index) !== -1)
 				) {
 					let found = false;
 
