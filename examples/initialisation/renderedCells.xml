@@ -26,7 +26,8 @@ $(document).ready( function () {
 
 <info><![CDATA[
 
-This example shows how SearchBuilder interacts with empty cells and allows for a demonstration of the `Empty` option.
+	This example shows how SearchBuilder interacts with cells rendered with `-init columns.render`. SearchBuilder uses the values returned from type `display`.
+
 
 ]]></info>
 
