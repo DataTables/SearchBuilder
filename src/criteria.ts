@@ -203,7 +203,7 @@ export default class Criteria {
 				.addClass(Criteria.classes.value)
 				.addClass(Criteria.classes.input)
 				.dtDateTime()
-				.on('input', function() { fn(that, this); }),
+				.on('input change', function() { fn(that, this); }),
 			$('<span>')
 				.addClass(that.classes.joiner)
 				.text('and'),
@@ -211,7 +211,7 @@ export default class Criteria {
 				.addClass(Criteria.classes.value)
 				.addClass(Criteria.classes.input)
 				.dtDateTime()
-				.on('input', function() { fn(that, this); }),
+				.on('input change', function() { fn(that, this); }),
 		];
 
 		// If there are and preDefined values then add them
@@ -460,7 +460,35 @@ export default class Criteria {
 			search(value: any, comparison: any[]): boolean {
 				return (value === null || value === undefined || value.length === 0);
 			},
-		}
+		},
+		'outwithExc': {
+			conditionName: 'Outwith Exclusive',
+			init: Criteria.init2Date,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[]): boolean {
+				if (comparison[0] < comparison[1]) {
+					return !(comparison[0] <= value && value <= comparison[1]);
+				}
+				else {
+					return !(comparison[1] <= value && value <= comparison[0]);
+				}
+			},
+		},
+		'outwithInc': {
+			conditionName: 'Outwith Inclusive',
+			init: Criteria.init2Date,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[]): boolean {
+				if (comparison[0] < comparison[1]) {
+					return !(comparison[0] < value && value < comparison[1]);
+				}
+				else {
+					return !(comparison[1] < value && value < comparison[0]);
+				}
+			},
+		},
 	};
 
 	private static momentDateConditions: {[keys: string]: typeInterfaces.ICondition} = {
@@ -555,7 +583,41 @@ export default class Criteria {
 			search(value: any, comparison: any[]): boolean {
 				return (value === null || value === undefined || value.length === 0);
 			},
-		}
+		},
+		'outwithExc': {
+			conditionName: 'Outwith Exclusive',
+			init: Criteria.init2Date,
+			inputValue: Criteria.inputValueInputMoment,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[], that): boolean {
+				let val = moment(value, that.s.momentFormat).valueOf();
+				let comp0 = moment(comparison[0], that.s.momentFormat).valueOf();
+				let comp1 = moment(comparison[1], that.s.momentFormat).valueOf();
+				if (comp0 < comp1) {
+					return !(+comp0 <= +val && +val <= +comp1);
+				}
+				else {
+					return !(+comp1 <= +val && +val <= +comp0);
+				}
+			},
+		},
+		'outwithInc': {
+			conditionName: 'Outwith Inclusive',
+			init: Criteria.init2Input,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[], that): boolean {
+				let val = moment(value, that.s.momentFormat).valueOf();
+				let comp0 = moment(comparison[0], that.s.momentFormat).valueOf();
+				let comp1 = moment(comparison[1], that.s.momentFormat).valueOf();
+				if (comp0 < comp1) {
+					return !(+comp0 < +val && +val < +comp1);
+				}
+				else {
+					return !(+comp1 < +val && +val < +comp0);
+				}
+			},
+		},
 	};
 
 	private static numConditions: {[keys: string]: typeInterfaces.ICondition} = {
