@@ -57,8 +57,9 @@ export interface IS {
 	conditions: ICondition[];
 	depth: number;
 	dt: any;
-	data: number;
+	dataIdx: number;
 	dataPoints: IDataOpt[];
+	dataTitle: string;
 	filled: boolean;
 	index: number;
 	momentFormat: string | boolean;
@@ -75,7 +76,8 @@ export interface IDataOpt {
 
 export interface IDetails {
 	condition: ICondition;
-	data: number;
+	dataIdx: number;
+	dataTitle: string;
 	type: string;
 	value: any[];
 }

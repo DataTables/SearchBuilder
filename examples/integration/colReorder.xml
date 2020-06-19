@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html-iso8601" table-class="display nowrap" order="2">
+
+<css lib="datatables searchbuilder colreorder"/>
+
+<js lib="jquery datatables searchbuilder colreorder">
+<![CDATA[
+
+$(document).ready(function() {
+    $('#example').DataTable( {
+        dom: 'Qlfrtip',
+        colReorder: true
+    });
+});
+
+]]>
+</js>
+
+<title lib="searchBuilder">ColReorder Integration</title>
+
+<info><![CDATA[
+
+This example demonstrates the behaviour of `-init searchBuilder` when state saving is enabled using `-init colReorder`. 
+
+]]></info>
+
+</dt-example>

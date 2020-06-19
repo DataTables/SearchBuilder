@@ -363,7 +363,9 @@ export default class Criteria {
 		for (let i = 0; i < that.dom.value.length; i++) {
 			if (el === that.dom.value[i][0]) {
 				idx = i;
-				cursorPos = el.selectionStart();
+				if (el.selectionStart !== undefined) {
+					cursorPos = el.selectionStart();
+				}
 			}
 		}
 
@@ -373,7 +375,10 @@ export default class Criteria {
 		if (idx !== null) {
 			$(that.dom.value[idx]).removeClass(that.classes.italic);
 			$(that.dom.value[idx]).focus();
-			$(that.dom.value[idx])[0].setSelectionRange(cursorPos, cursorPos);
+
+			if (cursorPos !== null) {
+				$(that.dom.value[idx])[0].setSelectionRange(cursorPos, cursorPos);
+			}
 		}
 	};
 
@@ -1026,8 +1031,9 @@ export default class Criteria {
 		this.s = {
 			condition: undefined,
 			conditions: [],
-			data: -1,
+			dataIdx: -1,
 			dataPoints: [],
+			dataTitle: '',
 			depth,
 			dt: table,
 			filled: false,
@@ -1161,7 +1167,7 @@ export default class Criteria {
 	 */
 	public search(rowData: any[]): boolean {
 		if (this.s.condition !== undefined) {
-			return this.s.condition.search(rowData[this.s.data], this.s.value, this);
+			return this.s.condition.search(rowData[this.s.dataIdx], this.s.value, this);
 		}
 	}
 
@@ -1171,7 +1177,8 @@ export default class Criteria {
 	public getDetails(): typeInterfaces.IDetails {
 		return {
 			condition: this.s.condition,
-			data: this.s.data,
+			dataIdx: this.s.dataIdx,
+			dataTitle: this.s.dataTitle,
 			type: 'criteria',
 			value: this.s.value
 		};
@@ -1191,7 +1198,7 @@ export default class Criteria {
 	public populate(): void {
 		this._populateData();
 
-		if (this.s.data !== -1) {
+		if (this.s.dataIdx !== -1) {
 			this._populateCondition();
 
 			if (this.s.condition !== undefined) {
@@ -1207,13 +1214,14 @@ export default class Criteria {
 	public rebuild(loadedCriteria: typeInterfaces.IDetails): void {
 		// Check to see if the previously selected data exists, if so select it
 		let foundData = false;
+		this._populateData();
 
-		if (loadedCriteria.data !== -1) {
+		if (loadedCriteria.dataIdx !== -1) {
 			let italic = this.classes.italic;
 			let data = this.dom.data;
 
 			$(this.dom.data).children('option').each(function() {
-				if ($(this).val() === loadedCriteria.data) {
+				if ($(this).text() === loadedCriteria.dataTitle) {
 					$(this).attr('selected', true);
 					$(data).removeClass(italic);
 					foundData = true;
@@ -1223,7 +1231,7 @@ export default class Criteria {
 
 		// If the data has been found and selected then the condition can be populated and searched
 		if (foundData) {
-			this.s.data = loadedCriteria.data;
+			this.s.dataTitle = loadedCriteria.dataTitle;
 			$(this.dom.dataTitle).remove();
 			this._populateCondition();
 			$(this.dom.conditionTitle).remove();
@@ -1278,7 +1286,8 @@ export default class Criteria {
 			.on('change', () => {
 				$(this.dom.dataTitle).attr('selected', false);
 				$(this.dom.data).removeClass(this.classes.italic);
-				this.s.data = $(this.dom.data).children('option:selected').val();
+				this.s.dataIdx = $(this.dom.data).children('option:selected').val();
+				this.s.dataTitle = $(this.dom.data).children('option:selected').text();
 
 				// When the data is changed, the values in condition and value may also change so need to renew them
 				this._clearCondition();
@@ -1560,6 +1569,7 @@ export default class Criteria {
 	 * Populates the data select element
 	 */
 	private _populateData(): void {
+		$(this.dom.data).empty();
 		// If there are no datas stored then we need to get them from the table
 		if (this.s.dataPoints.length === 0) {
 			this.s.dt.columns().every((index) => {
@@ -1595,6 +1605,11 @@ export default class Criteria {
 		// Otherwise we can just load them in
 		else {
 			for (let data of this.s.dataPoints) {
+				this.s.dt.columns().every((index) => {
+					if (this.s.dt.settings()[0].aoColumns[index].sTitle === data.text) {
+						data.index = index;
+					}
+				});
 				let newOpt = $('<option>', {
 					text : data.text,
 					value : data.index
@@ -1602,7 +1617,8 @@ export default class Criteria {
 					.addClass(this.classes.option)
 					.addClass(this.classes.notItalic);
 
-				if (+this.s.data === data.index) {
+				if (this.s.dataTitle === data.text) {
+					this.s.dataIdx = data.index;
 					$(newOpt).attr('selected', true);
 					$(this.dom.data).removeClass(this.classes.italic);
 				}
