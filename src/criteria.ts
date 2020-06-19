@@ -364,7 +364,7 @@ export default class Criteria {
 			if (el === that.dom.value[i][0]) {
 				idx = i;
 				if (el.selectionStart !== undefined) {
-					cursorPos = el.selectionStart();
+					cursorPos = el.selectionStart;
 				}
 			}
 		}
