@@ -384,6 +384,17 @@ export default class Criteria {
 				return value !== comparison[0];
 			},
 		},
+		'!null': {
+			conditionName: 'Not Empty',
+			isInputValid() { return true; },
+			init() { return; },
+			inputValue() {
+				return;
+			},
+			search(value: any, comparison: any[]): boolean {
+				return !(value === null || value === undefined || value.length === 0);
+			},
+		},
 		'<': {
 			conditionName: 'Before',
 			init: Criteria.initDate,
@@ -460,6 +471,17 @@ export default class Criteria {
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[], that): boolean {
 				return moment(value, that.s.momentFormat).valueOf() !== moment(comparison[0], that.s.momentFormat).valueOf();
+			},
+		},
+		'!null': {
+			conditionName: 'Not Empty',
+			isInputValid() { return true; },
+			init() { return; },
+			inputValue() {
+				return;
+			},
+			search(value: any, comparison: any[]): boolean {
+				return !(value === null || value === undefined || value.length === 0);
 			},
 		},
 		'<': {
@@ -544,6 +566,17 @@ export default class Criteria {
 			isInputValid: Criteria.isInputValidSelect,
 			search(value: any, comparison: any[]): boolean {
 				return +value !== +comparison[0];
+			},
+		},
+		'!null': {
+			conditionName: 'Not Empty',
+			isInputValid() { return true; },
+			init() { return; },
+			inputValue() {
+				return;
+			},
+			search(value: any, comparison: any[]): boolean {
+				return !(value === null || value === undefined || value.length === 0);
 			},
 		},
 		'<': {
@@ -669,6 +702,17 @@ export default class Criteria {
 				let comp = comparison[0].replace(/[^0-9.]/g, '');
 
 				return +val !== +comp;
+			},
+		},
+		'!null': {
+			conditionName: 'Not Empty',
+			isInputValid() { return true; },
+			init() { return; },
+			inputValue() {
+				return;
+			},
+			search(value: any, comparison: any[]): boolean {
+				return !(value === null || value === undefined || value.length === 0);
 			},
 		},
 		'<': {
@@ -818,6 +862,17 @@ export default class Criteria {
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[]): boolean {
 				return value !== comparison[0];
+			},
+		},
+		'!null': {
+			conditionName: 'Not Empty',
+			isInputValid() { return true; },
+			init() { return; },
+			inputValue() {
+				return;
+			},
+			search(value: any, comparison: any[]): boolean {
+				return !(value === null || value === undefined || value.length === 0);
 			},
 		},
 		'=': {
