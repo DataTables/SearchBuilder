@@ -180,7 +180,14 @@ export default class SearchBuilder {
 
 		this._setRedrawListener();
 
+		let tableNode: Node = this.s.dt.table(0).node();
+
 		this.s.search = (settings, searchData, dataIndex, origData) => {
+			if (settings.nTable !== tableNode) {
+				return true;
+			}
+
+			console.log(searchData);
 			return this.s.topGroup.search(searchData);
 		};
 

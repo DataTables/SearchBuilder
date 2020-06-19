@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html-iso8601" table-class="display nowrap" order="2">
+
+<css lib="datatables searchbuilder searchpanes select"/>
+
+<js lib="jquery datatables searchbuilder searchpanes select">
+<![CDATA[
+
+$(document).ready(function() {
+    $('#example').DataTable( {
+        dom: 'PQlfrtip',
+        searchPanes:{
+            cascadePanes: true,
+            viewTotal: true
+        }
+    });
+});
+
+]]>
+</js>
+
+<title lib="searchBuilder">SearchPanes CascadePanes and ViewTotal Integration</title>
+
+<info><![CDATA[
+
+This example demonstrates the behaviour of `-init searchBuilder` when state saving is enabled using `-init searchPanes`. 
+
+]]></info>
+
+</dt-example>
