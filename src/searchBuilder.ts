@@ -187,7 +187,6 @@ export default class SearchBuilder {
 				return true;
 			}
 
-			console.log(searchData);
 			return this.s.topGroup.search(searchData);
 		};
 

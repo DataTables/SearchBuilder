@@ -64,13 +64,14 @@ export default class Criteria {
 
 		// Add all of the options from the table to the select element.
 		// Only add one option for each possible value
+		console.log(that.c)
 		for (let index of indexArray) {
 			let filter = settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.search);
 
 			let value = {
 				filter,
 				index,
-				text: settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.conditionName)
+				text: settings.oApi._fnGetCellData(settings, index, column, 'display')
 			};
 
 			that.s.values.push(value);

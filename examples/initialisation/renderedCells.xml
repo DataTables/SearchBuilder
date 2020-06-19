@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html-iso8601" table-class="display nowrap" order="1">
+
+<css lib="datatables searchbuilder"/>
+
+<js lib="jquery datatables searchbuilder">
+<![CDATA[
+
+$(document).ready( function () {
+  var table = $('#example').DataTable({
+    dom: 'Qlfrtip',
+    columnDefs: [{
+      targets: 0,
+      render: function(data, type, row, meta) {
+        return type === 'display'? 'Employee: ' + data : data;
+      }
+    }]
+  });
+} );
+
+
+]]>
+</js>
+
+<title lib="searchBuilder">Interaction with Rendered Cells</title>
+
+<info><![CDATA[
+
+This example shows how SearchBuilder interacts with empty cells and allows for a demonstration of the `Empty` option.
+
+]]></info>
+
+</dt-example>
