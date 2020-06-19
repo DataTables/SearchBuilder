@@ -1331,7 +1331,7 @@ export default class Criteria {
 					}
 				}
 
-				this.s.dt.state.save();
+				this.s.dt.draw();
 			});
 
 		// When delete is pressed destroy this criteria
