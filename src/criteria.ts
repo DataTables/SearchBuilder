@@ -64,7 +64,6 @@ export default class Criteria {
 
 		// Add all of the options from the table to the select element.
 		// Only add one option for each possible value
-		console.log(that.c)
 		for (let index of indexArray) {
 			let filter = settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.search);
 
@@ -183,7 +182,6 @@ export default class Criteria {
 	 */
 	private static initDate = function(that, fn, preDefined = null) {
 		// Declare date element using DataTables dateTime plugin
-		console.log("format", that.s.momentFormat);
 		let el = $('<input/>')
 			.addClass(Criteria.classes.value)
 			.addClass(Criteria.classes.input)
@@ -362,6 +360,8 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[]): boolean {
+				value = value.replace(/(\/|\-|\,)/g, '-');
+
 				return value !== comparison[0];
 			},
 		},
@@ -382,6 +382,8 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[]): boolean {
+				value = value.replace(/(\/|\-|\,)/g, '-');
+
 				return value < comparison[0];
 			},
 		},
@@ -391,6 +393,7 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[]): boolean {
+				value = value.replace(/(\/|\-|\,)/g, '-');
 				if (comparison[0] < comparison[1]) {
 					return comparison[0] < value && value < comparison[1];
 				}
@@ -405,6 +408,7 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[]): boolean {
+				value = value.replace(/(\/|\-|\,)/g, '-');
 				if (comparison[0] < comparison[1]) {
 					return comparison[0] <= value && value <= comparison[1];
 				}
@@ -419,6 +423,8 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[]): boolean {
+				value = value.replace(/(\/|\-|\,)/g, '-');
+
 				return value === comparison[0];
 			},
 		},
@@ -428,6 +434,8 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[]): boolean {
+				value = value.replace(/(\/|\-|\,)/g, '-');
+
 				return value > comparison[0];
 			},
 		},
@@ -448,6 +456,7 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[]): boolean {
+				value = value.replace(/(\/|\-|\,)/g, '-');
 				if (comparison[0] < comparison[1]) {
 					return !(comparison[0] <= value && value <= comparison[1]);
 				}
@@ -462,6 +471,7 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[]): boolean {
+				value = value.replace(/(\/|\-|\,)/g, '-');
 				if (comparison[0] < comparison[1]) {
 					return !(comparison[0] < value && value < comparison[1]);
 				}
