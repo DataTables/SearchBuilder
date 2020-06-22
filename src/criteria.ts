@@ -324,35 +324,6 @@ export default class Criteria {
 	};
 
 	/**
-	 * Default function for getting/setting Moment conditions
-	 */
-	private static inputValueInputMoment = function(el, value = null, that) {
-		let values = [];
-
-		// If there are no values to set
-		if (value === null) {
-			// Go through the input elements and push each value to the return array
-			for (let element of el) {
-				if ($(element).is('input')) {
-					// Having converted it to the correct format
-					values.push(moment($(element).val()).format(that.s.momentFormat));
-				}
-			}
-		}
-		else {
-			// Set the values for each of the input elements
-			for (let v = 0; v < el.length; v++) {
-				if ($(el[v]).is('input')) {
-					$(el[v]).val(value[v]);
-					values.push(value[v]);
-				}
-			}
-		}
-
-		return values;
-	};
-
-	/**
 	 * Function that is run on each element as a call back when a search should be triggered
 	 */
 	private static updateListener = function(that, el) {
@@ -505,7 +476,7 @@ export default class Criteria {
 		'!=': {
 			conditionName: 'Not',
 			init: Criteria.initDate,
-			inputValue: Criteria.inputValueInputMoment,
+			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[], that): boolean {
 				return moment(value, that.s.momentFormat).valueOf() !== moment(comparison[0], that.s.momentFormat).valueOf();
@@ -525,7 +496,7 @@ export default class Criteria {
 		'<': {
 			conditionName: 'Before',
 			init: Criteria.initDate,
-			inputValue: Criteria.inputValueInputMoment,
+			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[], that): boolean {
 				return moment(value, that.s.momentFormat).valueOf() < moment(comparison[0], that.s.momentFormat).valueOf();
@@ -534,7 +505,7 @@ export default class Criteria {
 		'<<': {
 			conditionName: 'Between Exclusive',
 			init: Criteria.init2Date,
-			inputValue: Criteria.inputValueInputMoment,
+			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[], that): boolean {
 				value = moment(value, that.s.momentFormat).valueOf();
@@ -551,7 +522,7 @@ export default class Criteria {
 		'<=<=': {
 			conditionName: 'Between Inclusive',
 			init: Criteria.init2Date,
-			inputValue: Criteria.inputValueInputMoment,
+			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[], that): boolean {
 				value = moment(value, that.s.momentFormat).valueOf();
@@ -568,7 +539,7 @@ export default class Criteria {
 		'=': {
 			conditionName: 'Equals',
 			init: Criteria.initDate,
-			inputValue: Criteria.inputValueInputMoment,
+			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[], that): boolean {
 				return moment(value, that.s.momentFormat).valueOf() === moment(comparison[0], that.s.momentFormat).valueOf();
@@ -577,7 +548,7 @@ export default class Criteria {
 		'>': {
 			conditionName: 'After',
 			init: Criteria.initDate,
-			inputValue: Criteria.inputValueInputMoment,
+			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[], that): boolean {
 				return moment(value, that.s.momentFormat).valueOf() > moment(comparison[0], that.s.momentFormat).valueOf();
@@ -597,7 +568,7 @@ export default class Criteria {
 		'outwithExc': {
 			conditionName: 'Outwith Exclusive',
 			init: Criteria.init2Date,
-			inputValue: Criteria.inputValueInputMoment,
+			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[], that): boolean {
 				let val = moment(value, that.s.momentFormat).valueOf();

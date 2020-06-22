@@ -12,7 +12,7 @@
 
 $(document).ready(function() {
 	$.fn.dataTable.moment( 'HH:mm MMM D, YY' );
-	$.fn.dataTable.moment( 'dddd, MMMM Do, YYYY' );
+	$.fn.dataTable.moment( 'ddd, MMMM Do, YYYY' );
 
     $('#example').DataTable( {
         dom: 'Qlfrtip'
