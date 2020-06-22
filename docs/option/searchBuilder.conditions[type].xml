@@ -17,18 +17,19 @@
 		<![CDATA[
 		This is useful as it allows custom conditions to be added to SearchBuilder should the standard ones not be enough.
 
-        This object contains 5 properties.
+		This object contains 5 properties.
 
-        * `-init searchBuilder.conditions[type].conditionName` The string that is to be displayed in the option for this condition. Also what it is referred to throughout.
-        * `-init searchBuilder.conditions[type].init` This function is used to initialise the vlaue element
-        * `-init searchBuilder.conditions[type].inputValue` This function is used to return the value that the values from the table should be compared against
-        * `-init searchBuilder.conditions[type].isInputValid` This function is used to determine if the criteria should be used in the overall filter
-        * `-init searchBuilder.conditions[type].search` This is the function that compares the row data and the value selected in this criteria.
+		* `-init searchBuilder.conditions[type].conditionName` The string that is to be displayed in the option for this condition. Also what it is referred to throughout.
+		* `-init searchBuilder.conditions[type].init` This function is used to initialise the vlaue element
+		* `-init searchBuilder.conditions[type].inputValue` This function is used to return the value that the values from the table should be compared against
+		* `-init searchBuilder.conditions[type].isInputValid` This function is used to determine if the criteria should be used in the overall filter
+		* `-init searchBuilder.conditions[type].search` This is the function that compares the row data and the value selected in this criteria.
 
-        The custom condition defined in the example will override the `=` condition in the `-type num` condition set.
+		The custom condition defined in the example will override the `=` condition in the `-type num` condition set.
 
-        More details on the structure that is used can be found at `-init searchBuilder[type]`
-        ]]>
+		More details on the structure that is used can be found at `-init searchBuilder[type]`
+
+		]]>
 	</description>
 
 	<example title="Simple extra num condition"><![CDATA[
