@@ -183,10 +183,11 @@ export default class Criteria {
 	 */
 	private static initDate = function(that, fn, preDefined = null) {
 		// Declare date element using DataTables dateTime plugin
+		console.log("format", that.s.momentFormat);
 		let el = $('<input/>')
 			.addClass(Criteria.classes.value)
 			.addClass(Criteria.classes.input)
-			.dtDateTime()
+			.dtDateTime({format: that.s.momentFormat ? that.s.momentFormat : undefined })
 			.on('input change', function() { fn(that, this); });
 
 		// If there is a preDefined value then add it
@@ -203,7 +204,7 @@ export default class Criteria {
 			$('<input/>')
 				.addClass(Criteria.classes.value)
 				.addClass(Criteria.classes.input)
-				.dtDateTime()
+				.dtDateTime({format: that.s.momentFormat ? that.s.momentFormat : undefined })
 				.on('input change', function() { fn(that, this); }),
 			$('<span>')
 				.addClass(that.classes.joiner)
@@ -211,7 +212,7 @@ export default class Criteria {
 			$('<input/>')
 				.addClass(Criteria.classes.value)
 				.addClass(Criteria.classes.input)
-				.dtDateTime()
+				.dtDateTime({format: that.s.momentFormat ? that.s.momentFormat : undefined })
 				.on('input change', function() { fn(that, this); }),
 		];
 
