@@ -23,9 +23,7 @@ DT_SRC=$(dirname $(dirname $(pwd)))
 DT_BUILT="${DT_SRC}/built/DataTables"
 . $DT_SRC/build/include.sh
 
-if [ ! -d "node_modules" ]; then
-    npm install
-fi
+npm install
 
 # Copy CSS
 rsync -r css $OUT_DIR
