@@ -302,7 +302,7 @@ export default class Group {
 		let newTop = currentTop - shuffleTop;
 		$(this.dom.logicContainer).offset({top: newTop});
 
-		if (this.s.criteria.length > 1 && this.s.isChild) {
+		if (this.s.isChild) {
 			// Append clear Group
 			$(this.dom.clear).insertAfter(this.dom.logic);
 			this._setClearListener();

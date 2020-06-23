@@ -21,6 +21,10 @@ div.dtsb-searchBuilder {
         }
     }
 
+    button.dtsb-clearGroup {
+        min-width: 25px;
+    }
+
     .dtsb-greyscale {
         border: $border-width solid #cecece !important;
     }
@@ -53,14 +57,14 @@ div.dtsb-searchBuilder {
                 border-radius: 0px;
                 flex-grow: 1;
                 flex-shrink: 0;
-                flex-basis: 40px;
+                flex-basis: 34px;
                 margin: 0px;
             }
     
             button.dtsb-clearGroup {
                 border: none;
                 border-radius: 0px;
-                width: 30px;
+                width: 25px;
                 margin: 0px;
             }
         }
