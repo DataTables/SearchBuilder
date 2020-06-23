@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
 	<name>searchBuilder.columns</name>
-	<summary>Impose a limit on which data points can be filtered on</summary>
+	<summary>Restrict which columns can be filtered on</summary>
 	<since>SearchBuilder 0.0.1</since>
 
 	<type type="integer[]">
 		<description>
-            An array of the indexes which can be filtered on.
-        </description>
+			The columns that can be filtered. This accepts all of the options of `dt-type column-selector` such as class name selector, jQuery pseudo selects and column index selectors.
+		</description>
 	</type>
 
 	<default value="true">
-        The default value for the `-init searchBuilder.columns` option is `true` meaning that as standard all of the data points can be filtered on.
+        The default value for the `-init searchBuilder.columns` option is `true` meaning that as standard all of columns can be filtered on.
 	</default>
 	<description>
 		<![CDATA[
@@ -19,13 +19,15 @@
         ]]>
 	</description>
 
-	<example title="Allowing 3 data points to be filtered on"><![CDATA[
+	<example title="Allow three columns to be filtered on"><![CDATA[
+
 $('#example').DataTable( {
 	searchBuilder: {
 		columns: [1,2,3]
 	},    
 	dom: 'Qlfrtip'
 });
+
 ]]></example>
 
 </dt-option>
