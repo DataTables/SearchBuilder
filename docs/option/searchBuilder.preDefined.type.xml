@@ -15,9 +15,9 @@
 	</default>
 	<description>
 		<![CDATA[
-		This is useful as it allows type to be defined objects on the `-init searchBuilder.preDefined.criteria` array.
+		This is useful as it allows type to be defined for objects on the `-init searchBuilder.preDefined.criteria` array.
 
-        This must have a value of either `criteria` or `group` to indicate whether the object is a criteria or group respectively.
+        This must have a value of either `criteria` or `group` to indicate whether the object is a criteria or group respectively, as either could be present within the parent group. If `criteria` is specified then it indicates that the object is representing a criteria, this is used to define the individual conditions that are to be put in place within the parent group. `group` on the other hand would create a sub group of the parent group. This would allow for multiple further criteria or groups to be defined within the sub group, perhaps under a different `searchBuilder.predefined.logic` than the rest of the groups/criteria within the parent group.
         ]]>
 	</description>
 
