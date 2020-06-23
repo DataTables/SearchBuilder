@@ -356,15 +356,38 @@ export default class Group {
 		}
 
 		criteria.populate();
+		let inserted = false;
 
-		// Add the node for the new criteria to the end of the current criteria
-		$(criteria.getNode()).insertBefore(this.dom.add);
+		for (let i = 0; i < this.s.criteria.length; i++) {
+			if (i === 0 && this.s.criteria[i].criteria.s.index > criteria.s.index) {
+				// Add the node for the criteria at the start of the group
+				$(criteria.getNode()).insertBefore(this.s.criteria[i].criteria.dom.container);
+				inserted = true;
+			}
+			else if (
+				i < this.s.criteria.length - 1 &&
+				this.s.criteria[i].criteria.s.index < criteria.s.index &&
+				this.s.criteria[i + 1].criteria.s.index > criteria.s.index
+			) {
+				// Add the node for the criteria in the correct location
+				$(criteria.getNode()).insertAfter(this.s.criteria[i].criteria.dom.container);
+				inserted = true;
+			}
+		}
+
+		if (!inserted) {
+			$(criteria.getNode()).insertBefore(this.dom.add);
+		}
 
 		// Add the details for this criteria to the array
 		this.s.criteria.push({
 			criteria,
 			index,
 			type: 'criteria'
+		});
+
+		this.s.criteria = this.s.criteria.sort((a, b) => {
+			return a.criteria.s.index - b.criteria.s.index;
 		});
 
 		for (let opt of this.s.criteria) {
@@ -660,7 +683,7 @@ export default class Group {
 
 		$(group.dom.container)
 			.unbind('dtsb-dropCriteria')
-			.one('dtsb-dropCriteria', () => {
+			.on('dtsb-dropCriteria', () => {
 					let toDrop = group.s.toDrop;
 					toDrop.s.index = group.s.index;
 					toDrop.updateArrows(this.s.criteria.length > 1, false);
