@@ -20,14 +20,12 @@
 	</description>
 
 	<example title="Allowing 3 data points to be filtered on"><![CDATA[
-
-    $('#example').DataTable( {
-        searchBuilder: {
-            columns: [1,2,3]
-        },    
-		dom: 'Qlfrtip'
-    });
-
+$('#example').DataTable( {
+	searchBuilder: {
+		columns: [1,2,3]
+	},    
+	dom: 'Qlfrtip'
+});
 ]]></example>
 
 </dt-option>
