@@ -12,26 +12,30 @@ $(document).ready(function() {
         searchBuilder: {
             conditions: {
                 "num":{
+                    // Overwrite the equals condition for the num type
                     '=': {
+                        // This function decides whether to include the criteria in the search
                         isInputValid: function (el, that) {
-                            let allFilled = true;
-
-                            for (let element of el) {
-                                if (
-                                    $(element).has('option:selected').length === $(element).has('option:hidden').length &&
-                                    $(element).children('option:selected').length === 1 &&
-                                    $(element).children('option:selected')[0] === $(element).children('option:hidden')[0]
-                                ) {
-                                    allFilled = false;
-                                }
+                            // If no options have been selected, or one has but it has no value then don't include the criteria
+                            if (
+                                $(el[0]).has('option:selected').length < 1 ||
+                                (
+                                    $(el[0]).has('option:selected').length === 1 &&
+                                    $($(el[0]).children('option:selected')[0]).text() === $(that.dom.valueTitle).text()
+                                )
+                            ) {
+                                return false;
                             }
 
-                            return allFilled;
+                            return true;
                         },
-                        conditionName: 'Made up',
+                        // This is the string displayed in the condition select
+                        conditionName: 'Custom Equals',
+                        // This function gathers/sets the values from the dom elements created in the init function that are to be used for searching
                         inputValue: function (el, value = null) {
                             let values = [];
 
+                            // If there are no values to set, simply extract the values from the select elements
                             if (value === null) {
                                 for (let element of el) {
                                     if ($(element).is('select')) {
@@ -39,6 +43,7 @@ $(document).ready(function() {
                                     }
                                 }
                             }
+                            // Otherwise find the value in the select and select it
                             else {
                                 for (let v = 0; v < el.length; v ++) {
                                     if ($(el[v]).is('select')) {
@@ -54,48 +59,67 @@ $(document).ready(function() {
                                 }
                             }
 
+                            // return the selected values
                             return values;
                         },
+                        // This function initialises the criteria, specifically any dom elements that are required for it's use
                         init: function(that, fn, preDefined = null) {
+                            // As the select element is going to be populated with the values from the table,
+                            //  we need the row indexes and the column index.
                             let column = $(that.dom.data).children('option:selected').val();
                             let indexArray = that.s.dt.rows().indexes().toArray();
                             let settings = that.s.dt.settings()[0];
+                            let added = [];
 
+                            // Declare select2 element
                             let el = $('<select/>').append(that.dom.valueTitle)
                                 .addClass(that.classes.value)
                                 .addClass(that.classes.dropDown)
                                 .addClass(that.classes.italic);
                             
+                            // Set necessary listener to trigger search
                             el.on('change', function() {fn(that, el)});
 
                             that.s.values = [];
 
+                            // for each row
                             for (let index of indexArray) {
-                                let filter = settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.search);
-
+                                // Extract the relevant data
                                 let value = {
-                                    filter,
+                                    filter: settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.search),
                                     index,
                                     text: settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.conditionName)
                                 };
+
                                 that.s.values.push(value);
-                                let opt = $('<option>', {
-                                    text : that.s.type.includes('html') ? value.text.replace(/(<([^>]+)>)/ig, '') : value.text,
-                                    value : that.s.type.includes('html') ? value.filter.replace(/(<([^>]+)>)/ig, '') : value.filter
-                                })
-                                    .addClass(that.classes.option)
-                                    .addClass(that.classes.notItalic);
                                 
-                                $(el).append(opt);
-                                
-                                if (preDefined !== null && opt.val() === preDefined[0]) {
-                                    opt.attr('selected', true);
-                                    that.dom.valueTitle.remove();
+                                // If we hace not already added this value
+                                if (added.indexOf(value.filter) === -1) {
+                                    // Create the option to add to the select 2 element 
+                                    let opt = $('<option>', {
+                                        text : value.text,
+                                        value : value.filter
+                                    })
+                                        .addClass(that.classes.option)
+                                        .addClass(that.classes.notItalic);
+
+                                    $(el).append(opt);
+
+                                    // Take note of the filter value so we don't add it again
+                                    added.push(value.filter);
+                                    
+                                    // Check if it is preDefined and if so select it
+                                    if (preDefined !== null && opt.val() === preDefined[0]) {
+                                        opt.attr('selected', true);
+                                        that.dom.valueTitle.remove();
+                                    }
                                 }
                             }
 
                             return el;
                         },
+                        // Straightforward search function comparing value from table and comparison from the select2 element
+                        // These values are retrieved in `inputValue`
                         search: function (value, comparison) {
                             return +value === +comparison[0];
                         }
@@ -113,7 +137,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This example shows how to make use of `-init searchBuilder.conditions` to add a custom condition. The `-init searchBuilder.conditions` option holds 7 properties, one for each type that DataTables is able to detect.
+This example shows how to make use of `-init searchBuilder.conditions` to add a custom condition or overwrite an already existing one. The `-init searchBuilder.conditions` option holds 7 properties, one for each type that DataTables is able to detect.
 
 * `-type string`
 * `-type date`
@@ -125,7 +149,22 @@ This example shows how to make use of `-init searchBuilder.conditions` to add a 
 
 In addition to the above, SearchBuilder has its own `moment` property that is used when moment is in use on a column. SearchBuilder will automatically detect and handle data in any moment format.
 
-In this example `-init searchBuilder.conditions.num` is used to add a custom condition to any columns that are of type num. The properties within the object are documented at
+In this example `-init searchBuilder.conditions.num` is used to overwrite the `Equals` condition for any columns that are of type num. To add a custom condition you would set the key for the condition object to be one that is not already in use. The keys that are in use on the num condition are
+
+* `=` - Equals
+* `!=` - Not Equals
+* `!null` - Not Null
+* `<` - Less Than
+* `<=` - Less Than Equal To
+* `>` - Greater Than
+* `>=` - Greater Than Equal To
+* `null` - Empty/null
+* `<<` - Between Exclusive
+* `<=<=` - Between Inclusive 
+* `outwithExc` - Outwith Exclusive
+* `outwithInc` - Outwith Inclusive
+
+The properties within the object are documented at
 
 * `-init searchBuilder.conditions[type].isInputValid`
 * `-init searchBuilder.conditions[type].conditionName`
