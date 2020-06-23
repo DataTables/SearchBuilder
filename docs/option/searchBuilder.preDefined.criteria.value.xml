@@ -51,7 +51,7 @@
             preDefined: {
                 criteria:[
                     {
-                        condition: 'Between inclusive',
+                        condition: 'Between',
                         data: 'Start Date',
                         type: 'criteria',
                         value: ['2020-05-12', '2001-10-17]

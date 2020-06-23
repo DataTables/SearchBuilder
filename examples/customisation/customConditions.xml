@@ -159,10 +159,8 @@ In this example `-init searchBuilder.conditions.num` is used to overwrite the `E
 * `>` - Greater Than
 * `>=` - Greater Than Equal To
 * `null` - Empty/null
-* `<<` - Between Exclusive
-* `<=<=` - Between Inclusive 
-* `outwithExc` - Outwith Exclusive
-* `outwithInc` - Outwith Inclusive
+* `between` - Between
+* `notBetween` - Not Between
 
 The properties within the object are documented at
 

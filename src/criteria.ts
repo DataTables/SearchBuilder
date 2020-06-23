@@ -387,36 +387,6 @@ export default class Criteria {
 				return value < comparison[0];
 			},
 		},
-		'<<': {
-			conditionName: 'Between Exclusive',
-			init: Criteria.init2Date,
-			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
-				value = value.replace(/(\/|\-|\,)/g, '-');
-				if (comparison[0] < comparison[1]) {
-					return comparison[0] < value && value < comparison[1];
-				}
-				else {
-					return comparison[1] < value && value < comparison[0];
-				}
-			},
-		},
-		'<=<=': {
-			conditionName: 'Between Inclusive',
-			init: Criteria.init2Date,
-			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
-				value = value.replace(/(\/|\-|\,)/g, '-');
-				if (comparison[0] < comparison[1]) {
-					return comparison[0] <= value && value <= comparison[1];
-				}
-				else {
-					return comparison[1] <= value && value <= comparison[0];
-				}
-			},
-		},
 		'=': {
 			conditionName: 'Equals',
 			init: Criteria.initDate,
@@ -439,19 +409,23 @@ export default class Criteria {
 				return value > comparison[0];
 			},
 		},
-		'null': {
-			conditionName: 'Empty',
-			isInputValid() { return true; },
-			init() { return; },
-			inputValue() {
-				return;
-			},
+		'between': {
+			conditionName: 'Between',
+			init: Criteria.init2Date,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[]): boolean {
-				return (value === null || value === undefined || value.length === 0);
+				value = value.replace(/(\/|\-|\,)/g, '-');
+				if (comparison[0] < comparison[1]) {
+					return comparison[0] <= value && value <= comparison[1];
+				}
+				else {
+					return comparison[1] <= value && value <= comparison[0];
+				}
 			},
 		},
-		'outwithExc': {
-			conditionName: 'Outwith Exclusive',
+		'notBetween': {
+			conditionName: 'Not Between',
 			init: Criteria.init2Date,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -465,19 +439,15 @@ export default class Criteria {
 				}
 			},
 		},
-		'outwithInc': {
-			conditionName: 'Outwith Inclusive',
-			init: Criteria.init2Date,
-			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidInput,
+		'null': {
+			conditionName: 'Empty',
+			isInputValid() { return true; },
+			init() { return; },
+			inputValue() {
+				return;
+			},
 			search(value: any, comparison: any[]): boolean {
-				value = value.replace(/(\/|\-|\,)/g, '-');
-				if (comparison[0] < comparison[1]) {
-					return !(comparison[0] < value && value < comparison[1]);
-				}
-				else {
-					return !(comparison[1] < value && value < comparison[0]);
-				}
+				return (value === null || value === undefined || value.length === 0);
 			},
 		},
 	};
@@ -512,40 +482,6 @@ export default class Criteria {
 				return moment(value, that.s.momentFormat).valueOf() < moment(comparison[0], that.s.momentFormat).valueOf();
 			},
 		},
-		'<<': {
-			conditionName: 'Between Exclusive',
-			init: Criteria.init2Date,
-			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[], that): boolean {
-				value = moment(value, that.s.momentFormat).valueOf();
-				comparison[0] = moment(comparison[0], that.s.momentFormat).valueOf();
-				comparison[1] = moment(comparison[1], that.s.momentFormat).valueOf();
-				if (comparison[0] < comparison[1]) {
-					return comparison[0] < value && value < comparison[1];
-				}
-				else {
-					return comparison[1] < value && value < comparison[0];
-				}
-			},
-		},
-		'<=<=': {
-			conditionName: 'Between Inclusive',
-			init: Criteria.init2Date,
-			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[], that): boolean {
-				value = moment(value, that.s.momentFormat).valueOf();
-				comparison[0] = moment(comparison[0], that.s.momentFormat).valueOf();
-				comparison[1] = moment(comparison[1], that.s.momentFormat).valueOf();
-				if (comparison[0] < comparison[1]) {
-					return comparison[0] <= value && value <= comparison[1];
-				}
-				else {
-					return comparison[1] <= value && value <= comparison[0];
-				}
-			},
-		},
 		'=': {
 			conditionName: 'Equals',
 			init: Criteria.initDate,
@@ -564,19 +500,25 @@ export default class Criteria {
 				return moment(value, that.s.momentFormat).valueOf() > moment(comparison[0], that.s.momentFormat).valueOf();
 			},
 		},
-		'null': {
-			conditionName: 'Empty',
-			isInputValid() { return true; },
-			init() { return; },
-			inputValue() {
-				return;
-			},
-			search(value: any, comparison: any[]): boolean {
-				return (value === null || value === undefined || value.length === 0);
+		'between': {
+			conditionName: 'Between',
+			init: Criteria.init2Date,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[], that): boolean {
+				value = moment(value, that.s.momentFormat).valueOf();
+				comparison[0] = moment(comparison[0], that.s.momentFormat).valueOf();
+				comparison[1] = moment(comparison[1], that.s.momentFormat).valueOf();
+				if (comparison[0] < comparison[1]) {
+					return comparison[0] <= value && value <= comparison[1];
+				}
+				else {
+					return comparison[1] <= value && value <= comparison[0];
+				}
 			},
 		},
-		'outwithExc': {
-			conditionName: 'Outwith Exclusive',
+		'notBetween': {
+			conditionName: 'Not Between',
 			init: Criteria.init2Date,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -592,21 +534,15 @@ export default class Criteria {
 				}
 			},
 		},
-		'outwithInc': {
-			conditionName: 'Outwith Inclusive',
-			init: Criteria.init2Input,
-			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[], that): boolean {
-				let val = moment(value, that.s.momentFormat).valueOf();
-				let comp0 = moment(comparison[0], that.s.momentFormat).valueOf();
-				let comp1 = moment(comparison[1], that.s.momentFormat).valueOf();
-				if (comp0 < comp1) {
-					return !(+comp0 < +val && +val < +comp1);
-				}
-				else {
-					return !(+comp1 < +val && +val < +comp0);
-				}
+		'null': {
+			conditionName: 'Empty',
+			isInputValid() { return true; },
+			init() { return; },
+			inputValue() {
+				return;
+			},
+			search(value: any, comparison: any[]): boolean {
+				return (value === null || value === undefined || value.length === 0);
 			},
 		},
 	};
@@ -641,20 +577,6 @@ export default class Criteria {
 				return +value < +comparison[0];
 			},
 		},
-		'<<': {
-			conditionName: 'Between Exclusive',
-			init: Criteria.init2Input,
-			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
-				if (comparison[0] < comparison[1]) {
-					return +comparison[0] < +value && +value < +comparison[1];
-				}
-				else {
-					return +comparison[1] < +value && +value < +comparison[0];
-				}
-			},
-		},
 		'<=': {
 			conditionName: 'Less Than Equal To',
 			init: Criteria.initInput,
@@ -662,20 +584,6 @@ export default class Criteria {
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[]): boolean {
 				return +value <= +comparison[0];
-			},
-		},
-		'<=<=': {
-			conditionName: 'Between Inclusive',
-			init: Criteria.init2Input,
-			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
-				if (comparison[0] < comparison[1]) {
-					return +comparison[0] <= +value && +value <= +comparison[1];
-				}
-				else {
-					return +comparison[1] <= +value && +value <= +comparison[0];
-				}
 			},
 		},
 		'=': {
@@ -705,17 +613,22 @@ export default class Criteria {
 				return +value >= +comparison[0];
 			},
 		},
-		'null': {
-			conditionName: 'Empty',
-			init() { return; },
-			inputValue() { return; },
-			isInputValid() { return true; },
+		'between': {
+			conditionName: 'Between',
+			init: Criteria.init2Input,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[]): boolean {
-				return (value === null || value === undefined || value.length === 0);
+				if (comparison[0] < comparison[1]) {
+					return +comparison[0] <= +value && +value <= +comparison[1];
+				}
+				else {
+					return +comparison[1] <= +value && +value <= +comparison[0];
+				}
 			},
 		},
-		'outwithExc': {
-			conditionName: 'Outwith Exclusive',
+		'notBetween': {
+			conditionName: 'Not Between',
 			init: Criteria.init2Input,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -728,20 +641,15 @@ export default class Criteria {
 				}
 			},
 		},
-		'outwithInc': {
-			conditionName: 'Outwith Inclusive',
-			init: Criteria.init2Input,
-			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidInput,
+		'null': {
+			conditionName: 'Empty',
+			init() { return; },
+			inputValue() { return; },
+			isInputValid() { return true; },
 			search(value: any, comparison: any[]): boolean {
-				if (comparison[0] < comparison[1]) {
-					return !(+comparison[0] < +value && +value < +comparison[1]);
-				}
-				else {
-					return !(+comparison[1] < +value && +value < +comparison[0]);
-				}
+				return (value === null || value === undefined || value.length === 0);
 			},
-		},
+		}
 	};
 
 	private static numFmtConditions: {[keys: string]: typeInterfaces.ICondition} = {
@@ -780,23 +688,6 @@ export default class Criteria {
 				return +val < +comp;
 			},
 		},
-		'<<': {
-			conditionName: 'Between Exclusive',
-			init: Criteria.init2Input,
-			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
-				let val = value.replace(/[^0-9.]/g, '');
-				let comp0 = comparison[0].replace(/[^0-9.]/g, '');
-				let comp1 = comparison[1].replace(/[^0-9.]/g, '');
-				if (comp0 < comp1) {
-					return +comp0 < +val && +val < +comp1;
-				}
-				else {
-					return +comp1 < +val && +val < +comp0;
-				}
-			},
-		},
 		'<=': {
 			conditionName: 'Less Than Equal To',
 			init: Criteria.initInput,
@@ -807,23 +698,6 @@ export default class Criteria {
 				let comp0 = comparison[0].replace(/[^0-9.]/g, '');
 
 				return +val <= +comp0;
-			},
-		},
-		'<=<=': {
-			conditionName: 'Between Inclusive',
-			init: Criteria.init2Input,
-			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
-				let val = value.replace(/[^0-9.]/g, '');
-				let comp0 = comparison[0].replace(/[^0-9.]/g, '');
-				let comp1 = comparison[1].replace(/[^0-9.]/g, '');
-				if (comp0 < comp1) {
-					return +comp0 <= +val && +val <= +comp1;
-				}
-				else {
-					return +comp1 <= +val && +val <= +comp0;
-				}
 			},
 		},
 		'=': {
@@ -862,6 +736,40 @@ export default class Criteria {
 				return +val >= +comp0;
 			},
 		},
+		'between': {
+			conditionName: 'Between',
+			init: Criteria.init2Input,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[]): boolean {
+				let val = value.replace(/[^0-9.]/g, '');
+				let comp0 = comparison[0].replace(/[^0-9.]/g, '');
+				let comp1 = comparison[1].replace(/[^0-9.]/g, '');
+				if (comp0 < comp1) {
+					return +comp0 <= +val && +val <= +comp1;
+				}
+				else {
+					return +comp1 <= +val && +val <= +comp0;
+				}
+			},
+		},
+		'notBetween': {
+			conditionName: 'Not Between',
+			init: Criteria.init2Input,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[]): boolean {
+				let val = value.replace(/[^0-9.]/g, '');
+				let comp0 = comparison[0].replace(/[^0-9.]/g, '');
+				let comp1 = comparison[1].replace(/[^0-9.]/g, '');
+				if (comp0 < comp1) {
+					return !(+comp0 <= +val && +val <= +comp1);
+				}
+				else {
+					return !(+comp1 <= +val && +val <= +comp0);
+				}
+			},
+		},
 		'null': {
 			conditionName: 'Empty',
 			init() { return; },
@@ -870,41 +778,7 @@ export default class Criteria {
 			search(value: any, comparison: any[]): boolean {
 				return (value === null || value === undefined || value.length === 0);
 			},
-		},
-		'outwithExc': {
-			conditionName: 'Outwith Exclusive',
-			init: Criteria.init2Input,
-			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
-				let val = value.replace(/[^0-9.]/g, '');
-				let comp0 = comparison[0].replace(/[^0-9.]/g, '');
-				let comp1 = comparison[1].replace(/[^0-9.]/g, '');
-				if (comp0 < comp1) {
-					return !(+comp0 <= +val && +val <= +comp1);
-				}
-				else {
-					return !(+comp1 <= +val && +val <= +comp0);
-				}
-			},
-		},
-		'outwithInc': {
-			conditionName: 'Outwith Inclusive',
-			init: Criteria.init2Input,
-			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
-				let val = value.replace(/[^0-9.]/g, '');
-				let comp0 = comparison[0].replace(/[^0-9.]/g, '');
-				let comp1 = comparison[1].replace(/[^0-9.]/g, '');
-				if (comp0 < comp1) {
-					return !(+comp0 <= +val && +val <= +comp1);
-				}
-				else {
-					return !(+comp1 <= +val && +val <= +comp0);
-				}
-			},
-		},
+		}
 	};
 
 	private static stringConditions: {[keys: string]: typeInterfaces.ICondition} = {
