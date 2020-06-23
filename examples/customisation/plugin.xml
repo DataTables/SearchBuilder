@@ -156,7 +156,7 @@ This example shows how to use a plugin for a custom column type. The `$.fn.dataT
 
 Here the office column has been given a custom column type of `special`. We are also adding some conditions for a `office` type to SearchBuilder which use select2. To use the custom filter from the plugin select Office > Equals and any office, you will see that the last select element is a select2 element.
 
-For more information on creating your own plug-ins take a look at [this document](/extensions/searchbuilder.plugins)
+For more information on creating your own plug-ins take a look at [this document](https://datatables.net/extensions/searchbuilder/plugins)
 
 ]]></info>
 
