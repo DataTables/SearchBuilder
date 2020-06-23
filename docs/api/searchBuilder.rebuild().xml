@@ -19,19 +19,19 @@
 	</description>
 
 	<example title="Get the details of a Search:"><![CDATA[
-    var stored;
+var stored;
 
-    $('#example').DataTable( {
-        dom: 'Qlfrtip'
-    });
+$('#example').DataTable( {
+	dom: 'Qlfrtip'
+});
 
-    $('#getDetails').on('click', function() {
-        stored = $('#example').DataTable().searchBuilder.getDetails();
-    })
+$('#getDetails').on('click', function() {
+	stored = $('#example').DataTable().searchBuilder.getDetails();
+})
 
-    $('#revert').on('click', function() {
-        $('#example').DataTable().searchBuilder.rebuild(stored);
-    })
+$('#revert').on('click', function() {
+	$('#example').DataTable().searchBuilder.rebuild(stored);
+})
 ]]></example>
 
 <related type="api">searchBuilder.getDetails()</related>

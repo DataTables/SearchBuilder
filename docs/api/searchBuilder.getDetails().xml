@@ -18,11 +18,11 @@
 	</description>
 
 	<example title="Get the details of a Search:"><![CDATA[
-    var dt = $('#example').DataTable( {
-        dom: 'Qlfrtip'
-    });
+var dt = $('#example').DataTable( {
+	dom: 'Qlfrtip'
+});
 
-    $('#example').DataTable().searchBuilder.getDetails();
+$('#example').DataTable().searchBuilder.getDetails();
 ]]></example>
 
 <related type="api">searchBuilder.rebuild()</related>
