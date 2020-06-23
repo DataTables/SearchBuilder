@@ -40,7 +40,7 @@
                 criteria:[
                     {
                         condition: 'Equals',
-                        data: 2,
+                        data: 'Office',
                         type: 'criteria',
                         value: ['Edinburgh']
                     }
@@ -62,7 +62,7 @@
                 criteria:[
                     {
                         condition: 'Equals',
-                        data: 2,
+                        data: 'Office',
                         type: 'criteria',
                         value: ['Edinburgh']
                     },
@@ -70,13 +70,13 @@
                         criteria: [
                             {
                                 condition: 'Equals',
-                                data: 0,
+                                data: 'Name',
                                 type: 'criteria',
                                 value: ['Cedric Kelly']
                             },
                             {
                                 condition: 'Equals',
-                                data: 0,
+                                data: 'Name',
                                 type: 'criteria',
                                 value: ['Dai Rios']
                             }
@@ -99,6 +99,6 @@
 <related type="init">searchBuilder.preDefined.criteria</related>
 <related type="init">searchBuilder.preDefined.criteria.condition</related>
 <related type="init">searchBuilder.preDefined.criteria.value</related>
-<related type="init">searchBuilder.preDefined.criteria.data</related>
+<related type="init">searchBuilder.preDefined.criteria.dataTitle</related>
 
 </dt-option>

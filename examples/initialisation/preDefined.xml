@@ -14,7 +14,7 @@ $(document).ready(function() {
                 criteria:[
                     {
                         condition: 'Equals',
-                        data: '2',
+                        dataTitle: 'Office',
                         type: 'criteria',
                         value: ['Edinburgh']
                     },
@@ -22,13 +22,13 @@ $(document).ready(function() {
                         criteria: [
                             {
                                 condition: 'Equals',
-                                data: '0',
+                                dataTitle: 'Name',
                                 type: 'criteria',
                                 value: ['Cedric Kelly']
                             },
                             {
                                 condition: 'Equals',
-                                data: '0',
+                                dataTitle: 'Name',
                                 type: 'criteria',
                                 value: ['Dai Rios']
                             }
@@ -58,7 +58,7 @@ This example shows how to create a pre-defined filter using `-init searchBuilder
 * `-init searchBuilder.preDefined.type`
 * `-init searchBuilder.preDefined.criteria`
 * `-init searchBuilder.preDefined.criteria.condition`
-* `-init searchBuilder.preDefined.criteria.data`
+* `-init searchBuilder.preDefined.criteria.dataTitle`
 * `-init searchBuilder.preDefined.criteria.value`
 
 ]]></info>

@@ -24,7 +24,7 @@
         To add a criteria an object with the following properties should be added.
 
         * `-init searchBuilder.preDefined.criteria.condition` The condition that is to be selected from the select element.
-        * `-init searchBuilder.preDefined.criteria.data` The data that is to be selected from the select element.
+        * `-init searchBuilder.preDefined.criteria.dataTitle` The data that is to be selected from the select element.
         * `-init searchBuilder.preDefined.criteria.value` The condition that is to be applied, be it to either a select element, input or date selector.
         * A type property in the same form as `-init searchBuilder.preDefined.type`.
 
@@ -40,7 +40,7 @@
                 criteria:[
                     {
                         condition: 'Equals',
-                        data: 2,
+                        data: 'Office',
                         type: 'criteria',
                         value: ['Edinburgh']
                     }
@@ -62,7 +62,7 @@
                 criteria:[
                     {
                         condition: 'Equals',
-                        data: 2,
+                        data: 'Office',
                         type: 'criteria',
                         value: ['Edinburgh']
                     },
@@ -70,13 +70,13 @@
                         criteria: [
                             {
                                 condition: 'Equals',
-                                data: 0,
+                                data: 'Name',
                                 type: 'criteria',
                                 value: ['Cedric Kelly']
                             },
                             {
                                 condition: 'Equals',
-                                data: 0,
+                                data: 'Name',
                                 type: 'criteria',
                                 value: ['Dai Rios']
                             }
@@ -99,6 +99,6 @@
 <related type="init">searchBuilder.preDefined.criteria</related>
 <related type="init">searchBuilder.preDefined.criteria.condition</related>
 <related type="init">searchBuilder.preDefined.criteria.value</related>
-<related type="init">searchBuilder.preDefined.criteria.data</related>
+<related type="init">searchBuilder.preDefined.criteria.dataTitle</related>
 
 </dt-option>

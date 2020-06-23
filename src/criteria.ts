@@ -1199,7 +1199,7 @@ export default class Criteria {
 		let foundData = false;
 		this._populateData();
 
-		if (loadedCriteria.dataIdx !== -1) {
+		if (loadedCriteria.dataTitle !== undefined) {
 			let italic = this.classes.italic;
 			let data = this.dom.data;
 
