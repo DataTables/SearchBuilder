@@ -17,8 +17,8 @@
 		<![CDATA[
 		This is useful as it allows extra string conditions to be defined that can add to the filtering options. The custom condition defined in the example will override the `=` condition in the `-type string` condition set.
 
-        More details on the structure that is used can be found at `-init searchBuilder[type]`
-        ]]>
+		More details on the structure that is used can be found at `-init searchBuilder[type]`
+		]]>
 	</description>
 
 	<example title="Simple extra string condition"><![CDATA[

@@ -22,7 +22,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This example demonstrates the behaviour of `-init searchBuilder` when the `-init searchBuilder.logic` option is set to determine the default logic to be used in groups on their initialisation.
+This example demonstrates `-init searchBuilder` when the `-init searchBuilder.logic` option over-rides the default logic used for groups upon initialisation.
 
 ]]></info>
 
