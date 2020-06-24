@@ -6,12 +6,12 @@
 
 	<type type="boolean">
 		<description>
-			When true, remove the colours from searchBuilder.
+			When `true`, remove the colours from SearchBuilder.
 		</description>
 	</type>
 
 	<default value="false">
-        The default value for the `-init searchBuilder.greyscale` option is `false` meaning that as standard the colours will be applied to searchBuilder.
+		The default value for the `-init searchBuilder.greyscale` option is `false` meaning that as standard the colours will be applied to SearchBuilder.
 	</default>
 	<description>
 		<![CDATA[
@@ -21,12 +21,12 @@
 
 	<example title="Removing the colours from SearchBuilder"><![CDATA[
 
-    $('#example').DataTable( {
-        searchBuilder: {
-            greyscale: true
-        },    
-		dom: 'Qlfrtip'
-    });
+$('#example').DataTable( {
+	searchBuilder: {
+		greyscale: true
+	},    
+	dom: 'Qlfrtip'
+});
 
 ]]></example>
 
