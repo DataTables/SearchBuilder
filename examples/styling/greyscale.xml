@@ -22,7 +22,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This example demonstrates how to make the SearchBuilder styling turn to greyscale, this is an alternative to showing the colours around the select and input elements.
+This example demonstrates how to make the `-init searchBuilder` styling turn to greyscale as an alternative to showing the colours around the select and input elements.
 ]]></info>
 
 </dt-example>
