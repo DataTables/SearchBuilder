@@ -29,7 +29,7 @@ export interface IDefaults {
 }
 
 export interface IS {
-	criteria: ICriteria[];
+	criteria: any[];
 	depth: number;
 	dt: any;
 	index: number;
@@ -43,11 +43,9 @@ export interface IS {
 export interface ICriteria {
 	criteria: any;
 	index: number;
-	type: string;
 }
 
 export interface IDetails {
 	criteria: any[];
 	logic: string;
-	type: string;
 }

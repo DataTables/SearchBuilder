@@ -23,11 +23,10 @@
 		<![CDATA[
 		This is useful as it allows for complex preDefined searches to be applied to a DataTable.
 
-        This object contains 3 properties.
+        This object contains 2 properties.
 
         * `-init searchBuilder.preDefined.criteria` This holds the criteria that must be applied to the top group. This property is an array of objects, which can either by criteria objects or group objects.
-        * `-init searchBuilder.logic` This is the logic that is to be applied to the group.
-        * `-init searchBuilder.type` This indicates that this object is a group of criteria.
+        * `-init searchBuilder.preDefined.logic` This is the logic that is to be applied to the group.
         ]]>
 	</description>
 
@@ -41,12 +40,10 @@
                     {
                         condition: 'Equals',
                         data: 'Office',
-                        type: 'criteria',
                         value: ['Edinburgh']
                     }
                 ],
-                logic: 'AND',
-                type: 'group'
+                logic: 'AND'
             }
         }
     });
@@ -63,7 +60,6 @@
                     {
                         condition: 'Equals',
                         data: 'Office',
-                        type: 'criteria',
                         value: ['Edinburgh']
                     },
                     {
@@ -71,22 +67,18 @@
                             {
                                 condition: 'Equals',
                                 data: 'Name',
-                                type: 'criteria',
                                 value: ['Cedric Kelly']
                             },
                             {
                                 condition: 'Equals',
                                 data: 'Name',
-                                type: 'criteria',
                                 value: ['Dai Rios']
                             }
                         ],
-                        logic: 'OR',
-                        type: 'group'
+                        logic: 'OR'
                     }
                 ],
-                logic: 'AND',
-                type: 'group'
+                logic: 'AND'
             }
         }
     });
@@ -94,7 +86,6 @@
 ]]></example>
 
 <related type="init">searchBuilder.preDefined</related>
-<related type="init">searchBuilder.preDefined.type</related>
 <related type="init">searchBuilder.preDefined.logic</related>
 <related type="init">searchBuilder.preDefined.criteria</related>
 <related type="init">searchBuilder.preDefined.criteria.condition</related>

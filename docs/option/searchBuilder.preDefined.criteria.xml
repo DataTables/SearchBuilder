@@ -26,7 +26,6 @@
         * `-init searchBuilder.preDefined.criteria.condition` The condition that is to be selected from the select element.
         * `-init searchBuilder.preDefined.criteria.dataTitle` The data that is to be selected from the select element.
         * `-init searchBuilder.preDefined.criteria.value` The condition that is to be applied, be it to either a select element, input or date selector.
-        * A type property in the same form as `-init searchBuilder.preDefined.type`.
 
         ]]>
 	</description>
@@ -41,12 +40,10 @@
                     {
                         condition: 'Equals',
                         data: 'Office',
-                        type: 'criteria',
                         value: ['Edinburgh']
                     }
                 ],
                 logic: 'AND',
-                type: 'group'
             }
         }
     });
@@ -63,7 +60,6 @@
                     {
                         condition: 'Equals',
                         data: 'Office',
-                        type: 'criteria',
                         value: ['Edinburgh']
                     },
                     {
@@ -71,22 +67,18 @@
                             {
                                 condition: 'Equals',
                                 data: 'Name',
-                                type: 'criteria',
                                 value: ['Cedric Kelly']
                             },
                             {
                                 condition: 'Equals',
                                 data: 'Name',
-                                type: 'criteria',
                                 value: ['Dai Rios']
                             }
                         ],
-                        logic: 'OR',
-                        type: 'group'
+                        logic: 'OR'
                     }
                 ],
-                logic: 'AND',
-                type: 'group'
+                logic: 'AND'
             }
         }
     });
@@ -94,7 +86,6 @@
 ]]></example>
 
 <related type="init">searchBuilder.preDefined</related>
-<related type="init">searchBuilder.preDefined.type</related>
 <related type="init">searchBuilder.preDefined.logic</related>
 <related type="init">searchBuilder.preDefined.criteria</related>
 <related type="init">searchBuilder.preDefined.criteria.condition</related>

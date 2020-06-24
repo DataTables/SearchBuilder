@@ -29,12 +29,10 @@
                     {
                         condition: 'Equals',
                         dataTitle: 'Office',
-                        type: 'criteria',
                         value: ['Edinburgh']
                     }
                 ],
-                logic: 'AND',
-                type: 'group'
+                logic: 'AND'
             }
         }
     });

@@ -31,12 +31,10 @@
                     {
                         condition: 'Equals',
                         data: 'Office',
-                        type: 'criteria',
                         value: ['Edinburgh']
                     }
                 ],
-                logic: 'AND',
-                type: 'group'
+                logic: 'AND'
             }
         }
     });
@@ -53,12 +51,10 @@
                     {
                         condition: 'Between',
                         data: 'Start Date',
-                        type: 'criteria',
                         value: ['2020-05-12', '2001-10-17]
                     }
                 ],
-                logic: 'AND',
-                type: 'group'
+                logic: 'AND'
             }
         }
     });

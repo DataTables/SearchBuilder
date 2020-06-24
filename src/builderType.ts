@@ -3,7 +3,6 @@ import Group from './group';
 export interface IDetails {
 	criteria: any[];
 	logic: string;
-	type: string;
 }
 
 export interface IClasses {
