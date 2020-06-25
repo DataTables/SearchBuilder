@@ -1498,6 +1498,10 @@ export default class Criteria {
 			$(val).remove();
 		}
 
+		if (loadedCriteria !== undefined) {
+			this.s.dataIdx = loadedCriteria.dataIdx;
+		}
+
 		let value = this.s.condition.init(
 			this,
 			Criteria.updateListener,
