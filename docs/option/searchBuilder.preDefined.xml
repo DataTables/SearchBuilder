@@ -12,7 +12,7 @@
 
     <type type="boolean">
 		<description>
-            When false no predefined search is applied.
+            When `false` no predefined search is applied.
         </description>
 	</type>
 
@@ -21,67 +21,71 @@
 	</default>
 	<description>
 		<![CDATA[
-		This is useful as it allows for complex preDefined searches to be applied to a DataTable.
+			This is useful as it allows for complex preDefined searches to be applied to a DataTable.
 
-        This object contains 2 properties.
+			This object contains 2 properties.
 
-        * `-init searchBuilder.preDefined.criteria` This holds the criteria that must be applied to the top group. This property is an array of objects, which can either by criteria objects or group objects.
-        * `-init searchBuilder.preDefined.logic` This is the logic that is to be applied to the group.
+			* `-init searchBuilder.preDefined.criteria` This holds the criteria that must be applied to the top group. This property is an array of objects, which can either by criteria objects or group objects.
+			* `-init searchBuilder.preDefined.logic` This is the logic that is to be applied to the group.
         ]]>
 	</description>
 
 	<example title="Simple single level search"><![CDATA[
 
-    $('#example').DataTable( {
-        dom: 'Qlfrtip',
-        searchBuilder: {
-            preDefined: {
-                criteria:[
-                    {
-                        condition: 'Equals',
-                        data: 'Office',
-                        value: ['Edinburgh']
-                    }
-                ],
-                logic: 'AND'
-            }
-        }
-    });
+<<<<<<< HEAD
+$('#example').DataTable( {
+	dom: 'Qlfrtip',
+	searchBuilder: {
+		preDefined: {
+			criteria:[
+				{
+					condition: 'Equals',
+					data: 'Office',
+					value: ['Edinburgh']
+				}
+			],
+			logic: 'AND',
+			type: 'group'
+		}
+	}
+});
 
 ]]></example>
 
 	<example title="More Complex Multi level search"><![CDATA[
 
-    $('#example').DataTable( {
-        dom: 'Qlfrtip',
-        searchBuilder: {
-            preDefined: {
-                criteria:[
-                    {
-                        condition: 'Equals',
-                        data: 'Office',
-                        value: ['Edinburgh']
-                    },
-                    {
-                        criteria: [
-                            {
-                                condition: 'Equals',
-                                data: 'Name',
-                                value: ['Cedric Kelly']
-                            },
-                            {
-                                condition: 'Equals',
-                                data: 'Name',
-                                value: ['Dai Rios']
-                            }
-                        ],
-                        logic: 'OR'
-                    }
-                ],
-                logic: 'AND'
-            }
-        }
-    });
+$('#example').DataTable( {
+	dom: 'Qlfrtip',
+	searchBuilder: {
+		preDefined: {
+			criteria:[
+				{
+					condition: 'Equals',
+					data: 'Office',
+					value: ['Edinburgh']
+				},
+				{
+					criteria: [
+						{
+							condition: 'Equals',
+							data: 'Name',
+							value: ['Cedric Kelly']
+						},
+						{
+							condition: 'Equals',
+							data: 'Name',
+							value: ['Dai Rios']
+						}
+					],
+					logic: 'OR',
+					type: 'group'
+				}
+			],
+			logic: 'AND',
+			type: 'group'
+		}
+	}
+});
 
 ]]></example>
 

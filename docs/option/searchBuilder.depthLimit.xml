@@ -27,23 +27,23 @@
 
 	<example title="Setting the limit to 3"><![CDATA[
 
-    $('#example').DataTable( {
-        searchBuilder: {
-            depthLimit: 3
-        },    
-		dom: 'Qlfrtip'
-    });
+$('#example').DataTable( {
+	searchBuilder: {
+		depthLimit: 3
+	},    
+	dom: 'Qlfrtip'
+});
 
 ]]></example>
 
 <example title="Never allow sub grouping"><![CDATA[
 
-    $('#example').DataTable( {
-        searchBuilder: {
-            depthLimit: 1
-        },    
-		dom: 'Qlfrtip'
-    });
+$('#example').DataTable( {
+	searchBuilder: {
+		depthLimit: 1
+	},    
+	dom: 'Qlfrtip'
+});
 
 ]]></example>
 
