@@ -21,21 +21,21 @@
 
 	<example title="Defining Equals for a condition"><![CDATA[
 
-    $('#example').DataTable( {
-        dom: 'Qlfrtip',
-        searchBuilder: {
-            preDefined: {
-                criteria:[
-                    {
-                        condition: 'Equals',
-                        data: 'Office',
-                        value: ['Edinburgh']
-                    }
-                ],
-                logic: 'AND'
-            }
-        }
-    });
+$('#example').DataTable( {
+	dom: 'Qlfrtip',
+	searchBuilder: {
+		preDefined: {
+			criteria:[
+				{
+					condition: 'Equals',
+					data: 'Office',
+					value: ['Edinburgh']
+				}
+			],
+			logic: 'AND'
+		}
+	}
+});
 
 ]]></example>
 

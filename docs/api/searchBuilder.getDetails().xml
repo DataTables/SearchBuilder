@@ -13,7 +13,7 @@
 	<description>
 		This method provides the ability to get the details of the data structure and search criteria that is being applied to the DataTable.
 
-		`-init searchBuilder.getDetails()` takes no argument, the details are returned for the overall search criteria.
+		`-init searchBuilder.getDetails()` takes no arguments, the details are returned for the overall search criteria.
 
 	</description>
 
@@ -22,7 +22,7 @@ var dt = $('#example').DataTable( {
 	dom: 'Qlfrtip'
 });
 
-$('#example').DataTable().searchBuilder.getDetails();
+var d = dt.searchBuilder.getDetails();
 ]]></example>
 
 <related type="api">searchBuilder.rebuild()</related>
