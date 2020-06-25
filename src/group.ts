@@ -287,11 +287,9 @@ export default class Group {
 		let newTop = currentTop - shuffleTop;
 		$(this.dom.logicContainer).offset({top: newTop});
 
-		if (this.s.isChild) {
-			// Append clear Group
-			$(this.dom.clear).insertAfter(this.dom.logic);
-			this._setClearListener();
-		}
+		// Append clear Group
+		$(this.dom.clear).insertAfter(this.dom.logic);
+		this._setClearListener();
 
 	}
 
@@ -626,6 +624,12 @@ export default class Group {
 		$(this.dom.clear)
 			.unbind('click')
 			.on('click', () => {
+				if (!this.s.isChild) {
+					$(this.dom.container).trigger('dtsb-clearContents');
+
+					return;
+				}
+
 				this.destroy();
 				$(this.s.topGroup).trigger('dtsb-updateTitle');
 

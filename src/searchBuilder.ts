@@ -250,6 +250,11 @@ export default class SearchBuilder {
 			}
 		});
 
+		$(this.s.topGroup.dom.container).unbind('dtsb-clearContents');
+		$(this.s.topGroup.dom.container).on('dtsb-clearContents', () => {
+			this._setUp();
+		});
+
 		$(this.s.topGroup.dom.container).on('dtsb-updateTitle', () => {
 			let count = this.s.topGroup.count();
 			this._updateTitle(count);
