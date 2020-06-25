@@ -248,6 +248,8 @@ export default class SearchBuilder {
 			if (this.c.filterChanged !== undefined && typeof this.c.filterChanged === 'function') {
 				this.c.filterChanged(count);
 			}
+
+			this.s.dt.state.save();
 		});
 
 		$(this.s.topGroup.dom.container).unbind('dtsb-clearContents');
