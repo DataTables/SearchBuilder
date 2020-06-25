@@ -46,10 +46,10 @@ describe('searchBuilder - options - searchBuilder.depthLimit', function() {
 			$('button.dtsb-right:eq(1)').click();
 			expect($('.dtsb-logicContainer').length).toBe(2);
 		});
-		it('... and another', function() {
+		it('... but not another', function() {
 			$('button.dtsb-add:eq(0)').click();
 
-			expect($('button.dtsb-right').length).toBe(2);
+			expect($('button.dtsb-right').length).toBe(1);
 		});
 	});
 });
