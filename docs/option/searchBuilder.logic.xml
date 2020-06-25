@@ -6,7 +6,7 @@
 
 	<type type="string">
 		<description>
-            The value for the default logic operator for groups.
+            The value for the default logic operator for groups, either `AND` or `OR`.
         </description>
 	</type>
 
@@ -21,12 +21,12 @@
 
 	<example title="Setting the default logic to 'OR'"><![CDATA[
 
-    $('#example').DataTable( {
-        searchBuilder: {
-            logic: 'OR'
-        },    
-		dom: 'Qlfrtip'
-    });
+$('#example').DataTable( {
+	searchBuilder: {
+		logic: 'OR'
+	},    
+	dom: 'Qlfrtip'
+});
 
 ]]></example>
 
