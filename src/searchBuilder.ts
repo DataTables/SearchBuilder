@@ -133,6 +133,7 @@ export default class SearchBuilder {
 
 		this.s.dt.on('stateSaveParams', (e, settings, data) => {
 			data.searchBuilder = this.getDetails();
+			data.page = this.s.dt.page();
 		});
 
 		this._build();
@@ -143,7 +144,7 @@ export default class SearchBuilder {
 		if (loadedState !== null && loadedState.searchBuilder !== undefined) {
 			this.s.topGroup.rebuild(loadedState.searchBuilder);
 			$(this.s.topGroup.dom.container).trigger('dtsb-redrawContents');
-			this.s.dt.draw();
+			this.s.dt.page(loadedState.page).draw('page');
 			this.s.topGroup.setListeners();
 		}
 		// Otherwise load any predefined options
