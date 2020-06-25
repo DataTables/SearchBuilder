@@ -1036,7 +1036,6 @@ export default class Criteria {
 			condition: this.s.condition,
 			dataIdx: this.s.dataIdx,
 			dataTitle: this.s.dataTitle,
-			type: 'criteria',
 			value: this.s.value
 		};
 	}

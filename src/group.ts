@@ -117,8 +117,7 @@ export default class Group {
 	public getDetails(): typeInterfaces.IDetails {
 		let details: typeInterfaces.IDetails = {
 			criteria: [],
-			logic: this.s.logic,
-			type: 'group'
+			logic: this.s.logic
 		};
 
 		// NOTE here crit could be either a subgroup or a criteria
@@ -153,16 +152,16 @@ export default class Group {
 
 		// Add all of the criteria, be it a sub group or a criteria
 		for (let crit of loadedDetails.criteria) {
-			if (crit.type === 'group') {
+			if (crit.logic !== undefined) {
 				this._addPrevGroup(crit);
 			}
-			else if (crit.type === 'criteria') {
+			else if (crit.logic === undefined) {
 				this._addPrevCriteria(crit);
 			}
 		}
 
 		for (let crit of this.s.criteria) {
-			if (crit.type === 'criteria') {
+			if (crit.logic === undefined) {
 				crit.criteria.updateArrows(this.s.criteria.length > 1, false);
 				this._setCriteriaListeners(crit.criteria);
 			}
@@ -193,7 +192,7 @@ export default class Group {
 		this.setListeners();
 
 		for (let i = 0; i < this.s.criteria.length; i++) {
-			if (this.s.criteria[i].type === 'criteria') {
+			if (this.s.criteria[i].logic === undefined) {
 				// Reset the index to the new value
 				this.s.criteria[i].index = i;
 				this.s.criteria[i].criteria.s.index = i;
@@ -382,8 +381,7 @@ export default class Group {
 		// Add the details for this criteria to the array
 		this.s.criteria.push({
 			criteria,
-			index,
-			type: 'criteria'
+			index
 		});
 
 		this.s.criteria = this.s.criteria.sort((a, b) => {
@@ -391,7 +389,7 @@ export default class Group {
 		});
 
 		for (let opt of this.s.criteria) {
-			if (opt.type === 'criteria') {
+			if (opt.logic === undefined) {
 				opt.criteria.updateArrows(this.s.criteria.length > 1, redraw);
 			}
 		}
@@ -406,7 +404,10 @@ export default class Group {
 	 */
 	public checkFilled() {
 		for (let crit of this.s.criteria) {
-			if ((crit.type === 'criteria' && crit.criteria.s.filled) || (crit.type === 'group' && crit.criteria.checkFilled())) {
+			if (
+				(crit.logic === undefined && crit.criteria.s.filled) ||
+				(crit.logic !== undefined && crit.criteria.checkFilled())
+			) {
 				return true;
 			}
 		}
@@ -421,7 +422,7 @@ export default class Group {
 		let count = 0;
 
 		for (let crit of this.s.criteria) {
-			if (crit.type === 'group') {
+			if (crit.logic !== undefined) {
 				count += crit.criteria.count();
 			}
 			else {
@@ -443,7 +444,7 @@ export default class Group {
 		this.s.criteria.push({
 			criteria: group,
 			index: idx,
-			type: 'group'
+			logic: group.s.logic
 		});
 
 		group.rebuild(loadedGroup);
@@ -467,8 +468,7 @@ export default class Group {
 
 		this.s.criteria.push({
 			criteria,
-			index: idx,
-			type: 'criteria'
+			index: idx
 		});
 
 		criteria.rebuild(loadedCriteria);
@@ -491,7 +491,7 @@ export default class Group {
 
 		for (let crit of this.s.criteria) {
 			// If the criteria is not complete then skip it
-			if (crit.type === 'criteria' && !crit.criteria.s.filled) {
+			if (crit.logic === undefined && !crit.criteria.s.filled) {
 				continue;
 			}
 			// Otherwise if a single one fails return false
@@ -528,7 +528,7 @@ export default class Group {
 					return true;
 				}
 			}
-			else if (crit.type === 'group' && crit.criteria.checkFilled()) {
+			else if (crit.logic !== undefined && crit.criteria.checkFilled()) {
 				filledfound = true;
 				if (crit.criteria.search(rowData)) {
 					return true;
@@ -578,7 +578,7 @@ export default class Group {
 				this.setupLogic();
 
 				for (let crit of this.s.criteria) {
-					if (crit.type === 'criteria') {
+					if (crit.logic === undefined) {
 						crit.criteria.updateArrows(this.s.criteria.length > 1);
 					}
 				}
@@ -599,7 +599,6 @@ export default class Group {
 
 				// Update the details in the current groups criteria array
 				this.s.criteria[idx].criteria = group;
-				this.s.criteria[idx].type = 'group';
 
 				$(this.s.topGroup).trigger('dtsb-redrawContents');
 

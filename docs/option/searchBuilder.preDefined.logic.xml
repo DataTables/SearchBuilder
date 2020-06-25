@@ -29,12 +29,10 @@
                     {
                         condition: 'Equals',
                         data: 'Office',
-                        type: 'criteria',
                         value: ['Edinburgh']
                     }
                 ],
-                logic: 'AND',
-                type: 'group'
+                logic: 'AND'
             }
         }
     });
@@ -51,12 +49,10 @@
                     {
                         condition: 'Equals',
                         data: 'Office',
-                        type: 'criteria',
                         value: ['Edinburgh']
                     }
                 ],
-                logic: 'OR',
-                type: 'group'
+                logic: 'OR'
             }
         }
     });
@@ -64,7 +60,6 @@
 ]]></example>
 
 <related type="init">searchBuilder.preDefined</related>
-<related type="init">searchBuilder.preDefined.type</related>
 <related type="init">searchBuilder.preDefined.logic</related>
 <related type="init">searchBuilder.preDefined.criteria</related>
 <related type="init">searchBuilder.preDefined.criteria.condition</related>

@@ -78,6 +78,5 @@ export interface IDetails {
 	condition: ICondition;
 	dataIdx: number;
 	dataTitle: string;
-	type: string;
 	value: any[];
 }
