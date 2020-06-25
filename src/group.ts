@@ -199,20 +199,6 @@ export default class Group {
 
 				// Add to the group
 				$(this.s.criteria[i].criteria.dom.container).insertBefore(this.dom.add);
-				let date = false;
-
-				for (let opt of this.s.criteria[i].criteria.s.conditions) {
-					if (opt.display === this.s.criteria[i].criteria.s.condition) {
-						date = opt.type === 'date';
-						break;
-					}
-				}
-
-				if (date) {
-					for (let val of this.s.criteria[i].criteria.dom.valueInputs) {
-						$(val).dtDateTime();
-					}
-				}
 
 				// Set listeners for various points
 				this._setCriteriaListeners(this.s.criteria[i].criteria);
@@ -599,6 +585,7 @@ export default class Group {
 
 				// Update the details in the current groups criteria array
 				this.s.criteria[idx].criteria = group;
+				this.s.criteria[idx].logic = 'AND';
 
 				$(this.s.topGroup).trigger('dtsb-redrawContents');
 

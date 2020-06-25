@@ -890,7 +890,7 @@ export default class Criteria {
 			conditions: [],
 			dataIdx: -1,
 			dataPoints: [],
-			dataTitle: '',
+			dataTitle: undefined,
 			depth,
 			dt: table,
 			filled: false,
