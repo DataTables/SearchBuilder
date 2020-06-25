@@ -62,7 +62,6 @@
 ]]></example>
 
 <related type="init">searchBuilder.preDefined</related>
-<related type="init">searchBuilder.preDefined.type</related>
 <related type="init">searchBuilder.preDefined.logic</related>
 <related type="init">searchBuilder.preDefined.criteria</related>
 <related type="init">searchBuilder.preDefined.criteria.condition</related>
