@@ -6,7 +6,7 @@
 
 	<type type="string">
 		<description>
-            The value for the logic operator of the predefined group.
+            The value for the logic operator of the predefined group, either `AND` or `OR`.
         </description>
 	</type>
 
@@ -21,44 +21,45 @@
 
 	<example title="Simple single level search with AND logic"><![CDATA[
 
-    $('#example').DataTable( {
-        dom: 'Qlfrtip',
-        searchBuilder: {
-            preDefined: {
-                criteria:[
-                    {
-                        condition: 'Equals',
-                        data: 'Office',
-                        value: ['Edinburgh']
-                    }
-                ],
-                logic: 'AND'
-            }
-        }
-    });
+$('#example').DataTable( {
+	dom: 'Qlfrtip',
+	searchBuilder: {
+		preDefined: {
+			criteria:[
+				{
+					condition: 'Equals',
+					data: 'Office',
+					value: ['Edinburgh']
+				}
+			],
+			logic: 'AND'
+		}
+	}
+});
 
 ]]></example>
 
 	<example title="Simple single level search with OR logic"><![CDATA[
 
-    $('#example').DataTable( {
-        dom: 'Qlfrtip',
-        searchBuilder: {
-            preDefined: {
-                criteria:[
-                    {
-                        condition: 'Equals',
-                        data: 'Office',
-                        value: ['Edinburgh']
-                    }
-                ],
-                logic: 'OR'
-            }
-        }
-    });
+$('#example').DataTable( {
+	dom: 'Qlfrtip',
+	searchBuilder: {
+		preDefined: {
+			criteria:[
+				{
+					condition: 'Equals',
+					data: 'Office',
+					value: ['Edinburgh']
+				}
+			],
+			logic: 'OR'
+		}
+	}
+});
 
 ]]></example>
 
+<related type="init">searchBuilder.logic</related>
 <related type="init">searchBuilder.preDefined</related>
 <related type="init">searchBuilder.preDefined.logic</related>
 <related type="init">searchBuilder.preDefined.criteria</related>
