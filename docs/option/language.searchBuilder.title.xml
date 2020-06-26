@@ -1,27 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
 	<name>language.searchBuilder.title</name>
-	<summary>Set the message to be displayed in the SearchBuilder Title</summary>
+	<summary>Set the SearchBuilder Title text</summary>
 	<since>SearchBuilder 0.0.1</since>
 
-	<type type="string | object">
+	<type type="string">
 		<description>
-			`-init language.searchBuilder.title` changes what will be displayed in the text of the SearchBuilder title.
+			The language string to be displayed without any pluralisation considerations. The string can contain `%d` which will be replaced with the number of filters selected.
 		</description>
-	</type>
+</type>
 
-	<default value="'SearchBuilder'">
-		The default value for the `-init language.searchBuilder.title` parameter is `'SearchBuilder'`. 
+	<type type="object">
+		<description>
+			As an object this option can be used to define different strings to use for the various singular, plural, dual, etc options required by many languages. If the number of filters selected matches a parameter name in the object, the value of that parameter will be used. If there is no match the `_` (which **must** be defined) is used as the default.
+
+			As with the string case above, any of the parameter values defined in this object can contain the string `%d` which will be replaced with the number of filters selected.
+		</description>
+</type>
+
+	<default value="'Search Builder'">
 	</default>
+
 	<description>
 		<![CDATA[
-			As standard, SearchBuilder will set the SearchBuilder title to display a default text, in this case `'SearchBuilder'`.
 
-            The value of `-init language.searchBuilder.title` is passed into an `-api i18n()` function.
+			Searchbuilder can show summary information about the number of filters currently being implemented in the title field, providing quick and useful information to the end user. 
+
+			Internally the DataTables' `dt-api i18n()` method is used to determine the string value to display, which can provide complex singular, plural, dual, etc language strings for true multi-language support. Please refer to the `object` section below for details.
+
 		]]>
 	</description>
 
-	<example title="Change message for SearchBuilder Title"><![CDATA[
+	<example title="Change message for SearchBuilder Title within a button"><![CDATA[
 $(document).ready(function() {
     $('#example').DataTable( {
         language: {
@@ -29,10 +39,8 @@ $(document).ready(function() {
                 title: 'Search Builder Title'
             }
         },
-        titles:[
-            'SearchBuilder'
-        ],
-        dom: 'Bfrtip',
+        buttons: [ 'searchBuilder' ],
+        dom: 'Bfrtip'
     });
 });
 
