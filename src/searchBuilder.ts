@@ -126,7 +126,7 @@ export default class SearchBuilder {
 	/**
 	 * Set's up the SearchBuilder
 	 */
-	private _setUp(): void {
+	private _setUp(loadState = true): void {
 		this.s.topGroup = new Group(this.s.dt, this.c, undefined);
 
 		this._setClearListener();
@@ -138,21 +138,24 @@ export default class SearchBuilder {
 
 		this._build();
 
-		let loadedState = this.s.dt.state.loaded();
+		if (loadState) {
+			let loadedState = this.s.dt.state.loaded();
 
-		// If the loaded State is not null rebuild based on it for statesave
-		if (loadedState !== null && loadedState.searchBuilder !== undefined) {
-			this.s.topGroup.rebuild(loadedState.searchBuilder);
-			$(this.s.topGroup.dom.container).trigger('dtsb-redrawContents');
-			this.s.dt.page(loadedState.page).draw('page');
-			this.s.topGroup.setListeners();
-		}
-		// Otherwise load any predefined options
-		else if (this.c.preDefined !== false) {
-			this.rebuild(this.c.preDefined);
+			// If the loaded State is not null rebuild based on it for statesave
+			if (loadedState !== null && loadedState.searchBuilder !== undefined) {
+				this.s.topGroup.rebuild(loadedState.searchBuilder);
+				$(this.s.topGroup.dom.container).trigger('dtsb-redrawContents');
+				this.s.dt.page(loadedState.page).draw('page');
+				this.s.topGroup.setListeners();
+			}
+			// Otherwise load any predefined options
+			else if (this.c.preDefined !== false) {
+				this.rebuild(this.c.preDefined);
+			}
 		}
 
 		this._setEmptyListener();
+		this.s.dt.state.save();
 	}
 
 	/**
@@ -255,7 +258,7 @@ export default class SearchBuilder {
 
 		$(this.s.topGroup.dom.container).unbind('dtsb-clearContents');
 		$(this.s.topGroup.dom.container).on('dtsb-clearContents', () => {
-			this._setUp();
+			this._setUp(false);
 		});
 
 		$(this.s.topGroup.dom.container).on('dtsb-updateTitle', () => {
