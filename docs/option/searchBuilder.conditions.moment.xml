@@ -4,14 +4,14 @@
 	<summary>An array of objects containing the conditions for columns that are using moment</summary>
 	<since>SearchBuilder 0.0.1</since>
 
-	<type type="Object[]">
+	<type type="object[]">
 		<description>
-            An array of objects that hold the details of the conditions for columns that are using moment.
+            An `-type object[]` that holds the details of the conditions for columns that are using moment.
         </description>
 	</type>
 
-	<default value="Object[]">
-        The default value for the `-init searchBuilder.conditions.moment` option is an array of Objects in the form of `-init searchBuilder.conditions[type]`.
+	<default value="array">
+        The default value for the `-init searchBuilder.conditions.moment` option is an `-type object[]` where the objects are in the form of `-init searchBuilder.conditions[type]`.
 	</default>
 	<description>
 		<![CDATA[

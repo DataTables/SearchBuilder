@@ -4,9 +4,9 @@
 	<summary>Restrict which columns can be filtered on</summary>
 	<since>SearchBuilder 0.0.1</since>
 
-	<type type="integer[]">
+	<type type="column-selector">
 		<description>
-			The columns that can be filtered. This accepts all of the options of `dt-type column-selector` such as class name selector, jQuery pseudo selects and column index selectors.
+			`-type number[]` of the columns that can be filtered. This accepts all of the options of `dt-type column-selector` such as class name selector, jQuery pseudo selects and column index selectors.
 		</description>
 	</type>
 

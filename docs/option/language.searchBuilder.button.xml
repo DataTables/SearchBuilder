@@ -17,7 +17,7 @@
 		<![CDATA[
 			As standard, SearchBuilder will set the SearchBuilder Button to display a default text, in this case `{0: 'Search Builder', _: 'Search Builder (%d)'}`. where %d is the total number of criteria that are active.
 
-            The value of `-init language.searchBuilder.button` is passed into an `-api i18n()` function. `%d` is replaces by the number of criteria that are in place. To just set the Button text to be a string no matter the count, just set `-init language.searchBuilder.button` to be the desired `-type string`.
+            The value of `-init language.searchBuilder.button` is passed into an `-api i18n()` function. `%d` is replaces by the number of criteria that are in place. To just set the Button text to be a `-type string` no matter the count, just set `-init language.searchBuilder.button` to be the desired `-type string`.
 		]]>
 	</description>
 

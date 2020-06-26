@@ -9,8 +9,8 @@
 		<description>
             This function returns an array of values that are to be used to compare against the data in the table.
         </description>
-		<parameter type="JQuery<HTMLElement>[]">Array of the elements used to collect values</parameter>
-        <parameter type="Criteria">Instance of the criteria that is being checked</parameter>
+		<parameter type="jQuery[]">The elements used to collect values</parameter>
+        <parameter type="object">This `-type object` is an instance of the Criteria that is being checked</parameter>
 	</type>
 
 	<description>

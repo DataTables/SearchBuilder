@@ -4,13 +4,13 @@
 	<summary>The object structure for additional conditions for SearchBuilder</summary>
 	<since>SearchBuilder 0.0.1</since>
 
-	<type type="Array">
+	<type type="object[]">
 		<description>
             An array of objects that contain the information necessary to add a new condition.
         </description>
 	</type>
 
-	<default value="Array">
+	<default value="object[]">
 
 	</default>
 	<description>

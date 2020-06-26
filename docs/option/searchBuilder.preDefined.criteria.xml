@@ -4,7 +4,7 @@
 	<summary>Declares criteria and sub groups within the array</summary>
 	<since>SearchBuilder 0.0.1</since>
 
-	<type type="[]">
+	<type type="object[]">
 		<description>
             An array of objects which represent either a sub group or a criteria.
         </description>

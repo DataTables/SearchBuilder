@@ -7,7 +7,7 @@
 	<type type="function">
 		<signature>searchBuilder.getDetails()</signature>
 		<description>Gets the details of the current search.</description>
-		<returns type="Object">Object containing the current details of the search</returns>
+		<returns type="object">`-type object` containing the current details of the search</returns>
 	</type>
 
 	<description>
