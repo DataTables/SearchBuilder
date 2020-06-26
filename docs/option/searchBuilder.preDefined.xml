@@ -4,7 +4,7 @@
 	<summary>Set a predefined search query</summary>
 	<since>SearchBuilder 0.0.1</since>
 
-	<type type="Object">
+	<type type="object">
 		<description>
             The details object for the top level group.
         </description>
