@@ -536,11 +536,17 @@ export default class Group {
 		}
 		else {
 			// Otherwise splice the given criteria out and redo the indexes
+			let last;
+
 			for (let i = 0; i < this.s.criteria.length; i++) {
 				if (this.s.criteria[i].index === criteria.s.index) {
-					this.s.criteria.splice(i, 1);
-					break;
+					last = i;
 				}
+			}
+
+			// We want to remove the last element with the desired index, as its replacement will be inserted before it
+			if (last !== undefined) {
+				this.s.criteria.splice(last, 1);
 			}
 
 			for (let i = 0; i < this.s.criteria.length; i++) {
