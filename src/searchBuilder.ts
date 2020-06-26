@@ -124,6 +124,30 @@ export default class SearchBuilder {
 	}
 
 	/**
+	 * Applies the defaults to preDefined criteria
+	 * @param preDef the array of criteria to be processed.
+	 */
+	private _applyPreDefDefaults(preDef) {
+		for (let crit of preDef.criteria) {
+			if (crit.criteria !== undefined && crit.logic === undefined) {
+				crit.logic = 'AND';
+			}
+			if (crit.criteria !== undefined) {
+				crit = this._applyPreDefDefaults(crit);
+			}
+			else {
+				this.s.dt.columns().every((index) => {
+					if (this.s.dt.settings()[0].aoColumns[index].sTitle === crit.dataTitle) {
+						crit.dataIdx = index;
+					}
+				});
+			}
+		}
+
+		return preDef;
+	}
+
+	/**
 	 * Set's up the SearchBuilder
 	 */
 	private _setUp(loadState = true): void {
@@ -150,6 +174,7 @@ export default class SearchBuilder {
 			}
 			// Otherwise load any predefined options
 			else if (this.c.preDefined !== false) {
+				this.c.preDefined = this._applyPreDefDefaults(this.c.preDefined);
 				this.rebuild(this.c.preDefined);
 			}
 		}
