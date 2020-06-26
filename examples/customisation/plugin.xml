@@ -15,7 +15,7 @@ $(document).ready(function() {
         "=": {
             // This function decides whether to include the criteria in the search
             isInputValid: function (el, that) {
-                // If no options have been selected, or one has but it has no value then don't include the criteria
+                // If no options have been selected, or one has but it has no value then do not include the criteria
                 if (
                     $(el[0]).has('option:selected').length < 1 ||
                     (
@@ -60,10 +60,10 @@ $(document).ready(function() {
                 // return the selected values
                 return values;
             },
-            // This function initialises the criteria, specifically any dom elements that are required for it's use
+            // This function initialises the criteria, specifically any dom elements that are required for its use
             init: function (that, fn, preDefined = null) {
                 // As the select2 element is going to be populated with the values from the table,
-                //  we need the row indexes and the column index.
+                // we need the row indexes and the column index.
                 let column = $(that.dom.data).children('option:selected').val();
                 let indexArray = that.s.dt.rows().indexes().toArray();
                 let settings = that.s.dt.settings()[0];
@@ -88,7 +88,7 @@ $(document).ready(function() {
 
                     that.s.values.push(value);
         
-                    // If we hace not already added this value
+                    // If we have not already added this value
                     if (added.indexOf(value.filter) === -1) {
                         // Create the option to add to the select 2 element 
                         let opt = $('<option>', {
@@ -100,7 +100,7 @@ $(document).ready(function() {
 
                         $(el).append(opt);
 
-                        // Take note of the filter value so we don't add it again
+                        // Take note of the filter value so we do not add it again
                         added.push(value.filter);
                         
                         // Check if it is preDefined and if so select it
