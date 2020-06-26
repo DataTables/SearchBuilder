@@ -10,7 +10,7 @@
         </description>
 	</type>
 
-	<default value="undefined">
+	<default value="AND">
         The default value for the `-init searchBuilder.preDefined.logic` option is `AND` meaning that the initial logic applied to the predefined group will be `AND` logic.
 	</default>
 	<description>
