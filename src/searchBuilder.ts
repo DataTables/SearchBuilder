@@ -71,12 +71,14 @@ export default class SearchBuilder {
 			topGroup: undefined
 		};
 
+		// If searchbuilder is already defined for this table then return
 		if (table.settings()[0]._searchBuilder !== undefined) {
 			return;
 		}
 
 		table.settings()[0]._searchBuilder = this;
 
+		// Run the remaining setup when the table is initialised
 		if (this.s.dt.settings()[0]._bInitComplete) {
 			this._setUp();
 		}
@@ -129,9 +131,12 @@ export default class SearchBuilder {
 	 */
 	private _applyPreDefDefaults(preDef) {
 		for (let crit of preDef.criteria) {
+			// The default logic is 'AND' so we need to set that here
 			if (crit.criteria !== undefined && crit.logic === undefined) {
 				crit.logic = 'AND';
 			}
+
+			// Apply the defaults to any further criteria
 			if (crit.criteria !== undefined) {
 				crit = this._applyPreDefDefaults(crit);
 			}
@@ -197,20 +202,18 @@ export default class SearchBuilder {
 	 * Builds all of the dom elements together
 	 */
 	private _build(): void {
+		// Empty and setup the container
 		$(this.dom.container).empty();
-
 		let count = this.s.topGroup.count();
 		this._updateTitle(count);
-
 		$(this.dom.titleRow).append(this.dom.title);
 		$(this.dom.container).append(this.dom.titleRow);
 		this.dom.topGroup = this.s.topGroup.getNode();
 		$(this.dom.container).append(this.dom.topGroup);
-
 		this._setRedrawListener();
-
 		let tableNode: Node = this.s.dt.table(0).node();
 
+		// Custom search function for SearchBuilder
 		this.s.search = (settings, searchData, dataIndex, origData) => {
 			if (settings.nTable !== tableNode) {
 				return true;

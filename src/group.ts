@@ -160,6 +160,7 @@ export default class Group {
 			}
 		}
 
+		// For all of the criteria children, update the arrows incase they require changing and set the listeners
 		for (let crit of this.s.criteria) {
 			if (crit.logic === undefined) {
 				crit.criteria.updateArrows(this.s.criteria.length > 1, false);
@@ -178,6 +179,7 @@ export default class Group {
 			.append(this.dom.logicContainer)
 			.append(this.dom.add);
 
+		// Sort the criteria by index so that they appear in the correct order
 		this.s.criteria.sort(function(a, b) {
 			if (a.criteria.s.index < b.criteria.s.index) {
 				return -1;
@@ -264,7 +266,6 @@ export default class Group {
 		// Set width, take 2 for the border
 		let height = $(this.dom.container).height() - 2;
 		$(this.dom.logicContainer).width(height);
-		// $(this.dom.logicContainer).outerWidth(height, true);
 
 		// Prepend logic button
 		$(this.dom.container).prepend(this.dom.logicContainer);
@@ -425,18 +426,17 @@ export default class Group {
 		let idx = this.s.criteria.length;
 		let group = new Group(this.s.dt, this.c, this.s.topGroup, idx, true, this.s.depth + 1);
 
+		// Add the new group to the criteria array
 		this.s.criteria.push({
 			criteria: group,
 			index: idx,
 			logic: group.s.logic
 		});
 
+		// Rebuild it with the previous conditions for that group
 		group.rebuild(loadedGroup);
-
 		this.s.criteria[idx].criteria = group;
-
 		$(this.s.topGroup).trigger('dtsb-redrawContents');
-
 		this._setGroupListeners(group);
 	}
 
@@ -447,18 +447,17 @@ export default class Group {
 	private _addPrevCriteria(loadedCriteria: critTypeInterfaces.IDetails): void {
 		let idx = this.s.criteria.length;
 		let criteria = new Criteria(this.s.dt, this.s.opts, this.s.topGroup, idx, this.s.depth);
-
 		criteria.populate();
 
+		// Add the new criteria to the criteria array
 		this.s.criteria.push({
 			criteria,
 			index: idx
 		});
 
+		// Rebuild it with the previous conditions for that criteria
 		criteria.rebuild(loadedCriteria);
-
 		this.s.criteria[idx].criteria = criteria;
-
 		$(this.s.topGroup).trigger('dtsb-redrawContents');
 	}
 
@@ -536,7 +535,7 @@ export default class Group {
 		}
 		else {
 			// Otherwise splice the given criteria out and redo the indexes
-			let last;
+			let last: number;
 
 			for (let i = 0; i < this.s.criteria.length; i++) {
 				if (this.s.criteria[i].index === criteria.s.index) {

@@ -294,11 +294,13 @@ export default class Criteria {
 		that.s.filled = that.s.condition.isInputValid(that.dom.value, that);
 		that.s.value = that.s.condition.inputValue(that.dom.value, that);
 
-		let idx = null;
-		let cursorPos = null;
+		// Take note of the cursor position so that we can refocus there later
+		let idx: number = null;
+		let cursorPos: number = null;
 		for (let i = 0; i < that.dom.value.length; i++) {
 			if (el === that.dom.value[i][0]) {
 				idx = i;
+
 				if (el.selectionStart !== undefined) {
 					cursorPos = el.selectionStart;
 				}
@@ -308,6 +310,7 @@ export default class Criteria {
 		// Trigger a search
 		that.s.dt.draw();
 
+		// Refocus the element and set the correct cursor position
 		if (idx !== null) {
 			$(that.dom.value[idx]).removeClass(that.classes.italic);
 			$(that.dom.value[idx]).focus();
@@ -934,15 +937,18 @@ export default class Criteria {
 	 * Adds the left button to the criteria
 	 */
 	public updateArrows(hasSiblings = false, redraw = true): void {
+		// Empty the container and append all of the elements in the correct order
 		$(this.dom.container)
 			.empty()
 			.append(this.dom.data)
 			.append(this.dom.condition)
 			.append(this.dom.value[0]);
 
+		// Trigger the inserted events for the value elements as they are inserted
+		$(this.dom.value[0]).trigger('dtsb-inserted');
+
 		for (let i = 1; i < this.dom.value.length; i++) {
-			$(this.dom.container)
-				.append(this.dom.value[i]);
+			$(this.dom.container).append(this.dom.value[i]);
 			$(this.dom.value[i]).trigger('dtsb-inserted');
 		}
 
@@ -1018,9 +1024,11 @@ export default class Criteria {
 	public populate(): void {
 		this._populateData();
 
+		// If the column index has been found attempt to select a condition
 		if (this.s.dataIdx !== -1) {
 			this._populateCondition();
 
+			// If the condittion has been found attempt to select the values
 			if (this.s.condition !== undefined) {
 				this._populateValue();
 			}
@@ -1036,6 +1044,7 @@ export default class Criteria {
 		let foundData = false;
 		this._populateData();
 
+		// If a data selection has previously been made attempt to find and select it
 		if (loadedCriteria.dataTitle !== undefined) {
 			let italic = this.classes.italic;
 			let data = this.dom.data;
@@ -1055,7 +1064,7 @@ export default class Criteria {
 			$(this.dom.dataTitle).remove();
 			this._populateCondition();
 			$(this.dom.conditionTitle).remove();
-			let condition;
+			let condition: typeInterfaces.ICondition;
 			let conditions = this.s.conditions;
 
 			// Check to see if the previously selected condition exists, if so select it
@@ -1131,6 +1140,7 @@ export default class Criteria {
 				$(this.dom.condition).removeClass(this.classes.italic);
 				let condDisp = $(this.dom.condition).children('option:selected').val();
 
+				// Find the condition that has been selected and store it internally
 				for (let cond of this.s.conditions) {
 					if (cond.conditionName === condDisp) {
 						this.s.condition = cond;
@@ -1227,6 +1237,8 @@ export default class Criteria {
 		// Append Titles for select elements
 		$(this.dom.data).append(this.dom.dataTitle);
 		$(this.dom.condition).append(this.dom.conditionTitle);
+
+		// Add elements to container
 		$(this.dom.container)
 			.append(this.dom.data)
 			.append(this.dom.condition);
@@ -1236,6 +1248,7 @@ export default class Criteria {
 			$(this.dom.container).append(val);
 		}
 
+		// Add buttons to container
 		$(this.dom.container)
 			.append(this.dom.delete)
 			.append(this.dom.right);
@@ -1259,26 +1272,32 @@ export default class Criteria {
 	 */
 	private _clearValue(): void {
 		if (this.s.condition !== undefined) {
+			// Remove all of the value elements
 			for (let val of this.dom.value) {
 				$(val).remove();
 			}
 
+			// Call the init function to get the value elements for this condition
 			let value = this.s.condition.init(this, Criteria.updateListener);
 			this.dom.value = Array.isArray(value) ?
 				value :
 				[value];
 
-			for (let val of this.dom.value) {
-				$(val).insertAfter(this.dom.condition);
-				$(val).trigger('dtsb-inserted');
+			$(this.dom.value[0]).insertAfter(this.dom.condition);
+
+			// Insert all of the value elements
+			for (let i = 1; i < this.dom.value.length; i++) {
+				$(this.dom.value[i]).insertAfter(this.dom.value[i - 1]);
+				$(this.dom.value[i]).trigger('dtsb-inserted');
 			}
 		}
 		else {
+			// Remove all of the value elements
 			for (let val of this.dom.value) {
 				$(val).remove();
 			}
 
-			$('.' + this.classes.joiner).remove();
+			// Append the default valueTitle to the default select element
 			$(this.dom.valueTitle)
 				.attr('selected', true)
 				.attr('disabled', false);
@@ -1294,18 +1313,20 @@ export default class Criteria {
 	 * Populates the condition dropdown
 	 */
 	private _populateCondition(): void {
-		let conditionOpts = [];
+		let conditionOpts: Array<JQuery<HTMLElement>> = [];
 		// If there are no conditions stored then we need to get them from the appropriate type
 		if (this.s.conditions.length === 0) {
 			let column = $(this.dom.data).children('option:selected').val();
 			this.s.type = this.s.dt.columns().type().toArray()[column];
 
+			// If the column type is unknown, call a draw to try reading it again
 			if (this.s.type === null) {
 				this.s.dt.draw();
 				this.setListeners();
 				this.s.type = this.s.dt.columns().type().toArray()[column];
 			}
 
+			// Enable the condition element
 			$(this.dom.condition)
 				.attr('disabled', false)
 				.empty()
@@ -1314,16 +1335,19 @@ export default class Criteria {
 			$(this.dom.conditionTitle)
 				.attr('selected', true);
 
+			// Select which conditions are going to be used based on the column type
 			let conditionObj = this.c.conditions[this.s.type] !== undefined ?
 				this.c.conditions[this.s.type] :
 				this.s.type.indexOf('moment') !== -1 && $.fn.dataTable.moment !== undefined ?
 					this.c.conditions.moment :
 					this.c.conditions.string;
 
+			// If it is a moment format then extract the date format
 			if (this.s.type.indexOf('moment') !== -1) {
 				this.s.momentFormat = this.s.type.replace(/moment\-/g, '');
 			}
 
+			// Add all of the conditions to the select element
 			for (
 				let condition of Object.keys(conditionObj)
 			) {
@@ -1366,6 +1390,7 @@ export default class Criteria {
 			return;
 		}
 
+		// Sort the conditions so that they are displayed alphabetically
 		conditionOpts.sort((a, b) => {
 			if ($(a).val() < $(b).val()) {
 				return -1;
@@ -1455,6 +1480,7 @@ export default class Criteria {
 		let prevFilled = this.s.filled;
 		this.s.filled = false;
 
+		// Remove any previous value elements
 		$(this.dom.defaultValue).remove();
 
 		for (let val of this.dom.value) {
@@ -1465,6 +1491,7 @@ export default class Criteria {
 			this.s.dataIdx = loadedCriteria.dataIdx;
 		}
 
+		// Initialise the value elements based on the condition
 		let value = this.s.condition.init(
 			this,
 			Criteria.updateListener,
@@ -1479,6 +1506,7 @@ export default class Criteria {
 			value :
 			[value];
 
+		// Insert value elements and trigger the inserted event
 		$(this.dom.value[0])
 			.insertAfter(this.dom.condition)
 			.trigger('dtsb-inserted');
@@ -1489,9 +1517,11 @@ export default class Criteria {
 				.trigger('dtsb-inserted');
 		}
 
+		// Check if the criteria can be used in a search
 		this.s.filled = this.s.condition.isInputValid(this.dom.value, this);
 		this.setListeners();
 
+		// If it can and this is different to before then trigger a draw
 		if (prevFilled !== this.s.filled) {
 			this.s.dt.draw();
 			this.setListeners();
