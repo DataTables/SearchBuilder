@@ -637,6 +637,7 @@ export default class Group {
 
 				this.destroy();
 				$(this.s.topGroup).trigger('dtsb-updateTitle');
+				$(this.s.topGroup).trigger('dtsb-redrawContents');
 
 				return false;
 			});
