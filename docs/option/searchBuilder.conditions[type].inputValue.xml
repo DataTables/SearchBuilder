@@ -15,10 +15,10 @@
 
 	<description>
 		<![CDATA[
-		This function is a getter/setter. It either returns an array of values that are to be used to compare against the data in the table or sets the values based on the `value` parameter. It takes 2 parameters.
+		This function is a getter. It returns an array of values that are to be used to compare against the data in the table. It takes 2 parameters.
 
             * `val` the array of value elements that belong to this criteria.
-            * `value` Optional. Any values that are to be set.
+            * `that` Optional. The criteria instance that is being used.
 
 		The internals of the function are down to the functionality that you wish to create. The values that are returned here will be passed into the `-init searchBuilder.conditions[type].search()` function. This is given a seperate function, rather than running it all in the `-init searchBuilder.conditions[type].search()` to make it more efficient, it only needs to run this way. Some examples are shown below.
         ]]>
@@ -26,27 +26,12 @@
 
 <example title="Select inputValue function"><![CDATA[
     ...
-    inputValue (el, value = null) {
+    inputValue (el) {
         let values = [];
 
-		if (value === null) {
-			for (let element of el) {
-				if ($(element).is('select')) {
-					values.push($(element).children('option:selected').val());
-				}
-			}
-		}
-		else {
-			for (let v = 0; v < el.length; v ++) {
-				if ($(el[v]).is('select')) {
-					let children = $(el[v]).children().toArray;
-					for (let child of children) {
-						if ($(child).val() === value[v]) {
-							$(child).attr('selected', true);
-							values.push(value[v]);
-						}
-					}
-				}
+		for (let element of el) {
+			if ($(element).is('select')) {
+				values.push($(element).children('option:selected').val());
 			}
 		}
 
@@ -57,22 +42,12 @@
 
 <example title="Input inputValue function"><![CDATA[
     ...
-    inputValue (el, value = null) {
+    inputValue (el) {
 		let values = [];
 
-		if (value === null) {
-			for (let element of ell) {
-				if ($(element).is('input')) {
-					values.push($(element).val());
-				}
-			}
-		}
-		else {
-			for (let v = 0; v < el.length; v++) {
-				if ($(el[v]).is('input')) {
-					$(el[v]).val(value[v]);
-					values.push(value[v]);
-				}
+		for (let element of ell) {
+			if ($(element).is('input')) {
+				values.push($(element).val());
 			}
 		}
 

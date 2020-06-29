@@ -40,25 +40,15 @@
                             return allFilled;
                         }
                         conditionName: 'Made up',
-                        inputValue: function (el, value = null) {
+                        inputValue: function (el) {
                             let values = [];
 
-                            if (value === null) {
-                                for (let element of el) {
-                                    if ($(element).is('input')) {
-                                        values.push(moment($(element).val()).format(that.s.momentFormat));
-                                    }
+                            for (let element of el) {
+                                if ($(element).is('input')) {
+                                    values.push(moment($(element).val()).format(that.s.momentFormat));
                                 }
                             }
-                            else {
-                                for (let v = 0; v < el.length; v++) {
-                                    if ($(el[v]).is('input')) {
-                                        $(el[v]).el(value[v]);
-                                        values.push(value[v]);
-                                    }
-                                }
-                            }
-
+                            
                             return values;
                         },
                         init: function (that, fn, preDefined) {

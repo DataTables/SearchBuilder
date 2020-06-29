@@ -30,25 +30,13 @@ $(document).ready(function() {
                         // This is the string displayed in the condition select
                         conditionName: '+- 5',
                         // This function gathers/sets the values from the dom elements created in the init function that are to be used for searching
-                        inputValue: function (el, value = null) {
+                        inputValue: function (el) {
                             let values = [];
 
-                            // If there are no values to set
-                            if (value === null) {
-                                // Go through the input elements and push each value to the return array
-                                for (let element of el) {
-                                    if ($(element).is('input')) {
-                                        values.push($(element).val());
-                                    }
-                                }
-                            }
-                            else {
-                                // Set the value for each input element
-                                for (let v = 0; v < el.length; v++) {
-                                    if ($(el[v]).is('input')) {
-                                        $(el[v]).val(value[v]);
-                                        values.push(value[v]);
-                                    }
+                            // Go through the input elements and push each value to the return array
+                            for (let element of el) {
+                                if ($(element).is('input')) {
+                                    values.push($(element).val());
                                 }
                             }
 

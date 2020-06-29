@@ -66,7 +66,6 @@ export interface IS {
 	topGroup: JQuery<HTMLElement>;
 	type: string;
 	value: any[];
-	values: any[];
 }
 
 export interface IDataOpt {

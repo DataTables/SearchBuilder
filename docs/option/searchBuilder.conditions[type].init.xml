@@ -34,7 +34,6 @@
 		let el = $('<select/>').append(that.dom.valueTitle);
 		el.on('change', function() {fn(that, el)});
 
-		that.s.values = [];
 
 		for (let index of indexArray) {
 			let filter = settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.search);
@@ -44,7 +43,6 @@
 				index,
 				text: settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.conditionName)
 			};
-			that.s.values.push(value);
 			let opt = $('<option>', {
 				text : that.s.type.includes('html') ? value.text.replace(/(<([^>]+)>)/ig, '') : value.text,
 				value : that.s.type.includes('html') ? value.filter.replace(/(<([^>]+)>)/ig, '') : value.filter

@@ -58,22 +58,17 @@ export default class Criteria {
 				fn(that, this);
 			});
 
-		that.s.values = [];
 		let added = [];
 		let options = [];
 
 		// Add all of the options from the table to the select element.
 		// Only add one option for each possible value
 		for (let index of indexArray) {
-			let filter = settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.search);
-
 			let value = {
-				filter,
+				filter: settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.search),
 				index,
 				text: settings.oApi._fnGetCellData(settings, index, column, 'display')
 			};
-
-			that.s.values.push(value);
 
 			// Add text and value, stripping out any html if that is the column type
 			let opt = $('<option>', {
@@ -260,33 +255,15 @@ export default class Criteria {
 	};
 
 	/**
-	 * Default function for getting/setting select conditions
+	 * Default function for getting select conditions
 	 */
-	private static inputValueSelect = function(el, value = null) {
+	private static inputValueSelect = function(el) {
 		let values = [];
 
-		// If there are no values to set
-		if (value === null) {
-			// Go through the select elements and push each selected option to the return array
-			for (let element of el) {
-				if ($(element).is('select')) {
-					values.push($(element).children('option:selected').val());
-				}
-			}
-		}
-		else {
-			// Set each select element if it exists
-			for (let v = 0; v < el.length; v ++) {
-				if ($(el[v]).is('select')) {
-					let children = $(el[v]).children().toArray;
-
-					for (let child of children) {
-						if ($(child).val() === value[v]) {
-							$(child).attr('selected', true);
-							values.push(value[v]);
-						}
-					}
-				}
+		// Go through the select elements and push each selected option to the return array
+		for (let element of el) {
+			if ($(element).is('select')) {
+				values.push($(element).children('option:selected').val());
 			}
 		}
 
@@ -294,27 +271,15 @@ export default class Criteria {
 	};
 
 	/**
-	 * Default function for getting/setting input conditions
+	 * Default function for getting input conditions
 	 */
-	private static inputValueInput = function(el, value = null) {
+	private static inputValueInput = function(el) {
 		let values = [];
 
-		// If there are no values to set
-		if (value === null) {
-			// Go through the input elements and push each value to the return array
-			for (let element of el) {
-				if ($(element).is('input')) {
-					values.push($(element).val());
-				}
-			}
-		}
-		else {
-			// Set the value for each input element
-			for (let v = 0; v < el.length; v++) {
-				if ($(el[v]).is('input')) {
-					$(el[v]).val(value[v]);
-					values.push(value[v]);
-				}
+		// Go through the input elements and push each value to the return array
+		for (let element of el) {
+			if ($(element).is('input')) {
+				values.push($(element).val());
 			}
 		}
 
@@ -327,7 +292,7 @@ export default class Criteria {
 	private static updateListener = function(that, el) {
 		// When the value is changed the criteria is now complete so can be included in searches
 		that.s.filled = that.s.condition.isInputValid(that.dom.value, that);
-		that.s.value = that.s.condition.inputValue(that.dom.value, undefined, that);
+		that.s.value = that.s.condition.inputValue(that.dom.value, that);
 
 		let idx = null;
 		let cursorPos = null;
@@ -899,7 +864,6 @@ export default class Criteria {
 			topGroup,
 			type: '',
 			value: [],
-			values: [],
 		};
 
 		this.dom = {
@@ -1323,7 +1287,6 @@ export default class Criteria {
 				.insertAfter(this.dom.condition);
 		}
 
-		this.s.values = [];
 		this.s.value = [];
 	}
 

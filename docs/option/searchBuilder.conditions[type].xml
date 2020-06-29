@@ -53,27 +53,12 @@
                             return allFilled;
                         }
                         conditionName: 'Made up',
-                        inputValue: function (el, value = null) {
+                        inputValue: function (el) {
                             let values = [];
 
-                            if (value === null) {
-                                for (let element of el) {
-                                    if ($(element).is('select')) {
-                                        values.push($(element).children('option:selected').val());
-                                    }
-                                }
-                            }
-                            else {
-                                for (let v = 0; v < el.length; v ++) {
-                                    if ($(el[v]).is('select')) {
-                                        let children = $(el[v]).children().toArray;
-                                        for (let child of children) {
-                                            if ($(child).val() === value[v]) {
-                                                $(child).attr('selected', true);
-                                                values.push(value[v]);
-                                            }
-                                        }
-                                    }
+                            for (let element of el) {
+                                if ($(element).is('select')) {
+                                    values.push($(element).children('option:selected').val());
                                 }
                             }
 

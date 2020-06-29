@@ -31,29 +31,12 @@ $(document).ready(function() {
             // This is the string displayed in the condition select
             conditionName: 'Equals',
             // This function gathers/sets the values from the dom elements created in the init function that are to be used for searching
-            inputValue: function (el, value = null) {
+            inputValue: function (el) {
                 let values = [];
 
-                // If there are no values to set, simply extract the values from the select2 elements
-                if (value === null) {
-                    for (let element of el) {
-                        if ($(element).is('select')) {
-                            values.push($(element).children('option:selected').val());
-                        }
-                    }
-                }
-                // Otherwise find the value in the select and select it
-                else {
-                    for (let v = 0; v < el.length; v ++) {
-                        if ($(el[v]).is('select')) {
-                            let children = $(el[v]).children().toArray;
-                            for (let child of children) {
-                                if ($(child).val() === value[v]) {
-                                    $(child).attr('selected', true);
-                                    values.push(value[v]);
-                                }
-                            }
-                        }
+                for (let element of el) {
+                    if ($(element).is('select')) {
+                        values.push($(element).children('option:selected').val());
                     }
                 }
 
