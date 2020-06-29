@@ -27,7 +27,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This example demonstrates the behaviour of `-init searchBuilder` when initialised using a button and how to set config options for SearchBuilder when doing so.
+This example demonstrates the behaviour of `-init searchBuilder` when initialised using a button and how to set config options such as `-init searchBuilder.depthLimit`.
 
 ]]></info>
 
