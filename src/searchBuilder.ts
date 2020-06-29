@@ -256,6 +256,11 @@ export default class SearchBuilder {
 			$(this.dom.clearAll).remove();
 			this._setEmptyListener();
 
+			// Update the count in the title/button
+			if (this.c.filterChanged !== undefined && typeof this.c.filterChanged === 'function') {
+				this.c.filterChanged(0);
+			}
+
 			return false;
 		});
 	}
