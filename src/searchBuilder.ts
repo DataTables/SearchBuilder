@@ -289,6 +289,13 @@ export default class SearchBuilder {
 		$(this.s.topGroup.dom.container).unbind('dtsb-clearContents');
 		$(this.s.topGroup.dom.container).on('dtsb-clearContents', () => {
 			this._setUp(false);
+
+			// Update the count in the title/button
+			if (this.c.filterChanged !== undefined && typeof this.c.filterChanged === 'function') {
+				this.c.filterChanged(0);
+			}
+
+			this.s.dt.draw();
 		});
 
 		$(this.s.topGroup.dom.container).on('dtsb-updateTitle', () => {

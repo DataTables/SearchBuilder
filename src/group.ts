@@ -633,7 +633,7 @@ export default class Group {
 				if (!this.s.isChild) {
 					$(this.dom.container).trigger('dtsb-clearContents');
 
-					return;
+					return false;
 				}
 
 				this.destroy();
