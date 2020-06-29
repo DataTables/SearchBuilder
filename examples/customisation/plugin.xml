@@ -58,8 +58,6 @@ $(document).ready(function() {
                 // Set necessary listener to trigger search
                 el.on('select2:select', function() { fn(that, el); });
                 
-                that.s.values = [];
-
                 // for each row
                 for (let index of indexArray) {
                     // Extract the relevant data
@@ -69,8 +67,6 @@ $(document).ready(function() {
                         text: settings.oApi._fnGetCellData(settings, index, column, 'display')
                     };
 
-                    that.s.values.push(value);
-        
                     // If we have not already added this value
                     if (added.indexOf(value.filter) === -1) {
                         // Create the option to add to the select 2 element 
