@@ -528,7 +528,7 @@ export default class Group {
 	 * Removes a criteria from the group
 	 * @param criteria The criteria instance to be removed
 	 */
-	private _removeCriteria(criteria: Criteria): void {
+	private _removeCriteria(criteria: Criteria | Group, group = false): void {
 		// If removing a criteria and there is only then then just destroy the group
 		if (this.s.criteria.length <= 1 && this.s.isChild) {
 			this.destroy();
@@ -538,7 +538,7 @@ export default class Group {
 			let last: number;
 
 			for (let i = 0; i < this.s.criteria.length; i++) {
-				if (this.s.criteria[i].index === criteria.s.index) {
+				if (this.s.criteria[i].index === criteria.s.index && (!group || this.s.criteria[i].criteria instanceof Group)) {
 					last = i;
 				}
 			}
@@ -670,7 +670,7 @@ export default class Group {
 		$(group.dom.container)
 			.unbind('dtsb-destroy')
 			.on('dtsb-destroy', () => {
-				this._removeCriteria(group);
+				this._removeCriteria(group, true);
 				$(group.dom.container).remove();
 				this.setupLogic();
 
