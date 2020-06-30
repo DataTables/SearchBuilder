@@ -130,12 +130,11 @@ export default class SearchBuilder {
 	 * @param preDef the array of criteria to be processed.
 	 */
 	private _applyPreDefDefaults(preDef) {
-		for (let crit of preDef.criteria) {
-			// The default logic is 'AND' so we need to set that here
-			if (crit.criteria !== undefined && crit.logic === undefined) {
-				crit.logic = 'AND';
-			}
+		if (preDef.criteria !== undefined && preDef.logic === undefined) {
+			preDef.logic = 'AND';
+		}
 
+		for (let crit of preDef.criteria) {
 			// Apply the defaults to any further criteria
 			if (crit.criteria !== undefined) {
 				crit = this._applyPreDefDefaults(crit);
