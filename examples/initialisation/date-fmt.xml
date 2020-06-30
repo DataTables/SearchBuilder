@@ -28,7 +28,7 @@ $(document).ready(function() {
 
 This example includes multiple date formats that are not in the standard format to demonstrate how SearchBuilder operates with formatted dates.
 
-This example also makes use of the Ultimate Sorting plug in for dates, along with moment js.
+This example also makes use of the Ultimate Sorting plug in for dates, along with [Moment.js](https://momentjs.com).
 
 ]]></info>
 

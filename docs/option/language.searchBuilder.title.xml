@@ -16,7 +16,7 @@
 
 			As with the string case above, any of the parameter values defined in this object can contain the string `%d` which will be replaced with the number of filters selected.
 		</description>
-</type>
+	</type>
 
 	<default value="'Search Builder'">
 	</default>
