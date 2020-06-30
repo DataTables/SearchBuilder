@@ -26,13 +26,11 @@
 			This object contains 2 properties.
 
 			* `-init searchBuilder.preDefined.criteria` This holds the criteria that must be applied to the top group. This property is an array of objects, which can either by criteria objects or group objects.
-			* `-init searchBuilder.preDefined.logic` This is the logic that is to be applied to the group.
+			* `-init searchBuilder.preDefined.logic` This is the logic operator that will be applied to the group.
         ]]>
 	</description>
 
 	<example title="Simple single level search"><![CDATA[
-
-<<<<<<< HEAD
 $('#example').DataTable( {
 	dom: 'Qlfrtip',
 	searchBuilder: {
