@@ -230,6 +230,18 @@ export default class SearchBuilder {
 				return settings.aoColumns[column].sType;
 			}, 1);
 		});
+
+		this.s.dt.on('destroy.dt', () => {
+			$(this.dom.container).remove();
+			$(this.dom.clearAll).remove();
+
+			let searchIdx = $.fn.dataTable.ext.search.indexOf(this.s.search);
+
+			while (searchIdx !== -1) {
+				$.fn.dataTable.ext.search.splice(searchIdx, 1);
+				searchIdx = $.fn.dataTable.ext.search.indexOf(this.s.search);
+			}
+		});
 	}
 
 	/**
