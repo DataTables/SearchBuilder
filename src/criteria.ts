@@ -789,7 +789,7 @@ export default class Criteria {
 			},
 		},
 		'ends': {
-			conditionName: 'Ends with',
+			conditionName: 'Ends With',
 			init: Criteria.initInput,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
