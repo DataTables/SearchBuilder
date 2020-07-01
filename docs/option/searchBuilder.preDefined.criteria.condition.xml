@@ -6,12 +6,12 @@
 
 	<type type="string">
 		<description>
-            The title of the condition to be selected.
+			The title of the condition to be selected. These should be the same as appears in the SearchBuilder control, e.g. 'Equals', 'Less Than', etc.
         </description>
 	</type>
 
 	<default value="undefined">
-        The default value for the `-init searchBuilder.preDefined.criteria.condition` option is `undefined` meaning that if this is not defined then it is impossible to apply a value to this criteria.
+		The default value for the `-init searchBuilder.preDefined.criteria.condition` option is `undefined` meaning that if this is not defined then it is impossible to apply a value to this criteria.
 	</default>
 	<description>
 		<![CDATA[
