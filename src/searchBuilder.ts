@@ -141,7 +141,7 @@ export default class SearchBuilder {
 			}
 			else {
 				this.s.dt.columns().every((index) => {
-					if (this.s.dt.settings()[0].aoColumns[index].sTitle === crit.dataTitle) {
+					if (this.s.dt.settings()[0].aoColumns[index].sTitle === crit.data) {
 						crit.dataIdx = index;
 					}
 				});
