@@ -29,11 +29,10 @@ describe('searchBuilder - options - searchBuilder.preDefined', function() {
 			expect($('.dtsb-title').text()).toBe('Search Builder (1)');
 			expect($('#example tbody tr td:eq(0)').text()).toBe('Cedric Kelly');
 		});
-
-		dt.html('basic');
 		it('Complex criteria search', function() {
 			table = $('#example').DataTable({
 				dom: 'Qlfrtip',
+				destroy: true,
 				searchBuilder: {
 					preDefined: {
 						criteria: [
@@ -67,11 +66,10 @@ describe('searchBuilder - options - searchBuilder.preDefined', function() {
 			expect($('.dtsb-title').text()).toBe('Search Builder (3)');
 			expect($('#example tbody tr td:eq(0)').text()).toBe('Ashton Cox');
 		});
-
-		dt.html('basic');
 		it('Language setting', function() {
 			table = $('#example').DataTable({
 				dom: 'Qlfrtip',
+				destroy: true,
 				language: {
 					searchBuilder: {
 						title: {
@@ -112,11 +110,10 @@ describe('searchBuilder - options - searchBuilder.preDefined', function() {
 			expect($('.dtsb-title').text()).toBe('Filters (3)');
 			expect($('#example tbody tr td:eq(0)').text()).toBe('Ashton Cox');
 		});
-
-		dt.html('basic');
 		it('As a button', function() {
 			table = $('#example').DataTable({
 				dom: 'Bfrtip',
+				destroy: true,
 				language: {
 					searchBuilder: {
 						title: {
@@ -166,33 +163,6 @@ describe('searchBuilder - options - searchBuilder.preDefined', function() {
 			expect($('.dtsb-criteria').length).toBe(3);
 			expect($('.dtsb-title').text()).toBe('Filters (3)');
 			expect($('#example tbody tr td:eq(0)').text()).toBe('Ashton Cox');
-		});
-	});
-
-	describe('Odds and Ends tests', function() {
-		dt.html('basic');
-		it('Changing column title', function() {
-			table = $('#example').DataTable({
-				dom: 'Qlfrtip',
-				columnDefs: [{
-					targets: 2, title: 'Second Column'
-				}],
-				searchBuilder: {
-					preDefined: {
-						criteria: [
-							{
-								condition: 'Not',
-								data: 'Second Column',
-								value: ['London']
-							}
-						],
-						logic: 'AND'
-					}
-				}
-			});
-
-			expect($('.dtsb-criteria').length).toBe(1);
-			expect($('#example tbody tr td:eq(0)').text()).toBe('Airi Satou');
 		});
 	});
 });

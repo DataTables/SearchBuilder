@@ -11,7 +11,6 @@
 	</type>
 
 	<default value="undefined">
-		The default value for the `-init searchBuilder.preDefined.criteria.data` option is `undefined` meaning that if this is not defined then it is impossible to apply a condition or value to this criteria.
 	</default>
 	<description>
 		<![CDATA[

@@ -6,12 +6,11 @@
 
 	<type type="string[]">
 		<description>
-			The the value(s) to be selected.
+			The value(s) to be selected.
 		</description>
 	</type>
 
 	<default value="undefined">
-		The default value for the `-init searchBuilder.preDefined.criteria.value` option is `undefined` meaning that if this is not defined then no values will be applied to the criteria.
 	</default>
 	<description>
 		<![CDATA[
@@ -41,7 +40,7 @@ $('#example').DataTable( {
 
 ]]></example>
 
-	<example title="Defining the values for use in a multi value criteria"><![CDATA[
+	<example title="Defining the values for use in a multi-value criteria"><![CDATA[
 
 $('#example').DataTable( {
 	dom: 'Qlfrtip',

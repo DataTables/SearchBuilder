@@ -6,12 +6,12 @@
 
 	<type type="object[]">
 		<description>
-            An array of objects which represent either a sub-group or a criteria.
-        </description>
+			An array of objects which represent either a sub-group or a criteria.
+		</description>
 	</type>
 
 	<default value="[]">
-        The default value for the `-init searchBuilder.preDefined.criteria` option is `[]` meaning that as standard there are no criteria or sub-groups defined.
+		The default value for the `-init searchBuilder.preDefined.criteria` option is `[]` meaning that as standard there are no criteria or sub-groups defined.
 	</default>
 	<description>
 		<![CDATA[
@@ -19,9 +19,9 @@
 
 			It is possible within this option to define both sub-groups and criteria.
 
-			To add a sub-group an object should be added that is in the same form as `-init searchBuilder.preDefined`. This in turn can hold its own criteria and sub-groups. This means that it is possible to define sub-groups to whatever depth you desire.
+			To add a sub-group an object should be added that is in the same form as `-init searchBuilder.preDefined`. This in turn can hold its own criteria and sub-groups nested to any depth you desire.
 
-		To add a criteria an object with the following properties should be defined:
+			To add a criteria an object with the following properties should be defined:
 
 			* `-init searchBuilder.preDefined.criteria.condition` The condition that is to be selected from the select element.
 			* `-init searchBuilder.preDefined.criteria.data` The data that is to be selected from the select element.
