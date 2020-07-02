@@ -22,11 +22,19 @@ describe('searchBuilder - options - searchBuilder.columns', function() {
 			});
 
 			$('.dtsb-group button').click();
-			$('.dtsb-data').val(2);
+			// $('select.dtsb-data').click();
+			// $('.dtsb-data').val(2);
+			// $('.dtsb-condition').val(2);
 
-			var clickEvent = $.Event('click');
-            $('.dtsb-data').trigger('input');
-			expect($('.dtsb-data').text()).toBe('DataNamePositionOfficeAgeStart dateSalary');
+			
+			// $('.dtsb-value').val(2);
+			$('select.dtsb-data>option:eq(2)').prop('selected', true);
+
+
+			// TK COLIN finish this test
+			// var clickEvent = $.Event('click');
+            // $('.dtsb-data').trigger('input');
+			// expect($('.dtsb-data').text()).toBe('DataNamePositionOfficeAgeStart dateSalary');
 		});
 	});
 });
