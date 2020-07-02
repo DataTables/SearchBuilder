@@ -168,4 +168,31 @@ describe('searchBuilder - options - searchBuilder.preDefined', function() {
 			expect($('#example tbody tr td:eq(0)').text()).toBe('Ashton Cox');
 		});
 	});
+
+	describe('Odds and Ends tests', function() {
+		dt.html('basic');
+		it('Changing column title', function() {
+			table = $('#example').DataTable({
+				dom: 'Qlfrtip',
+				columnDefs: [{
+					targets: 2, title: 'Second Column'
+				}],
+				searchBuilder: {
+					preDefined: {
+						criteria: [
+							{
+								condition: 'Not',
+								dataTitle: 'Second Column',
+								value: ['London']
+							}
+						],
+						logic: 'AND'
+					}
+				}
+			});
+
+			expect($('.dtsb-criteria').length).toBe(1);
+			expect($('#example tbody tr td:eq(0)').text()).toBe('Airi Satou');
+		});
+	});
 });

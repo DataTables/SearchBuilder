@@ -1,87 +1,87 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
 	<name>searchBuilder.preDefined.criteria</name>
-	<summary>Declares criteria and sub groups within the array</summary>
+	<summary>Declares criteria and sub-groups within the array</summary>
 	<since>SearchBuilder 0.0.1</since>
 
 	<type type="object[]">
 		<description>
-            An array of objects which represent either a sub group or a criteria.
+            An array of objects which represent either a sub-group or a criteria.
         </description>
 	</type>
 
 	<default value="[]">
-        The default value for the `-init searchBuilder.preDefined.criteria` option is `[]` meaning that as standard there are no criteria or sub groups defined.
+        The default value for the `-init searchBuilder.preDefined.criteria` option is `[]` meaning that as standard there are no criteria or sub-groups defined.
 	</default>
 	<description>
 		<![CDATA[
-		This is useful as it allows sub groups and criteria to be defined within the `-init searchBuilder.preDefined` option.
+			This is useful as it allows sub-groups and criteria to be defined within the `-init searchBuilder.preDefined` option.
 
-        It is possible within this option to define both sub groups and criteria.
+			It is possible within this option to define both sub-groups and criteria.
 
-        To add a sub group an object should be added that is in the same form as `-init searchBuilder.preDefined`. This in turn can hold its own criteria and sub groups. This means that it is possible to define sub groups to whatever depth that you desire.
+			To add a sub-group an object should be added that is in the same form as `-init searchBuilder.preDefined`. This in turn can hold its own criteria and sub-groups. This means that it is possible to define sub-groups to whatever depth you desire.
 
-        To add a criteria an object with the following properties should be added.
+		To add a criteria an object with the following properties should be defined:
 
-        * `-init searchBuilder.preDefined.criteria.condition` The condition that is to be selected from the select element.
-        * `-init searchBuilder.preDefined.criteria.dataTitle` The data that is to be selected from the select element.
-        * `-init searchBuilder.preDefined.criteria.value` The condition that is to be applied, be it to either a select element, input or date selector.
+			* `-init searchBuilder.preDefined.criteria.condition` The condition that is to be selected from the select element.
+			* `-init searchBuilder.preDefined.criteria.dataTitle` The data that is to be selected from the select element.
+			* `-init searchBuilder.preDefined.criteria.value` The condition that is to be applied, be it to either a select element, input or date selector.
 
         ]]>
 	</description>
 
 	<example title="Simple single level search with only criteria"><![CDATA[
 
-    $('#example').DataTable( {
-        dom: 'Qlfrtip',
-        searchBuilder: {
-            preDefined: {
-                criteria:[
-                    {
-                        condition: 'Equals',
-                        data: 'Office',
-                        value: ['Edinburgh']
-                    }
-                ],
-                logic: 'AND',
-            }
-        }
-    });
+$('#example').DataTable( {
+	dom: 'Qlfrtip',
+	searchBuilder: {
+		preDefined: {
+			criteria:[
+				{
+					condition: 'Equals',
+					data: 'Office',
+					value: ['Edinburgh']
+				}
+			],
+			logic: 'AND',
+		}
+	}
+});
 
 ]]></example>
 
-	<example title="More Complex Multi level search with sub groups and criteria on the same level"><![CDATA[
+	<example title="More Complex Multi level search with sub-groups and criteria on the same level"><![CDATA[
 
-    $('#example').DataTable( {
-        dom: 'Qlfrtip',
-        searchBuilder: {
-            preDefined: {
-                criteria:[
-                    {
-                        condition: 'Equals',
-                        data: 'Office',
-                        value: ['Edinburgh']
-                    },
-                    {
-                        criteria: [
-                            {
-                                condition: 'Equals',
-                                data: 'Name',
-                                value: ['Cedric Kelly']
-                            },
-                            {
-                                condition: 'Equals',
-                                data: 'Name',
-                                value: ['Dai Rios']
-                            }
-                        ],
-                        logic: 'OR'
-                    }
-                ],
-                logic: 'AND'
-            }
-        }
-    });
+$('#example').DataTable( {
+	dom: 'Qlfrtip',
+	searchBuilder: {
+		preDefined: {
+			criteria:[
+				{
+					condition: 'Equals',
+					data: 'Office',
+					value: ['Edinburgh']
+				},
+				{
+					criteria: [
+						{
+							condition: 'Equals',
+							data: 'Name',
+							value: ['Cedric Kelly']
+						},
+						{
+							condition: 'Equals',
+							data: 'Name',
+							value: ['Dai Rios']
+						}
+					],
+					logic: 'OR'
+				}
+			],
+			logic: 'AND'
+		}
+	}
+});
 
 ]]></example>
 

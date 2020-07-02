@@ -1,4 +1,4 @@
-describe('searchBuilder - options - searchBuilder.preDefined', function() {
+describe('searchBuilder - options - searchBuilder.preDefined.logic', function() {
 	let table;
 
 	dt.libs({
