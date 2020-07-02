@@ -212,17 +212,19 @@ export default class SearchBuilder {
 		this._setRedrawListener();
 		let tableNode: Node = this.s.dt.table(0).node();
 
-		// Custom search function for SearchBuilder
-		this.s.search = (settings, searchData, dataIndex, origData) => {
-			if (settings.nTable !== tableNode) {
-				return true;
-			}
+		if ($.fn.dataTable.ext.search.indexOf(this.s.search) === -1) {
+			// Custom search function for SearchBuilder
+			this.s.search = (settings, searchData, dataIndex, origData) => {
+				if (settings.nTable !== tableNode) {
+					return true;
+				}
 
-			return this.s.topGroup.search(searchData);
-		};
+				return this.s.topGroup.search(searchData);
+			};
 
-		// Add SearchBuilder search function to the dataTables search array
-		$.fn.dataTable.ext.search.push(this.s.search);
+			// Add SearchBuilder search function to the dataTables search array
+			$.fn.dataTable.ext.search.push(this.s.search);
+		}
 
 		// Register an Api method for getting the column type
 		$.fn.DataTable.Api.registerPlural('columns().type()', 'column().type()', function(selector, opts) {
