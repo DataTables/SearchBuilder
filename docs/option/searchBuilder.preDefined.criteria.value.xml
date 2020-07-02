@@ -6,58 +6,58 @@
 
 	<type type="string[]">
 		<description>
-            The the value(s) to be selected.
-        </description>
+			The the value(s) to be selected.
+		</description>
 	</type>
 
 	<default value="undefined">
-        The default value for the `-init searchBuilder.preDefined.criteria.value` option is `undefined` meaning that if this is not defined then no values will be applied to the criteria.
+		The default value for the `-init searchBuilder.preDefined.criteria.value` option is `undefined` meaning that if this is not defined then no values will be applied to the criteria.
 	</default>
 	<description>
 		<![CDATA[
 		This is useful as it allows predefined criteria values to be set.
 
-        `-init searchBuilder.preDefined.criteria.value` is an array so that conditions that require multiple inputs can be set easily.
+		`-init searchBuilder.preDefined.criteria.value` is an array so that conditions that require multiple inputs, such as `Between`, can be set.
         ]]>
 	</description>
 
 	<example title="Defining the value for use in a criteria"><![CDATA[
 
-    $('#example').DataTable( {
-        dom: 'Qlfrtip',
-        searchBuilder: {
-            preDefined: {
-                criteria:[
-                    {
-                        condition: 'Equals',
-                        data: 'Office',
-                        value: ['Edinburgh']
-                    }
-                ],
-                logic: 'AND'
-            }
-        }
-    });
+$('#example').DataTable( {
+	dom: 'Qlfrtip',
+	searchBuilder: {
+		preDefined: {
+			criteria:[
+				{
+					condition: 'Equals',
+					data: 'Office',
+					value: ['Edinburgh']
+				}
+			],
+			logic: 'AND'
+		}
+	}
+});
 
 ]]></example>
 
 	<example title="Defining the values for use in a multi value criteria"><![CDATA[
 
-    $('#example').DataTable( {
-        dom: 'Qlfrtip',
-        searchBuilder: {
-            preDefined: {
-                criteria:[
-                    {
-                        condition: 'Between',
-                        data: 'Start Date',
-                        value: ['2020-05-12', '2001-10-17]
-                    }
-                ],
-                logic: 'AND'
-            }
-        }
-    });
+$('#example').DataTable( {
+	dom: 'Qlfrtip',
+	searchBuilder: {
+		preDefined: {
+			criteria:[
+				{
+					condition: 'Between',
+					data: 'Start Date',
+					value: ['2020-05-12', '2001-10-17]
+				}
+			],
+			logic: 'AND'
+		}
+	}
+});
 
 ]]></example>
 
@@ -65,7 +65,6 @@
 <related type="init">searchBuilder.preDefined.logic</related>
 <related type="init">searchBuilder.preDefined.criteria</related>
 <related type="init">searchBuilder.preDefined.criteria.condition</related>
-<related type="init">searchBuilder.preDefined.criteria.value</related>
 <related type="init">searchBuilder.preDefined.criteria.dataTitle</related>
 
 </dt-option>
