@@ -587,7 +587,7 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[]): boolean {
-				if (comparison[0] < comparison[1]) {
+				if (+comparison[0] < +comparison[1]) {
 					return +comparison[0] <= +value && +value <= +comparison[1];
 				}
 				else {
@@ -601,7 +601,7 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[]): boolean {
-				if (comparison[0] < comparison[1]) {
+				if (+comparison[0] < +comparison[1]) {
 					return !(+comparison[0] <= +value && +value <= +comparison[1]);
 				}
 				else {
