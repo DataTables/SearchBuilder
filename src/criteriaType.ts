@@ -59,7 +59,7 @@ export interface IS {
 	dt: any;
 	dataIdx: number;
 	dataPoints: IDataOpt[];
-	dataTitle: string;
+	data: string;
 	filled: boolean;
 	index: number;
 	momentFormat: string | boolean;
@@ -76,6 +76,6 @@ export interface IDataOpt {
 export interface IDetails {
 	condition: ICondition;
 	dataIdx: number;
-	dataTitle: string;
+	data: string;
 	value: any[];
 }
