@@ -6,105 +6,105 @@
 
 	<type type="Object">
 		<description>
-            An object that contains conditions for each of the 7 DataTables types.
-        </description>
+			An object that contains conditions for each of the 7 DataTables types.
+	</description>
 	</type>
 
 	<default value="Object">
-        The default value for the `-init searchBuilder.conditions` option is an object with 7 properties, one for each of the DataTables types. Each property in turn contains an array of conditions.
+		The default value for the `-init searchBuilder.conditions` option is an object with 7 properties, one for each of the DataTables types. Each property in turn contains an array of conditions.
 	</default>
 	<description>
 		<![CDATA[
-		This is useful as it allows custom conditions to be added to SearchBuilder should the standard ones not be enough.
+			This option allows custom conditions to be added to SearchBuilder, to extend or replace the standard ones.
 
-        This object contains 7 properties.
+			This object contains the following properties.
 
-        * `-init searchBuilder.conditions.string` This property holds an array of conditions that can be applied to the `-type string`
-        * `-init searchBuilder.conditions.date` This property holds an array of conditions that can be applied to the `-type date`
-        * `-init searchBuilder.conditions.num` This property holds an array of conditions that can be applied to the `-type num`
-        * `-init searchBuilder.conditions.num-fmt` This property holds an array of conditions that can be applied to the `-type num-fmt`
-        * `-init searchBuilder.conditions.html` This property holds an array of conditions that can be applied to the `-type html`
-        * `-init searchBuilder.conditions.html-num` This property holds an array of conditions that can be applied to the `-type html-num`
-        * `-init searchBuilder.conditions.html-num-fmt` This property holds an array of conditions that can be applied to the `-type html-num-fmt`
-        * `-init searchBuilder.conditions.moment` This property holds an array of conditions that can be used the the DataTables Ultimate Sorting Plug-in is being used
+			* `-init searchBuilder.conditions.string` An array of conditions to apply to the `-type string`
+			* `-init searchBuilder.conditions.date` An array of conditions to apply to the `-type date`
+			* `-init searchBuilder.conditions.num` An array of conditions to apply to the `-type num`
+			* `-init searchBuilder.conditions.num-fmt` An array of conditions to apply to the `-type num-fmt`
+			* `-init searchBuilder.conditions.html` An array of conditions to apply to the `-type html`
+			* `-init searchBuilder.conditions.html-num` An array of conditions to apply to the `-type html-num`
+			* `-init searchBuilder.conditions.html-num-fmt` An array of conditions to apply to the `-type html-num-fmt`
+			* `-init searchBuilder.conditions.moment` An array of conditions to apply if the DataTables Ultimate Sorting Plug-in is being used
 
-        The custom condition defined in the example will override the `=` condition in the `-type num` condition set.
+			The custom condition defined in the example will override the `=` condition in the `-type num` condition set.
 
-        More details on the structure that is used can be found at `-init searchBuilder[type]`
+			More details on the structure that is used can be found at `-init searchBuilder[type]`
         ]]>
 	</description>
 
 	<example title="Simple extra num condition"><![CDATA[
 
-    var dt = $('#example').DataTable( {
-        dom: 'Qfrtip',
-        searchBuilder: {
-            conditions: {
-                "num":{
-                    '=': {
-                        isInputValid: function (el, that) {
-                            $(that.dom.valueTitle).attr('selected', false);
-                            let allFilled = true;
+var dt = $('#example').DataTable( {
+	dom: 'Qfrtip',
+	searchBuilder: {
+		conditions: {
+			"num":{
+				'=': {
+					isInputValid: function (el, that) {
+						$(that.dom.valueTitle).attr('selected', false);
+						let allFilled = true;
 
-                            for (let element of el) {
-                                if ($(element).has('option:selected').length < 1) {
-                                    allFilled = false;
-                                }
-                            }
+						for (let element of el) {
+							if ($(element).has('option:selected').length < 1) {
+								allFilled = false;
+							}
+						}
 
-                            return allFilled;
-                        },
-                        conditionName: 'Made up',
-                        inputValue: function (el) {
-                            let values = [];
+						return allFilled;
+					},
+					conditionName: 'Made up',
+					inputValue: function (el) {
+						let values = [];
 
-                            for (let element of el) {
-                                if ($(element).is('select')) {
-                                    values.push($(element).children('option:selected').val());
-                                }
-                            }
+						for (let element of el) {
+							if ($(element).is('select')) {
+								values.push($(element).children('option:selected').val());
+							}
+						}
 
-                            return values;
-                        },
-                        init: function (that, fn, preDefined) {
-                            let column = $(that.dom.data).children('option:selected').val();
-                            let indexArray = that.s.dt.rows().indexes().toArray();
-                            let settings = that.s.dt.settings()[0];
+						return values;
+					},
+					init: function (that, fn, preDefined) {
+						let column = $(that.dom.data).children('option:selected').val();
+						let indexArray = that.s.dt.rows().indexes().toArray();
+						let settings = that.s.dt.settings()[0];
 
-                            let el = $('<select/>').append(that.dom.valueTitle);
-                            el.on('change', function() {fn(that, el)});
+						let el = $('<select/>').append(that.dom.valueTitle);
+						el.on('change', function() {fn(that, el)});
 
-                            for (let index of indexArray) {
-                                let filter = settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.search);
+						for (let index of indexArray) {
+							let filter = settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.search);
 
-                                let value = {
-                                    filter,
-                                    index,
-                                    text: settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.conditionName)
-                                };
-                                let opt = $('<option>', {
-                                    text : that.s.type.includes('html') ? value.text.replace(/(<([^>]+)>)/ig, '') : value.text,
-                                    value : that.s.type.includes('html') ? value.filter.replace(/(<([^>]+)>)/ig, '') : value.filter
-                                })
-                                .addClass(that.classes.option)
-                                .addClass(that.classes.notItalic);
-                                $(el).append(opt);
-                                if (preDefined !== null && opt.val() === preDefined[0]) {
-                                    opt.attr('selected', true);
-                                    that.dom.valueTitle.remove();
-                                }
-                            }
+							let value = {
+								filter,
+								index,
+								text: settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.conditionName)
+							};
+							let opt = $('<option>', {
+								text : that.s.type.includes('html') ? value.text.replace(/(<([^>]+)>)/ig, '') : value.text,
+								value : that.s.type.includes('html') ? value.filter.replace(/(<([^>]+)>)/ig, '') : value.filter
+							})
+							.addClass(that.classes.option)
+							.addClass(that.classes.notItalic);
+							$(el).append(opt);
+							if (preDefined !== null && opt.val() === preDefined[0]) {
+								opt.attr('selected', true);
+								that.dom.valueTitle.remove();
+							}
+						}
 
-                            return el;
-                        },
-                        search: function (value, comparison) {
-                            return +value === +comparison[0];
-                        }
-                    }
-                }
-            }
-        }
-    });
+						return el;
+					},
+					search: function (value, comparison) {
+						return +value === +comparison[0];
+					}
+				}
+			}
+		}
+	}
+});
 
 ]]></example>
 
