@@ -24,7 +24,7 @@
 		To add a criteria an object with the following properties should be defined:
 
 			* `-init searchBuilder.preDefined.criteria.condition` The condition that is to be selected from the select element.
-			* `-init searchBuilder.preDefined.criteria.dataTitle` The data that is to be selected from the select element.
+			* `-init searchBuilder.preDefined.criteria.data` The data that is to be selected from the select element.
 			* `-init searchBuilder.preDefined.criteria.value` The condition that is to be applied, be it to either a select element, input or date selector.
 
         ]]>
@@ -87,9 +87,8 @@ $('#example').DataTable( {
 
 <related type="init">searchBuilder.preDefined</related>
 <related type="init">searchBuilder.preDefined.logic</related>
-<related type="init">searchBuilder.preDefined.criteria</related>
 <related type="init">searchBuilder.preDefined.criteria.condition</related>
 <related type="init">searchBuilder.preDefined.criteria.value</related>
-<related type="init">searchBuilder.preDefined.criteria.dataTitle</related>
+<related type="init">searchBuilder.preDefined.criteria.data</related>
 
 </dt-option>

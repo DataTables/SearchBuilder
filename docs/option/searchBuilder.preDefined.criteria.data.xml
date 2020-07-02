@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
-	<name>searchBuilder.preDefined.criteria.dataTitle</name>
+	<name>searchBuilder.preDefined.criteria.data</name>
 	<summary>Define the data point to be selected</summary>
 	<since>SearchBuilder 0.0.1</since>
 
@@ -11,7 +11,7 @@
 	</type>
 
 	<default value="undefined">
-		The default value for the `-init searchBuilder.preDefined.criteria.dataTitle` option is `undefined` meaning that if this is not defined then it is impossible to apply a condition or value to this criteria.
+		The default value for the `-init searchBuilder.preDefined.criteria.data` option is `undefined` meaning that if this is not defined then it is impossible to apply a condition or value to this criteria.
 	</default>
 	<description>
 		<![CDATA[
@@ -28,7 +28,7 @@ $('#example').DataTable( {
 			criteria:[
 				{
 					condition: 'Equals',
-					dataTitle: 'Office',
+					data: 'Office',
 					value: ['Edinburgh']
 				}
 			],
