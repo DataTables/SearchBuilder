@@ -16,13 +16,13 @@ describe('searchBuilder - options - searchBuilder.preDefined.logic', function() 
 						criteria: [
 							{
 								condition: 'Not',
-								dataTitle: 'Office',
+								data: 'Office',
 								value: ['London']
 							},
 
 							{
 								condition: 'Greater Than',
-								dataTitle: 'Age',
+								data: 'Age',
 								value: ['55']
 							}
 						],
@@ -45,13 +45,13 @@ describe('searchBuilder - options - searchBuilder.preDefined.logic', function() 
 						criteria: [
 							{
 								condition: 'Not',
-								dataTitle: 'Office',
+								data: 'Office',
 								value: ['London']
 							},
 
 							{
 								condition: 'Greater Than',
-								dataTitle: 'Age',
+								data: 'Age',
 								value: ['55']
 							}
 						],

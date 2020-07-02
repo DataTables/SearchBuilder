@@ -17,7 +17,7 @@ describe('searchBuilder - options - searchBuilder.preDefined.condition', functio
 						criteria: [
 							{
 								condition: 'Contains',
-								dataTitle: 'Name',
+								data: 'Name',
 								value: ['Cox']
 							}
 						],
@@ -40,7 +40,7 @@ describe('searchBuilder - options - searchBuilder.preDefined.condition', functio
 						criteria: [
 							{
 								condition: 'Empty',
-								dataTitle: 'Office',
+								data: 'Office',
 								value: ['Cox']
 							}
 						],
@@ -66,7 +66,7 @@ describe('searchBuilder - options - searchBuilder.preDefined.condition', functio
 		// 				criteria: [
 		// 					{
 		// 						condition: 'Empty',
-		// 						dataTitle: 'Office',
+		// 						data: 'Office',
 		// 						value: ['Cox']
 		// 					}
 		// 				],
@@ -92,7 +92,7 @@ describe('searchBuilder - options - searchBuilder.preDefined.condition', functio
 	// 	// 				criteria: [
 	// 	// 					{
 	// 	// 						condition: 'Between',
-	// 	// 						dataTitle: 'Age',
+	// 	// 						data: 'Age',
 	// 	// 						value: ['2', '100']
 	// 	// 					}
 	// 	// 				],
@@ -120,7 +120,7 @@ describe('searchBuilder - options - searchBuilder.preDefined.condition', functio
 	// 					criteria: [
 	// 						{
 	// 							condition: 'Empty',
-	// 							dataTitle: 'Office',
+	// 							data: 'Office',
 	// 							value: ['Cox']
 	// 						}
 	// 					],
@@ -146,7 +146,7 @@ describe('searchBuilder - options - searchBuilder.preDefined.condition', functio
 	// 					criteria: [
 	// 						{
 	// 							condition: 'Greater Than Equal To',
-	// 							dataTitle: 'Age',
+	// 							data: 'Age',
 	// 							value: ['66']
 	// 						}
 	// 					],
@@ -172,7 +172,7 @@ describe('searchBuilder - options - searchBuilder.preDefined.condition', functio
 	// 					criteria: [
 	// 						{
 	// 							condition: 'Greater Than',
-	// 							dataTitle: 'Age',
+	// 							data: 'Age',
 	// 							value: ['66']
 	// 						}
 	// 					],
@@ -196,7 +196,7 @@ describe('searchBuilder - options - searchBuilder.preDefined.condition', functio
 	// 					criteria: [
 	// 						{
 	// 							condition: 'Before',
-	// 							dataTitle: 'Start date',
+	// 							data: 'Start date',
 	// 							value: ['2009-01-13']
 	// 						}
 	// 					],
@@ -219,7 +219,7 @@ describe('searchBuilder - options - searchBuilder.preDefined.condition', functio
 	// 					criteria: [
 	// 						{
 	// 							condition: 'After',
-	// 							dataTitle: 'Start date',
+	// 							data: 'Start date',
 	// 							value: ['2013-01-13']
 	// 						}
 	// 					],
@@ -243,7 +243,7 @@ describe('searchBuilder - options - searchBuilder.preDefined.condition', functio
 	// 	// 				criteria: [
 	// 	// 					{
 	// 	// 						condition: 'Between',
-	// 	// 						dataTitle: 'Start date',
+	// 	// 						data: 'Start date',
 	// 	// 						value: ['2009-09-13', '2009-01-12']
 	// 	// 					}
 	// 	// 				],
@@ -268,7 +268,7 @@ describe('searchBuilder - options - searchBuilder.preDefined.condition', functio
 	// 					criteria: [
 	// 						{
 	// 							condition: 'Equals',
-	// 							dataTitle: 'HTML',
+	// 							data: 'HTML',
 	// 							value: ['$86,000']
 	// 						}
 	// 					],

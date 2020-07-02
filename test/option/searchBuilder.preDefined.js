@@ -16,7 +16,7 @@ describe('searchBuilder - options - searchBuilder.preDefined', function() {
 						criteria: [
 							{
 								condition: 'Equals',
-								dataTitle: 'Office',
+								data: 'Office',
 								value: ['Edinburgh']
 							}
 						],
@@ -39,19 +39,19 @@ describe('searchBuilder - options - searchBuilder.preDefined', function() {
 						criteria: [
 							{
 								condition: 'Not',
-								dataTitle: 'Office',
+								data: 'Office',
 								value: ['London']
 							},
 							{
 								criteria: [
 									{
 										condition: 'Contains',
-										dataTitle: 'Office',
+										data: 'Office',
 										value: ['h']
 									},
 									{
 										condition: 'Greater Than',
-										dataTitle: 'Age',
+										data: 'Age',
 										value: ['50']
 									}
 								],
@@ -84,19 +84,19 @@ describe('searchBuilder - options - searchBuilder.preDefined', function() {
 						criteria: [
 							{
 								condition: 'Not',
-								dataTitle: 'Office',
+								data: 'Office',
 								value: ['London']
 							},
 							{
 								criteria: [
 									{
 										condition: 'Contains',
-										dataTitle: 'Office',
+										data: 'Office',
 										value: ['h']
 									},
 									{
 										condition: 'Greater Than',
-										dataTitle: 'Age',
+										data: 'Age',
 										value: ['50']
 									}
 								],
@@ -133,19 +133,19 @@ describe('searchBuilder - options - searchBuilder.preDefined', function() {
 								criteria: [
 									{
 										condition: 'Not',
-										dataTitle: 'Office',
+										data: 'Office',
 										value: ['London']
 									},
 									{
 										criteria: [
 											{
 												condition: 'Contains',
-												dataTitle: 'Office',
+												data: 'Office',
 												value: ['h']
 											},
 											{
 												condition: 'Greater Than',
-												dataTitle: 'Age',
+												data: 'Age',
 												value: ['50']
 											}
 										],
@@ -182,7 +182,7 @@ describe('searchBuilder - options - searchBuilder.preDefined', function() {
 						criteria: [
 							{
 								condition: 'Not',
-								dataTitle: 'Second Column',
+								data: 'Second Column',
 								value: ['London']
 							}
 						],
