@@ -14,7 +14,7 @@
 	</default>
 	<description>
 		<![CDATA[
-			As standard, SearchBuilder will set the add button to display a default text, in this case `'Add'`.
+			As standard, SearchBuilder will set the add button to display a default text, in this case `'Add Condition'`.
 
 			The value of `-init language.searchBuilder.add` is passed into an `-api i18n()` function.
 		]]>

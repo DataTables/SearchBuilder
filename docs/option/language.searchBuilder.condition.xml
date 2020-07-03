@@ -1,36 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
 	<name>language.searchBuilder.condition</name>
-	<summary>Set the message to be displayed in the SearchBuilder condition select element</summary>
+	<summary>Set the placeholder text for the SearchBuilder condition select element</summary>
 	<since>SearchBuilder 0.0.1</since>
 
 	<type type="string | object">
 		<description>
-			`-init language.searchBuilder.condition` changes what will be displayed in the text of the SearchBuilder condition select.
+			`-init language.searchBuilder.condition` changes what will be displayed for the SearchBuilder's condition select.
 		</description>
 	</type>
 
-	<default value="'SearchBuilder'">
-		The default value for the `-init language.searchBuilder.condition` parameter is `'Condition'`. 
+	<default value="'Condition'">
 	</default>
 	<description>
 		<![CDATA[
-			As standard, SearchBuilder will set the condition select to display a default text, in this case `'Comparator'`.
-
-            The value of `-init language.searchBuilder.condition` is passed into an `-api i18n()` function.
+			This will set the placeholder text for the condition select element, by default this is `'Condition'`. This dom element is available in custom conditions and plugins also.
 		]]>
 	</description>
 
 	<example title="Change message for SearchBuilder Condition"><![CDATA[
 $(document).ready(function() {
-    $('#example').DataTable( {
-        language: {
-            SearchBuilder: {
-                condition: 'Comparator'
-            }
-        },
-        dom: 'Qlfrtip',
-    });
+	$('#example').DataTable( {
+		language: {
+			SearchBuilder: {
+				condition: 'Comparator'
+			}
+		},
+		dom: 'Qlfrtip',
+	});
 });
 
 ]]></example>

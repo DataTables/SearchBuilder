@@ -1,36 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
 	<name>language.searchBuilder.data</name>
-	<summary>Set the message to be displayed in the SearchBuilder data select element</summary>
+	<summary>Set the placeholder text for the SearchBuilder data select element</summary>
 	<since>SearchBuilder 0.0.1</since>
 
 	<type type="string | object">
 		<description>
-			`-init language.searchBuilder.data` changes what will be displayed in the text of the SearchBuilder data select.
+			`-init language.searchBuilder.data` changes what will be displayed for the placeholder text of the SearchBuilder's data select.
 		</description>
 	</type>
 
-	<default value="'SearchBuilder'">
-		The default value for the `-init language.searchBuilder.data` parameter is `'data'`. 
+	<default value="'Data'">
 	</default>
 	<description>
 		<![CDATA[
-			As standard, SearchBuilder will set the data select to display a default text, in this case `'data'`.
-
-            The value of `-init language.searchBuilder.data` is passed into an `-api i18n()` function.
+		This will set the placeholder text for the value select element, by default this is `'Value'`. This dom element is available in custom conditions and plugins also.
 		]]>
 	</description>
 
 	<example title="Change message for SearchBuilder data"><![CDATA[
 $(document).ready(function() {
-    $('#example').DataTable( {
-        language: {
-            SearchBuilder: {
-                data: 'Column'
-            }
-        },
-        dom: 'Qlfrtip',
-    });
+	$('#example').DataTable( {
+		language: {
+			SearchBuilder: {
+				data: 'Column'
+			}
+		},
+		dom: 'Qlfrtip',
+	});
 });
 
 ]]></example>
