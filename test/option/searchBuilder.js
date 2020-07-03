@@ -18,23 +18,89 @@ describe('searchBuilder - options - searchBuilder.columns', function() {
 							return 'test ' + data;
 						}
 					}
-				],
+				]
 			});
 
 			$('.dtsb-group button').click();
-			// $('select.dtsb-data').click();
-			// $('.dtsb-data').val(2);
-			// $('.dtsb-condition').val(2);
 
-			
-			// $('.dtsb-value').val(2);
-			$('select.dtsb-data>option:eq(2)').prop('selected', true);
+			// Data
+			$('.dtsb-data').val(2);
+			$('.dtsb-data').trigger('change');
 
+			// condition
+			$('.dtsb-condition').val('Equals');
+			$('.dtsb-condition').trigger('change');
 
-			// TK COLIN finish this test
-			// var clickEvent = $.Event('click');
-            // $('.dtsb-data').trigger('input');
-			// expect($('.dtsb-data').text()).toBe('DataNamePositionOfficeAgeStart dateSalary');
+			// value
+			$('.dtsb-value').val('test San Francisco');
+			$('.dtsb-value').trigger('change');
+
+			expect($('#example tbody tr td:eq(0)').text()).toBe('Ashton Cox');
+		});
+
+		dt.html('basic');
+		it('With columns.render - just filter - equals', function() {
+			table = $('#example').DataTable({
+				dom: 'Qlfrtip',
+				columnDefs: [
+					{
+						targets: 2,
+						render: function(data, type) {
+							return type === 'filter' ? 'test ' + data : data;
+						}
+					}
+				]
+			});
+
+			$('.dtsb-group button').click();
+
+			// Data
+			$('.dtsb-data').val(2);
+			$('.dtsb-data').trigger('change');
+
+			// condition
+			$('.dtsb-condition').val('Equals');
+			$('.dtsb-condition').trigger('change');
+
+			// value
+			$('.dtsb-value').val('test San Francisco');
+			$('.dtsb-value').trigger('change');
+
+			// displays the 'display' option
+			expect($('.dtsb-value option:selected').text()).toBe('San Francisco');
+			expect($('#example tbody tr td:eq(0)').text()).toBe('Ashton Cox');
+		});
+
+		dt.html('basic');
+		it('With columns.render - just filter - contains', function() {
+			table = $('#example').DataTable({
+				dom: 'Qlfrtip',
+				columnDefs: [
+					{
+						targets: 2,
+						render: function(data, type) {
+							return type === 'filter' ? 'test ' + data : data;
+						}
+					}
+				]
+			});
+
+			$('.dtsb-group button').click();
+
+			// Data
+			$('.dtsb-data').val(2);
+			$('.dtsb-data').trigger('change');
+
+			// condition
+			$('.dtsb-condition').val('Contains');
+			$('.dtsb-condition').trigger('change');
+
+			// value
+			$('input.dtsb-value').val('test San');
+			$('input.dtsb-value').trigger('input');
+
+			// displays the 'display' option
+			expect($('#example tbody tr td:eq(0)').text()).toBe('Ashton Cox');
 		});
 	});
 });

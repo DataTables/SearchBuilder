@@ -10,27 +10,26 @@
 		</description>
 	</type>
 
-	<default value="'SearchBuilder'">
-		The default value for the `-init language.searchBuilder.add` parameter is `'Add'`. 
+	<default value="'Add Condition'">
 	</default>
 	<description>
 		<![CDATA[
 			As standard, SearchBuilder will set the add button to display a default text, in this case `'Add'`.
 
-            The value of `-init language.searchBuilder.add` is passed into an `-api i18n()` function.
+			The value of `-init language.searchBuilder.add` is passed into an `-api i18n()` function.
 		]]>
 	</description>
 
 	<example title="Change message for SearchBuilder add"><![CDATA[
 $(document).ready(function() {
-    $('#example').DataTable( {
-        language: {
-            SearchBuilder: {
-                add: '+'
-            }
-        },
-        dom: 'Qlfrtip',
-    });
+	$('#example').DataTable( {
+		language: {
+			SearchBuilder: {
+				add: '+'
+			}
+		},
+		dom: 'Qlfrtip',
+	});
 });
 
 ]]></example>
