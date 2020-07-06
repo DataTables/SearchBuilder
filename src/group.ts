@@ -265,7 +265,8 @@ export default class Group {
 
 		// Set width, take 2 for the border
 		let height = $(this.dom.container).height() - 2;
-		$(this.dom.logicContainer).width(height);
+		$(this.dom.clear).height('0px');
+		$(this.dom.logicContainer).append(this.dom.clear).width(height);
 
 		// Prepend logic button
 		$(this.dom.container).prepend(this.dom.logicContainer);
@@ -288,8 +289,8 @@ export default class Group {
 		let newTop = currentTop - shuffleTop;
 		$(this.dom.logicContainer).offset({top: newTop});
 
-		// Append clear Group
-		$(this.dom.clear).insertAfter(this.dom.logic);
+		$(this.dom.clear).outerHeight($(this.dom.logicContainer).height());
+
 		this._setClearListener();
 
 	}
@@ -705,7 +706,7 @@ export default class Group {
 			$(this.dom.logic).addClass(this.classes.greyscale);
 		}
 
-		$(this.dom.logicContainer).prepend(this.dom.logic);
+		$(this.dom.logicContainer).append(this.dom.logic).append(this.dom.clear);
 
 		// Only append the logic button immediately if this is a sub group,
 		//  otherwise it will be prepended later when adding a criteria
