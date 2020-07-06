@@ -1,4 +1,4 @@
-describe('searchBuilder - options - language.searchBuilder.condition', function() {
+describe('searchBuilder - options - language.searchBuilder.logicOr', function() {
 	let table;
 
 	dt.libs({
@@ -10,11 +10,15 @@ describe('searchBuilder - options - language.searchBuilder.condition', function(
 		dt.html('basic');
 		it('Default', function() {
 			table = $('#example').DataTable({
-				dom: 'Qlfrtip'
+				dom: 'Qlfrtip',
+				searchBuilder: {
+					logic: 'OR'
+				}
 			});
 
 			$('.dtsb-add').click();
-			expect($('.dtsb-condition option:selected').text()).toBe('Condition');
+
+			expect($('.dtsb-logic').text()).toBe('Or');
 		});
 
 		dt.html('basic');
@@ -23,13 +27,17 @@ describe('searchBuilder - options - language.searchBuilder.condition', function(
 				dom: 'Qlfrtip',
 				language: {
 					searchBuilder: {
-						condition: 'unit test'
+						logicOr: 'unit test'
 					}
+				},
+				searchBuilder: {
+					logic: 'OR'
 				}
 			});
 
 			$('.dtsb-add').click();
-			expect($('.dtsb-condition option:selected').text()).toBe('unit test');
+
+			expect($('.dtsb-logic').text()).toBe('unit test');
 		});
 	});
 });
