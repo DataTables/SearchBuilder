@@ -6,7 +6,7 @@
 
 	<type type="string">
 		<description>
-			The title of the condition to be selected. These should be the same as the string that is used to override or set custom conditions, e.g. '=', '<', etc.
+			The title of the condition to be selected. These should be the same as the string that is used to override or set custom conditions, e.g. '=', '&lt;', '&gt;', etc.
         </description>
 	</type>
 
