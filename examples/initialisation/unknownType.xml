@@ -28,7 +28,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This example includes a date that is not in the standard format and therefore has a custom column type. This example demonstrates how SearchBuilder interacts with columns of an unknown type. SearchBuilder will default to the `-type string` type for unknown columns.
+This example includes a date that is not in the standard format and therefore has a custom column type. This example demonstrates how SearchBuilder interacts with columns of an unknown type. SearchBuilder will default to the built in type `string`'s conditions for unknown columns.
 
 ]]></info>
 

@@ -19,18 +19,18 @@
 
 			This object contains the following properties.
 
-			* `-init searchBuilder.conditions.string` An array of conditions to apply to the `-type string`
-			* `-init searchBuilder.conditions.date` An array of conditions to apply to the `-type date`
-			* `-init searchBuilder.conditions.num` An array of conditions to apply to the `-type num`
-			* `-init searchBuilder.conditions.num-fmt` An array of conditions to apply to the `-type num-fmt`
-			* `-init searchBuilder.conditions.html` An array of conditions to apply to the `-type html`
-			* `-init searchBuilder.conditions.html-num` An array of conditions to apply to the `-type html-num`
-			* `-init searchBuilder.conditions.html-num-fmt` An array of conditions to apply to the `-type html-num-fmt`
+			* `-init searchBuilder.conditions.string` An array of conditions to apply to the built in type `string`
+			* `-init searchBuilder.conditions.date` An array of conditions to apply to the built in type `date`
+			* `-init searchBuilder.conditions.num` An array of conditions to apply to the built in type `num`
+			* `-init searchBuilder.conditions.num-fmt` An array of conditions to apply to the built in type `num-fmt`
+			* `-init searchBuilder.conditions.html` An array of conditions to apply to the built in type `html`
+			* `-init searchBuilder.conditions.html-num` An array of conditions to apply to the built in type `html-num`
+			* `-init searchBuilder.conditions.html-num-fmt` An array of conditions to apply to the built in type `html-num-fmt`
 			* `-init searchBuilder.conditions.moment` An array of conditions to apply if the DataTables Ultimate Sorting Plug-in is being used
 
-			The custom condition defined in the example will override the `=` condition in the `-type num` condition set.
+			The custom condition defined in the example will override the `=` condition in the built in type `num`'s condition set.
 
-			More details on the structure that is used can be found at `-init searchBuilder[type]`
+			More details on the structure that is used can be found at `-init searchBuilder[type]`. More details on the built in types can be found at `-init columns.type`
         ]]>
 	</description>
 

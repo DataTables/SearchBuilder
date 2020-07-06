@@ -78,13 +78,13 @@ $(document).ready(function() {
 
 This example shows how to make use of `-init searchBuilder.conditions` to add a custom condition or overwrite an already existing one. The `-init searchBuilder.conditions` option holds 7 properties, one for each type that DataTables is able to detect.
 
-* `-type string`
-* `-type date`
-* `-type num`
-* `-type num-fmt`
-* `-type html`
-* `-type html-num`
-* `-type html-num-fmt`
+* `string`
+* `date`
+* `num`
+* `num-fmt`
+* `html`
+* `html-num`
+* `html-num-fmt`
 
 In addition to the above, SearchBuilder has its own `moment` property that is used when [Moment.js](https://momentjs.com) is in use on a column. SearchBuilder will automatically detect and handle data in any moment format (see example [here](../initialisation/date-fmt)).
 

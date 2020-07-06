@@ -25,7 +25,7 @@
 		* `-init searchBuilder.conditions[type].isInputValid` This function is used to determine if the criteria should be used in the overall filter
 		* `-init searchBuilder.conditions[type].search` This is the function that compares the row data and the value selected in this criteria.
 
-		The custom condition defined in the example will override the `=` condition in the `-type num` condition set.
+		The custom condition defined in the example will override the `=` condition in the built in type `num`'s condition set.
 
 		More details on the structure that is used can be found at `-init searchBuilder[type]`
 
