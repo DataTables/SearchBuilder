@@ -16,8 +16,8 @@ $(document).ready(function() {
                 deleteTitle: 'Delete',
                 data: 'Column',
                 leftTitle: 'Left',
-                logicAnd: 'And',
-                logicOr: 'Or',
+                logicAnd: '&&',
+                logicOr: '||',
                 rightTitle: 'Right',
                 title: {
                     0: 'Filters',
