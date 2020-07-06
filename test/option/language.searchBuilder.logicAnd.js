@@ -1,4 +1,4 @@
-describe('searchBuilder - options - language.searchBuilder.condition', function() {
+describe('searchBuilder - options - language.searchBuilder.logicAnd', function() {
 	let table;
 
 	dt.libs({
@@ -14,7 +14,8 @@ describe('searchBuilder - options - language.searchBuilder.condition', function(
 			});
 
 			$('.dtsb-add').click();
-			expect($('.dtsb-condition option:selected').text()).toBe('Condition');
+
+			expect($('.dtsb-logic').text()).toBe('And');
 		});
 
 		dt.html('basic');
@@ -23,13 +24,14 @@ describe('searchBuilder - options - language.searchBuilder.condition', function(
 				dom: 'Qlfrtip',
 				language: {
 					searchBuilder: {
-						condition: 'unit test'
+						logicAnd: 'unit test'
 					}
 				}
 			});
 
 			$('.dtsb-add').click();
-			expect($('.dtsb-condition option:selected').text()).toBe('unit test');
+			
+			expect($('.dtsb-logic').text()).toBe('unit test');
 		});
 	});
 });

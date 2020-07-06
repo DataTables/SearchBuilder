@@ -1,37 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
 	<name>language.searchBuilder.clearAll</name>
-	<summary>Set the message to be displayed in the SearchBuilder clear all button</summary>
+	<summary>Text to be displayed in the SearchBuilder clear all button</summary>
 	<since>SearchBuilder 0.0.1</since>
 
 	<type type="string | object">
 		<description>
-			`-init language.searchBuilder.clearAll` changes what will be displayed in the text of the SearchBuilder clear all button.
+			`-init language.searchBuilder.clearAll` changes what will be displayed in the text of the SearchBuilder 'Clear All' button.
 		</description>
 	</type>
 
 	<default value="'Clear All'">
-		The default value for the `-init language.searchBuilder.clearAll` parameter is `'Clear All'`. 
 	</default>
 	<description>
 		<![CDATA[
-			As standard, SearchBuilder will set the clear all button to display a default text, in this case `'Clear All'`.
+			As standard, SearchBuilder will set the 'Clear All' button to display 'Clear All'. This option over-rides that value.
 
-            The value of `-init language.searchBuilder.clearAll` is passed into an `-api i18n()` function.
 		]]>
 	</description>
 
-	<example title="Change message for SearchBuilder clear all button"><![CDATA[
+<example title="Change message for SearchBuilder clear all button"><![CDATA[
 $(document).ready(function() {
-    $('#example').DataTable( {
-        language: {
-            SearchBuilder: {
-                clearAll: 'Reset'
-            }
-        },
-        dom: 'Qlfrtip',
-    });
-});
+		$('#example').DataTable( {
+			language: {
+				SearchBuilder: {
+					clearAll: 'Reset'
+				}
+			},
+			dom: 'Qlfrtip',
+		});
+	});
 
 ]]></example>
 

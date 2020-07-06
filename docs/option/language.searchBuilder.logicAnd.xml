@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
 	<name>language.searchBuilder.logicAnd</name>
-	<summary>Set the message to be displayed in the SearchBuilder logic button when AND logic is in place</summary>
+	<summary>Message to display when AND logic is in place</summary>
 	<since>SearchBuilder 0.0.1</since>
 
 	<type type="string | object">
@@ -10,32 +10,28 @@
 		</description>
 	</type>
 
-	<default value="'All Of'">
-		The default value for the `-init language.searchBuilder.logicAnd` parameter is `'All Of'`. 
+	<default value="'And'">
 	</default>
 	<description>
 		<![CDATA[
-			As standard, SearchBuilder will set the logic button to display a default text when AND logic is in place, in this case `'All Of'`.
-
-            The value of `-init language.searchBuilder.logicAnd` is passed into an `-api i18n()` function.
+			As standard, SearchBuilder will set the logic button to display 'And' when AND logic is in place.
 		]]>
 	</description>
 
 	<example title="Change message for SearchBuilder logic button under AND conditions"><![CDATA[
 $(document).ready(function() {
-    $('#example').DataTable( {
-        language: {
-            SearchBuilder: {
-                logicAnd: 'And'
-            }
-        },
-        dom: 'Qlfrtip',
-    });
+	$('#example').DataTable( {
+		language: {
+			SearchBuilder: {
+				logicAnd: 'AND'
+			}
+		},
+		dom: 'Qlfrtip',
+	});
 });
 
 ]]></example>
 
-<related type="api">i18n()</related>
 <related type="init">searchBuilder.logic</related>
 
 </dt-option>
