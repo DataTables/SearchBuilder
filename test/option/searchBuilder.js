@@ -28,7 +28,7 @@ describe('searchBuilder - options - searchBuilder.columns', function() {
 			$('.dtsb-data').trigger('change');
 
 			// condition
-			$('.dtsb-condition').val('Equals');
+			$('.dtsb-condition').val('=');
 			$('.dtsb-condition').trigger('change');
 
 			// value
@@ -59,7 +59,7 @@ describe('searchBuilder - options - searchBuilder.columns', function() {
 			$('.dtsb-data').trigger('change');
 
 			// condition
-			$('.dtsb-condition').val('Equals');
+			$('.dtsb-condition').val('=');
 			$('.dtsb-condition').trigger('change');
 
 			// value
@@ -92,7 +92,7 @@ describe('searchBuilder - options - searchBuilder.columns', function() {
 			$('.dtsb-data').trigger('change');
 
 			// condition
-			$('.dtsb-condition').val('Contains');
+			$('.dtsb-condition').val('contains');
 			$('.dtsb-condition').trigger('change');
 
 			// value

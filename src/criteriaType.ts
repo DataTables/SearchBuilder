@@ -53,8 +53,8 @@ export interface IDom {
 }
 
 export interface IS {
-	condition: ICondition;
-	conditions: ICondition[];
+	condition: string;
+	conditions: Map<string, ICondition>;
 	depth: number;
 	dt: any;
 	dataIdx: number;
@@ -74,7 +74,7 @@ export interface IDataOpt {
 }
 
 export interface IDetails {
-	condition: ICondition;
+	condition: string;
 	dataIdx: number;
 	data: string;
 	value: any[];

@@ -22,7 +22,7 @@ describe('searchBuilder - options - searchBuilder.preDefined', function() {
 					preDefined: {
 						criteria: [
 							{
-								condition: 'Not',
+								condition: '!=',
 								data: 'Second Column',
 								value: ['London']
 							}

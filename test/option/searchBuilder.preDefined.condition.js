@@ -17,7 +17,7 @@ describe('searchBuilder - options - searchBuilder.preDefined.condition', functio
 					preDefined: {
 						criteria: [
 							{
-								condition: 'Contains',
+								condition: 'contains',
 								data: 'Name',
 								value: ['Ox']
 							}
@@ -38,7 +38,7 @@ describe('searchBuilder - options - searchBuilder.preDefined.condition', functio
 					preDefined: {
 						criteria: [
 							{
-								condition: 'Empty',
+								condition: 'null',
 								data: 'Office',
 							}
 						],
@@ -58,7 +58,7 @@ describe('searchBuilder - options - searchBuilder.preDefined.condition', functio
 					preDefined: {
 						criteria: [
 							{
-								condition: 'Not Empty',
+								condition: '!null',
 								data: 'Office'
 							}
 						],
@@ -82,7 +82,7 @@ describe('searchBuilder - options - searchBuilder.preDefined.condition', functio
 					preDefined: {
 						criteria: [
 							{
-								condition: 'Between',
+								condition: 'between',
 								data: 'Age',
 								value: ['63', '70']
 							}
@@ -102,7 +102,7 @@ describe('searchBuilder - options - searchBuilder.preDefined.condition', functio
 					preDefined: {
 						criteria: [
 							{
-								condition: 'Not Between',
+								condition: 'notBetween',
 								data: 'Age',
 								value: ['15', '64']
 							}
@@ -123,7 +123,7 @@ describe('searchBuilder - options - searchBuilder.preDefined.condition', functio
 					preDefined: {
 						criteria: [
 							{
-								condition: 'Empty',
+								condition: 'null',
 								data: 'Age',
 							}
 						],
@@ -143,7 +143,7 @@ describe('searchBuilder - options - searchBuilder.preDefined.condition', functio
 					preDefined: {
 						criteria: [
 							{
-								condition: 'Greater Than Equal To',
+								condition: '>=',
 								data: 'Age',
 								value: ['66']
 							}
@@ -164,7 +164,7 @@ describe('searchBuilder - options - searchBuilder.preDefined.condition', functio
 					preDefined: {
 						criteria: [
 							{
-								condition: 'Greater Than',
+								condition: '>',
 								data: 'Age',
 								value: ['66']
 							}
@@ -188,7 +188,7 @@ describe('searchBuilder - options - searchBuilder.preDefined.condition', functio
 					preDefined: {
 						criteria: [
 							{
-								condition: 'Before',
+								condition: '<',
 								data: 'Start date',
 								value: ['2009-01-13']
 							}
@@ -210,7 +210,7 @@ describe('searchBuilder - options - searchBuilder.preDefined.condition', functio
 					preDefined: {
 						criteria: [
 							{
-								condition: 'After',
+								condition: '>',
 								data: 'Start date',
 								value: ['2013-01-13']
 							}
@@ -235,7 +235,7 @@ describe('searchBuilder - options - searchBuilder.preDefined.condition', functio
 					preDefined: {
 						criteria: [
 							{
-								condition: 'Between',
+								condition: 'between',
 								data: 'Start date',
 								value: ['2009-09-13', '2009-01-12']
 							}
@@ -260,7 +260,7 @@ describe('searchBuilder - options - searchBuilder.preDefined.condition', functio
 					preDefined: {
 						criteria: [
 							{
-								condition: 'Equals',
+								condition: '=',
 								data: 'HTML',
 								value: ['$86,000']
 							}
@@ -281,7 +281,7 @@ describe('searchBuilder - options - searchBuilder.preDefined.condition', functio
 					preDefined: {
 						criteria: [
 							{
-								condition: 'Between',
+								condition: 'between',
 								data: 'HTML',
 								value: ['86000', '90000']
 							}

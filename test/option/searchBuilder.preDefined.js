@@ -15,7 +15,7 @@ describe('searchBuilder - options - searchBuilder.preDefined', function() {
 					preDefined: {
 						criteria: [
 							{
-								condition: 'Equals',
+								condition: '=',
 								data: 'Office',
 								value: ['Edinburgh']
 							}
@@ -37,19 +37,19 @@ describe('searchBuilder - options - searchBuilder.preDefined', function() {
 					preDefined: {
 						criteria: [
 							{
-								condition: 'Not',
+								condition: '!=',
 								data: 'Office',
 								value: ['London']
 							},
 							{
 								criteria: [
 									{
-										condition: 'Contains',
+										condition: 'contains',
 										data: 'Office',
 										value: ['h']
 									},
 									{
-										condition: 'Greater Than',
+										condition: '>',
 										data: 'Age',
 										value: ['50']
 									}
@@ -81,19 +81,19 @@ describe('searchBuilder - options - searchBuilder.preDefined', function() {
 					preDefined: {
 						criteria: [
 							{
-								condition: 'Not',
+								condition: '!=',
 								data: 'Office',
 								value: ['London']
 							},
 							{
 								criteria: [
 									{
-										condition: 'Contains',
+										condition: 'contains',
 										data: 'Office',
 										value: ['h']
 									},
 									{
-										condition: 'Greater Than',
+										condition: '>',
 										data: 'Age',
 										value: ['50']
 									}
@@ -129,19 +129,19 @@ describe('searchBuilder - options - searchBuilder.preDefined', function() {
 							preDefined: {
 								criteria: [
 									{
-										condition: 'Not',
+										condition: '!=',
 										data: 'Office',
 										value: ['London']
 									},
 									{
 										criteria: [
 											{
-												condition: 'Contains',
+												condition: 'contains',
 												data: 'Office',
 												value: ['h']
 											},
 											{
-												condition: 'Greater Than',
+												condition: '>',
 												data: 'Age',
 												value: ['50']
 											}

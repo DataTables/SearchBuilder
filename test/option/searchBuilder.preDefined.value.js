@@ -24,7 +24,7 @@ describe('searchBuilder - options - searchBuilder.preDefined', function() {
 					preDefined: {
 						criteria: [
 							{
-								condition: 'Not',
+								condition: '!=',
 								data: 'Office',
 								value: ['test London']
 							}

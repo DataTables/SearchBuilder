@@ -38,7 +38,7 @@ $('#example').DataTable( {
 		preDefined: {
 			criteria:[
 				{
-					condition: 'Equals',
+					condition: '=',
 					data: 'Office',
 					value: ['Edinburgh']
 				}
@@ -58,19 +58,19 @@ $('#example').DataTable( {
 		preDefined: {
 			criteria:[
 				{
-					condition: 'Equals',
+					condition: '=',
 					data: 'Office',
 					value: ['Edinburgh']
 				},
 				{
 					criteria: [
 						{
-							condition: 'Equals',
+							condition: '=',
 							data: 'Name',
 							value: ['Cedric Kelly']
 						},
 						{
-							condition: 'Equals',
+							condition: '=',
 							data: 'Name',
 							value: ['Dai Rios']
 						}

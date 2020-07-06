@@ -27,7 +27,7 @@ $('#example').DataTable( {
 		preDefined: {
 			criteria:[
 				{
-					condition: 'Equals',
+					condition: '=',
 					data: 'Office',
 					value: ['Edinburgh']
 				}
@@ -47,7 +47,7 @@ $('#example').DataTable( {
 		preDefined: {
 			criteria:[
 				{
-					condition: 'Equals',
+					condition: '=',
 					data: 'Office',
 					value: ['Edinburgh']
 				}

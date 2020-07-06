@@ -15,13 +15,13 @@ describe('searchBuilder - options - searchBuilder.preDefined.logic', function() 
 					preDefined: {
 						criteria: [
 							{
-								condition: 'Not',
+								condition: '!=',
 								data: 'Office',
 								value: ['London']
 							},
 
 							{
-								condition: 'Greater Than',
+								condition: '>',
 								data: 'Age',
 								value: ['55']
 							}
@@ -44,13 +44,13 @@ describe('searchBuilder - options - searchBuilder.preDefined.logic', function() 
 					preDefined: {
 						criteria: [
 							{
-								condition: 'Not',
+								condition: '!=',
 								data: 'Office',
 								value: ['London']
 							},
 
 							{
-								condition: 'Greater Than',
+								condition: '>',
 								data: 'Age',
 								value: ['55']
 							}

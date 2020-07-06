@@ -291,8 +291,10 @@ export default class Criteria {
 	 */
 	private static updateListener = function(that, el) {
 		// When the value is changed the criteria is now complete so can be included in searches
-		that.s.filled = that.s.condition.isInputValid(that.dom.value, that);
-		that.s.value = that.s.condition.inputValue(that.dom.value, that);
+		// Get the condition from the map based on the key that has been selected for the condition
+		let condition = that.s.conditions.get(that.s.condition);
+		that.s.filled = condition.isInputValid(that.dom.value, that);
+		that.s.value = condition.inputValue(that.dom.value, that);
 
 		// Take note of the cursor position so that we can refocus there later
 		let idx: number = null;
@@ -855,7 +857,7 @@ export default class Criteria {
 
 		this.s = {
 			condition: undefined,
-			conditions: [],
+			conditions: new Map(),
 			data: undefined,
 			dataIdx: -1,
 			dataPoints: [],
@@ -993,8 +995,9 @@ export default class Criteria {
 	 * @returns boolean Whether the criteria has passed
 	 */
 	public search(rowData: any[]): boolean {
-		if (this.s.condition !== undefined) {
-			return this.s.condition.search(rowData[this.s.dataIdx], this.s.value, this);
+		let condition = this.s.conditions.get(this.s.condition);
+		if (this.s.condition !== undefined &&  condition !== undefined) {
+			return condition.search(rowData[this.s.dataIdx], this.s.value, this);
 		}
 	}
 
@@ -1064,7 +1067,7 @@ export default class Criteria {
 			$(this.dom.dataTitle).remove();
 			this._populateCondition();
 			$(this.dom.conditionTitle).remove();
-			let condition: typeInterfaces.ICondition;
+			let condition: string;
 			let conditions = this.s.conditions;
 
 			// Check to see if the previously selected condition exists, if so select it
@@ -1074,22 +1077,10 @@ export default class Criteria {
 						loadedCriteria.condition !== undefined &&
 						$(this).val() === loadedCriteria.condition &&
 						typeof loadedCriteria.condition === 'string'
-					) ||
-					(
-						loadedCriteria.condition !== undefined &&
-						$(this).val() === loadedCriteria.condition.conditionName
 					)
 				) {
 					$(this).attr('selected', true);
-					let condDisp = $(this).val();
-
-					for (let cond of conditions) {
-						if (cond.conditionName === condDisp) {
-							condition = cond;
-
-							return;
-						}
-					}
+					condition = $(this).val();
 				}
 			});
 
@@ -1098,6 +1089,7 @@ export default class Criteria {
 			// If the condition has been found and selected then the value can be populated and searched
 			if (this.s.condition !== undefined) {
 				$(this.dom.conditionTitle).remove();
+				$(this.dom.condition).removeClass(this.classes.italic);
 				this._populateValue(loadedCriteria);
 			}
 			else {
@@ -1141,9 +1133,9 @@ export default class Criteria {
 				let condDisp = $(this.dom.condition).children('option:selected').val();
 
 				// Find the condition that has been selected and store it internally
-				for (let cond of this.s.conditions) {
-					if (cond.conditionName === condDisp) {
-						this.s.condition = cond;
+				for (let cond of Array.from(this.s.conditions.keys())) {
+					if (cond === condDisp) {
+						this.s.condition = condDisp;
 						break;
 					}
 				}
@@ -1263,7 +1255,7 @@ export default class Criteria {
 		$(this.dom.condition).empty();
 		$(this.dom.conditionTitle).attr('selected', true).attr('disabled', true);
 		$(this.dom.condition).append(this.dom.conditionTitle);
-		this.s.conditions = [];
+		this.s.conditions = new Map();
 		this.s.condition = undefined;
 	}
 
@@ -1278,7 +1270,7 @@ export default class Criteria {
 			}
 
 			// Call the init function to get the value elements for this condition
-			let value = this.s.condition.init(this, Criteria.updateListener);
+			let value = this.s.conditions.get(this.s.condition).init(this, Criteria.updateListener);
 			this.dom.value = Array.isArray(value) ?
 				value :
 				[value];
@@ -1315,7 +1307,7 @@ export default class Criteria {
 	private _populateCondition(): void {
 		let conditionOpts: Array<JQuery<HTMLElement>> = [];
 		// If there are no conditions stored then we need to get them from the appropriate type
-		if (this.s.conditions.length === 0) {
+		if (this.s.conditions.size === 0) {
 			let column = $(this.dom.data).children('option:selected').val();
 			this.s.type = this.s.dt.columns().type().toArray()[column];
 
@@ -1351,11 +1343,11 @@ export default class Criteria {
 			for (
 				let condition of Object.keys(conditionObj)
 			) {
-				this.s.conditions.push(conditionObj[condition]);
+				this.s.conditions.set(condition, conditionObj[condition]);
 				conditionOpts.push(
 					$('<option>', {
 						text : conditionObj[condition].conditionName,
-						value : conditionObj[condition].conditionName,
+						value : condition,
 					})
 						.addClass(this.classes.option)
 						.addClass(this.classes.notItalic)
@@ -1363,18 +1355,19 @@ export default class Criteria {
 			}
 		}
 		// Otherwise we can just load them in
-		else if (this.s.conditions.length > 0) {
+		else if (this.s.conditions.size > 0) {
 			$(this.dom.condition).empty().attr('disabled', false).addClass(this.classes.italic);
 
-			for (let condition of this.s.conditions) {
+			for (let condition of Array.from(this.s.conditions.keys())) {
+				let condName = this.s.conditions.get(condition).conditionName;
 				let newOpt = $('<option>', {
-					text : condition.conditionName,
-					value : condition.conditionName
+					text : condName,
+					value : condition
 				})
 					.addClass(this.classes.option)
 					.addClass(this.classes.notItalic);
 
-				if (this.s.condition !== undefined && this.s.condition.conditionName === condition.conditionName) {
+				if (this.s.condition !== undefined && this.s.condition === condName) {
 					$(newOpt).attr('selected', true);
 					$(this.dom.condition).removeClass(this.classes.italic);
 				}
@@ -1492,7 +1485,7 @@ export default class Criteria {
 		}
 
 		// Initialise the value elements based on the condition
-		let value = this.s.condition.init(
+		let value = this.s.conditions.get(this.s.condition).init(
 			this,
 			Criteria.updateListener,
 			loadedCriteria !== undefined ? loadedCriteria.value : undefined
@@ -1518,7 +1511,7 @@ export default class Criteria {
 		}
 
 		// Check if the criteria can be used in a search
-		this.s.filled = this.s.condition.isInputValid(this.dom.value, this);
+		this.s.filled = this.s.conditions.get(this.s.condition).isInputValid(this.dom.value, this);
 		this.setListeners();
 
 		// If it can and this is different to before then trigger a draw
