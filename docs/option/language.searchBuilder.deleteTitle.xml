@@ -1,40 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
 	<name>language.searchBuilder.deleteTitle</name>
-	<summary>Set the title attribute of the SearchBuilder delete criteria button</summary>
+	<summary>Set the `title` attribute of the SearchBuilder delete criteria button</summary>
 	<since>SearchBuilder 0.0.1</since>
 
 	<type type="string | object">
 		<description>
-			`-init language.searchBuilder.deleteTitle` changes the title of the SearchBuilder delete criteria button.
+			`-init language.searchBuilder.deleteTitle` changes the `title` of the SearchBuilder delete criteria button.
 		</description>
 	</type>
 
-	<default value="'delete-filtering-rule'">
-		The default value for the `-init language.searchBuilder.deleteTitle` parameter is `'delete filtering rule'`. 
+	<default value="'delete filtering rule'">
 	</default>
 	<description>
 		<![CDATA[
-			As standard, SearchBuilder will set the delete criteria button's title to `'delete filtering rule'`.
-
-            The value of `-init language.searchBuilder.deleteTitle` is passed into an `-api i18n()` function.
+			As standard, SearchBuilder will set the delete criteria button's `title` to 'delete filtering rule'.
 		]]>
 	</description>
 
 	<example title="Change title attribute for SearchBuilder delete criteria button"><![CDATA[
 $(document).ready(function() {
-    $('#example').DataTable( {
-        language: {
-            SearchBuilder: {
-                deleteTitle: 'Delete'
-            }
-        },
-        dom: 'Qlfrtip',
-    });
+	$('#example').DataTable( {
+		language: {
+			SearchBuilder: {
+				deleteTitle: 'Delete'
+			}
+		},
+		dom: 'Qlfrtip',
+	});
 });
 
 ]]></example>
-
-<related type="api">i18n()</related>
 
 </dt-option>
