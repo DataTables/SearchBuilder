@@ -45,7 +45,6 @@ $('#example').DataTable( {
 				}
 			],
 			logic: 'AND',
-			type: 'group'
 		}
 	}
 });
@@ -78,11 +77,9 @@ $('#example').DataTable( {
 						}
 					],
 					logic: 'OR',
-					type: 'group'
 				}
 			],
 			logic: 'AND',
-			type: 'group'
 		}
 	}
 });
