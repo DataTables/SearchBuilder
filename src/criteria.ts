@@ -210,7 +210,7 @@ export default class Criteria {
 		];
 
 		// If there are and preDefined values then add them
-		if (preDefined !== null) {
+		if (preDefined !== null && preDefined.length > 0) {
 			$(els[0]).val(preDefined[0]);
 			$(els[2]).val(preDefined[1]);
 		}
@@ -476,14 +476,14 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[], that): boolean {
-				value = moment(value, that.s.momentFormat).valueOf();
-				comparison[0] = moment(comparison[0], that.s.momentFormat).valueOf();
-				comparison[1] = moment(comparison[1], that.s.momentFormat).valueOf();
-				if (comparison[0] < comparison[1]) {
-					return comparison[0] <= value && value <= comparison[1];
+				let val = moment(value, that.s.momentFormat).valueOf();
+				let comp0 = moment(comparison[0], that.s.momentFormat).valueOf();
+				let comp1 = moment(comparison[1], that.s.momentFormat).valueOf();
+				if (comp0 < comp1) {
+					return comp0 <= val && val <= comp1;
 				}
 				else {
-					return comparison[1] <= value && value <= comparison[0];
+					return comp1 <= val && val <= comp0;
 				}
 			},
 		},
