@@ -99,7 +99,7 @@ In this example `-init searchBuilder.conditions.num` is used to create a new con
 * `>=` - Greater Than Equal To
 * `null` - Empty/null
 * `between` - Between
-* `notBetween` - Not Between
+* `!between` - Not Between
 
 The properties within the object are documented at
 

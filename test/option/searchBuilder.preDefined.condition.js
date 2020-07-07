@@ -102,7 +102,7 @@ describe('searchBuilder - options - searchBuilder.preDefined.condition', functio
 					preDefined: {
 						criteria: [
 							{
-								condition: 'notBetween',
+								condition: '!between',
 								data: 'Age',
 								value: ['15', '64']
 							}

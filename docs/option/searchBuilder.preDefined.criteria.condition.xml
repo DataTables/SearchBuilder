@@ -6,7 +6,7 @@
 
 	<type type="string">
 		<description>
-			The title of the condition to be selected. These should be the same as the string that is used to override or set custom conditions, e.g. '=', '&lt;', '&gt;', etc.
+			The string representing the condition to be selected. This should be one of the keys listed above.
         </description>
 	</type>
 
@@ -15,7 +15,36 @@
 	</default>
 	<description>
 		<![CDATA[
-		This is useful as it allows predefined criteria conditions to be set.
+		This is useful as it allows predefined criteria conditions to be set. The following keys are used to represent the conditions.
+
+		* For the `string` and `html` column types
+			* `!=` - "Not"
+			* `!null` - "Not Empty"
+			* `=` - "Equals"
+			* `contains` - "Contains"
+			* `ends` - "Ends With"
+			* `null` - "Empty"
+			* `starts` - "Starts With"
+		* For the `num`, `num-fmt`, `html-num` and `html-num-fmt` column types
+			* `!=` - "Not"
+			* `!null` - "Not Empty"
+			* `<` - "Less Than"
+			* `<=` - "Less Than Equal To"
+			* `=` - "Equals"
+			* `>` - "Greater Than"
+			* `>=` - "Greater Than Equal To"
+			* `between` - "Between"
+			* `!between` - "Not Between"
+			* `null` - "Empty"
+		* For the `date` and `moment` column types
+			* `!=` - "Not"
+			* `!null` - "Not Empty"
+			* `<` - "Before"
+			* `=` - "Equals"
+			* `>` - "After"
+			* `between` - "Between"
+			* `!between` - "Not Between"
+			* `null` - "Empty"
         ]]>
 	</description>
 

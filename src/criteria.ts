@@ -403,7 +403,7 @@ export default class Criteria {
 				}
 			},
 		},
-		'notBetween': {
+		'!between': {
 			conditionName: 'Not Between',
 			init: Criteria.init2Date,
 			inputValue: Criteria.inputValueInput,
@@ -496,7 +496,7 @@ export default class Criteria {
 				}
 			},
 		},
-		'notBetween': {
+		'!between': {
 			conditionName: 'Not Between',
 			init: Criteria.init2Date,
 			inputValue: Criteria.inputValueInput,
@@ -606,7 +606,7 @@ export default class Criteria {
 				}
 			},
 		},
-		'notBetween': {
+		'!between': {
 			conditionName: 'Not Between',
 			init: Criteria.init2Input,
 			inputValue: Criteria.inputValueInput,
@@ -732,7 +732,7 @@ export default class Criteria {
 				}
 			},
 		},
-		'notBetween': {
+		'!between': {
 			conditionName: 'Not Between',
 			init: Criteria.init2Input,
 			inputValue: Criteria.inputValueInput,
