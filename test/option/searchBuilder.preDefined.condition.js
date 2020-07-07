@@ -39,7 +39,7 @@ describe('searchBuilder - options - searchBuilder.preDefined.condition', functio
 						criteria: [
 							{
 								condition: 'null',
-								data: 'Office',
+								data: 'Office'
 							}
 						],
 						logic: 'AND'
@@ -124,7 +124,7 @@ describe('searchBuilder - options - searchBuilder.preDefined.condition', functio
 						criteria: [
 							{
 								condition: 'null',
-								data: 'Age',
+								data: 'Age'
 							}
 						],
 						logic: 'AND'
@@ -224,9 +224,6 @@ describe('searchBuilder - options - searchBuilder.preDefined.condition', functio
 			expect($('#example tbody tr:eq(0) td:eq(0)').text()).toBe('Jennifer Acosta');
 			expect($('#example tbody tr:eq(2) td:eq(0)').text()).toBe('Thor Walton');
 		});
-
-		// DD-1568
-
 		it('... Between', function() {
 			table = $('#example').DataTable({
 				dom: 'Qlfrtip',
