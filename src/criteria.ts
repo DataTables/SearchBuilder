@@ -180,7 +180,10 @@ export default class Criteria {
 		let el = $('<input/>')
 			.addClass(Criteria.classes.value)
 			.addClass(Criteria.classes.input)
-			.dtDateTime({format: that.s.momentFormat ? that.s.momentFormat : undefined })
+			.dtDateTime({
+				attachTo: 'input',
+				format: that.s.momentFormat ? that.s.momentFormat : undefined
+			})
 			.on('input change', function() { fn(that, this); });
 
 		// If there is a preDefined value then add it
@@ -197,7 +200,10 @@ export default class Criteria {
 			$('<input/>')
 				.addClass(Criteria.classes.value)
 				.addClass(Criteria.classes.input)
-				.dtDateTime({format: that.s.momentFormat ? that.s.momentFormat : undefined })
+				.dtDateTime({
+					attachTo: 'input',
+					format: that.s.momentFormat ? that.s.momentFormat : undefined
+				})
 				.on('input change', function() { fn(that, this); }),
 			$('<span>')
 				.addClass(that.classes.joiner)
@@ -205,7 +211,10 @@ export default class Criteria {
 			$('<input/>')
 				.addClass(Criteria.classes.value)
 				.addClass(Criteria.classes.input)
-				.dtDateTime({format: that.s.momentFormat ? that.s.momentFormat : undefined })
+				.dtDateTime({
+					attachTo: 'input',
+					format: that.s.momentFormat ? that.s.momentFormat : undefined
+				})
 				.on('input change', function() { fn(that, this); }),
 		];
 
