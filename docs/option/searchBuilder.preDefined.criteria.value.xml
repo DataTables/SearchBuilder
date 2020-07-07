@@ -14,9 +14,9 @@
 	</default>
 	<description>
 		<![CDATA[
-		This is useful as it allows predefined criteria values to be set.
-
-		`-init searchBuilder.preDefined.criteria.value` is an array so that conditions that require multiple inputs, such as `Between`, can be set.
+		This property allows the values to be set for preDefined searches. `-init searchBuilder.preDefined.criteria.value` is an array so that conditions that require multiple inputs, such as `Between`, can be set. For conditions that only require a single input, the array will only require one value. For conditions that require multiple inputs, such as `Between` the inputs shall be populated in the same order as the items are set in this array.
+		
+		For more information on preDefined searches please refer to the `-init searchBuilder.preDefined` option or the [manual page](//datatables.net/extensions/searchbuilder/predefined).
         ]]>
 	</description>
 

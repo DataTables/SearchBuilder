@@ -15,7 +15,9 @@
 	</default>
 	<description>
 		<![CDATA[
-		This is useful as it allows logic to be defined for groups within predefined searches.
+		This is allows the initial logic to be defined for groups within predefined searches. The default is `AND` logic and this will be used if no value is provided.
+		
+		For more information on preDefined searches please refer to either the `-init searchBuilder.preDefined` option or the [manual page](//datatables.net/extensions/searchbuilder/predefined).
         ]]>
 	</description>
 

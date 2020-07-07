@@ -15,7 +15,9 @@
 	</default>
 	<description>
 		<![CDATA[
-		This is useful as it allows predefined criteria conditions to be set. The following keys are used to represent the conditions.
+		This option is used as part of SearchBuilder's ability to programatically preset filters, which is done with the `-init searchBuilder.preDefined`  option. This option specified the condition that the filter should use. This is done by setting the `condition` property of one of the objects on the `searchBuilder.preDefined.criteria` array to one of the keys listed below. 
+
+		The following keys are used to represent the conditions.
 
 		* For the `string` and `html` column types
 			* `!=` - "Not"
@@ -45,6 +47,8 @@
 			* `between` - "Between"
 			* `!between` - "Not Between"
 			* `null` - "Empty"
+		
+		Please refer to the `-init searchBuilder.preDefined` documentation or  or the [manual page](//datatables.net/extensions/searchbuilder/predefined) for more details.
         ]]>
 	</description>
 
