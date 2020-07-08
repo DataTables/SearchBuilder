@@ -901,15 +901,15 @@ export default class Criteria {
 			delete: $('<button>&times</button>')
 				.addClass(this.classes.delete)
 				.addClass(this.classes.button)
-				.attr('title', this.s.dt.i18n('searchBuilder.deleteTitle', 'delete filtering rule')),
+				.attr('title', this.s.dt.i18n('searchBuilder.deleteTitle', 'Delete filtering rule')),
 			left: $('<button>\<</button>')
 				.addClass(this.classes.left)
 				.addClass(this.classes.button)
-				.attr('title', this.s.dt.i18n('searchBuilder.leftTitle', 'drop criteria')),
+				.attr('title', this.s.dt.i18n('searchBuilder.leftTitle', 'Outdent criteria')),
 			right: $('<button>\></button>')
 				.addClass(this.classes.right)
 				.addClass(this.classes.button)
-				.attr('title', this.s.dt.i18n('searchBuilder.rightTitle', 'idnent criteria')),
+				.attr('title', this.s.dt.i18n('searchBuilder.rightTitle', 'Indent criteria')),
 			value: [
 				$('<select disabled/>').addClass(this.classes.value).addClass(this.classes.dropDown).addClass(this.classes.italic)
 			],

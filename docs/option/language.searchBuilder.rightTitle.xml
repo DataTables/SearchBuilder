@@ -15,7 +15,7 @@
 	</default>
 	<description>
 		<![CDATA[
-			As standard, SearchBuilder will set the right button's title to `'indent criteria'`.
+			As standard, SearchBuilder will set the right button's title to `'Indent criteria'`. This `title` is displayed when the mouse hovers over the right button.
 
             The value of `-init language.searchBuilder.rightTitle` is passed into an `-api i18n()` function.
 		]]>

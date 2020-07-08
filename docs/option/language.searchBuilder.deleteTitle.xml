@@ -14,7 +14,9 @@
 	</default>
 	<description>
 		<![CDATA[
-			As standard, SearchBuilder will set the delete criteria button's `title` to 'delete filtering rule'.
+			As standard, SearchBuilder will set the delete criteria button's `title` to 'Delete filtering rule'. This `title` is displayed when the mouse hovers over the delete button.
+
+			The value of `-init language.searchBuilder.deleteTitle` is passed into an `-api i18n()` function.
 		]]>
 	</description>
 

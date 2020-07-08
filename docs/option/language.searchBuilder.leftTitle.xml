@@ -6,16 +6,16 @@
 
 	<type type="string | object">
 		<description>
-			`-init language.searchBuilder.leftTitle` changes the title of the SearchBuilder left button.
+			`-init language.searchBuilder.leftTitle` changes the `title` of the SearchBuilder left button.
 		</description>
 	</type>
 
 	<default value="'delete-filtering-rule'">
-		The default value for the `-init language.searchBuilder.leftTitle` parameter is `'indent criteria'`. 
+		The default value for the `-init language.searchBuilder.leftTitle` parameter is `'Outdent criteria'`. 
 	</default>
 	<description>
 		<![CDATA[
-			As standard, SearchBuilder will set the left button's title to `'indent criteria'`.
+			As standard, SearchBuilder will set the left button's title to `'Outdent criteria'`. This `title` is displayed when the mouse hovers over the left button.
 
             The value of `-init language.searchBuilder.leftTitle` is passed into an `-api i18n()` function.
 		]]>
