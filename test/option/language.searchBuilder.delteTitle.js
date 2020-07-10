@@ -15,7 +15,7 @@ describe('searchBuilder - options - language.searchBuilder.deleteTitle', functio
 
 			$('.dtsb-add').click();
 
-			expect($('.dtsb-delete').attr('title')).toBe('delete filtering rule');
+			expect($('.dtsb-delete').attr('title')).toBe('Delete filtering rule');
 		});
 
 		dt.html('basic');
