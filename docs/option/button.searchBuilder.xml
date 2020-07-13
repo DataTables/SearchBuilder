@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-button library="Select">
+<dt-button library="SearchBuilder">
 	<name>button.searchBuilder</name>
 	<summary>Button that is enabled when SearchBuilder is to be used through a button</summary>
 	<since>1.1.0</since>
@@ -27,15 +27,15 @@
 
 	<example title="SearchBuilder Button initialisation: Set the config for SearchBuilder to set the `-init depthLimit` option"><![CDATA[
 $('#example').DataTable( {
-    buttons:[
-        {
-            extend: 'searchBuilder',
-            config: {
-                depthLimit: 2
-            }
-        }
-    ],
-    dom: 'Bfrtip',
+	buttons:[
+		{
+			extend: 'searchBuilder',
+			config: {
+				depthLimit: 2
+			}
+		}
+	],
+	dom: 'Bfrtip',
 });
 ]]></example>
 
