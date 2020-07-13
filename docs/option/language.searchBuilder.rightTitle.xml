@@ -23,14 +23,14 @@
 
 	<example title="Change title attribute for SearchBuilder right button"><![CDATA[
 $(document).ready(function() {
-    $('#example').DataTable( {
-        language: {
-            SearchBuilder: {
-                rightTitle: 'Right'
-            }
-        },
-        dom: 'Qlfrtip',
-    });
+	$('#example').DataTable( {
+		language: {
+			searchBuilder: {
+				rightTitle: 'Right'
+			}
+		},
+		dom: 'Qlfrtip',
+	});
 });
 
 ]]></example>
