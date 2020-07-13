@@ -10,8 +10,8 @@
 		</description>
 	</type>
 
-	<default value="'And'">
-	</default>
+	<default value="And" />
+
 	<description>
 		<![CDATA[
 			As standard, SearchBuilder will set the logic button to display 'And' when AND logic is in place.

@@ -10,8 +10,8 @@
 		</description>
 	</type>
 
-	<default value="'value'">
-	</default>
+	<default value="Value" />
+
 	<description>
 		<![CDATA[
 			This will set the placeholder text for the value select element, by default this is `'Value'`. This dom element is available in custom conditions and plugins also.

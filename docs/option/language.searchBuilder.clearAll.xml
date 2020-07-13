@@ -10,8 +10,7 @@
 		</description>
 	</type>
 
-	<default value="'Clear All'">
-	</default>
+	<default value="Clear All" />
 	<description>
 		<![CDATA[
 			As standard, SearchBuilder will set the 'Clear All' button to display 'Clear All'. This option over-rides that value.
