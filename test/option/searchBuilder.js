@@ -23,15 +23,12 @@ describe('searchBuilder - options - searchBuilder.columns', function() {
 
 			$('.dtsb-group button').click();
 
-			// Data
 			$('.dtsb-data').val(2);
 			$('.dtsb-data').trigger('change');
 
-			// condition
 			$('.dtsb-condition').val('=');
 			$('.dtsb-condition').trigger('change');
 
-			// value
 			$('.dtsb-value').val('test San Francisco');
 			$('.dtsb-value').trigger('change');
 

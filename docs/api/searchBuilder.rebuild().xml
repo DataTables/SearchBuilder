@@ -6,13 +6,13 @@
 
 	<type type="function">
 		<signature>searchBuilder.rebuild()</signature>
-		<description>Rebuilds the search to be the same as that provided by the details parameter.</description>
-        <parameter type="object" name="details">`-type object` of the same structure as returned by `-api searchBuilder.getDetails()`</parameter>
-		<returns type="object">`-type object` containing the current details of the search</returns>
+		<description>Rebuilds the search to be the same as that provided by the `details` parameter.</description>
+        <parameter type="object" name="details">Object of the same structure as returned by `-api searchBuilder.getDetails()`</parameter>
+		<returns type="DataTables.Api">DataTables API instance</returns>
 	</type>
 
 	<description>
-		This method provides the ability to set the search in SearchBuilder as detailed by the details argument.
+		This method provides the ability to set the search in SearchBuilder.
 
 		`-init searchBuilder.rebuild()` takes one argument, it is an `-type object` in the same structure as is returned from `-api searchBuilder.getDetails()` and is the basis for the rebuild. If no argument is given, the search will be cleared.
 
