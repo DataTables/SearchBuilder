@@ -23,7 +23,7 @@
     $('#example').DataTable( {
         dom: 'Qfrtip',
         searchBuilder: {
-            conditions[type]: {
+            conditions: {
                 "num":{
                     'new': {
                         conditionName: 'Made up',
