@@ -10,8 +10,8 @@
 		</description>
 	</type>
 
-	<default value="'Or'">
-	</default>
+	<default value="Or" />
+
 	<description>
 		<![CDATA[
 			As standard, SearchBuilder will set the logic button to display 'Or' when OR logic is in place.
@@ -22,7 +22,7 @@
 $(document).ready(function() {
 	$('#example').DataTable( {
 		language: {
-			SearchBuilder: {
+			searchBuilder: {
 				logicOr: 'OR'
 			}
 		},

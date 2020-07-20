@@ -10,8 +10,8 @@
 		</description>
 	</type>
 
-	<default value="'Data'">
-	</default>
+	<default value="Data" />
+
 	<description>
 		<![CDATA[
 		This will set the placeholder text for the value select element, by default this is `'Value'`. This dom element is available in custom conditions and plugins also.
@@ -22,7 +22,7 @@
 $(document).ready(function() {
 	$('#example').DataTable( {
 		language: {
-			SearchBuilder: {
+			searchBuilder: {
 				data: 'Column'
 			}
 		},

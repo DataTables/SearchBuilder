@@ -10,8 +10,7 @@
 		</description>
 	</type>
 
-	<default value="'Condition'">
-	</default>
+	<default value="Condition" />
 	<description>
 		<![CDATA[
 			This will set the placeholder text for the condition select element, by default this is `'Condition'`. This dom element is available in custom conditions and plugins also.
@@ -22,7 +21,7 @@
 $(document).ready(function() {
 	$('#example').DataTable( {
 		language: {
-			SearchBuilder: {
+			searchBuilder: {
 				condition: 'Comparator'
 			}
 		},

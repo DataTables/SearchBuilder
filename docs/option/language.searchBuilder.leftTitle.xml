@@ -10,27 +10,26 @@
 		</description>
 	</type>
 
-	<default value="'delete-filtering-rule'">
-		The default value for the `-init language.searchBuilder.leftTitle` parameter is `'Outdent criteria'`. 
-	</default>
+	<default value="Outdent criteria" />
+
 	<description>
 		<![CDATA[
 			As standard, SearchBuilder will set the left button's title to `'Outdent criteria'`. This `title` is displayed when the mouse hovers over the left button.
 
-            The value of `-init language.searchBuilder.leftTitle` is passed into an `-api i18n()` function.
+			The value of `-init language.searchBuilder.leftTitle` is passed into an `-api i18n()` function.
 		]]>
 	</description>
 
 	<example title="Change title attribute for SearchBuilder left button"><![CDATA[
 $(document).ready(function() {
-    $('#example').DataTable( {
-        language: {
-            SearchBuilder: {
-                leftTitle: 'Left'
-            }
-        },
-        dom: 'Qlfrtip',
-    });
+	$('#example').DataTable( {
+		language: {
+			searchBuilder: {
+				leftTitle: 'Left'
+			}
+		},
+		dom: 'Qlfrtip',
+	});
 });
 
 ]]></example>

@@ -2,8 +2,8 @@ describe('searchBuilder - options - language.searchBuilder.title', function() {
 	let table;
 
 	dt.libs({
-		js: ['jquery', 'datatables', 'searchbuilder'],
-		css: ['datatables', 'searchbuilder']
+		js: ['jquery', 'datatables', 'buttons', 'searchbuilder'],
+		css: ['datatables', 'buttons', 'searchbuilder']
 	});
 
 	describe('Functional tests', function() {
@@ -52,13 +52,43 @@ describe('searchBuilder - options - language.searchBuilder.title', function() {
 							0: 'test none',
 							1: 'test one',
 							_: 'test %d'
-						}					}
+						}
+					}
 				}
 			});
 
 			expect($('.dtsb-title').text()).toBe('test none');
 		});
 		it('... one filter', function() {
+			$('.dtsb-add').click();
+			expect($('.dtsb-title').text()).toBe('test one');
+		});
+		it('... two filters', function() {
+			$('.dtsb-add').click();
+			expect($('.dtsb-title').text()).toBe('test 2');
+		});
+
+		dt.html('basic');
+		it('Modified - object - within button', function() {
+			table = $('#example').DataTable({
+				buttons: ['searchBuilder'],
+				dom: 'Bfrtip',
+				language: {
+					searchBuilder: {
+						title: {
+							0: 'test none',
+							1: 'test one',
+							_: 'test %d'
+						}
+					}
+				}
+			});
+
+			$('.dt-button').click();
+			expect($('.dtsb-title').text()).toBe('test none');
+		});
+		it('... one filter', function() {
+			$('.dt-button').click();
 			$('.dtsb-add').click();
 			expect($('.dtsb-title').text()).toBe('test one');
 		});

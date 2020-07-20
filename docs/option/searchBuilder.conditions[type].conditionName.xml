@@ -14,7 +14,7 @@
 		<![CDATA[
 		This allows the display value of the condition to be set. The custom condition defined in the example will set a new `new` condition in the built in type `num`'s condition set.
 
-        More details on the structure that is used can be found at `-init searchBuilder[type]`
+		More details on the structure that is used can be found at `-init searchBuilder[type]`
         ]]>
 	</description>
 

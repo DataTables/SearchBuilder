@@ -17,7 +17,7 @@
 		<![CDATA[
 		This is useful as it allows extra num-fmt conditions to be defined that can add to the filtering options. The custom condition defined in the example will override the `=` condition in the built in type `num-fmt`'s condition set.
 
-        More details on the structure that is used can be found at `-init searchBuilder[type]`
+		More details on the structure that is used can be found at `-init searchBuilder[type]`
         ]]>
 	</description>
 

@@ -1,4 +1,4 @@
-describe('searchBuilder - options - language.searchBuilder.deleteTitle', function() {
+describe('searchBuilder - options - language.searchBuilder.leftTitle', function() {
 	let table;
 
 	dt.libs({
@@ -14,8 +14,10 @@ describe('searchBuilder - options - language.searchBuilder.deleteTitle', functio
 			});
 
 			$('.dtsb-add').click();
+			$('.dtsb-add').click();
+			$('.dtsb-right:eq(0)').click();
 
-			expect($('.dtsb-delete').attr('title')).toBe('Delete filtering rule');
+			expect($('.dtsb-left').attr('title')).toBe('Outdent criteria');
 		});
 
 		dt.html('basic');
@@ -24,14 +26,16 @@ describe('searchBuilder - options - language.searchBuilder.deleteTitle', functio
 				dom: 'Qlfrtip',
 				language: {
 					searchBuilder: {
-						deleteTitle: 'unit test'
+						leftTitle: 'unit test'
 					}
 				}
 			});
 
 			$('.dtsb-add').click();
-			
-			expect($('.dtsb-delete').attr('title')).toBe('unit test');
+			$('.dtsb-add').click();
+			$('.dtsb-right:eq(0)').click();
+
+			expect($('.dtsb-left').attr('title')).toBe('unit test');
 		});
 	});
 });

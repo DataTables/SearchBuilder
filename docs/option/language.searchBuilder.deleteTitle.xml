@@ -10,8 +10,8 @@
 		</description>
 	</type>
 
-	<default value="'delete filtering rule'">
-	</default>
+	<default value="Delete filtering rule" />
+
 	<description>
 		<![CDATA[
 			As standard, SearchBuilder will set the delete criteria button's `title` to 'Delete filtering rule'. This `title` is displayed when the mouse hovers over the delete button.
@@ -24,7 +24,7 @@
 $(document).ready(function() {
 	$('#example').DataTable( {
 		language: {
-			SearchBuilder: {
+			searchBuilder: {
 				deleteTitle: 'Delete'
 			}
 		},

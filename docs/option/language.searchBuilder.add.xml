@@ -10,8 +10,7 @@
 		</description>
 	</type>
 
-	<default value="'Add Condition'">
-	</default>
+	<default value="Add Condition" />
 	<description>
 		<![CDATA[
 			As standard, SearchBuilder will set the add button to display a default text, in this case `'Add Condition'`.
@@ -24,7 +23,7 @@
 $(document).ready(function() {
 	$('#example').DataTable( {
 		language: {
-			SearchBuilder: {
+			searchBuilder: {
 				add: '+'
 			}
 		},
