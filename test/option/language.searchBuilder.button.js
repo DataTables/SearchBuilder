@@ -14,7 +14,7 @@ describe('searchBuilder - options - language.searchBuilder.button', function() {
 				dom: 'Bfrtip'
 			});
 
-			expect($('.dt-buttons').text()).toBe('SearchBuilder ');
+			expect($('.dt-button').text()).toBe('Search Builder');
 		});
 		it('... one filter', function() {
 			$('.dt-button').click();
@@ -38,7 +38,7 @@ describe('searchBuilder - options - language.searchBuilder.button', function() {
 				}
 			});
 
-			expect($('.dt-buttons').text()).toBe('unit test ');
+			expect($('.dt-button').text()).toBe('unit test');
 		});
 		it('... one filter', function() {
 			$('.dt-button').click();
@@ -66,7 +66,7 @@ describe('searchBuilder - options - language.searchBuilder.button', function() {
 				}
 			});
 
-			expect($('.dt-buttons').text()).toBe('test none ');
+			expect($('.dt-button').text()).toBe('test none');
 		});
 		it('... one filter', function() {
 			$('.dt-button').click();

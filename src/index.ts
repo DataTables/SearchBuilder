@@ -99,7 +99,7 @@ import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
 				},
 				config.config
 			));
-			let message = dt.i18n('searchBuilder.button', 'SearchBuilder', 0);
+			let message = dt.i18n('searchBuilder.button', 'Search Builder', 0);
 			dt.button(node).text(message);
 			config._searchBuilder = sb;
 		},
