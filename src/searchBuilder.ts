@@ -94,7 +94,7 @@ export default class SearchBuilder {
 	/**
 	 * Gets the details required to rebuild the SearchBuilder as it currently is
 	 */
-	public getDetails(): typeInterfaces.IDetails {
+	public getDetails(): typeInterfaces.IDetails | object {
 		return this.s.topGroup.getDetails();
 	}
 

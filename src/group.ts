@@ -112,7 +112,11 @@ export default class Group {
 	/**
 	 * Gets the details required to rebuild the group
 	 */
-	public getDetails(): typeInterfaces.IDetails {
+	public getDetails(): typeInterfaces.IDetails | {} {
+		if (this.s.criteria.length === 0) {
+			return {};
+		}
+
 		let details: typeInterfaces.IDetails = {
 			criteria: [],
 			logic: this.s.logic

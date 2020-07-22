@@ -29,8 +29,7 @@ describe('searchBuilder - API - searchBuilder.getDetails()', function() {
 
 			res = table.searchBuilder.getDetails();
 
-			// DD-1597
-			expect(JSON.stringify(res)).toBe(JSON.stringify({ criteria: [], logic: 'AND' }));
+			expect(JSON.stringify(res)).toBe(JSON.stringify({}));
 		});
 		it('Partial search', function() {
 			$('.dtsb-add').click();
