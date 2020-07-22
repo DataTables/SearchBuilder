@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html-iso8601" table-class="display nowrap" order="1">
+
+<css lib="datatables searchbuilder"/>
+
+<js lib="jquery datatables searchbuilder">
+<![CDATA[
+
+$(document).ready(function() {
+$('#example').DataTable( {
+    dom: 'Qlfrtip',
+    searchBuilder:{
+        conditions:{
+            num:{
+                'MultipleOf': {
+                    conditionName: 'Multiple Of',
+                    init: function (that, fn, preDefined = null) {
+                        var el =  $('<input/>').on('input', function() { fn(that, this) });
+
+						if (preDefined !== null) {
+							$(el).val(preDefined[0]);
+						}
+
+						return el;
+                    },
+                    inputValue: function (el) {
+						return [$(el[0]).val()];
+                    },
+                    isInputValid: function (el, that) {
+                        return $(el[0]).val().length !== 0;
+                    },
+                    search: function (value, comparison) {
+						console.log(value, comparison)
+                        return value%comparison === 0;
+                    }
+                }
+            }
+        }
+    }
+})
+});
+
+]]>
+</js>
+
+<title lib="searchBuilder">Custom Multiple Of Condition</title>
+
+<info><![CDATA[
+
+This example shows how to make use of `-init searchBuilder.conditions` to add a custom condition or overwrite an already existing one. The `-init searchBuilder.conditions` option holds 7 properties, one for each type that DataTables is able to detect.
+
+* `string`
+* `date`
+* `num`
+* `num-fmt`
+* `html`
+* `html-num`
+* `html-num-fmt`
+
+In addition to the above, SearchBuilder has its own `moment` property that is used when [Moment.js](https://momentjs.com) is in use on a column. SearchBuilder will automatically detect and handle data in any moment format (see example [here](../initialisation/date-fmt)).
+
+In this example `-init searchBuilder.conditions.num` is used to create a new condition `Multiple Of` for any columns that are of type num, this will create an input element which will take a number. The search results should then return any age that is a multiple of that number. To add a custom condition you would set the key for the condition object to be one that is not already in use. The keys that are in use on the num condition are:
+
+* `=` - Equals
+* `!=` - Not Equals
+* `!null` - Not Null
+* `<` - Less Than
+* `<=` - Less Than Equal To
+* `>` - Greater Than
+* `>=` - Greater Than Equal To
+* `null` - Empty/null
+* `between` - Between
+* `!between` - Not Between
+
+The properties within the object are documented at
+
+* `-init searchBuilder.conditions[type].isInputValid`
+* `-init searchBuilder.conditions[type].conditionName`
+* `-init searchBuilder.conditions[type].inputValue`
+* `-init searchBuilder.conditions[type].init`
+* `-init searchBuilder.conditions[type].search`
+
+]]></info>
+
+</dt-example>
