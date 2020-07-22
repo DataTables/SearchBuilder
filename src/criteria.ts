@@ -1017,7 +1017,6 @@ export default class Criteria {
 		return {
 			condition: this.s.condition,
 			data: this.s.data,
-			dataIdx: this.s.dataIdx,
 			value: this.s.value
 		};
 	}
@@ -1489,8 +1488,13 @@ export default class Criteria {
 			$(val).remove();
 		}
 
+		// Find the column with the title matching the data for the criteria and take note of the index
 		if (loadedCriteria !== undefined) {
-			this.s.dataIdx = loadedCriteria.dataIdx;
+			this.s.dt.columns().every((index) => {
+				if (this.s.dt.settings()[0].aoColumns[index].sTitle === loadedCriteria.data) {
+					this.s.dataIdx = index;
+				}
+			});
 		}
 
 		// Initialise the value elements based on the condition

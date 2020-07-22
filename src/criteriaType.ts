@@ -75,7 +75,6 @@ export interface IDataOpt {
 
 export interface IDetails {
 	condition: string;
-	dataIdx: number;
 	data: string;
 	value: any[];
 }
