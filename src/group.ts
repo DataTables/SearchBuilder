@@ -27,8 +27,6 @@ export default class Group {
 		clearGroup: 'dtsb-clearGroup',
 		greyscale: 'dtsb-greyscale',
 		group: 'dtsb-group',
-		indentSub: 'dtsb-indentSub',
-		indentTop: 'dtsb-indentTop',
 		inputButton: 'dtsb-iptbtn',
 		logic: 'dtsb-logic',
 		logicContainer: 'dtsb-logicContainer'
@@ -146,7 +144,6 @@ export default class Group {
 			return;
 		}
 
-		$(this.dom.container).addClass(this.s.isChild ? this.classes.indentSub : this.classes.indentTop);
 		this.s.logic = loadedDetails.logic;
 		$(this.dom.logic).text(this.s.logic === 'OR' ? this.s.dt.i18n('searchBuilder.logicOr', 'Or') : this.s.dt.i18n('searchBuilder.logicAnd', 'And'));
 
@@ -254,8 +251,6 @@ export default class Group {
 
 		// If there are no criteria in the group then keep the logic removed and return
 		if (this.s.criteria.length < 1) {
-			$(this.dom.container).removeClass(this.classes.indentTop).removeClass(this.classes.indentSub);
-
 			if (!this.s.isChild) {
 				$(this.dom.container).trigger('dtsb-destroy');
 			}
@@ -271,6 +266,9 @@ export default class Group {
 		// Prepend logic button
 		$(this.dom.container).prepend(this.dom.logicContainer);
 		this._setLogicListener();
+
+		// Set criteria left margin
+		$(this.dom.container).css('margin-left', $(this.dom.logicContainer).outerHeight(true));
 
 		let logicOffset = $(this.dom.logicContainer).offset();
 
@@ -292,7 +290,6 @@ export default class Group {
 		$(this.dom.clear).outerHeight($(this.dom.logicContainer).height());
 
 		this._setClearListener();
-
 	}
 
 	/**
@@ -303,9 +300,7 @@ export default class Group {
 		$(this.dom.add).on('click', () => {
 			// If this is the parent group then the logic button has not been added yet
 			if (!this.s.isChild) {
-				$(this.dom.container)
-					.addClass(this.classes.indentTop)
-					.prepend(this.dom.logicContainer);
+				$(this.dom.container).prepend(this.dom.logicContainer);
 			}
 
 			this.addCriteria();
@@ -711,9 +706,7 @@ export default class Group {
 		// Only append the logic button immediately if this is a sub group,
 		//  otherwise it will be prepended later when adding a criteria
 		if (this.s.isChild) {
-			$(this.dom.container)
-				.append(this.dom.logicContainer)
-				.addClass(this.classes.indentSub);
+			$(this.dom.container).append(this.dom.logicContainer);
 		}
 
 		$(this.dom.container).append(this.dom.add);

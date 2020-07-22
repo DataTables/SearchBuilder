@@ -7,8 +7,6 @@ export interface IClassses {
 	clearGroup: string;
 	greyscale: string;
 	group: string;
-	indentSub: string;
-	indentTop: string;
 	inputButton: string;
 	logic: string;
 	logicContainer: string;

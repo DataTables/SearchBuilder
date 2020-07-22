@@ -2,18 +2,6 @@
 @import './dateTime.scss';
 
 div.dtsb-searchBuilder {
-    button.ui-widget {
-        padding: .4em 0.5em;
-    }
-
-    div.dtsb-indentSub {
-        margin-left: 40px;
-    }
-
-    div.dtsb-indentTop {
-        margin-left: 50px;
-    }
-
     div.dtsb-group{
         div.dtsb-criteria{
             select{
