@@ -76,9 +76,13 @@ div.dtsb-searchBuilder {
                 font-style: italic;
             }
 
-            button.dtsb-delete, button.dtsb-right, button.dtsb-left{
+            div.dtsb-buttonContainer {
                 float: right;
-                margin-right: 10px;
+                display: inline-block;
+
+                button.dtsb-delete, button.dtsb-right, button.dtsb-left{
+                    margin-right: 10px;
+                }
             }
 
             span.dtsp-joiner {

@@ -1,5 +1,6 @@
 export interface IClasses {
 	button: string;
+	buttonContainer: string;
 	condition: string;
 	container: string;
 	delete: string;
@@ -39,6 +40,7 @@ export interface IOrthogonal {
 }
 
 export interface IDom {
+	buttons: JQuery<HTMLElement>;
 	condition: JQuery<HTMLElement>;
 	conditionTitle: JQuery<HTMLElement>;
 	container: JQuery<HTMLElement>;

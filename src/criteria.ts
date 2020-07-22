@@ -22,6 +22,7 @@ export default class Criteria {
 
 	private static classes: typeInterfaces.IClasses = {
 		button: 'dtsb-button',
+		buttonContainer: 'dtsb-buttonContainer',
 		condition: 'dtsb-condition',
 		container: 'dtsb-criteria',
 		data: 'dtsb-data',
@@ -881,6 +882,8 @@ export default class Criteria {
 		};
 
 		this.dom = {
+			buttons: $('<div/>')
+				.addClass(this.classes.buttonContainer),
 			condition: $('<select disabled/>')
 				.addClass(this.classes.condition)
 				.addClass(this.classes.dropDown)
@@ -963,17 +966,18 @@ export default class Criteria {
 			$(this.dom.value[i]).trigger('dtsb-inserted');
 		}
 
-		$(this.dom.container).append(this.dom.delete);
+		// If this is a top level criteria then don't let it move left
+		if (this.s.depth > 1) {
+			$(this.dom.buttons).append(this.dom.left);
+		}
 
 		// If the depthLimit of the query has been hit then don't add the right button
 		if ((this.c.depthLimit === false || this.s.depth < this.c.depthLimit) && hasSiblings) {
-			$(this.dom.container).append(this.dom.right);
+			$(this.dom.buttons).append(this.dom.right);
 		}
 
-		// If this is a top level criteria then don't let it move left
-		if (this.s.depth > 1) {
-			$(this.dom.container).append(this.dom.left);
-		}
+		$(this.dom.buttons).append(this.dom.delete);
+		$(this.dom.container).append(this.dom.buttons);
 
 		if (redraw) {
 			// A different combination of arrows and selectors may lead to a need for responsive to be triggered
