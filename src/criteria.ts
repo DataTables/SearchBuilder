@@ -1492,6 +1492,13 @@ export default class Criteria {
 			$(val).remove();
 		}
 
+		let children = $(this.dom.container).children()
+		if (children.length > 3) {
+			for (let i = 2; i < children.length - 1; i++) {
+				$(children[i]).remove();
+			}
+		}
+
 		// Find the column with the title matching the data for the criteria and take note of the index
 		if (loadedCriteria !== undefined) {
 			this.s.dt.columns().every((index) => {
