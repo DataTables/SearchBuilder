@@ -1287,12 +1287,11 @@ export default class Criteria {
 				value :
 				[value];
 
-			$(this.dom.value[0]).insertAfter(this.dom.condition);
+			$(this.dom.value[0]).insertAfter(this.dom.condition).trigger('dtsb-inserted');
 
 			// Insert all of the value elements
 			for (let i = 1; i < this.dom.value.length; i++) {
-				$(this.dom.value[i]).insertAfter(this.dom.value[i - 1]);
-				$(this.dom.value[i]).trigger('dtsb-inserted');
+				$(this.dom.value[i]).insertAfter(this.dom.value[i - 1]).trigger('dtsb-inserted');
 			}
 		}
 		else {

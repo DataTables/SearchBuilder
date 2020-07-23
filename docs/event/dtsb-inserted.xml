@@ -4,37 +4,53 @@
 	<summary>An element from the init function has been inserted into the dom</summary>
 	<since>0.0.1</since>
 
-	<type type="function">
-		<signature>function()</signature>
-		<scope>HTML element created in the `-init searchBuilder.conditions[type].init` function</scope>
+	<type type="event">
+		<description>HTML element created in the `-init searchBuilder.conditions[type].init` function</description>
 	</type>
 
 	<description>
-		This event is triggered whenever one of the elements created in the `-init searchBuilder.conditions[type].init` is inserted by SearchBuilder. The event is triggered on the original element, so it is best to access the event within the init function itself.
+This event is triggered whenever one of the elements created in the `-init searchBuilder.conditions[type].init` is inserted by SearchBuilder. This occurs at the following points
+
+* Whenever the condition select element is changed
+* Whenever the data select element is changed
+* Whenever the criteria is created 
+* Whenever a criteria is added to the group
+* Whenever a criteria in removed from the group
+* Whenever a criteria is indented or outdented
+
+Admittedly, this is a large number of places for this to occur, however it is necessary.
+
+When the data or the condition select element has their value changed the value elements need to be reset. The easiest way to do this is to remove the value elements and initialise them to their default state again.
+
+When adding or removing criteria in the same group it is possible that more buttons need to be added or removed from the criteria that remain, again the easiest way to do this is to remove and rebuild the entire criteria, applying the values that previously existed.
+
+For indenting and outdenting the criteria are removed from one group and added to another, so their dom elements need to be removed from the original and added to the next.
+        
+The event is triggered on the original element(s) created in the init function to be used to retrieve the value from the user. This means that the best place to set listeners for this event is also in the init function by listening for `dtsb-inserted`.
 	</description>
 
 	<example title="Initialise Select2 on a Select Element Once Inserted"><![CDATA[
 
-                init: function(that, fn, preDefined = null) {
-                    let el = $('<select>');
-                    ...
-                    $(el).on('dtsb-inserted', function(){
-                        for(let element of el) {
-                            if($(el).hasClass('select2-hidden-accessible')) {
-                                $(el).select2('destroy');
-                            }
+init: function(that, fn, preDefined = null) {
+    let el = $('<select>');
+    ...
+    $(el).on('dtsb-inserted', function(){
+        for(let element of el) {
+            if($(el).hasClass('select2-hidden-accessible')) {
+                $(el).select2('destroy');
+            }
 
-                            $(el).prepend('<option selected></option>');
-                            $(el).select2({placeholder:'Value'});
+            $(el).prepend('<option selected></option>');
+            $(el).select2({placeholder:'Value'});
 
-                            if(preDefined !== null) {
-                                $(el).val(preDefined[0]);
-                                $(el).trigger('input');
-                            }
-                        }
-                    }
-                    ...
-                })
+            if(preDefined !== null) {
+                $(el).val(preDefined[0]);
+                $(el).trigger('input');
+            }
+        }
+    }
+    ...
+})
 
 ]]></example>
 </dt-event>
