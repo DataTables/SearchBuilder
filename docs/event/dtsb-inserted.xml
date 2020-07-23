@@ -29,7 +29,7 @@
 
                             if(preDefined !== null) {
                                 $(el).val(preDefined[0]);
-                                $(el).trigger('change');
+                                $(el).trigger('input');
                             }
                         }
                     }

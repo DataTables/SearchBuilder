@@ -35,7 +35,7 @@ describe('searchBuilder - API - searchBuilder.getDetails()', function() {
 			$('.dtsb-add').click();
 
 			$('.dtsb-data').val(2);
-			$('.dtsb-data').trigger('change');
+			$('.dtsb-data').trigger('input');
 
 			res = table.searchBuilder.getDetails();
 
@@ -45,10 +45,10 @@ describe('searchBuilder - API - searchBuilder.getDetails()', function() {
 		});
 		it('Full search', function() {
 			$('.dtsb-condition').val('=');
-			$('.dtsb-condition').trigger('change');
+			$('.dtsb-condition').trigger('input');
 
 			$('.dtsb-value').val('San Francisco');
-			$('.dtsb-value').trigger('change');
+			$('.dtsb-value').trigger('input');
 
 			res = table.searchBuilder.getDetails();
 
@@ -63,14 +63,13 @@ describe('searchBuilder - API - searchBuilder.getDetails()', function() {
 			$('.dtsb-add').click();
 
 			$('.dtsb-data:eq(1)').val(3);
-			$('.dtsb-data:eq(1)').trigger('change');
+			$('.dtsb-data:eq(1)').trigger('input');
 
 			$('.dtsb-condition:eq(1)').val('>');
-			$('.dtsb-condition:eq(1)').trigger('change');
+			$('.dtsb-condition:eq(1)').trigger('input');
 
 			$('.dtsb-value:eq(1)').val('61');
-			$('.dtsb-value:eq(1)').trigger('keyup');
-			$('.dtsb-value:eq(1)').trigger('change');
+			$('.dtsb-value:eq(1)').trigger('input');
 
 
 			res = table.searchBuilder.getDetails();
@@ -79,7 +78,7 @@ describe('searchBuilder - API - searchBuilder.getDetails()', function() {
 				JSON.stringify({
 					criteria: [
 						{ condition: '=', data: 'Office', value: ['San Francisco'] },
-						{ condition: '>', data: 'Age', value: [] }
+						{ condition: '>', data: 'Age', value: ['61'] }
 					],
 					logic: 'AND'
 				})

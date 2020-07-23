@@ -24,13 +24,13 @@ describe('searchBuilder - options - searchBuilder.columns', function() {
 			$('.dtsb-group button').click();
 
 			$('.dtsb-data').val(2);
-			$('.dtsb-data').trigger('change');
+			$('.dtsb-data').trigger('input');
 
 			$('.dtsb-condition').val('=');
-			$('.dtsb-condition').trigger('change');
+			$('.dtsb-condition').trigger('input');
 
 			$('.dtsb-value').val('test San Francisco');
-			$('.dtsb-value').trigger('change');
+			$('.dtsb-value').trigger('input');
 
 			expect($('#example tbody tr td:eq(0)').text()).toBe('Ashton Cox');
 		});
@@ -53,15 +53,15 @@ describe('searchBuilder - options - searchBuilder.columns', function() {
 
 			// Data
 			$('.dtsb-data').val(2);
-			$('.dtsb-data').trigger('change');
+			$('.dtsb-data').trigger('input');
 
 			// condition
 			$('.dtsb-condition').val('=');
-			$('.dtsb-condition').trigger('change');
+			$('.dtsb-condition').trigger('input');
 
 			// value
 			$('.dtsb-value').val('test San Francisco');
-			$('.dtsb-value').trigger('change');
+			$('.dtsb-value').trigger('input');
 
 			// displays the 'display' option
 			expect($('.dtsb-value option:selected').text()).toBe('San Francisco');
@@ -86,11 +86,11 @@ describe('searchBuilder - options - searchBuilder.columns', function() {
 
 			// Data
 			$('.dtsb-data').val(2);
-			$('.dtsb-data').trigger('change');
+			$('.dtsb-data').trigger('input');
 
 			// condition
 			$('.dtsb-condition').val('contains');
-			$('.dtsb-condition').trigger('change');
+			$('.dtsb-condition').trigger('input');
 
 			// value
 			$('input.dtsb-value').val('test San');

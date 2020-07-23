@@ -54,7 +54,7 @@ export default class Criteria {
 			.addClass(Criteria.classes.dropDown)
 			.addClass(Criteria.classes.italic)
 			.append(that.dom.valueTitle)
-			.on('change', function() {
+			.on('input', function() {
 				$(this).removeClass(Criteria.classes.italic);
 				fn(that, this);
 			});
@@ -185,7 +185,7 @@ export default class Criteria {
 				attachTo: 'input',
 				format: that.s.momentFormat ? that.s.momentFormat : undefined
 			})
-			.on('input change', function() { fn(that, this); });
+			.on('input', function() { fn(that, this); });
 
 		// If there is a preDefined value then add it
 		if (preDefined !== null) {
@@ -205,7 +205,7 @@ export default class Criteria {
 					attachTo: 'input',
 					format: that.s.momentFormat ? that.s.momentFormat : undefined
 				})
-				.on('input change', function() { fn(that, this); }),
+				.on('input', function() { fn(that, this); }),
 			$('<span>')
 				.addClass(that.classes.joiner)
 				.text('and'),
@@ -216,7 +216,7 @@ export default class Criteria {
 					attachTo: 'input',
 					format: that.s.momentFormat ? that.s.momentFormat : undefined
 				})
-				.on('input change', function() { fn(that, this); }),
+				.on('input', function() { fn(that, this); }),
 		];
 
 		// If there are and preDefined values then add them
@@ -1115,8 +1115,8 @@ export default class Criteria {
 	 */
 	public setListeners(): void {
 		$(this.dom.data)
-			.unbind('change')
-			.on('change', () => {
+			.unbind('input')
+			.on('input', () => {
 				$(this.dom.dataTitle).attr('selected', false);
 				$(this.dom.data).removeClass(this.classes.italic);
 				this.s.dataIdx = $(this.dom.data).children('option:selected').val();
@@ -1138,8 +1138,8 @@ export default class Criteria {
 			});
 
 		$(this.dom.condition)
-			.unbind('change')
-			.on('change', () => {
+			.unbind('input')
+			.on('input', () => {
 				$(this.dom.conditionTitle).attr('selected', false);
 				$(this.dom.condition).removeClass(this.classes.italic);
 				let condDisp = $(this.dom.condition).children('option:selected').val();
@@ -1169,7 +1169,7 @@ export default class Criteria {
 			});
 
 		// When delete is pressed destroy this criteria
-		$(this.dom.delete).unbind('change').on('click', () => {
+		$(this.dom.delete).unbind('click').on('click', () => {
 			this.destroy();
 			this.s.dt.draw();
 			this.setListeners();
