@@ -185,7 +185,7 @@ export default class Criteria {
 				attachTo: 'input',
 				format: that.s.momentFormat ? that.s.momentFormat : undefined
 			})
-			.on('input', function() { fn(that, this); });
+			.on('input change', function() { fn(that, this); });
 
 		// If there is a preDefined value then add it
 		if (preDefined !== null) {
@@ -205,7 +205,7 @@ export default class Criteria {
 					attachTo: 'input',
 					format: that.s.momentFormat ? that.s.momentFormat : undefined
 				})
-				.on('input', function() { fn(that, this); }),
+				.on('input change', function() { fn(that, this); }),
 			$('<span>')
 				.addClass(that.classes.joiner)
 				.text('and'),
@@ -216,7 +216,7 @@ export default class Criteria {
 					attachTo: 'input',
 					format: that.s.momentFormat ? that.s.momentFormat : undefined
 				})
-				.on('input', function() { fn(that, this); }),
+				.on('input change', function() { fn(that, this); }),
 		];
 
 		// If there are and preDefined values then add them
