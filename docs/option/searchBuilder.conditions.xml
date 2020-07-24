@@ -6,115 +6,46 @@
 
 	<type type="Object">
 		<description>
-			An object that contains conditions for each of the 7 DataTables types.
+			An object that contains conditions for each of the built in DataTables types as defined in `-init columns.type` along with a `moment` type for formatted dates and any other custom types that may exist on the table.
 	</description>
 	</type>
 
 	<default value="Object">
-		The default value for the `-init searchBuilder.conditions` option is an object with 7 properties, one for each of the DataTables types. Each property in turn contains an array of conditions.
+		The default value for the `-init searchBuilder.conditions` option is an object with a property for each of the built in DataTables types as defined in `-init columns.type` along with a `moment` type for formatted dates and any other custom types that may exist on the table. Each property in turn is an object with key value pairs to represent the conditions. These objects have the structure of `-init searchBuilder.conditions[type]`.
 	</default>
 	<description>
 		<![CDATA[
 			This option allows custom conditions to be added to SearchBuilder, to extend or replace the standard ones.
 
-			This object contains the following properties.
+			This object contains the following properties, whose value is a further object of the type `-init searchBuilder.conditions[type]`. More details for the types can be found at `-init columns.type`.
 
-			* `-init searchBuilder.conditions.string` An array of conditions to apply to the built in type `string`
-			* `-init searchBuilder.conditions.date` An array of conditions to apply to the built in type `date`
-			* `-init searchBuilder.conditions.num` An array of conditions to apply to the built in type `num`
-			* `-init searchBuilder.conditions.num-fmt` An array of conditions to apply to the built in type `num-fmt`
-			* `-init searchBuilder.conditions.html` An array of conditions to apply to the built in type `html`
-			* `-init searchBuilder.conditions.html-num` An array of conditions to apply to the built in type `html-num`
-			* `-init searchBuilder.conditions.html-num-fmt` An array of conditions to apply to the built in type `html-num-fmt`
-			* `-init searchBuilder.conditions.moment` An array of conditions to apply if the DataTables Ultimate Sorting Plug-in is being used
+			* `string` - Column type for strings. This is also the default should none of the below types match the data in the column.
+			* `date` - Date / time values. Note that DataTables' built in date parsing uses Javascript's Date.parse() method which supports only a [very limited subset](http://blog.dygraphs.com/2012/03/javascript-and-dates-what-mess.html) of dates. Additional date format support can be added through the use of plug-ins.
+			* `num` - Simple numbers with no formatting
+			* `num-fmt`- Numbers with formatting such as currency.
+			* `html` - Basic strings that also make use of html tags
+			* `html-num` - Basic numbers that also make use of html tags.
+			* `html-num-fmt` - Numbers with formatting that also make use of html tags
+			* `moment` Formatted dates. This is used in combo with the [DataTables Ultimate Sorting Plug-in](https://datatables.net/blog/2014-12-18).
+			* It is also possible to add your own custom types. Using the `-init columns.type` initialisation option and adding a property of the same type name in this object. You can define your own conditions for custom types either through a [plug in](../extensions/searchbuilder/plugins.html), or [initialisation](../extensions/searchbuilder/customConditions.html).
 
-			The custom condition defined in the example will override the `=` condition in the built in type `num`'s condition set.
+			The standard conditions can be removed, edited or added to. The manual page for [custom conditions](../extensions/searchbuilder/customConditions.html) covers this in detail.
 
-			More details on the structure that is used can be found at `-init searchBuilder[type]`. More details on the built in types can be found at `-init columns.type`
+			More details on the structure that is used can be found at `-init searchBuilder.conditions[type]`. More details on the built in types can be found at `-init columns.type`
+
+			## Examples
+
+			There are two examples that create custom conditions using initialisation options. They both show how to add a custom condition to the `num` column type, but the process is the same for other column types.
+
+			* [Custom Multiple Of](../extensions/SearchBuilder/examples/customisation/customMultiple.html)
+			* [+- 5](../extensions/SearchBuilder/examples/customisation/customConditions.html)
+
+			There is also an example that shows how to use a plug-in to add a custom condition.
+			
+			* [Plug-in Example](../extensions/SearchBuilder/examples/customisation/plugin.html)
         ]]>
 	</description>
 
-	<example title="Simple extra num condition"><![CDATA[
-
-var dt = $('#example').DataTable( {
-	dom: 'Qfrtip',
-	searchBuilder: {
-		conditions: {
-			"num":{
-				'=': {
-					isInputValid: function (el, that) {
-						$(that.dom.valueTitle).attr('selected', false);
-						let allFilled = true;
-
-						for (let element of el) {
-							if ($(element).has('option:selected').length < 1) {
-								allFilled = false;
-							}
-						}
-
-						return allFilled;
-					},
-					conditionName: 'Made up',
-					inputValue: function (el) {
-						let values = [];
-
-						for (let element of el) {
-							if ($(element).is('select')) {
-								values.push($(element).children('option:selected').val());
-							}
-						}
-
-						return values;
-					},
-					init: function (that, fn, preDefined) {
-						let column = $(that.dom.data).children('option:selected').val();
-						let indexArray = that.s.dt.rows().indexes().toArray();
-						let settings = that.s.dt.settings()[0];
-
-						let el = $('<select/>').append(that.dom.valueTitle);
-						el.on('change', function() {fn(that, el)});
-
-						for (let index of indexArray) {
-							let filter = settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.search);
-
-							let value = {
-								filter,
-								index,
-								text: settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.conditionName)
-							};
-							let opt = $('<option>', {
-								text : that.s.type.includes('html') ? value.text.replace(/(<([^>]+)>)/ig, '') : value.text,
-								value : that.s.type.includes('html') ? value.filter.replace(/(<([^>]+)>)/ig, '') : value.filter
-							})
-							.addClass(that.classes.option)
-							.addClass(that.classes.notItalic);
-							$(el).append(opt);
-							if (preDefined !== null && opt.val() === preDefined[0]) {
-								opt.attr('selected', true);
-								that.dom.valueTitle.remove();
-							}
-						}
-
-						return el;
-					},
-					search: function (value, comparison) {
-						return +value === +comparison[0];
-					}
-				}
-			}
-		}
-	}
-});
-
-]]></example>
-
 <related type="init">searchBuilder.conditions[type]</related>
-<related type="init">searchBuilder.conditions.date</related>
-<related type="init">searchBuilder.conditions.num</related>
-<related type="init">searchBuilder.conditions.num-fmt</related>
-<related type="init">searchBuilder.conditions.string</related>
-<related type="init">searchBuilder.conditions.html</related>
-<related type="init">searchBuilder.conditions.html-num</related>
-<related type="init">searchBuilder.conditions.html-num-fmt</related>
 
 </dt-option>
