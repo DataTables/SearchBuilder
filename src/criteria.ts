@@ -1057,6 +1057,7 @@ export default class Criteria {
 	public rebuild(loadedCriteria: typeInterfaces.IDetails): void {
 		// Check to see if the previously selected data exists, if so select it
 		let foundData = false;
+		let dataIdx;
 		this._populateData();
 
 		// If a data selection has previously been made attempt to find and select it
@@ -1069,6 +1070,7 @@ export default class Criteria {
 					$(this).attr('selected', true);
 					$(data).removeClass(italic);
 					foundData = true;
+					dataIdx = $(this).val();
 				}
 			});
 		}
@@ -1076,6 +1078,7 @@ export default class Criteria {
 		// If the data has been found and selected then the condition can be populated and searched
 		if (foundData) {
 			this.s.data = loadedCriteria.data;
+			this.s.dataIdx = dataIdx;
 			$(this.dom.dataTitle).remove();
 			this._populateCondition();
 			$(this.dom.conditionTitle).remove();
