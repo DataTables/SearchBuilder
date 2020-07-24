@@ -13,10 +13,12 @@ $('#example').DataTable( {
         conditions:{
             num:{
                 'MultipleOf': {
-                    conditionName: 'Multiple Of',
+                    conditionName: 'Multiple Of', // String value that will be displayed in the condition select element
                     init: function (that, fn, preDefined = null) {
+                        // Declare the input element and set the listener to trigger searching
                         var el =  $('<input/>').on('input', function() { fn(that, this) });
 
+                        // Add mechanism to apply preDefined values that may be passed in
 						if (preDefined !== null) {
 							$(el).val(preDefined[0]);
 						}
@@ -24,13 +26,15 @@ $('#example').DataTable( {
 						return el;
                     },
                     inputValue: function (el) {
+                        // Return the value within the input element
 						return [$(el[0]).val()];
                     },
                     isInputValid: function (el, that) {
+                        // If there is text in the input element then it is valid for searching
                         return $(el[0]).val().length !== 0;
                     },
                     search: function (value, comparison) {
-						console.log(value, comparison)
+                        // Use the modulo (%) operator to check that there is no remainder
                         return value%comparison === 0;
                     }
                 }
