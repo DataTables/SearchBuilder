@@ -2,7 +2,7 @@
 <dt-option library="SearchBuilder">
 	<name>searchBuilder.greyscale</name>
 	<summary>Removes the colours from SearchBuilder</summary>
-	<since>SearchBuilder 0.0.1</since>
+	<since>1.0.0</since>
 
 	<type type="boolean">
 		<description>

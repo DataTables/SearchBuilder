@@ -2,7 +2,7 @@
 <dt-button library="SearchBuilder">
 	<name>button.searchBuilder</name>
 	<summary>Button that is enabled when SearchBuilder is to be used through a button</summary>
-	<since>1.1.0</since>
+	<since>1.0.0</since>
 
 	<description>
 		When working with SearchBuilder you will typically wish to configure SearchBuilder options to customise either appearance or functionality.

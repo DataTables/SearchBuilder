@@ -2,7 +2,7 @@
 <dt-option library="SearchBuilder">
 	<name>language.searchBuilder.title</name>
 	<summary>Set the SearchBuilder Title text</summary>
-	<since>SearchBuilder 0.0.1</since>
+	<since>1.0.0</since>
 
 	<type type="string">
 		<description>

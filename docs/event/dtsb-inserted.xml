@@ -2,7 +2,7 @@
 <dt-event library="SearchBuilder">
 	<name>dtsb-inserted</name>
 	<summary>An element from the init function has been inserted into the dom</summary>
-	<since>0.0.1</since>
+	<since>1.0.0</since>
 
 	<type type="event">
 		<description>Triggered when a HTML element created in the `-init searchBuilder.conditions[type].init` function is inserted into the document.</description>

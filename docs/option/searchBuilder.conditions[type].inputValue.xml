@@ -2,7 +2,7 @@
 <dt-option library="SearchBuilder">
 	<name>searchBuilder.conditions[type].inputValue</name>
 	<summary>Function to get the values that are to be used in the comparisons</summary>
-	<since>SearchBuilder 0.0.1</since>
+	<since>1.0.0</since>
 
 	<type type="function">
 		<signature>searchBuilder.conditions[type].inputValue</signature>

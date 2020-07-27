@@ -2,7 +2,7 @@
 <dt-option library="SearchBuilder">
 	<name>searchBuilder.preDefined.criteria</name>
 	<summary>Declares criteria and sub-groups within the array</summary>
-	<since>SearchBuilder 0.0.1</since>
+	<since>1.0.0</since>
 
 	<type type="object[]">
 		<description>

@@ -2,7 +2,7 @@
 <dt-option library="SearchBuilder">
 	<name>searchBuilder.logic</name>
 	<summary>Set the default logic operator</summary>
-	<since>SearchBuilder 0.0.1</since>
+	<since>1.0.0</since>
 
 	<type type="string">
 		<description>

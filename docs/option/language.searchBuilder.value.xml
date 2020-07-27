@@ -2,7 +2,7 @@
 <dt-option library="SearchBuilder">
 	<name>language.searchBuilder.value</name>
 	<summary>Set the placeholder text for the SearchBuilder value select element</summary>
-	<since>SearchBuilder 0.0.1</since>
+	<since>1.0.0</since>
 
 	<type type="string | object">
 		<description>

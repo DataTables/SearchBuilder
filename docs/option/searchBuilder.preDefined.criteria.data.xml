@@ -2,7 +2,7 @@
 <dt-option library="SearchBuilder">
 	<name>searchBuilder.preDefined.criteria.data</name>
 	<summary>Define the data point to be selected</summary>
-	<since>SearchBuilder 0.0.1</since>
+	<since>1.0.0</since>
 
 	<type type="number">
 		<description>
@@ -20,7 +20,7 @@
 		]]>
 	</description>
 
-	<example title="Defining the second data point for use in a criteria"><![CDATA[
+	<example title="Defining a preDefined criteria for the Office column"><![CDATA[
 
 $('#example').DataTable( {
 	dom: 'Qlfrtip',

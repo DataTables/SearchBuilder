@@ -2,7 +2,7 @@
 <dt-option library="SearchBuilder">
 	<name>searchBuilder.preDefined</name>
 	<summary>Set a predefined search query</summary>
-	<since>SearchBuilder 0.0.1</since>
+	<since>1.0.0</since>
 
 	<type type="object">
 		<description>
@@ -25,7 +25,7 @@
 
 			This object contains 2 properties.
 
-			* `-init searchBuilder.preDefined.criteria` This holds the criteria that must be applied to the top group. This property is an array of objects, which can either by criteria objects or group objects. This is where the bulk of the configuration for preDefined searches takes place.
+			* `-init searchBuilder.preDefined.criteria` This holds the criteria that must be applied to the top group. This property is an array of objects, which can either be criteria objects, group objects or a mix of the two. This is where the bulk of the configuration for preDefined searches takes place.
 			* `-init searchBuilder.preDefined.logic` This is the logic operator that will be applied to the group.
 
 			For more information on how all of the configuration options for preDefined searches are brought together, please refer to the [manual page](//datatables.net/extensions/searchbuilder/predefined) for preDefined searches. 
