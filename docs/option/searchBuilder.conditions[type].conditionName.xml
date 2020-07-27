@@ -1,49 +1,53 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
 	<name>searchBuilder.conditions[type].conditionName</name>
-	<summary>The value that is displayed in the select element</summary>
+	<summary>The value that is displayed in the condition select element</summary>
 	<since>SearchBuilder 0.0.1</since>
 
 	<type type="string">
 		<description>
-            This is the value that will be displayed in the select element, it is also what is used as a reference throughout the internals.
+            This is the string value that will be displayed in the condition select element to represent this condition.
         </description>
 	</type>
 
 	<description>
 		<![CDATA[
-		This allows the display value of the condition to be set. The custom condition defined in the example will set a new `new` condition in the built in type `num`'s condition set.
+This allows the display value of the condition to be set. The custom condition defined in the example will set a new `Multiple Of` condition in the built in type `num`'s condition set.
 
-		More details on the structure that is used can be found at `-init searchBuilder[type]`
+More details on the structure that is used can be found at `-init searchBuilder.conditions[type]`
+
+The manual page for [custom conditions](../extensions/searchbuilder/customConditions.html) covers in detail how this and the other values in this object come together to create a custom condition.
+
+Note: Here the `type` in `-init searchBuilder.conditions[type].conditionName` is the type for the column, for more details refer to `-init columns.type`.
         ]]>
 	</description>
 
 	<example title="Define the display value to be shown in the condition select"><![CDATA[
 
-    $('#example').DataTable( {
-        dom: 'Qfrtip',
-        searchBuilder: {
-            conditions: {
-                "num":{
-                    'new': {
-                        conditionName: 'Made up',
-                        init: function(that, fn, preDefined = null){
-                            ...
-                        },
-                        inputValue: function(el, value = null){
-                            ...
-                        },
-                        isInputValid: function(el, that){
-                            ...
-                        },
-                        search: function(value, comparison) {
-                            ...
-                        },
-                    }
+$('#example').DataTable( {
+    dom: 'Qfrtip',
+    searchBuilder: {
+        conditions: {
+            "num":{
+                'multipleOf': {
+                    conditionName: 'Multiple Of',
+                    init: function(that, fn, preDefined = null){
+                        ...
+                    },
+                    inputValue: function(el, value = null){
+                        ...
+                    },
+                    isInputValid: function(el, that){
+                        ...
+                    },
+                    search: function(value, comparison) {
+                        ...
+                    },
                 }
             }
         }
-    });
+    }
+});
 
 ]]></example>
 

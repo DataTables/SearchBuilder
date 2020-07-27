@@ -9,51 +9,43 @@
 		<description>
             This function returns an array of values that are to be used to compare against the data in the table.
         </description>
-		<parameter type="jQuery[]">The elements used to collect values</parameter>
-        <parameter type="object">This `-type object` is an instance of the Criteria that is being checked</parameter>
+		<parameter name="el" type="jQuery[]">The elements used to collect values</parameter>
+        <parameter name="that" type="object"  default="undefined">This `-type object` is an instance of the Criteria that is being checked</parameter>
 	</type>
 
 	<description>
 		<![CDATA[
-		This function is a getter. It returns an array of values that are to be used to compare against the data in the table. It takes 2 parameters.
+This function is a getter. It returns an array of values that are to be used to compare against the data in the table. It takes 2 parameters.
 
-            * `val` the array of value elements that belong to this criteria.
-            * `that` Optional. The criteria instance that is being used.
+* `el` the array of value elements that belong to this criteria.
+* `that` Optional. The criteria instance that is being used.
 
-		The internals of the function are down to the functionality that you wish to create. The values that are returned here will be passed into the `-init searchBuilder.conditions[type].search()` function. This is given a seperate function, rather than running it all in the `-init searchBuilder.conditions[type].search()` to make it more efficient, it only needs to run this way. Some examples are shown below.
+The values that are returned here will be passed into the `-init searchBuilder.conditions[type].search` function. Typically these will be taken from the elements that the `-init searchBuilder.conditions[type].init` function created, although this may be different for some conditions such as `empty`. 
+
+The `-init searchBuilder.conditions[type].inputValue` is in a seperate function rather than running it all in the `-init searchBuilder.conditions[type].search()`. This makes searching more efficient as the values only need to be collected from the jQuery elements once this way.
+
+The manual page for [custom conditions](../extensions/searchbuilder/customConditions.html) covers in detail how this and the other values in this object come together to create a custom condition.
+
+Some examples for select and input elements are shown below.
         ]]>
 	</description>
 
 <example title="Select inputValue function"><![CDATA[
-    ...
-    inputValue (el) {
-        let values = [];
-
-		for (let element of el) {
-			if ($(element).is('select')) {
-				values.push($(element).children('option:selected').val());
-			}
-		}
-
-		return values;
-    }
-    ...
+...
+inputValue (el) {
+	// Extract the selected value from the select element
+	return [$(el[0]).children('option:selected').val()];
+}
+...
 ]]></example>
 
 <example title="Input inputValue function"><![CDATA[
-    ...
-    inputValue (el) {
-		let values = [];
-
-		for (let element of ell) {
-			if ($(element).is('input')) {
-				values.push($(element).val());
-			}
-		}
-
-		return values;
-    }
-    ...
+...
+inputValue (el) {
+	// Extract the value in the input element
+	return [$(el[0]).val()];
+}
+...
 ]]></example>
 
 <related type="init">searchBuilder.conditions[type]</related>

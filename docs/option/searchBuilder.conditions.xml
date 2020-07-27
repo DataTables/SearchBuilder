@@ -47,5 +47,6 @@
 	</description>
 
 <related type="init">searchBuilder.conditions[type]</related>
+<related type="init">columns.type</related>
 
 </dt-option>

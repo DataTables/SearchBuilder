@@ -9,51 +9,47 @@
 		<description>
             This function returns a boolean representing whether the criteria should be included or not.
         </description>
-        <parameter type="jQuery[]">Elements used to collect values as set by `-init searchBuilder.conditions[type].init`</parameter>
+        <parameter type="jQuery[]" name="el">Elements used to collect values as set by `-init searchBuilder.conditions[type].init`</parameter>
+        <parameter type="object" name="that">The criteria instance that is being considered</parameter>
         <returns type="boolean">Returns a boolean indicating whether the criteria is to be included in searching.</returns>
 	</type>
 
 	<description>
 		<![CDATA[
-		This function returns a boolean representing whether the criteria should be included or not. It takes 2 parameters.
+This function returns a boolean representing whether the criteria should be included or not. It takes 2 parameters.
 
-            * `val` the array of value elements that belong to this criteria. These are set in `-init searchBuilder.conditions[type].init`.
-            * `that` the criteria instance that is being checked.
+* `val` the array of value elements that belong to this criteria. These are set in `-init searchBuilder.conditions[type].init`.
+* `that` the criteria instance that is being checked.
 
-            The internals of the function are down to the functionality that you wish to create. Some examples are shown below for select and input elements.
+This function gives access to the elements that have been created in the `-init searchBuilder.conditions[type].init` function and the criteria instance that is currently being considered. The purpose of this function is to decide whether there is enough data present to include this criteria in the search filtering. It is not as straightforward as applying all of the filters all of the time. This is because when a new criteria is added the table would show no results.
+
+Typically the jQuery elements will be used to decide if there is enough data there to proceed. For example select elements would need to have a selected option and input elements would need to have some text entered. If you always want a criteria with this condition to apply filtering no matter the value in the jQuery elements then just return `true` from this function. This will mainly be used when no jQuery elements are set, for example the empty condition.
+
+The manual page for [custom conditions](../extensions/searchbuilder/customConditions.html) covers in detail how this and the other values in this object come together to create a custom condition.
+
+Some examples are shown below for select and input elements.
         ]]>
 	</description>
 
 <example title="Select isInputValid function"><![CDATA[
-    ...
-    isInputValid (el, that) {
-        $(that.dom.valueTitle).attr('selected', false);
-        let allFilled = true;
+...
+isInputValid (el, that) {
+    // Deselect the placeholder
+    $(that.dom.valueTitle).attr('selected', false);
 
-        for (let element of el) {
-            if ($(element).has('option:selected').length < 1) {
-                allFilled = false;
-            }
-        }
-
-        return allFilled;
-    }
-    ...
+    // Return true if there is a selected option
+    return $(el[0]).has('option:selected').length >= 1
+}
+...
 ]]></example>
 
 <example title="Input isInputValid function"><![CDATA[
-    ...
-    isInputValid (el, that) {
-        let allFilled = true;
-		for (let element of el) {
-			if ($(element).val().length === 0) {
-				allFilled = false;
-			}
-		}
-
-		return allFilled;
-    }
-    ...
+...
+isInputValid (el, that) {
+    // Return true if there is something present in the input element
+    return $(el[0]).val().length > 0
+}
+...
 ]]></example>
 
 <related type="init">searchBuilder.conditions[type]</related>

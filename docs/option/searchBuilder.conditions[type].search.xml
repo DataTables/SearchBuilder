@@ -9,31 +9,40 @@
 		<description>
             The function that is used when filtering the DataTable.
         </description>
-        <parameter type="string">The data from the table to be compared</parameter>
-        <parameter type="string[]">The data collected from the value elements using the `-init searchBuilder.conditions[type].get` function</parameter>
+        <parameter type="string" name="value">The data from the table to be compared</parameter>
+        <parameter type="string[]" name="comparison">The data collected from the value elements using the `-init searchBuilder.conditions[type].inputValue` function</parameter>
+        <parameter type="object" name="that">The criteria instance that is being considered</parameter>
         <returns type="boolean">Returns a boolean indicating whether it has passed the criteria or not</returns>
 	</type>
 
 	<description>
 		<![CDATA[
-		This function is what the condition uses to filter the table. It takes three parameters.
+This function is what the condition uses to filter the table. It takes three parameters.
 
-        * `value` the value that is present in the DataTable.
-        * `comparison` an array of values, with each index representing the number of value input that the `value` is to be filtered against.
-        * `that` the criteria instance, should any of it's internal properties be required.
+* `value` the value that is present in the DataTable.
+* `comparison` an array of values, with each index representing the number of value input that the `value` is to be filtered against.
+* `that` the criteria instance, should any of it's internal properties be required.
 
-        This function is to return a boolean, true if the row is to be included in the result, false if not. 
+This function is to return a boolean, true if the row is to be included in the result, false if not. Both the value from the table and the value(s) that were collected in the `-init searchBuilder.conditions[type].inputValue`. This function is free to perform any operation on those values to decide whether it passes the desired condition. This function then is the crux of the searching behaviour for the condition.
+
+The manual page for [custom conditions](../extensions/searchbuilder/customConditions.html) covers in detail how this and the other values in this object come together to create a custom condition.
         ]]>
 	</description>
 
-	<example title="Include the row if it equals the selected value"><![CDATA[
+<example title="Include the row if it equals the selected value"><![CDATA[
+...    
+search: function(value, comparison, that) {
+    return +value === +comparison[0];
+}
+...
+]]></example>
 
-        ...    
-        search: function(value, comparison, that) {
-            return +value === +comparison[0];
-        }
-        ...
-
+<example title="Include the row if it is a multiple of the selected value"><![CDATA[
+...    
+search: function(value, comparison, that) {
+    return +value % +comparison[0] === 0;
+}
+...
 ]]></example>
 
 <related type="init">searchBuilder.conditions[type]</related>
