@@ -5,11 +5,13 @@
 	<since>0.0.1</since>
 
 	<type type="event">
-		<description>HTML element created in the `-init searchBuilder.conditions[type].init` function</description>
+		<description>Triggered when a HTML element created in the `-init searchBuilder.conditions[type].init` function is inserted into the document.</description>
 	</type>
 
 	<description>
-This event is triggered whenever one of the elements created in the `-init searchBuilder.conditions[type].init` is inserted by SearchBuilder. This occurs at the following points
+This event is triggered whenever one of the elements created in the `-init searchBuilder.conditions[type].init` is inserted by SearchBuilder into the document. This is useful as for some jQuery elements such as Select2, the HTML element needs to be in the dom before initialisation so that the functionality is correct.
+
+This event is triggered at the following points
 
 * Whenever the condition select element is changed
 * Whenever the data select element is changed
@@ -26,7 +28,7 @@ When adding or removing criteria in the same group it is possible that more butt
 
 For indenting and outdenting the criteria are removed from one group and added to another, so their dom elements need to be removed from the original and added to the next.
         
-The event is triggered on the original element(s) created in the init function to be used to retrieve the value from the user. This means that the best place to set listeners for this event is also in the init function by listening for `dtsb-inserted`.
+The event is triggered on the original element(s) created in the init function to be used to retrieve the value from the user. This means that the best place to set listeners for this event is also in the init function by listening for `-event dtsb-inserted`.
 	</description>
 
 	<example title="Initialise Select2 on a Select Element Once Inserted"><![CDATA[
