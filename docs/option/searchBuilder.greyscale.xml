@@ -15,7 +15,9 @@
 	</default>
 	<description>
 		<![CDATA[
-		This is useful as it allows the colours to be quickly removed if this fits your applications style better.
+		SearchBuilder colour codes it's select and input elements as default in an effort to make clear which is which to the user. However, this may not always fit the style of a particular application. To "greyscale" SearchBuilder and replace the colours with a grey border without changing the css, set the `-init searchBuilder.greyscale` property to `true`.
+
+		Take a look at [this example]([../extensions/SearchBuilder/examples/styling/greyScale.html) to see this in action.
         ]]>
 	</description>
 

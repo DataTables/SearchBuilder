@@ -2,7 +2,7 @@
 <dt-option library="SearchBuilder">
 	<name>searchBuilder.depthLimit</name>
 	<summary>Impose a limit on the depth of the groups</summary>
-	<since>SearchBuilder 0.0.1</since>
+	<since>0.0.1</since>
 
 	<type type="integer">
 		<description>
@@ -21,7 +21,11 @@
 	</default>
 	<description>
 		<![CDATA[
-		This is useful as it allows limits to be set on the depth of the sub groups and therefore complexity of the generated queries.
+		This option allows for a limit to be set on how deep sub groups can be placed from the top level. The top level is considered the first level. Setting a `-init searchBuilder.depthLimit` of 2 would allow for criteria to be indented by 1 level as this would then be at the second level - the limit.
+
+		As default the limit is false, meaning that criteria can be indented as far as desired.
+
+		Take a look at [this example]([../extensions/SearchBuilder/examples/initialisation/depthLimit.html) to see this in action.
         ]]>
 	</description>
 

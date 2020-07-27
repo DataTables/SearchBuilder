@@ -15,7 +15,9 @@
 	</default>
 	<description>
 		<![CDATA[
-		This is useful as it allows the default logic to be defined on a groups initialisation.
+		This option allows for the default logic of all groups to be set when they are initialised. This can take the value of either `AND` or `OR`. As default `AND` logic is used because it is the most predominant form to use when searching a dataset.
+
+		When using `-init searchBuilder.preDefined` searches, this value is also used if `-init searchBuilder.preDefined.logic` is not defined in the initialisation.
         ]]>
 	</description>
 
