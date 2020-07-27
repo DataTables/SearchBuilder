@@ -345,6 +345,21 @@ export default class Criteria {
 				return value !== comparison[0];
 			},
 		},
+		'!between': {
+			conditionName: 'Not Between',
+			init: Criteria.init2Date,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[]): boolean {
+				value = value.replace(/(\/|\-|\,)/g, '-');
+				if (comparison[0] < comparison[1]) {
+					return !(comparison[0] <= value && value <= comparison[1]);
+				}
+				else {
+					return !(comparison[1] <= value && value <= comparison[0]);
+				}
+			},
+		},
 		'!null': {
 			conditionName: 'Not Empty',
 			isInputValid() { return true; },
@@ -404,21 +419,6 @@ export default class Criteria {
 				}
 			},
 		},
-		'!between': {
-			conditionName: 'Not Between',
-			init: Criteria.init2Date,
-			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
-				value = value.replace(/(\/|\-|\,)/g, '-');
-				if (comparison[0] < comparison[1]) {
-					return !(comparison[0] <= value && value <= comparison[1]);
-				}
-				else {
-					return !(comparison[1] <= value && value <= comparison[0]);
-				}
-			},
-		},
 		'null': {
 			conditionName: 'Empty',
 			isInputValid() { return true; },
@@ -440,6 +440,23 @@ export default class Criteria {
 			isInputValid: Criteria.isInputValidInput,
 			search(value: any, comparison: any[], that): boolean {
 				return moment(value, that.s.momentFormat).valueOf() !== moment(comparison[0], that.s.momentFormat).valueOf();
+			},
+		},
+		'!between': {
+			conditionName: 'Not Between',
+			init: Criteria.init2Date,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[], that): boolean {
+				let val = moment(value, that.s.momentFormat).valueOf();
+				let comp0 = moment(comparison[0], that.s.momentFormat).valueOf();
+				let comp1 = moment(comparison[1], that.s.momentFormat).valueOf();
+				if (comp0 < comp1) {
+					return !(+comp0 <= +val && +val <= +comp1);
+				}
+				else {
+					return !(+comp1 <= +val && +val <= +comp0);
+				}
 			},
 		},
 		'!null': {
@@ -497,23 +514,6 @@ export default class Criteria {
 				}
 			},
 		},
-		'!between': {
-			conditionName: 'Not Between',
-			init: Criteria.init2Date,
-			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[], that): boolean {
-				let val = moment(value, that.s.momentFormat).valueOf();
-				let comp0 = moment(comparison[0], that.s.momentFormat).valueOf();
-				let comp1 = moment(comparison[1], that.s.momentFormat).valueOf();
-				if (comp0 < comp1) {
-					return !(+comp0 <= +val && +val <= +comp1);
-				}
-				else {
-					return !(+comp1 <= +val && +val <= +comp0);
-				}
-			},
-		},
 		'null': {
 			conditionName: 'Empty',
 			isInputValid() { return true; },
@@ -535,6 +535,20 @@ export default class Criteria {
 			isInputValid: Criteria.isInputValidSelect,
 			search(value: any, comparison: any[]): boolean {
 				return +value !== +comparison[0];
+			},
+		},
+		'!between': {
+			conditionName: 'Not Between',
+			init: Criteria.init2Input,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[]): boolean {
+				if (+comparison[0] < +comparison[1]) {
+					return !(+comparison[0] <= +value && +value <= +comparison[1]);
+				}
+				else {
+					return !(+comparison[1] <= +value && +value <= +comparison[0]);
+				}
 			},
 		},
 		'!null': {
@@ -607,20 +621,6 @@ export default class Criteria {
 				}
 			},
 		},
-		'!between': {
-			conditionName: 'Not Between',
-			init: Criteria.init2Input,
-			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
-				if (+comparison[0] < +comparison[1]) {
-					return !(+comparison[0] <= +value && +value <= +comparison[1]);
-				}
-				else {
-					return !(+comparison[1] <= +value && +value <= +comparison[0]);
-				}
-			},
-		},
 		'null': {
 			conditionName: 'Empty',
 			init() { return; },
@@ -643,6 +643,23 @@ export default class Criteria {
 				let comp = comparison[0].replace(/[^0-9.]/g, '');
 
 				return +val !== +comp;
+			},
+		},
+		'!between': {
+			conditionName: 'Not Between',
+			init: Criteria.init2Input,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: any, comparison: any[]): boolean {
+				let val = value.replace(/[^0-9.]/g, '');
+				let comp0 = comparison[0].replace(/[^0-9.]/g, '');
+				let comp1 = comparison[1].replace(/[^0-9.]/g, '');
+				if (comp0 < comp1) {
+					return !(+comp0 <= +val && +val <= +comp1);
+				}
+				else {
+					return !(+comp1 <= +val && +val <= +comp0);
+				}
 			},
 		},
 		'!null': {
@@ -730,23 +747,6 @@ export default class Criteria {
 				}
 				else {
 					return +comp1 <= +val && +val <= +comp0;
-				}
-			},
-		},
-		'!between': {
-			conditionName: 'Not Between',
-			init: Criteria.init2Input,
-			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
-				let val = value.replace(/[^0-9.]/g, '');
-				let comp0 = comparison[0].replace(/[^0-9.]/g, '');
-				let comp1 = comparison[1].replace(/[^0-9.]/g, '');
-				if (comp0 < comp1) {
-					return !(+comp0 <= +val && +val <= +comp1);
-				}
-				else {
-					return !(+comp1 <= +val && +val <= +comp0);
 				}
 			},
 		},
@@ -1494,7 +1494,7 @@ export default class Criteria {
 			$(val).remove();
 		}
 
-		let children = $(this.dom.container).children()
+		let children = $(this.dom.container).children();
 		if (children.length > 3) {
 			for (let i = 2; i < children.length - 1; i++) {
 				$(children[i]).remove();
