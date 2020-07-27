@@ -1357,15 +1357,17 @@ export default class Criteria {
 			for (
 				let condition of Object.keys(conditionObj)
 			) {
-				this.s.conditions.set(condition, conditionObj[condition]);
-				conditionOpts.push(
-					$('<option>', {
-						text : conditionObj[condition].conditionName,
-						value : condition,
-					})
-						.addClass(this.classes.option)
-						.addClass(this.classes.notItalic)
-				);
+				if (conditionObj[condition] !== null) {
+					this.s.conditions.set(condition, conditionObj[condition]);
+					conditionOpts.push(
+						$('<option>', {
+							text : conditionObj[condition].conditionName,
+							value : condition,
+						})
+							.addClass(this.classes.option)
+							.addClass(this.classes.notItalic)
+					);
+				}
 			}
 		}
 		// Otherwise we can just load them in
