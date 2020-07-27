@@ -7,13 +7,17 @@
 	<type type="function">
 		<signature>searchBuilder.getDetails()</signature>
 		<description>Gets the details of the current search.</description>
-		<returns type="object">Returns an object containing the details of the current search</returns>
+		<returns type="object">Returns an object containing the details of the current search. The structure is the same as `-init searchBuilder.preDefined`, please refer to that documentation for more details on the structure. </returns>
 	</type>
 
 	<description>
+	<![CDATA[
 		This method provides the ability to get the details of the data structure and search criteria that is being applied to the DataTable by SearchBuilder's filtering.
 
-		`-init searchBuilder.getDetails()` takes no arguments, the details are returned for the overall search criteria.
+		`-api searchBuilder.getDetails()` takes no arguments, the object that is returned represents all of the groups and criteria that are in place. The object can be passed into the `-api searchBuilder.rebuild()` function to make SearchBuilder reset to the point at which the object was created.
+
+		The object structure is the same as would be used for preDefined searches. Please refer to the `-init searchBuilder.preDefined` documentation for more details on the structure. 
+	]]>
 
 	</description>
 
@@ -26,5 +30,6 @@ var d = dt.searchBuilder.getDetails();
 ]]></example>
 
 <related type="api">searchBuilder.rebuild()</related>
+<related type="init">searchBuilder.preDefined</related>
 
 </dt-api>
