@@ -26,7 +26,6 @@ $(document).ready(function() {
 
     $('#getDetails').on('click', function() {
         stored = $('#example').DataTable().searchBuilder.getDetails();
-        console.log(JSON.stringify(stored, null, '\t'))
         $('#output').text(JSON.stringify(stored, null, '\t'));
     })
 
@@ -44,7 +43,11 @@ $(document).ready(function() {
 
 This example demonstrates the use of `-api searchBuilder.getDetails()` and `-api searchBuilder.rebuild()`.
 
-The output panel below show's the JSON structure for the most recently stored details
+The output panel below show's the JSON structure for the most recently stored details.
+
+Pressing the "Get Details" button will run the `-api searchBuilder.getDetails()` method and will store it in a variable `stored`. You can access this in the console of your browser inspector.
+
+This variable will then be passed into the `-api searchBuilder.rebuild()` method when the "Revert to last get" button is pressed SearchBuilder will revert back to the last point at which the "Get Details" button was pressed.
 
 <button id="getDetails">Get Details</button>
 <button id="revert">Revert to last get</button>
