@@ -5,25 +5,18 @@
 	<since>1.0.0</since>
 
 	<description>
-		When working with SearchBuilder you will typically wish to configure SearchBuilder options to customise either appearance or functionality.
+When working with SearchBuilder you will typically wish to configure SearchBuilder options to customise either appearance or functionality.
 
-		By providing an `config` object `b-init buttons.buttons.config` the SearchBuilder within the button can be customised as desired. The `config` object is structured in the same way as the SearchBuilder `config` object is normally.
+By providing an `config` object `b-init buttons.buttons.config` the SearchBuilder within the button can be customised as desired. The `config` object is structured in the same way as the SearchBuilder `config` object is normally.
+
+SearchBuilder makes use of the following buttons properties.
+
+* `b-init buttons.buttons.text` - This can be configured using the `searchBuilder.button` option of the DataTables `dt-init language` object, or using the `b-init buttons.buttons.text` option for this button.
+* `b-init buttons.buttons.init` - Initialises the SearchBuilder.
+* `b-init buttons.buttons.action` - Displays the SearchBuilder floating above the table with focus on them.
+* `b-init buttons.buttons.config` - Sets the config for SearchBuilder in the same way as normal for the SearchBuilder config.
+
 	</description>
-
-	<defaults>
-		<parameter name="text" value="SearchBuilder">
-			This can be configured using the `searchBuilder.button` option of the DataTables `dt-init language` object, or using the `b-init buttons.buttons.text` option for this button.
-		</parameter>
-		<parameter name="init" value="function">
-			Initialises the SearchBuilder.
-		</parameter>
-		<parameter name="action" value="function">
-            Displays the SearchBuilder floating above the table with focus on them.
-        </parameter>
-        <parameter name="config" value="object">
-            Sets the config for SearchBuilder in the same way as normal for the SearchBuilder config.
-        </parameter>
-	</defaults>
 
 	<example title="SearchBuilder Button initialisation: Set the config for SearchBuilder to set the `-init depthLimit` option"><![CDATA[
 $('#example').DataTable( {
