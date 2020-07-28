@@ -28,8 +28,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This example includes a date that is not in the standard format and therefore has a custom column type. This example demonstrates how SearchBuilder interacts with columns of an unknown type. SearchBuilder will default to the built in type `string`'s conditions for unknown columns.
-
+In this example the Age column has had a custom column type set using `-init columns.type`. This means that instead of using the conditions for the `num` column type as you may expect, the `string` conditions will be used instead. This demonstrates how SearchBuilder interacts with columns of an unknown type, in such a case SearchBuilder will default to `string` as this can be applied to all columns without issue. 
 ]]></info>
 
 <custom-table>

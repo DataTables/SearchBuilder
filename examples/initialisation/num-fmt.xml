@@ -19,7 +19,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This example includes a salary with a decimal place for testing the `num-fmt` column type (note Ashton Cox's salary). This example also dmeonstrates that you can search relative to a number with a decimal place, for example greater than 57.6, and you can optionally include the currently symbol and the thousand separator.
+This example includes a salary with a decimal place for testing the `num-fmt` column type (note Ashton Cox's salary). This example also demonstrates that you can search relative to a number with a decimal place, for example greater than 57.6, and you can optionally include the currency symbol and/or the thousand separator.
 
 ]]></info>
 

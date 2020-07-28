@@ -55,6 +55,8 @@ This example shows how to create a pre-defined filter using `-init searchBuilder
 * `-init searchBuilder.preDefined.criteria.data`
 * `-init searchBuilder.preDefined.criteria.value`
 
+A more detailed walkthrough of preDefined options can be found at [this doc page](../../../../extensions/searchbuilder/predefined.html).
+
 ]]></info>
 
 </dt-example>

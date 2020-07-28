@@ -22,7 +22,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This example demonstrates `-init searchBuilder` when the `-init searchBuilder.logic` option over-rides the default logic used for groups upon initialisation.
+This example demonstrates `-init searchBuilder` when the `-init searchBuilder.logic` option over-rides the default logic used for groups upon initialisation. As the default is `AND` logic, in this example `OR` logic will be the default.
 
 ]]></info>
 
