@@ -23,7 +23,13 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This example demonstrates the behaviour of `-init searchBuilder` when state saving is enabled using `-init searchPanes`. 
+This example demonstrates the behaviour of `-init searchBuilder` when SearchPanes is enabled using `-init searchPanes` and `-init searchPanes.cascadePanes` and `-init searchPanes.viewTotal` are enabled. 
+
+SearchPanes adds panes to the DataTable with the capability to search the DataTable by selecting rows in the panes. This is very useful when it comes to adding a more accessible searching feature and custom search capabilities.
+
+When `-init searchPanes.cascadePanes` is set to `true`, the panes will remove options which are no longer present in the currently displayed DataTable.
+
+By setting the `-init searchPanes.viewTotal` config option to `true`, the message displayed in the count column will change when a search is applied to the DataTable.
 
 ]]></info>
 
