@@ -88,7 +88,7 @@ This example shows how to make use of `-init searchBuilder.conditions` to add a 
 
 In addition to the above, SearchBuilder has its own `moment` property that is used when [Moment.js](https://momentjs.com) is in use on a column. SearchBuilder will automatically detect and handle data in any moment format (see example [here](../initialisation/date-fmt)).
 
-In this example `-init searchBuilder.conditions.num` is used to create a new condition `+-  5` for any columns that are of type `num`, this will create an input element which will take a number. The search results should then return any age within 5 years of that number. To add a custom condition you would set the key for the condition object to be one that is not already in use.
+In this example `-init searchBuilder.conditions` is used to create a new condition `+-  5` for any columns that are of type `num`, this will create an input element which will take a number. The search results should then return any age within 5 years of that number. To add a custom condition you would set the key for the condition object to be one that is not already in use.
 
 Note that this condition will not be added to the salary column as it is a formatted number of type `num-fmt`. For more information on column types take a look at the `-init columns.type` option. 
 
@@ -112,6 +112,8 @@ The properties within the object are documented at
 * `-init searchBuilder.conditions[type].inputValue`
 * `-init searchBuilder.conditions[type].init`
 * `-init searchBuilder.conditions[type].search`
+
+A detailed walkthrough of how to setup custom conditions is available at [this doc page](../../../../extensions/searchbuilder/customConditions.html).
 
 ]]></info>
 

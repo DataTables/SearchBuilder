@@ -88,6 +88,8 @@ The properties within the object are documented at
 * `-init searchBuilder.conditions[type].init`
 * `-init searchBuilder.conditions[type].search`
 
+A detailed walkthrough of how to setup custom conditions is available at [this doc page](../../../../extensions/searchbuilder/customConditions.html).
+
 ]]></info>
 
 </dt-example>
