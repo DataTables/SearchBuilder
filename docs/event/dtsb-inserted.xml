@@ -5,11 +5,11 @@
 	<since>1.0.0</since>
 
 	<type type="event">
-		<description>Triggered when a HTML element created in the `-init searchBuilder.conditions[type].init` function is inserted into the document.</description>
+		<description>Triggered when a HTML element created in the `-init searchBuilder.conditions[type][cond].init` function is inserted into the document.</description>
 	</type>
 
 	<description>
-This event is triggered whenever one of the elements created in the `-init searchBuilder.conditions[type].init` is inserted by SearchBuilder into the document. This is useful as for some jQuery elements such as Select2, the HTML element needs to be in the dom before initialisation so that the functionality is correct.
+This event is triggered whenever one of the elements created in the `-init searchBuilder.conditions[type][cond].init` is inserted by SearchBuilder into the document. This is useful as for some jQuery elements such as Select2, the HTML element needs to be in the dom before initialisation so that the functionality is correct.
 
 This event is triggered at the following points
 

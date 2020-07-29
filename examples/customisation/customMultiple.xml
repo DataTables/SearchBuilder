@@ -82,11 +82,11 @@ The keys that are in use on the num condition are:
 
 The properties within the object are documented at
 
-* `-init searchBuilder.conditions[type].isInputValid`
-* `-init searchBuilder.conditions[type].conditionName`
-* `-init searchBuilder.conditions[type].inputValue`
-* `-init searchBuilder.conditions[type].init`
-* `-init searchBuilder.conditions[type].search`
+* `-init searchBuilder.conditions[type][cond].isInputValid`
+* `-init searchBuilder.conditions[type][cond].conditionName`
+* `-init searchBuilder.conditions[type][cond].inputValue`
+* `-init searchBuilder.conditions[type][cond].init`
+* `-init searchBuilder.conditions[type][cond].search`
 
 A detailed walkthrough of how to setup custom conditions is available at [this doc page](../../../../extensions/searchbuilder/customConditions.html).
 

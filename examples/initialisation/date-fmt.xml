@@ -28,7 +28,7 @@ $(document).ready(function() {
 
 This example includes multiple date formats that are not in the standard format to demonstrate how SearchBuilder operates with formatted dates.
 
-This example also makes use of the Ultimate Sorting plug in for dates, along with [Moment.js](https://momentjs.com). SearchBuilder will automatically detect the type and format of the columns. Here the `-init columns.type` will be `moment`. This can be accessed in the same way as others to edit the conditions that are available by using `-init searchBuilder.conditions[type]`.
+This example also makes use of the Ultimate Sorting plug in for dates, along with [Moment.js](https://momentjs.com). SearchBuilder will automatically detect the type and format of the columns. Here the `-init columns.type` will be `moment`. This can be accessed in the same way as others to edit the conditions that are available by using `-init searchBuilder.conditions[type][cond]`.
 
 ]]></info>
 

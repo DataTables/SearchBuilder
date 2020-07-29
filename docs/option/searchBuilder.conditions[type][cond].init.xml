@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
-	<name>searchBuilder.conditions[type].init</name>
+	<name>searchBuilder.conditions[type][cond].init</name>
 	<summary>Function which returns the JQuery element to be used as the value element</summary>
 	<since>1.0.0</since>
 
@@ -147,8 +147,9 @@ init: function(that, fn, preDefined = null) {
 ]]></example>
 
 <related type="init">searchBuilder.conditions[type]</related>
-<related type="init">searchBuilder.conditions[type].conditionName</related>
-<related type="init">searchBuilder.conditions[type].inputValue</related>
-<related type="init">searchBuilder.conditions[type].isInputValid</related>
-<related type="init">searchBuilder.conditions[type].search</related>
+<related type="init">searchBuilder.conditions[type][cond]</related>
+<related type="init">searchBuilder.conditions[type][cond].conditionName</related>
+<related type="init">searchBuilder.conditions[type][cond].inputValue</related>
+<related type="init">searchBuilder.conditions[type][cond].isInputValid</related>
+<related type="init">searchBuilder.conditions[type][cond].search</related>
 </dt-option>

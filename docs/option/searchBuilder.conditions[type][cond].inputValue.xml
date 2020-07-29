@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
-	<name>searchBuilder.conditions[type].inputValue</name>
+	<name>searchBuilder.conditions[type][cond].inputValue</name>
 	<summary>Function to get the values that are to be used in the comparisons</summary>
 	<since>1.0.0</since>
 
 	<type type="function">
-		<signature>searchBuilder.conditions[type].inputValue</signature>
+		<signature>searchBuilder.conditions[type][cond].inputValue</signature>
 		<description>
             This function returns an array of values that are to be used to compare against the data in the table.
         </description>
@@ -20,9 +20,9 @@ This function is a getter. It returns an array of values that are to be used to 
 * `el` the array of value elements that belong to this criteria.
 * `that` Optional. The criteria instance that is being used.
 
-The values that are returned here will be passed into the `-init searchBuilder.conditions[type].search` function. Typically these will be taken from the elements that the `-init searchBuilder.conditions[type].init` function created, although this may be different for some conditions such as `empty`. 
+The values that are returned here will be passed into the `-init searchBuilder.conditions[type][cond].search` function. Typically these will be taken from the elements that the `-init searchBuilder.conditions[type][cond].init` function created, although this may be different for some conditions such as `empty`. 
 
-The `-init searchBuilder.conditions[type].inputValue` is in a seperate function rather than running it all in the `-init searchBuilder.conditions[type].search()`. This makes searching more efficient as the values only need to be collected from the jQuery elements once this way.
+The `-init searchBuilder.conditions[type][cond].inputValue` is in a seperate function rather than running it all in the `-init searchBuilder.conditions[type][cond].search()`. This makes searching more efficient as the values only need to be collected from the jQuery elements once this way.
 
 The manual page for [custom conditions](../extensions/searchbuilder/customConditions.html) covers in detail how this and the other values in this object come together to create a custom condition.
 
@@ -49,9 +49,10 @@ inputValue (el) {
 ]]></example>
 
 <related type="init">searchBuilder.conditions[type]</related>
-<related type="init">searchBuilder.conditions[type].conditionName</related>
-<related type="init">searchBuilder.conditions[type].init</related>
-<related type="init">searchBuilder.conditions[type].isInputValid</related>
-<related type="init">searchBuilder.conditions[type].search</related>
+<related type="init">searchBuilder.conditions[type][cond]</related>
+<related type="init">searchBuilder.conditions[type][cond].conditionName</related>
+<related type="init">searchBuilder.conditions[type][cond].init</related>
+<related type="init">searchBuilder.conditions[type][cond].isInputValid</related>
+<related type="init">searchBuilder.conditions[type][cond].search</related>
 
 </dt-option>

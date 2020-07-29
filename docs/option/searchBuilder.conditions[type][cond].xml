@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
-	<name>searchBuilder.conditions[type]</name>
-	<summary>The object structure for the type object containing additional conditions for SearchBuilder</summary>
+	<name>searchBuilder.conditions[type][cond]</name>
+	<summary>The object structure for additional conditions for SearchBuilder</summary>
 	<since>1.0.0</since>
 
 	<type type="object">
 		<description>
-            An object populated with key-value pairs of objects (`-init searchBuilder.conditions[type][cond]`) that contain the information necessary to add a new condition.
+            An object that contains the information necessary to add a single new condition.
         </description>
 	</type>
 
@@ -15,9 +15,15 @@
 	</default>
 	<description>
 		<![CDATA[
-This is useful as it allows custom conditions to be added to SearchBuilder should the standard ones not be enough. It also allows for the standard conditions to be removed or edited to fit your own needs. Here the `type` in `-init searchBuilder.conditions[type]` is the type for the column, for more details refer to `-init columns.type`.
+This is useful as it allows custom conditions to be added to SearchBuilder should the standard ones not be enough. It also allows for the standard conditions to be removed or edited to fit your own needs. Here the `type` in `-init searchBuilder.conditions[type][cond]` is the type for the column, for more details refer to `-init columns.type`.
 
-Each key-value pair on the `-init searchBuilder.conditions[type]` object is used to represent a single condition. The structure of the value for these is documented at `-init searchBuilder.conditions[type][cond]`.
+This object is used to represent a single condition. It is an object which contains 5 properties which define fully the behaviour of the condition. They are as follows
+
+* `-init searchBuilder.conditions[type][cond].conditionName` The string that is to be displayed in the option for this condition.
+* `-init searchBuilder.conditions[type][cond].init` This function is used to initialise the value element
+* `-init searchBuilder.conditions[type][cond].inputValue` This function is used to return the value that the values from the table should be compared against
+* `-init searchBuilder.conditions[type][cond].isInputValid` This function is used to determine if the criteria should be used in the overall filter
+* `-init searchBuilder.conditions[type][cond].search` This is the function that compares the row data and the value selected in this criteria.
 
 The standard conditions can be removed, edited or added to. The manual page for [custom conditions](../extensions/searchbuilder/customConditions.html) covers this in detail.
 
@@ -36,7 +42,7 @@ There is also an example that shows how to use a plug-in to add a custom conditi
 	</description>
 
 <related type="init">searchBuilder.conditions</related>
-<related type="init">searchBuilder.conditions[type][cond]</related>
+<related type="init">searchBuilder.conditions[type]</related>
 <related type="init">searchBuilder.conditions[type][cond].isInputValid</related>
 <related type="init">searchBuilder.conditions[type][cond].search</related>
 <related type="init">searchBuilder.conditions[type][cond].conditionName</related>

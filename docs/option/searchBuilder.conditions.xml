@@ -11,7 +11,7 @@
 	</type>
 
 	<default value="Object">
-		The default value for the `-init searchBuilder.conditions` option is an object with a property for each of the built in DataTables types as defined in `-init columns.type` along with a `moment` type for formatted dates and any other custom types that may exist on the table. Each property in turn is an object with key value pairs to represent the conditions. These objects have the structure of `-init searchBuilder.conditions[type]`.
+		The default value for the `-init searchBuilder.conditions` option is an object with a property for each of the built in DataTables types as defined in `-init columns.type` along with a `moment` type for formatted dates and any other custom types that may exist on the table. Each property in turn is an object with key value pairs to represent the conditions. These objects have the structure of `-init searchBuilder.conditions[type][cond]`.
 	</default>
 	<description>
 		<![CDATA[
@@ -47,6 +47,7 @@
 	</description>
 
 <related type="init">searchBuilder.conditions[type]</related>
+<related type="init">searchBuilder.conditions[type][cond]</related>
 <related type="init">columns.type</related>
 
 </dt-option>

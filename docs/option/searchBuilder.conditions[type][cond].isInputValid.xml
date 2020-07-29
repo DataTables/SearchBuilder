@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
-	<name>searchBuilder.conditions[type].isInputValid</name>
+	<name>searchBuilder.conditions[type][cond].isInputValid</name>
 	<summary>Function to determine if the criteria is isInputValid</summary>
 	<since>1.0.0</since>
 
 	<type type="function">
-        <signature>searchBuilder.conditions[type].isInputValid()</signature>
+        <signature>searchBuilder.conditions[type][cond].isInputValid()</signature>
 		<description>
             This function returns a boolean representing whether the criteria should be included or not.
         </description>
-        <parameter type="jQuery[]" name="el">Elements used to collect values as set by `-init searchBuilder.conditions[type].init`</parameter>
+        <parameter type="jQuery[]" name="el">Elements used to collect values as set by `-init searchBuilder.conditions[type][cond].init`</parameter>
         <parameter type="object" name="that">The criteria instance that is being considered</parameter>
         <returns type="boolean">Returns a boolean indicating whether the criteria is to be included in searching.</returns>
 	</type>
@@ -18,10 +18,10 @@
 		<![CDATA[
 This function returns a boolean representing whether the criteria should be included or not. It takes 2 parameters.
 
-* `val` the array of value elements that belong to this criteria. These are set in `-init searchBuilder.conditions[type].init`.
+* `val` the array of value elements that belong to this criteria. These are set in `-init searchBuilder.conditions[type][cond].init`.
 * `that` the criteria instance that is being checked.
 
-This function gives access to the elements that have been created in the `-init searchBuilder.conditions[type].init` function and the criteria instance that is currently being considered. The purpose of this function is to decide whether there is enough data present to include this criteria in the search filtering. It is not as straightforward as applying all of the filters all of the time. This is because when a new criteria is added the table would show no results.
+This function gives access to the elements that have been created in the `-init searchBuilder.conditions[type][cond].init` function and the criteria instance that is currently being considered. The purpose of this function is to decide whether there is enough data present to include this criteria in the search filtering. It is not as straightforward as applying all of the filters all of the time. This is because when a new criteria is added the table would show no results.
 
 Typically the jQuery elements will be used to decide if there is enough data there to proceed. For example select elements would need to have a selected option and input elements would need to have some text entered. If you always want a criteria with this condition to apply filtering no matter the value in the jQuery elements then just return `true` from this function. This will mainly be used when no jQuery elements are set, for example the empty condition.
 
@@ -53,9 +53,10 @@ isInputValid (el, that) {
 ]]></example>
 
 <related type="init">searchBuilder.conditions[type]</related>
-<related type="init">searchBuilder.conditions[type].conditionName</related>
-<related type="init">searchBuilder.conditions[type].inputValue</related>
-<related type="init">searchBuilder.conditions[type].isInputValid</related>
-<related type="init">searchBuilder.conditions[type].search</related>
+<related type="init">searchBuilder.conditions[type][cond]</related>
+<related type="init">searchBuilder.conditions[type][cond].conditionName</related>
+<related type="init">searchBuilder.conditions[type][cond].inputValue</related>
+<related type="init">searchBuilder.conditions[type][cond].isInputValid</related>
+<related type="init">searchBuilder.conditions[type][cond].search</related>
 
 </dt-option>
