@@ -1171,14 +1171,6 @@ export default class Criteria {
 				this.s.dt.draw();
 			});
 
-		// When delete is pressed destroy this criteria
-		$(this.dom.delete).unbind('click').on('click', () => {
-			this.destroy();
-			this.s.dt.draw();
-			this.setListeners();
-
-			return false;
-		});
 	}
 
 	/**

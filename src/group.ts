@@ -257,6 +257,8 @@ export default class Group {
 		if (this.s.criteria.length < 1) {
 			if (!this.s.isChild) {
 				$(this.dom.container).trigger('dtsb-destroy');
+				// Set criteria left margin
+				$(this.dom.container).css('margin-left', 10);
 			}
 
 			return;
@@ -571,6 +573,9 @@ export default class Group {
 						crit.criteria.updateArrows(this.s.criteria.length > 1);
 					}
 				}
+
+				criteria.destroy();
+				this.s.dt.draw();
 
 				$(this.s.topGroup).trigger('dtsb-updateTitle');
 
