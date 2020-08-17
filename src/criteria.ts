@@ -161,7 +161,7 @@ export default class Criteria {
 			$('<input/>')
 				.addClass(Criteria.classes.value)
 				.addClass(Criteria.classes.input)
-				.on('input', function() { fn(that, this); }),
+				.on('input', function() { fn(that, this); })
 		];
 
 		// If there is a preDefined value then add it
@@ -216,7 +216,7 @@ export default class Criteria {
 					attachTo: 'input',
 					format: that.s.momentFormat ? that.s.momentFormat : undefined
 				})
-				.on('input change', function() { fn(that, this); }),
+				.on('input change', function() { fn(that, this); })
 		];
 
 		// If there are and preDefined values then add them
