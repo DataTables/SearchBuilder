@@ -31,9 +31,8 @@ describe('searchBuilder - API - searchBuilder.rebuild()', function() {
 			expect($('.dtsb-criteria').length).toBe(0);
 			expect($('tbody tr:eq(0) td:eq(0)').text()).toBe('Airi Satou');
 		});
-		// DD-1598 is dataIdx needed
 		it('Partial search', function() {
-			table.searchBuilder.rebuild({ criteria: [{ data: 'Office', dataIdx: '2', value: [] }], logic: 'AND' });
+			table.searchBuilder.rebuild({ criteria: [{ data: 'Office', value: [] }], logic: 'AND' });
 
 			expect($('.dtsb-criteria').length).toBe(1);
 			expect($('.dtsb-data option:selected').text()).toBe('Office');
@@ -41,7 +40,7 @@ describe('searchBuilder - API - searchBuilder.rebuild()', function() {
 		});
 		it('Full search', function() {
 			table.searchBuilder.rebuild({
-				criteria: [{ condition: '=', data: 'Office', dataIdx: '2', value: ['San Francisco'] }],
+				criteria: [{ condition: '=', data: 'Office', value: ['San Francisco'] }],
 				logic: 'AND'
 			});
 
@@ -52,8 +51,8 @@ describe('searchBuilder - API - searchBuilder.rebuild()', function() {
 		it('Second condition', function() {
 			table.searchBuilder.rebuild({
 				criteria: [
-					{ condition: '=', data: 'Office', dataIdx: '2', value: ['San Francisco'] },
-					{ condition: '>', data: 'Age', dataIdx: '3', value: [60] }
+					{ condition: '=', data: 'Office', value: ['San Francisco'] },
+					{ condition: '>', data: 'Age', value: [60] }
 				],
 				logic: 'AND'
 			});
