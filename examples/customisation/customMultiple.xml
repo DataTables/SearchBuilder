@@ -61,7 +61,7 @@ This example shows how to make use of `-init searchBuilder.conditions` to add a 
 * `html-num`
 * `html-num-fmt`
 
-In addition to the above, SearchBuilder has its own `moment` property that is used when [Moment.js](https://momentjs.com) is in use on a column. SearchBuilder will automatically detect and handle data in any moment format (see example [here](../initialisation/date-fmt)).
+In addition to the above, SearchBuilder has its own `moment` property that is used when [Moment.js](https://momentjs.com) is in use on a column. SearchBuilder will automatically detect and handle data in any moment format (see example [here](../initialisation/date-fmt.html)).
 
 In this example `-init searchBuilder.conditions.num` is used to create a new condition `Multiple Of` for any columns that are of type num, this will create an input element which will take a number. The search results should then return any age that is a multiple of that number. To add a custom condition you would set the key for the condition object to be one that is not already in use.
 
