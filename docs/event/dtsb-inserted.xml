@@ -35,20 +35,18 @@ The event is triggered on the original element(s) created in the init function t
 
 init: function(that, fn, preDefined = null) {
     let el = $('<select>');
+    $(el).prepend('<option></option>');
     ...
     $(el).on('dtsb-inserted', function(){
-        for(let element of el) {
-            if($(el).hasClass('select2-hidden-accessible')) {
-                $(el).select2('destroy');
-            }
+        if($(el).hasClass('select2-hidden-accessible')) {
+            $(el).select2('destroy');
+        }
 
-            $(el).prepend('<option selected></option>');
-            $(el).select2({placeholder:'Value'});
+        $(el).select2({placeholder:'Value'});
 
-            if(preDefined !== null) {
-                $(el).val(preDefined[0]);
-                $(el).trigger('input');
-            }
+        if(preDefined !== null) {
+            $(el).val(preDefined[0]);
+            $(el).trigger('input');
         }
     }
     ...

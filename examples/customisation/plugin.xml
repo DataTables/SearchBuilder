@@ -53,10 +53,11 @@ $(document).ready(function() {
                 let added = [];
 
                 // Declare select2 element
-                let el = $('<select id="select2" class="js-example-basic-single" style="width: 300px"/>');
+                let el = $('<select id="select2" class="js-example-placeholder-single js-states form-control" style="width: 300px"/>');
+                $(el).prepend('<option></option>');
                 
                 // Set necessary listener to trigger search
-                el.on('select2:select', function() { fn(that, el); });
+                el.on('select2:select', function() { console.log("select"); fn(that, el); });
                 
                 // for each row
                 for (let index of indexArray) {
@@ -85,25 +86,21 @@ $(document).ready(function() {
                         // Check if it is preDefined and if so select it
                         if (preDefined !== null && opt.val() === preDefined[0]) {
                             opt.attr('selected', true);
-                            that.dom.valueTitle.remove();
                         }
                     }
                 }
 
                 // Trigger select2 on the select element when it is inserted into the dom
                 $(el).on('dtsb-inserted', function(){
-                    for(let element of el) {
-                        if($(el).hasClass('select2-hidden-accessible')) {
-                            $(el).select2('destroy');
-                        }
+                    if($(el).hasClass('select2-hidden-accessible')) {
+                        $(el).select2('destroy');
+                    }
 
-                        $(el).prepend('<option selected></option>');
-                        $(el).select2({placeholder:'Value'});
+                    $(el).select2({placeholder:'Value'});
 
-                        if(preDefined !== null) {
-                            $(el).val(preDefined[0]);
-                            $(el).trigger('input');
-                        }
+                    if(preDefined !== null) {
+                        $(el).val(preDefined[0]);
+                        $(el).trigger('input');
                     }
                 })
 

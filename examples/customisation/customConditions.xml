@@ -57,7 +57,7 @@ $(document).ready(function() {
 
                             return el;
                         },
-                        // Straightforward search function comparing value from table and comparison from the select2 element
+                        // Straightforward search function comparing value from table and comparison from the input element
                         // These values are retrieved in `inputValue`
                         search: function (value, comparison) {
                             return +value <= +comparison[0] + 5 && +value >= +comparison[0] - 5;
