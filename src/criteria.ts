@@ -309,6 +309,7 @@ export default class Criteria {
 		// Take note of the cursor position so that we can refocus there later
 		let idx: number = null;
 		let cursorPos: number = null;
+
 		for (let i = 0; i < that.dom.value.length; i++) {
 			if (el === that.dom.value[i][0]) {
 				idx = i;
