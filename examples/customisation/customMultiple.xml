@@ -27,7 +27,7 @@ $('#example').DataTable( {
                     },
                     inputValue: function (el) {
                         // Return the value within the input element
-						return [$(el[0]).val()];
+						return $(el[0]).val();
                     },
                     isInputValid: function (el, that) {
                         // If there is text in the input element then it is valid for searching

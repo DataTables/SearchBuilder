@@ -306,6 +306,10 @@ export default class Criteria {
 		that.s.filled = condition.isInputValid(that.dom.value, that);
 		that.s.value = condition.inputValue(that.dom.value, that);
 
+		if(!Array.isArray(that.s.value)) {
+			that.s.value = [that.s.value];
+		}
+
 		// Take note of the cursor position so that we can refocus there later
 		let idx: number = null;
 		let cursorPos: number = null;
