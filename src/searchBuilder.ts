@@ -41,6 +41,7 @@ export default class SearchBuilder {
 
 	constructor(builderSettings: any, opts: any) {
 		// Check that the required version of DataTables is included
+		console.log('colin');
 		if (! DataTable || ! DataTable.versionCheck || ! DataTable.versionCheck('1.10.0')) {
 			throw new Error('SearchBuilder requires DataTables 1.10 or newer');
 		}
