@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html-iso8601" table-class="display nowrap" order="0">
+
+<css lib="datatables searchbuilder"/>
+
+<js lib="jquery datatables searchbuilder">
+<![CDATA[
+
+$(document).ready(function() {
+    let table = $('#example').DataTable();
+    new $.fn.dataTable.SearchBuilder(table, {});
+    table.searchBuilder.container().prependTo(table.table().container());
+});
+
+]]>
+</js>
+
+<title lib="searchBuilder">Basic SearchBuilder Example</title>
+
+<info><![CDATA[
+
+This `-init searchBuilder` example shows how to initialise SearchBuilder using the API, rather than initialising within the config.
+
+This is done by making use of the constructor manually and retrieving the node using `-api searchBuilder.container()` before inserting it into the document.
+
+]]></info>
+
+</dt-example>
