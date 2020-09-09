@@ -18,7 +18,7 @@
 		</description>
 	</type>
 
-	<default value="Search Builder" />
+	<default value="{0: 'Search Builder', _: 'Search Builder (%d)'}" />
 
 	<description>
 		<![CDATA[
