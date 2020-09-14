@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example order="30">
+
+<title lib="SearchBuilder">SearchBuilder Performance</title>
+
+<info><![CDATA[
+
+This section demonstrates how SearchBuilder will perform with larger sets of data.
+
+]]></info>
+
+</dt-example>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="ajax" table-class="display nowrap" order="15">
+
+<css lib="datatables searchbuilder"/>
+
+<js lib="jquery datatables searchbuilder">
+<![CDATA[
+
+$(document).ready(function() {
+    $('#example').DataTable( {
+        dom: 'Qfrtip',
+		ajax: '../../../../examples/ajax/data/data_50k.txt',
+		columns: [
+            { data: "name" },
+            { data: "position" },
+            { data: "office" },
+            { data: "extn" },
+            { data: "start_date" },
+            { data: "salary" }
+        ],
+        deferRender: true
+    });
+});
+
+]]>
+</js>
+
+<title lib="searchBuilder">50k Rows</title>
+
+<info><![CDATA[
+
+This example demonstrates the performance when large volumes of data are managed.
+
+]]></info>
+
+</dt-example>
