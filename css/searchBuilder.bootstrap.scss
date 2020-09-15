@@ -7,11 +7,6 @@ div.dtsb-searchBuilder {
 
         div.dtsb-title {
             padding-top: 10px;
-            padding-left: 10px;
-        }
-        
-        button.dtsb-clearAll {
-            margin-right: 10px;;
         }
     }
 
@@ -25,7 +20,7 @@ div.dtsb-searchBuilder {
             justify-content: flex-start;
             align-content: flex-start;
             align-items: flex-start;
-            margin-top: 10px;
+            margin-top: 0.8em;
 
             button.dtsb-logic {
                 border: none;
@@ -40,7 +35,7 @@ div.dtsb-searchBuilder {
             button.dtsb-clearGroup {
                 border: none;
                 border-radius: 0px;
-                width: 30px;
+                min-width: 30px;
                 margin: 0px;
             }
         }

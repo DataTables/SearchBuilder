@@ -193,7 +193,7 @@ export default class SearchBuilder {
 	 */
 	private _updateTitle(count) {
 		$(this.dom.title).text(
-			this.s.dt.i18n('searchBuilder.title', {0: 'Search Builder', _: 'Search Builder (%d)'}, count)
+			this.s.dt.i18n('searchBuilder.title', {0: 'Custom Search Builder', _: 'Custom Search Builder (%d)'}, count)
 		);
 	}
 

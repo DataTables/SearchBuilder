@@ -13,15 +13,15 @@ describe('searchBuilder - options - language.searchBuilder.title', function() {
 				dom: 'Qlfrtip'
 			});
 
-			expect($('.dtsb-title').text()).toBe('Search Builder');
+			expect($('.dtsb-title').text()).toBe('Custom Search Builder');
 		});
 		it('... one filter', function() {
 			$('.dtsb-add').click();
-			expect($('.dtsb-title').text()).toBe('Search Builder (1)');
+			expect($('.dtsb-title').text()).toBe('Custom Search Builder (1)');
 		});
 		it('... two filters', function() {
 			$('.dtsb-add').click();
-			expect($('.dtsb-title').text()).toBe('Search Builder (2)');
+			expect($('.dtsb-title').text()).toBe('Custom Search Builder (2)');
 		});
 
 		dt.html('basic');

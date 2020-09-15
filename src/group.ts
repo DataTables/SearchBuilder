@@ -258,7 +258,7 @@ export default class Group {
 			if (!this.s.isChild) {
 				$(this.dom.container).trigger('dtsb-destroy');
 				// Set criteria left margin
-				$(this.dom.container).css('margin-left', 10);
+				$(this.dom.container).css('margin-left', 0);
 			}
 
 			return;

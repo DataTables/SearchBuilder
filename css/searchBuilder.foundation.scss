@@ -3,16 +3,14 @@
 
 div.dtsb-searchBuilder {
     div.dtsb-titleRow {
-        height: 50px;
+        margin-bottom: 1em;
 
         div.dtsb-title {
             padding-top: 10px;
-            padding-left: 10px;
             font-size: 1.4375rem;
         }
         
         button.dtsb-clearAll {
-            margin-right: 10px;
             margin-bottom: 0px;
         }
     }
@@ -48,7 +46,7 @@ div.dtsb-searchBuilder {
             justify-content: flex-start;
             align-content: flex-start;
             align-items: flex-start;
-            margin-top: 10px;
+            margin-top: 0.8em;
 
             button.dtsb-logic {
                 border: none;

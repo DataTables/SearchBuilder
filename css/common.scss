@@ -6,20 +6,21 @@ div.dtsb-searchBuilder {
     cursor: default;
     margin-bottom: 1em;
 
-    div.dtsb-titleRow{
+    button.dtsb-button,
+    select {
+        font-size: 1em;
+    }
+
+    div.dtsb-titleRow {
         justify-content: space-evenly;
         margin-bottom: 0.5em;
     
         div.dtsb-title {
             display: inline-block;
-            font-size: 1em;
-            padding: 5px;
-            margin-top: 9px;
-            margin-left: 10px;
+            padding-top: 6px;
         }
 
         button.dtsb-clearAll {
-            margin-top: 10px;
             float: right;
         }
     }
@@ -32,21 +33,16 @@ div.dtsb-searchBuilder {
 
     div.dtsb-group {
         position: relative;
-        /* background-color: #e4e2e2; */
-        border-radius: 3px;
-        margin-left: 10px;
+        clear: both;
+        margin-bottom: 0.8em;
 
         button.dtsb-clearGroup {
             margin: 2px;
         }
 
         button.dtsb-add {
-            margin-bottom: 0px;
-            margin-top: 10px;
-            padding-left: 8px;
-            padding-right: 8px;
-            min-width: 80px !important;
-            text-align: left;
+            padding-left: 0.5em;
+            padding-right: 0.5em;
         }
 
         div.dtsb-logicContainer {
@@ -56,16 +52,16 @@ div.dtsb-searchBuilder {
             -ms-transform: rotate(90deg);
             transform: rotate(90deg);
             position: absolute;
-            margin-top: 10px;
-            margin-right: 10px;
+            margin-top: 0.8em;
+            margin-right: 0.8em;
         }
 
         div.dtsb-criteria {
-            margin-top: 10px;
+            margin-bottom: 0.8em;
 
             select.dtsb-dropDown, input.dtsb-input{
-                padding: 5px;
-                margin-right: 10px;
+                padding: 0.4em;
+                margin-right: 0.8em;
 
                 option.dtsb-notItalic {
                     font-style: normal;
@@ -81,12 +77,16 @@ div.dtsb-searchBuilder {
                 display: inline-block;
 
                 button.dtsb-delete, button.dtsb-right, button.dtsb-left{
-                    margin-right: 10px;
+                    margin-right: 0.8em;
+
+                    &:last-child {
+                        margin-right: 0;
+                    }
                 }
             }
 
             span.dtsp-joiner {
-                margin-right: 10px;
+                margin-right: 0.8em;
             }
         }
     }

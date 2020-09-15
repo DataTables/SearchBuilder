@@ -7,19 +7,13 @@ div.dtsb-searchBuilder {
 
         div.dtsb-title {
             padding-top: 10px;
-            padding-left: 10px;
-            font-size: 1rem;
-        }
-        
-        button.dtsb-clearAll {
-            margin-right: 10px;
         }
     }
-    div.dtsb-group{
+    div.dtsb-group {
         button.dtsb-clearGroup {
             margin-right: 8px;
         }
-        div.dtsb-criteria{
+        div.dtsb-criteria {
             .form-control {
                 width: auto;
                 display: inline-block;
@@ -38,7 +32,7 @@ div.dtsb-searchBuilder {
             }
         }
 
-        div.dtsb-logicContainer{
+        div.dtsb-logicContainer {
             border-radius: 4px;
             display: flex;
             flex-direction: row;

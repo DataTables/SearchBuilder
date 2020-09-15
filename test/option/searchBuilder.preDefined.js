@@ -26,7 +26,7 @@ describe('searchBuilder - options - searchBuilder.preDefined', function() {
 			});
 
 			expect($('.dtsb-criteria').length).toBe(1);
-			expect($('.dtsb-title').text()).toBe('Search Builder (1)');
+			expect($('.dtsb-title').text()).toBe('Custom Search Builder (1)');
 			expect($('#example tbody tr td:eq(0)').text()).toBe('Cedric Kelly');
 		});
 		it('Complex criteria search', function() {
@@ -63,7 +63,7 @@ describe('searchBuilder - options - searchBuilder.preDefined', function() {
 			});
 
 			expect($('.dtsb-criteria').length).toBe(3);
-			expect($('.dtsb-title').text()).toBe('Search Builder (3)');
+			expect($('.dtsb-title').text()).toBe('Custom Search Builder (3)');
 			expect($('#example tbody tr td:eq(0)').text()).toBe('Ashton Cox');
 		});
 		it('Language setting', function() {
