@@ -202,6 +202,7 @@ export default class SearchBuilder {
 	 */
 	private _build(): void {
 		// Empty and setup the container
+		$(this.dom.clearAll).remove();
 		$(this.dom.container).empty();
 		let count = this.s.topGroup.count();
 		this._updateTitle(count);
