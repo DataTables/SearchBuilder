@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-api library="SearchBuilder">
+	<name>searchBuilder.container()</name>
+	<summary>Returns the node of the SearchBuilder container.</summary>
+	<since>1.0.0</since>
+
+	<type type="function">
+		<signature>searchBuilder.container()</signature>
+		<description>Returns the node of the SearchBuilder container.</description>
+		<returns type="jQuery">
+            jQuery instance that contains the container element for the SearchBuilder.
+        </returns>
+
+	</type>
+
+	<description>
+		This method provides the ability to return the node of the container that is storing SearchBuilder. This allows the user to manipulate it by adding classes or moving it around the `-init dom`.
+
+		This method does not take any arguments, it is simply a getter for the container.
+
+	</description>
+
+	<example title="Add a class to the SearchBuilder container:"><![CDATA[
+    var dt = $('#example').DataTable( {
+        dom: 'Qfrtip'
+    });
+	dt.searchBuilder.container().addClass('sb_class');
+]]></example>
+
+</dt-api>
