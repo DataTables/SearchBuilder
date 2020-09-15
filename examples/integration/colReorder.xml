@@ -16,7 +16,7 @@ $(document).ready(function() {
 ]]>
 </js>
 
-<title lib="searchBuilder">ColReorder Integration</title>
+<title lib="SearchBuilder">ColReorder Integration</title>
 
 <info><![CDATA[
 

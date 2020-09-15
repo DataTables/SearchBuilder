@@ -15,7 +15,7 @@ $(document).ready(function() {
 ]]>
 </js>
 
-<title lib="searchBuilder">Formatted Numbers</title>
+<title lib="SearchBuilder">Formatted Numbers</title>
 
 <info><![CDATA[
 

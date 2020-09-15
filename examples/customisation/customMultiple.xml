@@ -47,7 +47,7 @@ $('#example').DataTable( {
 ]]>
 </js>
 
-<title lib="searchBuilder">Custom Multiple Of Condition</title>
+<title lib="SearchBuilder">Custom Multiple Of Condition</title>
 
 <info><![CDATA[
 

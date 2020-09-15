@@ -18,7 +18,7 @@ $(document).ready(function() {
 ]]>
 </js>
 
-<title lib="searchBuilder">Only allow filtering on certain columns</title>
+<title lib="SearchBuilder">Only allow filtering on certain columns</title>
 
 <info><![CDATA[
 

@@ -19,7 +19,7 @@ $(document).ready(function() {
 ]]>
 </js>
 
-<title lib="searchBuilder">SearchPanes CascadePanes and ViewTotal Integration</title>
+<title lib="SearchBuilder">SearchPanes CascadePanes and ViewTotal Integration</title>
 
 <info><![CDATA[
 

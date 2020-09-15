@@ -18,7 +18,7 @@ $(document).ready(function() {
 ]]>
 </js>
 
-<title lib="searchBuilder">Limit Sub-Group Depth</title>
+<title lib="SearchBuilder">Limit Sub-Group Depth</title>
 
 <info><![CDATA[
 

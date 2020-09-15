@@ -72,7 +72,7 @@ $(document).ready(function() {
 ]]>
 </js>
 
-<title lib="searchBuilder">Custom Conditions</title>
+<title lib="SearchBuilder">Custom Conditions</title>
 
 <info><![CDATA[
 

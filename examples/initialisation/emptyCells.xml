@@ -20,7 +20,7 @@ $(document).ready(function() {
 ]]>
 </js>
 
-<title lib="searchBuilder">Interaction with empty cells</title>
+<title lib="SearchBuilder">Interaction with empty cells</title>
 
 <info><![CDATA[
 

@@ -24,7 +24,7 @@ $(document).ready(function() {
 ]]>
 </js>
 
-<title lib="searchBuilder">Unknown Column Type</title>
+<title lib="SearchBuilder">Unknown Column Type</title>
 
 <info><![CDATA[
 

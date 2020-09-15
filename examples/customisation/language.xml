@@ -33,7 +33,7 @@ $(document).ready(function() {
 ]]>
 </js>
 
-<title lib="searchBuilder">SearchBuilder Language Options</title>
+<title lib="SearchBuilder">SearchBuilder Language Options</title>
 
 <info><![CDATA[
 

@@ -42,7 +42,7 @@ $(document).ready(function() {
 ]]>
 </js>
 
-<title lib="searchBuilder">PreDefined Search</title>
+<title lib="SearchBuilder">PreDefined Search</title>
 
 <info><![CDATA[
 

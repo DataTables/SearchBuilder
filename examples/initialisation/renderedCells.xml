@@ -22,7 +22,7 @@ $(document).ready( function () {
 ]]>
 </js>
 
-<title lib="searchBuilder">Interaction with Rendered Cells</title>
+<title lib="SearchBuilder">Interaction with Rendered Cells</title>
 
 <info><![CDATA[
 

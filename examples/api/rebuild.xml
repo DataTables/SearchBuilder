@@ -37,7 +37,7 @@ $(document).ready(function() {
 ]]>
 </js>
 
-<title lib="searchBuilder">Rebuild Demonstration</title>
+<title lib="SearchBuilder">Rebuild Demonstration</title>
 
 <info><![CDATA[
 

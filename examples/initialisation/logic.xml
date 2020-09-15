@@ -18,7 +18,7 @@ $(document).ready(function() {
 ]]>
 </js>
 
-<title lib="searchBuilder">Default Logic</title>
+<title lib="SearchBuilder">Default Logic</title>
 
 <info><![CDATA[
 

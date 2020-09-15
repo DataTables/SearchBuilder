@@ -16,7 +16,7 @@ $(document).ready(function() {
 ]]>
 </js>
 
-<title lib="searchBuilder">State Save Integration</title>
+<title lib="SearchBuilder">State Save Integration</title>
 
 <info><![CDATA[
 

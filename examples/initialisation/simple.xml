@@ -15,7 +15,7 @@ $(document).ready(function() {
 ]]>
 </js>
 
-<title lib="searchBuilder">Basic SearchBuilder Example</title>
+<title lib="SearchBuilder">Basic SearchBuilder Example</title>
 
 <info><![CDATA[
 
