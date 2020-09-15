@@ -1,13 +1,14 @@
-/*! SearchBuilder 0.0.1
- * 2019-2020 SpryMedia Ltd - datatables.net/license
+/*! SearchBuilder 1.0.0
+ * ©2020 SpryMedia Ltd - datatables.net/license/mit
  */
 
 /**
  * @summary     SearchBuilder
- * @description Search Builder for DataTables
- * @version     0.0.1
- * @author      SpryMedia Ltd (www.sprymedia.co.uk)
- * @copyright   Copyright 2019-2020 SpryMedia Ltd.
+ * @description End user complex search builder for DataTables
+ * @version     1.0.0
+ * @file        dataTables.searchBuilder.js
+ * @author      SpryMedia Ltd
+ * @copyright   Copyright 2020 SpryMedia Ltd.
  *
  * This source file is free software, available under the following license:
  *   MIT license - http://datatables.net/license/mit
