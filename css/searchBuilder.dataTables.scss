@@ -2,6 +2,8 @@
 @import './common.scss';
 
 $border-width: 1px;
+$dtb-button-colour: rgba(0, 0, 0, 0.1) !default;
+$dtb-button-border: 1px solid dtb-shade(transparent, 30%) !default;
 
 div.dtsb-searchBuilder {
     button, select, input {
@@ -9,10 +11,31 @@ div.dtsb-searchBuilder {
     }
 
     button.dtsb-button {
-        border: $border-width solid #cecece;
-        border-radius: 3px;
-        padding: 5px;
-        min-width: 28px;
+        position: relative;
+        display: inline-block;
+        box-sizing: border-box;
+        padding: 0.5em 1em;
+        border: $dtb-button-border;
+        border-radius: 2px;
+        cursor: pointer;
+        font-size: 0.88em;
+        line-height: 1.6em;
+        color: black;
+        //box-shadow: 1px 1px 3px #ccc;
+        white-space: nowrap;
+        overflow: hidden;
+        @include dtb-two-stop-gradient(
+            to bottom,
+            lighten($dtb-button-colour, 90%),
+            $dtb-button-colour
+        );
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        text-decoration: none;
+        outline: none;
+        text-overflow: ellipsis;
 
         &:hover {
             background-color: #cecece !important;
@@ -20,8 +43,23 @@ div.dtsb-searchBuilder {
         }
     }
 
+    div.dtsb-logicContainer {
+        border: $dtb-button-border;
+        @include dtb-two-stop-gradient(
+            to right,
+            lighten($dtb-button-colour, 90%),
+            $dtb-button-colour
+        );
+
+        button {
+            border: 1px solid transparent;
+            background: transparent;
+        }
+    }
+
     button.dtsb-clearGroup {
         min-width: 25px;
+        padding: 0;
     }
 
     .dtsb-greyscale {
