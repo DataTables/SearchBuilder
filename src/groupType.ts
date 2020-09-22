@@ -1,5 +1,6 @@
 import Criteria from './criteria';
 import Group from './group';
+import {II18n} from './builderType';
 
 export interface IClassses {
 	add: string;
@@ -23,6 +24,7 @@ export interface IDom {
 export interface IDefaults {
 	depthLimit: boolean | number;
 	greyscale: boolean;
+	i18n?: II18n;
 	logic: string;
 }
 

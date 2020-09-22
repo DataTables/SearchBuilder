@@ -1,5 +1,20 @@
 import Group from './group';
 
+export interface II18n {
+	add: string;
+	button: string | object;
+	clearAll: string;
+	condition: string;
+	data: string;
+	deleteTitle: string;
+	logicAnd: string;
+	logicOr: string;
+	leftTitle: string;
+	rightTitle: string;
+	title: string | object;
+	value: string;
+}
+
 export interface IDetails {
 	criteria: any[];
 	logic: string;
@@ -17,6 +32,7 @@ export interface IClasses {
 export interface IDefaults {
 	filterChanged: any;
 	preDefined: boolean | IDetails;
+	i18n: II18n;
 }
 
 export interface IDom {

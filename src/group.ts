@@ -149,7 +149,10 @@ export default class Group {
 		}
 
 		this.s.logic = loadedDetails.logic;
-		$(this.dom.logic).text(this.s.logic === 'OR' ? this.s.dt.i18n('searchBuilder.logicOr', 'Or') : this.s.dt.i18n('searchBuilder.logicAnd', 'And'));
+		$(this.dom.logic).text(this.s.logic === 'OR'
+			? this.s.dt.i18n('searchBuilder.logicOr', this.c.i18n.logicOr)
+			: this.s.dt.i18n('searchBuilder.logicAnd', this.c.i18n.logicAnd)
+		);
 
 		// Add all of the criteria, be it a sub group or a criteria
 		for (let crit of loadedDetails.criteria) {
@@ -702,8 +705,11 @@ export default class Group {
 	private _setup(): void {
 		this.setListeners();
 
-		$(this.dom.add).text(this.s.dt.i18n('searchBuilder.add', 'Add Condition'));
-		$(this.dom.logic).text(this.c.logic === 'OR' ? this.s.dt.i18n('searchBuilder.logicOr', 'Or') : this.s.dt.i18n('searchBuilder.logicAnd', 'And'));
+		$(this.dom.add).text(this.s.dt.i18n('searchBuilder.add', this.c.i18n.add));
+		$(this.dom.logic).text(this.c.logic === 'OR'
+			? this.s.dt.i18n('searchBuilder.logicOr', this.c.i18n.logicOr)
+			: this.s.dt.i18n('searchBuilder.logicAnd', this.c.i18n.logicAnd)
+		);
 		this.s.logic = this.c.logic === 'OR' ? 'OR' : 'AND';
 
 		if (this.c.greyscale) {
@@ -743,11 +749,11 @@ export default class Group {
 	private _toggleLogic(): void {
 		if (this.s.logic === 'OR') {
 			this.s.logic = 'AND';
-			$(this.dom.logic).text(this.s.dt.i18n('searchBuilder.logicAnd', 'And'));
+			$(this.dom.logic).text(this.s.dt.i18n('searchBuilder.logicAnd', this.c.i18n.logicAnd));
 		}
 		else if (this.s.logic === 'AND') {
 			this.s.logic = 'OR';
-			$(this.dom.logic).text(this.s.dt.i18n('searchBuilder.logicOr', 'Or'));
+			$(this.dom.logic).text(this.s.dt.i18n('searchBuilder.logicOr', this.c.i18n.logicOr));
 		}
 	}
 }

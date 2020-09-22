@@ -1,3 +1,6 @@
+
+import {II18n} from './builderType';
+
 export interface IClasses {
 	button: string;
 	buttonContainer: string;
@@ -31,6 +34,7 @@ export interface IDefaults {
 	conditions: {[keys: string]: {[keys: string]: ICondition}};
 	depthLimit: number | boolean;
 	greyscale: boolean;
+	i18n?: II18n;
 	orthogonal: IOrthogonal;
 }
 
