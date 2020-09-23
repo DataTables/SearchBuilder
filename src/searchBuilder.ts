@@ -28,13 +28,14 @@ export interface IClasses {
 }
 
 export interface IDefaults {
-	filterChanged: (count: number) => void;
+	filterChanged: (count: number, text: string) => void;
 	preDefined: boolean | IDetails;
 	depthLimit: boolean | number;
 	greyscale: boolean;
 	logic: string;
 	columns: number[] | boolean;
 	conditions: {[keys: string]: {[keys: string]: criteriaType.ICondition}};
+	i18n?: any;
 	orthogonal: criteriaType.IOrthogonal;
 }
 
@@ -84,12 +85,32 @@ export default class SearchBuilder {
 		depthLimit: false,
 		filterChanged: undefined,
 		greyscale: false,
+		i18n: {
+			add: 'Add Condition',
+			button: {
+				0: 'Search Builder',
+				_: 'Search Builder (%d)',
+			},
+			clearAll: 'Clear All',
+			condition: 'Condition',
+			data: 'Data',
+			deleteTitle: 'Delete filtering rule',
+			leftTitle: 'Outdent criteria',
+			logicAnd: 'And',
+			logicOr: 'Or',
+			rightTitle: 'Indent criteria',
+			title: {
+				0: 'Custom Search Builder',
+				_: 'Custom Search Builder (%d)',
+			},
+			value: 'Value',
+		},
 		logic: 'AND',
 		orthogonal: {
 			conditionName: 'Condition Name',
 			search: 'filter',
 		},
-		preDefined: false
+		preDefined: false,
 	};
 
 	public classes: IClasses;
@@ -110,7 +131,7 @@ export default class SearchBuilder {
 		this.c = $.extend(true, {}, SearchBuilder.defaults, opts);
 
 		this.dom = {
-			clearAll: $('<button type="button">' + table.i18n('searchBuilder.clearAll', 'Clear All') + '</button>')
+			clearAll: $('<button type="button">' + table.i18n('searchBuilder.clearAll', this.c.i18n.clearAll) + '</button>')
 				.addClass(this.classes.clearAll)
 				.addClass(this.classes.button),
 			container: $('<div/>')
@@ -251,7 +272,7 @@ export default class SearchBuilder {
 	 */
 	private _updateTitle(count) {
 		$(this.dom.title).text(
-			this.s.dt.i18n('searchBuilder.title', {0: 'Custom Search Builder', _: 'Custom Search Builder (%d)'}, count)
+			this.s.dt.i18n('searchBuilder.title', this.c.i18n.title, count)
 		);
 	}
 
@@ -319,22 +340,30 @@ export default class SearchBuilder {
 	}
 
 	/**
+	 * Update the count in the title/button
+	 * @param count Number of filters applied
+	 */
+	private _filterChanged(count: number): void {
+		let fn = this.c.filterChanged;
+
+		if (typeof fn === 'function') {
+			fn(count, this.s.dt.i18n('searchBuilder.button', this.c.i18n.button, count));
+		}
+	}
+
+	/**
 	 * Set the listener for the clear button
 	 */
 	private _setClearListener() {
 		$(this.dom.clearAll).unbind('click');
 		$(this.dom.clearAll).on('click', () => {
-			this.s.topGroup = new Group(this.s.dt, this.s.opts, undefined);
+			this.s.topGroup = new Group(this.s.dt, this.c, undefined);
 			this._build();
 			this.s.dt.draw();
 			this.s.topGroup.setListeners();
 			$(this.dom.clearAll).remove();
 			this._setEmptyListener();
-
-			// Update the count in the title/button
-			if (this.c.filterChanged !== undefined && typeof this.c.filterChanged === 'function') {
-				this.c.filterChanged(0);
-			}
+			this._filterChanged(0);
 
 			return false;
 		});
@@ -350,13 +379,11 @@ export default class SearchBuilder {
 			this.s.topGroup.redrawContents();
 			this.s.topGroup.setupLogic();
 			this._setEmptyListener();
-			let count = this.s.topGroup.count();
-			this._updateTitle(count);
 
-			// Update the count in the title/button
-			if (this.c.filterChanged !== undefined && typeof this.c.filterChanged === 'function') {
-				this.c.filterChanged(count);
-			}
+			let count = this.s.topGroup.count();
+
+			this._updateTitle(count);
+			this._filterChanged(count);
 
 			this.s.dt.state.save();
 		});
@@ -364,11 +391,7 @@ export default class SearchBuilder {
 		$(this.s.topGroup.dom.container).unbind('dtsb-clearContents');
 		$(this.s.topGroup.dom.container).on('dtsb-clearContents', () => {
 			this._setUp(false);
-
-			// Update the count in the title/button
-			if (this.c.filterChanged !== undefined && typeof this.c.filterChanged === 'function') {
-				this.c.filterChanged(0);
-			}
+			this._filterChanged(0);
 
 			this.s.dt.draw();
 		});
@@ -376,11 +399,7 @@ export default class SearchBuilder {
 		$(this.s.topGroup.dom.container).on('dtsb-updateTitle', () => {
 			let count = this.s.topGroup.count();
 			this._updateTitle(count);
-
-			// Update the count in the title/button
-			if (this.c.filterChanged !== undefined && typeof this.c.filterChanged === 'function') {
-				this.c.filterChanged(count);
-			}
+			this._filterChanged(count);
 		});
 	}
 

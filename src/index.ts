@@ -92,19 +92,24 @@ import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
 		},
 		config: {},
 		init(dt, node, config) {
-			let sb = new $.fn.dataTable.SearchBuilder(dt, $.extend(
-				{
-					filterChanged(count) {
-						dt.button(node).text(dt.i18n('searchBuilder.button', {0: 'Search Builder', _: 'Search Builder (%d)'}, count));
-					}
-				},
-				config.config
-			));
-			let message = dt.i18n('searchBuilder.button', 'Search Builder', 0);
-			dt.button(node).text(message);
+			let sb = new $.fn.dataTable.SearchBuilder(
+				dt,
+				$.extend(
+					{
+						filterChanged(count, text) {
+							dt.button(node).text(text);
+						},
+					},
+					config.config
+				)
+			);
+
+			dt.button(node).text(
+				config.text || dt.i18n('searchBuilder.button', sb.c.i18n.button, 0)
+			);
 			config._searchBuilder = sb;
 		},
-		text: 'Search Builder',
+		text: null,
 	};
 
 	apiRegister('searchBuilder.getDetails()', function() {
@@ -129,11 +134,15 @@ import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
 	/**
 	 * Init function for SearchBuilder
 	 * @param settings the settings to be applied
+	 * @param options the options for SearchBuilder
 	 * @returns JQUERY<HTMLElement> Returns the node of the SearchBuilder
 	 */
-	function _init(settings): JQuery<HTMLElement> {
+	function _init(settings: any, options?: any): JQuery<HTMLElement> {
 		let api = new DataTable.Api(settings);
-		let opts = api.init().searchBuilder || DataTable.defaults.searchBuilder;
+		let opts = options
+			? options
+			: api.init().searchBuilder || DataTable.defaults.searchBuilder;
+
 		let searchBuilder =  new SearchBuilder(api, opts);
 		let node = searchBuilder.getNode();
 

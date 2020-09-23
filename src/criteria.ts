@@ -947,6 +947,7 @@ export default class Criteria {
 		depthLimit: false,
 		filterChanged: undefined,
 		greyscale: false,
+		i18n: undefined,
 		logic: 'AND',
 		orthogonal: {
 			conditionName: 'Condition Name',
@@ -976,6 +977,7 @@ export default class Criteria {
 
 		// Get options from user and any extra conditions/column types defined by plug-ins
 		this.c = $.extend(true, {}, Criteria.defaults, $.fn.dataTable.ext.searchBuilder, opts);
+		let i18n = this.c.i18n;
 
 		this.s = {
 			condition: undefined,
@@ -1001,7 +1003,7 @@ export default class Criteria {
 				.addClass(this.classes.dropDown)
 				.addClass(this.classes.italic),
 			conditionTitle: $('<option value="" disabled selected hidden/>')
-				.text(this.s.dt.i18n('searchBuilder.condition', 'Condition')),
+				.text(this.s.dt.i18n('searchBuilder.condition', i18n.condition)),
 			container: $('<div/>')
 				.addClass(this.classes.container),
 			data: $('<select/>')
@@ -1009,26 +1011,26 @@ export default class Criteria {
 				.addClass(this.classes.dropDown)
 				.addClass(this.classes.italic),
 			dataTitle: $('<option value="" disabled selected hidden/>')
-				.text(this.s.dt.i18n('searchBuilder.data', 'Data')),
+				.text(this.s.dt.i18n('searchBuilder.data', i18n.data)),
 			defaultValue: $('<select disabled/>')
 				.addClass(this.classes.value)
 				.addClass(this.classes.dropDown),
 			delete: $('<button>&times</button>')
 				.addClass(this.classes.delete)
 				.addClass(this.classes.button)
-				.attr('title', this.s.dt.i18n('searchBuilder.deleteTitle', 'Delete filtering rule')),
+				.attr('title', this.s.dt.i18n('searchBuilder.deleteTitle', i18n.deleteTitle)),
 			left: $('<button>\<</button>')
 				.addClass(this.classes.left)
 				.addClass(this.classes.button)
-				.attr('title', this.s.dt.i18n('searchBuilder.leftTitle', 'Outdent criteria')),
+				.attr('title', this.s.dt.i18n('searchBuilder.leftTitle', i18n.leftTitle)),
 			right: $('<button>\></button>')
 				.addClass(this.classes.right)
 				.addClass(this.classes.button)
-				.attr('title', this.s.dt.i18n('searchBuilder.rightTitle', 'Indent criteria')),
+				.attr('title', this.s.dt.i18n('searchBuilder.rightTitle', i18n.rightTitle)),
 			value: [
 				$('<select disabled/>').addClass(this.classes.value).addClass(this.classes.dropDown).addClass(this.classes.italic)
 			],
-			valueTitle: $('<option value="" disabled selected hidden/>').text(this.s.dt.i18n('searchBuilder.value', 'Value')),
+			valueTitle: $('<option value="" disabled selected hidden/>').text(this.s.dt.i18n('searchBuilder.value', i18n.value)),
 		};
 
 		// If the greyscale option is selected then add the class to add the grey colour to SearchBuilder
