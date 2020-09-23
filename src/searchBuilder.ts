@@ -10,17 +10,57 @@ export function setJQuery(jq: any): void {
 	DataTable = jq.fn.DataTable;
 }
 
-import * as typeInterfaces from './builderType';
-import Group from './group';
+import Criteria, * as criteriaType from './criteria';
+import Group, * as groupType from './group';
+
+export interface IDetails {
+	criteria: Group[];
+	logic: string;
+}
+
+export interface IClasses {
+	button: string;
+	clearAll: string;
+	container: string;
+	inputButton: string;
+	title: string;
+	titleRow: string;
+}
+
+export interface IDefaults {
+	filterChanged: (count: number) => void;
+	preDefined: boolean | IDetails;
+	depthLimit: boolean | number;
+	greyscale: boolean;
+	logic: string;
+	columns: number[] | boolean;
+	conditions: {[keys: string]: {[keys: string]: criteriaType.ICondition}};
+	orthogonal: criteriaType.IOrthogonal;
+}
+
+export interface IDom {
+	clearAll: JQuery<HTMLElement>;
+	container: JQuery<HTMLElement>;
+	title: JQuery<HTMLElement>;
+	titleRow: JQuery<HTMLElement>;
+	topGroup: JQuery<HTMLElement>;
+}
+
+export interface IS {
+	dt: any;
+	opts: IDefaults;
+	search: (settings: any, searchData: any, dataIndex: any, origData: any) => boolean;
+	topGroup: Group;
+}
 
 /**
  * SearchBuilder class for DataTables.
  * Allows for complex search queries to be constructed and implemented on a DataTable
  */
 export default class SearchBuilder {
-	private static version = '0.0.1';
+	private static version = '1.0.0';
 
-	private static classes: typeInterfaces.IClasses = {
+	private static classes: IClasses = {
 		button: 'dtsb-button',
 		clearAll: 'dtsb-clearAll',
 		container: 'dtsb-searchBuilder',
@@ -29,17 +69,35 @@ export default class SearchBuilder {
 		titleRow: 'dtsb-titleRow'
 	};
 
-	private static defaults: typeInterfaces.IDefaults = {
+	private static defaults: IDefaults = {
+		columns: true,
+		conditions: {
+			'date': Criteria.dateConditions,
+			'html': Criteria.stringConditions,
+			'html-num': Criteria.numConditions,
+			'html-num-fmt': Criteria.numFmtConditions,
+			'moment': Criteria.momentDateConditions,
+			'num': Criteria.numConditions,
+			'num-fmt': Criteria.numFmtConditions,
+			'string': Criteria.stringConditions
+		},
+		depthLimit: false,
 		filterChanged: undefined,
-		preDefined: false,
+		greyscale: false,
+		logic: 'AND',
+		orthogonal: {
+			conditionName: 'Condition Name',
+			search: 'filter',
+		},
+		preDefined: false
 	};
 
-	public classes: typeInterfaces.IClasses;
-	public dom: typeInterfaces.IDom;
-	public c: typeInterfaces.IDefaults;
-	public s: typeInterfaces.IS;
+	public classes: IClasses;
+	public dom: IDom;
+	public c: IDefaults;
+	public s: IS;
 
-	constructor(builderSettings: any, opts: any) {
+	constructor(builderSettings: any, opts: IDefaults) {
 		// Check that the required version of DataTables is included
 		if (! DataTable || ! DataTable.versionCheck || ! DataTable.versionCheck('1.10.0')) {
 			throw new Error('SearchBuilder requires DataTables 1.10 or newer');
@@ -94,7 +152,7 @@ export default class SearchBuilder {
 	/**
 	 * Gets the details required to rebuild the SearchBuilder as it currently is
 	 */
-	public getDetails(): typeInterfaces.IDetails | object {
+	public getDetails(): IDetails | object {
 		return this.s.topGroup.getDetails();
 	}
 
@@ -102,7 +160,7 @@ export default class SearchBuilder {
 	 * Getter for the node of the container for the searchBuilder
 	 * @returns JQuery<HTMLElement> the node of the container
 	 */
-	public getNode(): JQuery<HTMLElement> {
+	public getNode(): JQuery < HTMLElement > {
 		return this.dom.container;
 	}
 

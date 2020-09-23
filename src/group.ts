@@ -1,5 +1,60 @@
-import * as critTypeInterfaces from './criteriaType';
-import * as typeInterfaces from './groupType';
+import Criteria, * as criteriaType from './criteria';
+import * as builderType from './searchBuilder';
+
+export interface IClassses {
+	add: string;
+	button: string;
+	clearGroup: string;
+	greyscale: string;
+	group: string;
+	inputButton: string;
+	logic: string;
+	logicContainer: string;
+}
+
+export interface IDom {
+	add: JQuery<HTMLElement>;
+	clear: JQuery<HTMLElement>;
+	container: JQuery<HTMLElement>;
+	logic: JQuery<HTMLElement>;
+	logicContainer: JQuery<HTMLElement>;
+}
+
+export interface IS {
+	criteria: ISCriteria[];
+	depth: number;
+	dt: any;
+	index: number;
+	isChild: boolean;
+	logic: string;
+	opts: builderType.IDefaults;
+	toDrop: Criteria;
+	topGroup: JQuery<HTMLElement>;
+}
+
+export interface ICriteria {
+	criteria: Array<IDetails | criteriaType.IDetails>;
+	index: number;
+}
+
+export interface ICriteriaDetails {
+	condition?: string;
+	data?: string;
+	value?: string[];
+	logic?: string;
+}
+
+export interface ISCriteria {
+	criteria: Group | Criteria;
+	index: number;
+	logic?: string;
+}
+
+export interface IDetails {
+	criteria?: ICriteriaDetails[];
+	logic?: string;
+	index?: number;
+}
 
 let $: any;
 let DataTable: any;
@@ -13,15 +68,13 @@ export function setJQuery(jq: any): void {
   DataTable = jq.fn.dataTable;
 }
 
-import Criteria from './criteria';
-
 /**
  * The Group class is used within SearchBuilder to represent a group of criteria
  */
 export default class Group {
-	private static version = '0.0.1';
+	private static version = '1.0.0';
 
-	private static classes: typeInterfaces.IClassses = {
+	private static classes: IClassses = {
 		add: 'dtsb-add',
 		button: 'dtsb-button',
 		clearGroup: 'dtsb-clearGroup',
@@ -32,18 +85,42 @@ export default class Group {
 		logicContainer: 'dtsb-logicContainer'
 	};
 
-	private static defaults: typeInterfaces.IDefaults = {
+	private static defaults: builderType.IDefaults = {
+		columns: true,
+		conditions: {
+			'date': Criteria.dateConditions,
+			'html': Criteria.stringConditions,
+			'html-num': Criteria.numConditions,
+			'html-num-fmt': Criteria.numFmtConditions,
+			'moment': Criteria.momentDateConditions,
+			'num': Criteria.numConditions,
+			'num-fmt': Criteria.numFmtConditions,
+			'string': Criteria.stringConditions
+		},
 		depthLimit: false,
+		filterChanged: undefined,
 		greyscale: false,
-		logic: 'AND'
+		logic: 'AND',
+		orthogonal: {
+			conditionName: 'Condition Name',
+			search: 'filter',
+		},
+		preDefined: false
 	};
 
-	public classes: typeInterfaces.IClassses;
-	public dom: typeInterfaces.IDom;
-	public c: typeInterfaces.IDefaults;
-	public s: typeInterfaces.IS;
+	public classes: IClassses;
+	public dom: IDom;
+	public c: builderType.IDefaults;
+	public s: IS;
 
-	constructor(table: any, opts: any, topGroup: JQuery<HTMLElement>, index = 0, isChild = false, depth = 1) {
+	constructor(
+		table: any,
+		opts: builderType.IDefaults,
+		topGroup: JQuery<HTMLElement>,
+		index = 0,
+		isChild = false,
+		depth = 1
+	) {
 		// Check that the required version of DataTables is included
 		if (! DataTable || ! DataTable.versionCheck || ! DataTable.versionCheck('1.10.0')) {
 			throw new Error('SearchBuilder requires DataTables 1.10 or newer');
@@ -112,12 +189,12 @@ export default class Group {
 	/**
 	 * Gets the details required to rebuild the group
 	 */
-	public getDetails(): typeInterfaces.IDetails | {} {
+	public getDetails(): IDetails | {} {
 		if (this.s.criteria.length === 0) {
 			return {};
 		}
 
-		let details: typeInterfaces.IDetails = {
+		let details: IDetails = {
 			criteria: [],
 			logic: this.s.logic
 		};
@@ -142,7 +219,7 @@ export default class Group {
 	 * Rebuilds the group based upon the details passed in
 	 * @param loadedDetails the details required to rebuild the group
 	 */
-	public rebuild(loadedDetails: typeInterfaces.IDetails): void {
+	public rebuild(loadedDetails: IDetails): void {
 		// If no criteria are stored then just return
 		if (loadedDetails.criteria === undefined || loadedDetails.criteria === null || loadedDetails.criteria.length === 0) {
 			return;
@@ -163,7 +240,7 @@ export default class Group {
 
 		// For all of the criteria children, update the arrows incase they require changing and set the listeners
 		for (let crit of this.s.criteria) {
-			if (crit.logic === undefined) {
+			if (crit.criteria instanceof Criteria) {
 				crit.criteria.updateArrows(this.s.criteria.length > 1, false);
 				this._setCriteriaListeners(crit.criteria);
 			}
@@ -195,7 +272,9 @@ export default class Group {
 		this.setListeners();
 
 		for (let i = 0; i < this.s.criteria.length; i++) {
-			if (this.s.criteria[i].logic === undefined) {
+			let crit = this.s.criteria[i].criteria;
+
+			if (crit instanceof Criteria) {
 				// Reset the index to the new value
 				this.s.criteria[i].index = i;
 				this.s.criteria[i].criteria.s.index = i;
@@ -204,10 +283,10 @@ export default class Group {
 				$(this.s.criteria[i].criteria.dom.container).insertBefore(this.dom.add);
 
 				// Set listeners for various points
-				this._setCriteriaListeners(this.s.criteria[i].criteria);
+				this._setCriteriaListeners(crit);
 				this.s.criteria[i].criteria.rebuild(this.s.criteria[i].criteria.getDetails());
 			}
-			else if (this.s.criteria[i].criteria.s.criteria.length > 0) {
+			else if (crit instanceof Group && crit.s.criteria.length > 0) {
 				// Reset the index to the new value
 				this.s.criteria[i].index = i;
 				this.s.criteria[i].criteria.s.index = i;
@@ -216,8 +295,8 @@ export default class Group {
 				$(this.s.criteria[i].criteria.dom.container).insertBefore(this.dom.add);
 
 				// Redraw the contents of the group
-				this.s.criteria[i].criteria.redrawContents();
-				this._setGroupListeners(this.s.criteria[i].criteria);
+				crit.redrawContents();
+				this._setGroupListeners(crit);
 			}
 			else {
 				// The group is empty so remove it
@@ -376,7 +455,7 @@ export default class Group {
 		});
 
 		for (let opt of this.s.criteria) {
-			if (opt.logic === undefined) {
+			if (opt.criteria instanceof Criteria) {
 				opt.criteria.updateArrows(this.s.criteria.length > 1, redraw);
 			}
 		}
@@ -392,8 +471,8 @@ export default class Group {
 	public checkFilled() {
 		for (let crit of this.s.criteria) {
 			if (
-				(crit.logic === undefined && crit.criteria.s.filled) ||
-				(crit.logic !== undefined && crit.criteria.checkFilled())
+				(crit.criteria instanceof Criteria && crit.criteria.s.filled) ||
+				(crit.criteria instanceof Group && crit.criteria.checkFilled())
 			) {
 				return true;
 			}
@@ -409,7 +488,7 @@ export default class Group {
 		let count = 0;
 
 		for (let crit of this.s.criteria) {
-			if (crit.logic !== undefined) {
+			if (crit.criteria instanceof Group) {
 				count += crit.criteria.count();
 			}
 			else {
@@ -424,7 +503,7 @@ export default class Group {
 	 * Rebuilds a sub group that previously existed
 	 * @param loadedGroup The details of a group within this group
 	 */
-	private _addPrevGroup(loadedGroup: typeInterfaces.IDetails): void {
+	private _addPrevGroup(loadedGroup: IDetails): void {
 		let idx = this.s.criteria.length;
 		let group = new Group(this.s.dt, this.c, this.s.topGroup, idx, true, this.s.depth + 1);
 
@@ -446,7 +525,7 @@ export default class Group {
 	 * Rebuilds a criteria of this group that previously existed
 	 * @param loadedCriteria The details of a criteria within the group
 	 */
-	private _addPrevCriteria(loadedCriteria: critTypeInterfaces.IDetails): void {
+	private _addPrevCriteria(loadedCriteria: criteriaType.IDetails): void {
 		let idx = this.s.criteria.length;
 		let criteria = new Criteria(this.s.dt, this.s.opts, this.s.topGroup, idx, this.s.depth);
 		criteria.populate();
@@ -476,7 +555,7 @@ export default class Group {
 
 		for (let crit of this.s.criteria) {
 			// If the criteria is not complete then skip it
-			if (crit.logic === undefined && !crit.criteria.s.filled) {
+			if (crit.criteria instanceof Criteria && !crit.criteria.s.filled) {
 				continue;
 			}
 			// Otherwise if a single one fails return false
@@ -504,7 +583,7 @@ export default class Group {
 		let filledfound = false;
 
 		for (let crit of this.s.criteria) {
-			if (crit.criteria.s.filled) {
+			if (crit.criteria instanceof Criteria && crit.criteria.s.filled) {
 				// A completed criteria has been found so set the flag
 				filledfound = true;
 
@@ -513,7 +592,7 @@ export default class Group {
 					return true;
 				}
 			}
-			else if (crit.logic !== undefined && crit.criteria.checkFilled()) {
+			else if (crit.criteria instanceof Group && crit.criteria.checkFilled()) {
 				filledfound = true;
 				if (crit.criteria.search(rowData)) {
 					return true;
@@ -569,7 +648,7 @@ export default class Group {
 				this.setupLogic();
 
 				for (let crit of this.s.criteria) {
-					if (crit.logic === undefined) {
+					if (crit.criteria instanceof Criteria) {
 						crit.criteria.updateArrows(this.s.criteria.length > 1);
 					}
 				}
@@ -652,7 +731,7 @@ export default class Group {
 	 * Sets listeners for sub groups of this group
 	 * @param group The sub group that the listeners are to be set on
 	 */
-	private _setGroupListeners(group: any): void {
+	private _setGroupListeners(group: Group): void {
 		// Set listeners for the new group
 		$(group.dom.add)
 			.unbind('click')

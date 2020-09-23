@@ -1,5 +1,87 @@
 import 'datatables.net-datetime';
-import * as typeInterfaces from './criteriaType';
+import * as builderType from './searchBuilder';
+
+export interface IClasses {
+	button: string;
+	buttonContainer: string;
+	condition: string;
+	container: string;
+	delete: string;
+	dropDown: string;
+	data: string;
+	greyscale: string;
+	input: string;
+	italic: string;
+	joiner: string;
+	left: string;
+	notItalic: string;
+	option: string;
+	right: string;
+	value: string;
+	vertical: string;
+}
+
+export interface ICondition {
+	isInputValid: (val: Array<JQuery<HTMLElement>>, that: Criteria) => boolean;
+	conditionName: string;
+	search: (value: string, comparison: string[], that: Criteria) => boolean;
+	init: (
+		that?: Criteria,
+		fn?: (that: Criteria, el: JQuery<HTMLElement>) => void,
+		preDefined?: string[]
+	) => JQuery<HTMLElement> | Array<JQuery<HTMLElement>> | void;
+	inputValue: (el: JQuery<HTMLElement>) => string[] | void;
+}
+
+export interface IOrthogonal {
+	conditionName: string;
+	search: string;
+}
+
+export interface IDom {
+	buttons: JQuery<HTMLElement>;
+	condition: JQuery<HTMLElement>;
+	conditionTitle: JQuery<HTMLElement>;
+	container: JQuery<HTMLElement>;
+	delete: JQuery<HTMLElement>;
+	data: JQuery<HTMLElement>;
+	dataTitle: JQuery<HTMLElement>;
+	defaultValue: JQuery<HTMLElement>;
+	left: JQuery<HTMLElement>;
+	right: JQuery<HTMLElement>;
+	value: Array<JQuery<HTMLElement>>;
+	valueTitle: JQuery<HTMLElement>;
+}
+
+export interface IS {
+	condition: string;
+	conditions: Map<string, ICondition>;
+	depth: number;
+	dt: any;
+	dataIdx: number;
+	dataPoints: IDataOpt[];
+	data: string;
+	filled: boolean;
+	index: number;
+	momentFormat: string | boolean;
+	topGroup: JQuery<HTMLElement>;
+	type: string;
+	value: string[];
+}
+
+export interface IDataOpt {
+	text: string;
+	index: number;
+}
+
+export interface IDetails {
+	condition?: string;
+	data?: string;
+	value?: string[];
+	logic?: string;
+	criteria?: Criteria;
+	index?: number;
+}
 
 let $: any;
 let DataTable: any;
@@ -18,9 +100,9 @@ export function setJQuery(jq: any): void {
  * The Criteria class is used within SearchBuilder to represent a search criteria
  */
 export default class Criteria {
-	private static version = '0.0.1';
+	private static version = '1.0.0';
 
-	private static classes: typeInterfaces.IClasses = {
+	private static classes: IClasses = {
 		button: 'dtsb-button',
 		buttonContainer: 'dtsb-buttonContainer',
 		condition: 'dtsb-condition',
@@ -131,7 +213,11 @@ export default class Criteria {
 	/**
 	 * Default initialisation function for input conditions
 	 */
-	private static initInput = function(that, fn, preDefined = null) {
+	private static initInput = function(
+		that: Criteria,
+		fn: (that: Criteria, el: JQuery<HTMLElement>) => void,
+		preDefined = null
+	): Array<JQuery<HTMLElement>> {
 		// Declare the input element
 		let el = $('<input/>')
 			.addClass(Criteria.classes.value)
@@ -149,7 +235,11 @@ export default class Criteria {
 	/**
 	 * Default initialisation function for conditions requiring 2 inputs
 	 */
-	private static init2Input = function(that, fn, preDefined = null) {
+	private static init2Input = function(
+		that: Criteria,
+		fn: (that: Criteria, el: JQuery<HTMLElement>) => void,
+		preDefined = null
+	): Array<JQuery<HTMLElement>> {
 		// Declare all of the necessary jQuery elements
 		let els = [
 			$('<input/>')
@@ -176,7 +266,11 @@ export default class Criteria {
 	/**
 	 * Default initialisation function for date conditions
 	 */
-	private static initDate = function(that, fn, preDefined = null) {
+	private static initDate = function(
+		that: Criteria,
+		fn: (that: Criteria, el: JQuery<HTMLElement>) => void,
+		preDefined = null
+	): Array<JQuery<HTMLElement>> {
 		// Declare date element using DataTables dateTime plugin
 		let el = $('<input/>')
 			.addClass(Criteria.classes.value)
@@ -195,7 +289,11 @@ export default class Criteria {
 		return el;
 	};
 
-	private static init2Date = function(that, fn, preDefined = null) {
+	private static init2Date = function(
+		that: Criteria,
+		fn: (that: Criteria, el: JQuery<HTMLElement>) => void,
+		preDefined: string[] = null
+	): Array<JQuery<HTMLElement>> {
 		// Declare all of the date elements that are required using DataTables dateTime plugin
 		let els = [
 			$('<input/>')
@@ -306,7 +404,7 @@ export default class Criteria {
 		that.s.filled = condition.isInputValid(that.dom.value, that);
 		that.s.value = condition.inputValue(that.dom.value, that);
 
-		if(!Array.isArray(that.s.value)) {
+		if (!Array.isArray(that.s.value)) {
 			that.s.value = [that.s.value];
 		}
 
@@ -338,13 +436,13 @@ export default class Criteria {
 		}
 	};
 
-	private static dateConditions: {[keys: string]: typeInterfaces.ICondition} = {
+	public static dateConditions: {[keys: string]: ICondition} = {
 		'!=': {
 			conditionName: 'Not',
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
+			search(value: string, comparison: string[]): boolean {
 				value = value.replace(/(\/|\-|\,)/g, '-');
 
 				return value !== comparison[0];
@@ -355,7 +453,7 @@ export default class Criteria {
 			init: Criteria.init2Date,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
+			search(value: string, comparison: string[]): boolean {
 				value = value.replace(/(\/|\-|\,)/g, '-');
 				if (comparison[0] < comparison[1]) {
 					return !(comparison[0] <= value && value <= comparison[1]);
@@ -372,7 +470,7 @@ export default class Criteria {
 			inputValue() {
 				return;
 			},
-			search(value: any, comparison: any[]): boolean {
+			search(value: string): boolean {
 				return !(value === null || value === undefined || value.length === 0);
 			},
 		},
@@ -381,7 +479,7 @@ export default class Criteria {
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
+			search(value: string, comparison: string[]): boolean {
 				value = value.replace(/(\/|\-|\,)/g, '-');
 
 				return value < comparison[0];
@@ -392,7 +490,7 @@ export default class Criteria {
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
+			search(value: string, comparison: string[]): boolean {
 				value = value.replace(/(\/|\-|\,)/g, '-');
 
 				return value === comparison[0];
@@ -403,7 +501,7 @@ export default class Criteria {
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
+			search(value: string, comparison: string[]): boolean {
 				value = value.replace(/(\/|\-|\,)/g, '-');
 
 				return value > comparison[0];
@@ -414,7 +512,7 @@ export default class Criteria {
 			init: Criteria.init2Date,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
+			search(value: string, comparison: string[]): boolean {
 				value = value.replace(/(\/|\-|\,)/g, '-');
 				if (comparison[0] < comparison[1]) {
 					return comparison[0] <= value && value <= comparison[1];
@@ -431,19 +529,19 @@ export default class Criteria {
 			inputValue() {
 				return;
 			},
-			search(value: any, comparison: any[]): boolean {
+			search(value: string): boolean {
 				return (value === null || value === undefined || value.length === 0);
 			},
 		},
 	};
 
-	private static momentDateConditions: {[keys: string]: typeInterfaces.ICondition} = {
+	public static momentDateConditions: {[keys: string]: ICondition} = {
 		'!=': {
 			conditionName: 'Not',
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[], that): boolean {
+			search(value: string, comparison: string[], that): boolean {
 				return moment(value, that.s.momentFormat).valueOf() !== moment(comparison[0], that.s.momentFormat).valueOf();
 			},
 		},
@@ -452,7 +550,7 @@ export default class Criteria {
 			init: Criteria.init2Date,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[], that): boolean {
+			search(value: string, comparison: string[], that): boolean {
 				let val = moment(value, that.s.momentFormat).valueOf();
 				let comp0 = moment(comparison[0], that.s.momentFormat).valueOf();
 				let comp1 = moment(comparison[1], that.s.momentFormat).valueOf();
@@ -471,7 +569,7 @@ export default class Criteria {
 			inputValue() {
 				return;
 			},
-			search(value: any, comparison: any[]): boolean {
+			search(value: string): boolean {
 				return !(value === null || value === undefined || value.length === 0);
 			},
 		},
@@ -480,7 +578,7 @@ export default class Criteria {
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[], that): boolean {
+			search(value: string, comparison: string[], that): boolean {
 				return moment(value, that.s.momentFormat).valueOf() < moment(comparison[0], that.s.momentFormat).valueOf();
 			},
 		},
@@ -489,7 +587,7 @@ export default class Criteria {
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[], that): boolean {
+			search(value: string, comparison: string[], that): boolean {
 				return moment(value, that.s.momentFormat).valueOf() === moment(comparison[0], that.s.momentFormat).valueOf();
 			},
 		},
@@ -498,7 +596,7 @@ export default class Criteria {
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[], that): boolean {
+			search(value: string, comparison: string[], that): boolean {
 				return moment(value, that.s.momentFormat).valueOf() > moment(comparison[0], that.s.momentFormat).valueOf();
 			},
 		},
@@ -507,7 +605,7 @@ export default class Criteria {
 			init: Criteria.init2Date,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[], that): boolean {
+			search(value: string, comparison: string[], that): boolean {
 				let val = moment(value, that.s.momentFormat).valueOf();
 				let comp0 = moment(comparison[0], that.s.momentFormat).valueOf();
 				let comp1 = moment(comparison[1], that.s.momentFormat).valueOf();
@@ -526,19 +624,19 @@ export default class Criteria {
 			inputValue() {
 				return;
 			},
-			search(value: any, comparison: any[]): boolean {
+			search(value: string): boolean {
 				return (value === null || value === undefined || value.length === 0);
 			},
 		},
 	};
 
-	private static numConditions: {[keys: string]: typeInterfaces.ICondition} = {
+	public static numConditions: {[keys: string]: ICondition} = {
 		'!=': {
 			conditionName: 'Not',
 			init: Criteria.initSelect,
 			inputValue: Criteria.inputValueSelect,
 			isInputValid: Criteria.isInputValidSelect,
-			search(value: any, comparison: any[]): boolean {
+			search(value: string, comparison: string[]): boolean {
 				return +value !== +comparison[0];
 			},
 		},
@@ -547,7 +645,7 @@ export default class Criteria {
 			init: Criteria.init2Input,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
+			search(value: string, comparison: string[]): boolean {
 				if (+comparison[0] < +comparison[1]) {
 					return !(+comparison[0] <= +value && +value <= +comparison[1]);
 				}
@@ -563,7 +661,7 @@ export default class Criteria {
 			inputValue() {
 				return;
 			},
-			search(value: any, comparison: any[]): boolean {
+			search(value: string): boolean {
 				return !(value === null || value === undefined || value.length === 0);
 			},
 		},
@@ -572,7 +670,7 @@ export default class Criteria {
 			init: Criteria.initInput,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
+			search(value: string, comparison: string[]): boolean {
 				return +value < +comparison[0];
 			},
 		},
@@ -581,7 +679,7 @@ export default class Criteria {
 			init: Criteria.initInput,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
+			search(value: string, comparison: string[]): boolean {
 				return +value <= +comparison[0];
 			},
 		},
@@ -590,7 +688,7 @@ export default class Criteria {
 			init: Criteria.initSelect,
 			inputValue: Criteria.inputValueSelect,
 			isInputValid: Criteria.isInputValidSelect,
-			search(value: any, comparison: any[]): boolean {
+			search(value: string, comparison: string[]): boolean {
 				return +value === +comparison[0];
 			},
 		},
@@ -599,7 +697,7 @@ export default class Criteria {
 			init: Criteria.initInput,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
+			search(value: string, comparison: string[]): boolean {
 				return +value > +comparison[0];
 			},
 		},
@@ -608,7 +706,7 @@ export default class Criteria {
 			init: Criteria.initInput,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
+			search(value: string, comparison: string[]): boolean {
 				return +value >= +comparison[0];
 			},
 		},
@@ -617,7 +715,7 @@ export default class Criteria {
 			init: Criteria.init2Input,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
+			search(value: string, comparison: string[]): boolean {
 				if (+comparison[0] < +comparison[1]) {
 					return +comparison[0] <= +value && +value <= +comparison[1];
 				}
@@ -631,19 +729,19 @@ export default class Criteria {
 			init() { return; },
 			inputValue() { return; },
 			isInputValid() { return true; },
-			search(value: any, comparison: any[]): boolean {
+			search(value: string): boolean {
 				return (value === null || value === undefined || value.length === 0);
 			},
 		}
 	};
 
-	private static numFmtConditions: {[keys: string]: typeInterfaces.ICondition} = {
+	public static numFmtConditions: {[keys: string]: ICondition} = {
 		'!=': {
 			conditionName: 'Not',
 			init: Criteria.initSelect,
 			inputValue: Criteria.inputValueSelect,
 			isInputValid: Criteria.isInputValidSelect,
-			search(value: any, comparison: any[]): boolean {
+			search(value: string, comparison: string[]): boolean {
 				let val = value.replace(/[^0-9.]/g, '');
 				let comp = comparison[0].replace(/[^0-9.]/g, '');
 
@@ -655,7 +753,7 @@ export default class Criteria {
 			init: Criteria.init2Input,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
+			search(value: string, comparison: string[]): boolean {
 				let val = value.replace(/[^0-9.]/g, '');
 				let comp0 = comparison[0].replace(/[^0-9.]/g, '');
 				let comp1 = comparison[1].replace(/[^0-9.]/g, '');
@@ -674,7 +772,7 @@ export default class Criteria {
 			inputValue() {
 				return;
 			},
-			search(value: any, comparison: any[]): boolean {
+			search(value: string): boolean {
 				return !(value === null || value === undefined || value.length === 0);
 			},
 		},
@@ -683,7 +781,7 @@ export default class Criteria {
 			init: Criteria.initInput,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
+			search(value: string, comparison: string[]): boolean {
 				let val = value.replace(/[^0-9.]/g, '');
 				let comp = comparison[0].replace(/[^0-9.]/g, '');
 
@@ -695,7 +793,7 @@ export default class Criteria {
 			init: Criteria.initInput,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
+			search(value: string, comparison: string[]): boolean {
 				let val = value.replace(/[^0-9.]/g, '');
 				let comp0 = comparison[0].replace(/[^0-9.]/g, '');
 
@@ -707,7 +805,7 @@ export default class Criteria {
 			init: Criteria.initSelect,
 			inputValue: Criteria.inputValueSelect,
 			isInputValid: Criteria.isInputValidSelect,
-			search(value: any, comparison: any[]): boolean {
+			search(value: string, comparison: string[]): boolean {
 				let val = value.replace(/[^0-9.]/g, '');
 				let comp0 = comparison[0].replace(/[^0-9.]/g, '');
 
@@ -719,7 +817,7 @@ export default class Criteria {
 			init: Criteria.initInput,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
+			search(value: string, comparison: string[]): boolean {
 				let val = value.replace(/[^0-9.]/g, '');
 				let comp0 = comparison[0].replace(/[^0-9.]/g, '');
 
@@ -731,7 +829,7 @@ export default class Criteria {
 			init: Criteria.initInput,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
+			search(value: string, comparison: string[]): boolean {
 				let val = value.replace(/[^0-9.]/g, '');
 				let comp0 = comparison[0].replace(/[^0-9.]/g, '');
 
@@ -743,7 +841,7 @@ export default class Criteria {
 			init: Criteria.init2Input,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
+			search(value: string, comparison: string[]): boolean {
 				let val = value.replace(/[^0-9.]/g, '');
 				let comp0 = comparison[0].replace(/[^0-9.]/g, '');
 				let comp1 = comparison[1].replace(/[^0-9.]/g, '');
@@ -760,19 +858,19 @@ export default class Criteria {
 			init() { return; },
 			inputValue() { return; },
 			isInputValid() { return true; },
-			search(value: any, comparison: any[]): boolean {
+			search(value: string): boolean {
 				return (value === null || value === undefined || value.length === 0);
 			},
 		}
 	};
 
-	private static stringConditions: {[keys: string]: typeInterfaces.ICondition} = {
+	public static stringConditions: {[keys: string]: ICondition} = {
 		'!=': {
 			conditionName: 'Not',
 			init: Criteria.initSelect,
 			inputValue: Criteria.inputValueSelect,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
+			search(value: string, comparison: string[]): boolean {
 				return value !== comparison[0];
 			},
 		},
@@ -783,7 +881,7 @@ export default class Criteria {
 			inputValue() {
 				return;
 			},
-			search(value: any, comparison: any[]): boolean {
+			search(value: string): boolean {
 				return !(value === null || value === undefined || value.length === 0);
 			},
 		},
@@ -792,7 +890,7 @@ export default class Criteria {
 			init: Criteria.initSelect,
 			inputValue: Criteria.inputValueSelect,
 			isInputValid: Criteria.isInputValidSelect,
-			search(value: any, comparison: any[]): boolean {
+			search(value: string, comparison: string[]): boolean {
 				return value === comparison[0];
 			},
 		},
@@ -801,7 +899,7 @@ export default class Criteria {
 			init: Criteria.initInput,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
+			search(value: string, comparison: string[]): boolean {
 				return value.toLowerCase().includes(comparison[0].toLowerCase());
 			},
 		},
@@ -810,7 +908,7 @@ export default class Criteria {
 			init: Criteria.initInput,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
+			search(value: string, comparison: string[]): boolean {
 				return value.toLowerCase().indexOf(comparison[0].toLowerCase()) === value.length - comparison[0].length;
 			},
 		},
@@ -819,7 +917,7 @@ export default class Criteria {
 			init() { return; },
 			inputValue() { return; },
 			isInputValid() { return true; },
-			search(value: any, comparison: any[]): boolean {
+			search(value: string): boolean {
 				return (value === null || value === undefined || value.length === 0);
 			},
 		},
@@ -828,13 +926,13 @@ export default class Criteria {
 			init: Criteria.initInput,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: any, comparison: any[]): boolean {
+			search(value: string, comparison: string[]): boolean {
 				return value.toLowerCase().indexOf(comparison[0].toLowerCase()) === 0;
 			},
 		},
 	};
 
-	private static defaults: typeInterfaces.IDefaults = {
+	private static defaults: builderType.IDefaults = {
 		columns: true,
 		conditions: {
 			'date': Criteria.dateConditions,
@@ -847,19 +945,28 @@ export default class Criteria {
 			'string': Criteria.stringConditions
 		},
 		depthLimit: false,
+		filterChanged: undefined,
 		greyscale: false,
+		logic: 'AND',
 		orthogonal: {
 			conditionName: 'Condition Name',
 			search: 'filter',
-		}
+		},
+		preDefined: false
 	};
 
-	public classes: typeInterfaces.IClasses;
-	public dom: typeInterfaces.IDom;
-	public c: typeInterfaces.IDefaults;
-	public s: typeInterfaces.IS;
+	public classes: IClasses;
+	public dom: IDom;
+	public c: builderType.IDefaults;
+	public s: IS;
 
-	constructor(table: any, opts: any, topGroup: JQuery<HTMLElement>, index: number = 0, depth: number = 1) {
+	constructor(
+		table: any,
+		opts: builderType.IDefaults,
+		topGroup: JQuery<HTMLElement>,
+		index: number = 0,
+		depth: number = 1
+	) {
 		// Check that the required version of DataTables is included
 		if (! DataTable || ! DataTable.versionCheck || ! DataTable.versionCheck('1.10.0')) {
 			throw new Error('SearchPane requires DataTables 1.10 or newer');
@@ -1022,7 +1129,7 @@ export default class Criteria {
 	/**
 	 * Gets the details required to rebuild the criteria
 	 */
-	public getDetails(): typeInterfaces.IDetails {
+	public getDetails(): IDetails {
 		return {
 			condition: this.s.condition,
 			data: this.s.data,
@@ -1059,7 +1166,7 @@ export default class Criteria {
 	 * Rebuilds the criteria based upon the details passed in
 	 * @param loadedCriteria the details required to rebuild the criteria
 	 */
-	public rebuild(loadedCriteria: typeInterfaces.IDetails): void {
+	public rebuild(loadedCriteria: IDetails): void {
 		// Check to see if the previously selected data exists, if so select it
 		let foundData = false;
 		let dataIdx;
@@ -1282,10 +1389,7 @@ export default class Criteria {
 			}
 
 			// Call the init function to get the value elements for this condition
-			let value = this.s.conditions.get(this.s.condition).init(this, Criteria.updateListener);
-			this.dom.value = Array.isArray(value) ?
-				value :
-				[value];
+			this.dom.value = [].concat(this.s.conditions.get(this.s.condition).init(this, Criteria.updateListener));
 
 			$(this.dom.value[0]).insertAfter(this.dom.condition).trigger('dtsb-inserted');
 
@@ -1510,19 +1614,15 @@ export default class Criteria {
 		}
 
 		// Initialise the value elements based on the condition
-		let value = this.s.conditions.get(this.s.condition).init(
+		this.dom.value = [].concat(this.s.conditions.get(this.s.condition).init(
 			this,
 			Criteria.updateListener,
 			loadedCriteria !== undefined ? loadedCriteria.value : undefined
-		);
+		));
 
 		if (loadedCriteria !== undefined && loadedCriteria.value !== undefined) {
 			this.s.value = loadedCriteria.value;
 		}
-
-		this.dom.value = Array.isArray(value) ?
-			value :
-			[value];
 
 		// Insert value elements and trigger the inserted event
 		$(this.dom.value[0])
