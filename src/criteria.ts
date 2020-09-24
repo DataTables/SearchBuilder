@@ -947,7 +947,26 @@ export default class Criteria {
 		depthLimit: false,
 		filterChanged: undefined,
 		greyscale: false,
-		i18n: undefined,
+		i18n: {
+			add: 'Add Condition',
+			button: {
+				0: 'Search Builder',
+				_: 'Search Builder (%d)',
+			},
+			clearAll: 'Clear All',
+			condition: 'Condition',
+			data: 'Data',
+			deleteTitle: 'Delete filtering rule',
+			leftTitle: 'Outdent criteria',
+			logicAnd: 'And',
+			logicOr: 'Or',
+			rightTitle: 'Indent criteria',
+			title: {
+				0: 'Custom Search Builder',
+				_: 'Custom Search Builder (%d)',
+			},
+			value: 'Value',
+		},
 		logic: 'AND',
 		orthogonal: {
 			conditionName: 'Condition Name',

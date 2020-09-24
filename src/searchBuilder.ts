@@ -35,7 +35,7 @@ export interface IDefaults {
 	logic: string;
 	columns: number[] | boolean;
 	conditions: {[keys: string]: {[keys: string]: criteriaType.ICondition}};
-	i18n?: any;
+	i18n: II18n;
 	orthogonal: criteriaType.IOrthogonal;
 }
 
@@ -45,6 +45,27 @@ export interface IDom {
 	title: JQuery<HTMLElement>;
 	titleRow: JQuery<HTMLElement>;
 	topGroup: JQuery<HTMLElement>;
+}
+
+export interface II18n {
+	add: string;
+	button: {
+		0: string;
+		_: string;
+	};
+	clearAll: string;
+	condition: string;
+	data: string;
+	deleteTitle: string;
+	leftTitle: string;
+	logicAnd: string;
+	logicOr: string;
+	rightTitle: string;
+	title: {
+		0: string;
+		_: string;
+	};
+	value: string;
 }
 
 export interface IS {
