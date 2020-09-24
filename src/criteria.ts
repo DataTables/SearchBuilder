@@ -136,7 +136,7 @@ export default class Criteria {
 			.addClass(Criteria.classes.dropDown)
 			.addClass(Criteria.classes.italic)
 			.append(that.dom.valueTitle)
-			.on('input', function() {
+			.on('input change', function() {
 				$(this).removeClass(Criteria.classes.italic);
 				fn(that, this);
 			});
@@ -1251,8 +1251,8 @@ export default class Criteria {
 	 */
 	public setListeners(): void {
 		$(this.dom.data)
-			.unbind('input')
-			.on('input', () => {
+			.unbind('input change')
+			.on('input change', () => {
 				$(this.dom.dataTitle).attr('selected', false);
 				$(this.dom.data).removeClass(this.classes.italic);
 				this.s.dataIdx = $(this.dom.data).children('option:selected').val();
@@ -1274,8 +1274,8 @@ export default class Criteria {
 			});
 
 		$(this.dom.condition)
-			.unbind('input')
-			.on('input', () => {
+			.unbind('input change')
+			.on('input change', () => {
 				$(this.dom.conditionTitle).attr('selected', false);
 				$(this.dom.condition).removeClass(this.classes.italic);
 				let condDisp = $(this.dom.condition).children('option:selected').val();
