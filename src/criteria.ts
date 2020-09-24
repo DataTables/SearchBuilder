@@ -55,7 +55,7 @@ export interface IDom {
 
 export interface IS {
 	condition: string;
-	conditions: Map<string, ICondition>;
+	conditions: {[keys: string]: ICondition};
 	depth: number;
 	dt: any;
 	dataIdx: number;
@@ -400,7 +400,7 @@ export default class Criteria {
 	private static updateListener = function(that, el) {
 		// When the value is changed the criteria is now complete so can be included in searches
 		// Get the condition from the map based on the key that has been selected for the condition
-		let condition = that.s.conditions.get(that.s.condition);
+		let condition = that.s.conditions[that.s.condition];
 		that.s.filled = condition.isInputValid(that.dom.value, that);
 		that.s.value = condition.inputValue(that.dom.value, that);
 
@@ -1000,7 +1000,7 @@ export default class Criteria {
 
 		this.s = {
 			condition: undefined,
-			conditions: new Map(),
+			conditions: {},
 			data: undefined,
 			dataIdx: -1,
 			dataPoints: [],
@@ -1141,7 +1141,7 @@ export default class Criteria {
 	 * @returns boolean Whether the criteria has passed
 	 */
 	public search(rowData: any[]): boolean {
-		let condition = this.s.conditions.get(this.s.condition);
+		let condition = this.s.conditions[this.s.condition];
 		if (this.s.condition !== undefined &&  condition !== undefined) {
 			return condition.search(rowData[this.s.dataIdx], this.s.value, this);
 		}
@@ -1216,7 +1216,6 @@ export default class Criteria {
 			this._populateCondition();
 			$(this.dom.conditionTitle).remove();
 			let condition: string;
-			let conditions = this.s.conditions;
 
 			// Check to see if the previously selected condition exists, if so select it
 			$(this.dom.condition).children('option').each(function() {
@@ -1281,7 +1280,7 @@ export default class Criteria {
 				let condDisp = $(this.dom.condition).children('option:selected').val();
 
 				// Find the condition that has been selected and store it internally
-				for (let cond of Array.from(this.s.conditions.keys())) {
+				for (let cond of Object.keys(this.s.conditions)) {
 					if (cond === condDisp) {
 						this.s.condition = condDisp;
 						break;
@@ -1395,7 +1394,7 @@ export default class Criteria {
 		$(this.dom.condition).empty();
 		$(this.dom.conditionTitle).attr('selected', true).attr('disabled', true);
 		$(this.dom.condition).append(this.dom.conditionTitle);
-		this.s.conditions = new Map();
+		this.s.conditions = {};
 		this.s.condition = undefined;
 	}
 
@@ -1410,7 +1409,7 @@ export default class Criteria {
 			}
 
 			// Call the init function to get the value elements for this condition
-			this.dom.value = [].concat(this.s.conditions.get(this.s.condition).init(this, Criteria.updateListener));
+			this.dom.value = [].concat(this.s.conditions[this.s.condition].init(this, Criteria.updateListener));
 
 			$(this.dom.value[0]).insertAfter(this.dom.condition).trigger('dtsb-inserted');
 
@@ -1442,8 +1441,10 @@ export default class Criteria {
 	 */
 	private _populateCondition(): void {
 		let conditionOpts: Array<JQuery<HTMLElement>> = [];
+		let conditionsLength = Object.keys(this.s.conditions).length;
+
 		// If there are no conditions stored then we need to get them from the appropriate type
-		if (this.s.conditions.size === 0) {
+		if (conditionsLength === 0) {
 			let column = $(this.dom.data).children('option:selected').val();
 			this.s.type = this.s.dt.columns().type().toArray()[column];
 
@@ -1480,7 +1481,7 @@ export default class Criteria {
 				let condition of Object.keys(conditionObj)
 			) {
 				if (conditionObj[condition] !== null) {
-					this.s.conditions.set(condition, conditionObj[condition]);
+					this.s.conditions[condition] =  conditionObj[condition];
 					conditionOpts.push(
 						$('<option>', {
 							text : conditionObj[condition].conditionName,
@@ -1493,11 +1494,11 @@ export default class Criteria {
 			}
 		}
 		// Otherwise we can just load them in
-		else if (this.s.conditions.size > 0) {
+		else if (conditionsLength > 0) {
 			$(this.dom.condition).empty().attr('disabled', false).addClass(this.classes.italic);
 
-			for (let condition of Array.from(this.s.conditions.keys())) {
-				let condName = this.s.conditions.get(condition).conditionName;
+			for (let condition of Object.keys(this.s.conditions)) {
+				let condName = this.s.conditions[condition].conditionName;
 				let newOpt = $('<option>', {
 					text : condName,
 					value : condition
@@ -1635,7 +1636,7 @@ export default class Criteria {
 		}
 
 		// Initialise the value elements based on the condition
-		this.dom.value = [].concat(this.s.conditions.get(this.s.condition).init(
+		this.dom.value = [].concat(this.s.conditions[this.s.condition].init(
 			this,
 			Criteria.updateListener,
 			loadedCriteria !== undefined ? loadedCriteria.value : undefined
@@ -1657,7 +1658,7 @@ export default class Criteria {
 		}
 
 		// Check if the criteria can be used in a search
-		this.s.filled = this.s.conditions.get(this.s.condition).isInputValid(this.dom.value, this);
+		this.s.filled = this.s.conditions[this.s.condition].isInputValid(this.dom.value, this);
 		this.setListeners();
 
 		// If it can and this is different to before then trigger a draw
