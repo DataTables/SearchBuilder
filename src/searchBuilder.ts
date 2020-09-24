@@ -55,6 +55,11 @@ export interface II18n {
 	};
 	clearAll: string;
 	condition: string;
+	conditions?: {
+		[s: string]: {
+			[t: string]: string
+		}
+	};
 	data: string;
 	deleteTitle: string;
 	leftTitle: string;
@@ -114,6 +119,49 @@ export default class SearchBuilder {
 			},
 			clearAll: 'Clear All',
 			condition: 'Condition',
+			conditions: {
+				date: {
+					not: 'Not',
+					notBetween: 'Not Between',
+					notEmpty: 'Not Empty',
+					before: 'Before',
+					equals: 'Equals',
+					after: 'After',
+					between: 'Between',
+					empty: 'Empty',
+				},
+				moment: {
+					not: 'Not',
+					notBetween: 'Not Between',
+					notEmpty: 'Not Empty',
+					before: 'Before',
+					equals: 'Equals',
+					after: 'After',
+					between: 'Between',
+					empty: 'Empty',
+				},
+				number: {
+					not: 'Not',
+					notBetween: 'Not Between',
+					notEmpty: 'Not Empty',
+					lt: 'Less Than',
+					lte: 'Less Than Equal To',
+					equals: 'Equals',
+					gt: 'Greater Than',
+					gte: 'Greater Than Equal To',
+					between: 'Between',
+					empty: 'Empty',
+				},
+				string: {
+					not: 'Not',
+					notEmpty: 'Not Empty',
+					equals: 'Equals',
+					contains: 'Contains',
+					endsWith: 'Ends With',
+					empty: 'Empty',
+					startsWith: 'Starts With',
+				}
+			},
 			data: 'Data',
 			deleteTitle: 'Delete filtering rule',
 			leftTitle: 'Outdent criteria',

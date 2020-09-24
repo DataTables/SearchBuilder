@@ -23,7 +23,7 @@ export interface IClasses {
 
 export interface ICondition {
 	isInputValid: (val: Array<JQuery<HTMLElement>>, that: Criteria) => boolean;
-	conditionName: string;
+	conditionName: string | Function;
 	search: (value: string, comparison: string[], that: Criteria) => boolean;
 	init: (
 		that?: Criteria,
@@ -438,7 +438,9 @@ export default class Criteria {
 
 	public static dateConditions: {[keys: string]: ICondition} = {
 		'!=': {
-			conditionName: 'Not',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.date.not', i18n.conditions.date.not);
+			},
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -449,7 +451,9 @@ export default class Criteria {
 			},
 		},
 		'!between': {
-			conditionName: 'Not Between',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.date.notBetween', i18n.conditions.date.notBetween);
+			},
 			init: Criteria.init2Date,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -464,7 +468,9 @@ export default class Criteria {
 			},
 		},
 		'!null': {
-			conditionName: 'Not Empty',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.date.notEmpty', i18n.conditions.date.notEmpty);
+			},
 			isInputValid() { return true; },
 			init() { return; },
 			inputValue() {
@@ -475,7 +481,9 @@ export default class Criteria {
 			},
 		},
 		'<': {
-			conditionName: 'Before',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.date.before', i18n.conditions.date.before);
+			},
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -486,7 +494,9 @@ export default class Criteria {
 			},
 		},
 		'=': {
-			conditionName: 'Equals',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.date.equals', i18n.conditions.date.equals);
+			},
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -497,7 +507,9 @@ export default class Criteria {
 			},
 		},
 		'>': {
-			conditionName: 'After',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.date.after', i18n.conditions.date.after);
+			},
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -508,7 +520,9 @@ export default class Criteria {
 			},
 		},
 		'between': {
-			conditionName: 'Between',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.date.between', i18n.conditions.date.between);
+			},
 			init: Criteria.init2Date,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -523,7 +537,9 @@ export default class Criteria {
 			},
 		},
 		'null': {
-			conditionName: 'Empty',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.date.empty', i18n.conditions.date.empty);
+			},
 			isInputValid() { return true; },
 			init() { return; },
 			inputValue() {
@@ -537,7 +553,9 @@ export default class Criteria {
 
 	public static momentDateConditions: {[keys: string]: ICondition} = {
 		'!=': {
-			conditionName: 'Not',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.moment.not', i18n.conditions.moment.not);
+			},
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -546,7 +564,9 @@ export default class Criteria {
 			},
 		},
 		'!between': {
-			conditionName: 'Not Between',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.moment.notBetween', i18n.conditions.moment.notBetween);
+			},
 			init: Criteria.init2Date,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -563,7 +583,9 @@ export default class Criteria {
 			},
 		},
 		'!null': {
-			conditionName: 'Not Empty',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.moment.notEmpty', i18n.conditions.moment.notEmpty);
+			},
 			isInputValid() { return true; },
 			init() { return; },
 			inputValue() {
@@ -574,7 +596,9 @@ export default class Criteria {
 			},
 		},
 		'<': {
-			conditionName: 'Before',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.moment.before', i18n.conditions.moment.before);
+			},
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -583,7 +607,9 @@ export default class Criteria {
 			},
 		},
 		'=': {
-			conditionName: 'Equals',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.moment.equals', i18n.conditions.moment.equals);
+			},
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -592,7 +618,9 @@ export default class Criteria {
 			},
 		},
 		'>': {
-			conditionName: 'After',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.moment.after', i18n.conditions.moment.after);
+			},
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -601,7 +629,9 @@ export default class Criteria {
 			},
 		},
 		'between': {
-			conditionName: 'Between',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.moment.between', i18n.conditions.moment.between);
+			},
 			init: Criteria.init2Date,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -618,7 +648,9 @@ export default class Criteria {
 			},
 		},
 		'null': {
-			conditionName: 'Empty',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.moment.empty', i18n.conditions.moment.empty);
+			},
 			isInputValid() { return true; },
 			init() { return; },
 			inputValue() {
@@ -632,7 +664,9 @@ export default class Criteria {
 
 	public static numConditions: {[keys: string]: ICondition} = {
 		'!=': {
-			conditionName: 'Not',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.number.not', i18n.conditions.number.not);
+			},
 			init: Criteria.initSelect,
 			inputValue: Criteria.inputValueSelect,
 			isInputValid: Criteria.isInputValidSelect,
@@ -641,7 +675,9 @@ export default class Criteria {
 			},
 		},
 		'!between': {
-			conditionName: 'Not Between',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.number.notBetween', i18n.conditions.number.notBetween);
+			},
 			init: Criteria.init2Input,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -655,7 +691,9 @@ export default class Criteria {
 			},
 		},
 		'!null': {
-			conditionName: 'Not Empty',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.number.notEmpty', i18n.conditions.number.notEmpty);
+			},
 			isInputValid() { return true; },
 			init() { return; },
 			inputValue() {
@@ -666,7 +704,9 @@ export default class Criteria {
 			},
 		},
 		'<': {
-			conditionName: 'Less Than',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.number.lt', i18n.conditions.number.lt);
+			},
 			init: Criteria.initInput,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -675,7 +715,9 @@ export default class Criteria {
 			},
 		},
 		'<=': {
-			conditionName: 'Less Than Equal To',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.number.lte', i18n.conditions.number.lte);
+			},
 			init: Criteria.initInput,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -684,7 +726,9 @@ export default class Criteria {
 			},
 		},
 		'=': {
-			conditionName: 'Equals',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.number.equals', i18n.conditions.number.equals);
+			},
 			init: Criteria.initSelect,
 			inputValue: Criteria.inputValueSelect,
 			isInputValid: Criteria.isInputValidSelect,
@@ -693,7 +737,9 @@ export default class Criteria {
 			},
 		},
 		'>': {
-			conditionName: 'Greater Than',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.number.gt', i18n.conditions.number.gt);
+			},
 			init: Criteria.initInput,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -702,7 +748,9 @@ export default class Criteria {
 			},
 		},
 		'>=': {
-			conditionName: 'Greater Than Equal To',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.number.gte', i18n.conditions.number.gte);
+			},
 			init: Criteria.initInput,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -711,7 +759,9 @@ export default class Criteria {
 			},
 		},
 		'between': {
-			conditionName: 'Between',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.number.between', i18n.conditions.number.between);
+			},
 			init: Criteria.init2Input,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -725,7 +775,9 @@ export default class Criteria {
 			},
 		},
 		'null': {
-			conditionName: 'Empty',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.number.empty', i18n.conditions.number.empty);
+			},
 			init() { return; },
 			inputValue() { return; },
 			isInputValid() { return true; },
@@ -737,7 +789,9 @@ export default class Criteria {
 
 	public static numFmtConditions: {[keys: string]: ICondition} = {
 		'!=': {
-			conditionName: 'Not',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.number.not', i18n.conditions.number.not);
+			},
 			init: Criteria.initSelect,
 			inputValue: Criteria.inputValueSelect,
 			isInputValid: Criteria.isInputValidSelect,
@@ -749,7 +803,9 @@ export default class Criteria {
 			},
 		},
 		'!between': {
-			conditionName: 'Not Between',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.number.notBetween', i18n.conditions.number.notBetween);
+			},
 			init: Criteria.init2Input,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -766,7 +822,9 @@ export default class Criteria {
 			},
 		},
 		'!null': {
-			conditionName: 'Not Empty',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.number.notEmpty', i18n.conditions.number.notEmpty);
+			},
 			isInputValid() { return true; },
 			init() { return; },
 			inputValue() {
@@ -777,7 +835,9 @@ export default class Criteria {
 			},
 		},
 		'<': {
-			conditionName: 'Less Than',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.number.lt', i18n.conditions.number.lt);
+			},
 			init: Criteria.initInput,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -789,7 +849,9 @@ export default class Criteria {
 			},
 		},
 		'<=': {
-			conditionName: 'Less Than Equal To',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.number.lte', i18n.conditions.number.lte);
+			},
 			init: Criteria.initInput,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -801,7 +863,9 @@ export default class Criteria {
 			},
 		},
 		'=': {
-			conditionName: 'Equals',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.number.equals', i18n.conditions.number.equals);
+			},
 			init: Criteria.initSelect,
 			inputValue: Criteria.inputValueSelect,
 			isInputValid: Criteria.isInputValidSelect,
@@ -813,7 +877,9 @@ export default class Criteria {
 			},
 		},
 		'>': {
-			conditionName: 'Greater Than',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.number.gt', i18n.conditions.number.gt);
+			},
 			init: Criteria.initInput,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -825,7 +891,9 @@ export default class Criteria {
 			},
 		},
 		'>=': {
-			conditionName: 'Greater Than Equal To',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.number.gte', i18n.conditions.number.gte);
+			},
 			init: Criteria.initInput,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -837,7 +905,9 @@ export default class Criteria {
 			},
 		},
 		'between': {
-			conditionName: 'Between',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.number.between', i18n.conditions.number.between);
+			},
 			init: Criteria.init2Input,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -854,7 +924,9 @@ export default class Criteria {
 			},
 		},
 		'null': {
-			conditionName: 'Empty',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.number.empty', i18n.conditions.number.empty);
+			},
 			init() { return; },
 			inputValue() { return; },
 			isInputValid() { return true; },
@@ -866,7 +938,9 @@ export default class Criteria {
 
 	public static stringConditions: {[keys: string]: ICondition} = {
 		'!=': {
-			conditionName: 'Not',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.string.not', i18n.conditions.string.not);
+			},
 			init: Criteria.initSelect,
 			inputValue: Criteria.inputValueSelect,
 			isInputValid: Criteria.isInputValidInput,
@@ -875,7 +949,9 @@ export default class Criteria {
 			},
 		},
 		'!null': {
-			conditionName: 'Not Empty',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.string.notEmpty', i18n.conditions.string.notEmpty);
+			},
 			isInputValid() { return true; },
 			init() { return; },
 			inputValue() {
@@ -886,7 +962,9 @@ export default class Criteria {
 			},
 		},
 		'=': {
-			conditionName: 'Equals',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.string.equals', i18n.conditions.string.equals);
+			},
 			init: Criteria.initSelect,
 			inputValue: Criteria.inputValueSelect,
 			isInputValid: Criteria.isInputValidSelect,
@@ -895,7 +973,9 @@ export default class Criteria {
 			},
 		},
 		'contains': {
-			conditionName: 'Contains',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.string.contains', i18n.conditions.string.contains);
+			},
 			init: Criteria.initInput,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -904,7 +984,9 @@ export default class Criteria {
 			},
 		},
 		'ends': {
-			conditionName: 'Ends With',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.string.endsWidth', i18n.conditions.string.endsWith);
+			},
 			init: Criteria.initInput,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -913,7 +995,9 @@ export default class Criteria {
 			},
 		},
 		'null': {
-			conditionName: 'Empty',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.string.empty', i18n.conditions.string.empty);
+			},
 			init() { return; },
 			inputValue() { return; },
 			isInputValid() { return true; },
@@ -922,7 +1006,9 @@ export default class Criteria {
 			},
 		},
 		'starts': {
-			conditionName: 'Starts With',
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.string.startsWith', i18n.conditions.string.startsWith);
+			},
 			init: Criteria.initInput,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
@@ -1482,9 +1568,15 @@ export default class Criteria {
 			) {
 				if (conditionObj[condition] !== null) {
 					this.s.conditions[condition] =  conditionObj[condition];
+
+					let condName = conditionObj[condition].conditionName;
+					if (typeof condName === 'function') {
+						condName = condName(this.s.dt, this.c.i18n);
+					}
+
 					conditionOpts.push(
 						$('<option>', {
-							text : conditionObj[condition].conditionName,
+							text : condName,
 							value : condition,
 						})
 							.addClass(this.classes.option)
@@ -1499,6 +1591,10 @@ export default class Criteria {
 
 			for (let condition of Object.keys(this.s.conditions)) {
 				let condName = this.s.conditions[condition].conditionName;
+				if (typeof condName === 'function') {
+					condName = condName(this.s.dt, this.c.i18n);
+				}
+
 				let newOpt = $('<option>', {
 					text : condName,
 					value : condition
