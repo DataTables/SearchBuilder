@@ -436,7 +436,21 @@ export default class Criteria {
 		}
 	};
 
+	// The order of the conditions will make tslint sad :(
 	public static dateConditions: {[keys: string]: ICondition} = {
+		'=': {
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.date.equals', i18n.conditions.date.equals);
+			},
+			init: Criteria.initDate,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: string, comparison: string[]): boolean {
+				value = value.replace(/(\/|\-|\,)/g, '-');
+
+				return value === comparison[0];
+			},
+		},
 		'!=': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.date.not', i18n.conditions.date.not);
@@ -450,36 +464,6 @@ export default class Criteria {
 				return value !== comparison[0];
 			},
 		},
-		'!between': {
-			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.date.notBetween', i18n.conditions.date.notBetween);
-			},
-			init: Criteria.init2Date,
-			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidInput,
-			search(value: string, comparison: string[]): boolean {
-				value = value.replace(/(\/|\-|\,)/g, '-');
-				if (comparison[0] < comparison[1]) {
-					return !(comparison[0] <= value && value <= comparison[1]);
-				}
-				else {
-					return !(comparison[1] <= value && value <= comparison[0]);
-				}
-			},
-		},
-		'!null': {
-			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.date.notEmpty', i18n.conditions.date.notEmpty);
-			},
-			isInputValid() { return true; },
-			init() { return; },
-			inputValue() {
-				return;
-			},
-			search(value: string): boolean {
-				return !(value === null || value === undefined || value.length === 0);
-			},
-		},
 		'<': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.date.before', i18n.conditions.date.before);
@@ -491,19 +475,6 @@ export default class Criteria {
 				value = value.replace(/(\/|\-|\,)/g, '-');
 
 				return value < comparison[0];
-			},
-		},
-		'=': {
-			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.date.equals', i18n.conditions.date.equals);
-			},
-			init: Criteria.initDate,
-			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidInput,
-			search(value: string, comparison: string[]): boolean {
-				value = value.replace(/(\/|\-|\,)/g, '-');
-
-				return value === comparison[0];
 			},
 		},
 		'>': {
@@ -536,6 +507,23 @@ export default class Criteria {
 				}
 			},
 		},
+		'!between': {
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.date.notBetween', i18n.conditions.date.notBetween);
+			},
+			init: Criteria.init2Date,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: string, comparison: string[]): boolean {
+				value = value.replace(/(\/|\-|\,)/g, '-');
+				if (comparison[0] < comparison[1]) {
+					return !(comparison[0] <= value && value <= comparison[1]);
+				}
+				else {
+					return !(comparison[1] <= value && value <= comparison[0]);
+				}
+			},
+		},
 		'null': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.date.empty', i18n.conditions.date.empty);
@@ -549,9 +537,34 @@ export default class Criteria {
 				return (value === null || value === undefined || value.length === 0);
 			},
 		},
+		'!null': {
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.date.notEmpty', i18n.conditions.date.notEmpty);
+			},
+			isInputValid() { return true; },
+			init() { return; },
+			inputValue() {
+				return;
+			},
+			search(value: string): boolean {
+				return !(value === null || value === undefined || value.length === 0);
+			},
+		}
 	};
 
+	// The order of the conditions will make tslint sad :(
 	public static momentDateConditions: {[keys: string]: ICondition} = {
+		'=': {
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.moment.equals', i18n.conditions.moment.equals);
+			},
+			init: Criteria.initDate,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: string, comparison: string[], that): boolean {
+				return moment(value, that.s.momentFormat).valueOf() === moment(comparison[0], that.s.momentFormat).valueOf();
+			},
+		},
 		'!=': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.moment.not', i18n.conditions.moment.not);
@@ -563,38 +576,6 @@ export default class Criteria {
 				return moment(value, that.s.momentFormat).valueOf() !== moment(comparison[0], that.s.momentFormat).valueOf();
 			},
 		},
-		'!between': {
-			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.moment.notBetween', i18n.conditions.moment.notBetween);
-			},
-			init: Criteria.init2Date,
-			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidInput,
-			search(value: string, comparison: string[], that): boolean {
-				let val = moment(value, that.s.momentFormat).valueOf();
-				let comp0 = moment(comparison[0], that.s.momentFormat).valueOf();
-				let comp1 = moment(comparison[1], that.s.momentFormat).valueOf();
-				if (comp0 < comp1) {
-					return !(+comp0 <= +val && +val <= +comp1);
-				}
-				else {
-					return !(+comp1 <= +val && +val <= +comp0);
-				}
-			},
-		},
-		'!null': {
-			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.moment.notEmpty', i18n.conditions.moment.notEmpty);
-			},
-			isInputValid() { return true; },
-			init() { return; },
-			inputValue() {
-				return;
-			},
-			search(value: string): boolean {
-				return !(value === null || value === undefined || value.length === 0);
-			},
-		},
 		'<': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.moment.before', i18n.conditions.moment.before);
@@ -604,17 +585,6 @@ export default class Criteria {
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[], that): boolean {
 				return moment(value, that.s.momentFormat).valueOf() < moment(comparison[0], that.s.momentFormat).valueOf();
-			},
-		},
-		'=': {
-			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.moment.equals', i18n.conditions.moment.equals);
-			},
-			init: Criteria.initDate,
-			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidInput,
-			search(value: string, comparison: string[], that): boolean {
-				return moment(value, that.s.momentFormat).valueOf() === moment(comparison[0], that.s.momentFormat).valueOf();
 			},
 		},
 		'>': {
@@ -647,6 +617,25 @@ export default class Criteria {
 				}
 			},
 		},
+		'!between': {
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.moment.notBetween', i18n.conditions.moment.notBetween);
+			},
+			init: Criteria.init2Date,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: string, comparison: string[], that): boolean {
+				let val = moment(value, that.s.momentFormat).valueOf();
+				let comp0 = moment(comparison[0], that.s.momentFormat).valueOf();
+				let comp1 = moment(comparison[1], that.s.momentFormat).valueOf();
+				if (comp0 < comp1) {
+					return !(+comp0 <= +val && +val <= +comp1);
+				}
+				else {
+					return !(+comp1 <= +val && +val <= +comp0);
+				}
+			},
+		},
 		'null': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.moment.empty', i18n.conditions.moment.empty);
@@ -660,9 +649,34 @@ export default class Criteria {
 				return (value === null || value === undefined || value.length === 0);
 			},
 		},
+		'!null': {
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.moment.notEmpty', i18n.conditions.moment.notEmpty);
+			},
+			isInputValid() { return true; },
+			init() { return; },
+			inputValue() {
+				return;
+			},
+			search(value: string): boolean {
+				return !(value === null || value === undefined || value.length === 0);
+			},
+		}
 	};
 
+	// The order of the conditions will make tslint sad :(
 	public static numConditions: {[keys: string]: ICondition} = {
+		'=': {
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.number.equals', i18n.conditions.number.equals);
+			},
+			init: Criteria.initSelect,
+			inputValue: Criteria.inputValueSelect,
+			isInputValid: Criteria.isInputValidSelect,
+			search(value: string, comparison: string[]): boolean {
+				return +value === +comparison[0];
+			},
+		},
 		'!=': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.number.not', i18n.conditions.number.not);
@@ -672,35 +686,6 @@ export default class Criteria {
 			isInputValid: Criteria.isInputValidSelect,
 			search(value: string, comparison: string[]): boolean {
 				return +value !== +comparison[0];
-			},
-		},
-		'!between': {
-			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.number.notBetween', i18n.conditions.number.notBetween);
-			},
-			init: Criteria.init2Input,
-			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidInput,
-			search(value: string, comparison: string[]): boolean {
-				if (+comparison[0] < +comparison[1]) {
-					return !(+comparison[0] <= +value && +value <= +comparison[1]);
-				}
-				else {
-					return !(+comparison[1] <= +value && +value <= +comparison[0]);
-				}
-			},
-		},
-		'!null': {
-			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.number.notEmpty', i18n.conditions.number.notEmpty);
-			},
-			isInputValid() { return true; },
-			init() { return; },
-			inputValue() {
-				return;
-			},
-			search(value: string): boolean {
-				return !(value === null || value === undefined || value.length === 0);
 			},
 		},
 		'<': {
@@ -725,15 +710,15 @@ export default class Criteria {
 				return +value <= +comparison[0];
 			},
 		},
-		'=': {
+		'>=': {
 			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.number.equals', i18n.conditions.number.equals);
+				return dt.i18n('searchBuilder.conditions.number.gte', i18n.conditions.number.gte);
 			},
-			init: Criteria.initSelect,
-			inputValue: Criteria.inputValueSelect,
-			isInputValid: Criteria.isInputValidSelect,
+			init: Criteria.initInput,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
-				return +value === +comparison[0];
+				return +value >= +comparison[0];
 			},
 		},
 		'>': {
@@ -745,17 +730,6 @@ export default class Criteria {
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
 				return +value > +comparison[0];
-			},
-		},
-		'>=': {
-			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.number.gte', i18n.conditions.number.gte);
-			},
-			init: Criteria.initInput,
-			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidInput,
-			search(value: string, comparison: string[]): boolean {
-				return +value >= +comparison[0];
 			},
 		},
 		'between': {
@@ -774,6 +748,22 @@ export default class Criteria {
 				}
 			},
 		},
+		'!between': {
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.number.notBetween', i18n.conditions.number.notBetween);
+			},
+			init: Criteria.init2Input,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: string, comparison: string[]): boolean {
+				if (+comparison[0] < +comparison[1]) {
+					return !(+comparison[0] <= +value && +value <= +comparison[1]);
+				}
+				else {
+					return !(+comparison[1] <= +value && +value <= +comparison[0]);
+				}
+			},
+		},
 		'null': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.number.empty', i18n.conditions.number.empty);
@@ -783,42 +773,6 @@ export default class Criteria {
 			isInputValid() { return true; },
 			search(value: string): boolean {
 				return (value === null || value === undefined || value.length === 0);
-			},
-		}
-	};
-
-	public static numFmtConditions: {[keys: string]: ICondition} = {
-		'!=': {
-			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.number.not', i18n.conditions.number.not);
-			},
-			init: Criteria.initSelect,
-			inputValue: Criteria.inputValueSelect,
-			isInputValid: Criteria.isInputValidSelect,
-			search(value: string, comparison: string[]): boolean {
-				let val = value.replace(/[^0-9.]/g, '');
-				let comp = comparison[0].replace(/[^0-9.]/g, '');
-
-				return +val !== +comp;
-			},
-		},
-		'!between': {
-			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.number.notBetween', i18n.conditions.number.notBetween);
-			},
-			init: Criteria.init2Input,
-			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidInput,
-			search(value: string, comparison: string[]): boolean {
-				let val = value.replace(/[^0-9.]/g, '');
-				let comp0 = comparison[0].replace(/[^0-9.]/g, '');
-				let comp1 = comparison[1].replace(/[^0-9.]/g, '');
-				if (comp0 < comp1) {
-					return !(+comp0 <= +val && +val <= +comp1);
-				}
-				else {
-					return !(+comp1 <= +val && +val <= +comp0);
-				}
 			},
 		},
 		'!null': {
@@ -832,6 +786,38 @@ export default class Criteria {
 			},
 			search(value: string): boolean {
 				return !(value === null || value === undefined || value.length === 0);
+			},
+		}
+	};
+
+	// The order of the conditions will make tslint sad :(
+	public static numFmtConditions: {[keys: string]: ICondition} = {
+		'=': {
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.number.equals', i18n.conditions.number.equals);
+			},
+			init: Criteria.initSelect,
+			inputValue: Criteria.inputValueSelect,
+			isInputValid: Criteria.isInputValidSelect,
+			search(value: string, comparison: string[]): boolean {
+				let val = value.replace(/[^0-9.]/g, '');
+				let comp0 = comparison[0].replace(/[^0-9.]/g, '');
+
+				return +val === +comp0;
+			},
+		},
+		'!=': {
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.number.not', i18n.conditions.number.not);
+			},
+			init: Criteria.initSelect,
+			inputValue: Criteria.inputValueSelect,
+			isInputValid: Criteria.isInputValidSelect,
+			search(value: string, comparison: string[]): boolean {
+				let val = value.replace(/[^0-9.]/g, '');
+				let comp = comparison[0].replace(/[^0-9.]/g, '');
+
+				return +val !== +comp;
 			},
 		},
 		'<': {
@@ -862,18 +848,18 @@ export default class Criteria {
 				return +val <= +comp0;
 			},
 		},
-		'=': {
+		'>=': {
 			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.number.equals', i18n.conditions.number.equals);
+				return dt.i18n('searchBuilder.conditions.number.gte', i18n.conditions.number.gte);
 			},
-			init: Criteria.initSelect,
-			inputValue: Criteria.inputValueSelect,
-			isInputValid: Criteria.isInputValidSelect,
+			init: Criteria.initInput,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
 				let val = value.replace(/[^0-9.]/g, '');
 				let comp0 = comparison[0].replace(/[^0-9.]/g, '');
 
-				return +val === +comp0;
+				return +val >= +comp0;
 			},
 		},
 		'>': {
@@ -888,20 +874,6 @@ export default class Criteria {
 				let comp0 = comparison[0].replace(/[^0-9.]/g, '');
 
 				return +val > +comp0;
-			},
-		},
-		'>=': {
-			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.number.gte', i18n.conditions.number.gte);
-			},
-			init: Criteria.initInput,
-			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidInput,
-			search(value: string, comparison: string[]): boolean {
-				let val = value.replace(/[^0-9.]/g, '');
-				let comp0 = comparison[0].replace(/[^0-9.]/g, '');
-
-				return +val >= +comp0;
 			},
 		},
 		'between': {
@@ -923,6 +895,25 @@ export default class Criteria {
 				}
 			},
 		},
+		'!between': {
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.number.notBetween', i18n.conditions.number.notBetween);
+			},
+			init: Criteria.init2Input,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: string, comparison: string[]): boolean {
+				let val = value.replace(/[^0-9.]/g, '');
+				let comp0 = comparison[0].replace(/[^0-9.]/g, '');
+				let comp1 = comparison[1].replace(/[^0-9.]/g, '');
+				if (comp0 < comp1) {
+					return !(+comp0 <= +val && +val <= +comp1);
+				}
+				else {
+					return !(+comp1 <= +val && +val <= +comp0);
+				}
+			},
+		},
 		'null': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.number.empty', i18n.conditions.number.empty);
@@ -933,10 +924,35 @@ export default class Criteria {
 			search(value: string): boolean {
 				return (value === null || value === undefined || value.length === 0);
 			},
+		},
+		'!null': {
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.number.notEmpty', i18n.conditions.number.notEmpty);
+			},
+			isInputValid() { return true; },
+			init() { return; },
+			inputValue() {
+				return;
+			},
+			search(value: string): boolean {
+				return !(value === null || value === undefined || value.length === 0);
+			},
 		}
 	};
 
+	// The order of the conditions will make tslint sad :(
 	public static stringConditions: {[keys: string]: ICondition} = {
+		'=': {
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.string.equals', i18n.conditions.string.equals);
+			},
+			init: Criteria.initSelect,
+			inputValue: Criteria.inputValueSelect,
+			isInputValid: Criteria.isInputValidSelect,
+			search(value: string, comparison: string[]): boolean {
+				return value === comparison[0];
+			},
+		},
 		'!=': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.string.not', i18n.conditions.string.not);
@@ -948,28 +964,15 @@ export default class Criteria {
 				return value !== comparison[0];
 			},
 		},
-		'!null': {
+		'starts': {
 			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.string.notEmpty', i18n.conditions.string.notEmpty);
+				return dt.i18n('searchBuilder.conditions.string.startsWith', i18n.conditions.string.startsWith);
 			},
-			isInputValid() { return true; },
-			init() { return; },
-			inputValue() {
-				return;
-			},
-			search(value: string): boolean {
-				return !(value === null || value === undefined || value.length === 0);
-			},
-		},
-		'=': {
-			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.string.equals', i18n.conditions.string.equals);
-			},
-			init: Criteria.initSelect,
-			inputValue: Criteria.inputValueSelect,
-			isInputValid: Criteria.isInputValidSelect,
+			init: Criteria.initInput,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
-				return value === comparison[0];
+				return value.toLowerCase().indexOf(comparison[0].toLowerCase()) === 0;
 			},
 		},
 		'contains': {
@@ -1005,17 +1008,19 @@ export default class Criteria {
 				return (value === null || value === undefined || value.length === 0);
 			},
 		},
-		'starts': {
+		'!null': {
 			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.string.startsWith', i18n.conditions.string.startsWith);
+				return dt.i18n('searchBuilder.conditions.string.notEmpty', i18n.conditions.string.notEmpty);
 			},
-			init: Criteria.initInput,
-			inputValue: Criteria.inputValueInput,
-			isInputValid: Criteria.isInputValidInput,
-			search(value: string, comparison: string[]): boolean {
-				return value.toLowerCase().indexOf(comparison[0].toLowerCase()) === 0;
+			isInputValid() { return true; },
+			init() { return; },
+			inputValue() {
+				return;
 			},
-		},
+			search(value: string): boolean {
+				return !(value === null || value === undefined || value.length === 0);
+			},
+		}
 	};
 
 	private static defaults: builderType.IDefaults = {
