@@ -72,9 +72,11 @@ div.dtsb-searchBuilder {
         div.dtsb-criteria {
             margin-bottom: 0.8em;
 
-            select.dtsb-dropDown, input.dtsb-input{
+            select.dtsb-dropDown,
+            input.dtsb-input{
                 padding: 0.4em;
                 margin-right: 0.8em;
+                max-width: 20em;
 
                 option.dtsb-notItalic {
                     font-style: normal;
