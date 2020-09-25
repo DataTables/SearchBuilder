@@ -668,7 +668,7 @@ export default class Group {
 			.on('click', () => {
 				this._removeCriteria(criteria);
 				$(criteria.dom.container).remove();
-				this.setupLogic();
+				$(this.s.topGroup).trigger('dtsb-redrawContents');
 
 				for (let crit of this.s.criteria) {
 					if (crit.criteria instanceof Criteria) {
