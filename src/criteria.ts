@@ -23,7 +23,7 @@ export interface IClasses {
 
 export interface ICondition {
 	isInputValid: (val: Array<JQuery<HTMLElement>>, that: Criteria) => boolean;
-	conditionName: string | Function;
+	conditionName: string | ((dt: any, i18n: any) => string);
 	search: (value: string, comparison: string[], that: Criteria) => boolean;
 	init: (
 		that?: Criteria,
