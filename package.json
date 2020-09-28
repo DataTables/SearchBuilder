@@ -25,7 +25,7 @@
     "@types/datatables.net": "^1.10.17",
     "@types/datatables.net-buttons": "^1.4.2",
     "@types/datatables.net-select": "^1.2.6",
-    "datatables.net-datetime": "0.0.9",
+    "datatables.net-datetime": "0.0.11",
     "rollup": "^1.32.1",
     "tslint": "^5.20.1",
     "tslint-eslint-rules": "^5.4.0"
