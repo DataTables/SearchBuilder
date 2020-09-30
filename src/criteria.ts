@@ -1133,7 +1133,8 @@ export default class Criteria {
 			condition: $('<select disabled/>')
 				.addClass(this.classes.condition)
 				.addClass(this.classes.dropDown)
-				.addClass(this.classes.italic),
+				.addClass(this.classes.italic)
+				.attr('autocomplete', 'hacking'),
 			conditionTitle: $('<option value="" disabled selected hidden/>')
 				.text(this.s.dt.i18n('searchBuilder.condition', i18n.condition)),
 			container: $('<div/>')
@@ -1510,7 +1511,7 @@ export default class Criteria {
 	private _clearCondition(): void {
 		$(this.dom.condition).empty();
 		$(this.dom.conditionTitle).attr('selected', true).attr('disabled', true);
-		$(this.dom.condition).append(this.dom.conditionTitle);
+		$(this.dom.condition).prepend(this.dom.conditionTitle).prop('selectedIndex', 0);
 		this.s.conditions = {};
 		this.s.condition = undefined;
 	}
@@ -1653,6 +1654,7 @@ export default class Criteria {
 			$(this.dom.condition).append(opt);
 		}
 
+		$(this.dom.condition).prop('selectedIndex', 0);
 	}
 
 	/**
