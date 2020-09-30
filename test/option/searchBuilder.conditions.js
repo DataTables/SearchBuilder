@@ -45,39 +45,38 @@ describe('searchBuilder - options - searchBuilder.conditions', function() {
 
 		});
 
-		// DD-1601
-		// dt.html('basic');
-		// it('... and confirm it can be removed', function() {
-		// 	$('#myTable').DataTable( {
-		// 		dom: 'Qlfrtip',
-		// 		searchBuilder:{
-		// 			conditions:{
-		// 				num:{
-		// 					multipleOf: {
-		// 						conditionName: 'Multiple Of',
-		// 						init: function (that, fn, preDefined = null) {
-		// 							var el =  $('<input/>').on('input', function() { fn(that, this) });
+		dt.html('basic');
+		it('... and confirm it can be removed', function() {
+			$('#myTable').DataTable( {
+				dom: 'Qlfrtip',
+				searchBuilder:{
+					conditions:{
+						num:{
+							multipleOf: {
+								conditionName: 'Multiple Of',
+								init: function (that, fn, preDefined = null) {
+									var el =  $('<input/>').on('input', function() { fn(that, this) });
 			 
-		// 							if (preDefined !== null) {
-		// 								$(el).val(preDefined[0]);
-		// 							}
+									if (preDefined !== null) {
+										$(el).val(preDefined[0]);
+									}
 			 
-		// 							return el;
-		// 						},
-		// 						inputValue: function (el) {
-		// 							return $(el[0]).val();
-		// 						},
-		// 						isInputValid: function (el, that) {
-		// 							return $(el[0]).val().length !== 0;
-		// 						},
-		// 						search: function (value, comparison) {
-		// 							return value % comparison === 0;
-		// 						}
-		// 					}
-		// 				}
-		// 			}
-		// 		}
-		// 	})
-		// });
+									return el;
+								},
+								inputValue: function (el) {
+									return $(el[0]).val();
+								},
+								isInputValid: function (el, that) {
+									return $(el[0]).val().length !== 0;
+								},
+								search: function (value, comparison) {
+									return value % comparison === 0;
+								}
+							}
+						}
+					}
+				}
+			})
+		});
 	});
 });
