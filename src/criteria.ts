@@ -1649,19 +1649,6 @@ export default class Criteria {
 			return;
 		}
 
-		// Sort the conditions so that they are displayed alphabetically
-		conditionOpts.sort((a, b) => {
-			if ($(a).val() < $(b).val()) {
-				return -1;
-			}
-			else if ($(a).val() < $(b).val()) {
-				return 1;
-			}
-			else {
-				return 0;
-			}
-		});
-
 		for (let opt of conditionOpts) {
 			$(this.dom.condition).append(opt);
 		}
