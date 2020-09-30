@@ -141,6 +141,10 @@ export default class Criteria {
 				fn(that, this);
 			});
 
+		if (that.c.greyscale) {
+			$(el).addClass(Criteria.classes.greyscale);
+		}
+
 		let added = [];
 		let options = [];
 
@@ -224,6 +228,10 @@ export default class Criteria {
 			.addClass(Criteria.classes.input)
 			.on('input', function() { fn(that, this); });
 
+		if (that.c.greyscale) {
+			$(el).addClass(Criteria.classes.greyscale);
+		}
+
 		// If there is a preDefined value then add it
 		if (preDefined !== null) {
 			$(el).val(preDefined[0]);
@@ -254,6 +262,11 @@ export default class Criteria {
 				.on('input', function() { fn(that, this); })
 		];
 
+		if (that.c.greyscale) {
+			$(els[0]).addClass(Criteria.classes.greyscale);
+			$(els[2]).addClass(Criteria.classes.greyscale);
+		}
+
 		// If there is a preDefined value then add it
 		if (preDefined !== null) {
 			$(els[0]).val(preDefined[0]);
@@ -280,6 +293,10 @@ export default class Criteria {
 				format: that.s.momentFormat ? that.s.momentFormat : undefined
 			})
 			.on('input change', function() { fn(that, this); });
+
+		if (that.c.greyscale) {
+			$(el).addClass(Criteria.classes.greyscale);
+		}
 
 		// If there is a preDefined value then add it
 		if (preDefined !== null) {
@@ -316,6 +333,11 @@ export default class Criteria {
 				})
 				.on('input change', function() { fn(that, this); })
 		];
+
+		if (that.c.greyscale) {
+			$(els[0]).addClass(Criteria.classes.greyscale);
+			$(els[2]).addClass(Criteria.classes.greyscale);
+		}
 
 		// If there are and preDefined values then add them
 		if (preDefined !== null && preDefined.length > 0) {
@@ -1147,6 +1169,7 @@ export default class Criteria {
 		if (this.c.greyscale) {
 			$(this.dom.data).addClass(this.classes.greyscale);
 			$(this.dom.condition).addClass(this.classes.greyscale);
+			$(this.dom.defaultValue).addClass(this.classes.greyscale);
 
 			for (let val of this.dom.value) {
 				$(val).addClass(this.classes.greyscale);
