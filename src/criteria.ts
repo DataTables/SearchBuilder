@@ -159,7 +159,7 @@ export default class Criteria {
 
 			// Add text and value, stripping out any html if that is the column type
 			let opt = $('<option>', {
-				text : that.s.type.indexOf('html') !== -1 ? value.text.replace(/(<([^>]+)>)/ig, '') : value.text,
+				text : typeof value.text === 'string' ? value.text.replace(/(<([^>]+)>)/ig, '') : value.text,
 				value : that.s.type.indexOf('html') !== -1 ? value.filter.replace(/(<([^>]+)>)/ig, '') : value.filter
 			})
 				.addClass(that.classes.option)
