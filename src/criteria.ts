@@ -159,7 +159,7 @@ export default class Criteria {
 
 			// Add text and value, stripping out any html if that is the column type
 			let opt = $('<option>', {
-				text : typeof value.text === 'string' ? value.text.replace(/(<([^>]+)>)/ig, '') : value.text,
+				text : that.s.type.indexOf('html') !== -1 ? value.text.replace(/(<([^>]+)>)/ig, '') : value.text,
 				value : that.s.type.indexOf('html') !== -1 ? value.filter.replace(/(<([^>]+)>)/ig, '') : value.filter
 			})
 				.addClass(that.classes.option)
@@ -176,7 +176,6 @@ export default class Criteria {
 				// If this value was previously selected as indicated by preDefined, then select it again
 				if (preDefined !== null && opt.val() === preDefined[0]) {
 					opt.attr('selected', true);
-					that.dom.valueTitle.remove();
 					$(el).removeClass(Criteria.classes.italic);
 				}
 			}
@@ -1163,7 +1162,7 @@ export default class Criteria {
 			value: [
 				$('<select disabled/>').addClass(this.classes.value).addClass(this.classes.dropDown).addClass(this.classes.italic)
 			],
-			valueTitle: $('<option value="" disabled selected hidden/>').text(this.s.dt.i18n('searchBuilder.value', i18n.value)),
+			valueTitle: $('<option value="" selected/>').text(this.s.dt.i18n('searchBuilder.value', i18n.value)),
 		};
 
 		// If the greyscale option is selected then add the class to add the grey colour to SearchBuilder
@@ -1544,8 +1543,7 @@ export default class Criteria {
 
 			// Append the default valueTitle to the default select element
 			$(this.dom.valueTitle)
-				.attr('selected', true)
-				.attr('disabled', false);
+				.attr('selected', true);
 			$(this.dom.defaultValue)
 				.append(this.dom.valueTitle)
 				.insertAfter(this.dom.condition);
