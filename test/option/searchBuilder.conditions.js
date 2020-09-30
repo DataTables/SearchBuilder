@@ -18,7 +18,7 @@ describe('searchBuilder - options - searchBuilder.conditions', function() {
 			$('.dtsb-data').val(3);
 			$('.dtsb-data').trigger('input');
 
-			expect($('.dtsb-condition option:eq(6)').text()).toBe('Equals');
+			expect($('.dtsb-condition option:eq(1)').text()).toBe('Equals');
 			expect($('.dtsb-condition ').text().includes('Equals')).toBe(true);
 
 		});
@@ -40,7 +40,7 @@ describe('searchBuilder - options - searchBuilder.conditions', function() {
 			$('.dtsb-data').val(3);
 			$('.dtsb-data').trigger('input');
 
-			expect($('.dtsb-condition option:eq(6)').text()).toBe('Greater Than');
+			expect($('.dtsb-condition option:eq(5)').text()).toBe('Greater Than');
 			expect($('.dtsb-condition ').text().includes('Equals')).toBe(false);
 
 		});
