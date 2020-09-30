@@ -7,6 +7,8 @@
 	@return mix(black, $color, $percent);
 }
 
+$border-width: 1px;
+
 @mixin dtb-two-stop-gradient($direction, $fromColor, $toColor) {
 	background-color: $toColor; /* Fallback */
 	background: linear-gradient($direction, $fromColor 0%, $toColor 100%);
@@ -15,6 +17,17 @@
 div.dt-button-collection {
     overflow: visible !important;
 }
+
+.dtsb-greyscale {
+    border: $border-width solid #cecece !important;
+}
+
+div.dtsb-logicContainer {
+    .dtsb-greyscale {
+        border: none !important;
+    }
+}
+
 div.dtsb-searchBuilder {
     justify-content: space-evenly;
     cursor: default;

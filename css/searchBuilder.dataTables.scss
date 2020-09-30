@@ -62,16 +62,6 @@ div.dtsb-searchBuilder {
         padding: 0;
     }
 
-    .dtsb-greyscale {
-        border: $border-width solid #cecece !important;
-    }
-
-    div.dtsb-logicContainer {
-        .dtsb-greyscale {
-            border: none !important;
-        }
-    }
-
     button.dtsb-iptbtn {
         min-width: 100px;
         text-align: left;
