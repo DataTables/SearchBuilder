@@ -1009,7 +1009,7 @@ export default class Criteria {
 		},
 		'ends': {
 			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.string.endsWidth', i18n.conditions.string.endsWith);
+				return dt.i18n('searchBuilder.conditions.string.endsWith', i18n.conditions.string.endsWith);
 			},
 			init: Criteria.initInput,
 			inputValue: Criteria.inputValueInput,
