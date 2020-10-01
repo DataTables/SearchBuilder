@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>language.searchBuilder.conditions</name>
+	<summary>Define custom condition names for SearchBuilder conditions</summary>
+	<since>1.0.0</since>
+
+	<type type="Object">
+		<description>
+			An object that contains condition names for each of the built in DataTables types as defined in `-init columns.type` along with a `moment` type for formatted dates and any other custom types that may exist on the table. These strings are passed through an `-api i18n()` function before being placed in the condition select. 
+	</description>
+	</type>
+
+	<default value="Object">
+		The default value for the `-init language.searchBuilder.conditions` option is an object with a property for each of the built in DataTables types as defined in `-init columns.type` along with a `moment` type for formatted dates and any other custom types that may exist on the table. Each property in turn is an object with key value pairs to represent the conditions in the condition select element. The key here is the condition name and the value is the string that is to be used to represent it.
+	</default>
+	<description>
+		<![CDATA[
+			This option allows custom conditions to have their names customised.
+
+			This object contains the following properties, whose value is a further object of the type `-init language.searchBuilder.conditions[type]`. More details for the types can be found at `-init columns.type`.
+
+			* `string` - Condition names for string and html conditions.
+			* `date` - Condition names for date conditions.
+			* `moment` - Condition names for moment conditions.
+			* `number` - Condition names for simple numbers, and formatted numbers, including html with no formatting
+
+			More details on the structure that is used can be found at `-init language.searchBuilder.conditions[type]`.
+        ]]>
+	</description>
+
+<related type="init">language.searchBuilder.conditions[type]</related>
+<related type="init">columns.type</related>
+
+</dt-option>

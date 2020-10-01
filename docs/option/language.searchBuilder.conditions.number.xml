@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>language.searchBuilder.conditions.number</name>
+	<summary>Set the condition names for the number column type</summary>
+	<since>1.0.0</since>
+
+	<type type="string | object">
+		<description>
+			`-init language.searchBuilder.condition.number` changes what will be displayed for the SearchBuilder's condition select element for num, num-fmt, html-num and html-num-fmt conditions.
+		</description>
+	</type>
+
+	<default value="object" />
+	<description>
+		<![CDATA[
+This object sets the text for the condition names in the condition select element. The defaults for each language option is listed below.
+
+* `between: 'Between'`
+* `empty: 'Empty'`
+* `equals: 'Equals'`
+* `gt: 'Greater Than'`
+* `gte: 'Greater Than Equal To'`
+* `lt: 'Less Than'`
+* `lte: 'Less Than Equal To'`
+* `not: 'Not'`
+* `notBetween: 'Not Between'`
+* `notEmpty: 'Not Empty'`
+		]]>
+	</description>
+
+	<example title="Change message for SearchBuilder Condition"><![CDATA[
+$(document).ready(function() {
+	$('#example').DataTable( {
+		language: {
+			searchBuilder: {
+				conditions :{
+                    number: {
+					between: 'Between',
+					empty: 'Empty',
+					equals: 'Equals',
+					gt: 'Greater Than',
+					gte: 'Greater Than Equal To',
+					lt: 'Less Than',
+					lte: 'Less Than Equal To',
+					not: 'Not',
+					notBetween: 'Not Between',
+					notEmpty: 'Not Empty',
+				},
+                }
+			}
+		},
+		dom: 'Qlfrtip',
+	});
+});
+
+]]></example>
+
+<related type="api">i18n()</related>
+
+</dt-option>

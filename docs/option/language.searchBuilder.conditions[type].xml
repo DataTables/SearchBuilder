@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>language.searchBuilder.conditions[type]</name>
+	<summary>The object containing the condition names for a specific type</summary>
+	<since>1.0.0</since>
+
+	<type type="object">
+		<description>
+            An object populated with key-value pairs of strings that are used to represent conditions in the condition select element. These strings are passed through an `-api i18n()` function.
+        </description>
+	</type>
+
+	<default value="object">
+
+	</default>
+	<description>
+		<![CDATA[
+This is useful as it allows condition names to be customised within SearchBuilder. This allows for Internationalisation to take place, meaning that SearchBuilder can be fully adapted to different languages.
+
+Each key-value pair on the `-init language.searchBuilder.conditions[type]` object is made up of a key and a string. The key being whatever the condition is normally referred to and the string being the replacement value that is to take it's place. It is also worth noting that here, `[type]` is whatever the type is from any of...
+
+* `string`
+* `date`
+* `num`
+* `moment`
+
+		]]>
+	</description>
+
+<related type="init">language.searchBuilder.conditions</related>
+
+</dt-option>
