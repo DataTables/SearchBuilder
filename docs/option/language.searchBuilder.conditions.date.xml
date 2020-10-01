@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>language.searchBuilder.conditions.date</name>
+	<summary>Set the condition names for the date column type</summary>
+	<since>1.0.0</since>
+
+	<type type="string | object">
+		<description>
+			`-init language.searchBuilder.condition.date` changes what will be displayed for the SearchBuilder's condition select element for date and moment conditions.
+		</description>
+	</type>
+
+	<default value="object" />
+	<description>
+		<![CDATA[
+This object sets the text for the condition names in the condition select element. The defaults for each language option is listed below.
+
+* `after: 'After'`
+* `before: 'Before'`
+* `between: 'Between'`
+* `empty: 'Empty'`
+* `equals: 'Equals'`
+* `not: 'Not'`
+* `notBetween: 'Not Between'`
+* `notEmpty: 'Not Empty'`
+		]]>
+	</description>
+
+	<example title="Change message for SearchBuilder Condition"><![CDATA[
+$(document).ready(function() {
+	$('#example').DataTable( {
+		language: {
+			searchBuilder: {
+				conditions :{
+                    date: {
+                        contains: 'Contains',
+                        empty: 'Empty',
+                        endsWith: 'Ends With',
+                        equals: 'Equals',
+                        not: 'Not',
+                        notEmpty: 'Not Empty',
+                        startsWith: 'Starts With',
+                    }
+                }
+			}
+		},
+		dom: 'Qlfrtip',
+	});
+});
+
+]]></example>
+
+<related type="api">i18n()</related>
+
+</dt-option>
