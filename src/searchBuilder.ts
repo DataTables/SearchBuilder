@@ -242,18 +242,20 @@ export default class SearchBuilder {
 	/**
 	 * Gets the details required to rebuild the SearchBuilder as it currently is, but formatted as a string
 	 */
-	public getDetailsString(): string {		
+	public getDetailsString(builderDetails): string {		
 	    var output = '';
-		
-	    var builderDetails = getDetails();
-
+	
+	    if (!builderDetails) {
+		builderDetails = getDetails();
+	    }
+		    
 	    if (builderDetails.criteria) {
 		output += '( ';
 
 		var logicalOperator = ' ' +  builderDetails.logic + ' ';
 
 		for (let logicalUnit of builderDetails.criteria) {
-		    output += formatSearchBuilderDetails(logicalUnit);
+		    output += getDetailsString(logicalUnit);
 		    output += logicalOperator;
 		});
 
