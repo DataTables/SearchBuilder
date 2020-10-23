@@ -1015,7 +1015,7 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
-				return value.toLowerCase().indexOf(comparison[0].toLowerCase()) === value.length - comparison[0].length;
+				return value.toLowerCase().endsWith(comparison[0].toLowerCase());
 			},
 		},
 		'null': {
