@@ -849,8 +849,12 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
-				let val = value.replace(/[^0-9-.]/g, '');
-				let comp = comparison[0].replace(/[^0-9-.]/g, '');
+				let val = value.indexOf('-') === 0 ?
+					'-' + value.replace(/[^0-9.]/g, '') :
+					value.replace(/[^0-9.]/g, '');
+				let comp = comparison[0].indexOf('-') === 0 ?
+					'-' + comparison[0].replace(/[^0-9.]/g, '') :
+					comparison[0].replace(/[^0-9.]/g, '');
 
 				return +val < +comp;
 			},
@@ -863,10 +867,14 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
-				let val = value.replace(/[^0-9-.]/g, '');
-				let comp0 = comparison[0].replace(/[^0-9-.]/g, '');
+				let val = value.indexOf('-') === 0 ?
+					'-' + value.replace(/[^0-9.]/g, '') :
+					value.replace(/[^0-9.]/g, '');
+				let comp = comparison[0].indexOf('-') === 0 ?
+					'-' + comparison[0].replace(/[^0-9.]/g, '') :
+					comparison[0].replace(/[^0-9.]/g, '');
 
-				return +val <= +comp0;
+				return +val <= +comp;
 			},
 		},
 		'>=': {
@@ -877,10 +885,14 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
-				let val = value.replace(/[^0-9-.]/g, '');
-				let comp0 = comparison[0].replace(/[^0-9-.]/g, '');
+				let val = value.indexOf('-') === 0 ?
+					'-' + value.replace(/[^0-9.]/g, '') :
+					value.replace(/[^0-9.]/g, '');
+				let comp = comparison[0].indexOf('-') === 0 ?
+					'-' + comparison[0].replace(/[^0-9.]/g, '') :
+					comparison[0].replace(/[^0-9.]/g, '');
 
-				return +val >= +comp0;
+				return +val >= +comp;
 			},
 		},
 		'>': {
@@ -891,10 +903,14 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
-				let val = value.replace(/[^0-9-.]/g, '');
-				let comp0 = comparison[0].replace(/[^0-9-.]/g, '');
+				let val = value.indexOf('-') === 0 ?
+					'-' + value.replace(/[^0-9.]/g, '') :
+					value.replace(/[^0-9.]/g, '');
+				let comp = comparison[0].indexOf('-') === 0 ?
+					'-' + comparison[0].replace(/[^0-9.]/g, '') :
+					comparison[0].replace(/[^0-9.]/g, '');
 
-				return +val > +comp0;
+				return +val > +comp;
 			},
 		},
 		'between': {
