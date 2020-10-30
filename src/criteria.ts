@@ -939,7 +939,6 @@ export default class Criteria {
 					'-' + comparison[1].replace(/[^0-9.]/g, '') :
 					comparison[1].replace(/[^0-9.]/g, '');
 
-				console.log(val, comp0, comp1)
 				if (comp0 < comp1) {
 					return +comp0 <= +val && +val <= +comp1;
 				}
@@ -957,8 +956,8 @@ export default class Criteria {
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
 				let val = value.indexOf('-') === 0 ?
-				'-' + value.replace(/[^0-9.]/g, '') :
-				value.replace(/[^0-9.]/g, '');
+					'-' + value.replace(/[^0-9.]/g, '') :
+					value.replace(/[^0-9.]/g, '');
 				let comp0 = comparison[0].indexOf('-') === 0 ?
 					'-' + comparison[0].replace(/[^0-9.]/g, '') :
 					comparison[0].replace(/[^0-9.]/g, '');
