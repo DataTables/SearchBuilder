@@ -33,13 +33,14 @@ $(document).ready(function() {
 			searchBuilder: {
 				conditions :{
                     date: {
-                        contains: 'Contains',
-                        empty: 'Empty',
-                        endsWith: 'Ends With',
+                        after: 'After',
+                        before: 'Before',
+                        between: 'Between',
+						empty: 'Empty',
                         equals: 'Equals',
                         not: 'Not',
-                        notEmpty: 'Not Empty',
-                        startsWith: 'Starts With',
+                        notBetween: 'Not Between',
+                        notEmpty: 'Not Empty'
                     }
                 }
 			}
