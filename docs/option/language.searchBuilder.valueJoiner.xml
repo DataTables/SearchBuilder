@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
 	<name>language.searchBuilder.valueJoiner</name>
-	<summary>Set the placeholder text for the SearchBuilder value select element</summary>
+	<summary>Set the text between the value input elements where two are required</summary>
 	<since>1.0.0</since>
 
 	<type type="string | object">
@@ -31,7 +31,5 @@ $(document).ready(function() {
 });
 
 ]]></example>
-
-<related type="init">searchBuilder.conditions[type]</related>
 
 </dt-option>
