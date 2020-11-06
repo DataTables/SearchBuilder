@@ -6,7 +6,7 @@
 
 	<type type="string | object">
 		<description>
-			`-init language.searchBuilder.condition.string` changes what will be displayed for the SearchBuilder's condition select element for string and html conditions.
+			`-init language.searchBuilder.conditions.string` changes what will be displayed for the SearchBuilder's condition select element for string and html conditions.
 		</description>
 	</type>
 

@@ -6,7 +6,7 @@
 
 	<type type="string | object">
 		<description>
-			`-init language.searchBuilder.condition.date` changes what will be displayed for the SearchBuilder's condition select element for date and moment conditions.
+			`-init language.searchBuilder.conditions.date` changes what will be displayed for the SearchBuilder's condition select element for date and moment conditions.
 		</description>
 	</type>
 

@@ -6,7 +6,7 @@
 
 	<type type="string | object">
 		<description>
-			`-init language.searchBuilder.condition.moment` changes what will be displayed for the SearchBuilder's condition select element for moment conditions.
+			`-init language.searchBuilder.conditions.moment` changes what will be displayed for the SearchBuilder's condition select element for moment conditions.
 		</description>
 	</type>
 
