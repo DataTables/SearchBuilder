@@ -939,7 +939,7 @@ export default class Criteria {
 					'-' + comparison[1].replace(/[^0-9.]/g, '') :
 					comparison[1].replace(/[^0-9.]/g, '');
 
-				if (comp0 < comp1) {
+				if (+comp0 < +comp1) {
 					return +comp0 <= +val && +val <= +comp1;
 				}
 				else {
@@ -965,7 +965,7 @@ export default class Criteria {
 					'-' + comparison[1].replace(/[^0-9.]/g, '') :
 					comparison[1].replace(/[^0-9.]/g, '');
 
-				if (comp0 < comp1) {
+				if (+comp0 < +comp1) {
 					return !(+comp0 <= +val && +val <= +comp1);
 				}
 				else {

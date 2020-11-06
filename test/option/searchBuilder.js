@@ -264,8 +264,7 @@ describe('searchBuilder - options - searchBuilder.columns', function () {
 			$('input.dtsb-value:eq(1)').val('-2');
 			$('input.dtsb-value').trigger('input');
 
-			// Failing due to DD-1704
-			// expect($('tbody tr td:eq(0)').text()).toBe('c');
+			expect($('tbody tr td:eq(0)').text()).toBe('c');
 		});
 
 		dt.html('empty');
