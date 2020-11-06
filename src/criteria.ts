@@ -429,6 +429,12 @@ export default class Criteria {
 			that.s.value = [that.s.value];
 		}
 
+		for (let i = 0; i < that.s.value.length; i++) {
+			if (that.s.dt.settings()[0].oLanguage.sDecimal !== '') {
+				that.s.value[i] = that.s.value[i].replace(that.s.dt.settings()[0].oLanguage.sDecimal, '.');
+			}
+		}
+
 		// Take note of the cursor position so that we can refocus there later
 		let idx: number = null;
 		let cursorPos: number = null;
@@ -1298,7 +1304,13 @@ export default class Criteria {
 	 */
 	public search(rowData: any[]): boolean {
 		let condition = this.s.conditions[this.s.condition];
+
 		if (this.s.condition !== undefined &&  condition !== undefined) {
+			// This check is in place for if a custom decimal character is in place
+			if (this.s.type.indexOf('num') !== -1 && this.s.dt.settings()[0].oLanguage.sDecimal !== '') {
+				rowData[this.s.dataIdx] = rowData[this.s.dataIdx].replace(this.s.dt.settings()[0].oLanguage.sDecimal, '.');
+			}
+
 			return condition.search(rowData[this.s.dataIdx], this.s.value, this);
 		}
 	}
@@ -1307,10 +1319,21 @@ export default class Criteria {
 	 * Gets the details required to rebuild the criteria
 	 */
 	public getDetails(): IDetails {
+		let value = this.s.value;
+
+		// This check is in place for if a custom decimal character is in place
+		if (this.s.type.indexOf('num') !== -1 && this.s.dt.settings()[0].oLanguage.sDecimal !== '') {
+			for (let i = 0; i < this.s.value.length; i++) {
+				if (this.s.value[i].indexOf('.') !== -1) {
+					value[i] = this.s.value[i].replace('.', this.s.dt.settings()[0].oLanguage.sDecimal);
+				}
+			}
+		}
+
 		return {
 			condition: this.s.condition,
 			data: this.s.data,
-			value: this.s.value
+			value
 		};
 	}
 
@@ -1618,6 +1641,18 @@ export default class Criteria {
 				.addClass(this.classes.italic);
 			$(this.dom.conditionTitle)
 				.attr('selected', true);
+
+			let decimal = this.s.dt.settings()[0].oLanguage.sDecimal;
+
+			// This check is in place for if a custom decimal character is in place
+			if (decimal !== '' && this.s.type.indexOf(decimal) === this.s.type.length - decimal.length) {
+				if (this.s.type.indexOf('num-fmt') !== -1) {
+					this.s.type = this.s.type.replace(decimal, '');
+				}
+				else if (this.s.type.indexOf('num') !== -1) {
+					this.s.type = this.s.type.replace(decimal, '');
+				}
+			}
 
 			// Select which conditions are going to be used based on the column type
 			let conditionObj = this.c.conditions[this.s.type] !== undefined ?
