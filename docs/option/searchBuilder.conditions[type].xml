@@ -21,6 +21,8 @@ Each key-value pair on the `-init searchBuilder.conditions[type]` object is used
 
 The standard conditions can be removed, edited or added to. The manual page for [custom conditions](../extensions/searchbuilder/customConditions.html) covers this in detail.
 
+Note: When using a custom decimal place character, the SearchBuilder internals will replace this with a `.` so that the correct processing can take place. It is worth bearing this in mind when customising the functions that each condition runs.
+
 ## Examples
 
 There are two examples that create custom conditions using initialisation options. They both show how to add a custom condition to the `num` column type, but the process is the same for other column types.
