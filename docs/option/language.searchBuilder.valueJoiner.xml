@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>language.searchBuilder.valueJoiner</name>
+	<summary>Set the placeholder text for the SearchBuilder value select element</summary>
+	<since>1.0.0</since>
+
+	<type type="string | object">
+		<description>
+			`-init language.searchBuilder.valueJoiner` changes what will be displayed between the two input elements, when a two part condition is selected (like between).
+		</description>
+	</type>
+
+	<default value="and" />
+
+	<description>
+		<![CDATA[
+			This will set the text between the two value input elements, by default this is `'and'`. This language option is available in custom conditions and plugins also.
+		]]>
+	</description>
+
+	<example title="Change text for SearchBuilder Value"><![CDATA[
+$(document).ready(function() {
+	$('#example').DataTable( {
+		language: {
+			searchBuilder: {
+				valueJoiner: 'et'
+			}
+		},
+		dom: 'Qlfrtip',
+	});
+});
+
+]]></example>
+
+<related type="init">searchBuilder.conditions[type]</related>
+
+</dt-option>

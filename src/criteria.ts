@@ -254,7 +254,7 @@ export default class Criteria {
 				.addClass(Criteria.classes.input)
 				.on('input', function() { fn(that, this); }),
 			$('<span>')
-				.addClass(that.classes.joiner).text('and'),
+				.addClass(that.classes.joiner).text(that.s.dt.i18n('searchBuilder.valueJoiner', that.c.i18n.valueJoiner)),
 			$('<input/>')
 				.addClass(Criteria.classes.value)
 				.addClass(Criteria.classes.input)
@@ -322,7 +322,7 @@ export default class Criteria {
 				.on('input change', function() { fn(that, this); }),
 			$('<span>')
 				.addClass(that.classes.joiner)
-				.text('and'),
+				.text(that.s.dt.i18n('searchBuilder.valueJoiner', that.c.i18n.valueJoiner)),
 			$('<input/>')
 				.addClass(Criteria.classes.value)
 				.addClass(Criteria.classes.input)
@@ -1116,6 +1116,7 @@ export default class Criteria {
 				_: 'Custom Search Builder (%d)',
 			},
 			value: 'Value',
+			valueJoiner: 'and'
 		},
 		logic: 'AND',
 		orthogonal: {

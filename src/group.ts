@@ -119,6 +119,7 @@ export default class Group {
 				_: 'Custom Search Builder (%d)',
 			},
 			value: 'Value',
+			valueJoiner: 'and'
 		},
 		logic: 'AND',
 		orthogonal: {

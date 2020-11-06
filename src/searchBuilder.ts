@@ -71,6 +71,7 @@ export interface II18n {
 		_: string;
 	};
 	value: string;
+	valueJoiner: string;
 }
 
 export interface IS {
@@ -173,6 +174,7 @@ export default class SearchBuilder {
 				_: 'Custom Search Builder (%d)',
 			},
 			value: 'Value',
+			valueJoiner: 'and'
 		},
 		logic: 'AND',
 		orthogonal: {
