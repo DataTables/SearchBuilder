@@ -33,6 +33,8 @@
 
 			More details on the structure that is used can be found at `-init searchBuilder.conditions[type]`. More details on the built in types can be found at `-init columns.type`
 
+			Note: When using a custom decimal place character, the SearchBuilder internals will replace this with a `.` so that the correct processing can take place. It is worth bearing this in mind when customising the functions that each condition runs.
+
 			## Examples
 
 			There are two examples that create custom conditions using initialisation options. They both show how to add a custom condition to the `num` column type, but the process is the same for other column types.
