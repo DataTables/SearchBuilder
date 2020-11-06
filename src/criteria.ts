@@ -159,8 +159,12 @@ export default class Criteria {
 
 			// Add text and value, stripping out any html if that is the column type
 			let opt = $('<option>', {
-				text: typeof value.text === 'string' ? value.text.replace(/(<([^>]+)>)/ig, '') : value.text,
-				value: that.s.type.indexOf('html') !== -1 ? value.filter.replace(/(<([^>]+)>)/ig, '') : value.filter
+				text: typeof value.text === 'string' ?
+						value.text.replace(/(<([^>]+)>)/ig, '') :
+						value.text,
+				value: that.s.type.indexOf('html') !== -1  && value.filter !== null ?
+						value.filter.replace(/(<([^>]+)>)/ig, '') :
+						value.filter
 			})
 				.addClass(that.classes.option)
 				.addClass(that.classes.notItalic);
@@ -1207,7 +1211,7 @@ export default class Criteria {
 			value: [
 				$('<select disabled/>').addClass(this.classes.value).addClass(this.classes.dropDown).addClass(this.classes.italic)
 			],
-			valueTitle: $('<option value="" selected/>').text(this.s.dt.i18n('searchBuilder.value', i18n.value)),
+			valueTitle: $('<option value="--valueTitle--" selected/>').text(this.s.dt.i18n('searchBuilder.value', i18n.value)),
 		};
 
 		// If the greyscale option is selected then add the class to add the grey colour to SearchBuilder
