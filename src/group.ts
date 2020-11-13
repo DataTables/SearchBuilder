@@ -124,6 +124,7 @@ export default class Group {
 		logic: 'AND',
 		orthogonal: {
 			conditionName: 'Condition Name',
+			display: 'display',
 			search: 'filter',
 		},
 		preDefined: false

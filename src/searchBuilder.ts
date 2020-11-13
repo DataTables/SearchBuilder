@@ -179,6 +179,7 @@ export default class SearchBuilder {
 		logic: 'AND',
 		orthogonal: {
 			conditionName: 'Condition Name',
+			display: 'display',
 			search: 'filter',
 		},
 		preDefined: false,

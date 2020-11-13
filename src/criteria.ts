@@ -35,6 +35,7 @@ export interface ICondition {
 
 export interface IOrthogonal {
 	conditionName: string;
+	display: string;
 	search: string;
 }
 
@@ -171,9 +172,8 @@ export default class Criteria {
 
 			let val = $(opt).val();
 
-				// Check that this value has not already been added
+			// Check that this value has not already been added
 			if (added.indexOf(val) === -1) {
-				// $(el).append(opt);
 				added.push(val);
 				options.push(opt);
 
@@ -1131,7 +1131,8 @@ export default class Criteria {
 		logic: 'AND',
 		orthogonal: {
 			conditionName: 'Condition Name',
-			search: 'filter',
+			display: 'display',
+			search: 'filter'
 		},
 		preDefined: false
 	};
@@ -1440,6 +1441,9 @@ export default class Criteria {
 				this.s.dataIdx = $(this.dom.data).children('option:selected').val();
 				this.s.data = $(this.dom.data).children('option:selected').text();
 
+				this.c.orthogonal = this._getOptions().orthogonal;
+				console.log(this.c)
+
 				// When the data is changed, the values in condition and value may also change so need to renew them
 				this._clearCondition();
 				this._clearValue();
@@ -1616,6 +1620,22 @@ export default class Criteria {
 		}
 
 		this.s.value = [];
+	}
+
+	/**
+	 * Gets the options for the column
+	 * @returns {object} The options for the column
+	 */
+	private _getOptions(): {[keys: string]: any} {
+		let table = this.s.dt;
+
+		console.log(table.settings()[0].aoColumns, this.s.dataIdx)
+		return $.extend(
+			true,
+			{},
+			Criteria.defaults,
+			table.settings()[0].aoColumns[this.s.dataIdx].searchBuilder
+		);
 	}
 
 	/**
