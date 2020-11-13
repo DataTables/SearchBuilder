@@ -1442,7 +1442,6 @@ export default class Criteria {
 				this.s.data = $(this.dom.data).children('option:selected').text();
 
 				this.c.orthogonal = this._getOptions().orthogonal;
-				console.log(this.c)
 
 				// When the data is changed, the values in condition and value may also change so need to renew them
 				this._clearCondition();
@@ -1629,7 +1628,6 @@ export default class Criteria {
 	private _getOptions(): {[keys: string]: any} {
 		let table = this.s.dt;
 
-		console.log(table.settings()[0].aoColumns, this.s.dataIdx)
 		return $.extend(
 			true,
 			{},
