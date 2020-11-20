@@ -153,9 +153,23 @@ export default class Criteria {
 		// Only add one option for each possible value
 		for (let index of indexArray) {
 			let value = {
-				filter: settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.search),
+				filter: settings.oApi._fnGetCellData(
+					settings,
+					index,
+					column,
+					typeof that.c.orthogonal === 'string' ?
+						that.c.orthogonal :
+						that.c.orthogonal.search
+				),
 				index,
-				text: settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.display)
+				text: settings.oApi._fnGetCellData(
+					settings,
+					index,
+					column,
+					typeof that.c.orthogonal === 'string' ?
+						that.c.orthogonal :
+						that.c.orthogonal.display
+				)
 			};
 
 			// Add text and value, stripping out any html if that is the column type

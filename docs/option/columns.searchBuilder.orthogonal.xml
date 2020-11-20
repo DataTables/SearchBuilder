@@ -17,7 +17,7 @@
 		orthogonal: {
 			conditionName: 'Condition Name',
 			search: 'filter',
-            display: 'display'
+			display: 'display'
 		}
 		```
 
@@ -25,11 +25,11 @@
 	</default>
 	<description>
 		<![CDATA[
-			`-init columns.SearchBuilder.orthogonal` is available to be used within a custom condition defined using `-init searchBuilder.conditions[type]`. By changing the values of `orthogonal.search` or `orthogonal.filter` it allows these values to be accessed easily within your custom functions.
+			SearchBuilder uses these when getting display and filter values for select elements. It is also used to apply filtering correctly. SearchBuilder will extract data from the table and format it using whatever rendering function that is defined by `-init columns.render`.
+			
+			`-init columns.SearchBuilder.orthogonal` is also available to be used within a custom condition defined using `-init searchBuilder.conditions[type]`. By changing the values of `orthogonal.search` or `orthogonal.display` allows these values to be accessed easily within your custom functions.
 
-			SearchBuilder does not use either of these values itself, but there is scope for it to be used within custom conditions.
-
-			`-init columns.searchPanes.orthogonal` is normally only defined as a string when dealing with arrays. By setting the render object to the following 
+			`-init columns.searchPanes.orthogonal` is normally only defined as a string when dealing with arrays. 
 		]]>
 	</description>
 
