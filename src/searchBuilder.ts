@@ -205,7 +205,8 @@ export default class SearchBuilder {
 		this.dom = {
 			clearAll: $('<button type="button">' + table.i18n('searchBuilder.clearAll', this.c.i18n.clearAll) + '</button>')
 				.addClass(this.classes.clearAll)
-				.addClass(this.classes.button),
+				.addClass(this.classes.button)
+				.attr('type', 'button'),
 			container: $('<div/>')
 				.addClass(this.classes.container),
 			title: $('<div/>')

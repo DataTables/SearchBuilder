@@ -168,15 +168,18 @@ export default class Group {
 		this.dom = {
 			add: $('<button/>')
 				.addClass(this.classes.add)
-				.addClass(this.classes.button),
+				.addClass(this.classes.button)
+				.attr('type', 'button'),
 			clear: $('<button>&times</button>')
 				.addClass(this.classes.button)
-				.addClass(this.classes.clearGroup),
+				.addClass(this.classes.clearGroup)
+				.attr('type', 'button'),
 			container: $('<div/>')
 				.addClass(this.classes.group),
 			logic: $('<button/>')
 				.addClass(this.classes.logic)
-				.addClass(this.classes.button),
+				.addClass(this.classes.button)
+				.attr('type', 'button'),
 			logicContainer: $('<div/>')
 				.addClass(this.classes.logicContainer)
 		};

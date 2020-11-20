@@ -1214,15 +1214,18 @@ export default class Criteria {
 			delete: $('<button>&times</button>')
 				.addClass(this.classes.delete)
 				.addClass(this.classes.button)
-				.attr('title', this.s.dt.i18n('searchBuilder.deleteTitle', i18n.deleteTitle)),
+				.attr('title', this.s.dt.i18n('searchBuilder.deleteTitle', i18n.deleteTitle))
+				.attr('type', 'button'),
 			left: $('<button>\<</button>')
 				.addClass(this.classes.left)
 				.addClass(this.classes.button)
-				.attr('title', this.s.dt.i18n('searchBuilder.leftTitle', i18n.leftTitle)),
+				.attr('title', this.s.dt.i18n('searchBuilder.leftTitle', i18n.leftTitle))
+				.attr('type', 'button'),
 			right: $('<button>\></button>')
 				.addClass(this.classes.right)
 				.addClass(this.classes.button)
-				.attr('title', this.s.dt.i18n('searchBuilder.rightTitle', i18n.rightTitle)),
+				.attr('title', this.s.dt.i18n('searchBuilder.rightTitle', i18n.rightTitle))
+				.attr('type', 'button'),
 			value: [
 				$('<select disabled/>').addClass(this.classes.value).addClass(this.classes.dropDown).addClass(this.classes.italic)
 			],
