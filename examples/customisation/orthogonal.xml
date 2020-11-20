@@ -515,15 +515,14 @@ $(document).ready(function() {
             },
             {
                 data: 'rating',
-              searchBuilder: {
-                orthogonal: {
-                  display: 'filter'
-                }
-                
-              },
+                searchBuilder: {
+                    orthogonal: {
+                        display: 'filter'
+                    }
+                },
                 render: function(data, type, row, meta) {
                     return type === 'display' ?
-                        '<progress value="' + data + '" max="9999"></progress>' :
+                        '<progress title="' + data + '" value="' + data + '" max="9999"></progress>' :
                         data;
                 }
             },
