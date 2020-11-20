@@ -34,7 +34,6 @@ export interface ICondition {
 }
 
 export interface IOrthogonal {
-	conditionName: string;
 	display: string;
 	search: string;
 }
@@ -1144,7 +1143,6 @@ export default class Criteria {
 		},
 		logic: 'AND',
 		orthogonal: {
-			conditionName: 'Condition Name',
 			display: 'display',
 			search: 'filter'
 		},

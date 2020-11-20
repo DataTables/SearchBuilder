@@ -15,7 +15,6 @@
 
 		```
 		orthogonal: {
-			conditionName: 'Condition Name',
 			search: 'filter',
 			display: 'display'
 		}
