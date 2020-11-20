@@ -155,7 +155,7 @@ export default class Criteria {
 			let value = {
 				filter: settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.search),
 				index,
-				text: settings.oApi._fnGetCellData(settings, index, column, 'display')
+				text: settings.oApi._fnGetCellData(settings, index, column, that.c.orthogonal.display)
 			};
 
 			// Add text and value, stripping out any html if that is the column type
