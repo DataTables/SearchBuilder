@@ -159,7 +159,7 @@ export default class Criteria {
 					typeof that.c.orthogonal === 'string' ?
 						that.c.orthogonal :
 						that.c.orthogonal.search
-				),
+				).replace(/[\r\n\u2028]/g, ' '), // Need to replace certain characters to match the search values
 				index,
 				text: settings.oApi._fnGetCellData(
 					settings,
