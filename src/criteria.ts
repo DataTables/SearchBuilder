@@ -289,6 +289,11 @@ export default class Criteria {
 			$(els[2]).val(preDefined[1]);
 		}
 
+		that.s.dt.off('draw');
+		that.s.dt.one('draw', () => {
+			$(that.s.topGroup).trigger('dtsb-redrawContents');
+		});
+
 		return els;
 	};
 
@@ -320,6 +325,13 @@ export default class Criteria {
 		}
 
 		return el;
+	};
+
+	private static initNoValue = function(that: Criteria) {
+		that.s.dt.off('draw');
+		that.s.dt.one('draw', () => {
+			$(that.s.topGroup).trigger('dtsb-redrawContents');
+		});
 	};
 
 	private static init2Date = function(
@@ -360,6 +372,11 @@ export default class Criteria {
 			$(els[0]).val(preDefined[0]);
 			$(els[2]).val(preDefined[1]);
 		}
+
+		that.s.dt.off('draw');
+		that.s.dt.one('draw', () => {
+			$(that.s.topGroup).trigger('dtsb-redrawContents');
+		});
 
 		return els;
 	};
@@ -573,7 +590,7 @@ export default class Criteria {
 				return dt.i18n('searchBuilder.conditions.date.empty', i18n.conditions.date.empty);
 			},
 			isInputValid() { return true; },
-			init() { return; },
+			init: Criteria.initNoValue,
 			inputValue() {
 				return;
 			},
@@ -586,7 +603,7 @@ export default class Criteria {
 				return dt.i18n('searchBuilder.conditions.date.notEmpty', i18n.conditions.date.notEmpty);
 			},
 			isInputValid() { return true; },
-			init() { return; },
+			init: Criteria.initNoValue,
 			inputValue() {
 				return;
 			},
@@ -685,7 +702,7 @@ export default class Criteria {
 				return dt.i18n('searchBuilder.conditions.moment.empty', i18n.conditions.moment.empty);
 			},
 			isInputValid() { return true; },
-			init() { return; },
+			init: Criteria.initNoValue,
 			inputValue() {
 				return;
 			},
@@ -698,7 +715,7 @@ export default class Criteria {
 				return dt.i18n('searchBuilder.conditions.moment.notEmpty', i18n.conditions.moment.notEmpty);
 			},
 			isInputValid() { return true; },
-			init() { return; },
+			init: Criteria.initNoValue,
 			inputValue() {
 				return;
 			},
@@ -812,7 +829,7 @@ export default class Criteria {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.number.empty', i18n.conditions.number.empty);
 			},
-			init() { return; },
+			init: Criteria.initNoValue,
 			inputValue() { return; },
 			isInputValid() { return true; },
 			search(value: string): boolean {
@@ -824,7 +841,7 @@ export default class Criteria {
 				return dt.i18n('searchBuilder.conditions.number.notEmpty', i18n.conditions.number.notEmpty);
 			},
 			isInputValid() { return true; },
-			init() { return; },
+			init: Criteria.initNoValue,
 			inputValue() {
 				return;
 			},
@@ -1000,7 +1017,7 @@ export default class Criteria {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.number.empty', i18n.conditions.number.empty);
 			},
-			init() { return; },
+			init: Criteria.initNoValue,
 			inputValue() { return; },
 			isInputValid() { return true; },
 			search(value: string): boolean {
@@ -1012,7 +1029,7 @@ export default class Criteria {
 				return dt.i18n('searchBuilder.conditions.number.notEmpty', i18n.conditions.number.notEmpty);
 			},
 			isInputValid() { return true; },
-			init() { return; },
+			init: Criteria.initNoValue,
 			inputValue() {
 				return;
 			},
@@ -1083,7 +1100,7 @@ export default class Criteria {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.string.empty', i18n.conditions.string.empty);
 			},
-			init() { return; },
+			init: Criteria.initNoValue,
 			inputValue() { return; },
 			isInputValid() { return true; },
 			search(value: string): boolean {
@@ -1095,7 +1112,7 @@ export default class Criteria {
 				return dt.i18n('searchBuilder.conditions.string.notEmpty', i18n.conditions.string.notEmpty);
 			},
 			isInputValid() { return true; },
-			init() { return; },
+			init: Criteria.initNoValue,
 			inputValue() {
 				return;
 			},
