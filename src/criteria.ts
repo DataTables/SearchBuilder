@@ -151,15 +151,15 @@ export default class Criteria {
 		// Add all of the options from the table to the select element.
 		// Only add one option for each possible value
 		for (let index of indexArray) {
+			let filter = settings.oApi._fnGetCellData(
+				settings, index, column, typeof that.c.orthogonal === 'string' ?
+					that.c.orthogonal :
+					that.c.orthogonal.search
+			);
 			let value = {
-				filter: settings.oApi._fnGetCellData(
-					settings,
-					index,
-					column,
-					typeof that.c.orthogonal === 'string' ?
-						that.c.orthogonal :
-						that.c.orthogonal.search
-				).replace(/[\r\n\u2028]/g, ' '), // Need to replace certain characters to match the search values
+				filter: typeof filter === 'string' ?
+					filter.replace(/[\r\n\u2028]/g, ' ') : // Need to replace certain characters to match the search values
+					filter,
 				index,
 				text: settings.oApi._fnGetCellData(
 					settings,
