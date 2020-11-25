@@ -1,4 +1,4 @@
-describe('searchBuilder - options - searchBuilder.columns', function () {
+describe('searchBuilder - general tests', function () {
 	let table;
 
 	dt.libs({
@@ -142,6 +142,29 @@ describe('searchBuilder - options - searchBuilder.columns', function () {
 
 	describe('General usage - simple tests for strings', function () {
 		dt.html('basic');
+		it('Add a single condition - equals', function () {
+			table = $('#example').DataTable({
+				dom: 'Qlfrtip'
+			});
+
+			$('.dtsb-group button').click();
+
+			// Data
+			$('.dtsb-data').val(2);
+			$('.dtsb-data').trigger('input');
+
+			// condition
+			$('.dtsb-condition').val('=');
+			$('.dtsb-condition').trigger('input');
+
+			// value
+			$('.dtsb-value').val('San Francisco');
+			$('.dtsb-value').trigger('input');
+
+			expect($('tbody tr td:eq(0)').text()).toBe('Ashton Cox');
+		});
+
+		dt.html('basic');
 		it('Add a single condition - ends with', function () {
 			table = $('#example').DataTable({
 				dom: 'Qlfrtip'
@@ -171,44 +194,43 @@ describe('searchBuilder - options - searchBuilder.columns', function () {
 			expect($('tbody tr td:eq(0)').text()).toBe('Angelica Ramos');
 		});
 
-		dt.html('basic');
-		it('Add a single condition - starts with', function () {
-			table = $('#example').DataTable({
-				dom: 'Qlfrtip'
-			});
+		// 	dt.html('basic');
+		// 	it('Add a single condition - starts with', function () {
+		// 		table = $('#example').DataTable({
+		// 			dom: 'Qlfrtip'
+		// 		});
 
-			$('.dtsb-group button').click();
+		// 		$('.dtsb-group button').click();
 
-			// Data
-			$('.dtsb-data').val(2);
-			$('.dtsb-data').trigger('input');
+		// 		// Data
+		// 		$('.dtsb-data').val(2);
+		// 		$('.dtsb-data').trigger('input');
 
-			// condition
-			$('.dtsb-condition').val('starts');
-			$('.dtsb-condition').trigger('input');
+		// 		// condition
+		// 		$('.dtsb-condition').val('starts');
+		// 		$('.dtsb-condition').trigger('input');
 
-			// value
-			$('input.dtsb-value').val('ondon');
-			$('input.dtsb-value').trigger('input');
+		// 		// value
+		// 		$('input.dtsb-value').val('ondon');
+		// 		$('input.dtsb-value').trigger('input');
 
-			expect($('tbody tr').text()).toBe('No matching records found');
-		});
-		it('... and give values that will match', function () {
-			// value
-			$('input.dtsb-value').val('Londo');
-			$('input.dtsb-value').trigger('input');
+		// 		expect($('tbody tr').text()).toBe('No matching records found');
+		// 	});
+		// 	it('... and give values that will match', function () {
+		// 		// value
+		// 		$('input.dtsb-value').val('Londo');
+		// 		$('input.dtsb-value').trigger('input');
 
-			expect($('tbody tr td:eq(0)').text()).toBe('Angelica Ramos');
-		});
+		// 		expect($('tbody tr td:eq(0)').text()).toBe('Angelica Ramos');
+		// 	});
 	});
 
 	describe('General usage - simple tests for number', function () {
 		dt.html('empty');
-		it('Add a single condition - between', function () {
+		it('Add a single condition - equals', function () {
 			table = $('#example').DataTable({
 				dom: 'Qlfrtip'
 			});
-
 			table.rows
 				.add([
 					['a', 'b', 'c', '0', '', ''],
@@ -216,31 +238,49 @@ describe('searchBuilder - options - searchBuilder.columns', function () {
 					['c', 'b', 'c', '-4', '', '']
 				])
 				.draw();
-
 			$('.dtsb-group button').click();
-
 			// Data
 			$('.dtsb-data').val(3);
 			$('.dtsb-data').trigger('input');
-
+			// condition
+			$('.dtsb-condition').val('=');
+			$('.dtsb-condition').trigger('input');
+			// value
+			$('.dtsb-value').val('-4');
+			$('.dtsb-value').trigger('input');
+			expect($('tbody tr td:eq(0)').text()).toBe('c');
+			expect($('tbody tr').length).toBe(1);
+		});
+		dt.html('empty');
+		it('Add a single condition - between', function () {
+			table = $('#example').DataTable({
+				dom: 'Qlfrtip'
+			});
+			table.rows
+				.add([
+					['a', 'b', 'c', '0', '', ''],
+					['b', 'b', 'c', '3', '', ''],
+					['c', 'b', 'c', '-4', '', '']
+				])
+				.draw();
+			$('.dtsb-group button').click();
+			// Data
+			$('.dtsb-data').val(3);
+			$('.dtsb-data').trigger('input');
 			// condition
 			$('.dtsb-condition').val('between');
 			$('.dtsb-condition').trigger('input');
-
 			// value
 			$('input.dtsb-value:eq(0)').val('-5');
 			$('input.dtsb-value:eq(1)').val('-2');
 			$('input.dtsb-value').trigger('input');
-
 			expect($('tbody tr td:eq(0)').text()).toBe('c');
 		});
-
 		dt.html('empty');
 		it('Add a single condition - between for %', function () {
 			table = $('#example').DataTable({
 				dom: 'Qlfrtip'
 			});
-
 			table.rows
 				.add([
 					['a', 'b', 'c', '0%', '', ''],
@@ -248,31 +288,24 @@ describe('searchBuilder - options - searchBuilder.columns', function () {
 					['c', 'b', 'c', '-4%', '', '']
 				])
 				.draw();
-
 			$('.dtsb-group button').click();
-
 			// Data
 			$('.dtsb-data').val(3);
 			$('.dtsb-data').trigger('input');
-
 			// condition
 			$('.dtsb-condition').val('between');
 			$('.dtsb-condition').trigger('input');
-
 			// value
 			$('input.dtsb-value:eq(0)').val('-5');
 			$('input.dtsb-value:eq(1)').val('-2');
 			$('input.dtsb-value').trigger('input');
-
 			expect($('tbody tr td:eq(0)').text()).toBe('c');
 		});
-
 		dt.html('empty');
 		it('Add a single condition - greater than', function () {
 			table = $('#example').DataTable({
 				dom: 'Qlfrtip'
 			});
-
 			table.rows
 				.add([
 					['a', 'b', 'c', '0', '', ''],
@@ -280,67 +313,53 @@ describe('searchBuilder - options - searchBuilder.columns', function () {
 					['c', 'b', 'c', '-4', '', '']
 				])
 				.draw();
-
 			$('.dtsb-group button').click();
-
 			// Data
 			$('.dtsb-data').val(3);
 			$('.dtsb-data').trigger('input');
-
 			// condition
 			$('.dtsb-condition').val('>');
 			$('.dtsb-condition').trigger('input');
-
 			// value
 			$('input.dtsb-value:eq(0)').val('-5');
 			$('input.dtsb-value').trigger('input');
-
 			expect($('tbody tr td:eq(0)').text()).toBe('a');
 		});
 		it('... less values', function () {
 			// value
 			$('input.dtsb-value:eq(0)').val('2');
 			$('input.dtsb-value').trigger('input');
-
 			expect($('tbody tr td:eq(0)').text()).toBe('b');
 		});
-	});
-
-	dt.html('empty');
-	it('Add a single condition - less than', function () {
-		table = $('#example').DataTable({
-			dom: 'Qlfrtip'
+		dt.html('empty');
+		it('Add a single condition - less than', function () {
+			table = $('#example').DataTable({
+				dom: 'Qlfrtip'
+			});
+			table.rows
+				.add([
+					['a', 'b', 'c', '0', '', ''],
+					['b', 'b', 'c', '3', '', ''],
+					['c', 'b', 'c', '-4', '', '']
+				])
+				.draw();
+			$('.dtsb-group button').click();
+			// Data
+			$('.dtsb-data').val(3);
+			$('.dtsb-data').trigger('input');
+			// condition
+			$('.dtsb-condition').val('<');
+			$('.dtsb-condition').trigger('input');
+			// value
+			$('input.dtsb-value:eq(0)').val('2');
+			$('input.dtsb-value').trigger('input');
+			expect($('tbody tr td:eq(0)').text()).toBe('a');
 		});
-
-		table.rows
-			.add([
-				['a', 'b', 'c', '0', '', ''],
-				['b', 'b', 'c', '3', '', ''],
-				['c', 'b', 'c', '-4', '', '']
-			])
-			.draw();
-
-		$('.dtsb-group button').click();
-
-		// Data
-		$('.dtsb-data').val(3);
-		$('.dtsb-data').trigger('input');
-
-		// condition
-		$('.dtsb-condition').val('<');
-		$('.dtsb-condition').trigger('input');
-
-		// value
-		$('input.dtsb-value:eq(0)').val('2');
-		$('input.dtsb-value').trigger('input');
-
-		expect($('tbody tr td:eq(0)').text()).toBe('a');
-	});
-	it('... less values', function () {
-		// value
-		$('input.dtsb-value:eq(0)').val('-3');
-		$('input.dtsb-value').trigger('input');
-
-		expect($('tbody tr td:eq(0)').text()).toBe('c');
+		it('... less values', function () {
+			// value
+			$('input.dtsb-value:eq(0)').val('-3');
+			$('input.dtsb-value').trigger('input');
+			expect($('tbody tr td:eq(0)').text()).toBe('c');
+		});
 	});
 });
