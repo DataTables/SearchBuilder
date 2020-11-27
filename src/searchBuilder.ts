@@ -121,6 +121,14 @@ export default class SearchBuilder {
 			clearAll: 'Clear All',
 			condition: 'Condition',
 			conditions: {
+				array: {
+					contains: 'Contains',
+					empty: 'Empty',
+					equals: 'Equals',
+					not: 'Not',
+					notEmpty: 'Not Empty',
+					without: 'Without'
+				},
 				date: {
 					after: 'After',
 					before: 'Before',
@@ -371,7 +379,7 @@ export default class SearchBuilder {
 					return true;
 				}
 
-				return this.s.topGroup.search(searchData);
+				return this.s.topGroup.search(searchData, dataIndex);
 			};
 
 			// Add SearchBuilder search function to the dataTables search array

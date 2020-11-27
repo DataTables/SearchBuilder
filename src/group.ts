@@ -340,12 +340,12 @@ export default class Group {
 	 * @param rowData The row data to be compared
 	 * @returns boolean The result of the search
 	 */
-	public search(rowData: any[]): boolean {
+	public search(rowData: any[], rowIdx: number): boolean {
 		if (this.s.logic === 'AND') {
-			return this._andSearch(rowData);
+			return this._andSearch(rowData, rowIdx);
 		}
 		else if (this.s.logic === 'OR') {
-			return this._orSearch(rowData);
+			return this._orSearch(rowData, rowIdx);
 		}
 
 		return true;
@@ -574,7 +574,7 @@ export default class Group {
 	 * @param rowData The row data to be checked against the search criteria
 	 * @returns boolean The result of the AND search
 	 */
-	private _andSearch(rowData: any[]): boolean {
+	private _andSearch(rowData: any[], rowIdx: number): boolean {
 		// If there are no criteria then return true for this group
 		if (this.s.criteria.length === 0) {
 			return true;
@@ -586,7 +586,7 @@ export default class Group {
 				continue;
 			}
 			// Otherwise if a single one fails return false
-			else if (!crit.criteria.search(rowData)) {
+			else if (!crit.criteria.search(rowData, rowIdx)) {
 				return false;
 			}
 		}
@@ -600,7 +600,7 @@ export default class Group {
 	 * @param rowData The row data to be checked against the search criteria
 	 * @returns boolean The result of the OR search
 	 */
-	private _orSearch(rowData: any[]): boolean {
+	private _orSearch(rowData: any[], rowIdx: number): boolean {
 		// If there are no criteria in the group then return true
 		if (this.s.criteria.length === 0) {
 			return true;
@@ -615,13 +615,14 @@ export default class Group {
 				filledfound = true;
 
 				// If the search passes then return true
-				if (crit.criteria.search(rowData)) {
+				if (crit.criteria.search(rowData, rowIdx)) {
 					return true;
 				}
 			}
 			else if (crit.criteria instanceof Group && crit.criteria.checkFilled()) {
 				filledfound = true;
-				if (crit.criteria.search(rowData)) {
+
+				if (crit.criteria.search(rowData, rowIdx)) {
 					return true;
 				}
 			}

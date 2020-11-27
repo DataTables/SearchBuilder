@@ -125,7 +125,7 @@ export default class Criteria {
 	/**
 	 * Default initialisation function for select conditions
 	 */
-	private static initSelect = function(that, fn, preDefined = null) {
+	private static initSelect = function(that, fn, preDefined = null, array = false) {
 		let column = $(that.dom.data).children('option:selected').val();
 		let indexArray = that.s.dt.rows().indexes().toArray();
 		let settings = that.s.dt.settings()[0];
@@ -171,30 +171,60 @@ export default class Criteria {
 				)
 			};
 
-			// Add text and value, stripping out any html if that is the column type
-			let opt = $('<option>', {
-				text: typeof value.text === 'string' ?
-						value.text.replace(/(<([^>]+)>)/ig, '') :
-						value.text,
-				value: that.s.type.indexOf('html') !== -1  && value.filter !== null ?
-						value.filter.replace(/(<([^>]+)>)/ig, '') :
-						value.filter
-			})
-				.addClass(that.classes.option)
-				.addClass(that.classes.notItalic);
+			// If we are dealing with an array type, either make sure we are working with arrays, or sort them
+			if (that.s.type === 'array') {
+				value.filter = !Array.isArray(value.filter) ?
+					[value.filter] :
+					value.filter = value.filter.sort();
 
-			let val = $(opt).val();
+				value.text = !Array.isArray(value.text) ?
+					[value.text] :
+					value.text = value.text.sort();
+			}
 
-			// Check that this value has not already been added
-			if (added.indexOf(val) === -1) {
-				added.push(val);
-				options.push(opt);
+			// Function to add an option to the select element
+			let addOption = (filt, text) => {
+				// Add text and value, stripping out any html if that is the column type
+				let opt = $('<option>', {
+					text: typeof text === 'string' ?
+							text.replace(/(<([^>]+)>)/ig, '') :
+							text,
+					type: Array.isArray(filt) ? 'Array' : 'String',
+					value: that.s.type.indexOf('html') !== -1  && filt !== null && typeof filt === 'string' ?
+							filt.replace(/(<([^>]+)>)/ig, '') :
+							filt,
+				})
+					.addClass(that.classes.option)
+					.addClass(that.classes.notItalic);
 
-				// If this value was previously selected as indicated by preDefined, then select it again
-				if (preDefined !== null && opt.val() === preDefined[0]) {
-					opt.attr('selected', true);
-					$(el).removeClass(Criteria.classes.italic);
+				let val = $(opt).val();
+
+				// Check that this value has not already been added
+				if (added.indexOf(val) === -1) {
+					added.push(val);
+					options.push(opt);
+
+					if (preDefined !== null && Array.isArray(preDefined[0])) {
+						preDefined[0] = preDefined[0].sort().join(',');
+					}
+
+					// If this value was previously selected as indicated by preDefined, then select it again
+					if (preDefined !== null && opt.val() === preDefined[0]) {
+						opt.attr('selected', true);
+						$(el).removeClass(Criteria.classes.italic);
+					}
 				}
+			};
+
+			// If this is to add the individual values within the array we need to loop over the array
+			if (array) {
+				for (let i = 0; i < value.filter.length; i++) {
+					addOption(value.filter[i], value.text[i]);
+				}
+			}
+			// Otherwise the value that is in the cell is to be added
+			else {
+				addOption(value.filter, value.text);
 			}
 		}
 
@@ -228,6 +258,15 @@ export default class Criteria {
 		}
 
 		return el;
+	};
+
+	/**
+	 * Default initialisation function for select array conditions
+	 *
+	 * This exists because there needs to be different select functionality for contains/without and equals/not
+	 */
+	private static initSelectArray = function(that, fn, preDefined = null) {
+		return Criteria.initSelect(that, fn, preDefined, true);
 	};
 
 	/**
@@ -426,7 +465,13 @@ export default class Criteria {
 		// Go through the select elements and push each selected option to the return array
 		for (let element of el) {
 			if ($(element).is('select')) {
-				values.push($(element).children('option:selected').val());
+				let val = $(element).children('option:selected').val();
+				// If the type of the option is an array we need to split it up and sort it
+				values.push(
+					$(element).children('option:selected').attr('type') === 'Array' ?
+						val.split(',').sort() :
+						val
+				);
 			}
 		}
 
@@ -464,7 +509,12 @@ export default class Criteria {
 		}
 
 		for (let i = 0; i < that.s.value.length; i++) {
-			if (that.s.dt.settings()[0].oLanguage.sDecimal !== '') {
+			// If the value is an array we need to sort it
+			if (Array.isArray(that.s.value[i])) {
+				that.s.value[i].sort();
+			}
+			// Otherwise replace the decimal place character for i18n
+			else if (that.s.dt.settings()[0].oLanguage.sDecimal !== '') {
 				that.s.value[i] = that.s.value[i].replace(that.s.dt.settings()[0].oLanguage.sDecimal, '.');
 			}
 		}
@@ -1122,9 +1172,100 @@ export default class Criteria {
 		}
 	};
 
+	// The order of the conditions will make tslint sad :(
+	public static arrayConditions: {[keys: string]: ICondition} = {
+		'contains': {
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.array.contains', i18n.conditions.array.contains);
+			},
+			init: Criteria.initSelectArray,
+			inputValue: Criteria.inputValueSelect,
+			isInputValid: Criteria.isInputValidSelect,
+			search(value: string, comparison: string[]) {
+				return value.indexOf(comparison[0]) !== -1;
+			}
+		},
+		'without': {
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.array.without', i18n.conditions.array.without);
+			},
+			init: Criteria.initSelectArray,
+			inputValue: Criteria.inputValueSelect,
+			isInputValid: Criteria.isInputValidSelect,
+			search(value: string, comparison: string[]) {
+				return value.indexOf(comparison[0]) === -1;
+			}
+		},
+		'=': {
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.array.equals', i18n.conditions.array.equals);
+			},
+			init: Criteria.initSelect,
+			inputValue: Criteria.inputValueSelect,
+			isInputValid: Criteria.isInputValidSelect,
+			search(value: string, comparison: string[]) {
+				if (value.length === comparison[0].length) {
+					for (let i = 0; i < value.length; i++) {
+						if (value[i] !== comparison[0][i]) {
+							return false;
+						}
+					}
+
+					return true;
+				}
+
+				return false;
+			}
+		},
+		'!=': {
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.array.not', i18n.conditions.array.not);
+			},
+			init: Criteria.initSelect,
+			inputValue: Criteria.inputValueSelect,
+			isInputValid: Criteria.isInputValidSelect,
+			search(value: string, comparison: string[]) {
+				if (value.length === comparison[0].length) {
+					for (let i = 0; i < value.length; i++) {
+						if (value[i] !== comparison[0][i]) {
+							return true;
+						}
+					}
+
+					return false;
+				}
+
+				return true;
+			}
+		},
+		'null': {
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.array.empty', i18n.conditions.array.empty);
+			},
+			init: Criteria.initNoValue,
+			isInputValid() { return true; },
+			inputValue() { return; },
+			search(value: string) {
+				return (value === null || value === undefined || value.length === 0);
+			}
+		},
+		'!null': {
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.array.notEmpty', i18n.conditions.array.notEmpty);
+			},
+			isInputValid() { return true; },
+			init: Criteria.initNoValue,
+			inputValue() { return; },
+			search(value: string) {
+				return (value !== null && value !== undefined && value.length !== 0);
+			}
+		},
+	};
+
 	private static defaults: builderType.IDefaults = {
 		columns: true,
 		conditions: {
+			'array': Criteria.arrayConditions,
 			'date': Criteria.dateConditions,
 			'html': Criteria.stringConditions,
 			'html-num': Criteria.numConditions,
@@ -1339,7 +1480,7 @@ export default class Criteria {
 	 * @param rowData The data for the row to be compared
 	 * @returns boolean Whether the criteria has passed
 	 */
-	public search(rowData: any[]): boolean {
+	public search(rowData: any[], rowIdx: number): boolean {
 		let condition = this.s.conditions[this.s.condition];
 
 		if (this.s.condition !== undefined &&  condition !== undefined) {
@@ -1348,7 +1489,29 @@ export default class Criteria {
 				rowData[this.s.dataIdx] = rowData[this.s.dataIdx].replace(this.s.dt.settings()[0].oLanguage.sDecimal, '.');
 			}
 
-			return condition.search(rowData[this.s.dataIdx], this.s.value, this);
+			let filter = rowData[this.s.dataIdx];
+
+			// If orthogonal data is in place we need to get it's values for searching
+			if (this.c.orthogonal.search !== 'search') {
+				let settings = this.s.dt.settings()[0];
+
+				filter = settings.oApi._fnGetCellData(
+					settings, rowIdx, this.s.dataIdx, typeof this.c.orthogonal === 'string' ?
+						this.c.orthogonal :
+						this.c.orthogonal.search
+				);
+			}
+
+			if (this.s.type === 'array') {
+				// Make sure we are working with an array
+				if (!Array.isArray(filter)) {
+					filter = [filter];
+				}
+
+				filter.sort();
+			}
+
+			return condition.search(filter, this.s.value, this);
 		}
 	}
 
