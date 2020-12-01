@@ -1,11 +1,11 @@
-/*! SearchBuilder 1.0.0
+/*! SearchBuilder 1.0.1
  * ©2020 SpryMedia Ltd - datatables.net/license/mit
  */
 
 /**
  * @summary     SearchBuilder
  * @description End user complex search builder for DataTables
- * @version     1.0.0
+ * @version     1.0.1
  * @file        dataTables.searchBuilder.js
  * @author      SpryMedia Ltd
  * @copyright   Copyright 2020 SpryMedia Ltd.
