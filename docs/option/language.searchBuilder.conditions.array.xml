@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>language.searchBuilder.conditions.array</name>
+	<summary>Set the condition names for columns that use arrays</summary>
+	<since>1.0.0</since>
+
+	<type type="string | object">
+		<description>
+			`-init language.searchBuilder.conditions.array` changes what will be displayed for the SearchBuilder's condition select element for columns that use array like data.
+			
+			Note that columns of this type are not identified automatically and must be user defined using the `-init columns.type` option. 
+		</description>
+	</type>
+
+	<default value="object" />
+	<description>
+		<![CDATA[
+This object sets the text for the condition names in the condition select element. The defaults for each language option is listed below.
+
+* `contains: 'Contains'`
+* `empty: 'Empty'`
+* `equals: 'Equals'`
+* `not: 'Not'`
+* `notEmpty: 'Not Empty'`
+* `without: 'Without'`
+		]]>
+	</description>
+
+	<example title="Change message for SearchBuilder Condition"><![CDATA[
+$(document).ready(function() {
+	$('#example').DataTable( {
+		language: {
+			searchBuilder: {
+				conditions :{
+                    array: {
+                        contains: 'Contains',
+						empty: 'Empty',
+						equals: 'Equals',
+						not: 'Not',
+						notEmpty: 'Not Empty',
+						without: 'Without'
+                    }
+                }
+			}
+		},
+		dom: 'Qlfrtip',
+	});
+});
+
+]]></example>
+
+<related type="api">i18n()</related>
+<related type="init">columns.type</related>
+
+</dt-option>
