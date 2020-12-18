@@ -1969,7 +1969,7 @@ export default class Criteria {
 					}
 
 					if (!found) {
-						let opt = {text: this.s.dt.settings()[0].aoColumns[index].sTitle, index};
+						let opt = {text: this.s.dt.settings()[0].aoColumns[index].sTitle.replace(/(<([^>]+)>)/ig, ''), index};
 						this.s.dataPoints.push(opt);
 						$(this.dom.data).append(
 							$('<option>', {
@@ -1992,7 +1992,7 @@ export default class Criteria {
 					}
 				});
 				let newOpt = $('<option>', {
-					text : data.text,
+					text : data.text.replace(/(<([^>]+)>)/ig, ''),
 					value : data.index
 				})
 					.addClass(this.classes.option)
