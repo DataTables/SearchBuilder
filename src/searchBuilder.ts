@@ -468,6 +468,27 @@ export default class SearchBuilder {
 			this.s.dt.state.save();
 		});
 
+		$(this.s.topGroup.dom.container).unbind('dtsb-redrawLogic');
+		$(this.s.topGroup.dom.container).on('dtsb-redrawLogic', () => {
+			this.s.topGroup.redrawLogic();
+			let count = this.s.topGroup.count();
+
+			this._updateTitle(count);
+			this._filterChanged(count);
+		});
+
+		$(this.s.topGroup.dom.container).on('dtsb-add', () => {
+			let count = this.s.topGroup.count();
+
+			this._updateTitle(count);
+			this._filterChanged(count);
+		});
+
+		$(this.s.dt).on('postEdit postCreate postRemove', () => {
+			console.log("editor event")
+			this.s.topGroup.redrawContents();
+		});
+
 		$(this.s.topGroup.dom.container).unbind('dtsb-clearContents');
 		$(this.s.topGroup.dom.container).on('dtsb-clearContents', () => {
 			this._setUp(false);

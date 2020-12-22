@@ -257,6 +257,12 @@ export default class Criteria {
 			$(el).append(opt);
 		}
 
+		// This is partly for responsive and partly for editor integration
+		that.s.dt.off('draw');
+		that.s.dt.one('draw', () => {
+			$(that.s.topGroup).trigger('dtsb-redrawContents');
+		});
+
 		return el;
 	};
 
@@ -278,10 +284,19 @@ export default class Criteria {
 		preDefined = null
 	): Array<JQuery<HTMLElement>> {
 		// Declare the input element
+		let searchDelay = that.s.dt.settings()[0].searchDelay;
 		let el = $('<input/>')
 			.addClass(Criteria.classes.value)
 			.addClass(Criteria.classes.input)
-			.on('input', function() { fn(that, this); });
+			.on('input', searchDelay !== null ?
+				that.s.dt.settings()[0].oApi._fnThrottle(
+					function() {
+						return fn(that, this);
+					},
+					searchDelay
+				) :
+				() => { fn(that, this); }
+			);
 
 		if (that.c.greyscale) {
 			$(el).addClass(Criteria.classes.greyscale);
@@ -291,6 +306,12 @@ export default class Criteria {
 		if (preDefined !== null) {
 			$(el).val(preDefined[0]);
 		}
+
+		// This is add responsive functionality to the logic button without redrawing everything else
+		that.s.dt.off('draw');
+		that.s.dt.one('draw', () => {
+			$(that.s.topGroup).trigger('dtsb-redrawLogic');
+		});
 
 		return el;
 	};
@@ -304,17 +325,34 @@ export default class Criteria {
 		preDefined = null
 	): Array<JQuery<HTMLElement>> {
 		// Declare all of the necessary jQuery elements
+		let searchDelay = that.s.dt.settings()[0].searchDelay;
 		let els = [
 			$('<input/>')
 				.addClass(Criteria.classes.value)
 				.addClass(Criteria.classes.input)
-				.on('input', function() { fn(that, this); }),
+				.on('input', searchDelay !== null ?
+				that.s.dt.settings()[0].oApi._fnThrottle(
+					function() {
+						return fn(that, this);
+					},
+					searchDelay
+				) :
+				() => { fn(that, this); }
+			),
 			$('<span>')
 				.addClass(that.classes.joiner).text(that.s.dt.i18n('searchBuilder.valueJoiner', that.c.i18n.valueJoiner)),
 			$('<input/>')
 				.addClass(Criteria.classes.value)
 				.addClass(Criteria.classes.input)
-				.on('input', function() { fn(that, this); })
+				.on('input', searchDelay !== null ?
+					that.s.dt.settings()[0].oApi._fnThrottle(
+						function() {
+							return fn(that, this);
+						},
+						searchDelay
+					) :
+					() => { fn(that, this); }
+				)
 		];
 
 		if (that.c.greyscale) {
@@ -328,9 +366,10 @@ export default class Criteria {
 			$(els[2]).val(preDefined[1]);
 		}
 
+		// This is add responsive functionality to the logic button without redrawing everything else
 		that.s.dt.off('draw');
 		that.s.dt.one('draw', () => {
-			$(that.s.topGroup).trigger('dtsb-redrawContents');
+			$(that.s.topGroup).trigger('dtsb-redrawLogic');
 		});
 
 		return els;
@@ -344,6 +383,7 @@ export default class Criteria {
 		fn: (that: Criteria, el: JQuery<HTMLElement>) => void,
 		preDefined = null
 	): Array<JQuery<HTMLElement>> {
+		let searchDelay = that.s.dt.settings()[0].searchDelay;
 		// Declare date element using DataTables dateTime plugin
 		let el = $('<input/>')
 			.addClass(Criteria.classes.value)
@@ -352,7 +392,15 @@ export default class Criteria {
 				attachTo: 'input',
 				format: that.s.momentFormat ? that.s.momentFormat : undefined
 			})
-			.on('input change', function() { fn(that, this); });
+			.on('input change', searchDelay !== null ?
+				that.s.dt.settings()[0].oApi._fnThrottle(
+					function() {
+						return fn(that, this);
+					},
+					searchDelay
+				) :
+				() => { fn(that, this); }
+			);
 
 		if (that.c.greyscale) {
 			$(el).addClass(Criteria.classes.greyscale);
@@ -363,13 +411,20 @@ export default class Criteria {
 			$(el).val(preDefined[0]);
 		}
 
+		// This is add responsive functionality to the logic button without redrawing everything else
+		that.s.dt.off('draw');
+		that.s.dt.one('draw', () => {
+			$(that.s.topGroup).trigger('dtsb-redrawLogic');
+		});
+
 		return el;
 	};
 
 	private static initNoValue = function(that: Criteria) {
+		// This is add responsive functionality to the logic button without redrawing everything else
 		that.s.dt.off('draw');
 		that.s.dt.one('draw', () => {
-			$(that.s.topGroup).trigger('dtsb-redrawContents');
+			$(that.s.topGroup).trigger('dtsb-redrawLogic');
 		});
 	};
 
@@ -378,6 +433,7 @@ export default class Criteria {
 		fn: (that: Criteria, el: JQuery<HTMLElement>) => void,
 		preDefined: string[] = null
 	): Array<JQuery<HTMLElement>> {
+		let searchDelay = that.s.dt.settings()[0].searchDelay;
 		// Declare all of the date elements that are required using DataTables dateTime plugin
 		let els = [
 			$('<input/>')
@@ -387,7 +443,15 @@ export default class Criteria {
 					attachTo: 'input',
 					format: that.s.momentFormat ? that.s.momentFormat : undefined
 				})
-				.on('input change', function() { fn(that, this); }),
+				.on('input change', searchDelay !== null ?
+					that.s.dt.settings()[0].oApi._fnThrottle(
+						function() {
+							return fn(that, this);
+						},
+						searchDelay
+					) :
+					() => { fn(that, this); }
+				),
 			$('<span>')
 				.addClass(that.classes.joiner)
 				.text(that.s.dt.i18n('searchBuilder.valueJoiner', that.c.i18n.valueJoiner)),
@@ -398,7 +462,15 @@ export default class Criteria {
 					attachTo: 'input',
 					format: that.s.momentFormat ? that.s.momentFormat : undefined
 				})
-				.on('input change', function() { fn(that, this); })
+				.on('input change', searchDelay !== null ?
+					that.s.dt.settings()[0].oApi._fnThrottle(
+						function() {
+							return fn(that, this);
+						},
+						searchDelay
+					) :
+					() => { fn(that, this); }
+				),
 		];
 
 		if (that.c.greyscale) {
@@ -412,9 +484,10 @@ export default class Criteria {
 			$(els[2]).val(preDefined[1]);
 		}
 
+		// This is add responsive functionality to the logic button without redrawing everything else
 		that.s.dt.off('draw');
 		that.s.dt.one('draw', () => {
-			$(that.s.topGroup).trigger('dtsb-redrawContents');
+			$(that.s.topGroup).trigger('dtsb-redrawLogic');
 		});
 
 		return els;
@@ -1721,9 +1794,12 @@ export default class Criteria {
 
 		// Perform the responsive calculations and redraw where necessary
 		if (
-			buttonsLeft - valRight < 15 ||
-			(hasLeft && leftOffset.top !== clearOffset.top) ||
-			(hasRight && rightOffset.top !== clearOffset.top)
+			(
+				buttonsLeft - valRight < 15 ||
+				(hasLeft && leftOffset.top !== clearOffset.top) ||
+				(hasRight && rightOffset.top !== clearOffset.top)
+			) &&
+			!$(this.dom.container).parent().hasClass(this.classes.vertical)
 		) {
 			$(this.dom.container).parent().addClass(this.classes.vertical);
 			$(this.s.topGroup).trigger('dtsb-redrawContents');
@@ -1736,6 +1812,7 @@ export default class Criteria {
 				$(this.dom.condition).outerWidth(true) +
 				valWidth
 			) > 15
+			&& $(this.dom.container).parent().hasClass(this.classes.vertical)
 		) {
 			$(this.dom.container).parent().removeClass(this.classes.vertical);
 			$(this.s.topGroup).trigger('dtsb-redrawContents');

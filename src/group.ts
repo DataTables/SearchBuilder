@@ -336,6 +336,19 @@ export default class Group {
 	}
 
 	/**
+	 * Resizes the logic button only rather than the entire dom.
+	 */
+	public redrawLogic() {
+		for (let crit of this.s.criteria) {
+			if (crit instanceof Group) {
+				crit.redrawLogic();
+			}
+		}
+
+		this.setupLogic();
+	}
+
+	/**
 	 * Search method, checking the row data against the criteria in the group
 	 * @param rowData The row data to be compared
 	 * @returns boolean The result of the search
