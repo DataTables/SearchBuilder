@@ -28,7 +28,6 @@ declare var define: {
 	amd: string;
 };
 
-import 'datatables.net-datetime';
 import Criteria, {setJQuery as criteriaJQuery} from './criteria';
 import Group, {setJQuery as groupJQuery} from './group';
 import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';

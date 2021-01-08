@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-example table-type="html" table-class="display nowrap" order="4">
 
-<css lib="datatables searchbuilder buttons"/>
+<css lib="datatables searchbuilder buttons datetime"/>
 
-<js lib="jquery datatables searchbuilder buttons">
+<js lib="jquery datatables searchbuilder buttons datetime">
 <![CDATA[
 
 $(document).ready(function() {

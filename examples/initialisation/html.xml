@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-example table-type="html-salary" table-class="display nowrap" order="1">
 
-<css lib="datatables searchbuilder">
+<css lib="datatables searchbuilder datetime">
     .old {
         color: red;
     }
@@ -13,7 +13,7 @@
     }
 </css>
 
-<js lib="jquery datatables searchbuilder">
+<js lib="jquery datatables searchbuilder datetime">
 <![CDATA[
 
 $(document).ready(function() {

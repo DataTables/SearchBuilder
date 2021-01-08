@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-example table-type="html-iso8601" table-class="display nowrap" order="1">
 
-<css lib="datatables searchbuilder">
+<css lib="datatables searchbuilder datetime">
     #output {
 		margin-bottom: 1em;
 		padding: 1em;
@@ -14,7 +14,7 @@
 	}
 </css>
 
-<js lib="jquery datatables searchbuilder">
+<js lib="jquery datatables searchbuilder datetime">
 <![CDATA[
 
 $(document).ready(function() {

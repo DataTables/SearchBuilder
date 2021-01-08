@@ -203,6 +203,11 @@ export default class SearchBuilder {
 			throw new Error('SearchBuilder requires DataTables 1.10 or newer');
 		}
 
+		// Check that Select is included
+		if (! (DataTable as any).DateTime) {
+			throw new Error('SearchPane requires DateTime');
+		}
+
 		let table = new DataTable.Api(builderSettings);
 		this.classes = $.extend(true, {}, SearchBuilder.classes);
 

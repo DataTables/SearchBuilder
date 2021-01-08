@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-example table-type="html" order="4" framework="jqueryui">
 
-<css lib="datatables searchbuilder"/>
+<css lib="datatables searchbuilder datetime"/>
 
-<js lib="jquery datatables searchbuilder">
+<js lib="jquery datatables searchbuilder datetime">
 <![CDATA[
 
 $(document).ready(function() {

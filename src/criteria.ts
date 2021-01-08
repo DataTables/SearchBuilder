@@ -1400,6 +1400,11 @@ export default class Criteria {
 			throw new Error('SearchPane requires DataTables 1.10 or newer');
 		}
 
+		// Check that Select is included
+		if (! (DataTable as any).DateTime) {
+			throw new Error('SearchPane requires DateTime');
+		}
+
 		this.classes = $.extend(true, {}, Criteria.classes);
 
 		// Get options from user and any extra conditions/column types defined by plug-ins
