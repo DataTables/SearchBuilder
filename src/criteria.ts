@@ -261,7 +261,6 @@ export default class Criteria {
 		}
 
 		// This is partly for responsive and partly for editor integration
-		that.s.dt.off('draw');
 		that.s.dt.one('draw', () => {
 			$(that.s.topGroup).trigger('dtsb-redrawContents');
 		});
@@ -311,7 +310,6 @@ export default class Criteria {
 		}
 
 		// This is add responsive functionality to the logic button without redrawing everything else
-		that.s.dt.off('draw');
 		that.s.dt.one('draw', () => {
 			$(that.s.topGroup).trigger('dtsb-redrawLogic');
 		});
@@ -370,7 +368,6 @@ export default class Criteria {
 		}
 
 		// This is add responsive functionality to the logic button without redrawing everything else
-		that.s.dt.off('draw');
 		that.s.dt.one('draw', () => {
 			$(that.s.topGroup).trigger('dtsb-redrawLogic');
 		});
@@ -415,7 +412,6 @@ export default class Criteria {
 		}
 
 		// This is add responsive functionality to the logic button without redrawing everything else
-		that.s.dt.off('draw');
 		that.s.dt.one('draw', () => {
 			$(that.s.topGroup).trigger('dtsb-redrawLogic');
 		});
@@ -425,7 +421,6 @@ export default class Criteria {
 
 	private static initNoValue = function(that: Criteria) {
 		// This is add responsive functionality to the logic button without redrawing everything else
-		that.s.dt.off('draw');
 		that.s.dt.one('draw', () => {
 			$(that.s.topGroup).trigger('dtsb-redrawLogic');
 		});
@@ -488,7 +483,6 @@ export default class Criteria {
 		}
 
 		// This is add responsive functionality to the logic button without redrawing everything else
-		that.s.dt.off('draw');
 		that.s.dt.one('draw', () => {
 			$(that.s.topGroup).trigger('dtsb-redrawLogic');
 		});
