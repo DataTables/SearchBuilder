@@ -37,7 +37,7 @@ This example also makes use of the Ultimate Sorting plug in for dates, along wit
 	<thead>
 		<tr>
 			<th>Name</th>
-			<th width="20%">Company</th>
+			<th>Company</th>
 			<th>Created</th>
 			<th>Updated</th>
 		</tr>
