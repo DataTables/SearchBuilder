@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-example table-type="html-iso8601" table-class="display nowrap" order="1">
 
-<css lib="datatables searchbuilder"/>
+<css lib="datatables searchbuilder datetime"/>
 <css lib="//cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css"/>
 
 <js lib="jquery"/> 
 <js lib="//cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.js"/>
-<js lib="datatables searchbuilder">
+<js lib="datatables searchbuilder datetime">
 <![CDATA[
 
 $(document).ready(function() {

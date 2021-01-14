@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-example table-type="html-iso8601" table-class="display nowrap" order="2">
 
-<css lib="datatables searchbuilder colreorder"/>
+<css lib="datatables searchbuilder colreorder datetime"/>
 
-<js lib="jquery datatables searchbuilder colreorder">
+<js lib="jquery datatables searchbuilder colreorder datetime">
 <![CDATA[
 
 $(document).ready(function() {

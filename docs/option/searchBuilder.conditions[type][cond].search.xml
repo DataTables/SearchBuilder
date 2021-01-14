@@ -26,6 +26,8 @@ This function is what the condition uses to filter the table. It takes three par
 This function is to return a boolean, true if the row is to be included in the result, false if not. Both the value from the table and the value(s) that were collected in the `-init searchBuilder.conditions[type][cond].inputValue`. This function is free to perform any operation on those values to decide whether it passes the desired condition. This function then is the crux of the searching behaviour for the condition.
 
 The manual page for [custom conditions](../extensions/searchbuilder/customConditions.html) covers in detail how this and the other values in this object come together to create a custom condition.
+
+Note: When using a custom decimal place character, the SearchBuilder internals will replace this with a `.` so that the correct processing can take place. It is worth bearing this in mind when customising the functions that each condition runs.
         ]]>
 	</description>
 

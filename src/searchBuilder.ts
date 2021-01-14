@@ -71,6 +71,7 @@ export interface II18n {
 		_: string;
 	};
 	value: string;
+	valueJoiner: string;
 }
 
 export interface IS {
@@ -85,7 +86,7 @@ export interface IS {
  * Allows for complex search queries to be constructed and implemented on a DataTable
  */
 export default class SearchBuilder {
-	private static version = '1.0.0';
+	private static version = '1.0.1';
 
 	private static classes: IClasses = {
 		button: 'dtsb-button',
@@ -120,6 +121,14 @@ export default class SearchBuilder {
 			clearAll: 'Clear All',
 			condition: 'Condition',
 			conditions: {
+				array: {
+					contains: 'Contains',
+					empty: 'Empty',
+					equals: 'Equals',
+					not: 'Not',
+					notEmpty: 'Not Empty',
+					without: 'Without'
+				},
 				date: {
 					after: 'After',
 					before: 'Before',
@@ -173,10 +182,11 @@ export default class SearchBuilder {
 				_: 'Custom Search Builder (%d)',
 			},
 			value: 'Value',
+			valueJoiner: 'and'
 		},
 		logic: 'AND',
 		orthogonal: {
-			conditionName: 'Condition Name',
+			display: 'display',
 			search: 'filter',
 		},
 		preDefined: false,
@@ -193,6 +203,11 @@ export default class SearchBuilder {
 			throw new Error('SearchBuilder requires DataTables 1.10 or newer');
 		}
 
+		// Check that Select is included
+		if (! (DataTable as any).DateTime) {
+			throw new Error('SearchPane requires DateTime');
+		}
+
 		let table = new DataTable.Api(builderSettings);
 		this.classes = $.extend(true, {}, SearchBuilder.classes);
 
@@ -202,7 +217,8 @@ export default class SearchBuilder {
 		this.dom = {
 			clearAll: $('<button type="button">' + table.i18n('searchBuilder.clearAll', this.c.i18n.clearAll) + '</button>')
 				.addClass(this.classes.clearAll)
-				.addClass(this.classes.button),
+				.addClass(this.classes.button)
+				.attr('type', 'button'),
 			container: $('<div/>')
 				.addClass(this.classes.container),
 			title: $('<div/>')
@@ -368,7 +384,7 @@ export default class SearchBuilder {
 					return true;
 				}
 
-				return this.s.topGroup.search(searchData);
+				return this.s.topGroup.search(searchData, dataIndex);
 			};
 
 			// Add SearchBuilder search function to the dataTables search array
@@ -455,6 +471,27 @@ export default class SearchBuilder {
 			this._filterChanged(count);
 
 			this.s.dt.state.save();
+		});
+
+		$(this.s.topGroup.dom.container).unbind('dtsb-redrawLogic');
+		$(this.s.topGroup.dom.container).on('dtsb-redrawLogic', () => {
+			this.s.topGroup.redrawLogic();
+			let count = this.s.topGroup.count();
+
+			this._updateTitle(count);
+			this._filterChanged(count);
+		});
+
+		$(this.s.topGroup.dom.container).on('dtsb-add', () => {
+			let count = this.s.topGroup.count();
+
+			this._updateTitle(count);
+			this._filterChanged(count);
+		});
+
+		$(this.s.dt).on('postEdit postCreate postRemove', () => {
+			console.log("editor event")
+			this.s.topGroup.redrawContents();
 		});
 
 		$(this.s.topGroup.dom.container).unbind('dtsb-clearContents');

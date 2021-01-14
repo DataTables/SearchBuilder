@@ -119,10 +119,11 @@ export default class Group {
 				_: 'Custom Search Builder (%d)',
 			},
 			value: 'Value',
+			valueJoiner: 'and'
 		},
 		logic: 'AND',
 		orthogonal: {
-			conditionName: 'Condition Name',
+			display: 'display',
 			search: 'filter',
 		},
 		preDefined: false
@@ -146,6 +147,11 @@ export default class Group {
 			throw new Error('SearchBuilder requires DataTables 1.10 or newer');
 		}
 
+		// Check that Select is included
+		if (! (DataTable as any).DateTime) {
+			throw new Error('SearchPane requires DateTime');
+		}
+
 		this.classes = $.extend(true, {}, Group.classes);
 
 		// Get options from user
@@ -166,15 +172,18 @@ export default class Group {
 		this.dom = {
 			add: $('<button/>')
 				.addClass(this.classes.add)
-				.addClass(this.classes.button),
+				.addClass(this.classes.button)
+				.attr('type', 'button'),
 			clear: $('<button>&times</button>')
 				.addClass(this.classes.button)
-				.addClass(this.classes.clearGroup),
+				.addClass(this.classes.clearGroup)
+				.attr('type', 'button'),
 			container: $('<div/>')
 				.addClass(this.classes.group),
 			logic: $('<button/>')
 				.addClass(this.classes.logic)
-				.addClass(this.classes.button),
+				.addClass(this.classes.button)
+				.attr('type', 'button'),
 			logicContainer: $('<div/>')
 				.addClass(this.classes.logicContainer)
 		};
@@ -332,16 +341,29 @@ export default class Group {
 	}
 
 	/**
+	 * Resizes the logic button only rather than the entire dom.
+	 */
+	public redrawLogic() {
+		for (let crit of this.s.criteria) {
+			if (crit instanceof Group) {
+				crit.redrawLogic();
+			}
+		}
+
+		this.setupLogic();
+	}
+
+	/**
 	 * Search method, checking the row data against the criteria in the group
 	 * @param rowData The row data to be compared
 	 * @returns boolean The result of the search
 	 */
-	public search(rowData: any[]): boolean {
+	public search(rowData: any[], rowIdx: number): boolean {
 		if (this.s.logic === 'AND') {
-			return this._andSearch(rowData);
+			return this._andSearch(rowData, rowIdx);
 		}
 		else if (this.s.logic === 'OR') {
-			return this._orSearch(rowData);
+			return this._orSearch(rowData, rowIdx);
 		}
 
 		return true;
@@ -570,7 +592,7 @@ export default class Group {
 	 * @param rowData The row data to be checked against the search criteria
 	 * @returns boolean The result of the AND search
 	 */
-	private _andSearch(rowData: any[]): boolean {
+	private _andSearch(rowData: any[], rowIdx: number): boolean {
 		// If there are no criteria then return true for this group
 		if (this.s.criteria.length === 0) {
 			return true;
@@ -582,7 +604,7 @@ export default class Group {
 				continue;
 			}
 			// Otherwise if a single one fails return false
-			else if (!crit.criteria.search(rowData)) {
+			else if (!crit.criteria.search(rowData, rowIdx)) {
 				return false;
 			}
 		}
@@ -596,7 +618,7 @@ export default class Group {
 	 * @param rowData The row data to be checked against the search criteria
 	 * @returns boolean The result of the OR search
 	 */
-	private _orSearch(rowData: any[]): boolean {
+	private _orSearch(rowData: any[], rowIdx: number): boolean {
 		// If there are no criteria in the group then return true
 		if (this.s.criteria.length === 0) {
 			return true;
@@ -611,13 +633,14 @@ export default class Group {
 				filledfound = true;
 
 				// If the search passes then return true
-				if (crit.criteria.search(rowData)) {
+				if (crit.criteria.search(rowData, rowIdx)) {
 					return true;
 				}
 			}
 			else if (crit.criteria instanceof Group && crit.criteria.checkFilled()) {
 				filledfound = true;
-				if (crit.criteria.search(rowData)) {
+
+				if (crit.criteria.search(rowData, rowIdx)) {
 					return true;
 				}
 			}

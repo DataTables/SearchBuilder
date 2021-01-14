@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="ajax" order="2">
+
+<css lib="datatables searchbuilder datetime" />
+<js lib="jquery datatables searchbuilder datetime">
+<![CDATA[
+
+$(document).ready(function() {
+    let dt = $('#example').DataTable( {
+        ajax: '../resources/arrayData.json',
+		dom: 'Qfrtip',
+        columns: [
+			{ 
+				data: "users.first_name"
+			},
+			{ 
+				data: "users.last_name"
+			},
+			{ 
+				data: "sites.name"
+			},
+			{ 
+				data: "permission",
+				render: {
+					_: '[, ].name',
+					sb:'[].name'
+				},
+				searchBuilder: {
+					orthogonal:'sb'
+				},
+				type: 'array'
+			}
+		],
+    });
+});
+
+
+]]>
+</js>
+
+<title lib="searchBuilder">Interaction with rendering and arrays</title>
+
+<info><![CDATA[
+
+This example demonstrates searching on arrays which are being rendered. When an array is in use a custom column type of array can be applied to SearchBuilder. This will provide the user with conditions that are designed to work specifically with arrays, as not all of the normal conditions will return the expected results.
+
+Selecting `Permissions > Equals > Desktop,Printers,Servers` shows how SearchBuilder copes with the order of arrays. In short, the order does not matter, and SearchBuilder will order the values within each array alphabetically.
+
+]]></info>
+
+<custom-table>
+	<table id="example" class="display" cellspacing="0" width="100%">
+		<thead>
+			<tr>
+				<th>First name</th>
+				<th>Last name</th>
+				<th>Location</th>
+				<th>Permissions</th>
+			</tr>
+		</thead>
+
+		<tfoot>
+			<tr>
+				<th>First name</th>
+				<th>Last name</th>
+				<th>Location</th>
+				<th>Permissions</th>
+			</tr>
+		</tfoot>
+	</table>
+</custom-table>
+
+</dt-example>
+

@@ -16,6 +16,10 @@ $border-width: 1px;
 
 div.dt-button-collection {
     overflow: visible !important;
+
+    div.dtsb-searchBuilder {
+        width: 100% !important;
+    }
 }
 
 .dtsb-greyscale {

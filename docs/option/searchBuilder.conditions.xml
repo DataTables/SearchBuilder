@@ -6,12 +6,12 @@
 
 	<type type="Object">
 		<description>
-			An object that contains conditions for each of the built in DataTables types as defined in `-init columns.type` along with a `moment` type for formatted dates and any other custom types that may exist on the table.
+			An object that contains conditions for each of the built in DataTables types as defined in `-init columns.type` along with a `moment` type for formatted dates, an `array` type for columns with an array format and any other custom types that may exist on the table.
 	</description>
 	</type>
 
 	<default value="Object">
-		The default value for the `-init searchBuilder.conditions` option is an object with a property for each of the built in DataTables types as defined in `-init columns.type` along with a `moment` type for formatted dates and any other custom types that may exist on the table. Each property in turn is an object with key value pairs to represent the conditions. These objects have the structure of `-init searchBuilder.conditions[type][cond]`.
+		The default value for the `-init searchBuilder.conditions` option is an object with a property for each of the built in DataTables types as defined in `-init columns.type` along with a `moment` type for formatted dates, an `array type for columns with an array format` and any other custom types that may exist on the table. Each property in turn is an object with key value pairs to represent the conditions. These objects have the structure of `-init searchBuilder.conditions[type][cond]`.
 	</default>
 	<description>
 		<![CDATA[
@@ -26,12 +26,15 @@
 			* `html` - Basic strings that also make use of html tags
 			* `html-num` - Basic numbers that also make use of html tags.
 			* `html-num-fmt` - Numbers with formatting that also make use of html tags
-			* `moment` Formatted dates. This is used in combo with the [DataTables Ultimate Sorting Plug-in](https://datatables.net/blog/2014-12-18).
+			* `moment` Formatted dates. This is used in combination with the [DataTables Ultimate Sorting Plug-in](https://datatables.net/blog/2014-12-18).
+			* `array` The array type is used in combination with `-init columns.orthogonal` data and provides better conditions for columns that use arrays. This is not automatically identified, the `-init columns.type` must be set to `array` for these to be used.
 			* It is also possible to add your own custom types. Using the `-init columns.type` initialisation option and adding a property of the same type name in this object. You can define your own conditions for custom types either through a [plug in](../../extensions/searchbuilder/plugins.html), or [initialisation](../../extensions/searchbuilder/customConditions.html).
 
 			The standard conditions can be removed, edited or added to. The manual page for [custom conditions](../../extensions/searchbuilder/customConditions.html) covers this in detail.
 
 			More details on the structure that is used can be found at `-init searchBuilder.conditions[type]`. More details on the built in types can be found at `-init columns.type`
+
+			Note: When using a custom decimal place character, the SearchBuilder internals will replace this with a `.` so that the correct processing can take place. It is worth bearing this in mind when customising the functions that each condition runs.
 
 			## Examples
 

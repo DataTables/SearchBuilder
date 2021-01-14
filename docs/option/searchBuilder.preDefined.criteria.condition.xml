@@ -47,6 +47,13 @@
 			* `between` - "Between"
 			* `!between` - "Not Between"
 			* `null` - "Empty"
+		* For the `array` column type
+			* `contains` - "Contains"
+			* `without` - "Without"
+			* `=` - "Equals"
+			* `!=` - "Not Equals"
+			* `null` - "Empty"
+			* `!null` - "Not Empty"
 		
 		Please refer to the `-init searchBuilder.preDefined` documentation or  or the [manual page](//datatables.net/extensions/searchbuilder/predefined) for more details.
         ]]>

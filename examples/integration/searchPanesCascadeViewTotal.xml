@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-example table-type="html-iso8601" table-class="display nowrap" order="2">
 
-<css lib="datatables searchbuilder searchpanes select"/>
+<css lib="datatables searchbuilder searchpanes select datetime"/>
 
-<js lib="jquery datatables searchbuilder searchpanes select">
+<js lib="jquery datatables searchbuilder searchpanes select datetime">
 <![CDATA[
 
 $(document).ready(function() {

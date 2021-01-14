@@ -6,7 +6,7 @@
 
 	<type type="string | object">
 		<description>
-			`-init language.searchBuilder.condition.number` changes what will be displayed for the SearchBuilder's condition select element for num, num-fmt, html-num and html-num-fmt conditions.
+			`-init language.searchBuilder.conditions.number` changes what will be displayed for the SearchBuilder's condition select element for num, num-fmt, html-num and html-num-fmt conditions.
 		</description>
 	</type>
 

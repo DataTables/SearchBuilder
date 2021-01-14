@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>columns.searchBuilder.orthogonal</name>
+	<summary>Set values of orthogonal data for rendering functions</summary>
+	<since>SearchBuilder 1.0.0</since>
+
+	<type type="object">
+		<description>
+			This is the default type of `-init columns.SearchBuilder.orthogonal`. If this is in place then the SearchBuilder will display the same values displayed in the DataTable and will search the DataTable using the same raw Data.
+		</description>
+		</type>
+
+	<default value="object">
+		The default value of the `-init columns.searchBuilder.orthogonal` object is shown below
+
+		```
+		orthogonal: {
+			search: 'filter',
+			display: 'display'
+		}
+		```
+
+		This means that as standard the pane will display the same data as the DataTable, and search using the original data from the DataTable.
+	</default>
+	<description>
+		<![CDATA[
+			SearchBuilder uses these when getting display and filter values for select elements. It is also used to apply filtering correctly. SearchBuilder will extract data from the table and format it using whatever rendering function that is defined by `-init columns.render`.
+			
+			`-init columns.SearchBuilder.orthogonal` is also available to be used within a custom condition defined using `-init searchBuilder.conditions[type]`. By changing the values of `orthogonal.search` or `orthogonal.display` allows these values to be accessed easily within your custom functions.
+
+			`-init columns.searchPanes.orthogonal` is normally only defined as a string when dealing with arrays. 
+		]]>
+	</description>
+
+<related type="option">columns.render</related>
+
+</dt-option>
