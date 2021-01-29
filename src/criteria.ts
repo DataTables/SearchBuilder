@@ -1674,6 +1674,7 @@ export default class Criteria {
 		if (foundData) {
 			this.s.data = loadedCriteria.data;
 			this.s.dataIdx = dataIdx;
+			this.c.orthogonal = this._getOptions().orthogonal;
 			$(this.dom.dataTitle).remove();
 			this._populateCondition();
 			$(this.dom.conditionTitle).remove();
