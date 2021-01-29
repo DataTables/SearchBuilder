@@ -389,7 +389,7 @@ export default class Group {
 		}
 
 		// Set width, take 2 for the border
-		let height = $(this.dom.container).height() - 2;
+		let height = $(this.dom.container).height() - 1;
 		$(this.dom.clear).height('0px');
 		$(this.dom.logicContainer).append(this.dom.clear).width(height);
 

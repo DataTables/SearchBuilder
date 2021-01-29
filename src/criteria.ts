@@ -17,6 +17,7 @@ export interface IClasses {
 	notItalic: string;
 	option: string;
 	right: string;
+	select: string;
 	value: string;
 	vertical: string;
 }
@@ -118,6 +119,7 @@ export default class Criteria {
 		notItalic: 'dtsb-notItalic',
 		option: 'dtsb-option',
 		right: 'dtsb-right',
+		select: 'dtsb-select',
 		value: 'dtsb-value',
 		vertical: 'dtsb-vertical'
 	};
@@ -135,6 +137,7 @@ export default class Criteria {
 			.addClass(Criteria.classes.value)
 			.addClass(Criteria.classes.dropDown)
 			.addClass(Criteria.classes.italic)
+			.addClass(Criteria.classes.select)
 			.append(that.dom.valueTitle)
 			.on('input change', function() {
 				$(this).removeClass(Criteria.classes.italic);
@@ -1441,7 +1444,8 @@ export default class Criteria {
 				.text(this.s.dt.i18n('searchBuilder.data', i18n.data)),
 			defaultValue: $('<select disabled/>')
 				.addClass(this.classes.value)
-				.addClass(this.classes.dropDown),
+				.addClass(this.classes.dropDown)
+				.addClass(this.classes.select),
 			delete: $('<button>&times</button>')
 				.addClass(this.classes.delete)
 				.addClass(this.classes.button)
@@ -1458,7 +1462,11 @@ export default class Criteria {
 				.attr('title', this.s.dt.i18n('searchBuilder.rightTitle', i18n.rightTitle))
 				.attr('type', 'button'),
 			value: [
-				$('<select disabled/>').addClass(this.classes.value).addClass(this.classes.dropDown).addClass(this.classes.italic)
+				$('<select disabled/>')
+					.addClass(this.classes.value)
+					.addClass(this.classes.dropDown)
+					.addClass(this.classes.italic)
+					.addClass(this.classes.select)
 			],
 			valueTitle: $('<option value="--valueTitle--" selected/>').text(this.s.dt.i18n('searchBuilder.value', i18n.value)),
 		};
@@ -1907,6 +1915,7 @@ export default class Criteria {
 				.addClass(this.classes.value)
 				.addClass(this.classes.dropDown)
 				.addClass(this.classes.italic)
+				.addClass(this.classes.select)
 				.append($(this.dom.valueTitle).clone())
 		];
 	}

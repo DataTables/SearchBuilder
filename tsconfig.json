@@ -19,6 +19,7 @@
         "src/group.ts",
         "src/searchBuilder.bootstrap.ts",
         "src/searchBuilder.bootstrap4.ts",
+        "src/searchBuilder.bootstrap5.ts",
         "src/searchBuilder.dataTables.ts",
         "src/searchBuilder.foundation.ts",
         "src/searchBuilder.jqueryui.ts",

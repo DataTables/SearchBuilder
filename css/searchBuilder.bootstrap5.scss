@@ -1,0 +1,68 @@
+@import './dateTime.scss';
+@import './common.scss';
+
+div.dtsb-searchBuilder {
+    div.dtsb-titleRow {
+        height: 40px;
+
+        div.dtsb-title {
+            padding-top: 10px;
+        }
+    }
+    div.dtsb-group {
+        button.dtsb-clearGroup {
+            margin-right: 8px;
+        }
+        div.dtsb-criteria {
+            .form-select {
+                width: auto;
+                display: inline-block;
+                padding-right: 30px !important;
+            }
+
+            select.dtsb-condition {
+                border-color: #28a745;
+            }
+
+            select.dtsb-data {
+                border-color: #dc3545;
+            }
+
+            select.dtsb-value, input.dtsb-value {
+                border-color: #007bff;
+            }
+
+            .form-control {
+                display: inline-block;
+                font-size: 1em;
+            }
+        }
+
+        div.dtsb-logicContainer {
+            border-radius: 4px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-content: flex-start;
+            align-items: flex-start;
+            margin-top: 10px;
+
+            button.dtsb-logic {
+                border: none;
+                border-radius: 0px;
+                flex-grow: 1;
+                flex-shrink: 0;
+                flex-basis: 40px;
+                margin: 0px;
+            }
+    
+            button.dtsb-clearGroup {
+                border: none;
+                border-radius: 0px;
+                width: 30px;
+                margin: 0px;
+            }
+        }
+    }
+}
