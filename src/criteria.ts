@@ -263,10 +263,13 @@ export default class Criteria {
 			$(el).append(opt);
 		}
 
-		// This is partly for responsive and partly for editor integration
-		that.s.dt.one('draw', () => {
-			$(that.s.topGroup).trigger('dtsb-redrawContents');
-		});
+		// // This is partly for responsive and partly for editor integration
+		// that.s.dt.one('draw', () => {
+		// 	if (!that.s.suspendDraw) {
+		// 		console.log(270)
+		// 		$(that.s.topGroup).trigger('dtsb-redrawContents');
+		// 	}
+		// });
 
 		return el;
 	};
@@ -1887,7 +1890,6 @@ export default class Criteria {
 
 			// Call the init function to get the value elements for this condition
 			this.dom.value = [].concat(this.s.conditions[this.s.condition].init(this, Criteria.updateListener));
-
 			$(this.dom.value[0]).insertAfter(this.dom.condition).trigger('dtsb-inserted');
 
 			// Insert all of the value elements

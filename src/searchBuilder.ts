@@ -490,7 +490,6 @@ export default class SearchBuilder {
 		});
 
 		$(this.s.dt).on('postEdit postCreate postRemove', () => {
-			console.log("editor event")
 			this.s.topGroup.redrawContents();
 		});
 
