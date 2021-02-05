@@ -38,7 +38,7 @@
 			* `between` - "Between"
 			* `!between` - "Not Between"
 			* `null` - "Empty"
-		* For the `date` and `moment` column types
+		* For the `date`, `moment` and `luxon` column types
 			* `!=` - "Not"
 			* `!null` - "Not Empty"
 			* `<` - "Before"

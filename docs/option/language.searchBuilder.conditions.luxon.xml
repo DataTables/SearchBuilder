@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
-	<name>language.searchBuilder.conditions.date</name>
-	<summary>Set the condition names for the date column type</summary>
+	<name>language.searchBuilder.conditions.luxon</name>
+	<summary>Set the condition names for the Luxon column type</summary>
 	<since>1.0.0</since>
 
 	<type type="string | object">
 		<description>
-			`-init language.searchBuilder.conditions.date` changes what will be displayed for the SearchBuilder's condition select element for date, moment and luxon conditions.
+			`-init language.searchBuilder.conditions.luxon` changes what will be displayed for the SearchBuilder's condition select element for luxon conditions.
 		</description>
 	</type>
 
@@ -32,7 +32,7 @@ $(document).ready(function() {
 		language: {
 			searchBuilder: {
 				conditions :{
-                    date: {
+                    luxon: {
                         after: 'After',
                         before: 'Before',
                         between: 'Between',

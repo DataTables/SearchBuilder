@@ -104,6 +104,7 @@ export default class SearchBuilder {
 			'html': Criteria.stringConditions,
 			'html-num': Criteria.numConditions,
 			'html-num-fmt': Criteria.numFmtConditions,
+			'luxon': Criteria.luxonDateConditions,
 			'moment': Criteria.momentDateConditions,
 			'num': Criteria.numConditions,
 			'num-fmt': Criteria.numFmtConditions,
@@ -130,6 +131,16 @@ export default class SearchBuilder {
 					without: 'Without'
 				},
 				date: {
+					after: 'After',
+					before: 'Before',
+					between: 'Between',
+					empty: 'Empty',
+					equals: 'Equals',
+					not: 'Not',
+					notBetween: 'Not Between',
+					notEmpty: 'Not Empty',
+				},
+				luxon: {
 					after: 'After',
 					before: 'Before',
 					between: 'Between',

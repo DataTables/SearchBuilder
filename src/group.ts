@@ -92,6 +92,7 @@ export default class Group {
 			'html': Criteria.stringConditions,
 			'html-num': Criteria.numConditions,
 			'html-num-fmt': Criteria.numFmtConditions,
+			'luxon': Criteria.luxonDateConditions,
 			'moment': Criteria.momentDateConditions,
 			'num': Criteria.numConditions,
 			'num-fmt': Criteria.numFmtConditions,
