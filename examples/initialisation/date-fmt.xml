@@ -23,7 +23,7 @@ $(document).ready(function() {
 ]]>
 </js>
 
-<title lib="SearchBuilder">Formatted Date</title>
+<title lib="SearchBuilder">Formatted Date using Moment</title>
 
 <info><![CDATA[
 
