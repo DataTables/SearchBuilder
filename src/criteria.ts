@@ -1891,6 +1891,7 @@ export default class Criteria {
 		if (this.s.condition !== undefined) {
 			// Remove all of the value elements
 			for (let val of this.dom.value) {
+				// Timeout is annoying but because of IOS
 				setTimeout(function() {
 					$(val).remove();
 				}, 50);
@@ -1908,6 +1909,7 @@ export default class Criteria {
 		else {
 			// Remove all of the value elements
 			for (let val of this.dom.value) {
+				// Timeout is annoying but because of IOS
 				setTimeout(function() {
 					$(val).remove();
 				}, 50);
@@ -2134,11 +2136,13 @@ export default class Criteria {
 		this.s.filled = false;
 
 		// Remove any previous value elements
+		// Timeout is annoying but because of IOS
 		setTimeout(() => {
 			$(this.dom.defaultValue).remove();
 		}, 50);
 
 		for (let val of this.dom.value) {
+			// Timeout is annoying but because of IOS
 			setTimeout(function() {
 				$(val).remove();
 			}, 50);
