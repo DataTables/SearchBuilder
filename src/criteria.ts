@@ -1891,7 +1891,9 @@ export default class Criteria {
 		if (this.s.condition !== undefined) {
 			// Remove all of the value elements
 			for (let val of this.dom.value) {
-				$(val).remove();
+				setTimeout(function() {
+					$(val).remove();
+				}, 50);
 			}
 
 			// Call the init function to get the value elements for this condition
@@ -1906,7 +1908,9 @@ export default class Criteria {
 		else {
 			// Remove all of the value elements
 			for (let val of this.dom.value) {
-				$(val).remove();
+				setTimeout(function() {
+					$(val).remove();
+				}, 50);
 			}
 
 			// Append the default valueTitle to the default select element
@@ -2130,10 +2134,14 @@ export default class Criteria {
 		this.s.filled = false;
 
 		// Remove any previous value elements
-		$(this.dom.defaultValue).remove();
+		setTimeout(() => {
+			$(this.dom.defaultValue).remove();
+		}, 50);
 
 		for (let val of this.dom.value) {
-			$(val).remove();
+			setTimeout(function() {
+				$(val).remove();
+			}, 50);
 		}
 
 		let children = $(this.dom.container).children();
