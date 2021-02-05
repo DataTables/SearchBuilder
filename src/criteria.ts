@@ -263,14 +263,6 @@ export default class Criteria {
 			$(el).append(opt);
 		}
 
-		// // This is partly for responsive and partly for editor integration
-		// that.s.dt.one('draw', () => {
-		// 	if (!that.s.suspendDraw) {
-		// 		console.log(270)
-		// 		$(that.s.topGroup).trigger('dtsb-redrawContents');
-		// 	}
-		// });
-
 		return el;
 	};
 
