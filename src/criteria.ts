@@ -1589,6 +1589,13 @@ export default class Criteria {
 				}
 
 				filter.sort();
+
+				for (let filt of filter) {
+					filt = filt.replace(/[\r\n\u2028]/g, ' ');
+				}
+			}
+			else {
+				filter = filter.replace(/[\r\n\u2028]/g, ' ');
 			}
 
 			// Not ideal, but jqueries .val() returns an empty string even
