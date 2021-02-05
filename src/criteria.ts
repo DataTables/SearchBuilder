@@ -1590,11 +1590,14 @@ export default class Criteria {
 
 				filter.sort();
 
-				for (let filt of filter) {
-					filt = filt.replace(/[\r\n\u2028]/g, ' ');
+				if (filter !== null) {
+					for (let filt of filter) {
+						filt = filt.replace(/[\r\n\u2028]/g, ' ');
+					}
 				}
+
 			}
-			else {
+			else if (filter !== null) {
 				filter = filter.replace(/[\r\n\u2028]/g, ' ');
 			}
 
