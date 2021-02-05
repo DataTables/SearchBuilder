@@ -6,7 +6,7 @@
         color: red;
     }
     .middleaged {
-        color: yellow;
+        color: blue;
     }
     .young {
         color: green;
