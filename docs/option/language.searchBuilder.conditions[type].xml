@@ -22,8 +22,6 @@ Each key-value pair on the `-init language.searchBuilder.conditions[type]` objec
 * `string`
 * `date`
 * `num`
-* `moment`
-* `luxon`
 * `array`
 
 		]]>

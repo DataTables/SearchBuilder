@@ -750,7 +750,7 @@ export default class Criteria {
 	public static momentDateConditions: {[keys: string]: ICondition} = {
 		'=': {
 			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.moment.equals', i18n.conditions.moment.equals);
+				return dt.i18n('searchBuilder.conditions.date.equals', i18n.conditions.date.equals);
 			},
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInput,
@@ -761,7 +761,7 @@ export default class Criteria {
 		},
 		'!=': {
 			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.moment.not', i18n.conditions.moment.not);
+				return dt.i18n('searchBuilder.conditions.date.not', i18n.conditions.date.not);
 			},
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInput,
@@ -772,7 +772,7 @@ export default class Criteria {
 		},
 		'<': {
 			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.moment.before', i18n.conditions.moment.before);
+				return dt.i18n('searchBuilder.conditions.date.before', i18n.conditions.date.before);
 			},
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInput,
@@ -783,7 +783,7 @@ export default class Criteria {
 		},
 		'>': {
 			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.moment.after', i18n.conditions.moment.after);
+				return dt.i18n('searchBuilder.conditions.date.after', i18n.conditions.date.after);
 			},
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInput,
@@ -794,7 +794,7 @@ export default class Criteria {
 		},
 		'between': {
 			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.moment.between', i18n.conditions.moment.between);
+				return dt.i18n('searchBuilder.conditions.date.between', i18n.conditions.date.between);
 			},
 			init: Criteria.init2Date,
 			inputValue: Criteria.inputValueInput,
@@ -813,7 +813,7 @@ export default class Criteria {
 		},
 		'!between': {
 			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.moment.notBetween', i18n.conditions.moment.notBetween);
+				return dt.i18n('searchBuilder.conditions.date.notBetween', i18n.conditions.date.notBetween);
 			},
 			init: Criteria.init2Date,
 			inputValue: Criteria.inputValueInput,
@@ -832,7 +832,7 @@ export default class Criteria {
 		},
 		'null': {
 			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.moment.empty', i18n.conditions.moment.empty);
+				return dt.i18n('searchBuilder.conditions.date.empty', i18n.conditions.date.empty);
 			},
 			isInputValid() { return true; },
 			init: Criteria.initNoValue,
@@ -845,7 +845,7 @@ export default class Criteria {
 		},
 		'!null': {
 			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.moment.notEmpty', i18n.conditions.moment.notEmpty);
+				return dt.i18n('searchBuilder.conditions.date.notEmpty', i18n.conditions.date.notEmpty);
 			},
 			isInputValid() { return true; },
 			init: Criteria.initNoValue,
@@ -862,7 +862,7 @@ export default class Criteria {
 	public static luxonDateConditions: {[keys: string]: ICondition} = {
 		'=': {
 			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.luxon.equals', i18n.conditions.luxon.equals);
+				return dt.i18n('searchBuilder.conditions.date.equals', i18n.conditions.date.equals);
 			},
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInput,
@@ -874,7 +874,7 @@ export default class Criteria {
 		},
 		'!=': {
 			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.luxon.not', i18n.conditions.luxon.not);
+				return dt.i18n('searchBuilder.conditions.date.not', i18n.conditions.date.not);
 			},
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInput,
@@ -886,7 +886,7 @@ export default class Criteria {
 		},
 		'<': {
 			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.luxon.before', i18n.conditions.luxon.before);
+				return dt.i18n('searchBuilder.conditions.date.before', i18n.conditions.date.before);
 			},
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInput,
@@ -898,7 +898,7 @@ export default class Criteria {
 		},
 		'>': {
 			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.luxon.after', i18n.conditions.luxon.after);
+				return dt.i18n('searchBuilder.conditions.date.after', i18n.conditions.date.after);
 			},
 			init: Criteria.initDate,
 			inputValue: Criteria.inputValueInput,
@@ -910,7 +910,7 @@ export default class Criteria {
 		},
 		'between': {
 			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.luxon.between', i18n.conditions.luxon.between);
+				return dt.i18n('searchBuilder.conditions.date.between', i18n.conditions.date.between);
 			},
 			init: Criteria.init2Date,
 			inputValue: Criteria.inputValueInput,
@@ -929,7 +929,7 @@ export default class Criteria {
 		},
 		'!between': {
 			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.luxon.notBetween', i18n.conditions.luxon.notBetween);
+				return dt.i18n('searchBuilder.conditions.date.notBetween', i18n.conditions.date.notBetween);
 			},
 			init: Criteria.init2Date,
 			inputValue: Criteria.inputValueInput,
@@ -948,7 +948,7 @@ export default class Criteria {
 		},
 		'null': {
 			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.luxon.empty', i18n.conditions.luxon.empty);
+				return dt.i18n('searchBuilder.conditions.date.empty', i18n.conditions.date.empty);
 			},
 			isInputValid() { return true; },
 			init: Criteria.initNoValue,
@@ -961,7 +961,7 @@ export default class Criteria {
 		},
 		'!null': {
 			conditionName(dt, i18n): string {
-				return dt.i18n('searchBuilder.conditions.luxon.notEmpty', i18n.conditions.luxon.notEmpty);
+				return dt.i18n('searchBuilder.conditions.date.notEmpty', i18n.conditions.date.notEmpty);
 			},
 			isInputValid() { return true; },
 			init: Criteria.initNoValue,
