@@ -58,7 +58,7 @@ div.dtsb-searchBuilder {
     }
 
     button.dtsb-clearGroup {
-        min-width: 25px;
+        min-width: 2em;
         padding: 0;
     }
 
@@ -84,14 +84,14 @@ div.dtsb-searchBuilder {
                 border-radius: 0px;
                 flex-grow: 1;
                 flex-shrink: 0;
-                flex-basis: 34px;
+                flex-basis: 3em;
                 margin: 0px;
             }
     
             button.dtsb-clearGroup {
                 border: none;
                 border-radius: 0px;
-                width: 25px;
+                width: 2em;
                 margin: 0px;
             }
         }
