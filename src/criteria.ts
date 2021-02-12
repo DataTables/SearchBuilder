@@ -1754,11 +1754,23 @@ export default class Criteria {
 		let value = this.s.value;
 
 		// This check is in place for if a custom decimal character is in place
-		if (this.s.type.indexOf('num') !== -1 && this.s.dt.settings()[0].oLanguage.sDecimal !== '') {
+		if (
+			this.s.type.indexOf('num') !== -1 &&
+			(this.s.dt.settings()[0].oLanguage.sDecimal !== '' || this.s.dt.settings()[0].oLanguage.sThousands !== '')
+		) {
 			for (let i = 0; i < this.s.value.length; i++) {
-				if (this.s.value[i].indexOf('.') !== -1) {
-					value[i] = this.s.value[i].replace('.', this.s.dt.settings()[0].oLanguage.sDecimal);
+				let splitRD = [this.s.value[i].toString()];
+				if (this.s.dt.settings()[0].oLanguage.sDecimal !== '') {
+					splitRD = this.s.value[i].split(this.s.dt.settings()[0].oLanguage.sDecimal);
 				}
+
+				if (this.s.dt.settings()[0].oLanguage.sThousands !== '') {
+					for (let j = 0; j < splitRD.length; j++) {
+						splitRD[j] = splitRD[j].replace(this.s.dt.settings()[0].oLanguage.sThousands, ',');
+					}
+				}
+
+				this.s.value[i] = splitRD.join('.');
 			}
 		}
 
