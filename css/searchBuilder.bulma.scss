@@ -1,0 +1,61 @@
+@import './common.scss';
+
+div.dtsb-searchBuilder {
+    div.dtsb-titleRow {
+        margin-bottom: 1.5em;
+    }
+    div.dtsb-group {
+        button.dtsb-clearGroup {
+            margin-right: 8px;
+        }
+        div.dtsb-criteria {
+            select.dtsb-dropDown {
+                height: 2.5em;
+                border-radius: 0.375em;
+                background-color: #fff;
+                padding-right: 2.5em;
+            }
+
+            select.dtsb-condition {
+                border-color: #48c78e;
+            }
+
+            select.dtsb-data {
+                border-color: #ef2e55;
+            }
+
+            select.dtsb-value, input.dtsb-value {
+                border-color: #3e8ed0;
+            }
+        }
+
+        div.dtsb-logicContainer {
+            border-radius: 4px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-content: flex-start;
+            align-items: flex-start;
+            margin-top: 10px;
+            overflow: hidden;
+
+            button.dtsb-logic {
+                border: none;
+                border-radius: 0px;
+                flex-grow: 1;
+                flex-shrink: 0;
+                flex-basis: 3em;
+                margin: 0px;
+                padding: 0.375rem 0rem;
+            }
+    
+            button.dtsb-clearGroup {
+                border: none;
+                border-radius: 0px;
+                width: 2em;
+                margin: 0px;
+            }
+        }
+    }
+}
