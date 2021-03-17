@@ -5,9 +5,9 @@
 	<since>1.0.0</since>
 
 	<type type="function">
-		<signature>searchBuilder.rebuild()</signature>
+		<signature>searchBuilder.rebuild( state )</signature>
 		<description>Rebuilds the search to be the same as that provided by the `details` parameter.</description>
-        <parameter type="object" name="details">Object of the same structure as returned by `-api searchBuilder.getDetails()`. For more details on the structure, read the documentation on `-init searchBuilder.preDefined`</parameter>
+        <parameter type="object" name="state">Object of the same structure as returned by `-api searchBuilder.getDetails()`. For more details on the structure, read the documentation on `-init searchBuilder.preDefined`</parameter>
 		<returns type="DataTables.Api">DataTables API instance</returns>
 	</type>
 
