@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" table-class="display nowrap" order="7" framework="bulma">
+
+<css lib="datatables searchbuilder datetime"/>
+
+<js lib="jquery datatables searchbuilder datetime">
+<![CDATA[
+
+$(document).ready(function() {
+    var table = $('#example').DataTable({
+        searchBuilder: true
+    });
+    table.searchBuilder.container().prependTo(table.table().container());
+});
+
+]]>
+</js>
+
+<title lib="SearchBuilder">Bulma</title>
+
+<info><![CDATA[
+
+This example shows DataTables and the SearchBuilder extension being used with [Bulma](https://bulma.io/) providing the styling. The DataTables / Bulma integration provides seamless integration for DataTables to be used in a Bulma page.
+
+]]></info>
+
+</dt-example>

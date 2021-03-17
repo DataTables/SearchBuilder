@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" order="1">
+
+<css lib="datatables buttons searchbuilder datetime"/>
+<js lib="jquery datatables buttons searchbuilder datetime jszip pdfmake vfsfonts buttons-html5 buttons-print">
+<![CDATA[
+
+$(document).ready(function() {
+	$('#example').DataTable( {
+		dom: 'QBfrtip',
+		buttons: [
+			'copy', 'csv', 'excel', 'pdf', 'print'
+		]
+	} );
+} );
+
+]]>
+</js>
+
+<title lib="Buttons">Initialisation with Buttons</title>
+
+<info><![CDATA[
+
+Buttons can be initialised very easily though the `b-init buttons` object which can be given as an array of the buttons that you wish to display. The `-string B` option in the `dt-init dom` parameter will instruct DataTables where the buttons and the SearchBuilder should be placed in the document - in this case, at the top left (CSS also plays a part).
+
+
+]]></info>
+
+</dt-example>
+
