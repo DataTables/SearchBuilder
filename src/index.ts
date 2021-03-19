@@ -114,11 +114,22 @@ import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
 	apiRegister('searchBuilder.getDetails()', function() {
 		let ctx = this.context[0];
 
+		// If SearchBuilder has not been initialised on this instance then return
+		if (ctx._searchBuilder === undefined) {
+			return;
+		}
+
 		return ctx._searchBuilder.getDetails();
 	});
 
 	apiRegister('searchBuilder.rebuild()', function(details) {
 		let ctx = this.context[0];
+
+		// If SearchBuilder has not been initialised on this instance then return
+		if (ctx._searchBuilder === undefined) {
+			return;
+		}
+
 		ctx._searchBuilder.rebuild(details);
 
 		return this;
@@ -126,6 +137,11 @@ import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
 
 	apiRegister('searchBuilder.container()', function() {
 		let ctx = this.context[0];
+
+		// If SearchBuilder has not been initialised on this instance then return
+		if (ctx._searchBuilder === undefined) {
+			return;
+		}
 
 		return ctx._searchBuilder.getNode();
 	});
