@@ -236,7 +236,7 @@ export default class Criteria {
 		}
 
 		options.sort((a, b) => {
-			if (that.s.type === 'string' || that.s.type === 'num' || that.s.type === 'html' || that.s.type === 'html-num') {
+			if (that.s.type === 'array' || that.s.type === 'string' || that.s.type === 'num' || that.s.type === 'html' || that.s.type === 'html-num') {
 				if ($(a).val() < $(b).val()) {
 					return -1;
 				}
