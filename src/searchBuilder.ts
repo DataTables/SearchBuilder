@@ -86,7 +86,7 @@ export interface IS {
  * Allows for complex search queries to be constructed and implemented on a DataTable
  */
 export default class SearchBuilder {
-	private static version = '1.0.1';
+	private static version = '1.1.0';
 
 	private static classes: IClasses = {
 		button: 'dtsb-button',

@@ -5,7 +5,7 @@
 /**
  * @summary     SearchBuilder
  * @description End user complex search builder for DataTables
- * @version     1.0.1
+ * @version     1.1.0
  * @file        dataTables.searchBuilder.js
  * @author      SpryMedia Ltd
  * @copyright   Copyright 2020 SpryMedia Ltd.

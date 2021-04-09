@@ -1,6 +1,6 @@
 {
   "name": "datatables.net-searchbuilder",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Advanced Search Builder for DataTables",
   "main": "index.js",
   "directories": {

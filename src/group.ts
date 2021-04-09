@@ -72,7 +72,7 @@ export function setJQuery(jq: any): void {
  * The Group class is used within SearchBuilder to represent a group of criteria
  */
 export default class Group {
-	private static version = '1.0.0';
+	private static version = '1.1.0';
 
 	private static classes: IClassses = {
 		add: 'dtsb-add',

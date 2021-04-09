@@ -101,7 +101,7 @@ export function setJQuery(jq: any): void {
  * The Criteria class is used within SearchBuilder to represent a search criteria
  */
 export default class Criteria {
-	private static version = '1.0.0';
+	private static version = '1.1.0';
 
 	private static classes: IClasses = {
 		button: 'dtsb-button',
