@@ -2,8 +2,8 @@ describe('searchBuilder - options - searchBuilder.preDefined.condition', functio
 	let table;
 
 	dt.libs({
-		js: ['jquery', 'datatables', 'searchbuilder'],
-		css: ['datatables', 'searchbuilder']
+		js: ['jquery', 'datatables', 'searchbuilder', 'datetime'],
+		css: ['datatables', 'searchbuilder', 'datetime']
 	});
 
 	// Just scatterguning a few - if issues with them, will fill in the blanks

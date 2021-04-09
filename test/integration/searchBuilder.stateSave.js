@@ -2,8 +2,8 @@ describe('searchBuilder - integrations - stateSave', function() {
 	let table;
 
 	dt.libs({
-		js: ['jquery', 'datatables', 'searchbuilder'],
-		css: ['datatables', 'searchbuilder']
+		js: ['jquery', 'datatables', 'searchbuilder', 'datetime'],
+		css: ['datatables', 'searchbuilder', 'datetime']
 	});
 
 	describe('Check the behaviour', function() {

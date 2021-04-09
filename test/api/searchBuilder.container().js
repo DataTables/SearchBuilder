@@ -1,7 +1,7 @@
 describe('searchBuilder - API - searchBuilder.container()', function () {
 	dt.libs({
-		js: ['jquery', 'datatables', 'searchbuilder'],
-		css: ['datatables', 'searchbuilder']
+		js: ['jquery', 'datatables', 'searchbuilder', 'datetime'],
+		css: ['datatables', 'searchbuilder', 'datetime']
 	});
 
 	let table;

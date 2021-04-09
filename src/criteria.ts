@@ -1,4 +1,3 @@
-import 'datatables.net-datetime';
 import * as builderType from './searchBuilder';
 
 export interface IClasses {
@@ -1522,11 +1521,6 @@ export default class Criteria {
 		// Check that the required version of DataTables is included
 		if (! DataTable || ! DataTable.versionCheck || ! DataTable.versionCheck('1.10.0')) {
 			throw new Error('SearchPane requires DataTables 1.10 or newer');
-		}
-
-		// Check that Select is included
-		if (! (DataTable as any).DateTime) {
-			throw new Error('SearchPane requires DateTime');
 		}
 
 		this.classes = $.extend(true, {}, Criteria.classes);

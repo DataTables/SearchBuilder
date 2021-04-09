@@ -2,8 +2,8 @@ describe('searchBuilder - options - searchBuilder.preDefined.criteria', function
 	let table;
 
 	dt.libs({
-		js: ['jquery', 'datatables', 'searchbuilder'],
-		css: ['datatables', 'searchbuilder']
+		js: ['jquery', 'datatables', 'searchbuilder', 'datetime'],
+		css: ['datatables', 'searchbuilder', 'datetime']
 	});
 
 	// Basic tests are in the other preDefined tests, so these are more complex

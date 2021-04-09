@@ -2,8 +2,8 @@ describe('searchBuilder - options - language.searchBuilder.value', function() {
 	let table;
 
 	dt.libs({
-		js: ['jquery', 'datatables', 'searchbuilder'],
-		css: ['datatables', 'searchbuilder']
+		js: ['jquery', 'datatables', 'searchbuilder', 'datetime'],
+		css: ['datatables', 'searchbuilder', 'datetime']
 	});
 
 	describe('Functional tests', function() {

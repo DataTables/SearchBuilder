@@ -194,11 +194,6 @@ export default class SearchBuilder {
 			throw new Error('SearchBuilder requires DataTables 1.10 or newer');
 		}
 
-		// Check that Select is included
-		if (! (DataTable as any).DateTime) {
-			throw new Error('SearchPane requires DateTime');
-		}
-
 		let table = new DataTable.Api(builderSettings);
 		this.classes = $.extend(true, {}, SearchBuilder.classes);
 
@@ -310,6 +305,51 @@ export default class SearchBuilder {
 	 * Set's up the SearchBuilder
 	 */
 	private _setUp(loadState = true): void {
+		// Register an Api method for getting the column type
+		$.fn.DataTable.Api.registerPlural('columns().type()', 'column().type()', function(selector, opts) {
+			return this.iterator('column', function(settings, column) {
+				return settings.aoColumns[column].sType;
+			}, 1);
+		});
+
+		// Check that DateTime is included, If not need to check if it could be used
+		if (! (DataTable as any).DateTime) {
+			let types = this.s.dt.columns().type().toArray();
+			let columnIdxs = this.s.dt.columns().toArray();
+
+			// If the types are not yet set then draw to see if they can be retrieved then
+			if(types === undefined) {
+				this.s.dt.draw();
+				types = this.s.dt.columns().type().toArray();
+			}
+
+			for(let i = 0; i < columnIdxs[0].length; i++) {
+				let column = columnIdxs[0][i];
+				let type = types[column]
+				console.log(type)
+
+				if(
+					// Check if this column can be filtered
+					(
+						this.c.columns === true ||
+						(
+							Array.isArray(this.c.columns) &&
+							this.c.columns.indexOf(i) !== -1
+						)
+					) &&
+					// Check if the type is one of the restricted types
+					(
+						type.indexOf('date') !== -1 ||
+						type.indexOf('moment') !== -1 ||
+						type.indexOf('luxon') !== -1
+					)
+				) {
+					alert("SearchBuilder Requires DateTime when used with dates.")
+					throw new Error('SearchBuilder requires DateTime');
+				}
+			}
+		}
+
 		this.s.topGroup = new Group(this.s.dt, this.c, undefined);
 
 		this._setClearListener();
@@ -381,13 +421,6 @@ export default class SearchBuilder {
 			// Add SearchBuilder search function to the dataTables search array
 			$.fn.dataTable.ext.search.push(this.s.search);
 		}
-
-		// Register an Api method for getting the column type
-		$.fn.DataTable.Api.registerPlural('columns().type()', 'column().type()', function(selector, opts) {
-			return this.iterator('column', function(settings, column) {
-				return settings.aoColumns[column].sType;
-			}, 1);
-		});
 
 		this.s.dt.on('destroy.dt', () => {
 			$(this.dom.container).remove();

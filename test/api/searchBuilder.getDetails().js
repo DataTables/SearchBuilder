@@ -3,8 +3,8 @@ describe('searchBuilder - API - searchBuilder.getDetails()', function() {
 	let res;
 
 	dt.libs({
-		js: ['jquery', 'datatables', 'searchbuilder'],
-		css: ['datatables', 'searchbuilder']
+		js: ['jquery', 'datatables', 'searchbuilder', 'datetime'],
+		css: ['datatables', 'searchbuilder', 'datetime']
 	});
 
 	describe('Check the defaults', function() {

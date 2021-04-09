@@ -1,7 +1,7 @@
 describe('searchBuilder - integrations - Editor', function() {
 	dt.libs({
-		js: ['jquery', 'datatables', 'editor', 'searchbuilder'],
-		css: ['datatables', 'editor', 'searchbuilder']
+		js: ['jquery', 'datatables', 'editor', 'searchbuilder', 'datetime'],
+		css: ['datatables', 'editor', 'searchbuilder', 'datetime']
 	});
 
 	describe('Check the behaviour', function() {

@@ -2,8 +2,8 @@ describe('searchBuilder - options - searchBuilder.preDefined', function() {
 	let table;
 
 	dt.libs({
-		js: ['jquery', 'datatables', 'buttons', 'searchbuilder'],
-		css: ['datatables', 'buttons', 'searchbuilder']
+		js: ['jquery', 'datatables', 'buttons', 'searchbuilder', 'datetime'],
+		css: ['datatables', 'buttons', 'searchbuilder', 'datetime']
 	});
 
 	describe('Functional tests', function() {

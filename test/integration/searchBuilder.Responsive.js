@@ -2,8 +2,8 @@ describe('searchBuilder - integrations - Responsive', function() {
 	let table;
 
 	dt.libs({
-		js: ['jquery', 'datatables', 'responsive', 'searchbuilder'],
-		css: ['datatables', 'responsive', 'searchbuilder']
+		js: ['jquery', 'datatables', 'responsive', 'searchbuilder', 'datetime'],
+		css: ['datatables', 'responsive', 'searchbuilder', 'datetime']
 	});
 
 	describe('Check the behaviour', function() {

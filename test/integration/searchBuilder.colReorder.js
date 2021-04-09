@@ -2,8 +2,8 @@ describe('searchBuilder - integration - ColReorder', function() {
 	let table;
 
 	dt.libs({
-		js: ['jquery', 'datatables', 'searchbuilder', 'colreorder'],
-		css: ['datatables', 'searchbuilder', 'colreorder']
+		js: ['jquery', 'datatables', 'searchbuilder', 'colreorder', 'datetime'],
+		css: ['datatables', 'searchbuilder', 'colreorder', 'datetime']
 	});
 
 	describe('Functional tests', function() {
