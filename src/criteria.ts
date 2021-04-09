@@ -1735,8 +1735,8 @@ export default class Criteria {
 
 				filter.sort();
 
-				if (filter !== null) {
-					for (let filt of filter) {
+				for (let filt of filter) {
+					if(filt) {
 						filt = filt.replace(/[\r\n\u2028]/g, ' ');
 					}
 				}
