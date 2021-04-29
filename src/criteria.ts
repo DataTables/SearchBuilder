@@ -2243,7 +2243,8 @@ export default class Criteria {
 					}
 
 					if (!found) {
-						let opt = {text: this.s.dt.settings()[0].aoColumns[index].sTitle.replace(/(<([^>]+)>)/ig, ''), index};
+						let col = this.s.dt.settings()[0].aoColumns[index];
+						let opt = {text: (col.searchBuilderTitle === undefined? col.sTitle : col.searchBuilderTitle).replace(/(<([^>]+)>)/ig, ''), index};
 						this.s.dataPoints.push(opt);
 						$(this.dom.data).append(
 							$('<option>', {
@@ -2261,7 +2262,8 @@ export default class Criteria {
 		else {
 			for (let data of this.s.dataPoints) {
 				this.s.dt.columns().every((index) => {
-					if (this.s.dt.settings()[0].aoColumns[index].sTitle === data.text) {
+					let col = this.s.dt.settings()[0].aoColumns[index];
+					if ((col.searchBuilderTitle === undefined? col.sTitle : col.searchBuilderTitle).replace(/(<([^>]+)>)/ig, '') === data.text) {
 						data.index = index;
 					}
 				});

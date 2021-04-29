@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html-iso8601" table-class="display nowrap" order="0">
+
+<css lib="datatables searchbuilder datetime"/>
+
+<js lib="jquery datatables searchbuilder datetime">
+<![CDATA[
+
+$(document).ready(function() {
+    $('#example').DataTable( {
+        dom: 'Qlfrtip',
+        columnDefs: [{
+            searchBuilderTitle: 'Job',
+            targets: [1]
+        }]
+    });
+});
+
+]]>
+</js>
+
+<title lib="SearchBuilder">Basic SearchBuilder Example</title>
+
+<info><![CDATA[
+
+This example shows how to set an alternative title to be used in SearchBuilder rather than the title of the column that is present in the table. This is done using the `-init columns.searchBuilderTitle` initialisation option.
+
+Here the "Position" column is referred to as "Job" within SearchBuilder.
+
+]]></info>
+
+</dt-example>
