@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
 	<name>columns.searchBuilderTitle</name>
-	<summary>Set a custom title for a column to be used in SearchBuilder</summary>
-	<since>SearchBuilder 1.1.0</since>
+	<summary>Set a custom title for a column in SearchBuilder</summary>
+	<since>1.1.0</since>
 
 	<type type="string">
 		<description>
-			If a string value is set then SearchBuilder will use that value to refer to the column, rather than using the columns title in the table.
+			If a string value is set then SearchBuilder will use that value to refer to the column, rather than using the column's title in the table.
 		</description>
 		</type>
 
 	<default value="undefined">
-		The default value of the `-init columns.searchBuilderTitle` is undefined. This means that as standard SearchBuilder will derive a title directly from the columns header.
+		The default value of the `-init columns.searchBuilderTitle` is undefined. This means that as standard SearchBuilder will derive a title directly from the column's header.
 	</default>
 	<description>
 		<![CDATA[
