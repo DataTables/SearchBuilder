@@ -31,6 +31,7 @@ export interface IDefaults {
 	filterChanged: (count: number, text: string) => void;
 	preDefined: boolean | IDetails;
 	depthLimit: boolean | number;
+	enterSearch: boolean;
 	greyscale: boolean;
 	logic: string;
 	columns: number[] | boolean;
@@ -111,6 +112,7 @@ export default class SearchBuilder {
 			'string': Criteria.stringConditions
 		},
 		depthLimit: false,
+		enterSearch: false,
 		filterChanged: undefined,
 		greyscale: false,
 		i18n: {

@@ -99,6 +99,7 @@ export default class Group {
 			'string': Criteria.stringConditions
 		},
 		depthLimit: false,
+		enterSearch: false,
 		filterChanged: undefined,
 		greyscale: false,
 		i18n: {

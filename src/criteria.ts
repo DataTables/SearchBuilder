@@ -288,14 +288,21 @@ export default class Criteria {
 		let el = $('<input/>')
 			.addClass(Criteria.classes.value)
 			.addClass(Criteria.classes.input)
-			.on('input', searchDelay !== null ?
+			.on('input keypress', !that.c.enterSearch || searchDelay !== null ?
 				that.s.dt.settings()[0].oApi._fnThrottle(
 					function() {
 						return fn(that, this);
 					},
 					searchDelay
 				) :
-				() => { fn(that, this); }
+				that.c.enterSearch ?
+					(e) => {
+						let code = e.keyCode || e.which;
+						if (code == 13) {
+							fn(that, this);
+						}
+					} :
+					() => { fn(that, this); }
 			);
 
 		if (that.c.greyscale) {
@@ -329,28 +336,42 @@ export default class Criteria {
 			$('<input/>')
 				.addClass(Criteria.classes.value)
 				.addClass(Criteria.classes.input)
-				.on('input', searchDelay !== null ?
-				that.s.dt.settings()[0].oApi._fnThrottle(
-					function() {
-						return fn(that, this);
-					},
-					searchDelay
-				) :
-				() => { fn(that, this); }
-			),
-			$('<span>')
-				.addClass(that.classes.joiner).text(that.s.dt.i18n('searchBuilder.valueJoiner', that.c.i18n.valueJoiner)),
-			$('<input/>')
-				.addClass(Criteria.classes.value)
-				.addClass(Criteria.classes.input)
-				.on('input', searchDelay !== null ?
+				.on('input keypress', searchDelay !== null ?
 					that.s.dt.settings()[0].oApi._fnThrottle(
 						function() {
 							return fn(that, this);
 						},
 						searchDelay
 					) :
-					() => { fn(that, this); }
+					that.c.enterSearch ?
+						(e) => {
+							let code = e.keyCode || e.which;
+							if (code == 13) {
+								fn(that, this);
+							}
+						} :
+						() => { fn(that, this); }
+				),
+			$('<span>')
+				.addClass(that.classes.joiner).text(that.s.dt.i18n('searchBuilder.valueJoiner', that.c.i18n.valueJoiner)),
+			$('<input/>')
+				.addClass(Criteria.classes.value)
+				.addClass(Criteria.classes.input)
+				.on('input keypress', searchDelay !== null ?
+					that.s.dt.settings()[0].oApi._fnThrottle(
+						function() {
+							return fn(that, this);
+						},
+						searchDelay
+					) :
+					that.c.enterSearch ?
+						(e) => {
+							let code = e.keyCode || e.which;
+							if (code == 13) {
+								fn(that, this);
+							}
+						} :
+						() => { fn(that, this); }
 				)
 		];
 
@@ -390,7 +411,7 @@ export default class Criteria {
 				attachTo: 'input',
 				format: that.s.dateFormat ? that.s.dateFormat : undefined
 			})
-			.on('input change', searchDelay !== null ?
+			.on('change', searchDelay !== null ?
 				that.s.dt.settings()[0].oApi._fnThrottle(
 					function() {
 						return fn(that, this);
@@ -398,7 +419,23 @@ export default class Criteria {
 					searchDelay
 				) :
 				() => { fn(that, this); }
-			);
+			)
+			.on('input keypress', !that.c.enterSearch && searchDelay !== null ?
+				that.s.dt.settings()[0].oApi._fnThrottle(
+					function() {
+						return fn(that, this);
+					},
+					searchDelay
+				) :
+				that.c.enterSearch ?
+					(e) => {
+						let code = e.keyCode || e.which;
+						if (code == 13) {
+							fn(that, this);
+						}
+					} :
+					() => { fn(that, this); }
+			)
 
 		if (that.c.greyscale) {
 			$(el).addClass(Criteria.classes.greyscale);
@@ -439,7 +476,7 @@ export default class Criteria {
 					attachTo: 'input',
 					format: that.s.dateFormat ? that.s.dateFormat : undefined
 				})
-				.on('input change', searchDelay !== null ?
+				.on('change', searchDelay !== null ?
 					that.s.dt.settings()[0].oApi._fnThrottle(
 						function() {
 							return fn(that, this);
@@ -447,6 +484,22 @@ export default class Criteria {
 						searchDelay
 					) :
 					() => { fn(that, this); }
+				)
+				.on('input keypress', !that.c.enterSearch && searchDelay !== null ?
+					that.s.dt.settings()[0].oApi._fnThrottle(
+						function() {
+							return fn(that, this);
+						},
+						searchDelay
+					) :
+					that.c.enterSearch ?
+						(e) => {
+							let code = e.keyCode || e.which;
+							if (code == 13) {
+								fn(that, this);
+							}
+						} :
+						() => { fn(that, this); }
 				),
 			$('<span>')
 				.addClass(that.classes.joiner)
@@ -458,7 +511,7 @@ export default class Criteria {
 					attachTo: 'input',
 					format: that.s.dateFormat ? that.s.dateFormat : undefined
 				})
-				.on('input change', searchDelay !== null ?
+				.on('change', searchDelay !== null ?
 					that.s.dt.settings()[0].oApi._fnThrottle(
 						function() {
 							return fn(that, this);
@@ -466,7 +519,23 @@ export default class Criteria {
 						searchDelay
 					) :
 					() => { fn(that, this); }
-				),
+				)
+				.on('input keypress', !that.c.enterSearch && searchDelay !== null ?
+					that.s.dt.settings()[0].oApi._fnThrottle(
+						function() {
+							return fn(that, this);
+						},
+						searchDelay
+					) :
+					that.c.enterSearch ?
+						(e) => {
+							let code = e.keyCode || e.which;
+							if (code == 13) {
+								fn(that, this);
+							}
+						} :
+						() => { fn(that, this); }
+				)
 		];
 
 		if (that.c.greyscale) {
@@ -1475,6 +1544,7 @@ export default class Criteria {
 			'string': Criteria.stringConditions
 		},
 		depthLimit: false,
+		enterSearch: false,
 		filterChanged: undefined,
 		greyscale: false,
 		i18n: {

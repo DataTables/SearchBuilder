@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>searchBuilder.enterSearch</name>
+	<summary>Trigger a search on the enter key rather than every keypress</summary>
+	<since>1.1.0</since>
+
+	<type type="boolean">
+		<description>
+			When true an enter keypress is required to trigger a search for an input element.
+		</description>
+	</type>
+
+	<default value="false">
+        The default value for the `-init searchBuilder.enterSearch` option is false meaning that as standard a search will occur on every input into an input element.
+	</default>
+	<description>
+		<![CDATA[
+This option allows for searches not to be triggered until the enter key is pressed when using conditions with input elements. This will happen when `-init searchBuilder.enterSearch` is set to true.
+
+As default this option's value is false, meaning that a search is triggered on every input to an input element.
+
+The only exception to this is when using a date picker. Here selecting a date in the date picker will trigger a search without enter being pressed, regardless of the value of this option.
+
+Take a look at [this example]([../extensions/SearchBuilder/examples/initialisation/enterSearch.html) to see this in action.
+        ]]>
+	</description>
+
+	<example title="Input searches to only occur on enter press"><![CDATA[
+
+$('#example').DataTable( {
+	searchBuilder: {
+		enterSearch: true
+	},    
+	dom: 'Qlfrtip'
+});
+
+]]></example>
+
+</dt-option>
