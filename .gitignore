@@ -3,3 +3,4 @@ src/*.js
 css/*.js
 .sass-cache
 examples/testing
+.vscode
