@@ -27,9 +27,7 @@
     "@types/datatables.net-buttons": "^1.4.5",
     "@types/datatables.net-select": "^1.2.6",
     "datatables.net-datetime": "1.0.2",
-    "rollup": "^2.48.0",
-    "tslint": "^5.20.1",
-    "tslint-eslint-rules": "^5.4.0"
+    "rollup": "^2.48.0"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^13.0.0",
@@ -45,6 +43,6 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.3.1",
     "eslint-plugin-typescript-sort-keys": "^1.6.0",
-    "typescript": "^3.9.7"
+    "typescript": "^4.2.4"
   }
 }

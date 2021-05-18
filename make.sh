@@ -55,7 +55,8 @@ rm \
     $OUT_DIR/js/criteria.js \
     $OUT_DIR/js/group.js \
     ./src/*.js \
-    ./src/*.d.ts \
+
+mv ./src/*.d.ts ./types/
 
 
 js_compress $OUT_DIR/js/dataTables.searchBuilder.js
