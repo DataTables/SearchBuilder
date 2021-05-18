@@ -1,13 +1,14 @@
 let $: any;
-let DataTable: any;
+let dataTable: any;
 
 /**
  * Sets the value of jQuery for use in the file
+ *
  * @param jq the instance of jQuery to be set
  */
 export function setJQuery(jq: any): void {
 	$ = jq;
-	DataTable = jq.fn.DataTable;
+	dataTable = jq.fn.DataTable;
 }
 
 import Criteria, * as criteriaType from './criteria';
@@ -28,16 +29,16 @@ export interface IClasses {
 }
 
 export interface IDefaults {
-	filterChanged: (count: number, text: string) => void;
-	preDefined: boolean | IDetails;
-	depthLimit: boolean | number;
-	enterSearch: boolean;
-	greyscale: boolean;
-	logic: string;
 	columns: number[] | boolean;
 	conditions: {[keys: string]: {[keys: string]: criteriaType.ICondition}};
+	depthLimit: boolean | number;
+	enterSearch: boolean;
+	filterChanged: (count: number, text: string) => void;
+	greyscale: boolean;
 	i18n: II18n;
+	logic: string;
 	orthogonal: criteriaType.IOrthogonal;
+	preDefined: boolean | IDetails;
 }
 
 export interface IDom {
@@ -58,8 +59,8 @@ export interface II18n {
 	condition: string;
 	conditions?: {
 		[s: string]: {
-			[t: string]: string
-		}
+			[t: string]: string;
+		};
 	};
 	data: string;
 	deleteTitle: string;
@@ -142,6 +143,7 @@ export default class SearchBuilder {
 					notBetween: 'Not Between',
 					notEmpty: 'Not Empty',
 				},
+				// eslint-disable-next-line id-blacklist
 				number: {
 					between: 'Between',
 					empty: 'Empty',
@@ -154,6 +156,7 @@ export default class SearchBuilder {
 					notBetween: 'Not Between',
 					notEmpty: 'Not Empty',
 				},
+				// eslint-disable-next-line id-blacklist
 				string: {
 					contains: 'Contains',
 					empty: 'Empty',
@@ -190,20 +193,22 @@ export default class SearchBuilder {
 	public c: IDefaults;
 	public s: IS;
 
-	constructor(builderSettings: any, opts: IDefaults) {
+	public constructor(builderSettings: any, opts: IDefaults) {
 		// Check that the required version of DataTables is included
-		if (! DataTable || ! DataTable.versionCheck || ! DataTable.versionCheck('1.10.0')) {
+		if (! dataTable || ! dataTable.versionCheck || ! dataTable.versionCheck('1.10.0')) {
 			throw new Error('SearchBuilder requires DataTables 1.10 or newer');
 		}
 
-		let table = new DataTable.Api(builderSettings);
+		let table = new dataTable.Api(builderSettings);
 		this.classes = $.extend(true, {}, SearchBuilder.classes);
 
 		// Get options from user
 		this.c = $.extend(true, {}, SearchBuilder.defaults, opts);
 
 		this.dom = {
-			clearAll: $('<button type="button">' + table.i18n('searchBuilder.clearAll', this.c.i18n.clearAll) + '</button>')
+			clearAll: $(
+				'<button type="button">' + table.i18n('searchBuilder.clearAll', this.c.i18n.clearAll) + '</button>'
+			)
 				.addClass(this.classes.clearAll)
 				.addClass(this.classes.button)
 				.attr('type', 'button'),
@@ -246,12 +251,15 @@ export default class SearchBuilder {
 	/**
 	 * Gets the details required to rebuild the SearchBuilder as it currently is
 	 */
-	public getDetails(): IDetails | object {
+	// eslint upset at empty object but that is what it is
+	// eslint-disable-next-line @typescript-eslint/ban-types
+	public getDetails(): IDetails | {} {
 		return this.s.topGroup.getDetails();
 	}
 
 	/**
 	 * Getter for the node of the container for the searchBuilder
+	 *
 	 * @returns JQuery<HTMLElement> the node of the container
 	 */
 	public getNode(): JQuery < HTMLElement > {
@@ -260,6 +268,7 @@ export default class SearchBuilder {
 
 	/**
 	 * Rebuilds the SearchBuilder to a state that is provided
+	 *
 	 * @param details The details required to perform a rebuild
 	 */
 	public rebuild(details): SearchBuilder {
@@ -279,6 +288,7 @@ export default class SearchBuilder {
 
 	/**
 	 * Applies the defaults to preDefined criteria
+	 *
 	 * @param preDef the array of criteria to be processed.
 	 */
 	private _applyPreDefDefaults(preDef) {
@@ -315,7 +325,7 @@ export default class SearchBuilder {
 		});
 
 		// Check that DateTime is included, If not need to check if it could be used
-		if (! (DataTable as any).DateTime) {
+		if (! (dataTable as any).DateTime) {
 			let types = this.s.dt.columns().type().toArray();
 			let columnIdxs = this.s.dt.columns().toArray();
 
@@ -327,8 +337,7 @@ export default class SearchBuilder {
 
 			for(let i = 0; i < columnIdxs[0].length; i++) {
 				let column = columnIdxs[0][i];
-				let type = types[column]
-				console.log(type)
+				let type = types[column];
 
 				if(
 					// Check if this column can be filtered
@@ -346,7 +355,7 @@ export default class SearchBuilder {
 						type.indexOf('luxon') !== -1
 					)
 				) {
-					alert("SearchBuilder Requires DateTime when used with dates.")
+					alert('SearchBuilder Requires DateTime when used with dates.');
 					throw new Error('SearchBuilder requires DateTime');
 				}
 			}
@@ -386,6 +395,7 @@ export default class SearchBuilder {
 
 	/**
 	 * Updates the title of the SearchBuilder
+	 *
 	 * @param count the number of filters in the SearchBuilder
 	 */
 	private _updateTitle(count) {
@@ -452,6 +462,7 @@ export default class SearchBuilder {
 
 	/**
 	 * Update the count in the title/button
+	 *
 	 * @param count Number of filters applied
 	 */
 	private _filterChanged(count: number): void {

@@ -5,9 +5,9 @@ export interface IClasses {
 	buttonContainer: string;
 	condition: string;
 	container: string;
+	data: string;
 	delete: string;
 	dropDown: string;
-	data: string;
 	greyscale: string;
 	input: string;
 	italic: string;
@@ -22,15 +22,15 @@ export interface IClasses {
 }
 
 export interface ICondition {
-	isInputValid: (val: Array<JQuery<HTMLElement>>, that: Criteria) => boolean;
 	conditionName: string | ((dt: any, i18n: any) => string);
-	search: (value: string, comparison: string[], that: Criteria) => boolean;
 	init: (
 		that?: Criteria,
-		fn?: (that: Criteria, el: JQuery<HTMLElement>) => void,
+		fn?: (thatAgain: Criteria, el: JQuery<HTMLElement>) => void,
 		preDefined?: string[]
 	) => JQuery<HTMLElement> | Array<JQuery<HTMLElement>> | void;
 	inputValue: (el: JQuery<HTMLElement>) => string[] | void;
+	isInputValid: (val: Array<JQuery<HTMLElement>>, that: Criteria) => boolean;
+	search: (value: string, comparison: string[], that: Criteria) => boolean;
 }
 
 export interface IOrthogonal {
@@ -43,10 +43,10 @@ export interface IDom {
 	condition: JQuery<HTMLElement>;
 	conditionTitle: JQuery<HTMLElement>;
 	container: JQuery<HTMLElement>;
-	delete: JQuery<HTMLElement>;
 	data: JQuery<HTMLElement>;
 	dataTitle: JQuery<HTMLElement>;
 	defaultValue: JQuery<HTMLElement>;
+	delete: JQuery<HTMLElement>;
 	left: JQuery<HTMLElement>;
 	right: JQuery<HTMLElement>;
 	value: Array<JQuery<HTMLElement>>;
@@ -56,45 +56,46 @@ export interface IDom {
 export interface IS {
 	condition: string;
 	conditions: {[keys: string]: ICondition};
-	depth: number;
-	dt: any;
+	data: string;
 	dataIdx: number;
 	dataPoints: IDataOpt[];
-	data: string;
+	dateFormat: string | boolean;
+	depth: number;
+	dt: any;
 	filled: boolean;
 	index: number;
-	dateFormat: string | boolean;
 	topGroup: JQuery<HTMLElement>;
 	type: string;
 	value: string[];
 }
 
 export interface IDataOpt {
-	text: string;
 	index: number;
+	text: string;
 }
 
 export interface IDetails {
 	condition?: string;
-	data?: string;
-	value?: string[];
-	logic?: string;
 	criteria?: Criteria;
+	data?: string;
 	index?: number;
+	logic?: string;
+	value?: string[];
 }
 
 let $: any;
-let DataTable: any;
+let dataTable: any;
 const moment = (window as any).moment;
 const luxon = (window as any).luxon;
 
 /**
  * Sets the value of jQuery for use in the file
+ *
  * @param jq the instance of jQuery to be set
  */
 export function setJQuery(jq: any): void {
-  $ = jq;
-  DataTable = jq.fn.dataTable;
+	$ = jq;
+	dataTable = jq.fn.dataTable;
 }
 
 /**
@@ -123,6 +124,124 @@ export default class Criteria {
 		value: 'dtsb-value',
 		vertical: 'dtsb-vertical'
 	};
+
+	public classes: IClasses;
+	public dom: IDom;
+	public c: builderType.IDefaults;
+	public s: IS;
+
+	public constructor(
+		table: any,
+		opts: builderType.IDefaults,
+		topGroup: JQuery<HTMLElement>,
+		index = 0,
+		depth = 1
+	) {
+		// Check that the required version of DataTables is included
+		if (! dataTable || ! dataTable.versionCheck || ! dataTable.versionCheck('1.10.0')) {
+			throw new Error('SearchPane requires DataTables 1.10 or newer');
+		}
+
+		this.classes = $.extend(true, {}, Criteria.classes);
+
+		// Get options from user and any extra conditions/column types defined by plug-ins
+		this.c = $.extend(true, {}, Criteria.defaults, $.fn.dataTable.ext.searchBuilder, opts);
+		let i18n = this.c.i18n;
+
+		this.s = {
+			condition: undefined,
+			conditions: {},
+			data: undefined,
+			dataIdx: -1,
+			dataPoints: [],
+			dateFormat: false,
+			depth,
+			dt: table,
+			filled: false,
+			index,
+			topGroup,
+			type: '',
+			value: [],
+		};
+
+		this.dom = {
+			buttons: $('<div/>')
+				.addClass(this.classes.buttonContainer),
+			condition: $('<select disabled/>')
+				.addClass(this.classes.condition)
+				.addClass(this.classes.dropDown)
+				.addClass(this.classes.italic)
+				.attr('autocomplete', 'hacking'),
+			conditionTitle: $('<option value="" disabled selected hidden/>')
+				.text(this.s.dt.i18n('searchBuilder.condition', i18n.condition)),
+			container: $('<div/>')
+				.addClass(this.classes.container),
+			data: $('<select/>')
+				.addClass(this.classes.data)
+				.addClass(this.classes.dropDown)
+				.addClass(this.classes.italic),
+			dataTitle: $('<option value="" disabled selected hidden/>')
+				.text(this.s.dt.i18n('searchBuilder.data', i18n.data)),
+			defaultValue: $('<select disabled/>')
+				.addClass(this.classes.value)
+				.addClass(this.classes.dropDown)
+				.addClass(this.classes.select),
+			delete: $('<button>&times</button>')
+				.addClass(this.classes.delete)
+				.addClass(this.classes.button)
+				.attr('title', this.s.dt.i18n('searchBuilder.deleteTitle', i18n.deleteTitle))
+				.attr('type', 'button'),
+			// eslint-disable-next-line no-useless-escape
+			left: $('<button>\<</button>')
+				.addClass(this.classes.left)
+				.addClass(this.classes.button)
+				.attr('title', this.s.dt.i18n('searchBuilder.leftTitle', i18n.leftTitle))
+				.attr('type', 'button'),
+			// eslint-disable-next-line no-useless-escape
+			right: $('<button>\></button>')
+				.addClass(this.classes.right)
+				.addClass(this.classes.button)
+				.attr('title', this.s.dt.i18n('searchBuilder.rightTitle', i18n.rightTitle))
+				.attr('type', 'button'),
+			value: [
+				$('<select disabled/>')
+					.addClass(this.classes.value)
+					.addClass(this.classes.dropDown)
+					.addClass(this.classes.italic)
+					.addClass(this.classes.select)
+			],
+			valueTitle: $('<option value="--valueTitle--" selected/>')
+				.text(this.s.dt.i18n('searchBuilder.value', i18n.value)),
+		};
+
+		// If the greyscale option is selected then add the class to add the grey colour to SearchBuilder
+		if (this.c.greyscale) {
+			$(this.dom.data).addClass(this.classes.greyscale);
+			$(this.dom.condition).addClass(this.classes.greyscale);
+			$(this.dom.defaultValue).addClass(this.classes.greyscale);
+
+			for (let val of this.dom.value) {
+				$(val).addClass(this.classes.greyscale);
+			}
+		}
+
+		// For responsive design, adjust the criterias properties on the following events
+		this.s.dt.on('draw.dtsp', () => {
+			this._adjustCriteria();
+		});
+
+		this.s.dt.on('buttons-action', () => {
+			this._adjustCriteria();
+		});
+
+		$(window).on('resize.dtsp', dataTable.util.throttle(() => {
+			this._adjustCriteria();
+		}));
+
+		this._buildCriteria();
+
+		return this;
+	}
 
 	/**
 	 * Default initialisation function for select conditions
@@ -161,7 +280,7 @@ export default class Criteria {
 			);
 			let value = {
 				filter: typeof filter === 'string' ?
-					filter.replace(/[\r\n\u2028]/g, ' ') : // Need to replace certain characters to match the search values
+					filter.replace(/[\r\n\u2028]/g, ' ') : // Need to replace certain characters to match search values
 					filter,
 				index,
 				text: settings.oApi._fnGetCellData(
@@ -191,8 +310,8 @@ export default class Criteria {
 				let opt = $('<option>', {
 					type: Array.isArray(filt) ? 'Array' : 'String',
 					value: that.s.type.indexOf('html') !== -1  && filt !== null && typeof filt === 'string' ?
-							filt.replace(/(<([^>]+)>)/ig, '') :
-							filt,
+						filt.replace(/(<([^>]+)>)/ig, '') :
+						filt,
 				})
 					.addClass(that.classes.option)
 					.addClass(that.classes.notItalic)
@@ -235,7 +354,13 @@ export default class Criteria {
 		}
 
 		options.sort((a, b) => {
-			if (that.s.type === 'array' || that.s.type === 'string' || that.s.type === 'num' || that.s.type === 'html' || that.s.type === 'html-num') {
+			if (
+				that.s.type === 'array' ||
+				that.s.type === 'string' ||
+				that.s.type === 'num' ||
+				that.s.type === 'html' ||
+				that.s.type === 'html-num'
+			) {
 				if ($(a).val() < $(b).val()) {
 					return -1;
 				}
@@ -250,7 +375,7 @@ export default class Criteria {
 				if (+$(a).val().replace(/[^0-9.]/g, '') < +$(b).val().replace(/[^0-9.]/g, '')) {
 					return -1;
 				}
-				else if (+$(a).val().replace(/[^0-9.]/g, '') < +$(b).val().replace(/[^0-9.]/g, '')) {
+				else if (+$(a).val().replace(/[^0-9.]/g, '') > +$(b).val().replace(/[^0-9.]/g, '')) {
 					return 1;
 				}
 				else {
@@ -280,7 +405,7 @@ export default class Criteria {
 	 */
 	private static initInput = function(
 		that: Criteria,
-		fn: (that: Criteria, el: JQuery<HTMLElement>) => void,
+		fn: (thatAgain: Criteria, elInput: JQuery<HTMLElement>) => void,
 		preDefined = null
 	): Array<JQuery<HTMLElement>> {
 		// Declare the input element
@@ -298,11 +423,13 @@ export default class Criteria {
 				that.c.enterSearch ?
 					(e) => {
 						let code = e.keyCode || e.which;
-						if (code == 13) {
+						if (code === 13) {
 							fn(that, this);
 						}
 					} :
-					() => { fn(that, this); }
+					() => {
+						fn(that, this);
+					}
 			);
 
 		if (that.c.greyscale) {
@@ -327,7 +454,7 @@ export default class Criteria {
 	 */
 	private static init2Input = function(
 		that: Criteria,
-		fn: (that: Criteria, el: JQuery<HTMLElement>) => void,
+		fn: (thatAgain: Criteria, el: JQuery<HTMLElement>) => void,
 		preDefined = null
 	): Array<JQuery<HTMLElement>> {
 		// Declare all of the necessary jQuery elements
@@ -346,14 +473,19 @@ export default class Criteria {
 					that.c.enterSearch ?
 						(e) => {
 							let code = e.keyCode || e.which;
-							if (code == 13) {
+							if (code === 13) {
 								fn(that, this);
 							}
 						} :
-						() => { fn(that, this); }
+						() => {
+							fn(that, this);
+						}
 				),
 			$('<span>')
-				.addClass(that.classes.joiner).text(that.s.dt.i18n('searchBuilder.valueJoiner', that.c.i18n.valueJoiner)),
+				.addClass(that.classes.joiner)
+				.text(
+					that.s.dt.i18n('searchBuilder.valueJoiner', that.c.i18n.valueJoiner)
+				),
 			$('<input/>')
 				.addClass(Criteria.classes.value)
 				.addClass(Criteria.classes.input)
@@ -367,11 +499,13 @@ export default class Criteria {
 					that.c.enterSearch ?
 						(e) => {
 							let code = e.keyCode || e.which;
-							if (code == 13) {
+							if (code === 13) {
 								fn(that, this);
 							}
 						} :
-						() => { fn(that, this); }
+						() => {
+							fn(that, this);
+						}
 				)
 		];
 
@@ -399,7 +533,7 @@ export default class Criteria {
 	 */
 	private static initDate = function(
 		that: Criteria,
-		fn: (that: Criteria, el: JQuery<HTMLElement>) => void,
+		fn: (thatAgain: Criteria, elInput: JQuery<HTMLElement>) => void,
 		preDefined = null
 	): Array<JQuery<HTMLElement>> {
 		let searchDelay = that.s.dt.settings()[0].searchDelay;
@@ -418,7 +552,9 @@ export default class Criteria {
 					},
 					searchDelay
 				) :
-				() => { fn(that, this); }
+				() => {
+					fn(that, this);
+				}
 			)
 			.on('input keypress', !that.c.enterSearch && searchDelay !== null ?
 				that.s.dt.settings()[0].oApi._fnThrottle(
@@ -430,12 +566,14 @@ export default class Criteria {
 				that.c.enterSearch ?
 					(e) => {
 						let code = e.keyCode || e.which;
-						if (code == 13) {
+						if (code === 13) {
 							fn(that, this);
 						}
 					} :
-					() => { fn(that, this); }
-			)
+					() => {
+						fn(that, this);
+					}
+			);
 
 		if (that.c.greyscale) {
 			$(el).addClass(Criteria.classes.greyscale);
@@ -463,7 +601,7 @@ export default class Criteria {
 
 	private static init2Date = function(
 		that: Criteria,
-		fn: (that: Criteria, el: JQuery<HTMLElement>) => void,
+		fn: (thatAgain: Criteria, el: JQuery<HTMLElement>) => void,
 		preDefined: string[] = null
 	): Array<JQuery<HTMLElement>> {
 		let searchDelay = that.s.dt.settings()[0].searchDelay;
@@ -483,7 +621,9 @@ export default class Criteria {
 						},
 						searchDelay
 					) :
-					() => { fn(that, this); }
+					() => {
+						fn(that, this);
+					}
 				)
 				.on('input keypress', !that.c.enterSearch && searchDelay !== null ?
 					that.s.dt.settings()[0].oApi._fnThrottle(
@@ -495,11 +635,13 @@ export default class Criteria {
 					that.c.enterSearch ?
 						(e) => {
 							let code = e.keyCode || e.which;
-							if (code == 13) {
+							if (code === 13) {
 								fn(that, this);
 							}
 						} :
-						() => { fn(that, this); }
+						() => {
+							fn(that, this);
+						}
 				),
 			$('<span>')
 				.addClass(that.classes.joiner)
@@ -518,7 +660,9 @@ export default class Criteria {
 						},
 						searchDelay
 					) :
-					() => { fn(that, this); }
+					() => {
+						fn(that, this);
+					}
 				)
 				.on('input keypress', !that.c.enterSearch && searchDelay !== null ?
 					that.s.dt.settings()[0].oApi._fnThrottle(
@@ -530,11 +674,13 @@ export default class Criteria {
 					that.c.enterSearch ?
 						(e) => {
 							let code = e.keyCode || e.which;
-							if (code == 13) {
+							if (code === 13) {
 								fn(that, this);
 							}
 						} :
-						() => { fn(that, this); }
+						() => {
+							fn(that, this);
+						}
 				)
 		];
 
@@ -566,7 +712,11 @@ export default class Criteria {
 		// Check each element to make sure that the selections are valid
 		for (let element of el) {
 			if (
-				$(element).children('option:selected').length === $(element).children('option').length - $(element).children('option.' + Criteria.classes.notItalic).length &&
+				(
+					$(element).children('option:selected').length ===
+						$(element).children('option').length -
+						$(element).children('option.' + Criteria.classes.notItalic).length
+				) &&
 				$(element).children('option:selected').length === 1 &&
 				$(element).children('option:selected')[0] === $(element).children('option:hidden')[0]
 			) {
@@ -653,7 +803,10 @@ export default class Criteria {
 			// Otherwise replace the decimal place character for i18n
 			else if (
 				that.s.type.indexOf('num') !== -1 &&
-				(that.s.dt.settings()[0].oLanguage.sDecimal !== '' || that.s.dt.settings()[0].oLanguage.sThousands !== '')
+				(
+					that.s.dt.settings()[0].oLanguage.sDecimal !== '' ||
+					that.s.dt.settings()[0].oLanguage.sThousands !== ''
+				)
 			) {
 				let splitRD = [that.s.value[i].toString()];
 				if (that.s.dt.settings()[0].oLanguage.sDecimal !== '') {
@@ -698,7 +851,10 @@ export default class Criteria {
 		}
 	};
 
-	// The order of the conditions will make tslint sad :(
+	// The order of the conditions will make eslint sad :(
+	// Has to be in this order so that they are displayed correctly in select elements
+	// Also have to disable member ordering for this as the private methods used are not yet declared otherwise
+	// eslint-disable-next-line @typescript-eslint/member-ordering
 	public static dateConditions: {[keys: string]: ICondition} = {
 		'=': {
 			conditionName(dt, i18n): string {
@@ -708,11 +864,12 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
-				value = value.replace(/(\/|\-|\,)/g, '-');
+				value = value.replace(/(\/|-|,)/g, '-');
 
 				return value === comparison[0];
 			},
 		},
+		// eslint-disable-next-line sort-keys
 		'!=': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.date.not', i18n.conditions.date.not);
@@ -721,7 +878,7 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
-				value = value.replace(/(\/|\-|\,)/g, '-');
+				value = value.replace(/(\/|-|,)/g, '-');
 
 				return value !== comparison[0];
 			},
@@ -734,7 +891,7 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
-				value = value.replace(/(\/|\-|\,)/g, '-');
+				value = value.replace(/(\/|-|,)/g, '-');
 
 				return value < comparison[0];
 			},
@@ -747,7 +904,7 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
-				value = value.replace(/(\/|\-|\,)/g, '-');
+				value = value.replace(/(\/|-|,)/g, '-');
 
 				return value > comparison[0];
 			},
@@ -760,7 +917,7 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
-				value = value.replace(/(\/|\-|\,)/g, '-');
+				value = value.replace(/(\/|-|,)/g, '-');
 				if (comparison[0] < comparison[1]) {
 					return comparison[0] <= value && value <= comparison[1];
 				}
@@ -769,6 +926,7 @@ export default class Criteria {
 				}
 			},
 		},
+		// eslint-disable-next-line sort-keys
 		'!between': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.date.notBetween', i18n.conditions.date.notBetween);
@@ -777,7 +935,7 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
-				value = value.replace(/(\/|\-|\,)/g, '-');
+				value = value.replace(/(\/|-|,)/g, '-');
 				if (comparison[0] < comparison[1]) {
 					return !(comparison[0] <= value && value <= comparison[1]);
 				}
@@ -790,23 +948,28 @@ export default class Criteria {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.date.empty', i18n.conditions.date.empty);
 			},
-			isInputValid() { return true; },
 			init: Criteria.initNoValue,
 			inputValue() {
 				return;
+			},
+			isInputValid() {
+				return true;
 			},
 			search(value: string): boolean {
 				return (value === null || value === undefined || value.length === 0);
 			},
 		},
+		// eslint-disable-next-line sort-keys
 		'!null': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.date.notEmpty', i18n.conditions.date.notEmpty);
 			},
-			isInputValid() { return true; },
 			init: Criteria.initNoValue,
 			inputValue() {
 				return;
+			},
+			isInputValid() {
+				return true;
 			},
 			search(value: string): boolean {
 				return !(value === null || value === undefined || value.length === 0);
@@ -814,7 +977,10 @@ export default class Criteria {
 		}
 	};
 
-	// The order of the conditions will make tslint sad :(
+	// The order of the conditions will make eslint sad :(
+	// Has to be in this order so that they are displayed correctly in select elements
+	// Also have to disable member ordering for this as the private methods used are not yet declared otherwise
+	// eslint-disable-next-line @typescript-eslint/member-ordering
 	public static momentDateConditions: {[keys: string]: ICondition} = {
 		'=': {
 			conditionName(dt, i18n): string {
@@ -824,9 +990,11 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[], that): boolean {
-				return moment(value, that.s.dateFormat).valueOf() === moment(comparison[0], that.s.dateFormat).valueOf();
+				return moment(value, that.s.dateFormat).valueOf() ===
+					moment(comparison[0], that.s.dateFormat).valueOf();
 			},
 		},
+		// eslint-disable-next-line sort-keys
 		'!=': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.date.not', i18n.conditions.date.not);
@@ -835,7 +1003,8 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[], that): boolean {
-				return moment(value, that.s.dateFormat).valueOf() !== moment(comparison[0], that.s.dateFormat).valueOf();
+				return moment(value, that.s.dateFormat).valueOf() !==
+					moment(comparison[0], that.s.dateFormat).valueOf();
 			},
 		},
 		'<': {
@@ -879,6 +1048,7 @@ export default class Criteria {
 				}
 			},
 		},
+		// eslint-disable-next-line sort-keys
 		'!between': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.date.notBetween', i18n.conditions.date.notBetween);
@@ -902,23 +1072,28 @@ export default class Criteria {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.date.empty', i18n.conditions.date.empty);
 			},
-			isInputValid() { return true; },
 			init: Criteria.initNoValue,
 			inputValue() {
 				return;
+			},
+			isInputValid() {
+				return true;
 			},
 			search(value: string): boolean {
 				return (value === null || value === undefined || value.length === 0);
 			},
 		},
+		// eslint-disable-next-line sort-keys
 		'!null': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.date.notEmpty', i18n.conditions.date.notEmpty);
 			},
-			isInputValid() { return true; },
 			init: Criteria.initNoValue,
 			inputValue() {
 				return;
+			},
+			isInputValid() {
+				return true;
 			},
 			search(value: string): boolean {
 				return !(value === null || value === undefined || value.length === 0);
@@ -926,7 +1101,10 @@ export default class Criteria {
 		}
 	};
 
-		// The order of the conditions will make tslint sad :(
+	// The order of the conditions will make eslint sad :(
+	// Has to be in this order so that they are displayed correctly in select elements
+	// Also have to disable member ordering for this as the private methods used are not yet declared otherwise
+	// eslint-disable-next-line @typescript-eslint/member-ordering
 	public static luxonDateConditions: {[keys: string]: ICondition} = {
 		'=': {
 			conditionName(dt, i18n): string {
@@ -940,6 +1118,7 @@ export default class Criteria {
 					=== luxon.DateTime.fromFormat(comparison[0], that.s.dateFormat).ts;
 			},
 		},
+		// eslint-disable-next-line sort-keys
 		'!=': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.date.not', i18n.conditions.date.not);
@@ -995,6 +1174,7 @@ export default class Criteria {
 				}
 			},
 		},
+		// eslint-disable-next-line sort-keys
 		'!between': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.date.notBetween', i18n.conditions.date.notBetween);
@@ -1018,23 +1198,28 @@ export default class Criteria {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.date.empty', i18n.conditions.date.empty);
 			},
-			isInputValid() { return true; },
 			init: Criteria.initNoValue,
 			inputValue() {
 				return;
+			},
+			isInputValid() {
+				return true;
 			},
 			search(value: string): boolean {
 				return (value === null || value === undefined || value.length === 0);
 			},
 		},
+		// eslint-disable-next-line sort-keys
 		'!null': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.date.notEmpty', i18n.conditions.date.notEmpty);
 			},
-			isInputValid() { return true; },
 			init: Criteria.initNoValue,
 			inputValue() {
 				return;
+			},
+			isInputValid() {
+				return true;
 			},
 			search(value: string): boolean {
 				return !(value === null || value === undefined || value.length === 0);
@@ -1042,7 +1227,10 @@ export default class Criteria {
 		}
 	};
 
-	// The order of the conditions will make tslint sad :(
+	// The order of the conditions will make eslint sad :(
+	// Has to be in this order so that they are displayed correctly in select elements
+	// Also have to disable member ordering for this as the private methods used are not yet declared otherwise
+	// eslint-disable-next-line @typescript-eslint/member-ordering
 	public static numConditions: {[keys: string]: ICondition} = {
 		'=': {
 			conditionName(dt, i18n): string {
@@ -1055,6 +1243,7 @@ export default class Criteria {
 				return +value === +comparison[0];
 			},
 		},
+		// eslint-disable-next-line sort-keys
 		'!=': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.number.not', i18n.conditions.number.not);
@@ -1099,6 +1288,7 @@ export default class Criteria {
 				return +value >= +comparison[0];
 			},
 		},
+		// eslint-disable-next-line sort-keys
 		'>': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.number.gt', i18n.conditions.number.gt);
@@ -1126,6 +1316,7 @@ export default class Criteria {
 				}
 			},
 		},
+		// eslint-disable-next-line sort-keys
 		'!between': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.number.notBetween', i18n.conditions.number.notBetween);
@@ -1147,20 +1338,27 @@ export default class Criteria {
 				return dt.i18n('searchBuilder.conditions.number.empty', i18n.conditions.number.empty);
 			},
 			init: Criteria.initNoValue,
-			inputValue() { return; },
-			isInputValid() { return true; },
+			inputValue() {
+				return;
+			},
+			isInputValid() {
+				return true;
+			},
 			search(value: string): boolean {
 				return (value === null || value === undefined || value.length === 0);
 			},
 		},
+		// eslint-disable-next-line sort-keys
 		'!null': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.number.notEmpty', i18n.conditions.number.notEmpty);
 			},
-			isInputValid() { return true; },
 			init: Criteria.initNoValue,
 			inputValue() {
 				return;
+			},
+			isInputValid() {
+				return true;
 			},
 			search(value: string): boolean {
 				return !(value === null || value === undefined || value.length === 0);
@@ -1168,7 +1366,10 @@ export default class Criteria {
 		}
 	};
 
-	// The order of the conditions will make tslint sad :(
+	// The order of the conditions will make eslint sad :(
+	// Has to be in this order so that they are displayed correctly in select elements
+	// Also have to disable member ordering for this as the private methods used are not yet declared otherwise
+	// eslint-disable-next-line @typescript-eslint/member-ordering
 	public static numFmtConditions: {[keys: string]: ICondition} = {
 		'=': {
 			conditionName(dt, i18n): string {
@@ -1188,6 +1389,7 @@ export default class Criteria {
 				return +val === +comp;
 			},
 		},
+		// eslint-disable-next-line sort-keys
 		'!=': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.number.not', i18n.conditions.number.not);
@@ -1260,6 +1462,7 @@ export default class Criteria {
 				return +val >= +comp;
 			},
 		},
+		// eslint-disable-next-line sort-keys
 		'>': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.number.gt', i18n.conditions.number.gt);
@@ -1304,6 +1507,7 @@ export default class Criteria {
 				}
 			},
 		},
+		// eslint-disable-next-line sort-keys
 		'!between': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.number.notBetween', i18n.conditions.number.notBetween);
@@ -1335,20 +1539,27 @@ export default class Criteria {
 				return dt.i18n('searchBuilder.conditions.number.empty', i18n.conditions.number.empty);
 			},
 			init: Criteria.initNoValue,
-			inputValue() { return; },
-			isInputValid() { return true; },
+			inputValue() {
+				return;
+			},
+			isInputValid() {
+				return true;
+			},
 			search(value: string): boolean {
 				return (value === null || value === undefined || value.length === 0);
 			},
 		},
+		// eslint-disable-next-line sort-keys
 		'!null': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.number.notEmpty', i18n.conditions.number.notEmpty);
 			},
-			isInputValid() { return true; },
 			init: Criteria.initNoValue,
 			inputValue() {
 				return;
+			},
+			isInputValid() {
+				return true;
 			},
 			search(value: string): boolean {
 				return !(value === null || value === undefined || value.length === 0);
@@ -1356,7 +1567,10 @@ export default class Criteria {
 		}
 	};
 
-	// The order of the conditions will make tslint sad :(
+	// The order of the conditions will make eslint sad :(
+	// Has to be in this order so that they are displayed correctly in select elements
+	// Also have to disable member ordering for this as the private methods used are not yet declared otherwise
+	// eslint-disable-next-line @typescript-eslint/member-ordering
 	public static stringConditions: {[keys: string]: ICondition} = {
 		'=': {
 			conditionName(dt, i18n): string {
@@ -1369,6 +1583,7 @@ export default class Criteria {
 				return value === comparison[0];
 			},
 		},
+		// eslint-disable-next-line sort-keys
 		'!=': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.string.not', i18n.conditions.string.not);
@@ -1391,6 +1606,7 @@ export default class Criteria {
 				return value.toLowerCase().indexOf(comparison[0].toLowerCase()) === 0;
 			},
 		},
+		// eslint-disable-next-line sort-keys
 		'contains': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.string.contains', i18n.conditions.string.contains);
@@ -1418,20 +1634,27 @@ export default class Criteria {
 				return dt.i18n('searchBuilder.conditions.string.empty', i18n.conditions.string.empty);
 			},
 			init: Criteria.initNoValue,
-			inputValue() { return; },
-			isInputValid() { return true; },
+			inputValue() {
+				return;
+			},
+			isInputValid() {
+				return true;
+			},
 			search(value: string): boolean {
 				return (value === null || value === undefined || value.length === 0);
 			},
 		},
+		// eslint-disable-next-line sort-keys
 		'!null': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.string.notEmpty', i18n.conditions.string.notEmpty);
 			},
-			isInputValid() { return true; },
 			init: Criteria.initNoValue,
 			inputValue() {
 				return;
+			},
+			isInputValid() {
+				return true;
 			},
 			search(value: string): boolean {
 				return !(value === null || value === undefined || value.length === 0);
@@ -1439,7 +1662,9 @@ export default class Criteria {
 		}
 	};
 
-	// The order of the conditions will make tslint sad :(
+	// The order of the conditions will make eslint sad :(
+	// Also have to disable member ordering for this as the private methods used are not yet declared otherwise
+	// eslint-disable-next-line @typescript-eslint/member-ordering
 	public static arrayConditions: {[keys: string]: ICondition} = {
 		'contains': {
 			conditionName(dt, i18n): string {
@@ -1463,6 +1688,7 @@ export default class Criteria {
 				return value.indexOf(comparison[0]) === -1;
 			}
 		},
+		// eslint-disable-next-line sort-keys
 		'=': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.array.equals', i18n.conditions.array.equals);
@@ -1484,6 +1710,7 @@ export default class Criteria {
 				return false;
 			}
 		},
+		// eslint-disable-next-line sort-keys
 		'!=': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.array.not', i18n.conditions.array.not);
@@ -1510,25 +1737,37 @@ export default class Criteria {
 				return dt.i18n('searchBuilder.conditions.array.empty', i18n.conditions.array.empty);
 			},
 			init: Criteria.initNoValue,
-			isInputValid() { return true; },
-			inputValue() { return; },
+			inputValue() {
+				return;
+			},
+			isInputValid() {
+				return true;
+			},
 			search(value: string) {
 				return (value === null || value === undefined || value.length === 0);
 			}
 		},
+		// eslint-disable-next-line sort-keys
 		'!null': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.array.notEmpty', i18n.conditions.array.notEmpty);
 			},
-			isInputValid() { return true; },
 			init: Criteria.initNoValue,
-			inputValue() { return; },
+			inputValue() {
+				return;
+			},
+			isInputValid() {
+				return true;
+			},
 			search(value: string) {
 				return (value !== null && value !== undefined && value.length !== 0);
 			}
 		},
 	};
 
+	// eslint will be sad because we have to disable member ordering for this as the
+	// private static properties used are not yet declared otherwise
+	// eslint-disable-next-line @typescript-eslint/member-ordering
 	private static defaults: builderType.IDefaults = {
 		columns: true,
 		conditions: {
@@ -1575,121 +1814,6 @@ export default class Criteria {
 		},
 		preDefined: false
 	};
-
-	public classes: IClasses;
-	public dom: IDom;
-	public c: builderType.IDefaults;
-	public s: IS;
-
-	constructor(
-		table: any,
-		opts: builderType.IDefaults,
-		topGroup: JQuery<HTMLElement>,
-		index: number = 0,
-		depth: number = 1
-	) {
-		// Check that the required version of DataTables is included
-		if (! DataTable || ! DataTable.versionCheck || ! DataTable.versionCheck('1.10.0')) {
-			throw new Error('SearchPane requires DataTables 1.10 or newer');
-		}
-
-		this.classes = $.extend(true, {}, Criteria.classes);
-
-		// Get options from user and any extra conditions/column types defined by plug-ins
-		this.c = $.extend(true, {}, Criteria.defaults, $.fn.dataTable.ext.searchBuilder, opts);
-		let i18n = this.c.i18n;
-
-		this.s = {
-			condition: undefined,
-			conditions: {},
-			data: undefined,
-			dataIdx: -1,
-			dataPoints: [],
-			depth,
-			dt: table,
-			filled: false,
-			index,
-			dateFormat: false,
-			topGroup,
-			type: '',
-			value: [],
-		};
-
-		this.dom = {
-			buttons: $('<div/>')
-				.addClass(this.classes.buttonContainer),
-			condition: $('<select disabled/>')
-				.addClass(this.classes.condition)
-				.addClass(this.classes.dropDown)
-				.addClass(this.classes.italic)
-				.attr('autocomplete', 'hacking'),
-			conditionTitle: $('<option value="" disabled selected hidden/>')
-				.text(this.s.dt.i18n('searchBuilder.condition', i18n.condition)),
-			container: $('<div/>')
-				.addClass(this.classes.container),
-			data: $('<select/>')
-				.addClass(this.classes.data)
-				.addClass(this.classes.dropDown)
-				.addClass(this.classes.italic),
-			dataTitle: $('<option value="" disabled selected hidden/>')
-				.text(this.s.dt.i18n('searchBuilder.data', i18n.data)),
-			defaultValue: $('<select disabled/>')
-				.addClass(this.classes.value)
-				.addClass(this.classes.dropDown)
-				.addClass(this.classes.select),
-			delete: $('<button>&times</button>')
-				.addClass(this.classes.delete)
-				.addClass(this.classes.button)
-				.attr('title', this.s.dt.i18n('searchBuilder.deleteTitle', i18n.deleteTitle))
-				.attr('type', 'button'),
-			left: $('<button>\<</button>')
-				.addClass(this.classes.left)
-				.addClass(this.classes.button)
-				.attr('title', this.s.dt.i18n('searchBuilder.leftTitle', i18n.leftTitle))
-				.attr('type', 'button'),
-			right: $('<button>\></button>')
-				.addClass(this.classes.right)
-				.addClass(this.classes.button)
-				.attr('title', this.s.dt.i18n('searchBuilder.rightTitle', i18n.rightTitle))
-				.attr('type', 'button'),
-			value: [
-				$('<select disabled/>')
-					.addClass(this.classes.value)
-					.addClass(this.classes.dropDown)
-					.addClass(this.classes.italic)
-					.addClass(this.classes.select)
-			],
-			valueTitle: $('<option value="--valueTitle--" selected/>').text(this.s.dt.i18n('searchBuilder.value', i18n.value)),
-		};
-
-		// If the greyscale option is selected then add the class to add the grey colour to SearchBuilder
-		if (this.c.greyscale) {
-			$(this.dom.data).addClass(this.classes.greyscale);
-			$(this.dom.condition).addClass(this.classes.greyscale);
-			$(this.dom.defaultValue).addClass(this.classes.greyscale);
-
-			for (let val of this.dom.value) {
-				$(val).addClass(this.classes.greyscale);
-			}
-		}
-
-		// For responsive design, adjust the criterias properties on the following events
-		this.s.dt.on('draw.dtsp', () => {
-			this._adjustCriteria();
-		});
-
-		this.s.dt.on('buttons-action', () => {
-			this._adjustCriteria();
-		});
-
-		$(window).on('resize.dtsp', DataTable.util.throttle(() => {
-			this._adjustCriteria();
-		}));
-
-		this._buildCriteria();
-
-		return this;
-	}
 
 	/**
 	 * Adds the left button to the criteria
@@ -1753,6 +1877,7 @@ export default class Criteria {
 
 	/**
 	 * Passes in the data for the row and compares it against this single criteria
+	 *
 	 * @param rowData The data for the row to be compared
 	 * @returns boolean Whether the criteria has passed
 	 */
@@ -1764,7 +1889,10 @@ export default class Criteria {
 			// This check is in place for if a custom decimal character is in place
 			if (
 				this.s.type.indexOf('num') !== -1 &&
-				(this.s.dt.settings()[0].oLanguage.sDecimal !== '' || this.s.dt.settings()[0].oLanguage.sThousands !== '')
+				(
+					this.s.dt.settings()[0].oLanguage.sDecimal !== '' ||
+					this.s.dt.settings()[0].oLanguage.sThousands !== ''
+				)
 			) {
 				let splitRD = [rowData[this.s.dataIdx]];
 				if (this.s.dt.settings()[0].oLanguage.sDecimal !== '') {
@@ -1860,6 +1988,7 @@ export default class Criteria {
 
 	/**
 	 * Getter for the node for the container of the criteria
+	 *
 	 * @returns JQuery<HTMLElement> the node for the container
 	 */
 	public getNode(): JQuery<HTMLElement> {
@@ -1885,6 +2014,7 @@ export default class Criteria {
 
 	/**
 	 * Rebuilds the criteria based upon the details passed in
+	 *
 	 * @param loadedCriteria the details required to rebuild the criteria
 	 */
 	public rebuild(loadedCriteria: IDetails): void {
@@ -1965,7 +2095,8 @@ export default class Criteria {
 				this._clearValue();
 				this._populateCondition();
 
-				// If this criteria was previously active in the search then remove it from the search and trigger a new search
+				// If this criteria was previously active in the search then
+				//  remove it from the search and trigger a new search
 				if (this.s.filled) {
 					this.s.filled = false;
 					this.s.dt.draw();
@@ -1990,12 +2121,14 @@ export default class Criteria {
 					}
 				}
 
-				// When the condition is changed, the value selector may switch between a select element and an input element
+				// When the condition is changed, the value selector may switch between
+				//  a select element and an input element
 				this._clearValue();
 				this._populateValue();
 
 				for (let val of this.dom.value) {
-					// If this criteria was previously active in the search then remove it from the search and trigger a new search
+					// If this criteria was previously active in the search then remove
+					//  it from the search and trigger a new search
 					if (this.s.filled && $(this.dom.container).has(val).length !== 0) {
 						this.s.filled = false;
 						this.s.dt.draw();
@@ -2157,6 +2290,7 @@ export default class Criteria {
 
 	/**
 	 * Gets the options for the column
+	 *
 	 * @returns {object} The options for the column
 	 */
 	private _getOptions(): {[keys: string]: any} {
@@ -2221,10 +2355,10 @@ export default class Criteria {
 
 			// If it is a moment format then extract the date format
 			if (this.s.type.indexOf('moment') !== -1) {
-				this.s.dateFormat = this.s.type.replace(/moment\-/g, '');
+				this.s.dateFormat = this.s.type.replace(/moment-/g, '');
 			}
 			else if (this.s.type.indexOf('luxon') !== -1) {
-				this.s.dateFormat = this.s.type.replace(/luxon\-/g, '');
+				this.s.dateFormat = this.s.type.replace(/luxon-/g, '');
 			}
 
 			// Add all of the conditions to the select element
@@ -2314,7 +2448,14 @@ export default class Criteria {
 
 					if (!found) {
 						let col = this.s.dt.settings()[0].aoColumns[index];
-						let opt = {text: (col.searchBuilderTitle === undefined? col.sTitle : col.searchBuilderTitle).replace(/(<([^>]+)>)/ig, ''), index};
+						let opt = {
+							index,
+							text: (
+								col.searchBuilderTitle === undefined ?
+									col.sTitle :
+									col.searchBuilderTitle).replace(/(<([^>]+)>)/ig, ''
+							)
+						};
 						this.s.dataPoints.push(opt);
 						$(this.dom.data).append(
 							$('<option>', {
@@ -2333,7 +2474,13 @@ export default class Criteria {
 			for (let data of this.s.dataPoints) {
 				this.s.dt.columns().every((index) => {
 					let col = this.s.dt.settings()[0].aoColumns[index];
-					if ((col.searchBuilderTitle === undefined? col.sTitle : col.searchBuilderTitle).replace(/(<([^>]+)>)/ig, '') === data.text) {
+					if (
+						(
+							col.searchBuilderTitle === undefined ?
+								col.sTitle :
+								col.searchBuilderTitle
+						).replace(/(<([^>]+)>)/ig, '') === data.text
+					) {
 						data.index = index;
 					}
 				});
@@ -2357,6 +2504,7 @@ export default class Criteria {
 
 	/**
 	 * Populates the Value select element
+	 *
 	 * @param loadedCriteria optional, used to reload criteria from predefined filters
 	 */
 	private _populateValue(loadedCriteria?): void {

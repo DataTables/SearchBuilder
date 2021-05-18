@@ -11,7 +11,7 @@
  * @copyright   Copyright 2020 SpryMedia Ltd.
  *
  * This source file is free software, available under the following license:
- *   MIT license - http://datatables.net/license/mit
+ * MIT license - http://datatables.net/license/mit
  *
  * This source file is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
@@ -20,12 +20,12 @@
  * For details please refer to: http://www.datatables.net
  */
 
- /// <reference path = '../node_modules/@types/jquery/index.d.ts'
+/// <reference path = '../node_modules/@types/jquery/index.d.ts'
 
 // Hack to allow TypeScript to compile our UMD
-declare var define: {
-	(string, Function): any;
+declare let define: {
 	amd: string;
+	(stringValue, Function): any;
 };
 
 import Criteria, {setJQuery as criteriaJQuery} from './criteria';
@@ -50,6 +50,7 @@ import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
 			}
 
 			if (! $ || ! $.fn.dataTable) {
+				// eslint-disable-next-line @typescript-eslint/no-var-requires
 				$ = require('datatables.net')(root, $).$;
 			}
 
@@ -66,7 +67,7 @@ import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
 	groupJQuery($);
 	criteriaJQuery($);
 
-	let DataTable = $.fn.dataTable;
+	let dataTable = $.fn.dataTable;
 
 	($.fn as any).dataTable.SearchBuilder = SearchBuilder;
 	($.fn as any).DataTable.SearchBuilder = SearchBuilder;
@@ -148,15 +149,16 @@ import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
 
 	/**
 	 * Init function for SearchBuilder
+	 *
 	 * @param settings the settings to be applied
 	 * @param options the options for SearchBuilder
 	 * @returns JQUERY<HTMLElement> Returns the node of the SearchBuilder
 	 */
 	function _init(settings: any, options?: any): JQuery<HTMLElement> {
-		let api = new DataTable.Api(settings);
+		let api = new dataTable.Api(settings);
 		let opts = options
 			? options
-			: api.init().searchBuilder || DataTable.defaults.searchBuilder;
+			: api.init().searchBuilder || dataTable.defaults.searchBuilder;
 
 		let searchBuilder =  new SearchBuilder(api, opts);
 		let node = searchBuilder.getNode();
@@ -172,7 +174,7 @@ import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
 		}
 
 		if (settings.oInit.searchBuilder ||
-			DataTable.defaults.searchBuilder
+			dataTable.defaults.searchBuilder
 		) {
 			if (!settings._searchBuilder) {
 				_init(settings);
@@ -181,14 +183,14 @@ import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
 	});
 
 	// DataTables `dom` feature option
-	DataTable.ext.feature.push({
+	dataTable.ext.feature.push({
 		cFeature: 'Q',
 		fnInit: _init,
 	});
 
 	// DataTables 2 layout feature
-	if (DataTable.ext.features) {
-		DataTable.ext.features.register('searchBuilder', _init);
+	if (dataTable.ext.features) {
+		dataTable.ext.features.register('searchBuilder', _init);
 	}
 
 }));

@@ -1,11 +1,6 @@
 /*! Bootstrap ui integration for DataTables' SearchBuilder
  * ©2016 SpryMedia Ltd - datatables.net/license
  */
-// Hack to allow TypeScript to compile our UMD
-declare var define: {
-	(string, Function): any;
-	amd: string;
-};
 (function(factory) {
 	if (typeof define === 'function' && define.amd) {
 		// AMD
@@ -21,10 +16,12 @@ declare var define: {
 			}
 
 			if (! $ || ! $.fn.dataTable) {
+				// eslint-disable-next-line @typescript-eslint/no-var-requires
 				$ = require('datatables.net-bs')(root, $).$;
 			}
 
 			if (! $.fn.dataTable.searchBuilder) {
+				// eslint-disable-next-line @typescript-eslint/no-var-requires
 				require('datatables.net-searchbuilder')(root, $);
 			}
 
@@ -36,27 +33,27 @@ declare var define: {
 		factory(jQuery, window, document);
 	}
 }(function($, window, document) {
-'use strict';
-let DataTable = $.fn.dataTable;
+	'use strict';
+	let dataTable = $.fn.dataTable;
 
-$.extend(true, DataTable.SearchBuilder.classes, {
-	clearAll: 'btn btn-default dtsb-clearAll'
-});
+	$.extend(true, dataTable.SearchBuilder.classes, {
+		clearAll: 'btn btn-default dtsb-clearAll'
+	});
 
-$.extend(true, DataTable.Group.classes, {
-	add: 'btn btn-default dtsb-add',
-	clearGroup: 'btn btn-default dtsb-clearGroup',
-	logic: 'btn btn-default dtsb-logic',
-});
+	$.extend(true, dataTable.Group.classes, {
+		add: 'btn btn-default dtsb-add',
+		clearGroup: 'btn btn-default dtsb-clearGroup',
+		logic: 'btn btn-default dtsb-logic',
+	});
 
-$.extend(true, DataTable.Criteria.classes, {
-	condition: 'form-control dtsb-condition',
-	data: 'form-control dtsb-data',
-	delete: 'btn btn-default dtsb-delete',
-	left: 'btn btn-default dtsb-left',
-	right: 'btn btn-default dtsb-right',
-	value: 'form-control dtsb-value',
-});
+	$.extend(true, dataTable.Criteria.classes, {
+		condition: 'form-control dtsb-condition',
+		data: 'form-control dtsb-data',
+		delete: 'btn btn-default dtsb-delete',
+		left: 'btn btn-default dtsb-left',
+		right: 'btn btn-default dtsb-right',
+		value: 'form-control dtsb-value',
+	});
 
-return DataTable.searchPanes;
+	return dataTable.searchPanes;
 }));

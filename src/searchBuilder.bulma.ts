@@ -1,11 +1,6 @@
 /*! Bulma ui integration for DataTables' SearchBuilder
  * ©2016 SpryMedia Ltd - datatables.net/license
  */
-// Hack to allow TypeScript to compile our UMD
-declare var define: {
-	(string, Function): any;
-	amd: string;
-};
 (function(factory) {
 	if (typeof define === 'function' && define.amd) {
 		// AMD
@@ -21,10 +16,12 @@ declare var define: {
 			}
 
 			if (! $ || ! $.fn.dataTable) {
+				// eslint-disable-next-line @typescript-eslint/no-var-requires
 				$ = require('datatables.net-bs5')(root, $).$;
 			}
 
 			if (! $.fn.dataTable.searchBuilder) {
+				// eslint-disable-next-line @typescript-eslint/no-var-requires
 				require('datatables.net-searchbuilder')(root, $);
 			}
 
@@ -36,25 +33,25 @@ declare var define: {
 		factory(jQuery, window, document);
 	}
 }(function($, window, document) {
-'use strict';
-let DataTable = $.fn.dataTable;
+	'use strict';
+	let dataTable = $.fn.dataTable;
 
-$.extend(true, DataTable.SearchBuilder.classes, {
-	clearAll: 'button dtsb-clearAll'
-});
+	$.extend(true, dataTable.SearchBuilder.classes, {
+		clearAll: 'button dtsb-clearAll'
+	});
 
-$.extend(true, DataTable.Group.classes, {
-	add: 'button dtsb-add',
-	clearGroup: 'button dtsb-clearGroup is-light',
-	logic: 'button dtsb-logic is-light'
-});
+	$.extend(true, dataTable.Group.classes, {
+		add: 'button dtsb-add',
+		clearGroup: 'button dtsb-clearGroup is-light',
+		logic: 'button dtsb-logic is-light'
+	});
 
-$.extend(true, DataTable.Criteria.classes, {
-	container: 'dtsb-criteria',
-	delete: 'button dtsb-delete',
-	left: 'button dtsb-left',
-	right: 'button dtsb-right',
-});
+	$.extend(true, dataTable.Criteria.classes, {
+		container: 'dtsb-criteria',
+		delete: 'button dtsb-delete',
+		left: 'button dtsb-left',
+		right: 'button dtsb-right',
+	});
 
-return DataTable.searchPanes;
+	return dataTable.searchPanes;
 }));

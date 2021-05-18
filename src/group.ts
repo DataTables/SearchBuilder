@@ -40,8 +40,8 @@ export interface ICriteria {
 export interface ICriteriaDetails {
 	condition?: string;
 	data?: string;
-	value?: string[];
 	logic?: string;
+	value?: string[];
 }
 
 export interface ISCriteria {
@@ -52,20 +52,21 @@ export interface ISCriteria {
 
 export interface IDetails {
 	criteria?: ICriteriaDetails[];
-	logic?: string;
 	index?: number;
+	logic?: string;
 }
 
 let $: any;
-let DataTable: any;
+let dataTable: any;
 
 /**
  * Sets the value of jQuery for use in the file
+ *
  * @param jq the instance of jQuery to be set
  */
 export function setJQuery(jq: any): void {
-  $ = jq;
-  DataTable = jq.fn.dataTable;
+	$ = jq;
+	dataTable = jq.fn.dataTable;
 }
 
 /**
@@ -136,7 +137,7 @@ export default class Group {
 	public c: builderType.IDefaults;
 	public s: IS;
 
-	constructor(
+	public constructor(
 		table: any,
 		opts: builderType.IDefaults,
 		topGroup: JQuery<HTMLElement>,
@@ -145,7 +146,7 @@ export default class Group {
 		depth = 1
 	) {
 		// Check that the required version of DataTables is included
-		if (! DataTable || ! DataTable.versionCheck || ! DataTable.versionCheck('1.10.0')) {
+		if (! dataTable || ! dataTable.versionCheck || ! dataTable.versionCheck('1.10.0')) {
 			throw new Error('SearchBuilder requires DataTables 1.10 or newer');
 		}
 
@@ -215,6 +216,8 @@ export default class Group {
 	/**
 	 * Gets the details required to rebuild the group
 	 */
+	// Eslint upset at empty object but needs to be done
+	// eslint-disable-next-line @typescript-eslint/ban-types
 	public getDetails(): IDetails | {} {
 		if (this.s.criteria.length === 0) {
 			return {};
@@ -235,6 +238,7 @@ export default class Group {
 
 	/**
 	 * Getter for the node for the container of the group
+	 *
 	 * @returns Node for the container of the group
 	 */
 	public getNode(): JQuery<HTMLElement> {
@@ -243,11 +247,16 @@ export default class Group {
 
 	/**
 	 * Rebuilds the group based upon the details passed in
+	 *
 	 * @param loadedDetails the details required to rebuild the group
 	 */
-	public rebuild(loadedDetails: IDetails): void {
+	public rebuild(loadedDetails: IDetails | criteriaType.IDetails): void {
 		// If no criteria are stored then just return
-		if (loadedDetails.criteria === undefined || loadedDetails.criteria === null || loadedDetails.criteria.length === 0) {
+		if (
+			loadedDetails.criteria === undefined ||
+			loadedDetails.criteria === null ||
+			(Array.isArray(loadedDetails.criteria) && loadedDetails.criteria.length === 0)
+		) {
 			return;
 		}
 
@@ -258,12 +267,14 @@ export default class Group {
 		);
 
 		// Add all of the criteria, be it a sub group or a criteria
-		for (let crit of loadedDetails.criteria) {
-			if (crit.logic !== undefined) {
-				this._addPrevGroup(crit);
-			}
-			else if (crit.logic === undefined) {
-				this._addPrevCriteria(crit);
+		if(Array.isArray(loadedDetails.criteria)) {
+			for (let crit of loadedDetails.criteria) {
+				if (crit.logic !== undefined) {
+					this._addPrevGroup(crit);
+				}
+				else if (crit.logic === undefined) {
+					this._addPrevCriteria(crit);
+				}
 			}
 		}
 
@@ -352,6 +363,7 @@ export default class Group {
 
 	/**
 	 * Search method, checking the row data against the criteria in the group
+	 *
 	 * @param rowData The row data to be compared
 	 * @returns boolean The result of the search
 	 */
@@ -448,6 +460,7 @@ export default class Group {
 
 	/**
 	 * Adds a criteria to the group
+	 *
 	 * @param crit Instance of Criteria to be added to the group
 	 */
 	public addCriteria(crit: Criteria = null, redraw = true): void {
@@ -492,9 +505,7 @@ export default class Group {
 			index
 		});
 
-		this.s.criteria = this.s.criteria.sort((a, b) => {
-			return a.criteria.s.index - b.criteria.s.index;
-		});
+		this.s.criteria = this.s.criteria.sort((a, b) => a.criteria.s.index - b.criteria.s.index);
 
 		for (let opt of this.s.criteria) {
 			if (opt.criteria instanceof Criteria) {
@@ -543,6 +554,7 @@ export default class Group {
 
 	/**
 	 * Rebuilds a sub group that previously existed
+	 *
 	 * @param loadedGroup The details of a group within this group
 	 */
 	private _addPrevGroup(loadedGroup: IDetails): void {
@@ -565,6 +577,7 @@ export default class Group {
 
 	/**
 	 * Rebuilds a criteria of this group that previously existed
+	 *
 	 * @param loadedCriteria The details of a criteria within the group
 	 */
 	private _addPrevCriteria(loadedCriteria: criteriaType.IDetails): void {
@@ -586,6 +599,7 @@ export default class Group {
 
 	/**
 	 * Checks And the criteria using AND logic
+	 *
 	 * @param rowData The row data to be checked against the search criteria
 	 * @returns boolean The result of the AND search
 	 */
@@ -612,6 +626,7 @@ export default class Group {
 
 	/**
 	 * Checks And the criteria using OR logic
+	 *
 	 * @param rowData The row data to be checked against the search criteria
 	 * @returns boolean The result of the OR search
 	 */
@@ -650,6 +665,7 @@ export default class Group {
 
 	/**
 	 * Removes a criteria from the group
+	 *
 	 * @param criteria The criteria instance to be removed
 	 */
 	private _removeCriteria(criteria: Criteria | Group, group = false): void {
@@ -662,7 +678,10 @@ export default class Group {
 			let last: number;
 
 			for (let i = 0; i < this.s.criteria.length; i++) {
-				if (this.s.criteria[i].index === criteria.s.index && (!group || this.s.criteria[i].criteria instanceof Group)) {
+				if (
+					this.s.criteria[i].index === criteria.s.index &&
+					(!group || this.s.criteria[i].criteria instanceof Group)
+				) {
 					last = i;
 				}
 			}
@@ -680,6 +699,7 @@ export default class Group {
 	}
 	/**
 	 * Sets the listeners in group for a criteria
+	 *
 	 * @param criteria The criteria for the listeners to be set on
 	 */
 	private _setCriteriaListeners(criteria: Criteria): void {
@@ -708,7 +728,14 @@ export default class Group {
 			.unbind('click')
 			.on('click', () => {
 				let idx = criteria.s.index;
-				let group = new Group(this.s.dt, this.s.opts, this.s.topGroup, criteria.s.index, true, this.s.depth + 1);
+				let group = new Group(
+					this.s.dt,
+					this.s.opts,
+					this.s.topGroup,
+					criteria.s.index,
+					true,
+					this.s.depth + 1
+				);
 
 				// Add the criteria that is to be moved to the new group
 				group.addCriteria(criteria);
@@ -772,6 +799,7 @@ export default class Group {
 
 	/**
 	 * Sets listeners for sub groups of this group
+	 *
 	 * @param group The sub group that the listeners are to be set on
 	 */
 	private _setGroupListeners(group: Group): void {
@@ -807,12 +835,12 @@ export default class Group {
 		$(group.dom.container)
 			.unbind('dtsb-dropCriteria')
 			.on('dtsb-dropCriteria', () => {
-					let toDrop = group.s.toDrop;
-					toDrop.s.index = group.s.index;
-					toDrop.updateArrows(this.s.criteria.length > 1, false);
-					this.addCriteria(toDrop, false);
+				let toDrop = group.s.toDrop;
+				toDrop.s.index = group.s.index;
+				toDrop.updateArrows(this.s.criteria.length > 1, false);
+				this.addCriteria(toDrop, false);
 
-					return false;
+				return false;
 			});
 
 		group.setListeners();
