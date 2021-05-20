@@ -21,7 +21,7 @@ As default this option's value is false, meaning that a search is triggered on e
 
 The only exception to this is when using a date picker. Here selecting a date in the date picker will trigger a search without enter being pressed, regardless of the value of this option.
 
-Take a look at [this example]([../extensions/SearchBuilder/examples/initialisation/enterSearch.html) to see this in action.
+Take a look at [this example](/extensions/SearchBuilder/examples/initialisation/enterSearch.html) to see this in action.
         ]]>
 	</description>
 
