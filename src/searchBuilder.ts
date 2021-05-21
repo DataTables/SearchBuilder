@@ -399,7 +399,7 @@ export default class SearchBuilder {
 	 * @param count the number of filters in the SearchBuilder
 	 */
 	private _updateTitle(count) {
-		$(this.dom.title).text(
+		$(this.dom.title).html(
 			this.s.dt.i18n('searchBuilder.title', this.c.i18n.title, count)
 		);
 	}
