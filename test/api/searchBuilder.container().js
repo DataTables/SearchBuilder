@@ -8,7 +8,7 @@ describe('searchBuilder - API - searchBuilder.container()', function () {
 
 	describe('Check the defaults', function () {
 		dt.html('basic');
-		it('Ensure its a function', function () {
+		it('Ensure it is a function', function () {
 			table = $('#example').DataTable({
 				dom: 'Qlfrtip'
 			});
