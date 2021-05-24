@@ -8,7 +8,7 @@ describe('searchBuilder - API - searchBuilder.container()', function () {
 
 	describe('Check the defaults', function () {
 		dt.html('basic');
-		it('Ensure its a function', function () {
+		it('Ensure it is a function', function () {
 			table = $('#example').DataTable({
 				dom: 'Qlfrtip'
 			});
@@ -21,7 +21,7 @@ describe('searchBuilder - API - searchBuilder.container()', function () {
 
 	describe('Functional tests', function () {
 		dt.html('basic');
-		it('Ensure it returns specified container', function () {
+		it('Ensure it returns container', function () {
 			table = $('#example').DataTable({
 				dom: 'Qlfrtip'
 			});

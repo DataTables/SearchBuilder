@@ -27,7 +27,7 @@
 
 			Internally the DataTables' `dt-api i18n()` method is used to determine the string value to display, which can provide complex singular, plural, dual, etc language strings for true multi-language support. Please refer to the `object` section below for details.
 
-			Note that as of 1.1.0 this language option is written to the document as html, therefore if you are using user input data you must sanitise it first.
+			Note that as of 1.1.0 this language option is written to the document as HTML, therefore if you are using user input data you must sanitise it first.
 
 		]]>
 	</description>
