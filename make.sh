@@ -58,8 +58,21 @@ rm \
 
 mv ./src/*.d.ts ./types/
 
-
 js_compress $OUT_DIR/js/dataTables.searchBuilder.js
+
+# Copy Types
+if [ -d $OUT_DIR/types ]; then
+	rm -r $OUT_DIR/types		
+fi
+mkdir $OUT_DIR/types
+
+if [ -d types/ ]; then
+	cp types/* $OUT_DIR/types
+else
+	if [ -f types.d.ts ]; then
+		cp types.d.ts $OUT_DIR/types
+	fi
+fi
 
 # Copy and build examples
 rsync -r examples $OUT_DIR
