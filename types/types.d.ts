@@ -1,8 +1,9 @@
 /// <reference types="jquery" />
 /// <reference types="datatables.net"/>
 
+import {IDefaults, IDetails} from './searchBuilder';
+
 declare namespace DataTables {
-	import {IDefaults, IDetails} from './searchBuilder';
 
 	interface Settings {
 		searchBuilder?: boolean | string[] | IDefaults | IDefaults[];
