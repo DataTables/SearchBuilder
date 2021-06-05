@@ -178,7 +178,7 @@ export default class Group {
 				.attr('type', 'button'),
 			container: $('<div/>')
 				.addClass(this.classes.group),
-			logic: $('<button/>')
+			logic: $('<button><div/></button>')
 				.addClass(this.classes.logic)
 				.addClass(this.classes.button)
 				.attr('type', 'button'),
@@ -261,7 +261,7 @@ export default class Group {
 		}
 
 		this.s.logic = loadedDetails.logic;
-		$(this.dom.logic).text(this.s.logic === 'OR'
+		$(this.dom.logic).children().first().text(this.s.logic === 'OR'
 			? this.s.dt.i18n('searchBuilder.logicOr', this.c.i18n.logicOr)
 			: this.s.dt.i18n('searchBuilder.logicAnd', this.c.i18n.logicAnd)
 		);
@@ -853,7 +853,7 @@ export default class Group {
 		this.setListeners();
 
 		$(this.dom.add).text(this.s.dt.i18n('searchBuilder.add', this.c.i18n.add));
-		$(this.dom.logic).text(this.c.logic === 'OR'
+		$(this.dom.logic).children().first().text(this.c.logic === 'OR'
 			? this.s.dt.i18n('searchBuilder.logicOr', this.c.i18n.logicOr)
 			: this.s.dt.i18n('searchBuilder.logicAnd', this.c.i18n.logicAnd)
 		);
@@ -896,11 +896,11 @@ export default class Group {
 	private _toggleLogic(): void {
 		if (this.s.logic === 'OR') {
 			this.s.logic = 'AND';
-			$(this.dom.logic).text(this.s.dt.i18n('searchBuilder.logicAnd', this.c.i18n.logicAnd));
+			$(this.dom.logic).children().first().text(this.s.dt.i18n('searchBuilder.logicAnd', this.c.i18n.logicAnd));
 		}
 		else if (this.s.logic === 'AND') {
 			this.s.logic = 'OR';
-			$(this.dom.logic).text(this.s.dt.i18n('searchBuilder.logicOr', this.c.i18n.logicOr));
+			$(this.dom.logic).children().first().text(this.s.dt.i18n('searchBuilder.logicOr', this.c.i18n.logicOr));
 		}
 	}
 }
