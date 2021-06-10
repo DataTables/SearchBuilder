@@ -4,3 +4,8 @@ css/*.js
 .sass-cache
 examples/testing
 .vscode
+
+types/criteria.d.ts
+types/group.d.ts
+types/index.d.ts
+types/searchBuilder.*d.ts
