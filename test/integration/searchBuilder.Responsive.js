@@ -17,13 +17,13 @@ describe('searchBuilder - integrations - Responsive', function() {
 			$('.dtsb-group button').click();
 
 			$('.dtsb-data').val(8);
-			$('.dtsb-data').trigger('input');
+			$('.dtsb-data').trigger('change');
 
 			$('.dtsb-condition').val('=');
-			$('.dtsb-condition').trigger('input');
+			$('.dtsb-condition').trigger('change');
 
 			$('.dtsb-value').val('a.cox@datatables.net');
-			$('.dtsb-value').trigger('input');
+			$('.dtsb-value').trigger('change');
 
 			expect($('#example tbody tr:eq(0) td:eq(0)').text()).toBe('Ashton');
 		});

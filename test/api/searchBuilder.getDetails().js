@@ -35,7 +35,7 @@ describe('searchBuilder - API - searchBuilder.getDetails()', function() {
 			$('.dtsb-add').click();
 
 			$('.dtsb-data').val(2);
-			$('.dtsb-data').trigger('input');
+			$('.dtsb-data').trigger('change');
 
 			res = table.searchBuilder.getDetails();
 
@@ -45,10 +45,10 @@ describe('searchBuilder - API - searchBuilder.getDetails()', function() {
 		});
 		it('Full search', function() {
 			$('.dtsb-condition').val('=');
-			$('.dtsb-condition').trigger('input');
+			$('.dtsb-condition').trigger('change');
 
 			$('.dtsb-value').val('San Francisco');
-			$('.dtsb-value').trigger('input');
+			$('.dtsb-value').trigger('change');
 
 			res = table.searchBuilder.getDetails();
 
@@ -59,19 +59,19 @@ describe('searchBuilder - API - searchBuilder.getDetails()', function() {
 				})
 			);
 		});
-		it('Second condition', function() {
+		it('Second condition', async function() {
 			$('.dtsb-add').click();
 
 			$('.dtsb-data:eq(1)').val(3);
-			$('.dtsb-data:eq(1)').trigger('input');
+			$('.dtsb-data:eq(1)').trigger('change');
 
 			$('.dtsb-condition:eq(1)').val('>');
-			$('.dtsb-condition:eq(1)').trigger('input');
+			$('.dtsb-condition:eq(1)').trigger('change');
 
 			$('.dtsb-value:eq(1)').val('61');
 			$('.dtsb-value:eq(1)').trigger('input');
 
-
+			await dt.sleep(250); // Need to wait as there is a delay when inputting using SB
 			res = table.searchBuilder.getDetails();
 
 			expect(JSON.stringify(res)).toBe(

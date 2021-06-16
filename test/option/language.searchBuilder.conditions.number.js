@@ -16,10 +16,10 @@ describe('searchBuilder - options - language.searchBuilder.conditions.number', f
 			$('.dtsb-add').click();
 
 			$('.dtsb-data').val(3);
-			$('.dtsb-data').trigger('input');
+			$('.dtsb-data').trigger('change');
 
 			$('.dtsb-condition').val('>=');
-			$('.dtsb-condition').trigger('input');
+			$('.dtsb-condition').trigger('change');
 
 			expect($('.dtsb-condition option:selected').text()).toBe('Greater Than Equal To');
 		});
@@ -42,10 +42,10 @@ describe('searchBuilder - options - language.searchBuilder.conditions.number', f
 			$('.dtsb-add').click();
 
 			$('.dtsb-data').val(3);
-			$('.dtsb-data').trigger('input');
+			$('.dtsb-data').trigger('change');
 
 			$('.dtsb-condition').val('>=');
-			$('.dtsb-condition').trigger('input');
+			$('.dtsb-condition').trigger('change');
 
 			expect($('.dtsb-condition option:selected').text()).toBe('unit test');
 		});

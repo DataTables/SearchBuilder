@@ -21,10 +21,10 @@ describe('searchBuilder - integrations - Editor', function() {
 			$('.dtsb-group button').click();
 
 			$('.dtsb-data').val(1);
-			$('.dtsb-data').trigger('input');
+			$('.dtsb-data').trigger('change');
 
 			$('.dtsb-condition').val('=');
-			$('.dtsb-condition').trigger('input');
+			$('.dtsb-condition').trigger('change');
 
 			expect($('.dtsb-value option:eq(15)').text()).toBe('Junior Technical Author');
 		});

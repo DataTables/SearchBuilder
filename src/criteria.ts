@@ -258,7 +258,7 @@ export default class Criteria {
 			.addClass(Criteria.classes.italic)
 			.addClass(Criteria.classes.select)
 			.append(that.dom.valueTitle)
-			.on('input change', function() {
+			.on('change', function() {
 				$(this).removeClass(Criteria.classes.italic);
 				fn(that, this);
 			});
@@ -413,23 +413,25 @@ export default class Criteria {
 		let el = $('<input/>')
 			.addClass(Criteria.classes.value)
 			.addClass(Criteria.classes.input)
-			.on('input keypress', !that.c.enterSearch || searchDelay !== null ?
-				that.s.dt.settings()[0].oApi._fnThrottle(
+			.on('input keypress', that.c.enterSearch ?
+				(e) => {
+					that._throttle(
+						function() {
+							let code = e.keyCode || e.which;
+
+							if (code === 13) {
+								return fn(that, this);
+							}
+						},
+						searchDelay === null ? 100 : searchDelay
+					);
+				} :
+				that._throttle(
 					function() {
 						return fn(that, this);
 					},
-					searchDelay
-				) :
-				that.c.enterSearch ?
-					(e) => {
-						let code = e.keyCode || e.which;
-						if (code === 13) {
-							fn(that, this);
-						}
-					} :
-					() => {
-						fn(that, this);
-					}
+					searchDelay === null ? 100 : searchDelay
+				)
 			);
 
 		if (that.c.greyscale) {
@@ -463,23 +465,25 @@ export default class Criteria {
 			$('<input/>')
 				.addClass(Criteria.classes.value)
 				.addClass(Criteria.classes.input)
-				.on('input keypress', searchDelay !== null ?
-					that.s.dt.settings()[0].oApi._fnThrottle(
+				.on('input keypress', that.c.enterSearch ?
+					(e) => {
+						that._throttle(
+							function() {
+								let code = e.keyCode || e.which;
+
+								if (code === 13) {
+									return fn(that, this);
+								}
+							},
+							searchDelay === null ? 100 : searchDelay
+						);
+					} :
+					that._throttle(
 						function() {
 							return fn(that, this);
 						},
-						searchDelay
-					) :
-					that.c.enterSearch ?
-						(e) => {
-							let code = e.keyCode || e.which;
-							if (code === 13) {
-								fn(that, this);
-							}
-						} :
-						() => {
-							fn(that, this);
-						}
+						searchDelay === null ? 100 : searchDelay
+					)
 				),
 			$('<span>')
 				.addClass(that.classes.joiner)
@@ -489,23 +493,25 @@ export default class Criteria {
 			$('<input/>')
 				.addClass(Criteria.classes.value)
 				.addClass(Criteria.classes.input)
-				.on('input keypress', searchDelay !== null ?
-					that.s.dt.settings()[0].oApi._fnThrottle(
+				.on('input keypress', that.c.enterSearch ?
+					(e) => {
+						that._throttle(
+							function() {
+								let code = e.keyCode || e.which;
+
+								if (code === 13) {
+									return fn(that, this);
+								}
+							},
+							searchDelay === null ? 100 : searchDelay
+						);
+					} :
+					that._throttle(
 						function() {
 							return fn(that, this);
 						},
-						searchDelay
-					) :
-					that.c.enterSearch ?
-						(e) => {
-							let code = e.keyCode || e.which;
-							if (code === 13) {
-								fn(that, this);
-							}
-						} :
-						() => {
-							fn(that, this);
-						}
+						searchDelay === null ? 100 : searchDelay
+					)
 				)
 		];
 
@@ -545,34 +551,33 @@ export default class Criteria {
 				attachTo: 'input',
 				format: that.s.dateFormat ? that.s.dateFormat : undefined
 			})
-			.on('change', searchDelay !== null ?
-				that.s.dt.settings()[0].oApi._fnThrottle(
+			.on('change',
+				that._throttle(
 					function() {
 						return fn(that, this);
 					},
-					searchDelay
-				) :
-				() => {
-					fn(that, this);
-				}
+					searchDelay === null ? 100 : searchDelay
+				)
 			)
-			.on('input keypress', !that.c.enterSearch && searchDelay !== null ?
-				that.s.dt.settings()[0].oApi._fnThrottle(
+			.on('input keypress', that.c.enterSearch ?
+				(e) => {
+					that._throttle(
+						function() {
+							let code = e.keyCode || e.which;
+
+							if (code === 13) {
+								return fn(that, this);
+							}
+						},
+						searchDelay === null ? 100 : searchDelay
+					);
+				} :
+				that._throttle(
 					function() {
 						return fn(that, this);
 					},
-					searchDelay
-				) :
-				that.c.enterSearch ?
-					(e) => {
-						let code = e.keyCode || e.which;
-						if (code === 13) {
-							fn(that, this);
-						}
-					} :
-					() => {
-						fn(that, this);
-					}
+					searchDelay === null ? 100 : searchDelay
+				)
 			);
 
 		if (that.c.greyscale) {
@@ -2081,8 +2086,8 @@ export default class Criteria {
 	 */
 	public setListeners(): void {
 		$(this.dom.data)
-			.unbind('input change')
-			.on('input change', () => {
+			.unbind('change')
+			.on('change', () => {
 				$(this.dom.dataTitle).attr('selected', false);
 				$(this.dom.data).removeClass(this.classes.italic);
 				this.s.dataIdx = $(this.dom.data).children('option:selected').val();
@@ -2107,8 +2112,8 @@ export default class Criteria {
 			});
 
 		$(this.dom.condition)
-			.unbind('input change')
-			.on('input change', () => {
+			.unbind('change')
+			.on('change', () => {
 				$(this.dom.conditionTitle).attr('selected', false);
 				$(this.dom.condition).removeClass(this.classes.italic);
 				let condDisp = $(this.dom.condition).children('option:selected').val();
@@ -2136,7 +2141,9 @@ export default class Criteria {
 					}
 				}
 
-				this.s.dt.draw();
+				if(this.dom.value.length === 0 || (this.dom.value.length === 1 && this.dom.value[0] === undefined)) {
+					this.s.dt.draw();
+				}
 			});
 
 	}
@@ -2571,5 +2578,36 @@ export default class Criteria {
 			this.s.dt.draw();
 			this.setListeners();
 		}
+	}
+
+	/**
+	 * Provides throttling capabilities to SearchBuilder without having to use dt's _fnThrottle function
+	 * This is because that function is not quite suitable for our needs as it runs initially rather than waiting
+	 *
+	 * @param args arguments supplied to the throttle function
+	 * @returns Function that is to be run that implements the throttling
+	 */
+	private _throttle(...args) {
+		let last = null;
+		let timer = null;
+		let that = this;
+		let fn = args[0];
+		let frequency = args[1] !== null ? args[1] : 200;
+
+		return function() {
+			let now = +new Date();
+
+			if(last !== null && now < last + frequency){
+				clearTimeout(timer);
+			}
+			else {
+				last = now;
+			}
+
+			timer = setTimeout(function(){
+				last = null;
+				fn.apply(that, args);
+			}, frequency);
+		};
 	}
 }

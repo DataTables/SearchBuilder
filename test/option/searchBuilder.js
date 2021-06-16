@@ -24,13 +24,13 @@ describe('searchBuilder - general tests', function () {
 			$('.dtsb-group button').click();
 
 			$('.dtsb-data').val(2);
-			$('.dtsb-data').trigger('input');
+			$('.dtsb-data').trigger('change');
 
 			$('.dtsb-condition').val('=');
-			$('.dtsb-condition').trigger('input');
+			$('.dtsb-condition').trigger('change');
 
 			$('.dtsb-value').val('test San Francisco');
-			$('.dtsb-value').trigger('input');
+			$('.dtsb-value').trigger('change');
 
 			expect($('#example tbody tr td:eq(0)').text()).toBe('Ashton Cox');
 		});
@@ -53,15 +53,15 @@ describe('searchBuilder - general tests', function () {
 
 			// Data
 			$('.dtsb-data').val(2);
-			$('.dtsb-data').trigger('input');
+			$('.dtsb-data').trigger('change');
 
 			// condition
 			$('.dtsb-condition').val('=');
-			$('.dtsb-condition').trigger('input');
+			$('.dtsb-condition').trigger('change');
 
 			// value
 			$('.dtsb-value').val('test San Francisco');
-			$('.dtsb-value').trigger('input');
+			$('.dtsb-value').trigger('change');
 
 			// displays the 'display' option
 			expect($('.dtsb-value option:selected').text()).toBe('San Francisco');
@@ -69,7 +69,7 @@ describe('searchBuilder - general tests', function () {
 		});
 
 		dt.html('basic');
-		it('With columns.render - just filter - contains', function () {
+		it('With columns.render - just filter - contains', async function () {
 			table = $('#example').DataTable({
 				dom: 'Qlfrtip',
 				columnDefs: [
@@ -86,16 +86,17 @@ describe('searchBuilder - general tests', function () {
 
 			// Data
 			$('.dtsb-data').val(2);
-			$('.dtsb-data').trigger('input');
+			$('.dtsb-data').trigger('change');
 
 			// condition
 			$('.dtsb-condition').val('contains');
-			$('.dtsb-condition').trigger('input');
+			$('.dtsb-condition').trigger('change');
 
 			// value
 			$('input.dtsb-value').val('test San');
 			$('input.dtsb-value').trigger('input');
 
+			await dt.sleep(250); // Need to wait as there is a delay when inputting using SB
 			// displays the 'display' option
 			expect($('#example tbody tr td:eq(0)').text()).toBe('Ashton Cox');
 		});
@@ -151,21 +152,21 @@ describe('searchBuilder - general tests', function () {
 
 			// Data
 			$('.dtsb-data').val(2);
-			$('.dtsb-data').trigger('input');
+			$('.dtsb-data').trigger('change');
 
 			// condition
 			$('.dtsb-condition').val('=');
-			$('.dtsb-condition').trigger('input');
+			$('.dtsb-condition').trigger('change');
 
 			// value
 			$('.dtsb-value').val('San Francisco');
-			$('.dtsb-value').trigger('input');
+			$('.dtsb-value').trigger('change');
 
 			expect($('tbody tr td:eq(0)').text()).toBe('Ashton Cox');
 		});
 
 		dt.html('basic');
-		it('Add a single condition - ends with', function () {
+		it('Add a single condition - ends with', async function () {
 			table = $('#example').DataTable({
 				dom: 'Qlfrtip'
 			});
@@ -174,23 +175,26 @@ describe('searchBuilder - general tests', function () {
 
 			// Data
 			$('.dtsb-data').val(2);
-			$('.dtsb-data').trigger('input');
+			$('.dtsb-data').trigger('change');
 
 			// condition
 			$('.dtsb-condition').val('ends');
-			$('.dtsb-condition').trigger('input');
+			$('.dtsb-condition').trigger('change');
 
 			// value
 			$('input.dtsb-value').val('Londo');
 			$('input.dtsb-value').trigger('input');
 
+			await dt.sleep(250); // Need to wait as there is a delay when inputting using SB
+
 			expect($('tbody tr').text()).toBe('No matching records found');
 		});
-		it('... and give values that will match', function () {
+		it('... and give values that will match', async function () {
 			// value
 			$('input.dtsb-value').val('don');
 			$('input.dtsb-value').trigger('input');
 
+			await dt.sleep(250); // Need to wait as there is a delay when inputting using SB
 			expect($('tbody tr td:eq(0)').text()).toBe('Angelica Ramos');
 		});
 
@@ -241,18 +245,18 @@ describe('searchBuilder - general tests', function () {
 			$('.dtsb-group button').click();
 			// Data
 			$('.dtsb-data').val(3);
-			$('.dtsb-data').trigger('input');
+			$('.dtsb-data').trigger('change');
 			// condition
 			$('.dtsb-condition').val('=');
-			$('.dtsb-condition').trigger('input');
+			$('.dtsb-condition').trigger('change');
 			// value
 			$('.dtsb-value').val('-4');
-			$('.dtsb-value').trigger('input');
+			$('.dtsb-value').trigger('change');
 			expect($('tbody tr td:eq(0)').text()).toBe('c');
 			expect($('tbody tr').length).toBe(1);
 		});
 		dt.html('empty');
-		it('Add a single condition - between', function () {
+		it('Add a single condition - between', async function () {
 			table = $('#example').DataTable({
 				dom: 'Qlfrtip'
 			});
@@ -266,18 +270,19 @@ describe('searchBuilder - general tests', function () {
 			$('.dtsb-group button').click();
 			// Data
 			$('.dtsb-data').val(3);
-			$('.dtsb-data').trigger('input');
+			$('.dtsb-data').trigger('change');
 			// condition
 			$('.dtsb-condition').val('between');
-			$('.dtsb-condition').trigger('input');
+			$('.dtsb-condition').trigger('change');
 			// value
 			$('input.dtsb-value:eq(0)').val('-5');
 			$('input.dtsb-value:eq(1)').val('-2');
 			$('input.dtsb-value').trigger('input');
+			await dt.sleep(250); // Need to wait as there is a delay when inputting using SB
 			expect($('tbody tr td:eq(0)').text()).toBe('c');
 		});
 		dt.html('empty');
-		it('Add a single condition - between for %', function () {
+		it('Add a single condition - between for %', async function () {
 			table = $('#example').DataTable({
 				dom: 'Qlfrtip'
 			});
@@ -291,14 +296,15 @@ describe('searchBuilder - general tests', function () {
 			$('.dtsb-group button').click();
 			// Data
 			$('.dtsb-data').val(3);
-			$('.dtsb-data').trigger('input');
+			$('.dtsb-data').trigger('change');
 			// condition
 			$('.dtsb-condition').val('between');
-			$('.dtsb-condition').trigger('input');
+			$('.dtsb-condition').trigger('change');
 			// value
 			$('input.dtsb-value:eq(0)').val('-5');
 			$('input.dtsb-value:eq(1)').val('-2');
 			$('input.dtsb-value').trigger('input');
+			await dt.sleep(250); // Need to wait as there is a delay when inputting using SB
 			expect($('tbody tr td:eq(0)').text()).toBe('c');
 		});
 		dt.html('empty');
@@ -316,19 +322,20 @@ describe('searchBuilder - general tests', function () {
 			$('.dtsb-group button').click();
 			// Data
 			$('.dtsb-data').val(3);
-			$('.dtsb-data').trigger('input');
+			$('.dtsb-data').trigger('change');
 			// condition
 			$('.dtsb-condition').val('>');
-			$('.dtsb-condition').trigger('input');
+			$('.dtsb-condition').trigger('change');
 			// value
 			$('input.dtsb-value:eq(0)').val('-5');
 			$('input.dtsb-value').trigger('input');
 			expect($('tbody tr td:eq(0)').text()).toBe('a');
 		});
-		it('... less values', function () {
+		it('... less values', async function () {
 			// value
 			$('input.dtsb-value:eq(0)').val('2');
 			$('input.dtsb-value').trigger('input');
+			await dt.sleep(250); // Need to wait as there is a delay when inputting using SB
 			expect($('tbody tr td:eq(0)').text()).toBe('b');
 		});
 		dt.html('empty');
@@ -346,19 +353,20 @@ describe('searchBuilder - general tests', function () {
 			$('.dtsb-group button').click();
 			// Data
 			$('.dtsb-data').val(3);
-			$('.dtsb-data').trigger('input');
+			$('.dtsb-data').trigger('change');
 			// condition
 			$('.dtsb-condition').val('<');
-			$('.dtsb-condition').trigger('input');
+			$('.dtsb-condition').trigger('change');
 			// value
 			$('input.dtsb-value:eq(0)').val('2');
 			$('input.dtsb-value').trigger('input');
 			expect($('tbody tr td:eq(0)').text()).toBe('a');
 		});
-		it('... less values', function () {
+		it('... less values', async function () {
 			// value
 			$('input.dtsb-value:eq(0)').val('-3');
 			$('input.dtsb-value').trigger('input');
+			await dt.sleep(250); // Need to wait as there is a delay when inputting using SB
 			expect($('tbody tr td:eq(0)').text()).toBe('c');
 		});
 	});

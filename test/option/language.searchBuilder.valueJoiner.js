@@ -16,10 +16,10 @@ describe('searchBuilder - options - language.searchBuilder.valueJoiner', functio
 			$('.dtsb-add').click();
 
 			$('.dtsb-data').val(3);
-			$('.dtsb-data').trigger('input');
+			$('.dtsb-data').trigger('change');
 
 			$('.dtsb-condition').val('between');
-			$('.dtsb-condition').trigger('input');
+			$('.dtsb-condition').trigger('change');
 
 			expect($('.dtsp-joiner').text()).toBe('and');
 		});
@@ -38,10 +38,10 @@ describe('searchBuilder - options - language.searchBuilder.valueJoiner', functio
 			$('.dtsb-add').click();
 
 			$('.dtsb-data').val(3);
-			$('.dtsb-data').trigger('input');
+			$('.dtsb-data').trigger('change');
 
 			$('.dtsb-condition').val('between');
-			$('.dtsb-condition').trigger('input');
+			$('.dtsb-condition').trigger('change');
 
 			expect($('.dtsp-joiner').text()).toBe('unit test');
 		});

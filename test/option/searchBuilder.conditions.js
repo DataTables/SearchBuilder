@@ -16,7 +16,7 @@ describe('searchBuilder - options - searchBuilder.conditions', function() {
 			$('.dtsb-group button').click();
 
 			$('.dtsb-data').val(3);
-			$('.dtsb-data').trigger('input');
+			$('.dtsb-data').trigger('change');
 
 			expect($('.dtsb-condition option:eq(1)').text()).toBe('Equals');
 			expect($('.dtsb-condition ').text().includes('Equals')).toBe(true);
@@ -38,7 +38,7 @@ describe('searchBuilder - options - searchBuilder.conditions', function() {
 			$('.dtsb-group button').click();
 
 			$('.dtsb-data').val(3);
-			$('.dtsb-data').trigger('input');
+			$('.dtsb-data').trigger('change');
 
 			expect($('.dtsb-condition option:eq(5)').text()).toBe('Greater Than');
 			expect($('.dtsb-condition ').text().includes('Equals')).toBe(false);
