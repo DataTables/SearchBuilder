@@ -796,6 +796,10 @@ export default class Criteria {
 		that.s.filled = condition.isInputValid(that.dom.value, that);
 		that.s.value = condition.inputValue(that.dom.value, that);
 
+		if (!that.s.filled) {
+			return;
+		}
+
 		if (!Array.isArray(that.s.value)) {
 			that.s.value = [that.s.value];
 		}
