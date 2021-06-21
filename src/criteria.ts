@@ -357,14 +357,26 @@ export default class Criteria {
 			if (
 				that.s.type === 'array' ||
 				that.s.type === 'string' ||
-				that.s.type === 'num' ||
-				that.s.type === 'html' ||
-				that.s.type === 'html-num'
+				that.s.type === 'html'
 			) {
 				if ($(a).val() < $(b).val()) {
 					return -1;
 				}
 				else if ($(a).val() > $(b).val()) {
+					return 1;
+				}
+				else {
+					return 0;
+				}
+			}
+			else if (
+				that.s.type === 'num' ||
+				that.s.type === 'html-num'
+			) {
+				if (+$(a).val().replace(/(<([^>]+)>)/ig, '') < +$(b).val().replace(/(<([^>]+)>)/ig, '')) {
+					return -1;
+				}
+				else if (+$(a).val().replace(/(<([^>]+)>)/ig, '') > +$(b).val().replace(/(<([^>]+)>)/ig, '')) {
 					return 1;
 				}
 				else {
