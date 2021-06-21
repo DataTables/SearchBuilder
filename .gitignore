@@ -4,6 +4,7 @@ css/*.js
 .sass-cache
 examples/testing
 .vscode
+package-lock.json
 
 types/criteria.d.ts
 types/group.d.ts
