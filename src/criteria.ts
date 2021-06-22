@@ -425,26 +425,16 @@ export default class Criteria {
 		let el = $('<input/>')
 			.addClass(Criteria.classes.value)
 			.addClass(Criteria.classes.input)
-			.on('input keypress', that.c.enterSearch ?
-				(e) => {
-					that._throttle(
-						function() {
-							let code = e.keyCode || e.which;
+			.on('input keypress', that._throttle(
+				function(e) {
+					let code = e.keyCode || e.which;
 
-							if (code === 13) {
-								return fn(that, this);
-							}
-						},
-						searchDelay === null ? 100 : searchDelay
-					);
-				} :
-				that._throttle(
-					function() {
+					if (!that.c.enterSearch || code === 13) {
 						return fn(that, this);
-					},
-					searchDelay === null ? 100 : searchDelay
-				)
-			);
+					}
+				},
+				searchDelay === null ? 100 : searchDelay
+			));
 
 		if (that.c.greyscale) {
 			$(el).addClass(Criteria.classes.greyscale);
@@ -477,26 +467,16 @@ export default class Criteria {
 			$('<input/>')
 				.addClass(Criteria.classes.value)
 				.addClass(Criteria.classes.input)
-				.on('input keypress', that.c.enterSearch ?
-					(e) => {
-						that._throttle(
-							function() {
-								let code = e.keyCode || e.which;
+				.on('input keypress', that._throttle(
+					function(e) {
+						let code = e.keyCode || e.which;
 
-								if (code === 13) {
-									return fn(that, this);
-								}
-							},
-							searchDelay === null ? 100 : searchDelay
-						);
-					} :
-					that._throttle(
-						function() {
+						if (!that.c.enterSearch || code === 13) {
 							return fn(that, this);
-						},
-						searchDelay === null ? 100 : searchDelay
-					)
-				),
+						}
+					},
+					searchDelay === null ? 100 : searchDelay
+				)),
 			$('<span>')
 				.addClass(that.classes.joiner)
 				.text(
@@ -505,26 +485,16 @@ export default class Criteria {
 			$('<input/>')
 				.addClass(Criteria.classes.value)
 				.addClass(Criteria.classes.input)
-				.on('input keypress', that.c.enterSearch ?
-					(e) => {
-						that._throttle(
-							function() {
-								let code = e.keyCode || e.which;
+				.on('input keypress', that._throttle(
+					function(e) {
+						let code = e.keyCode || e.which;
 
-								if (code === 13) {
-									return fn(that, this);
-								}
-							},
-							searchDelay === null ? 100 : searchDelay
-						);
-					} :
-					that._throttle(
-						function() {
+						if (!that.c.enterSearch || code === 13) {
 							return fn(that, this);
-						},
-						searchDelay === null ? 100 : searchDelay
-					)
-				)
+						}
+					},
+					searchDelay === null ? 100 : searchDelay
+				))
 		];
 
 		if (that.c.greyscale) {
@@ -809,6 +779,7 @@ export default class Criteria {
 		that.s.value = condition.inputValue(that.dom.value, that);
 
 		if (!that.s.filled) {
+			that.s.dt.draw();
 			return;
 		}
 
@@ -2603,14 +2574,16 @@ export default class Criteria {
 	 * @param args arguments supplied to the throttle function
 	 * @returns Function that is to be run that implements the throttling
 	 */
-	private _throttle(...args) {
+	private _throttle(fn, frequency=200) {
 		let last = null;
 		let timer = null;
 		let that = this;
-		let fn = args[0];
-		let frequency = args[1] !== null ? args[1] : 200;
 
-		return function() {
+		if(frequency === null) {
+			frequency = 200;
+		}
+
+		return function(...args) {
 			let now = +new Date();
 
 			if(last !== null && now < last + frequency){
