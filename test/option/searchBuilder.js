@@ -198,35 +198,39 @@ describe('searchBuilder - general tests', function () {
 			expect($('tbody tr td:eq(0)').text()).toBe('Angelica Ramos');
 		});
 
-		// 	dt.html('basic');
-		// 	it('Add a single condition - starts with', function () {
-		// 		table = $('#example').DataTable({
-		// 			dom: 'Qlfrtip'
-		// 		});
+		dt.html('basic');
+		it('Add a single condition - starts with', async function () {
+			table = $('#example').DataTable({
+				dom: 'Qlfrtip'
+			});
 
-		// 		$('.dtsb-group button').click();
+			$('.dtsb-group button').click();
 
-		// 		// Data
-		// 		$('.dtsb-data').val(2);
-		// 		$('.dtsb-data').trigger('input');
+			// Data
+			$('.dtsb-data').val(2);
+			$('.dtsb-data').trigger('change');
 
-		// 		// condition
-		// 		$('.dtsb-condition').val('starts');
-		// 		$('.dtsb-condition').trigger('input');
+			// condition
+			$('.dtsb-condition').val('starts');
+			$('.dtsb-condition').trigger('change');
 
-		// 		// value
-		// 		$('input.dtsb-value').val('ondon');
-		// 		$('input.dtsb-value').trigger('input');
+			// value
+			$('input.dtsb-value').val('ondon');
+			$('input.dtsb-value').trigger('input');
 
-		// 		expect($('tbody tr').text()).toBe('No matching records found');
-		// 	});
-		// 	it('... and give values that will match', function () {
-		// 		// value
-		// 		$('input.dtsb-value').val('Londo');
-		// 		$('input.dtsb-value').trigger('input');
+			await dt.sleep(250); // Need to wait as there is a delay when inputting using SB
 
-		// 		expect($('tbody tr td:eq(0)').text()).toBe('Angelica Ramos');
-		// 	});
+			expect($('tbody tr').text()).toBe('No matching records found');
+		});
+		it('... and give values that will match', async function () {
+			// value
+			$('input.dtsb-value').val('Londo');
+			$('input.dtsb-value').trigger('input');
+
+			await dt.sleep(250); // Need to wait as there is a delay when inputting using SB
+
+			expect($('tbody tr td:eq(0)').text()).toBe('Angelica Ramos');
+		});
 	});
 
 	describe('General usage - simple tests for number', function () {
@@ -255,6 +259,7 @@ describe('searchBuilder - general tests', function () {
 			expect($('tbody tr td:eq(0)').text()).toBe('c');
 			expect($('tbody tr').length).toBe(1);
 		});
+
 		dt.html('empty');
 		it('Add a single condition - between', async function () {
 			table = $('#example').DataTable({
@@ -281,6 +286,7 @@ describe('searchBuilder - general tests', function () {
 			await dt.sleep(250); // Need to wait as there is a delay when inputting using SB
 			expect($('tbody tr td:eq(0)').text()).toBe('c');
 		});
+
 		dt.html('empty');
 		it('Add a single condition - between for %', async function () {
 			table = $('#example').DataTable({
@@ -307,6 +313,7 @@ describe('searchBuilder - general tests', function () {
 			await dt.sleep(250); // Need to wait as there is a delay when inputting using SB
 			expect($('tbody tr td:eq(0)').text()).toBe('c');
 		});
+
 		dt.html('empty');
 		it('Add a single condition - greater than', function () {
 			table = $('#example').DataTable({
@@ -338,6 +345,7 @@ describe('searchBuilder - general tests', function () {
 			await dt.sleep(250); // Need to wait as there is a delay when inputting using SB
 			expect($('tbody tr td:eq(0)').text()).toBe('b');
 		});
+
 		dt.html('empty');
 		it('Add a single condition - less than', function () {
 			table = $('#example').DataTable({
@@ -368,6 +376,29 @@ describe('searchBuilder - general tests', function () {
 			$('input.dtsb-value').trigger('input');
 			await dt.sleep(250); // Need to wait as there is a delay when inputting using SB
 			expect($('tbody tr td:eq(0)').text()).toBe('c');
+		});
+
+		dt.html('basic');
+		it('Ordering of numeric fields', function () {
+			table = $('#example').DataTable({
+				dom: 'Qlfrtip'
+			});
+
+			table.row.add(['a', 'b', 'c', 2, '2003/06/24', 1000]);
+			table.row.add(['a', 'b', 'c', 200, '2003/06/24', 1000]);
+
+			table.draw();
+
+			$('.dtsb-add').click();
+
+			$('.dtsb-data').val(3);
+			$('.dtsb-data').trigger('change');
+
+			$('.dtsb-condition').val('=');
+			$('.dtsb-condition').trigger('change');
+
+			expect($('select.dtsb-value option:eq(1)').text()).toBe('2');
+			expect($('select.dtsb-value option:eq(-1)').text()).toBe('200');
 		});
 	});
 });
