@@ -1952,6 +1952,7 @@ export default class Criteria {
 
 		// This check is in place for if a custom decimal character is in place
 		if (
+			this.s.type !== null &&
 			this.s.type.indexOf('num') !== -1 &&
 			(this.s.dt.settings()[0].oLanguage.sDecimal !== '' || this.s.dt.settings()[0].oLanguage.sThousands !== '')
 		) {
