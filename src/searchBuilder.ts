@@ -519,6 +519,7 @@ export default class SearchBuilder {
 			this._filterChanged(count);
 		});
 
+		$(this.s.topGroup.dom.container).unbind('dtsb-add');
 		$(this.s.topGroup.dom.container).on('dtsb-add', () => {
 			let count = this.s.topGroup.count();
 
