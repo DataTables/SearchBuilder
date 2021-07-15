@@ -1812,8 +1812,8 @@ export default class Criteria {
 	 */
 	public updateArrows(hasSiblings = false, redraw = true): void {
 		// Empty the container and append all of the elements in the correct order
+		this.dom.container.children().detach();
 		$(this.dom.container)
-			.empty()
 			.append(this.dom.data)
 			.append(this.dom.condition)
 			.append(this.dom.value[0]);

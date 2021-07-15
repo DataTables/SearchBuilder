@@ -292,8 +292,8 @@ export default class Group {
 	 */
 	public redrawContents(): void {
 		// Clear the container out and add the basic elements
+		$(this.dom.container).children().detach();
 		$(this.dom.container)
-			.empty()
 			.append(this.dom.logicContainer)
 			.append(this.dom.add);
 
