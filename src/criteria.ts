@@ -309,7 +309,7 @@ export default class Criteria {
 				// Add text and value, stripping out any html if that is the column type
 				let opt = $('<option>', {
 					type: Array.isArray(filt) ? 'Array' : 'String',
-					value: that.s.type.indexOf('html') !== -1 && filt !== null && typeof filt === 'string' ?
+					value: that.s.type.includes('html') && filt !== null && typeof filt === 'string' ?
 						filt.replace(/(<([^>]+)>)/ig, '') :
 						filt,
 				})
@@ -794,7 +794,7 @@ export default class Criteria {
 			}
 			// Otherwise replace the decimal place character for i18n
 			else if (
-				that.s.type.indexOf('num') !== -1 &&
+				that.s.type.includes('num') &&
 				(
 					that.s.dt.settings()[0].oLanguage.sDecimal !== '' ||
 					that.s.dt.settings()[0].oLanguage.sThousands !== ''
@@ -1607,7 +1607,7 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
-				return value.toLowerCase().indexOf(comparison[0].toLowerCase()) !== -1;
+				return value.toLowerCase().includes(comparison[0].toLowerCase());
 			},
 		},
 		'ends': {
@@ -1666,7 +1666,7 @@ export default class Criteria {
 			inputValue: Criteria.inputValueSelect,
 			isInputValid: Criteria.isInputValidSelect,
 			search(value: string, comparison: string[]) {
-				return value.indexOf(comparison[0]) !== -1;
+				return value.includes(comparison[0]);
 			}
 		},
 		'without': {
@@ -1880,7 +1880,7 @@ export default class Criteria {
 			let filter = rowData[this.s.dataIdx];
 			// This check is in place for if a custom decimal character is in place
 			if (
-				this.s.type.indexOf('num') !== -1 &&
+				this.s.type.includes('num') &&
 				(
 					this.s.dt.settings()[0].oLanguage.sDecimal !== '' ||
 					this.s.dt.settings()[0].oLanguage.sThousands !== ''
@@ -1930,7 +1930,7 @@ export default class Criteria {
 				filter = filter.replace(/[\r\n\u2028]/g, ' ');
 			}
 
-			if (this.s.type.indexOf('html') !== -1) {
+			if (this.s.type.includes('html')) {
 				filter = filter.replace(/(<([^>]+)>)/ig, '');
 			}
 
@@ -1953,7 +1953,7 @@ export default class Criteria {
 		// This check is in place for if a custom decimal character is in place
 		if (
 			this.s.type !== null &&
-			this.s.type.indexOf('num') !== -1 &&
+			this.s.type.includes('num') &&
 			(this.s.dt.settings()[0].oLanguage.sDecimal !== '' || this.s.dt.settings()[0].oLanguage.sThousands !== '')
 		) {
 			for (let i = 0; i < this.s.value.length; i++) {
@@ -2331,10 +2331,10 @@ export default class Criteria {
 
 			// This check is in place for if a custom decimal character is in place
 			if (decimal !== '' && this.s.type.indexOf(decimal) === this.s.type.length - decimal.length) {
-				if (this.s.type.indexOf('num-fmt') !== -1) {
+				if (this.s.type.includes('num-fmt')) {
 					this.s.type = this.s.type.replace(decimal, '');
 				}
-				else if (this.s.type.indexOf('num') !== -1) {
+				else if (this.s.type.includes('num')) {
 					this.s.type = this.s.type.replace(decimal, '');
 				}
 			}
@@ -2342,17 +2342,17 @@ export default class Criteria {
 			// Select which conditions are going to be used based on the column type
 			let conditionObj = this.c.conditions[this.s.type] !== undefined ?
 				this.c.conditions[this.s.type] :
-				this.s.type.indexOf('moment') !== -1 ?
+				this.s.type.includes('moment') ?
 					this.c.conditions.moment :
-					this.s.type.indexOf('luxon') !== -1 ?
+					this.s.type.includes('luxon') ?
 						this.c.conditions.luxon :
 						this.c.conditions.string;
 
 			// If it is a moment format then extract the date format
-			if (this.s.type.indexOf('moment') !== -1) {
+			if (this.s.type.includes('moment')) {
 				this.s.dateFormat = this.s.type.replace(/moment-/g, '');
 			}
-			else if (this.s.type.indexOf('luxon') !== -1) {
+			else if (this.s.type.includes('luxon')) {
 				this.s.dateFormat = this.s.type.replace(/luxon-/g, '');
 			}
 
@@ -2430,7 +2430,7 @@ export default class Criteria {
 				// Need to check that the column can be filtered on before adding it
 				if (
 					this.c.columns === true ||
-					(this.s.dt.columns(this.c.columns).indexes().toArray().indexOf(index) !== -1)
+					(this.s.dt.columns(this.c.columns).indexes().toArray().includes(index))
 				) {
 					let found = false;
 

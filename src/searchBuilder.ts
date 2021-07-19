@@ -345,14 +345,14 @@ export default class SearchBuilder {
 						this.c.columns === true ||
 						(
 							Array.isArray(this.c.columns) &&
-							this.c.columns.indexOf(i) !== -1
+							this.c.columns.includes(i)
 						)
 					) &&
 					// Check if the type is one of the restricted types
 					(
-						type.indexOf('date') !== -1 ||
-						type.indexOf('moment') !== -1 ||
-						type.indexOf('luxon') !== -1
+						type.includes('date') ||
+						type.includes('moment') ||
+						type.includes('luxon')
 					)
 				) {
 					alert('SearchBuilder Requires DateTime when used with dates.');
@@ -420,7 +420,7 @@ export default class SearchBuilder {
 		this._setRedrawListener();
 		let tableNode: Node = this.s.dt.table(0).node();
 
-		if ($.fn.dataTable.ext.search.indexOf(this.s.search) === -1) {
+		if (!$.fn.dataTable.ext.search.includes(this.s.search)) {
 			// Custom search function for SearchBuilder
 			this.s.search = (settings, searchData, dataIndex, origData) => {
 				if (settings.nTable !== tableNode) {
