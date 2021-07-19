@@ -309,7 +309,7 @@ export default class Criteria {
 				// Add text and value, stripping out any html if that is the column type
 				let opt = $('<option>', {
 					type: Array.isArray(filt) ? 'Array' : 'String',
-					value: that.s.type.indexOf('html') !== -1  && filt !== null && typeof filt === 'string' ?
+					value: that.s.type.indexOf('html') !== -1 && filt !== null && typeof filt === 'string' ?
 						filt.replace(/(<([^>]+)>)/ig, '') :
 						filt,
 				})
@@ -1876,7 +1876,7 @@ export default class Criteria {
 	public search(rowData: any[], rowIdx: number): boolean {
 		let condition = this.s.conditions[this.s.condition];
 
-		if (this.s.condition !== undefined &&  condition !== undefined) {
+		if (this.s.condition !== undefined && condition !== undefined) {
 			let filter = rowData[this.s.dataIdx];
 			// This check is in place for if a custom decimal character is in place
 			if (
@@ -2089,7 +2089,7 @@ export default class Criteria {
 				this._populateCondition();
 
 				// If this criteria was previously active in the search then
-				//  remove it from the search and trigger a new search
+				// remove it from the search and trigger a new search
 				if (this.s.filled) {
 					this.s.filled = false;
 					this.s.dt.draw();
@@ -2115,13 +2115,13 @@ export default class Criteria {
 				}
 
 				// When the condition is changed, the value selector may switch between
-				//  a select element and an input element
+				// a select element and an input element
 				this._clearValue();
 				this._populateValue();
 
 				for (let val of this.dom.value) {
 					// If this criteria was previously active in the search then remove
-					//  it from the search and trigger a new search
+					// it from the search and trigger a new search
 					if (this.s.filled && $(this.dom.container).has(val).length !== 0) {
 						this.s.filled = false;
 						this.s.dt.draw();
@@ -2151,7 +2151,7 @@ export default class Criteria {
 
 		// Calculate the width and right value of the outmost value element
 		if ($(this.dom.container).has(outmostval).length !== 0) {
-			valWidth =  $(outmostval).outerWidth(true);
+			valWidth = $(outmostval).outerWidth(true);
 			valRight = $(outmostval).offset().left + valWidth;
 		}
 		else {
@@ -2361,7 +2361,7 @@ export default class Criteria {
 				let condition of Object.keys(conditionObj)
 			) {
 				if (conditionObj[condition] !== null) {
-					this.s.conditions[condition] =  conditionObj[condition];
+					this.s.conditions[condition] = conditionObj[condition];
 
 					let condName = conditionObj[condition].conditionName;
 					if (typeof condName === 'function') {

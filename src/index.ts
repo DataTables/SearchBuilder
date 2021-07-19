@@ -160,7 +160,7 @@ import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
 			? options
 			: api.init().searchBuilder || dataTable.defaults.searchBuilder;
 
-		let searchBuilder =  new SearchBuilder(api, opts);
+		let searchBuilder = new SearchBuilder(api, opts);
 		let node = searchBuilder.getNode();
 
 		return node;
