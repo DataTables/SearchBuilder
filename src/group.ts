@@ -255,7 +255,7 @@ export default class Group {
 		if (
 			loadedDetails.criteria === undefined ||
 			loadedDetails.criteria === null ||
-			(Array.isArray(loadedDetails.criteria) && loadedDetails.criteria.length === 0)
+			Array.isArray(loadedDetails.criteria) && loadedDetails.criteria.length === 0
 		) {
 			return;
 		}
@@ -524,8 +524,8 @@ export default class Group {
 	public checkFilled() {
 		for (let crit of this.s.criteria) {
 			if (
-				(crit.criteria instanceof Criteria && crit.criteria.s.filled) ||
-				(crit.criteria instanceof Group && crit.criteria.checkFilled())
+				crit.criteria instanceof Criteria && crit.criteria.s.filled ||
+				crit.criteria instanceof Group && crit.criteria.checkFilled()
 			) {
 				return true;
 			}

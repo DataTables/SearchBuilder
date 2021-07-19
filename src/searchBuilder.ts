@@ -325,7 +325,8 @@ export default class SearchBuilder {
 		});
 
 		// Check that DateTime is included, If not need to check if it could be used
-		if (! (dataTable as any).DateTime) {
+		// eslint-disable-next-line no-extra-parens
+		if (!(dataTable as any).DateTime) {
 			let types = this.s.dt.columns().type().toArray();
 			let columnIdxs = this.s.dt.columns().toArray();
 
@@ -343,10 +344,8 @@ export default class SearchBuilder {
 					// Check if this column can be filtered
 					(
 						this.c.columns === true ||
-						(
-							Array.isArray(this.c.columns) &&
-							this.c.columns.includes(i)
-						)
+						Array.isArray(this.c.columns) &&
+						this.c.columns.includes(i)
 					) &&
 					// Check if the type is one of the restricted types
 					(

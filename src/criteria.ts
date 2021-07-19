@@ -85,7 +85,9 @@ export interface IDetails {
 
 let $: any;
 let dataTable: any;
+// eslint-disable-next-line no-extra-parens
 const moment = (window as any).moment;
+// eslint-disable-next-line no-extra-parens
 const luxon = (window as any).luxon;
 
 /**
@@ -699,11 +701,9 @@ export default class Criteria {
 		// Check each element to make sure that the selections are valid
 		for (let element of el) {
 			if (
-				(
-					element.children('option:selected').length ===
-						element.children('option').length -
-						element.children('option.' + Criteria.classes.notItalic).length
-				) &&
+				element.children('option:selected').length ===
+					element.children('option').length -
+					element.children('option.' + Criteria.classes.notItalic).length &&
 				element.children('option:selected').length === 1 &&
 				element.children('option:selected')[0] === element.children('option:hidden')[0]
 			) {
@@ -948,7 +948,7 @@ export default class Criteria {
 				return true;
 			},
 			search(value: string): boolean {
-				return (value === null || value === undefined || value.length === 0);
+				return value === null || value === undefined || value.length === 0;
 			},
 		},
 		// eslint-disable-next-line sort-keys
@@ -1072,7 +1072,7 @@ export default class Criteria {
 				return true;
 			},
 			search(value: string): boolean {
-				return (value === null || value === undefined || value.length === 0);
+				return value === null || value === undefined || value.length === 0;
 			},
 		},
 		// eslint-disable-next-line sort-keys
@@ -1198,7 +1198,7 @@ export default class Criteria {
 				return true;
 			},
 			search(value: string): boolean {
-				return (value === null || value === undefined || value.length === 0);
+				return value === null || value === undefined || value.length === 0;
 			},
 		},
 		// eslint-disable-next-line sort-keys
@@ -1337,7 +1337,7 @@ export default class Criteria {
 				return true;
 			},
 			search(value: string): boolean {
-				return (value === null || value === undefined || value.length === 0);
+				return value === null || value === undefined || value.length === 0;
 			},
 		},
 		// eslint-disable-next-line sort-keys
@@ -1538,7 +1538,7 @@ export default class Criteria {
 				return true;
 			},
 			search(value: string): boolean {
-				return (value === null || value === undefined || value.length === 0);
+				return value === null || value === undefined || value.length === 0;
 			},
 		},
 		// eslint-disable-next-line sort-keys
@@ -1633,7 +1633,7 @@ export default class Criteria {
 				return true;
 			},
 			search(value: string): boolean {
-				return (value === null || value === undefined || value.length === 0);
+				return value === null || value === undefined || value.length === 0;
 			},
 		},
 		// eslint-disable-next-line sort-keys
@@ -1736,7 +1736,7 @@ export default class Criteria {
 				return true;
 			},
 			search(value: string) {
-				return (value === null || value === undefined || value.length === 0);
+				return value === null || value === undefined || value.length === 0;
 			}
 		},
 		// eslint-disable-next-line sort-keys
@@ -1752,7 +1752,7 @@ export default class Criteria {
 				return true;
 			},
 			search(value: string) {
-				return (value !== null && value !== undefined && value.length !== 0);
+				return value !== null && value !== undefined && value.length !== 0;
 			}
 		},
 	};
@@ -2046,11 +2046,9 @@ export default class Criteria {
 			// Check to see if the previously selected condition exists, if so select it
 			this.dom.condition.children('option').each(function() {
 				if (
-					(
-						loadedCriteria.condition !== undefined &&
-						$(this).val() === loadedCriteria.condition &&
-						typeof loadedCriteria.condition === 'string'
-					)
+					loadedCriteria.condition !== undefined &&
+					$(this).val() === loadedCriteria.condition &&
+					typeof loadedCriteria.condition === 'string'
 				) {
 					$(this).attr('selected', true);
 					condition = $(this).val();
@@ -2131,7 +2129,7 @@ export default class Criteria {
 					}
 				}
 
-				if(this.dom.value.length === 0 || (this.dom.value.length === 1 && this.dom.value[0] === undefined)) {
+				if(this.dom.value.length === 0 || this.dom.value.length === 1 && this.dom.value[0] === undefined) {
 					this.s.dt.draw();
 				}
 			});
@@ -2175,8 +2173,8 @@ export default class Criteria {
 		if (
 			(
 				buttonsLeft - valRight < 15 ||
-				(hasLeft && leftOffset.top !== clearOffset.top) ||
-				(hasRight && rightOffset.top !== clearOffset.top)
+				hasLeft && leftOffset.top !== clearOffset.top ||
+				hasRight && rightOffset.top !== clearOffset.top
 			) &&
 			!this.dom.container.parent().hasClass(this.classes.vertical)
 		) {
@@ -2432,7 +2430,7 @@ export default class Criteria {
 				// Need to check that the column can be filtered on before adding it
 				if (
 					this.c.columns === true ||
-					(this.s.dt.columns(this.c.columns).indexes().toArray().includes(index))
+					this.s.dt.columns(this.c.columns).indexes().toArray().includes(index)
 				) {
 					let found = false;
 
@@ -2593,14 +2591,14 @@ export default class Criteria {
 		return function(...args) {
 			let now = +new Date();
 
-			if(last !== null && now < last + frequency){
+			if (last !== null && now < last + frequency) {
 				clearTimeout(timer);
 			}
 			else {
 				last = now;
 			}
 
-			timer = setTimeout(function(){
+			timer = setTimeout(function() {
 				last = null;
 				fn.apply(that, args);
 			}, frequency);

@@ -59,6 +59,7 @@ import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
 	}
 	else {
 		// Browser - assume jQuery has already been loaded
+		// eslint-disable-next-line no-extra-parens
 		factory((window as any).jQuery, window, document);
 	}
 }(function($, window, document) {
@@ -69,13 +70,20 @@ import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
 
 	let dataTable = $.fn.dataTable;
 
+	// eslint-disable-next-line no-extra-parens
 	($.fn as any).dataTable.SearchBuilder = SearchBuilder;
+	// eslint-disable-next-line no-extra-parens
 	($.fn as any).DataTable.SearchBuilder = SearchBuilder;
+	// eslint-disable-next-line no-extra-parens
 	($.fn as any).dataTable.Group = Group;
+	// eslint-disable-next-line no-extra-parens
 	($.fn as any).DataTable.Group = Group;
+	// eslint-disable-next-line no-extra-parens
 	($.fn as any).dataTable.Criteria = Criteria;
+	// eslint-disable-next-line no-extra-parens
 	($.fn as any).DataTable.Criteria = Criteria;
 
+	// eslint-disable-next-line no-extra-parens
 	let apiRegister = ($.fn.dataTable.Api as any).register;
 
 	// Set up object for plugins
