@@ -216,12 +216,12 @@ export default class Criteria {
 
 		// If the greyscale option is selected then add the class to add the grey colour to SearchBuilder
 		if (this.c.greyscale) {
-			$(this.dom.data).addClass(this.classes.greyscale);
-			$(this.dom.condition).addClass(this.classes.greyscale);
-			$(this.dom.defaultValue).addClass(this.classes.greyscale);
+			this.dom.data.addClass(this.classes.greyscale);
+			this.dom.condition.addClass(this.classes.greyscale);
+			this.dom.defaultValue.addClass(this.classes.greyscale);
 
 			for (let val of this.dom.value) {
-				$(val).addClass(this.classes.greyscale);
+				val.addClass(this.classes.greyscale);
 			}
 		}
 
@@ -247,7 +247,7 @@ export default class Criteria {
 	 * Default initialisation function for select conditions
 	 */
 	private static initSelect = function(that, fn, preDefined = null, array = false) {
-		let column = $(that.dom.data).children('option:selected').val();
+		let column = that.dom.data.children('option:selected').val();
 		let indexArray = that.s.dt.rows().indexes().toArray();
 		let settings = that.s.dt.settings()[0];
 
@@ -264,7 +264,7 @@ export default class Criteria {
 			});
 
 		if (that.c.greyscale) {
-			$(el).addClass(Criteria.classes.greyscale);
+			el.addClass(Criteria.classes.greyscale);
 		}
 
 		let added = [];
@@ -322,7 +322,7 @@ export default class Criteria {
 							text
 					);
 
-				let val = $(opt).val();
+				let val = opt.val();
 
 				// Check that this value has not already been added
 				if (added.indexOf(val) === -1) {
@@ -336,7 +336,7 @@ export default class Criteria {
 					// If this value was previously selected as indicated by preDefined, then select it again
 					if (preDefined !== null && opt.val() === preDefined[0]) {
 						opt.attr('selected', true);
-						$(el).removeClass(Criteria.classes.italic);
+						el.removeClass(Criteria.classes.italic);
 					}
 				}
 			};
@@ -359,10 +359,10 @@ export default class Criteria {
 				that.s.type === 'string' ||
 				that.s.type === 'html'
 			) {
-				if ($(a).val() < $(b).val()) {
+				if (a.val() < b.val()) {
 					return -1;
 				}
-				else if ($(a).val() > $(b).val()) {
+				else if (a.val() > b.val()) {
 					return 1;
 				}
 				else {
@@ -373,10 +373,10 @@ export default class Criteria {
 				that.s.type === 'num' ||
 				that.s.type === 'html-num'
 			) {
-				if (+$(a).val().replace(/(<([^>]+)>)/ig, '') < +$(b).val().replace(/(<([^>]+)>)/ig, '')) {
+				if (+a.val().replace(/(<([^>]+)>)/ig, '') < +b.val().replace(/(<([^>]+)>)/ig, '')) {
 					return -1;
 				}
-				else if (+$(a).val().replace(/(<([^>]+)>)/ig, '') > +$(b).val().replace(/(<([^>]+)>)/ig, '')) {
+				else if (+a.val().replace(/(<([^>]+)>)/ig, '') > +b.val().replace(/(<([^>]+)>)/ig, '')) {
 					return 1;
 				}
 				else {
@@ -384,10 +384,10 @@ export default class Criteria {
 				}
 			}
 			else if (that.s.type === 'num-fmt' || that.s.type === 'html-num-fmt') {
-				if (+$(a).val().replace(/[^0-9.]/g, '') < +$(b).val().replace(/[^0-9.]/g, '')) {
+				if (+a.val().replace(/[^0-9.]/g, '') < +b.val().replace(/[^0-9.]/g, '')) {
 					return -1;
 				}
-				else if (+$(a).val().replace(/[^0-9.]/g, '') > +$(b).val().replace(/[^0-9.]/g, '')) {
+				else if (+a.val().replace(/[^0-9.]/g, '') > +b.val().replace(/[^0-9.]/g, '')) {
 					return 1;
 				}
 				else {
@@ -397,7 +397,7 @@ export default class Criteria {
 		});
 
 		for (let opt of options) {
-			$(el).append(opt);
+			el.append(opt);
 		}
 
 		return el;
@@ -437,17 +437,17 @@ export default class Criteria {
 			));
 
 		if (that.c.greyscale) {
-			$(el).addClass(Criteria.classes.greyscale);
+			el.addClass(Criteria.classes.greyscale);
 		}
 
 		// If there is a preDefined value then add it
 		if (preDefined !== null) {
-			$(el).val(preDefined[0]);
+			el.val(preDefined[0]);
 		}
 
 		// This is add responsive functionality to the logic button without redrawing everything else
 		that.s.dt.one('draw', () => {
-			$(that.s.topGroup).trigger('dtsb-redrawLogic');
+			that.s.topGroup.trigger('dtsb-redrawLogic');
 		});
 
 		return el;
@@ -498,19 +498,19 @@ export default class Criteria {
 		];
 
 		if (that.c.greyscale) {
-			$(els[0]).addClass(Criteria.classes.greyscale);
-			$(els[2]).addClass(Criteria.classes.greyscale);
+			els[0].addClass(Criteria.classes.greyscale);
+			els[2].addClass(Criteria.classes.greyscale);
 		}
 
 		// If there is a preDefined value then add it
 		if (preDefined !== null) {
-			$(els[0]).val(preDefined[0]);
-			$(els[2]).val(preDefined[1]);
+			els[0].val(preDefined[0]);
+			els[2].val(preDefined[1]);
 		}
 
 		// This is add responsive functionality to the logic button without redrawing everything else
 		that.s.dt.one('draw', () => {
-			$(that.s.topGroup).trigger('dtsb-redrawLogic');
+			that.s.topGroup.trigger('dtsb-redrawLogic');
 		});
 
 		return els;
@@ -563,17 +563,17 @@ export default class Criteria {
 			);
 
 		if (that.c.greyscale) {
-			$(el).addClass(Criteria.classes.greyscale);
+			el.addClass(Criteria.classes.greyscale);
 		}
 
 		// If there is a preDefined value then add it
 		if (preDefined !== null) {
-			$(el).val(preDefined[0]);
+			el.val(preDefined[0]);
 		}
 
 		// This is add responsive functionality to the logic button without redrawing everything else
 		that.s.dt.one('draw', () => {
-			$(that.s.topGroup).trigger('dtsb-redrawLogic');
+			that.s.topGroup.trigger('dtsb-redrawLogic');
 		});
 
 		return el;
@@ -582,7 +582,7 @@ export default class Criteria {
 	private static initNoValue = function(that: Criteria) {
 		// This is add responsive functionality to the logic button without redrawing everything else
 		that.s.dt.one('draw', () => {
-			$(that.s.topGroup).trigger('dtsb-redrawLogic');
+			that.s.topGroup.trigger('dtsb-redrawLogic');
 		});
 	};
 
@@ -672,19 +672,19 @@ export default class Criteria {
 		];
 
 		if (that.c.greyscale) {
-			$(els[0]).addClass(Criteria.classes.greyscale);
-			$(els[2]).addClass(Criteria.classes.greyscale);
+			els[0].addClass(Criteria.classes.greyscale);
+			els[2].addClass(Criteria.classes.greyscale);
 		}
 
 		// If there are and preDefined values then add them
 		if (preDefined !== null && preDefined.length > 0) {
-			$(els[0]).val(preDefined[0]);
-			$(els[2]).val(preDefined[1]);
+			els[0].val(preDefined[0]);
+			els[2].val(preDefined[1]);
 		}
 
 		// This is add responsive functionality to the logic button without redrawing everything else
 		that.s.dt.one('draw', () => {
-			$(that.s.topGroup).trigger('dtsb-redrawLogic');
+			that.s.topGroup.trigger('dtsb-redrawLogic');
 		});
 
 		return els;
@@ -700,12 +700,12 @@ export default class Criteria {
 		for (let element of el) {
 			if (
 				(
-					$(element).children('option:selected').length ===
-						$(element).children('option').length -
-						$(element).children('option.' + Criteria.classes.notItalic).length
+					element.children('option:selected').length ===
+						element.children('option').length -
+						element.children('option.' + Criteria.classes.notItalic).length
 				) &&
-				$(element).children('option:selected').length === 1 &&
-				$(element).children('option:selected')[0] === $(element).children('option:hidden')[0]
+				element.children('option:selected').length === 1 &&
+				element.children('option:selected')[0] === element.children('option:hidden')[0]
 			) {
 				allFilled = false;
 			}
@@ -722,7 +722,7 @@ export default class Criteria {
 
 		// Check each element to make sure that the inputs are valid
 		for (let element of el) {
-			if ($(element).is('input') && $(element).val().length === 0) {
+			if (element.is('input') && element.val().length === 0) {
 				allFilled = false;
 			}
 		}
@@ -738,11 +738,11 @@ export default class Criteria {
 
 		// Go through the select elements and push each selected option to the return array
 		for (let element of el) {
-			if ($(element).is('select')) {
-				let val = $(element).children('option:selected').val();
+			if (element.is('select')) {
+				let val = element.children('option:selected').val();
 				// If the type of the option is an array we need to split it up and sort it
 				values.push(
-					$(element).children('option:selected').attr('type') === 'Array' ?
+					element.children('option:selected').attr('type') === 'Array' ?
 						val.split(',').sort() :
 						val
 				);
@@ -760,8 +760,8 @@ export default class Criteria {
 
 		// Go through the input elements and push each value to the return array
 		for (let element of el) {
-			if ($(element).is('input')) {
-				values.push($(element).val());
+			if (element.is('input')) {
+				values.push(element.val());
 			}
 		}
 
@@ -834,11 +834,11 @@ export default class Criteria {
 
 		// Refocus the element and set the correct cursor position
 		if (idx !== null) {
-			$(that.dom.value[idx]).removeClass(that.classes.italic);
-			$(that.dom.value[idx]).focus();
+			that.dom.value[idx].removeClass(that.classes.italic);
+			that.dom.value[idx].focus();
 
 			if (cursorPos !== null) {
-				$(that.dom.value[idx])[0].setSelectionRange(cursorPos, cursorPos);
+				that.dom.value[idx][0].setSelectionRange(cursorPos, cursorPos);
 			}
 		}
 	};
@@ -1813,7 +1813,7 @@ export default class Criteria {
 	public updateArrows(hasSiblings = false, redraw = true): void {
 		// Empty the container and append all of the elements in the correct order
 		this.dom.container.children().detach();
-		$(this.dom.container)
+		this.dom.container
 			.append(this.dom.data)
 			.append(this.dom.condition)
 			.append(this.dom.value[0]);
@@ -1821,28 +1821,30 @@ export default class Criteria {
 		this.setListeners();
 
 		// Trigger the inserted events for the value elements as they are inserted
-		$(this.dom.value[0]).trigger('dtsb-inserted');
+		if (this.dom.value[0] !== undefined) {
+			this.dom.value[0].trigger('dtsb-inserted');
+		}
 
 		for (let i = 1; i < this.dom.value.length; i++) {
-			$(this.dom.container).append(this.dom.value[i]);
-			$(this.dom.value[i]).trigger('dtsb-inserted');
+			this.dom.container.append(this.dom.value[i]);
+			this.dom.value[i].trigger('dtsb-inserted');
 		}
 
 		// If this is a top level criteria then don't let it move left
 		if (this.s.depth > 1) {
-			$(this.dom.buttons).append(this.dom.left);
+			this.dom.buttons.append(this.dom.left);
 		}
 
 		// If the depthLimit of the query has been hit then don't add the right button
 		if ((this.c.depthLimit === false || this.s.depth < this.c.depthLimit) && hasSiblings) {
-			$(this.dom.buttons).append(this.dom.right);
+			this.dom.buttons.append(this.dom.right);
 		}
 		else {
-			$(this.dom.right).remove();
+			this.dom.right.remove();
 		}
 
-		$(this.dom.buttons).append(this.dom.delete);
-		$(this.dom.container).append(this.dom.buttons);
+		this.dom.buttons.append(this.dom.delete);
+		this.dom.container.append(this.dom.buttons);
 
 		if (redraw) {
 			// A different combination of arrows and selectors may lead to a need for responsive to be triggered
@@ -1855,16 +1857,16 @@ export default class Criteria {
 	 */
 	public destroy(): void {
 		// Turn off listeners
-		$(this.dom.data).off('.dtsb');
-		$(this.dom.condition).off('.dtsb');
-		$(this.dom.delete).off('.dtsb');
+		this.dom.data.off('.dtsb');
+		this.dom.condition.off('.dtsb');
+		this.dom.delete.off('.dtsb');
 
 		for (let val of this.dom.value) {
-			$(val).off('.dtsb');
+			val.off('.dtsb');
 		}
 
 		// Remove container from the dom
-		$(this.dom.container).remove();
+		this.dom.container.remove();
 	}
 
 	/**
@@ -2021,10 +2023,10 @@ export default class Criteria {
 			let italic = this.classes.italic;
 			let data = this.dom.data;
 
-			$(this.dom.data).children('option').each(function() {
+			this.dom.data.children('option').each(function() {
 				if ($(this).text() === loadedCriteria.data) {
 					$(this).attr('selected', true);
-					$(data).removeClass(italic);
+					data.removeClass(italic);
 					foundData = true;
 					dataIdx = $(this).val();
 				}
@@ -2036,13 +2038,13 @@ export default class Criteria {
 			this.s.data = loadedCriteria.data;
 			this.s.dataIdx = dataIdx;
 			this.c.orthogonal = this._getOptions().orthogonal;
-			$(this.dom.dataTitle).remove();
+			this.dom.dataTitle.remove();
 			this._populateCondition();
-			$(this.dom.conditionTitle).remove();
+			this.dom.conditionTitle.remove();
 			let condition: string;
 
 			// Check to see if the previously selected condition exists, if so select it
-			$(this.dom.condition).children('option').each(function() {
+			this.dom.condition.children('option').each(function() {
 				if (
 					(
 						loadedCriteria.condition !== undefined &&
@@ -2059,12 +2061,12 @@ export default class Criteria {
 
 			// If the condition has been found and selected then the value can be populated and searched
 			if (this.s.condition !== undefined) {
-				$(this.dom.conditionTitle).remove();
-				$(this.dom.condition).removeClass(this.classes.italic);
+				this.dom.conditionTitle.remove();
+				this.dom.condition.removeClass(this.classes.italic);
 				this._populateValue(loadedCriteria);
 			}
 			else {
-				$(this.dom.conditionTitle).prependTo(this.dom.condition).attr('selected', true);
+				this.dom.conditionTitle.prependTo(this.dom.condition).attr('selected', 'true');
 			}
 		}
 	}
@@ -2073,13 +2075,13 @@ export default class Criteria {
 	 * Sets the listeners for the criteria
 	 */
 	public setListeners(): void {
-		$(this.dom.data)
+		this.dom.data
 			.unbind('change')
 			.on('change', () => {
-				$(this.dom.dataTitle).attr('selected', false);
-				$(this.dom.data).removeClass(this.classes.italic);
-				this.s.dataIdx = $(this.dom.data).children('option:selected').val();
-				this.s.data = $(this.dom.data).children('option:selected').text();
+				this.dom.dataTitle.attr('selected', 'false');
+				this.dom.data.removeClass(this.classes.italic);
+				this.s.dataIdx = +this.dom.data.children('option:selected').val();
+				this.s.data = this.dom.data.children('option:selected').text();
 
 				this.c.orthogonal = this._getOptions().orthogonal;
 
@@ -2099,12 +2101,12 @@ export default class Criteria {
 				this.s.dt.state.save();
 			});
 
-		$(this.dom.condition)
+		this.dom.condition
 			.unbind('change')
 			.on('change', () => {
-				$(this.dom.conditionTitle).attr('selected', false);
-				$(this.dom.condition).removeClass(this.classes.italic);
-				let condDisp = $(this.dom.condition).children('option:selected').val();
+				this.dom.conditionTitle.attr('selected', 'false');
+				this.dom.condition.removeClass(this.classes.italic);
+				let condDisp = this.dom.condition.children('option:selected').val();
 
 				// Find the condition that has been selected and store it internally
 				for (let cond of Object.keys(this.s.conditions)) {
@@ -2122,7 +2124,7 @@ export default class Criteria {
 				for (let val of this.dom.value) {
 					// If this criteria was previously active in the search then remove
 					// it from the search and trigger a new search
-					if (this.s.filled && $(this.dom.container).has(val).length !== 0) {
+					if (this.s.filled && this.dom.container.has(val[0]).length !== 0) {
 						this.s.filled = false;
 						this.s.dt.draw();
 						this.setListeners();
@@ -2150,19 +2152,19 @@ export default class Criteria {
 		let outmostval = this.dom.value[this.dom.value.length - 1];
 
 		// Calculate the width and right value of the outmost value element
-		if ($(this.dom.container).has(outmostval).length !== 0) {
-			valWidth = $(outmostval).outerWidth(true);
-			valRight = $(outmostval).offset().left + valWidth;
+		if (outmostval !== undefined && this.dom.container.has(outmostval[0]).length !== 0) {
+			valWidth = outmostval.outerWidth(true);
+			valRight = outmostval.offset().left + valWidth;
 		}
 		else {
 			return;
 		}
 
-		let leftOffset = $(this.dom.left).offset();
-		let rightOffset = $(this.dom.right).offset();
-		let clearOffset = $(this.dom.delete).offset();
-		let hasLeft = $(this.dom.container).has(this.dom.left).length !== 0;
-		let hasRight = $(this.dom.container).has(this.dom.right).length !== 0;
+		let leftOffset = this.dom.left.offset();
+		let rightOffset = this.dom.right.offset();
+		let clearOffset = this.dom.delete.offset();
+		let hasLeft = this.dom.container.has(this.dom.left[0]).length !== 0;
+		let hasRight = this.dom.container.has(this.dom.right[0]).length !== 0;
 		let buttonsLeft = hasLeft ?
 			leftOffset.left :
 			hasRight ?
@@ -2176,23 +2178,23 @@ export default class Criteria {
 				(hasLeft && leftOffset.top !== clearOffset.top) ||
 				(hasRight && rightOffset.top !== clearOffset.top)
 			) &&
-			!$(this.dom.container).parent().hasClass(this.classes.vertical)
+			!this.dom.container.parent().hasClass(this.classes.vertical)
 		) {
-			$(this.dom.container).parent().addClass(this.classes.vertical);
-			$(this.s.topGroup).trigger('dtsb-redrawContents');
+			this.dom.container.parent().addClass(this.classes.vertical);
+			this.s.topGroup.trigger('dtsb-redrawContents');
 		}
 		else if (
 			buttonsLeft -
 			(
-				$(this.dom.data).offset().left +
-				$(this.dom.data).outerWidth(true) +
-				$(this.dom.condition).outerWidth(true) +
+				this.dom.data.offset().left +
+				this.dom.data.outerWidth(true) +
+				this.dom.condition.outerWidth(true) +
 				valWidth
 			) > 15
-			&& $(this.dom.container).parent().hasClass(this.classes.vertical)
+			&& this.dom.container.parent().hasClass(this.classes.vertical)
 		) {
-			$(this.dom.container).parent().removeClass(this.classes.vertical);
-			$(this.s.topGroup).trigger('dtsb-redrawContents');
+			this.dom.container.parent().removeClass(this.classes.vertical);
+			this.s.topGroup.trigger('dtsb-redrawContents');
 		}
 	}
 
@@ -2201,21 +2203,21 @@ export default class Criteria {
 	 */
 	private _buildCriteria(): void {
 		// Append Titles for select elements
-		$(this.dom.data).append(this.dom.dataTitle);
-		$(this.dom.condition).append(this.dom.conditionTitle);
+		this.dom.data.append(this.dom.dataTitle);
+		this.dom.condition.append(this.dom.conditionTitle);
 
 		// Add elements to container
-		$(this.dom.container)
+		this.dom.container
 			.append(this.dom.data)
 			.append(this.dom.condition);
 
 		for (let val of this.dom.value) {
-			$(val).append(this.dom.valueTitle);
-			$(this.dom.container).append(val);
+			val.append(this.dom.valueTitle);
+			this.dom.container.append(val);
 		}
 
 		// Add buttons to container
-		$(this.dom.container)
+		this.dom.container
 			.append(this.dom.delete)
 			.append(this.dom.right);
 
@@ -2226,9 +2228,9 @@ export default class Criteria {
 	 * Clears the condition select element
 	 */
 	private _clearCondition(): void {
-		$(this.dom.condition).empty();
-		$(this.dom.conditionTitle).attr('selected', true).attr('disabled', true);
-		$(this.dom.condition).prepend(this.dom.conditionTitle).prop('selectedIndex', 0);
+		this.dom.condition.empty();
+		this.dom.conditionTitle.attr('selected', 'true').attr('disabled', 'true');
+		this.dom.condition.prepend(this.dom.conditionTitle).prop('selectedIndex', 0);
 		this.s.conditions = {};
 		this.s.condition = undefined;
 	}
@@ -2242,17 +2244,17 @@ export default class Criteria {
 			for (let val of this.dom.value) {
 				// Timeout is annoying but because of IOS
 				setTimeout(function() {
-					$(val).remove();
+					val.remove();
 				}, 50);
 			}
 
 			// Call the init function to get the value elements for this condition
 			this.dom.value = [].concat(this.s.conditions[this.s.condition].init(this, Criteria.updateListener));
-			$(this.dom.value[0]).insertAfter(this.dom.condition).trigger('dtsb-inserted');
+			this.dom.value[0].insertAfter(this.dom.condition).trigger('dtsb-inserted');
 
 			// Insert all of the value elements
 			for (let i = 1; i < this.dom.value.length; i++) {
-				$(this.dom.value[i]).insertAfter(this.dom.value[i - 1]).trigger('dtsb-inserted');
+				this.dom.value[i].insertAfter(this.dom.value[i - 1]).trigger('dtsb-inserted');
 			}
 		}
 		else {
@@ -2260,14 +2262,14 @@ export default class Criteria {
 			for (let val of this.dom.value) {
 				// Timeout is annoying but because of IOS
 				setTimeout(function() {
-					$(val).remove();
+					val.remove();
 				}, 50);
 			}
 
 			// Append the default valueTitle to the default select element
-			$(this.dom.valueTitle)
-				.attr('selected', true);
-			$(this.dom.defaultValue)
+			this.dom.valueTitle
+				.attr('selected', 'true');
+			this.dom.defaultValue
 				.append(this.dom.valueTitle)
 				.insertAfter(this.dom.condition);
 		}
@@ -2279,7 +2281,7 @@ export default class Criteria {
 				.addClass(this.classes.dropDown)
 				.addClass(this.classes.italic)
 				.addClass(this.classes.select)
-				.append($(this.dom.valueTitle).clone())
+				.append(this.dom.valueTitle.clone())
 		];
 	}
 
@@ -2308,7 +2310,7 @@ export default class Criteria {
 
 		// If there are no conditions stored then we need to get them from the appropriate type
 		if (conditionsLength === 0) {
-			let column = $(this.dom.data).children('option:selected').val();
+			let column = +this.dom.data.children('option:selected').val();
 			this.s.type = this.s.dt.columns().type().toArray()[column];
 
 			// If the column type is unknown, call a draw to try reading it again
@@ -2319,13 +2321,13 @@ export default class Criteria {
 			}
 
 			// Enable the condition element
-			$(this.dom.condition)
-				.attr('disabled', false)
+			this.dom.condition
+				.attr('disabled', 'false')
 				.empty()
 				.append(this.dom.conditionTitle)
 				.addClass(this.classes.italic);
-			$(this.dom.conditionTitle)
-				.attr('selected', true);
+			this.dom.conditionTitle
+				.attr('selected', 'true');
 
 			let decimal = this.s.dt.settings()[0].oLanguage.sDecimal;
 
@@ -2381,7 +2383,7 @@ export default class Criteria {
 		}
 		// Otherwise we can just load them in
 		else if (conditionsLength > 0) {
-			$(this.dom.condition).empty().attr('disabled', false).addClass(this.classes.italic);
+			this.dom.condition.empty().attr('disabled', 'false').addClass(this.classes.italic);
 
 			for (let condition of Object.keys(this.s.conditions)) {
 				let condName = this.s.conditions[condition].conditionName;
@@ -2397,33 +2399,33 @@ export default class Criteria {
 					.addClass(this.classes.notItalic);
 
 				if (this.s.condition !== undefined && this.s.condition === condName) {
-					$(newOpt).attr('selected', true);
-					$(this.dom.condition).removeClass(this.classes.italic);
+					newOpt.attr('selected', true);
+					this.dom.condition.removeClass(this.classes.italic);
 				}
 
 				conditionOpts.push(newOpt);
 			}
 		}
 		else {
-			$(this.dom.condition)
-				.attr('disabled', true)
+			this.dom.condition
+				.attr('disabled', 'true')
 				.addClass(this.classes.italic);
 
 			return;
 		}
 
 		for (let opt of conditionOpts) {
-			$(this.dom.condition).append(opt);
+			this.dom.condition.append(opt);
 		}
 
-		$(this.dom.condition).prop('selectedIndex', 0);
+		this.dom.condition.prop('selectedIndex', 0);
 	}
 
 	/**
 	 * Populates the data select element
 	 */
 	private _populateData(): void {
-		$(this.dom.data).empty().append(this.dom.dataTitle);
+		this.dom.data.empty().append(this.dom.dataTitle);
 		// If there are no datas stored then we need to get them from the table
 		if (this.s.dataPoints.length === 0) {
 			this.s.dt.columns().every((index) => {
@@ -2452,7 +2454,7 @@ export default class Criteria {
 							)
 						};
 						this.s.dataPoints.push(opt);
-						$(this.dom.data).append(
+						this.dom.data.append(
 							$('<option>', {
 								text : opt.text,
 								value : opt.index
@@ -2488,11 +2490,11 @@ export default class Criteria {
 
 				if (this.s.data === data.text) {
 					this.s.dataIdx = data.index;
-					$(newOpt).attr('selected', true);
-					$(this.dom.data).removeClass(this.classes.italic);
+					newOpt.attr('selected', true);
+					this.dom.data.removeClass(this.classes.italic);
 				}
 
-				$(this.dom.data).append(newOpt);
+				this.dom.data.append(newOpt);
 			}
 		}
 	}
@@ -2509,17 +2511,19 @@ export default class Criteria {
 		// Remove any previous value elements
 		// Timeout is annoying but because of IOS
 		setTimeout(() => {
-			$(this.dom.defaultValue).remove();
+			this.dom.defaultValue.remove();
 		}, 50);
 
 		for (let val of this.dom.value) {
 			// Timeout is annoying but because of IOS
 			setTimeout(function() {
-				$(val).remove();
+				if(val !== undefined) {
+					val.remove();
+				}
 			}, 50);
 		}
 
-		let children = $(this.dom.container).children();
+		let children = this.dom.container.children();
 		if (children.length > 3) {
 			for (let i = 2; i < children.length - 1; i++) {
 				$(children[i]).remove();
@@ -2547,12 +2551,14 @@ export default class Criteria {
 		}
 
 		// Insert value elements and trigger the inserted event
-		$(this.dom.value[0])
-			.insertAfter(this.dom.condition)
-			.trigger('dtsb-inserted');
+		if(this.dom.value[0] !== undefined) {
+			this.dom.value[0]
+				.insertAfter(this.dom.condition)
+				.trigger('dtsb-inserted');
+		}
 
 		for (let i = 1; i < this.dom.value.length; i++) {
-			$(this.dom.value[i])
+			this.dom.value[i]
 				.insertAfter(this.dom.value[i - 1])
 				.trigger('dtsb-inserted');
 		}
