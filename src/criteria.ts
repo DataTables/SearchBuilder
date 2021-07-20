@@ -2320,7 +2320,7 @@ export default class Criteria {
 
 			// Enable the condition element
 			this.dom.condition
-				.attr('disabled', 'false')
+				.removeAttr('disabled')
 				.empty()
 				.append(this.dom.conditionTitle)
 				.addClass(this.classes.italic);
@@ -2381,7 +2381,7 @@ export default class Criteria {
 		}
 		// Otherwise we can just load them in
 		else if (conditionsLength > 0) {
-			this.dom.condition.empty().attr('disabled', 'false').addClass(this.classes.italic);
+			this.dom.condition.empty().removeAttr('disabled').addClass(this.classes.italic);
 
 			for (let condition of Object.keys(this.s.conditions)) {
 				let condName = this.s.conditions[condition].conditionName;
