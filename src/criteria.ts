@@ -2313,7 +2313,7 @@ export default class Criteria {
 
 			// If the column type is unknown, call a draw to try reading it again
 			if (this.s.type === null) {
-				this.s.dt.draw();
+				this.s.dt.draw(false);
 				this.setListeners();
 				this.s.type = this.s.dt.columns().type().toArray()[column];
 			}

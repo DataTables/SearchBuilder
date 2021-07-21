@@ -280,7 +280,7 @@ export default class SearchBuilder {
 		}
 
 		this.s.topGroup.rebuild(details);
-		this.s.dt.draw();
+		this.s.dt.draw(false);
 		this.s.topGroup.setListeners();
 
 		return this;
@@ -332,7 +332,7 @@ export default class SearchBuilder {
 
 			// If the types are not yet set then draw to see if they can be retrieved then
 			if(types === undefined) {
-				this.s.dt.draw();
+				this.s.dt.draw(false);
 				types = this.s.dt.columns().type().toArray();
 			}
 
