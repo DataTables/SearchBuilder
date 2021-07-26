@@ -22,7 +22,7 @@ This function is a getter. It returns an array of values that are to be used to 
 
 The values that are returned here will be passed into the `-init searchBuilder.conditions[type][cond].search` function. Typically these will be taken from the elements that the `-init searchBuilder.conditions[type][cond].init` function created, although this may be different for some conditions such as `empty`. 
 
-The `-init searchBuilder.conditions[type][cond].inputValue` is in a seperate function rather than running it all in the `-init searchBuilder.conditions[type][cond].search()`. This makes searching more efficient as the values only need to be collected from the jQuery elements once this way.
+The `-init searchBuilder.conditions[type][cond].inputValue` is in a separate function rather than running it all in the `-init searchBuilder.conditions[type][cond].search()`. This makes searching more efficient as the values only need to be collected from the jQuery elements once this way.
 
 The manual page for [custom conditions](../extensions/searchbuilder/customConditions.html) covers in detail how this and the other values in this object come together to create a custom condition.
 

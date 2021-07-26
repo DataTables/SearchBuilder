@@ -15,7 +15,7 @@
 	</default>
 	<description>
 		<![CDATA[
-		This option is used as part of SearchBuilder's ability to programatically preset filters, which is done with the `-init searchBuilder.preDefined`  option. This option specified the condition that the filter should use. This is done by setting the `condition` property of one of the objects on the `searchBuilder.preDefined.criteria` array to one of the keys listed below. 
+		This option is used as part of SearchBuilder's ability to programmatically preset filters, which is done with the `-init searchBuilder.preDefined`  option. This option specified the condition that the filter should use. This is done by setting the `condition` property of one of the objects on the `searchBuilder.preDefined.criteria` array to one of the keys listed below. 
 
 		The following keys are used to represent the conditions.
 

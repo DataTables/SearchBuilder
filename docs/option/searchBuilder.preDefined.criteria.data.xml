@@ -14,7 +14,7 @@
 	</default>
 	<description>
 		<![CDATA[
-			This value defines which column the criteria will apply to, identified by its title. If the title has been change with `-init columns.title`, then the ammended value must be used.
+			This value defines which column the criteria will apply to, identified by its title. If the title has been change with `-init columns.title`, then the amended value must be used.
 			
 			For more information on preDefined searches please refer to the `-init searchBuilder.preDefined` option or the [manual page](//datatables.net/extensions/searchbuilder/predefined).
 		]]>

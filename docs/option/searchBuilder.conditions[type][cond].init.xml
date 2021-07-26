@@ -22,7 +22,7 @@ This function returns the JQuery element that is to be used as the value element
 * `fn` the callback function that must be called on the event which is desired to trigger a search.
 * `preDefined` optional. Any values that should be applied to the elements that are being created.
 
-The internals of the function are down to the functionality that you wish to create, althought there are a handful of things that must happen.
+The internals of the function are down to the functionality that you wish to create, although there are a number of things that must happen.
 
 Firstly, the function must return either a jQuery element or an array of jQuery elements that can take user input if there are values to be collected, otherwise there will not be any elements displayed to collect values from the user. This is valid if the condition is all that is needed, for example the empty condition.
 
