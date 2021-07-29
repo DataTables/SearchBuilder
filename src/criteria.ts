@@ -64,6 +64,7 @@ export interface IS {
 	dt: any;
 	filled: boolean;
 	index: number;
+	origData: string;
 	topGroup: JQuery<HTMLElement>;
 	type: string;
 	value: string[];
@@ -80,6 +81,7 @@ export interface IDetails {
 	data?: string;
 	index?: number;
 	logic?: string;
+	origData?: string;
 	value?: string[];
 }
 
@@ -161,6 +163,7 @@ export default class Criteria {
 			dt: table,
 			filled: false,
 			index,
+			origData: undefined,
 			topGroup,
 			type: '',
 			value: [],
@@ -1977,6 +1980,7 @@ export default class Criteria {
 		return {
 			condition: this.s.condition,
 			data: this.s.data,
+			origData: this.s.origData,
 			value
 		};
 	}
@@ -2036,6 +2040,7 @@ export default class Criteria {
 		// If the data has been found and selected then the condition can be populated and searched
 		if (foundData) {
 			this.s.data = loadedCriteria.data;
+			this.s.origData = loadedCriteria.origData;
 			this.s.dataIdx = dataIdx;
 			this.c.orthogonal = this._getOptions().orthogonal;
 			this.dom.dataTitle.remove();
@@ -2080,6 +2085,7 @@ export default class Criteria {
 				this.dom.data.removeClass(this.classes.italic);
 				this.s.dataIdx = +this.dom.data.children('option:selected').val();
 				this.s.data = this.dom.data.children('option:selected').text();
+				this.s.origData = this.dom.data.children('option:selected').attr('origData');
 
 				this.c.orthogonal = this._getOptions().orthogonal;
 
@@ -2361,6 +2367,14 @@ export default class Criteria {
 				let condition of Object.keys(conditionObj)
 			) {
 				if (conditionObj[condition] !== null) {
+					// Serverside processing does not supply the options for the select elements
+					// Instead input elements need to be used for these instead
+					if (this.s.dt.page.info().serverSide && conditionObj[condition].init === Criteria.initSelect) {
+						conditionObj[condition].init = Criteria.initInput;
+						conditionObj[condition].inputValue = Criteria.inputValueInput;
+						conditionObj[condition].isInputValid = Criteria.isInputValidInput;
+					}
+
 					this.s.conditions[condition] = conditionObj[condition];
 
 					let condName = conditionObj[condition].conditionName;
@@ -2459,6 +2473,7 @@ export default class Criteria {
 							})
 								.addClass(this.classes.option)
 								.addClass(this.classes.notItalic)
+								.attr('origData', col.data)
 						);
 					}
 				}

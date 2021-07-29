@@ -235,6 +235,10 @@ export default class SearchBuilder {
 
 		table.settings()[0]._searchBuilder = this;
 
+		this.s.dt.one('preXhr', (e, settings, data) => {
+			data.searchBuilder = this.c.preDefined;
+		});
+
 		// Run the remaining setup when the table is initialised
 		if (this.s.dt.settings()[0]._bInitComplete) {
 			this._setUp();
@@ -390,6 +394,10 @@ export default class SearchBuilder {
 
 		this._setEmptyListener();
 		this.s.dt.state.save();
+
+		this.s.dt.on('preXhr', (e, settings, data) => {
+			data.searchBuilder = this.getDetails();
+		});
 	}
 
 	/**
