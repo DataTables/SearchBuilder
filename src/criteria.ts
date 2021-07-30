@@ -2129,7 +2129,7 @@ export default class Criteria {
 				for (let val of this.dom.value) {
 					// If this criteria was previously active in the search then remove
 					// it from the search and trigger a new search
-					if (this.s.filled && this.dom.container.has(val[0]).length !== 0) {
+					if (this.s.filled && val !== undefined && this.dom.container.has(val[0]).length !== 0) {
 						this.s.filled = false;
 						this.s.dt.draw();
 						this.setListeners();
@@ -2245,21 +2245,25 @@ export default class Criteria {
 	 */
 	private _clearValue(): void {
 		if (this.s.condition !== undefined) {
-			// Remove all of the value elements
-			for (let val of this.dom.value) {
-				// Timeout is annoying but because of IOS
-				setTimeout(function() {
-					val.remove();
-				}, 50);
+			if(this.dom.value.length > 0 && this.dom.value[0] !== undefined) {
+				// Remove all of the value elements
+				for (let val of this.dom.value) {
+					// Timeout is annoying but because of IOS
+					setTimeout(function() {
+						val.remove();
+					}, 50);
+				}
 			}
 
 			// Call the init function to get the value elements for this condition
 			this.dom.value = [].concat(this.s.conditions[this.s.condition].init(this, Criteria.updateListener));
-			this.dom.value[0].insertAfter(this.dom.condition).trigger('dtsb-inserted');
+			if(this.dom.value.length > 0 && this.dom.value[0] !== undefined) {
+				this.dom.value[0].insertAfter(this.dom.condition).trigger('dtsb-inserted');
 
-			// Insert all of the value elements
-			for (let i = 1; i < this.dom.value.length; i++) {
-				this.dom.value[i].insertAfter(this.dom.value[i - 1]).trigger('dtsb-inserted');
+				// Insert all of the value elements
+				for (let i = 1; i < this.dom.value.length; i++) {
+					this.dom.value[i].insertAfter(this.dom.value[i - 1]).trigger('dtsb-inserted');
+				}
 			}
 		}
 		else {
