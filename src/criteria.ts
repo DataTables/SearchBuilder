@@ -72,6 +72,7 @@ export interface IS {
 
 export interface IDataOpt {
 	index: number;
+	origData: string;
 	text: string;
 }
 
@@ -2459,6 +2460,7 @@ export default class Criteria {
 						let col = this.s.dt.settings()[0].aoColumns[index];
 						let opt = {
 							index,
+							origData: col.data,
 							text: (
 								col.searchBuilderTitle === undefined ?
 									col.sTitle :
@@ -2492,6 +2494,7 @@ export default class Criteria {
 						).replace(/(<([^>]+)>)/ig, '') === data.text
 					) {
 						data.index = index;
+						data.origData = col.data;
 					}
 				});
 				let newOpt = $('<option>', {
@@ -2499,7 +2502,8 @@ export default class Criteria {
 					value : data.index
 				})
 					.addClass(this.classes.option)
-					.addClass(this.classes.notItalic);
+					.addClass(this.classes.notItalic)
+					.attr('origData', data.origData);
 
 				if (this.s.data === data.text) {
 					this.s.dataIdx = data.index;
