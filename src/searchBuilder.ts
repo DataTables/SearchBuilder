@@ -236,7 +236,7 @@ export default class SearchBuilder {
 		table.settings()[0]._searchBuilder = this;
 
 		this.s.dt.one('preXhr', (e, settings, data) => {
-			data.searchBuilder = this.c.preDefined;
+			data.searchBuilder = this.c.preDefined !== false ? this.c.preDefined : null;
 		});
 
 		// Run the remaining setup when the table is initialised
