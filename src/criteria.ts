@@ -2248,10 +2248,12 @@ export default class Criteria {
 			if(this.dom.value.length > 0 && this.dom.value[0] !== undefined) {
 				// Remove all of the value elements
 				for (let val of this.dom.value) {
-					// Timeout is annoying but because of IOS
-					setTimeout(function() {
-						val.remove();
-					}, 50);
+					if(val !== undefined) {
+						// Timeout is annoying but because of IOS
+						setTimeout(function() {
+							val.remove();
+						}, 50);
+					}
 				}
 			}
 
@@ -2269,10 +2271,12 @@ export default class Criteria {
 		else {
 			// Remove all of the value elements
 			for (let val of this.dom.value) {
-				// Timeout is annoying but because of IOS
-				setTimeout(function() {
-					val.remove();
-				}, 50);
+				if(val !== undefined) {
+					// Timeout is annoying but because of IOS
+					setTimeout(function() {
+						val.remove();
+					}, 50);
+				}
 			}
 
 			// Append the default valueTitle to the default select element
