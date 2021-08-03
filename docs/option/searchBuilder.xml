@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>searchbuilder</name>
+	<summary>Enable and configure the SearchBuilder extension for DataTables</summary>
+	<since>SearchBuilder 1.0.0</since>
+
+	<type type="object">
+		<description>
+			If given as an object, SearchBuilder will be enabled on the target DataTable, with the SearchBuilder defaults (`$.fn.dataTable.SearchBuilder.defaults`) extended, and potentially overwritten, by the options provided in this object. This is how SearchBuilder can be configured on an individual table basis, or through the defaults.
+		</description>
+	</type>
+
+	<default value="undefined">
+		SearchBuilder will not be initialised by default
+	</default>
+
+	<description>
+		This option provides the ability to enable and configure SearchBuilder for DataTables. In its simplest form as the boolean `true` it will enable SearchBuilder with the default configuration options (as defined by `$.fn.dataTable.SearchBuilder.defaults`). It can also be used as an object to provide custom configuration options as described below.
+
+		Please note that as with all other configuration options for SearchBuilder, this option is an extension to the [default set of DataTables options](/reference/option). This property should be set in the DataTables initialisation object.
+	</description>
+
+	<example title="Enable SearchBuilder for a table using the dom option"><![CDATA[
+$('#example').DataTable( {
+	dom: 'Qlfrtip'
+} );
+]]></example>
+
+	<example title="Enable SearchBuilder with configuration options"><![CDATA[
+$('#example').DataTable( {
+    dom: 'Qlfrtip'
+	searchBuilder: {
+		depthLimit: 2
+	}
+} );
+]]></example>
+
+</dt-option>
