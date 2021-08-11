@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
-	<name>searchbuilder</name>
+	<name>searchBuilder</name>
 	<summary>Enable and configure the SearchBuilder extension for DataTables</summary>
 	<since>SearchBuilder 1.0.0</since>
 
