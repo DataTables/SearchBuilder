@@ -6,7 +6,7 @@
 
 	<type type="object">
 		<description>
-			If given as an object, SearchBuilder will be enabled on the target DataTable, with the SearchBuilder defaults (`$.fn.dataTable.SearchBuilder.defaults`) extended, and potentially overwritten, by the options provided in this object. This is how SearchBuilder can be configured on an individual table basis, or through the defaults.
+			If given as an object, SearchBuilder will be enabled on the target DataTable with the SearchBuilder defaults (`$.fn.dataTable.SearchBuilder.defaults`) extended, and potentially overwritten by the options provided in this object. This is how SearchBuilder can be configured on an individual table basis, or through the defaults.
 		</description>
 	</type>
 
@@ -28,7 +28,7 @@ $('#example').DataTable( {
 
 	<example title="Enable SearchBuilder with configuration options"><![CDATA[
 $('#example').DataTable( {
-    dom: 'Qlfrtip'
+	dom: 'Qlfrtip'
 	searchBuilder: {
 		depthLimit: 2
 	}
