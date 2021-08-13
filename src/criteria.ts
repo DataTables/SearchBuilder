@@ -2332,8 +2332,7 @@ export default class Criteria {
 			}
 			// If the column type is unknown, call a draw to try reading it again
 			if (this.s.type === null || this.s.type === undefined) {
-				this.s.dt.draw(false);
-				this.setListeners();
+				$.fn.dataTable.ext.oApi._fnColumnTypes(this.s.dt.settings()[0]);
 				this.s.type = this.s.dt.columns().type().toArray()[column];
 			}
 

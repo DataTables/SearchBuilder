@@ -344,7 +344,7 @@ export default class SearchBuilder {
 
 			// If the types are not yet set then draw to see if they can be retrieved then
 			if(types === undefined || types.includes(undefined) || types.includes(null)) {
-				this.s.dt.draw(false);
+				$.fn.dataTable.ext.oApi._fnColumnTypes(this.s.dt.settings()[0]);
 				types = this.s.dt.columns().type().toArray();
 			}
 
