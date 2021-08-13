@@ -332,10 +332,18 @@ export default class SearchBuilder {
 		// eslint-disable-next-line no-extra-parens
 		if (!(dataTable as any).DateTime) {
 			let types = this.s.dt.columns().type().toArray();
+
+			if (types === undefined || types.includes(undefined) || types.includes(null)) {
+				types = [];
+				for (let colInit of this.s.dt.settings()[0].aoColumns) {
+					types.push(colInit.searchBuilderType !== undefined ? colInit.searchBuilderType : colInit.sType);
+				}
+			}
+
 			let columnIdxs = this.s.dt.columns().toArray();
 
 			// If the types are not yet set then draw to see if they can be retrieved then
-			if(types === undefined) {
+			if(types === undefined || types.includes(undefined) || types.includes(null)) {
 				this.s.dt.draw(false);
 				types = this.s.dt.columns().type().toArray();
 			}

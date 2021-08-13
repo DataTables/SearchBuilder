@@ -2326,12 +2326,17 @@ export default class Criteria {
 			let column = +this.dom.data.children('option:selected').val();
 			this.s.type = this.s.dt.columns().type().toArray()[column];
 
+			if (this.s.type === undefined || this.s.type === null) {
+				let colInit = this.s.dt.init().aoColumns[column];
+				this.s.type = colInit.searchBuilderType !== undefined ? colInit.searchBuilderType : colInit.sType;
+			}
 			// If the column type is unknown, call a draw to try reading it again
-			if (this.s.type === null) {
+			if (this.s.type === null || this.s.type === undefined) {
 				this.s.dt.draw(false);
 				this.setListeners();
 				this.s.type = this.s.dt.columns().type().toArray()[column];
 			}
+
 
 			// Enable the condition element
 			this.dom.condition

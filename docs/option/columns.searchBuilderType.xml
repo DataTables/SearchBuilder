@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>columns.searchBuilderType</name>
+	<summary>Set the SearchBuilder type to use for a column</summary>
+	<since>1.2.0</since>
+
+	<type type="string">
+		<description>
+If a string value is set then SearchBuilder will use that value to set the type for the column, rather than attempting to detect the type from the table's data.
+
+When using `-init serverSide` processing it is important to use this option to maintain consistent conditions across different pages of the table and also to reduce the number of requests to the server.
+		</description>
+		</type>
+
+	<default value="undefined">
+The default value of the `-init columns.searchBuilderTitle` is undefined. This means that as standard SearchBuilder will derive the type directly from the column's data.
+	</default>
+	<description>
+		<![CDATA[
+This option allows the type of SearchBuilder conditions to be set for individual columns. Normally SearchBuilder uses the types that datatables has detected from the columns, when this option is set it just uses it's value.
+
+When using `-init serverSide` processing it is important to use this option to maintain consistent conditions across different pages of the table and also to reduce the number of requests to the server.
+
+Possible values include
+
+* `string`
+* `date`
+* `num`
+* `num-fmt`
+* `html`
+* `html-fmt`
+* `html-num-fmt`
+* `moment-...`
+* `luxon-...`
+		]]>
+	</description>
+
+</dt-option>
