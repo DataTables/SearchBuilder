@@ -1982,7 +1982,7 @@ export default class Criteria {
 			condition: this.s.condition,
 			data: this.s.data,
 			origData: this.s.origData,
-			value
+			value: this.s.value.map(a => a.toString())
 		};
 	}
 

@@ -236,7 +236,9 @@ export default class SearchBuilder {
 		table.settings()[0]._searchBuilder = this;
 
 		this.s.dt.one('preXhr', (e, settings, data) => {
-			data.searchBuilder = this.c.preDefined !== false ? this.c.preDefined : null;
+			if (this.s.dt.page.info().serverSide && this.c.preDefined !== false) {
+				data.searchBuilder =this.c.preDefined;
+			}
 		});
 
 		// Run the remaining setup when the table is initialised
@@ -404,7 +406,9 @@ export default class SearchBuilder {
 		this.s.dt.state.save();
 
 		this.s.dt.on('preXhr', (e, settings, data) => {
-			data.searchBuilder = this.getDetails();
+			if (this.s.dt.page.info().serverSide) {
+				data.searchBuilder = this.getDetails();
+			}
 		});
 	}
 
