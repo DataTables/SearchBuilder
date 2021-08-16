@@ -20,7 +20,7 @@
 		Please note that as with all other configuration options for SearchBuilder, this option is an extension to the [default set of DataTables options](/reference/option). This property should be set in the DataTables initialisation object.
 	</description>
 
-	<example title="Enable SearchBuilder for a table using the dom option"><![CDATA[
+	<example title="Enable SearchBuilder for a table using the `-init dom` option"><![CDATA[
 $('#example').DataTable( {
 	dom: 'Qlfrtip'
 } );
