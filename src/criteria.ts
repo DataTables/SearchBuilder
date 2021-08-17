@@ -2000,6 +2000,12 @@ export default class Criteria {
 			}
 		}
 
+		if(this.s.type.includes('num') && this.s.dt.page.info().serverSide) {
+			for (let i = 0; i < this.s.value.length; i++) {
+				this.s.value[i] = this.s.value[i].replace(/[^0-9.]/g, '');
+			}
+		}
+
 		return {
 			condition: this.s.condition,
 			data: this.s.data,
