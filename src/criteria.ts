@@ -1953,7 +1953,7 @@ export default class Criteria {
 	/**
 	 * Gets the details required to rebuild the criteria
 	 */
-	public getDetails(): IDetails {
+	public getDetails(deFormatDates=false): IDetails {
 		let value = this.s.value;
 
 		// This check is in place for if a custom decimal character is in place
@@ -1975,6 +1975,28 @@ export default class Criteria {
 				}
 
 				this.s.value[i] = splitRD.join('.');
+			}
+		}
+		else if (this.s.type !== null && deFormatDates) {
+			if (
+				this.s.type.includes('date') ||
+				this.s.type.includes('time')
+			) {
+				for (let i = 0; i < this.s.value.length; i++) {
+					if (this.s.value[i].match(/^\d{4}-([0]\d|1[0-2])-([0-2]\d|3[01])$/g) === null) {
+						this.s.value[i] = '';
+					}
+				}
+			}
+			else if(this.s.type.includes('moment')) {
+				for (let i = 0; i < this.s.value.length; i++) {
+					this.s.value[i] = moment(this.s.value[i], this.s.dateFormat).toISOString();
+				}
+			}
+			else if(this.s.type.includes('luxon')) {
+				for (let i = 0; i < this.s.value.length; i++) {
+					this.s.value[i] = luxon.DateTime.fromFormat(this.s.value[i], this.s.dateFormat).toISO();
+				}
 			}
 		}
 

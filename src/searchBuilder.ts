@@ -237,7 +237,7 @@ export default class SearchBuilder {
 
 		this.s.dt.one('preXhr', (e, settings, data) => {
 			if (this.s.dt.page.info().serverSide && this.c.preDefined !== false) {
-				data.searchBuilder =this.c.preDefined;
+				data.searchBuilder = this.c.preDefined;
 			}
 		});
 
@@ -259,8 +259,8 @@ export default class SearchBuilder {
 	 */
 	// eslint upset at empty object but that is what it is
 	// eslint-disable-next-line @typescript-eslint/ban-types
-	public getDetails(): IDetails | {} {
-		return this.s.topGroup.getDetails();
+	public getDetails(deFormatDates=false): IDetails | {} {
+		return this.s.topGroup.getDetails(deFormatDates);
 	}
 
 	/**
@@ -407,9 +407,24 @@ export default class SearchBuilder {
 
 		this.s.dt.on('preXhr', (e, settings, data) => {
 			if (this.s.dt.page.info().serverSide) {
-				data.searchBuilder = this.getDetails();
+				data.searchBuilder = this._collapseArray(this.getDetails());
 			}
 		});
+	}
+
+	private _collapseArray(criteria) {
+		if(criteria.logic === undefined) {
+			criteria.value.sort();
+			criteria.value1 = criteria.value[0];
+			criteria.value2 = criteria.value[1];
+			criteria.value = undefined;
+		}
+		else {
+			for(let i = 0; i < criteria.criteria.length; i++) {
+				criteria.criteria[i] = this._collapseArray(criteria.criteria[i]);
+			}
+		}
+		return criteria;
 	}
 
 	/**

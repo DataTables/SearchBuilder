@@ -218,7 +218,7 @@ export default class Group {
 	 */
 	// Eslint upset at empty object but needs to be done
 	// eslint-disable-next-line @typescript-eslint/ban-types
-	public getDetails(): IDetails | {} {
+	public getDetails(deFormatDates=false): IDetails | {} {
 		if (this.s.criteria.length === 0) {
 			return {};
 		}
@@ -230,7 +230,7 @@ export default class Group {
 
 		// NOTE here crit could be either a subgroup or a criteria
 		for (let crit of this.s.criteria) {
-			details.criteria.push(crit.criteria.getDetails());
+			details.criteria.push(crit.criteria.getDetails(deFormatDates));
 		}
 
 		return details;
