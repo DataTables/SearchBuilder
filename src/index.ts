@@ -124,12 +124,12 @@ import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
 		text: null,
 	};
 
-	apiRegister('searchBuilder.getDetails()', function() {
+	apiRegister('searchBuilder.getDetails()', function(deFormatDates=false) {
 		let ctx = this.context[0];
 
 		// If SearchBuilder has not been initialised on this instance then return
 		return ctx._searchBuilder ?
-			ctx._searchBuilder.getDetails() :
+			ctx._searchBuilder.getDetails(deFormatDates) :
 			null;
 	});
 

@@ -6,6 +6,7 @@
 
 	<type type="function">
 		<signature>searchBuilder.getDetails()</signature>
+		<parameter type="boolean" name="deFormatDates" default="false">Boolean flag that indicates whether to de format any dates that are found into an ISO 8601 format.</parameter>
 		<description>Gets the details of the current search.</description>
 		<returns type="object">Returns an object containing the details of the current search. The structure is the same as `-init searchBuilder.preDefined`, please refer to that documentation for more details on the structure. </returns>
 	</type>
@@ -14,7 +15,7 @@
 	<![CDATA[
 		This method provides the ability to get the details of the data structure and search criteria that is being applied to the DataTable by SearchBuilder's filtering.
 
-		`-api searchBuilder.getDetails()` takes no arguments, the object that is returned represents all of the groups and criteria that are in place. The object can be passed into the `-api searchBuilder.rebuild()` function to make SearchBuilder reset to the point at which the object was created.
+		Since version 1.2.0 `-api searchBuilder.getDetails()` takes one optional argument, `deFormatDates`. This is a boolean flag that when true deformats dates down to an ISO 8601 standard. The object that is returned represents all of the groups and criteria that are in place. The object can be passed into the `-api searchBuilder.rebuild()` function to make SearchBuilder reset to the point at which the object was created.
 
 		The object structure is the same as would be used for preDefined searches. Please refer to the `-init searchBuilder.preDefined` documentation for more details on the structure. 
 	]]>
@@ -27,6 +28,14 @@ var dt = $('#example').DataTable( {
 });
 
 var d = dt.searchBuilder.getDetails();
+]]></example>
+
+	<example title="Get the details of a Search and de-format dates:"><![CDATA[
+var dt = $('#example').DataTable( {
+	dom: 'Qlfrtip'
+});
+
+var d = dt.searchBuilder.getDetails(true);
 ]]></example>
 
 <related type="api">searchBuilder.rebuild()</related>
