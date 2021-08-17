@@ -83,6 +83,7 @@ export interface IDetails {
 	index?: number;
 	logic?: string;
 	origData?: string;
+	type?: string;
 	value?: string[];
 }
 
@@ -2010,6 +2011,7 @@ export default class Criteria {
 			condition: this.s.condition,
 			data: this.s.data,
 			origData: this.s.origData,
+			type: this.s.type,
 			value: this.s.value.map(a => a.toString())
 		};
 	}
