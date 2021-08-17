@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>searchBuilder.preDefined.criteria.type</name>
+	<summary>The data type of the column</summary>
+	<since>1.2.0</since>
+
+	<type type="string">
+		<description>
+			The type of the column that the condition is being applied to.
+		</description>
+	</type>
+
+	<default value="undefined">
+	</default>
+	<description>
+		<![CDATA[
+			This property is only required in the `-init searchBuilder.preDefined` object when using server-side processing. This means that the server can tell the type of the field that the search is being applied to. In some cases this is required as the behaviour of some conditions are slightly different between column types. When using a client-side configuration this property will make no changes to the behaviour of SearchBuilder.
+			
+			For more information on preDefined searches please refer to the `-init searchBuilder.preDefined` option or the [manual page](//datatables.net/extensions/searchbuilder/predefined).
+		]]>
+	</description>
+
+	<example title="Defining a preDefined criteria for the Office column"><![CDATA[
+
+$('#example').DataTable( {
+	dom: 'Qlfrtip',
+	searchBuilder: {
+		preDefined: {
+			criteria:[
+				{
+					condition: '=',
+					data: 'Office',
+					type: 'string',
+					value: ['Edinburgh']
+				}
+			],
+			logic: 'AND'
+		}
+	}
+});
+
+]]></example>
+
+<related type="init">searchBuilder.preDefined</related>
+<related type="init">searchBuilder.preDefined.logic</related>
+<related type="init">searchBuilder.preDefined.criteria</related>
+<related type="init">searchBuilder.preDefined.criteria.data</related>
+<related type="init">searchBuilder.preDefined.criteria.condition</related>
+<related type="init">searchBuilder.preDefined.criteria.value</related>
+
+</dt-option>
