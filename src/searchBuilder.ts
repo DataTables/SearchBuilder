@@ -414,10 +414,12 @@ export default class SearchBuilder {
 
 	private _collapseArray(criteria) {
 		if(criteria.logic === undefined) {
-			criteria.value.sort();
-			criteria.value1 = criteria.value[0];
-			criteria.value2 = criteria.value[1];
-			criteria.value = undefined;
+			if (criteria.value !== undefined) {
+				criteria.value.sort();
+				criteria.value1 = criteria.value[0];
+				criteria.value2 = criteria.value[1];
+				criteria.value = undefined;
+			}
 		}
 		else {
 			for(let i = 0; i < criteria.criteria.length; i++) {
