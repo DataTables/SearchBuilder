@@ -407,7 +407,7 @@ export default class SearchBuilder {
 
 		this.s.dt.on('preXhr', (e, settings, data) => {
 			if (this.s.dt.page.info().serverSide) {
-				data.searchBuilder = this._collapseArray(this.getDetails());
+				data.searchBuilder = this._collapseArray(this.getDetails(true));
 			}
 		});
 	}
