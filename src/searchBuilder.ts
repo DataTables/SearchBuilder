@@ -235,12 +235,6 @@ export default class SearchBuilder {
 
 		table.settings()[0]._searchBuilder = this;
 
-		this.s.dt.on('preXhr', (e, settings, data) => {
-			if (this.s.dt.page.info().serverSide && this.c.preDefined !== false) {
-				data.searchBuilder = this._collapseArray(this.c.preDefined);
-			}
-		});
-
 		// Run the remaining setup when the table is initialised
 		if (this.s.dt.settings()[0]._bInitComplete) {
 			this._setUp();
@@ -385,6 +379,12 @@ export default class SearchBuilder {
 
 		this._build();
 
+		this.s.dt.on('preXhr', (e, settings, data) => {
+			if (this.s.dt.page.info().serverSide) {
+				data.searchBuilder = this._collapseArray(this.getDetails(true));
+			}
+		});
+
 		if (loadState) {
 			let loadedState = this.s.dt.state.loaded();
 
@@ -404,13 +404,6 @@ export default class SearchBuilder {
 
 		this._setEmptyListener();
 		this.s.dt.state.save();
-
-		this.s.dt.off('preXhr');
-		this.s.dt.on('preXhr', (e, settings, data) => {
-			if (this.s.dt.page.info().serverSide) {
-				data.searchBuilder = this._collapseArray(this.getDetails(true));
-			}
-		});
 	}
 
 	private _collapseArray(criteria) {
