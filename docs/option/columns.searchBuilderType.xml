@@ -30,8 +30,8 @@ Possible values include
 * `html`
 * `html-fmt`
 * `html-num-fmt`
-* `moment-...` - Here the `...` should be replaced with the moment format that is being used within the column. A format could therefore look something like `moment-DD/MM/YYYY`
-* `luxon-...` - As above, the `...` should be replaced with the luxon format that is being used within the column. A format could therefore look something like `luxon-DD/MM/YYYY`
+* `moment-...` - Here the `...` should be replaced with the moment format that is being used within the column. A format could therefore look something like `moment-DD/MM/YYYY`, spaces are also allowed within the format - anything that is a valid moment format. For example `moment-DD/MM/YYYY HH:mm`.
+* `luxon-...` - As above, the `...` should be replaced with the luxon format that is being used within the column. A format could therefore look something like `luxon-DD/MM/YYYY`, spaces are also allowed within the format - anything that is a valid luxon format. For example `luxon-DD/MM/YYYY HH:mm`.
 		]]>
 	</description>
 
