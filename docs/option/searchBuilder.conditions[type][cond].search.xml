@@ -28,6 +28,8 @@ This function is to return a boolean, true if the row is to be included in the r
 The manual page for [custom conditions](../extensions/searchbuilder/customConditions.html) covers in detail how this and the other values in this object come together to create a custom condition.
 
 Note: When using a custom decimal place character, the SearchBuilder internals will replace this with a `.` so that the correct processing can take place. It is worth bearing this in mind when customising the functions that each condition runs.
+
+Note: Please also not that custom conditions are not supported when the `-init serverSide` option is set to true.
         ]]>
 	</description>
 

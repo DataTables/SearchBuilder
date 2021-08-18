@@ -27,6 +27,8 @@ Typically the jQuery elements will be used to decide if there is enough data the
 
 The manual page for [custom conditions](../extensions/searchbuilder/customConditions.html) covers in detail how this and the other values in this object come together to create a custom condition.
 
+Note: Please also not that custom conditions are not supported when the `-init serverSide` option is set to true.
+
 Some examples are shown below for select and input elements.
         ]]>
 	</description>

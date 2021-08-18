@@ -26,6 +26,8 @@ The `-init searchBuilder.conditions[type][cond].inputValue` is in a separate fun
 
 The manual page for [custom conditions](../extensions/searchbuilder/customConditions.html) covers in detail how this and the other values in this object come together to create a custom condition.
 
+Note: Please also not that custom conditions are not supported when the `-init serverSide` option is set to true.
+
 Some examples for select and input elements are shown below.
         ]]>
 	</description>
