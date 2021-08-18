@@ -235,9 +235,9 @@ export default class SearchBuilder {
 
 		table.settings()[0]._searchBuilder = this;
 
-		this.s.dt.one('preXhr', (e, settings, data) => {
+		this.s.dt.on('preXhr', (e, settings, data) => {
 			if (this.s.dt.page.info().serverSide && this.c.preDefined !== false) {
-				data.searchBuilder = this.c.preDefined;
+				data.searchBuilder = this._collapseArray(this.c.preDefined);
 			}
 		});
 
@@ -405,6 +405,7 @@ export default class SearchBuilder {
 		this._setEmptyListener();
 		this.s.dt.state.save();
 
+		this.s.dt.off('preXhr');
 		this.s.dt.on('preXhr', (e, settings, data) => {
 			if (this.s.dt.page.info().serverSide) {
 				data.searchBuilder = this._collapseArray(this.getDetails(true));
@@ -432,7 +433,6 @@ export default class SearchBuilder {
 				});
 				criteria.value1 = criteria.value[0];
 				criteria.value2 = criteria.value[1];
-				criteria.value = undefined;
 			}
 		}
 		else {
