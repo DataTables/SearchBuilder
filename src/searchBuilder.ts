@@ -415,7 +415,21 @@ export default class SearchBuilder {
 	private _collapseArray(criteria) {
 		if(criteria.logic === undefined) {
 			if (criteria.value !== undefined) {
-				criteria.value.sort();
+				criteria.value.sort((a,b)=> {
+					if(!isNaN(+a)) {
+						a = +a;
+						b = +b;
+					}
+					if(a<b) {
+						return -1;
+					}
+					else if(b<a) {
+						return 1;
+					}
+					else {
+						return 0;
+					}
+				});
 				criteria.value1 = criteria.value[0];
 				criteria.value2 = criteria.value[1];
 				criteria.value = undefined;
