@@ -86,10 +86,33 @@ $('#example').DataTable( {
 
 ]]></example>
 
+	<example title="Simple single level search suitable for SSP"><![CDATA[
+$('#example').DataTable( {
+	dom: 'Qlfrtip',
+	searchBuilder: {
+		preDefined: {
+			criteria:[
+				{
+					condition: '=',
+					data: 'Office',
+					origData: 'office',
+					type: 'string',
+					value: ['Edinburgh']
+				}
+			],
+			logic: 'AND',
+		}
+	}
+});
+
+]]></example>
+
 <related type="init">searchBuilder.preDefined.logic</related>
 <related type="init">searchBuilder.preDefined.criteria</related>
 <related type="init">searchBuilder.preDefined.criteria.condition</related>
 <related type="init">searchBuilder.preDefined.criteria.value</related>
 <related type="init">searchBuilder.preDefined.criteria.data</related>
+<related type="init">searchBuilder.preDefined.criteria.origData</related>
+<related type="init">searchBuilder.preDefined.criteria.type</related>
 
 </dt-option>

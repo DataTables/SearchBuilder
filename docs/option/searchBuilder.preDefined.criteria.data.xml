@@ -15,6 +15,8 @@
 	<description>
 		<![CDATA[
 			This value defines which column the criteria will apply to, identified by its title. If the title has been change with `-init columns.title`, then the amended value must be used.
+
+			When using SSP, the `-init searchBuilder.preDefined.criteria.origData` property must also be set so that the server-side script knows which field to filter on.
 			
 			For more information on preDefined searches please refer to the `-init searchBuilder.preDefined` option or the [manual page](//datatables.net/extensions/searchbuilder/predefined).
 		]]>
@@ -45,5 +47,8 @@ $('#example').DataTable( {
 <related type="init">searchBuilder.preDefined.criteria</related>
 <related type="init">searchBuilder.preDefined.criteria.condition</related>
 <related type="init">searchBuilder.preDefined.criteria.value</related>
+<related type="init">searchBuilder.preDefined.criteria.origData</related>
+<related type="init">searchBuilder.preDefined.criteria.type</related>
+
 
 </dt-option>

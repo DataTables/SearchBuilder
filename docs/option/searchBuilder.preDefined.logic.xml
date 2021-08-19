@@ -67,5 +67,7 @@ $('#example').DataTable( {
 <related type="init">searchBuilder.preDefined.criteria.condition</related>
 <related type="init">searchBuilder.preDefined.criteria.value</related>
 <related type="init">searchBuilder.preDefined.criteria.data</related>
+<related type="init">searchBuilder.preDefined.criteria.origData</related>
+<related type="init">searchBuilder.preDefined.criteria.type</related>
 
 </dt-option>

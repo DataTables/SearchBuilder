@@ -15,6 +15,8 @@
 	<description>
 		<![CDATA[
 			This property is only required in the `-init searchBuilder.preDefined` object when using server-side processing. This means that the server can tell the type of the field that the search is being applied to. In some cases this is required as the behaviour of some conditions are slightly different between column types. When using a client-side configuration this property will make no changes to the behaviour of SearchBuilder.
+
+			The other extra option that is required when using server-side processing is the `-init searchBuilder.preDefined.criteria.origData` property that is used to tell the server-side scripts what field to filter on.
 			
 			For more information on preDefined searches please refer to the `-init searchBuilder.preDefined` option or the [manual page](//datatables.net/extensions/searchbuilder/predefined).
 		]]>
@@ -47,5 +49,7 @@ $('#example').DataTable( {
 <related type="init">searchBuilder.preDefined.criteria.data</related>
 <related type="init">searchBuilder.preDefined.criteria.condition</related>
 <related type="init">searchBuilder.preDefined.criteria.value</related>
+<related type="init">searchBuilder.preDefined.criteria.origData</related>
+
 
 </dt-option>

@@ -29,6 +29,11 @@
 
 			When it comes to applying the selected `data`, `condition` and `value` values to a condition, SearchBuilder will work through them in that order and stop as soon as one is not defined. For example if you defined `data` and `value` but not `condition` then the data selection would be made, but the value would not as the condition can not be determined.
 
+			When using predefined searches with server-side processing there are two additional properties that must be set:
+			
+			* `-init searchBuilder.preDefined.criteria.origData` The original field name that the server-side script should filter on.
+			* `-init searchBuilder.preDefined.criteria.type` The type of conditions that should be used when filtering this data.
+
 			For more information on preDefined searches please refer to the `-init searchBuilder.preDefined` option or the [manual page](//datatables.net/extensions/searchbuilder/predefined).
 
         ]]>
@@ -89,10 +94,34 @@ $('#example').DataTable( {
 
 ]]></example>
 
+	<example title="Simple single level search for SSP"><![CDATA[
+
+$('#example').DataTable( {
+	dom: 'Qlfrtip',
+	searchBuilder: {
+		preDefined: {
+			criteria:[
+				{
+					condition: '=',
+					data: 'Office',,
+					origData: 'office',
+					type: 'string',
+					value: ['Edinburgh']
+				}
+			],
+			logic: 'AND',
+		}
+	}
+});
+
+]]></example>
+
 <related type="init">searchBuilder.preDefined</related>
 <related type="init">searchBuilder.preDefined.logic</related>
 <related type="init">searchBuilder.preDefined.criteria.condition</related>
 <related type="init">searchBuilder.preDefined.criteria.value</related>
 <related type="init">searchBuilder.preDefined.criteria.data</related>
+<related type="init">searchBuilder.preDefined.criteria.origData</related>
+<related type="init">searchBuilder.preDefined.criteria.type</related>
 
 </dt-option>
