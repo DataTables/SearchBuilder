@@ -19,7 +19,7 @@ $(document).ready(function() {
 ]]>
 </js>
 
-<title lib="SearchBuilder">Basic SearchBuilder Example</title>
+<title lib="SearchBuilder">Custom Title</title>
 
 <info><![CDATA[
 

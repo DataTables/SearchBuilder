@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-example table-type="html-iso8601" table-class="display nowrap" order="1">
+<dt-example table-type="html-iso8601" table-class="display nowrap" order="7">
 
 <css lib="datatables searchbuilder datetime"/>
 <css lib="//cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css"/>
@@ -125,7 +125,7 @@ $(document).ready(function() {
 ]]>
 </js>
 
-<title lib="SearchBuilder">Plug in example</title>
+<title lib="SearchBuilder">Plug-in Example</title>
 
 <info><![CDATA[
 
