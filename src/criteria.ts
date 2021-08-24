@@ -436,7 +436,14 @@ export default class Criteria {
 				function(e) {
 					let code = e.keyCode || e.which;
 
-					if (!that.c.enterSearch || code === 13) {
+					if (
+						!that.c.enterSearch &&
+						!(
+							that.s.dt.settings()[0].oInit.search !== undefined &&
+							that.s.dt.settings()[0].oInit.search.return
+						) ||
+						code === 13
+					) {
 						return fn(that, this);
 					}
 				},
@@ -478,7 +485,14 @@ export default class Criteria {
 					function(e) {
 						let code = e.keyCode || e.which;
 
-						if (!that.c.enterSearch || code === 13) {
+						if (
+							!that.c.enterSearch &&
+							!(
+								that.s.dt.settings()[0].oInit.search !== undefined &&
+								that.s.dt.settings()[0].oInit.search.return
+							) ||
+							code === 13
+						) {
 							return fn(that, this);
 						}
 					},
@@ -496,7 +510,14 @@ export default class Criteria {
 					function(e) {
 						let code = e.keyCode || e.which;
 
-						if (!that.c.enterSearch || code === 13) {
+						if (
+							!that.c.enterSearch &&
+							!(
+								that.s.dt.settings()[0].oInit.search !== undefined &&
+								that.s.dt.settings()[0].oInit.search.return
+							) ||
+							code === 13
+						) {
 							return fn(that, this);
 						}
 					},
@@ -548,25 +569,29 @@ export default class Criteria {
 					searchDelay === null ? 100 : searchDelay
 				)
 			)
-			.on('input keypress', that.c.enterSearch ?
-				(e) => {
+			.on(
+				'input keypress',
+				that.c.enterSearch ||
+				that.s.dt.settings()[0].oInit.search !== undefined &&
+				that.s.dt.settings()[0].oInit.search.return ?
+					(e) => {
+						that._throttle(
+							function() {
+								let code = e.keyCode || e.which;
+
+								if (code === 13) {
+									return fn(that, this);
+								}
+							},
+							searchDelay === null ? 100 : searchDelay
+						);
+					} :
 					that._throttle(
 						function() {
-							let code = e.keyCode || e.which;
-
-							if (code === 13) {
-								return fn(that, this);
-							}
+							return fn(that, this);
 						},
 						searchDelay === null ? 100 : searchDelay
-					);
-				} :
-				that._throttle(
-					function() {
-						return fn(that, this);
-					},
-					searchDelay === null ? 100 : searchDelay
-				)
+					)
 			);
 
 		if (that.c.greyscale) {
@@ -619,23 +644,32 @@ export default class Criteria {
 						fn(that, this);
 					}
 				)
-				.on('input keypress', !that.c.enterSearch && searchDelay !== null ?
-					that.s.dt.settings()[0].oApi._fnThrottle(
-						function() {
-							return fn(that, this);
-						},
-						searchDelay
-					) :
-					that.c.enterSearch ?
-						(e) => {
-							let code = e.keyCode || e.which;
-							if (code === 13) {
+				.on(
+					'input keypress',
+					!that.c.enterSearch &&
+					!(
+						that.s.dt.settings()[0].oInit.search !== undefined &&
+						that.s.dt.settings()[0].oInit.search.return
+					) &&
+					searchDelay !== null ?
+						that.s.dt.settings()[0].oApi._fnThrottle(
+							function() {
+								return fn(that, this);
+							},
+							searchDelay
+						) :
+						that.c.enterSearch ||
+						that.s.dt.settings()[0].oInit.search !== undefined &&
+						that.s.dt.settings()[0].oInit.search.return ?
+							(e) => {
+								let code = e.keyCode || e.which;
+								if (code === 13) {
+									fn(that, this);
+								}
+							} :
+							() => {
 								fn(that, this);
 							}
-						} :
-						() => {
-							fn(that, this);
-						}
 				),
 			$('<span>')
 				.addClass(that.classes.joiner)
@@ -658,23 +692,32 @@ export default class Criteria {
 						fn(that, this);
 					}
 				)
-				.on('input keypress', !that.c.enterSearch && searchDelay !== null ?
-					that.s.dt.settings()[0].oApi._fnThrottle(
-						function() {
-							return fn(that, this);
-						},
-						searchDelay
-					) :
-					that.c.enterSearch ?
-						(e) => {
-							let code = e.keyCode || e.which;
-							if (code === 13) {
+				.on(
+					'input keypress',
+					!that.c.enterSearch &&
+					!(
+						that.s.dt.settings()[0].oInit.search !== undefined &&
+						that.s.dt.settings()[0].oInit.search.return
+					) &&
+					searchDelay !== null ?
+						that.s.dt.settings()[0].oApi._fnThrottle(
+							function() {
+								return fn(that, this);
+							},
+							searchDelay
+						) :
+						that.c.enterSearch ||
+						that.s.dt.settings()[0].oInit.search !== undefined &&
+						that.s.dt.settings()[0].oInit.search.return ?
+							(e) => {
+								let code = e.keyCode || e.which;
+								if (code === 13) {
+									fn(that, this);
+								}
+							} :
+							() => {
 								fn(that, this);
 							}
-						} :
-						() => {
-							fn(that, this);
-						}
 				)
 		];
 

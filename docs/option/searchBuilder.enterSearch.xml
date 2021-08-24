@@ -2,7 +2,11 @@
 <dt-option library="SearchBuilder">
 	<name>searchBuilder.enterSearch</name>
 	<summary>Trigger a search on the enter key rather than every keypress</summary>
-	<since>1.1.0</since>
+	<deprecated since="1.2.0">
+		Version 1.2.0 coincided with the release of DataTables 1.11.0 which introducted `-init search.return`. This made this option void and it was therefore deprecated.
+
+		For now this option will continue to be supported, however it will be removed in the future. We encourage you to move instead to `-init search.return`.
+	</deprecated>
 
 	<type type="boolean">
 		<description>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" table-class="display nowrap" order="12">
+
+<css lib="datatables searchbuilder buttons datetime"/>
+
+<js lib="jquery datatables searchbuilder buttons datetime">
+<![CDATA[
+
+$(document).ready(function() {
+    $('#example').DataTable( {
+        dom: 'Qfrtip',
+        search: {
+            return: true
+        }
+    });
+});
+
+]]>
+</js>
+
+<title lib="SearchBuilder">Force Search on Enter</title>
+
+<info><![CDATA[
+
+This example demonstrates the behaviour of `-init search.return`. When this initialisation option is set to `true` searches will only be triggered on input elements when the enter key is pressed. The exception to this rule is when selecting a date using the date-picker, this will trigger a search automatically.
+
+When the initialisation option is set to `false` a search will be triggered on every keypress, unless `-init searchDelay` is being implemented. This is the default for SearchBuilder.
+
+The `-init search.return` option was introduced in DataTables version 1.11.0, deprecating the `-init searchBuilder.enterSearch` initialisation option. For now this option will continue to be supported, however it will be removed in the future. We encourage you to move instead to `-init enter.search`.
+
+]]></info>
+
+</dt-example>
