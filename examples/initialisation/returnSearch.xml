@@ -26,7 +26,7 @@ This example demonstrates the behaviour of `-init search.return`. When this init
 
 When the initialisation option is set to `false` a search will be triggered on every keypress, unless `-init searchDelay` is being implemented. This is the default for SearchBuilder.
 
-The `-init search.return` option was introduced in DataTables version 1.11.0, deprecating the `-init searchBuilder.enterSearch` initialisation option. For now this option will continue to be supported, however it will be removed in the future. We encourage you to move instead to `-init enter.search`.
+The `-init search.return` option was introduced in DataTables version 1.11.0, deprecating the `-init searchBuilder.enterSearch` initialisation option. For now this option will continue to be supported, however it will be removed in the future. We encourage you to move instead to `-init search.return`.
 
 ]]></info>
 
