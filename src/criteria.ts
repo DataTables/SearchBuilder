@@ -342,7 +342,7 @@ export default class Criteria {
 
 					// If this value was previously selected as indicated by preDefined, then select it again
 					if (preDefined !== null && opt.val() === preDefined[0]) {
-						opt.attr('selected', true);
+						opt.prop('selected', true);
 						el.removeClass(Criteria.classes.italic);
 					}
 				}
@@ -2103,10 +2103,13 @@ export default class Criteria {
 
 			this.dom.data.children('option').each(function() {
 				if ($(this).text() === loadedCriteria.data) {
-					$(this).attr('selected', true);
+					$(this).prop('selected', true);
 					data.removeClass(italic);
 					foundData = true;
 					dataIdx = $(this).val();
+				}
+				else {
+					$(this).removeProp('selected');
 				}
 			});
 		}
@@ -2123,27 +2126,47 @@ export default class Criteria {
 			let condition: string;
 
 			// Check to see if the previously selected condition exists, if so select it
-			this.dom.condition.children('option').each(function() {
+			let options = this.dom.condition.children('option');
+			// eslint-disable-next-line @typescript-eslint/prefer-for-of
+			for(let i = 0; i < options.length; i++) {
+				let option = $(options[i]);
 				if (
 					loadedCriteria.condition !== undefined &&
-					$(this).val() === loadedCriteria.condition &&
+					option.val() === loadedCriteria.condition &&
 					typeof loadedCriteria.condition === 'string'
 				) {
-					$(this).attr('selected', true);
-					condition = $(this).val();
+					option.prop('selected', true);
+					condition = option.val() as string;
 				}
-			});
+				else {
+					option.removeProp('selected');
+				}
+			}
 
 			this.s.condition = condition;
 
 			// If the condition has been found and selected then the value can be populated and searched
 			if (this.s.condition !== undefined) {
+				this.dom.conditionTitle.removeProp('selected');
 				this.dom.conditionTitle.remove();
 				this.dom.condition.removeClass(this.classes.italic);
+
+				let isSelected = 0;
+				// eslint-disable-next-line @typescript-eslint/prefer-for-of
+				for(let i = 0; i < options.length; i++) {
+					let option = $(options[i]);
+					if(option.val() !== this.s.condition) {
+						option.removeProp('selected');
+					}
+					if(option.prop('selected')) {
+						isSelected++;
+					}
+				}
+
 				this._populateValue(loadedCriteria);
 			}
 			else {
-				this.dom.conditionTitle.prependTo(this.dom.condition).attr('selected', 'true');
+				this.dom.conditionTitle.prependTo(this.dom.condition).prop('selected', true);
 			}
 		}
 	}
@@ -2155,65 +2178,93 @@ export default class Criteria {
 		this.dom.data
 			.unbind('change')
 			.on('change', () => {
-				this.dom.dataTitle.attr('selected', 'false');
-				this.dom.data.removeClass(this.classes.italic);
-				this.s.dataIdx = +this.dom.data.children('option:selected').val();
-				this.s.data = this.dom.data.children('option:selected').text();
-				this.s.origData = this.dom.data.children('option:selected').attr('origData');
+				this.dom.dataTitle.removeProp('selected');
+				// Need to go over every option to identify the correct selection
+				let options = this.dom.data.children('option.' + this.classes.option);
 
-				this.c.orthogonal = this._getOptions().orthogonal;
+				// eslint-disable-next-line @typescript-eslint/prefer-for-of
+				for (let i = 0; i < options.length; i++) {
+					let option = $(options[i]);
+					if (option.val() === this.dom.data.val()) {
+						this.dom.data.removeClass(this.classes.italic);
+						option.prop('selected', true);
+						this.s.dataIdx = +option.val();
+						this.s.data = option.text();
+						this.s.origData = option.prop('origData');
 
-				// When the data is changed, the values in condition and value may also change so need to renew them
-				this._clearCondition();
-				this._clearValue();
-				this._populateCondition();
+						this.c.orthogonal = this._getOptions().orthogonal;
 
-				// If this criteria was previously active in the search then
-				// remove it from the search and trigger a new search
-				if (this.s.filled) {
-					this.s.filled = false;
-					this.s.dt.draw();
-					this.setListeners();
+						// When the data is changed, the values in condition and
+						// value may also change so need to renew them
+						this._clearCondition();
+						this._clearValue();
+						this._populateCondition();
+
+						// If this criteria was previously active in the search then
+						// remove it from the search and trigger a new search
+						if (this.s.filled) {
+							this.s.filled = false;
+							this.s.dt.draw();
+							this.setListeners();
+						}
+
+						this.s.dt.state.save();
+					}
+					else {
+						option.removeProp('selected');
+					}
 				}
-
-				this.s.dt.state.save();
 			});
 
 		this.dom.condition
 			.unbind('change')
 			.on('change', () => {
-				this.dom.conditionTitle.attr('selected', 'false');
-				this.dom.condition.removeClass(this.classes.italic);
-				let condDisp = this.dom.condition.children('option:selected').val();
+				this.dom.conditionTitle.removeProp('selected');
+				// Need to go over every option to identify the correct selection
+				let options = this.dom.condition.children('option.'+this.classes.option);
 
-				// Find the condition that has been selected and store it internally
-				for (let cond of Object.keys(this.s.conditions)) {
-					if (cond === condDisp) {
-						this.s.condition = condDisp;
-						break;
+				// eslint-disable-next-line @typescript-eslint/prefer-for-of
+				for(let i = 0; i < options.length; i++) {
+					let option = $(options[i]);
+					if(option.val() === this.dom.condition.val()) {
+						this.dom.condition.removeClass(this.classes.italic);
+						option.prop('selected', true);
+						let condDisp = option.val();
+						// Find the condition that has been selected and store it internally
+						for (let cond of Object.keys(this.s.conditions)) {
+							if (cond === condDisp) {
+								this.s.condition = condDisp;
+								break;
+							}
+						}
+
+						// When the condition is changed, the value selector may switch between
+						// a select element and an input element
+						this._clearValue();
+						this._populateValue();
+
+						for (let val of this.dom.value) {
+							// If this criteria was previously active in the search then remove
+							// it from the search and trigger a new search
+							if (this.s.filled && val !== undefined && this.dom.container.has(val[0]).length !== 0) {
+								this.s.filled = false;
+								this.s.dt.draw();
+								this.setListeners();
+							}
+						}
+
+						if (
+							this.dom.value.length === 0 ||
+							this.dom.value.length === 1 && this.dom.value[0] === undefined
+						) {
+							this.s.dt.draw();
+						}
 					}
-				}
-
-				// When the condition is changed, the value selector may switch between
-				// a select element and an input element
-				this._clearValue();
-				this._populateValue();
-
-				for (let val of this.dom.value) {
-					// If this criteria was previously active in the search then remove
-					// it from the search and trigger a new search
-					if (this.s.filled && val !== undefined && this.dom.container.has(val[0]).length !== 0) {
-						this.s.filled = false;
-						this.s.dt.draw();
-						this.setListeners();
+					else {
+						option.removeProp('selected');
 					}
-				}
-
-				if(this.dom.value.length === 0 || this.dom.value.length === 1 && this.dom.value[0] === undefined) {
-					this.s.dt.draw();
 				}
 			});
-
 	}
 
 	/**
@@ -2307,7 +2358,7 @@ export default class Criteria {
 	 */
 	private _clearCondition(): void {
 		this.dom.condition.empty();
-		this.dom.conditionTitle.attr('selected', 'true').attr('disabled', 'true');
+		this.dom.conditionTitle.prop('selected', true).attr('disabled', 'true');
 		this.dom.condition.prepend(this.dom.conditionTitle).prop('selectedIndex', 0);
 		this.s.conditions = {};
 		this.s.condition = undefined;
@@ -2354,7 +2405,7 @@ export default class Criteria {
 
 			// Append the default valueTitle to the default select element
 			this.dom.valueTitle
-				.attr('selected', 'true');
+				.prop('selected', true);
 			this.dom.defaultValue
 				.append(this.dom.valueTitle)
 				.insertAfter(this.dom.condition);
@@ -2417,7 +2468,7 @@ export default class Criteria {
 				.append(this.dom.conditionTitle)
 				.addClass(this.classes.italic);
 			this.dom.conditionTitle
-				.attr('selected', 'true');
+				.prop('selected', true);
 
 			let decimal = this.s.dt.settings()[0].oLanguage.sDecimal;
 
@@ -2497,7 +2548,7 @@ export default class Criteria {
 					.addClass(this.classes.notItalic);
 
 				if (this.s.condition !== undefined && this.s.condition === condName) {
-					newOpt.attr('selected', true);
+					newOpt.prop('selected', true);
 					this.dom.condition.removeClass(this.classes.italic);
 				}
 
@@ -2560,8 +2611,12 @@ export default class Criteria {
 							})
 								.addClass(this.classes.option)
 								.addClass(this.classes.notItalic)
-								.attr('origData', col.data)
+								.prop('origData', col.data)
+								.prop('selected', this.s.dataIdx === opt.index ? true : false)
 						);
+						if(this.s.dataIdx === opt.index) {
+							this.dom.dataTitle.removeProp('selected');
+						}
 					}
 				}
 			});
@@ -2588,11 +2643,12 @@ export default class Criteria {
 				})
 					.addClass(this.classes.option)
 					.addClass(this.classes.notItalic)
-					.attr('origData', data.origData);
+					.prop('origData', data.origData);
 
 				if (this.s.data === data.text) {
 					this.s.dataIdx = data.index;
-					newOpt.attr('selected', true);
+					this.dom.dataTitle.removeProp('selected');
+					newOpt.prop('selected', true);
 					this.dom.data.removeClass(this.classes.italic);
 				}
 
