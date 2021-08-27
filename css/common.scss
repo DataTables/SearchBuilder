@@ -16,9 +16,12 @@ $border-width: 1px;
 
 div.dt-button-collection {
     overflow: visible !important;
+    z-index: 2002 !important;
 
     div.dtsb-searchBuilder {
-        width: 100% !important;
+        width: 99% !important;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
     }
 }
 

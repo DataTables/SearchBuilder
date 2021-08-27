@@ -55,5 +55,18 @@
 		value: 'ui selection dropdown dtsb-value',
 	});
 
+	dataTable.ext.buttons.searchBuilder.action = function(e, dt, node, config) {
+		e.stopPropagation();
+		this.popover(config._searchBuilder.getNode(), {
+			align: 'dt-container'
+		});
+		// Need to redraw the contents to calculate the correct positions for the elements
+		if(config._searchBuilder.s.topGroup !== undefined) {
+			config._searchBuilder.s.topGroup.dom.container.trigger('dtsb-redrawContents');
+		}
+
+		$('div.dtsb-searchBuilder').removeClass('ui basic vertical buttons');
+	};
+
 	return dataTable.searchPanes;
 }));

@@ -1,5 +1,37 @@
 @import './common.scss';
 
+div.dt-button-collection {
+    border: 1px solid rgba(34,36,38,0.15);
+    border-radius: 4px;
+
+    div.dtsb-searchBuilder {
+        margin: 10px;
+
+        div.dtsb-titleRow {
+            font-size: 13.33px;
+
+            button.dtsb-clearAll {
+                border: none;
+                border-radius: 4px;
+            }
+        }
+        select.ui.dropdown {
+            font-size: 13.33px;
+        }
+
+        div.dtsb-logicContainer {
+            margin-top: 10px !important;
+            border: 1px solid rgba(34, 36, 38, 0.15);
+            border-radius: 4px;
+        }
+
+        div.dtsb-criteria,
+        div.dtsb-group {
+            margin-bottom: 10px !important;
+        }
+    }
+}
+
 div.dtsb-searchBuilder {
     button.dtsb-button {
         padding-top: 5px;
@@ -36,6 +68,11 @@ div.dtsb-searchBuilder {
             }
         }
 
+        button.ui.button {
+            border: 1px solid rgba(34, 36, 38, 0.15);
+            border-radius: 4px;
+        }
+        
         div.dtsb-logicContainer{
             border-radius: 4px;
             display: flex;
@@ -51,13 +88,14 @@ div.dtsb-searchBuilder {
                 border-radius: 0px;
                 flex-grow: 1;
                 flex-shrink: 0;
-                flex-basis: 3em;
+                flex-basis: 2.5em;
                 margin: 0px;
             }
     
             button.dtsb-clearGroup {
                 border: none;
                 border-radius: 0px;
+                flex-grow: 0;
                 width: 2em;
                 margin: 0px;
             }
