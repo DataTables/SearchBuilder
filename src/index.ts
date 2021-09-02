@@ -93,7 +93,6 @@ import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
 
 	$.fn.dataTable.ext.buttons.searchBuilder = {
 		action(e, dt, node, config) {
-			e.stopPropagation();
 			this.popover(config._searchBuilder.getNode(), {
 				align: 'dt-container'
 			});
