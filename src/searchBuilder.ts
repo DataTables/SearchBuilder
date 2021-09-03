@@ -549,7 +549,7 @@ export default class SearchBuilder {
 
 			this._updateTitle(count);
 			this._filterChanged(count);
-
+			this.s.dt.draw();
 			this.s.dt.state.save();
 		});
 
