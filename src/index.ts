@@ -175,7 +175,7 @@ import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
 
 	// Attach a listener to the document which listens for DataTables initialisation
 	// events so we can automatically initialise
-	$(document).on('preInit.dt.dtsp', function(e, settings, json) {
+	$(document).on('preInit.dt.dtsp', function(e, settings) {
 		if (e.namespace !== 'dt') {
 			return;
 		}
