@@ -127,7 +127,7 @@ module.exports = {
 			'error',
 			'stroustrup'
 		],
-		'class-methods-use-this': 'error',
+		'class-methods-use-this': 'off',
 		'comma-dangle': 'off',
 		'complexity': 'off',
 		'constructor-super': 'error',
