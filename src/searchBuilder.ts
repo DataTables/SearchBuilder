@@ -279,7 +279,12 @@ export default class SearchBuilder {
 			return this;
 		}
 
+		this.s.topGroup.s.preventRedraw = true;
 		this.s.topGroup.rebuild(details);
+		this.s.topGroup.s.preventRedraw = false;
+
+		this.s.topGroup.redrawContents();
+
 		this.s.dt.draw(false);
 		this.s.topGroup.setListeners();
 

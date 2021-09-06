@@ -28,6 +28,7 @@ export interface IS {
 	isChild: boolean;
 	logic: string;
 	opts: builderType.IDefaults;
+	preventRedraw: boolean;
 	toDrop: Criteria;
 	topGroup: JQuery<HTMLElement>;
 }
@@ -163,6 +164,7 @@ export default class Group {
 			isChild,
 			logic: undefined,
 			opts,
+			preventRedraw: false,
 			toDrop: undefined,
 			topGroup
 		};
@@ -291,6 +293,10 @@ export default class Group {
 	 * Redraws the Contents of the searchBuilder Groups and Criteria
 	 */
 	public redrawContents(): void {
+		if(this.s.preventRedraw) {
+			return;
+		}
+
 		// Clear the container out and add the basic elements
 		this.dom.container.children().detach();
 		this.dom.container
