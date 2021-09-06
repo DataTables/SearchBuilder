@@ -1998,8 +1998,6 @@ export default class Criteria {
 	 * Gets the details required to rebuild the criteria
 	 */
 	public getDetails(deFormatDates=false): IDetails {
-		let value = this.s.value;
-
 		// This check is in place for if a custom decimal character is in place
 		if (
 			this.s.type !== null &&
@@ -2151,15 +2149,11 @@ export default class Criteria {
 				this.dom.conditionTitle.remove();
 				this.dom.condition.removeClass(this.classes.italic);
 
-				let isSelected = 0;
 				// eslint-disable-next-line @typescript-eslint/prefer-for-of
 				for(let i = 0; i < options.length; i++) {
 					let option = $(options[i]);
 					if(option.val() !== this.s.condition) {
 						option.removeProp('selected');
-					}
-					if(option.prop('selected')) {
-						isSelected++;
 					}
 				}
 

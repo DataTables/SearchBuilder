@@ -12,7 +12,7 @@ export function setJQuery(jq: any): void {
 }
 
 import Criteria, * as criteriaType from './criteria';
-import Group, * as groupType from './group';
+import Group from './group';
 
 export interface IDetails {
 	criteria: Group[];
@@ -318,7 +318,7 @@ export default class SearchBuilder {
 	 */
 	private _setUp(loadState = true): void {
 		// Register an Api method for getting the column type
-		$.fn.DataTable.Api.registerPlural('columns().type()', 'column().type()', function(selector, opts) {
+		$.fn.DataTable.Api.registerPlural('columns().type()', 'column().type()', function() {
 			return this.iterator('column', function(settings, column) {
 				return settings.aoColumns[column].sType;
 			}, 1);
@@ -465,7 +465,7 @@ export default class SearchBuilder {
 
 		if (!$.fn.dataTable.ext.search.includes(this.s.search)) {
 			// Custom search function for SearchBuilder
-			this.s.search = (settings, searchData, dataIndex, origData) => {
+			this.s.search = (settings, searchData, dataIndex) => {
 				if (settings.nTable !== tableNode) {
 					return true;
 				}
