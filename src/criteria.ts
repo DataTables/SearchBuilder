@@ -233,15 +233,15 @@ export default class Criteria {
 		}
 
 		// For responsive design, adjust the criterias properties on the following events
-		this.s.dt.on('draw.dtsp', () => {
+		this.s.dt.on('draw.dtsb', () => {
 			this._adjustCriteria();
 		});
 
-		this.s.dt.on('buttons-action', () => {
+		this.s.dt.on('buttons-action.dtsb', () => {
 			this._adjustCriteria();
 		});
 
-		$(window).on('resize.dtsp', dataTable.util.throttle(() => {
+		$(window).on('resize.dtsb', dataTable.util.throttle(() => {
 			this._adjustCriteria();
 		}));
 
@@ -265,7 +265,7 @@ export default class Criteria {
 			.addClass(Criteria.classes.italic)
 			.addClass(Criteria.classes.select)
 			.append(that.dom.valueTitle)
-			.on('change', function() {
+			.on('change.dtsb', function() {
 				$(this).removeClass(Criteria.classes.italic);
 				fn(that, this);
 			});
@@ -432,7 +432,7 @@ export default class Criteria {
 		let el = $('<input/>')
 			.addClass(Criteria.classes.value)
 			.addClass(Criteria.classes.input)
-			.on('input keypress', that._throttle(
+			.on('input.dtsb keypress.dtsb', that._throttle(
 				function(e) {
 					let code = e.keyCode || e.which;
 
@@ -460,7 +460,7 @@ export default class Criteria {
 		}
 
 		// This is add responsive functionality to the logic button without redrawing everything else
-		that.s.dt.one('draw', () => {
+		that.s.dt.one('draw.dtsb', () => {
 			that.s.topGroup.trigger('dtsb-redrawLogic');
 		});
 
@@ -481,7 +481,7 @@ export default class Criteria {
 			$('<input/>')
 				.addClass(Criteria.classes.value)
 				.addClass(Criteria.classes.input)
-				.on('input keypress', that._throttle(
+				.on('input.dtsb keypress.dtsb', that._throttle(
 					function(e) {
 						let code = e.keyCode || e.which;
 
@@ -506,7 +506,7 @@ export default class Criteria {
 			$('<input/>')
 				.addClass(Criteria.classes.value)
 				.addClass(Criteria.classes.input)
-				.on('input keypress', that._throttle(
+				.on('input.dtsb keypress.dtsb', that._throttle(
 					function(e) {
 						let code = e.keyCode || e.which;
 
@@ -537,7 +537,7 @@ export default class Criteria {
 		}
 
 		// This is add responsive functionality to the logic button without redrawing everything else
-		that.s.dt.one('draw', () => {
+		that.s.dt.one('draw.dtsb', () => {
 			that.s.topGroup.trigger('dtsb-redrawLogic');
 		});
 
@@ -561,7 +561,7 @@ export default class Criteria {
 				attachTo: 'input',
 				format: that.s.dateFormat ? that.s.dateFormat : undefined
 			})
-			.on('change',
+			.on('change.dtsb',
 				that._throttle(
 					function() {
 						return fn(that, this);
@@ -570,7 +570,7 @@ export default class Criteria {
 				)
 			)
 			.on(
-				'input keypress',
+				'input.dtsb keypress.dtsb',
 				that.c.enterSearch ||
 				that.s.dt.settings()[0].oInit.search !== undefined &&
 				that.s.dt.settings()[0].oInit.search.return ?
@@ -604,7 +604,7 @@ export default class Criteria {
 		}
 
 		// This is add responsive functionality to the logic button without redrawing everything else
-		that.s.dt.one('draw', () => {
+		that.s.dt.one('draw.dtsb', () => {
 			that.s.topGroup.trigger('dtsb-redrawLogic');
 		});
 
@@ -613,7 +613,7 @@ export default class Criteria {
 
 	private static initNoValue = function(that: Criteria) {
 		// This is add responsive functionality to the logic button without redrawing everything else
-		that.s.dt.one('draw', () => {
+		that.s.dt.one('draw.dtsb', () => {
 			that.s.topGroup.trigger('dtsb-redrawLogic');
 		});
 	};
@@ -633,7 +633,7 @@ export default class Criteria {
 					attachTo: 'input',
 					format: that.s.dateFormat ? that.s.dateFormat : undefined
 				})
-				.on('change', searchDelay !== null ?
+				.on('change.dtsb', searchDelay !== null ?
 					that.s.dt.settings()[0].oApi._fnThrottle(
 						function() {
 							return fn(that, this);
@@ -645,7 +645,7 @@ export default class Criteria {
 					}
 				)
 				.on(
-					'input keypress',
+					'input.dtsb keypress.dtsb',
 					!that.c.enterSearch &&
 					!(
 						that.s.dt.settings()[0].oInit.search !== undefined &&
@@ -681,7 +681,7 @@ export default class Criteria {
 					attachTo: 'input',
 					format: that.s.dateFormat ? that.s.dateFormat : undefined
 				})
-				.on('change', searchDelay !== null ?
+				.on('change.dtsb', searchDelay !== null ?
 					that.s.dt.settings()[0].oApi._fnThrottle(
 						function() {
 							return fn(that, this);
@@ -693,7 +693,7 @@ export default class Criteria {
 					}
 				)
 				.on(
-					'input keypress',
+					'input.dtsb keypress.dtsb',
 					!that.c.enterSearch &&
 					!(
 						that.s.dt.settings()[0].oInit.search !== undefined &&
@@ -733,7 +733,7 @@ export default class Criteria {
 		}
 
 		// This is add responsive functionality to the logic button without redrawing everything else
-		that.s.dt.one('draw', () => {
+		that.s.dt.one('draw.dtsb', () => {
 			that.s.topGroup.trigger('dtsb-redrawLogic');
 		});
 
@@ -2171,7 +2171,7 @@ export default class Criteria {
 	public setListeners(): void {
 		this.dom.data
 			.unbind('change')
-			.on('change', () => {
+			.on('change.dtsb', () => {
 				this.dom.dataTitle.removeProp('selected');
 				// Need to go over every option to identify the correct selection
 				let options = this.dom.data.children('option.' + this.classes.option);
@@ -2212,7 +2212,7 @@ export default class Criteria {
 
 		this.dom.condition
 			.unbind('change')
-			.on('change', () => {
+			.on('change.dtsb', () => {
 				this.dom.conditionTitle.removeProp('selected');
 				// Need to go over every option to identify the correct selection
 				let options = this.dom.condition.children('option.'+this.classes.option);

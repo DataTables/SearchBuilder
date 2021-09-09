@@ -377,14 +377,14 @@ export default class SearchBuilder {
 
 		this._setClearListener();
 
-		this.s.dt.on('stateSaveParams', (e, settings, data) => {
+		this.s.dt.on('stateSaveParams.dtsb', (e, settings, data) => {
 			data.searchBuilder = this.getDetails();
 			data.page = this.s.dt.page();
 		});
 
 		this._build();
 
-		this.s.dt.on('preXhr', (e, settings, data) => {
+		this.s.dt.on('preXhr.dtsb', (e, settings, data) => {
 			if (this.s.dt.page.info().serverSide) {
 				data.searchBuilder = this._collapseArray(this.getDetails(true));
 			}
@@ -482,7 +482,7 @@ export default class SearchBuilder {
 			$.fn.dataTable.ext.search.push(this.s.search);
 		}
 
-		this.s.dt.on('destroy.dt', () => {
+		this.s.dt.on('destroy.dtsb', () => {
 			this.dom.container.remove();
 			this.dom.clearAll.remove();
 
@@ -492,6 +492,9 @@ export default class SearchBuilder {
 				$.fn.dataTable.ext.search.splice(searchIdx, 1);
 				searchIdx = $.fn.dataTable.ext.search.indexOf(this.s.search);
 			}
+
+			this.s.dt.off('.dtsb');
+			$(this.s.dt.table().node()).off('.dtsb');
 		});
 	}
 
@@ -526,7 +529,7 @@ export default class SearchBuilder {
 	 */
 	private _setClearListener() {
 		this.dom.clearAll.unbind('click');
-		this.dom.clearAll.on('click', () => {
+		this.dom.clearAll.on('click.dtsb', () => {
 			this.s.topGroup = new Group(this.s.dt, this.c, undefined);
 			this._build();
 			this.s.dt.draw();
@@ -544,7 +547,7 @@ export default class SearchBuilder {
 	 */
 	private _setRedrawListener() {
 		this.s.topGroup.dom.container.unbind('dtsb-redrawContents');
-		this.s.topGroup.dom.container.on('dtsb-redrawContents', () => {
+		this.s.topGroup.dom.container.on('dtsb-redrawContents.dtsb', () => {
 			this._checkClear();
 			this.s.topGroup.redrawContents();
 			this.s.topGroup.setupLogic();
@@ -559,7 +562,7 @@ export default class SearchBuilder {
 		});
 
 		this.s.topGroup.dom.container.unbind('dtsb-redrawLogic');
-		this.s.topGroup.dom.container.on('dtsb-redrawLogic', () => {
+		this.s.topGroup.dom.container.on('dtsb-redrawLogic.dtsb', () => {
 			this.s.topGroup.redrawLogic();
 			let count = this.s.topGroup.count();
 
@@ -568,26 +571,26 @@ export default class SearchBuilder {
 		});
 
 		this.s.topGroup.dom.container.unbind('dtsb-add');
-		this.s.topGroup.dom.container.on('dtsb-add', () => {
+		this.s.topGroup.dom.container.on('dtsb-add.dtsb', () => {
 			let count = this.s.topGroup.count();
 
 			this._updateTitle(count);
 			this._filterChanged(count);
 		});
 
-		this.s.dt.on('postEdit postCreate postRemove', () => {
+		this.s.dt.on('postEdit.dtsb postCreate.dtsb postRemove.dtsb', () => {
 			this.s.topGroup.redrawContents();
 		});
 
 		this.s.topGroup.dom.container.unbind('dtsb-clearContents');
-		this.s.topGroup.dom.container.on('dtsb-clearContents', () => {
+		this.s.topGroup.dom.container.on('dtsb-clearContents.dtsb', () => {
 			this._setUp(false);
 			this._filterChanged(0);
 
 			this.s.dt.draw();
 		});
 
-		this.s.topGroup.dom.container.on('dtsb-updateTitle', () => {
+		this.s.topGroup.dom.container.on('dtsb-updateTitle.dtsb', () => {
 			let count = this.s.topGroup.count();
 			this._updateTitle(count);
 			this._filterChanged(count);
@@ -598,11 +601,11 @@ export default class SearchBuilder {
 	 * Sets listeners to check whether clearAll should be added or removed
 	 */
 	private _setEmptyListener() {
-		this.s.topGroup.dom.add.on('click', () => {
+		this.s.topGroup.dom.add.on('click.dtsb', () => {
 			this._checkClear();
 		});
 
-		this.s.topGroup.dom.container.on('dtsb-destroy', () => {
+		this.s.topGroup.dom.container.on('dtsb-destroy.dtsb', () => {
 			this.dom.clearAll.remove();
 		});
 	}

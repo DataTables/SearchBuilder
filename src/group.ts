@@ -442,7 +442,7 @@ export default class Group {
 	 */
 	public setListeners(): void {
 		this.dom.add.unbind('click');
-		this.dom.add.on('click', () => {
+		this.dom.add.on('click.dtsb', () => {
 			// If this is the parent group then the logic button has not been added yet
 			if (!this.s.isChild) {
 				this.dom.container.prepend(this.dom.logicContainer);
@@ -711,7 +711,7 @@ export default class Group {
 	private _setCriteriaListeners(criteria: Criteria): void {
 		criteria.dom.delete
 			.unbind('click')
-			.on('click', () => {
+			.on('click.dtsb', () => {
 				this._removeCriteria(criteria);
 				criteria.dom.container.remove();
 
@@ -732,7 +732,7 @@ export default class Group {
 
 		criteria.dom.right
 			.unbind('click')
-			.on('click', () => {
+			.on('click.dtsb', () => {
 				let idx = criteria.s.index;
 				let group = new Group(
 					this.s.dt,
@@ -759,7 +759,7 @@ export default class Group {
 
 		criteria.dom.left
 			.unbind('click')
-			.on('click', () => {
+			.on('click.dtsb', () => {
 				this.s.toDrop = new Criteria(this.s.dt, this.s.opts, this.s.topGroup, criteria.s.index);
 				this.s.toDrop.s = criteria.s;
 				this.s.toDrop.c = criteria.c;
@@ -788,7 +788,7 @@ export default class Group {
 	private _setClearListener(): void {
 		this.dom.clear
 			.unbind('click')
-			.on('click', () => {
+			.on('click.dtsb', () => {
 				if (!this.s.isChild) {
 					this.dom.container.trigger('dtsb-clearContents');
 
@@ -812,7 +812,7 @@ export default class Group {
 		// Set listeners for the new group
 		group.dom.add
 			.unbind('click')
-			.on('click', () => {
+			.on('click.dtsb', () => {
 				this.setupLogic();
 				this.dom.container.trigger('dtsb-add');
 
@@ -821,7 +821,7 @@ export default class Group {
 
 		group.dom.container
 			.unbind('dtsb-add')
-			.on('dtsb-add', () => {
+			.on('dtsb-add.dtsb', () => {
 				this.setupLogic();
 				this.dom.container.trigger('dtsb-add');
 
@@ -830,7 +830,7 @@ export default class Group {
 
 		group.dom.container
 			.unbind('dtsb-destroy')
-			.on('dtsb-destroy', () => {
+			.on('dtsb-destroy.dtsb', () => {
 				this._removeCriteria(group, true);
 				group.dom.container.remove();
 				this.setupLogic();
@@ -840,7 +840,7 @@ export default class Group {
 
 		group.dom.container
 			.unbind('dtsb-dropCriteria')
-			.on('dtsb-dropCriteria', () => {
+			.on('dtsb-dropCriteria.dtsb', () => {
 				let toDrop = group.s.toDrop;
 				toDrop.s.index = group.s.index;
 				toDrop.updateArrows(this.s.criteria.length > 1, false);
@@ -886,7 +886,7 @@ export default class Group {
 	private _setLogicListener(): void {
 		this.dom.logic
 			.unbind('click')
-			.on('click', () => {
+			.on('click.dtsb', () => {
 				this._toggleLogic();
 				this.s.dt.draw();
 
