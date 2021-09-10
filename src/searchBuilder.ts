@@ -382,6 +382,10 @@ export default class SearchBuilder {
 			data.page = this.s.dt.page();
 		});
 
+		this.s.dt.on('stateLoadParams.dtsb', (e, settings, data) => {
+			this.rebuild(data.searchBuilder);
+		});
+
 		this._build();
 
 		this.s.dt.on('preXhr.dtsb', (e, settings, data) => {
