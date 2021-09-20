@@ -97,8 +97,11 @@ import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
 				align: 'dt-container'
 			});
 			// Need to redraw the contents to calculate the correct positions for the elements
-			if(config._searchBuilder.s.topGroup !== undefined) {
+			if (config._searchBuilder.s.topGroup !== undefined) {
 				config._searchBuilder.s.topGroup.dom.container.trigger('dtsb-redrawContents');
+			}
+			if (config._searchBuilder.s.topGroup.s.criteria.length === 0) {
+				$('.'+($.fn as any).dataTable.Group.classes.add).click();
 			}
 		},
 		config: {},

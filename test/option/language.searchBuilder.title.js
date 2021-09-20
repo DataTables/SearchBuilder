@@ -84,17 +84,21 @@ describe('searchBuilder - options - language.searchBuilder.title', function() {
 				}
 			});
 
-			$('.dt-button').click();
-			expect($('.dtsb-title').text()).toBe('test none');
+			expect($('.dt-button').text()).toBe('Search Builder');
 		});
-		it('... one filter', function() {
+		it('... one filter on initial button press', function() {
 			$('.dt-button').click();
-			$('.dtsb-add').click();
 			expect($('.dtsb-title').text()).toBe('test one');
 		});
-		it('... two filters', function() {
+		it('... second filter needs add press filter', function() {
+			$('.dt-button').click();
+			expect($('.dtsb-title').text()).toBe('test one');
 			$('.dtsb-add').click();
 			expect($('.dtsb-title').text()).toBe('test 2');
+		});
+		it('... 3 filters', function() {
+			$('.dtsb-add').click();
+			expect($('.dtsb-title').text()).toBe('test 3');
 		});
 	});
 });

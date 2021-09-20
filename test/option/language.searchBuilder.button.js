@@ -16,12 +16,11 @@ describe('searchBuilder - options - language.searchBuilder.button', function() {
 
 			expect($('.dt-button').text()).toBe('Search Builder');
 		});
-		it('... one filter', function() {
+		it('... one filter once SB button pressed', function() {
 			$('.dt-button').click();
-			$('.dtsb-add').click();
 			expect($('.dt-button').text()).toBe('Search Builder (1)');
 		});
-		it('... two filters', function() {
+		it('... two filters once add pressed', function() {
 			$('.dtsb-add').click();
 			expect($('.dt-button').text()).toBe('Search Builder (2)');
 		});
@@ -40,12 +39,11 @@ describe('searchBuilder - options - language.searchBuilder.button', function() {
 
 			expect($('.dt-button').text()).toBe('unit test');
 		});
-		it('... one filter', function() {
+		it('... one filter once SB button pressed', function() {
 			$('.dt-button').click();
-			$('.dtsb-add').click();
 			expect($('.dt-button').text()).toBe('unit test');
 		});
-		it('... two filters', function() {
+		it('... two filters once add button pressed', function() {
 			$('.dtsb-add').click();
 			expect($('.dt-button').text()).toBe('unit test');
 		});
@@ -68,14 +66,41 @@ describe('searchBuilder - options - language.searchBuilder.button', function() {
 
 			expect($('.dt-button').text()).toBe('test none');
 		});
-		it('... one filter', function() {
+		it('... one filter on first button press', function() {
 			$('.dt-button').click();
-			$('.dtsb-add').click();
 			expect($('.dt-button').text()).toBe('test one');
 		});
-		it('... two filters', function() {
+		it('... two filters needs add press', function() {
 			$('.dtsb-add').click();
 			expect($('.dt-button').text()).toBe('test 2');
+		});
+
+		dt.html('basic');
+		it('Pressing SB button only adds criteria the first time', function() {
+			table = $('#example').DataTable({
+				buttons: ['searchBuilder'],
+				dom: 'Bfrtip',
+				language: {
+					searchBuilder: {
+						button: {
+							0: 'test none',
+							1: 'test one',
+							_: 'test %d'
+						}
+					}
+				}
+			});
+
+			expect($('.dt-button').text()).toBe('test none');
+		});
+		it('... one filter on first button press', function() {
+			$('.dt-button').click();
+			expect($('.dt-button').text()).toBe('test one');
+		});
+		it('... one filter when pressed again', function() {
+			$('.dt-button-background').click();
+			$('.dt-button').click();
+			expect($('.dt-button').text()).toBe('test one');
 		});
 	});
 });
