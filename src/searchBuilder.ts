@@ -163,7 +163,10 @@ export default class SearchBuilder {
 					endsWith: 'Ends With',
 					equals: 'Equals',
 					not: 'Not',
+					notContains: 'Does Not Contain',
 					notEmpty: 'Not Empty',
+					notEndsWith: 'Does Not End With',
+					notStartsWith: 'Does Not Start With',
 					startsWith: 'Starts With',
 				}
 			},

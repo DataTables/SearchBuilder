@@ -18,8 +18,11 @@ This object sets the text for the condition names in the condition select elemen
 * `equals: 'Equals'`
 * `not: 'Not'`
 * `startsWith: 'Starts With'`
+* `notStartsWith: 'Does Not Start With'`
 * `contains: 'Contains'`
+* `notContains: 'Does Not Contain'`
 * `endsWith: 'Ends With'`
+* `notEndsWith: 'Does Not End With'`
 * `empty: 'Empty'`
 * `notEmpty: 'Not Empty'`
 		]]>
@@ -37,7 +40,10 @@ $(document).ready(function() {
                         endsWith: 'Ends With',
                         equals: 'Equals',
                         not: 'Not',
+						notContains: 'Does Not Contain',
                         notEmpty: 'Not Empty',
+						notEndsWith: 'Does Not End With',
+						notStartsWith: 'Does Not Start With',
                         startsWith: 'Starts With',
                     }
                 }

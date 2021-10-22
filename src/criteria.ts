@@ -1647,6 +1647,18 @@ export default class Criteria {
 			},
 		},
 		// eslint-disable-next-line sort-keys
+		'!starts': {
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.string.notStartsWith', i18n.conditions.string.notStartsWith);
+			},
+			init: Criteria.initInput,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: string, comparison: string[]): boolean {
+				return value.toLowerCase().indexOf(comparison[0].toLowerCase()) !== 0;
+			},
+		},
+		// eslint-disable-next-line sort-keys
 		'contains': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.string.contains', i18n.conditions.string.contains);
@@ -1658,6 +1670,18 @@ export default class Criteria {
 				return value.toLowerCase().includes(comparison[0].toLowerCase());
 			},
 		},
+		// eslint-disable-next-line sort-keys
+		'!contains': {
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.string.notContains', i18n.conditions.string.notContains);
+			},
+			init: Criteria.initInput,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: string, comparison: string[]): boolean {
+				return !value.toLowerCase().includes(comparison[0].toLowerCase());
+			},
+		},
 		'ends': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.string.endsWith', i18n.conditions.string.endsWith);
@@ -1667,6 +1691,18 @@ export default class Criteria {
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
 				return value.toLowerCase().endsWith(comparison[0].toLowerCase());
+			},
+		},
+		// eslint-disable-next-line sort-keys
+		'!ends': {
+			conditionName(dt, i18n): string {
+				return dt.i18n('searchBuilder.conditions.string.notEndsWith', i18n.conditions.string.notEndsWith);
+			},
+			init: Criteria.initInput,
+			inputValue: Criteria.inputValueInput,
+			isInputValid: Criteria.isInputValidInput,
+			search(value: string, comparison: string[]): boolean {
+				return !value.toLowerCase().endsWith(comparison[0].toLowerCase());
 			},
 		},
 		'null': {

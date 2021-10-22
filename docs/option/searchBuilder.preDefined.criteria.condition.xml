@@ -24,9 +24,12 @@
 			* `!null` - "Not Empty"
 			* `=` - "Equals"
 			* `contains` - "Contains"
+			* `!contains` - "Does Not Contain With"
 			* `ends` - "Ends With"
+			* `!ends` - "Does Not End With"
 			* `null` - "Empty"
 			* `starts` - "Starts With"
+			* `!starts` - "Does Not Start With"
 		* For the `num`, `num-fmt`, `html-num` and `html-num-fmt` column types
 			* `!=` - "Not"
 			* `!null` - "Not Empty"
