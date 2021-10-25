@@ -113,10 +113,13 @@ export default class Group {
 			clearAll: 'Clear All',
 			condition: 'Condition',
 			data: 'Data',
+			delete: '&times',
 			deleteTitle: 'Delete filtering rule',
+			left: '<',
 			leftTitle: 'Outdent criteria',
 			logicAnd: 'And',
 			logicOr: 'Or',
+			right: '>',
 			rightTitle: 'Indent criteria',
 			title: {
 				0: 'Custom Search Builder',

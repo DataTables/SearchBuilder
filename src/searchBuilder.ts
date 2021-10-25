@@ -63,10 +63,13 @@ export interface II18n {
 		};
 	};
 	data: string;
+	delete: string;
 	deleteTitle: string;
+	left: string;
 	leftTitle: string;
 	logicAnd: string;
 	logicOr: string;
+	right: string;
 	rightTitle: string;
 	title: {
 		0: string;
@@ -171,10 +174,13 @@ export default class SearchBuilder {
 				}
 			},
 			data: 'Data',
+			delete: '&times',
 			deleteTitle: 'Delete filtering rule',
+			left: '<',
 			leftTitle: 'Outdent criteria',
 			logicAnd: 'And',
 			logicOr: 'Or',
+			right: '>',
 			rightTitle: 'Indent criteria',
 			title: {
 				0: 'Custom Search Builder',

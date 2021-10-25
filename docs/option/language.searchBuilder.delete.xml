@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>language.searchBuilder.delete</name>
+	<summary>Set the html of the SearchBuilder delete criteria button</summary>
+	<since>1.0.0</since>
+
+	<type type="string">
+		<description>
+			`-init language.searchBuilder.delete` changes the html of the SearchBuilder delete criteria button.
+		</description>
+	</type>
+
+	<default value="&amp;amp;times" />
+
+	<description>
+		<![CDATA[
+			As standard, SearchBuilder will set the delete criteria button's html to '&times'. Which is an html character for a small cross.
+
+			The value of `-init language.searchBuilder.delete` is passed into an `-api i18n()` function.
+		]]>
+	</description>
+
+	<example title="Change title attribute for SearchBuilder delete criteria button"><![CDATA[
+$(document).ready(function() {
+	$('#example').DataTable( {
+		language: {
+			searchBuilder: {
+				delete: 'Delete'
+			}
+		},
+		dom: 'Qlfrtip',
+	});
+});
+
+]]></example>
+
+</dt-option>

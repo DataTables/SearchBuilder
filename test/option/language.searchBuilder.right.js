@@ -1,4 +1,4 @@
-describe('searchBuilder - options - language.searchBuilder.rightTitle', function() {
+describe('searchBuilder - options - language.searchBuilder.right', function() {
 	let table;
 
 	dt.libs({
@@ -16,7 +16,7 @@ describe('searchBuilder - options - language.searchBuilder.rightTitle', function
 			$('.dtsb-add').click();
 			$('.dtsb-add').click();
 
-			expect($('.dtsb-right:eq(0)').attr('title')).toBe('Indent criteria');
+			expect($('.dtsb-right:eq(0)').text()).toBe('>');
 		});
 
 		dt.html('basic');
@@ -25,7 +25,7 @@ describe('searchBuilder - options - language.searchBuilder.rightTitle', function
 				dom: 'Qlfrtip',
 				language: {
 					searchBuilder: {
-						rightTitle: 'unit test'
+						right: 'unit test'
 					}
 				}
 			});
@@ -33,7 +33,7 @@ describe('searchBuilder - options - language.searchBuilder.rightTitle', function
 			$('.dtsb-add').click();
 			$('.dtsb-add').click();
 
-			expect($('.dtsb-right:eq(0)').attr('title')).toBe('unit test');
+			expect($('.dtsb-right:eq(0)').text()).toBe('unit test');
 		});
 	});
 });

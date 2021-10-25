@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>language.searchBuilder.leftTitle</name>
+	<summary>Set the title attribute of the SearchBuilder left button</summary>
+	<since>1.0.0</since>
+
+	<type type="string | object">
+		<description>
+			`-init language.searchBuilder.leftTitle` changes the `title` of the SearchBuilder left button.
+		</description>
+	</type>
+
+	<default value="Outdent criteria" />
+
+	<description>
+		<![CDATA[
+			As standard, SearchBuilder will set the left button's title to `'Outdent criteria'`. This `title` is displayed when the mouse hovers over the left button.
+
+			The value of `-init language.searchBuilder.leftTitle` is passed into an `-api i18n()` function.
+		]]>
+	</description>
+
+	<example title="Change title attribute for SearchBuilder left button"><![CDATA[
+$(document).ready(function() {
+	$('#example').DataTable( {
+		language: {
+			searchBuilder: {
+				leftTitle: 'Left'
+			}
+		},
+		dom: 'Qlfrtip',
+	});
+});
+
+]]></example>
+
+<related type="api">i18n()</related>
+
+</dt-option>

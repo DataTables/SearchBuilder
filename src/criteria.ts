@@ -193,19 +193,22 @@ export default class Criteria {
 				.addClass(this.classes.value)
 				.addClass(this.classes.dropDown)
 				.addClass(this.classes.select),
-			delete: $('<button>&times</button>')
+			delete: $('<button/>')
+				.html(this.s.dt.i18n('searchBuilder.delete', i18n.delete))
 				.addClass(this.classes.delete)
 				.addClass(this.classes.button)
 				.attr('title', this.s.dt.i18n('searchBuilder.deleteTitle', i18n.deleteTitle))
 				.attr('type', 'button'),
 			// eslint-disable-next-line no-useless-escape
-			left: $('<button>\<</button>')
+			left: $('<button/>')
+				.text(this.s.dt.i18n('searchBuilder.left', i18n.left))
 				.addClass(this.classes.left)
 				.addClass(this.classes.button)
 				.attr('title', this.s.dt.i18n('searchBuilder.leftTitle', i18n.leftTitle))
 				.attr('type', 'button'),
 			// eslint-disable-next-line no-useless-escape
-			right: $('<button>\></button>')
+			right: $('<button/>')
+				.text(this.s.dt.i18n('searchBuilder.right', i18n.right))
 				.addClass(this.classes.right)
 				.addClass(this.classes.button)
 				.attr('title', this.s.dt.i18n('searchBuilder.rightTitle', i18n.rightTitle))
@@ -1871,10 +1874,13 @@ export default class Criteria {
 			clearAll: 'Clear All',
 			condition: 'Condition',
 			data: 'Data',
+			delete: '&times',
 			deleteTitle: 'Delete filtering rule',
+			left: '<',
 			leftTitle: 'Outdent criteria',
 			logicAnd: 'And',
 			logicOr: 'Or',
+			right: '>',
 			rightTitle: 'Indent criteria',
 			title: {
 				0: 'Custom Search Builder',

@@ -1,4 +1,4 @@
-describe('searchBuilder - options - language.searchBuilder.rightTitle', function() {
+describe('searchBuilder - options - language.searchBuilder.left', function() {
 	let table;
 
 	dt.libs({
@@ -15,8 +15,9 @@ describe('searchBuilder - options - language.searchBuilder.rightTitle', function
 
 			$('.dtsb-add').click();
 			$('.dtsb-add').click();
+			$('.dtsb-right:eq(0)').click();
 
-			expect($('.dtsb-right:eq(0)').attr('title')).toBe('Indent criteria');
+			expect($('.dtsb-left').text()).toBe('<');
 		});
 
 		dt.html('basic');
@@ -25,15 +26,16 @@ describe('searchBuilder - options - language.searchBuilder.rightTitle', function
 				dom: 'Qlfrtip',
 				language: {
 					searchBuilder: {
-						rightTitle: 'unit test'
+						left: 'unit test'
 					}
 				}
 			});
 
 			$('.dtsb-add').click();
 			$('.dtsb-add').click();
+			$('.dtsb-right:eq(0)').click();
 
-			expect($('.dtsb-right:eq(0)').attr('title')).toBe('unit test');
+			expect($('.dtsb-left').text()).toBe('unit test');
 		});
 	});
 });
