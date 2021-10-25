@@ -14,14 +14,14 @@ $(document).ready(function() {
                 condition: 'Comparator',
                 clearAll: 'Reset',
                 delete: 'Delete',
-                deleteTitle: 'Delete',
+                deleteTitle: 'Delete Title',
                 data: 'Column',
                 left: 'Left',
-                leftTitle: 'Left',
+                leftTitle: 'Left Title',
                 logicAnd: '&&',
                 logicOr: '||',
                 right: 'Right',
-                rightTitle: 'Right',
+                rightTitle: 'Right Title',
                 title: {
                     0: 'Filters',
                     _: 'Filters (%d)'
@@ -46,11 +46,14 @@ This example demonstrates how to set the value of the following language propert
 * `-init language.searchBuilder.add`
 * `-init language.searchBuilder.condition`
 * `-init language.searchBuilder.clearAll`
+* `-init language.searchBuilder.delete`
 * `-init language.searchBuilder.deleteTitle`
 * `-init language.searchBuilder.data`
+* `-init language.searchBuilder.left`
 * `-init language.searchBuilder.leftTitle`
 * `-init language.searchBuilder.logicAnd`
 * `-init language.searchBuilder.logicOr`
+* `-init language.searchBuilder.right`
 * `-init language.searchBuilder.rightTitle`
 * `-init language.searchBuilder.title`
 * `-init language.searchBuilder.value`
