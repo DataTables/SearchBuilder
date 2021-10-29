@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
-	<name>language.searchBuilder.leftTitle</name>
-	<summary>Set the title attribute of the SearchBuilder left button</summary>
+	<name>language.searchBuilder.left</name>
+	<summary>Set the text of the SearchBuilder left button</summary>
 	<since>1.0.0</since>
 
 	<type type="string | object">
 		<description>
-			`-init language.searchBuilder.leftTitle` changes the `title` of the SearchBuilder left button.
+			`-init language.searchBuilder.left` changes the text of the SearchBuilder left button.
 		</description>
 	</type>
 
@@ -14,18 +14,18 @@
 
 	<description>
 		<![CDATA[
-			As standard, SearchBuilder will set the left button's title to `'Outdent criteria'`. This `title` is displayed when the mouse hovers over the left button.
+			As standard, SearchBuilder will set the left button's text to `'<'`.
 
-			The value of `-init language.searchBuilder.leftTitle` is passed into an `-api i18n()` function.
+			The value of `-init language.searchBuilder.left` is passed into an `-api i18n()` function.
 		]]>
 	</description>
 
-	<example title="Change title attribute for SearchBuilder left button"><![CDATA[
+	<example title="Change the SearchBuilder left button's text"><![CDATA[
 $(document).ready(function() {
 	$('#example').DataTable( {
 		language: {
 			searchBuilder: {
-				leftTitle: 'Left'
+				left: 'Left'
 			}
 		},
 		dom: 'Qlfrtip',

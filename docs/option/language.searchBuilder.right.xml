@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
-	<name>language.searchBuilder.rightTitle</name>
-	<summary>Set the title attribute of the SearchBuilder right button</summary>
+	<name>language.searchBuilder.right</name>
+	<summary>Set the text of the SearchBuilder right button</summary>
 	<since>1.0.0</since>
 
 	<type type="string | object">
 		<description>
-			`-init language.searchBuilder.rightTitle` changes the title of the SearchBuilder right button.
+			`-init language.searchBuilder.right` changes the text of the SearchBuilder right button.
 		</description>
 	</type>
 
@@ -14,18 +14,18 @@
 
 	<description>
 		<![CDATA[
-			As standard, SearchBuilder will set the right button's title to `'Indent criteria'`. This `title` is displayed when the mouse hovers over the right button.
+			As standard, SearchBuilder will set the right button's text to `'>'`.
 
-			The value of `-init language.searchBuilder.rightTitle` is passed into an `-api i18n()` function.
+			The value of `-init language.searchBuilder.right` is passed into an `-api i18n()` function.
 		]]>
 	</description>
 
-	<example title="Change title attribute for SearchBuilder right button"><![CDATA[
+	<example title="Change the SearchBuilder right button's text"><![CDATA[
 $(document).ready(function() {
 	$('#example').DataTable( {
 		language: {
 			searchBuilder: {
-				rightTitle: 'Right'
+				right: 'Right'
 			}
 		},
 		dom: 'Qlfrtip',

@@ -20,7 +20,7 @@
 		]]>
 	</description>
 
-	<example title="Change title attribute for SearchBuilder delete criteria button"><![CDATA[
+	<example title="Change the SearchBuilder delete criteria button's text"><![CDATA[
 $(document).ready(function() {
 	$('#example').DataTable( {
 		language: {
