@@ -10,7 +10,7 @@
 		</description>
 	</type>
 
-	<default value="Indent criteria" />
+	<default value="&lt;tag&gt;&gt;&lt;/tag&gt;" />
 
 	<description>
 		<![CDATA[

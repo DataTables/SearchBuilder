@@ -10,7 +10,7 @@
 		</description>
 	</type>
 
-	<default value="Outdent criteria" />
+	<default value="&lt;tag&gt;&lt;&lt;/tag&gt;" />
 
 	<description>
 		<![CDATA[

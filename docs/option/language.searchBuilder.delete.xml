@@ -14,7 +14,7 @@
 
 	<description>
 		<![CDATA[
-			As standard, SearchBuilder will set the delete criteria button's html to '&times'. Which is an html character for a small cross.
+			As standard, SearchBuilder will set the delete criteria button's html to '&times'. Which is a HTML character for a small cross.
 
 			The value of `-init language.searchBuilder.delete` is passed into an `-api i18n()` function.
 		]]>
