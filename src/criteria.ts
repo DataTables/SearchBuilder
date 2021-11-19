@@ -2012,17 +2012,17 @@ export default class Criteria {
 				filter.sort();
 
 				for (let filt of filter) {
-					if(filt) {
+					if(filt && typeof filt === 'string') {
 						filt = filt.replace(/[\r\n\u2028]/g, ' ');
 					}
 				}
 
 			}
-			else if (filter !== null) {
+			else if (filter !== null && typeof filter === 'string') {
 				filter = filter.replace(/[\r\n\u2028]/g, ' ');
 			}
 
-			if (this.s.type.includes('html')) {
+			if (this.s.type.includes('html') && typeof filter === 'string') {
 				filter = filter.replace(/(<([^>]+)>)/ig, '');
 			}
 
