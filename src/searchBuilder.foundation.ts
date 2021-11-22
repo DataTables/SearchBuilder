@@ -37,21 +37,21 @@
 	let dataTable = $.fn.dataTable;
 
 	$.extend(true, dataTable.SearchBuilder.classes, {
-		clearAll: 'button secondary dtsb-clearAll'
+		clearAll: 'button alert dtsb-clearAll'
 	});
 
 	$.extend(true, dataTable.Group.classes, {
-		add: 'button secondary dtsb-add',
-		clearGroup: 'button secondary dtsb-clearGroup',
-		logic: 'button secondary dtsb-logic',
+		add: 'button dtsb-add',
+		clearGroup: 'button dtsb-clearGroup',
+		logic: 'button dtsb-logic',
 	});
 
 	$.extend(true, dataTable.Criteria.classes, {
 		condition: 'form-control dtsb-condition',
 		data: 'form-control dtsb-data',
-		delete: 'button secondary dtsb-delete',
-		left: 'button secondary dtsb-left',
-		right: 'button secondary dtsb-right',
+		delete: 'button alert dtsb-delete',
+		left: 'button dtsb-left',
+		right: 'button dtsb-right',
 		value: 'form-control dtsb-value',
 	});
 
