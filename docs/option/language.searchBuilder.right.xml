@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>language.searchBuilder.right</name>
+	<summary>Set the text of the SearchBuilder right button</summary>
+	<since>1.0.0</since>
+
+	<type type="string | object">
+		<description>
+			`-init language.searchBuilder.right` changes the text of the SearchBuilder right button.
+		</description>
+	</type>
+
+	<default value="&lt;tag&gt;&gt;&lt;/tag&gt;" />
+
+	<description>
+		<![CDATA[
+			As standard, SearchBuilder will set the right button's text to `'>'`.
+
+			The value of `-init language.searchBuilder.right` is passed into an `-api i18n()` function.
+		]]>
+	</description>
+
+	<example title="Change the SearchBuilder right button's text"><![CDATA[
+$(document).ready(function() {
+	$('#example').DataTable( {
+		language: {
+			searchBuilder: {
+				right: 'Right'
+			}
+		},
+		dom: 'Qlfrtip',
+	});
+});
+
+]]></example>
+
+<related type="api">i18n()</related>
+
+</dt-option>

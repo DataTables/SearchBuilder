@@ -2012,17 +2012,17 @@ export default class Criteria {
 				filter.sort();
 
 				for (let filt of filter) {
-					if(filt) {
+					if(filt && typeof filt === 'string') {
 						filt = filt.replace(/[\r\n\u2028]/g, ' ');
 					}
 				}
 
 			}
-			else if (filter !== null) {
+			else if (filter !== null && typeof filter === 'string') {
 				filter = filter.replace(/[\r\n\u2028]/g, ' ');
 			}
 
-			if (this.s.type.includes('html')) {
+			if (this.s.type.includes('html') && typeof filter === 'string') {
 				filter = filter.replace(/(<([^>]+)>)/ig, '');
 			}
 
@@ -2142,7 +2142,13 @@ export default class Criteria {
 			let data = this.dom.data;
 
 			this.dom.data.children('option').each(function() {
-				if ($(this).text() === loadedCriteria.data) {
+				if (
+					!foundData &&
+					(
+						$(this).text() === loadedCriteria.data ||
+						loadedCriteria.origData && $(this).prop('origData') === loadedCriteria.origData
+					)
+				) {
 					$(this).prop('selected', true);
 					data.removeClass(italic);
 					foundData = true;

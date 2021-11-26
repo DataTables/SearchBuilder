@@ -15,9 +15,11 @@ div.dtsb-searchBuilder {
     }
     div.dtsb-group{
         div.dtsb-criteria{
-            select {
+            select.dtsb-dropDown {
                 width: auto !important;
                 margin-bottom: 0px;
+                padding-left: 0.5rem;
+                padding-right: 1.5rem;
             }
 
             input {

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>language.searchBuilder.left</name>
+	<summary>Set the text of the SearchBuilder left button</summary>
+	<since>1.0.0</since>
+
+	<type type="string | object">
+		<description>
+			`-init language.searchBuilder.left` changes the text of the SearchBuilder left button.
+		</description>
+	</type>
+
+	<default value="&lt;tag&gt;&lt;&lt;/tag&gt;" />
+
+	<description>
+		<![CDATA[
+			As standard, SearchBuilder will set the left button's text to `'<'`.
+
+			The value of `-init language.searchBuilder.left` is passed into an `-api i18n()` function.
+		]]>
+	</description>
+
+	<example title="Change the SearchBuilder left button's text"><![CDATA[
+$(document).ready(function() {
+	$('#example').DataTable( {
+		language: {
+			searchBuilder: {
+				left: 'Left'
+			}
+		},
+		dom: 'Qlfrtip',
+	});
+});
+
+]]></example>
+
+<related type="api">i18n()</related>
+
+</dt-option>
