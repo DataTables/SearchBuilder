@@ -2142,7 +2142,13 @@ export default class Criteria {
 			let data = this.dom.data;
 
 			this.dom.data.children('option').each(function() {
-				if ($(this).text() === loadedCriteria.data) {
+				if (
+					!foundData &&
+					(
+						$(this).text() === loadedCriteria.data ||
+						loadedCriteria.origData && $(this).prop('origData') === loadedCriteria.origData
+					)
+				) {
 					$(this).prop('selected', true);
 					data.removeClass(italic);
 					foundData = true;
