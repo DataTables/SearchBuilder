@@ -37,22 +37,22 @@
 	let dataTable = $.fn.dataTable;
 
 	$.extend(true, dataTable.SearchBuilder.classes, {
-		clearAll: 'ui button dtsb-clearAll'
+		clearAll: 'basic ui button dtsb-clearAll'
 	});
 
 	$.extend(true, dataTable.Group.classes, {
-		add: 'ui button dtsb-add',
-		clearGroup: 'ui button dtsb-clearGroup',
-		logic: 'ui button dtsb-logic',
+		add: 'basic ui button dtsb-add',
+		clearGroup: 'basic ui button dtsb-clearGroup',
+		logic: 'basic ui button dtsb-logic',
 	});
 
 	$.extend(true, dataTable.Criteria.classes, {
 		condition: 'ui selection dropdown dtsb-condition',
 		data: 'ui selection dropdown dtsb-data',
-		delete: 'ui button dtsb-delete',
-		left: 'ui button dtsb-left',
-		right: 'ui button dtsb-right',
-		value: 'ui selection dropdown dtsb-value',
+		delete: 'basic ui button dtsb-delete',
+		left: 'basic ui button dtsb-left',
+		right: 'basic ui button dtsb-right',
+		value: 'basic ui selection dropdown dtsb-value',
 	});
 
 	dataTable.ext.buttons.searchBuilder.action = function(e, dt, node, config) {
