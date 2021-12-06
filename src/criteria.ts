@@ -359,7 +359,7 @@ export default class Criteria {
 			}
 			// Otherwise the value that is in the cell is to be added
 			else {
-				addOption(value.filter, value.text);
+				addOption(value.filter, value.text.join(', '));
 			}
 		}
 
