@@ -46,9 +46,7 @@ describe('searchBuilder - options - searchBuilder.filterChanged', function () {
 			$('.dtsb-delete:eq(1)').click();
 
 			expect(count).toBe(1);
-			// expect(num).toBe(3);
-			// DD-2412
-			expect(num).toBe(4);
+			expect(num).toBe(3);
 		});
 	});
 });

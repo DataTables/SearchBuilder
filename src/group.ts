@@ -728,7 +728,6 @@ export default class Group {
 				this.s.dt.draw();
 
 				this.s.topGroup.trigger('dtsb-redrawContents');
-				this.s.topGroup.trigger('dtsb-updateTitle');
 
 				return false;
 			});
@@ -799,7 +798,6 @@ export default class Group {
 				}
 
 				this.destroy();
-				this.s.topGroup.trigger('dtsb-updateTitle');
 				this.s.topGroup.trigger('dtsb-redrawContents');
 
 				return false;

@@ -602,12 +602,6 @@ export default class SearchBuilder {
 
 			this.s.dt.draw();
 		});
-
-		this.s.topGroup.dom.container.on('dtsb-updateTitle.dtsb', () => {
-			let count = this.s.topGroup.count();
-			this._updateTitle(count);
-			this._filterChanged(count);
-		});
 	}
 
 	/**

@@ -27,7 +27,7 @@ $(document).ready(function() {
 			filterChanged: function(count) {
 				$('.SBDetails').text(this.i18n('searchBuilder.collapse', {0: 'AdvancedFilter', _: 'Advancedfilter (%d)'}, count));
 			}
-		}
+		},
 		dom: 'Qlfrtip'
 	});
 });
