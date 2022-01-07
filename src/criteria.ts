@@ -260,6 +260,7 @@ export default class Criteria {
 		let column = that.dom.data.children('option:selected').val();
 		let indexArray = that.s.dt.rows().indexes().toArray();
 		let settings = that.s.dt.settings()[0];
+		that.dom.valueTitle.prop('selected', true);
 
 		// Declare select element to be used with all of the default classes and listeners.
 		let el = $('<select/>')
@@ -305,24 +306,22 @@ export default class Criteria {
 
 			// If we are dealing with an array type, either make sure we are working with arrays, or sort them
 			if (that.s.type === 'array') {
-				value.filter = !Array.isArray(value.filter) ?
-					[value.filter] :
-					value.filter = value.filter.sort();
-
-				value.text = !Array.isArray(value.text) ?
-					[value.text] :
-					value.text = value.text.sort();
+				value.filter = !Array.isArray(value.filter) ? [value.filter] : value.filter;
+				value.text = !Array.isArray(value.text) ? [value.text] : value.text;
 			}
 
 			// Function to add an option to the select element
 			let addOption = (filt, text) => {
+				if (that.s.type.includes('html') && filt !== null && typeof filt === 'string') {
+					filt.replace(/(<([^>]+)>)/ig, '');
+				}
+
 				// Add text and value, stripping out any html if that is the column type
 				let opt = $('<option>', {
 					type: Array.isArray(filt) ? 'Array' : 'String',
-					value: that.s.type.includes('html') && filt !== null && typeof filt === 'string' ?
-						filt.replace(/(<([^>]+)>)/ig, '') :
-						filt,
+					value: filt
 				})
+					.data('sbv', filt)
 					.addClass(that.classes.option)
 					.addClass(that.classes.notItalic)
 					// Have to add the text this way so that special html characters are not escaped - &amp; etc.
@@ -347,6 +346,7 @@ export default class Criteria {
 					if (preDefined !== null && opt.val() === preDefined[0]) {
 						opt.prop('selected', true);
 						el.removeClass(Criteria.classes.italic);
+						that.dom.valueTitle.removeProp('selected');
 					}
 				}
 			};
@@ -790,13 +790,7 @@ export default class Criteria {
 		// Go through the select elements and push each selected option to the return array
 		for (let element of el) {
 			if (element.is('select')) {
-				let val = element.children('option:selected').val();
-				// If the type of the option is an array we need to split it up and sort it
-				values.push(
-					element.children('option:selected').attr('type') === 'Array' ?
-						val.split(',').sort() :
-						val
-				);
+				values.push(element.children('option:selected').data('sbv'));
 			}
 		}
 
