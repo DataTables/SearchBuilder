@@ -192,7 +192,8 @@ export default class Criteria {
 			defaultValue: $('<select disabled/>')
 				.addClass(this.classes.value)
 				.addClass(this.classes.dropDown)
-				.addClass(this.classes.select),
+				.addClass(this.classes.select)
+				.addClass(this.classes.italic),
 			delete: $('<button/>')
 				.html(this.s.dt.i18n('searchBuilder.delete', i18n.delete))
 				.addClass(this.classes.delete)
