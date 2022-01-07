@@ -756,7 +756,7 @@ export default class Criteria {
 					element.children('option').length -
 					element.children('option.' + Criteria.classes.notItalic).length &&
 				element.children('option:selected').length === 1 &&
-				element.children('option:selected')[0] === element.children('option:hidden')[0]
+				element.children('option:selected')[0] === element.children('option')[0]
 			) {
 				allFilled = false;
 			}
