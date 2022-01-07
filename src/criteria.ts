@@ -220,7 +220,7 @@ export default class Criteria {
 					.addClass(this.classes.italic)
 					.addClass(this.classes.select)
 			],
-			valueTitle: $('<option value="--valueTitle--" selected/>')
+			valueTitle: $('<option value="--valueTitle--" disabled selected hidden/>')
 				.text(this.s.dt.i18n('searchBuilder.value', i18n.value)),
 		};
 
