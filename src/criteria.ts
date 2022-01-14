@@ -2770,7 +2770,11 @@ export default class Criteria {
 
 		// If it can and this is different to before then trigger a draw
 		if (prevFilled !== this.s.filled) {
-			this.s.dt.draw();
+			// If using SSP we want to restrict the amount of server calls that take place
+			//  and this will already have taken place
+			if (!this.s.dt.page.info().serverSide) {
+				this.s.dt.draw();
+			}
 			this.setListeners();
 		}
 	}

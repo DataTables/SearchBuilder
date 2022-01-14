@@ -244,6 +244,14 @@ export default class SearchBuilder {
 
 		table.settings()[0]._searchBuilder = this;
 
+		// If using SSP we want to include the previous state in the very first server call
+		if(this.s.dt.page.info().serverSide) {
+			this.s.dt.on('preXhr.dtsb', (e, settings, data) => {
+				let loadedState = this.s.dt.state.loaded();
+				data.searchBuilder = this._collapseArray(loadedState.searchBuilder);
+			});
+		}
+
 		// Run the remaining setup when the table is initialised
 		if (this.s.dt.settings()[0]._bInitComplete) {
 			this._setUp();
@@ -410,7 +418,13 @@ export default class SearchBuilder {
 			if (loadedState !== null && loadedState.searchBuilder !== undefined) {
 				this.s.topGroup.rebuild(loadedState.searchBuilder);
 				this.s.topGroup.dom.container.trigger('dtsb-redrawContents');
-				this.s.dt.page(loadedState.page).draw('page');
+
+				// If using SSP we want to restrict the amount of server calls that take place
+				//  and this information will already have been processed
+				if (!this.s.dt.page.info().serverSide) {
+					this.s.dt.page(loadedState.page).draw('page');
+				}
+
 				this.s.topGroup.setListeners();
 			}
 			// Otherwise load any predefined options
@@ -570,7 +584,13 @@ export default class SearchBuilder {
 
 			this._updateTitle(count);
 			this._filterChanged(count);
-			this.s.dt.draw();
+
+			// If using SSP we want to restrict the amount of server calls that take place
+			//  and this information will already have been processed
+			if (!this.s.dt.page.info().serverSide) {
+				this.s.dt.draw();
+			}
+
 			this.s.dt.state.save();
 		});
 
