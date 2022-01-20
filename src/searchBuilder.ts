@@ -248,7 +248,9 @@ export default class SearchBuilder {
 		if(this.s.dt.page.info().serverSide) {
 			this.s.dt.on('preXhr.dtsb', (e, settings, data) => {
 				let loadedState = this.s.dt.state.loaded();
-				data.searchBuilder = this._collapseArray(loadedState.searchBuilder);
+				if (loadedState && loadedState.searchBuilder) {
+					data.searchBuilder = this._collapseArray(loadedState.searchBuilder);
+				}
 			});
 		}
 
