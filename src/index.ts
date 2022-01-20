@@ -94,7 +94,8 @@ import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
 	$.fn.dataTable.ext.buttons.searchBuilder = {
 		action(e, dt, node, config) {
 			this.popover(config._searchBuilder.getNode(), {
-				align: 'dt-container'
+				align: 'container',
+				span: 'container'
 			});
 			// Need to redraw the contents to calculate the correct positions for the elements
 			if (config._searchBuilder.s.topGroup !== undefined) {
