@@ -413,6 +413,10 @@ export default class SearchBuilder {
 			}
 		});
 
+		this.s.dt.on('column-reorder', () => {
+			this.rebuild(this.getDetails());
+		});
+
 		if (loadState) {
 			let loadedState = this.s.dt.state.loaded();
 
