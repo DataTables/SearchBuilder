@@ -192,7 +192,8 @@ export default class Criteria {
 			defaultValue: $('<select disabled/>')
 				.addClass(this.classes.value)
 				.addClass(this.classes.dropDown)
-				.addClass(this.classes.select),
+				.addClass(this.classes.select)
+				.addClass(this.classes.italic),
 			delete: $('<button/>')
 				.html(this.s.dt.i18n('searchBuilder.delete', i18n.delete))
 				.addClass(this.classes.delete)
@@ -220,7 +221,7 @@ export default class Criteria {
 					.addClass(this.classes.italic)
 					.addClass(this.classes.select)
 			],
-			valueTitle: $('<option value="--valueTitle--" selected/>')
+			valueTitle: $('<option value="--valueTitle--" disabled selected hidden/>')
 				.text(this.s.dt.i18n('searchBuilder.value', i18n.value)),
 		};
 
@@ -260,6 +261,7 @@ export default class Criteria {
 		let column = that.dom.data.children('option:selected').val();
 		let indexArray = that.s.dt.rows().indexes().toArray();
 		let settings = that.s.dt.settings()[0];
+		that.dom.valueTitle.prop('selected', true);
 
 		// Declare select element to be used with all of the default classes and listeners.
 		let el = $('<select/>')
@@ -305,24 +307,22 @@ export default class Criteria {
 
 			// If we are dealing with an array type, either make sure we are working with arrays, or sort them
 			if (that.s.type === 'array') {
-				value.filter = !Array.isArray(value.filter) ?
-					[value.filter] :
-					value.filter = value.filter.sort();
-
-				value.text = !Array.isArray(value.text) ?
-					[value.text] :
-					value.text = value.text.sort();
+				value.filter = !Array.isArray(value.filter) ? [value.filter] : value.filter;
+				value.text = !Array.isArray(value.text) ? [value.text] : value.text;
 			}
 
 			// Function to add an option to the select element
 			let addOption = (filt, text) => {
+				if (that.s.type.includes('html') && filt !== null && typeof filt === 'string') {
+					filt.replace(/(<([^>]+)>)/ig, '');
+				}
+
 				// Add text and value, stripping out any html if that is the column type
 				let opt = $('<option>', {
 					type: Array.isArray(filt) ? 'Array' : 'String',
-					value: that.s.type.includes('html') && filt !== null && typeof filt === 'string' ?
-						filt.replace(/(<([^>]+)>)/ig, '') :
-						filt,
+					value: filt
 				})
+					.data('sbv', filt)
 					.addClass(that.classes.option)
 					.addClass(that.classes.notItalic)
 					// Have to add the text this way so that special html characters are not escaped - &amp; etc.
@@ -347,6 +347,7 @@ export default class Criteria {
 					if (preDefined !== null && opt.val() === preDefined[0]) {
 						opt.prop('selected', true);
 						el.removeClass(Criteria.classes.italic);
+						that.dom.valueTitle.removeProp('selected');
 					}
 				}
 			};
@@ -359,7 +360,7 @@ export default class Criteria {
 			}
 			// Otherwise the value that is in the cell is to be added
 			else {
-				addOption(value.filter, value.text);
+				addOption(value.filter, Array.isArray(value.text) ? value.text.join(', ') : value.text);
 			}
 		}
 
@@ -756,7 +757,7 @@ export default class Criteria {
 					element.children('option').length -
 					element.children('option.' + Criteria.classes.notItalic).length &&
 				element.children('option:selected').length === 1 &&
-				element.children('option:selected')[0] === element.children('option:hidden')[0]
+				element.children('option:selected')[0] === element.children('option')[0]
 			) {
 				allFilled = false;
 			}
@@ -790,13 +791,7 @@ export default class Criteria {
 		// Go through the select elements and push each selected option to the return array
 		for (let element of el) {
 			if (element.is('select')) {
-				let val = element.children('option:selected').val();
-				// If the type of the option is an array we need to split it up and sort it
-				values.push(
-					element.children('option:selected').attr('type') === 'Array' ?
-						val.split(',').sort() :
-						val
-				);
+				values.push(element.children('option:selected').data('sbv'));
 			}
 		}
 
@@ -2142,7 +2137,13 @@ export default class Criteria {
 			let data = this.dom.data;
 
 			this.dom.data.children('option').each(function() {
-				if ($(this).text() === loadedCriteria.data) {
+				if (
+					!foundData &&
+					(
+						$(this).text() === loadedCriteria.data ||
+						loadedCriteria.origData && $(this).prop('origData') === loadedCriteria.origData
+					)
+				) {
 					$(this).prop('selected', true);
 					data.removeClass(italic);
 					foundData = true;
@@ -2769,7 +2770,11 @@ export default class Criteria {
 
 		// If it can and this is different to before then trigger a draw
 		if (prevFilled !== this.s.filled) {
-			this.s.dt.draw();
+			// If using SSP we want to restrict the amount of server calls that take place
+			//  and this will already have taken place
+			if (!this.s.dt.page.info().serverSide) {
+				this.s.dt.draw();
+			}
 			this.setListeners();
 		}
 	}
