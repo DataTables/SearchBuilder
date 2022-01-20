@@ -255,6 +255,21 @@ export default class Criteria {
 	}
 
 	/**
+	 * Escape html characters within a string
+	 *
+	 * @param txt the string to be escaped
+	 * @returns the escaped string
+	 */
+	private static _escapeHTML(txt: string): string {
+		return txt
+			.toString()
+			.replace(/&amp;/g, '&')
+			.replace(/&lt;/g, '<')
+			.replace(/&gt;/g, '>')
+			.replace(/&quot;/g, '"');
+	}
+
+	/**
 	 * Default initialisation function for select conditions
 	 */
 	private static initSelect = function(that, fn, preDefined = null, array = false) {
@@ -791,7 +806,7 @@ export default class Criteria {
 		// Go through the select elements and push each selected option to the return array
 		for (let element of el) {
 			if (element.is('select')) {
-				values.push(element.children('option:selected').data('sbv'));
+				values.push(Criteria._escapeHTML(element.children('option:selected').data('sbv')));
 			}
 		}
 
@@ -807,7 +822,7 @@ export default class Criteria {
 		// Go through the input elements and push each value to the return array
 		for (let element of el) {
 			if (element.is('input')) {
-				values.push(element.val());
+				values.push(Criteria._escapeHTML(element.val()));
 			}
 		}
 
