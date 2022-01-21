@@ -8,7 +8,13 @@
 
 $(document).ready(function() {
     $('#example').DataTable( {
-        dom: 'Qlfrtip'
+        dom: 'Qlfrtip',
+        columnDefs: [
+            {
+                render: (d) => parseInt(d, 10),
+                targets: 3
+            }
+        ]
     });
 });
 

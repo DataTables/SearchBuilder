@@ -28,7 +28,7 @@ $(document).ready(function() {
 				searchBuilder: {
 					orthogonal:'sb'
 				},
-				type: 'array'
+				searchBuilderType: 'array'
 			}
 		],
     });
