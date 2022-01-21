@@ -266,7 +266,7 @@ export default class Group {
 		}
 
 		this.s.logic = loadedDetails.logic;
-		this.dom.logic.children().first().text(this.s.logic === 'OR'
+		this.dom.logic.children().first().html(this.s.logic === 'OR'
 			? this.s.dt.i18n('searchBuilder.logicOr', this.c.i18n.logicOr)
 			: this.s.dt.i18n('searchBuilder.logicAnd', this.c.i18n.logicAnd)
 		);
@@ -859,8 +859,8 @@ export default class Group {
 	private _setup(): void {
 		this.setListeners();
 
-		this.dom.add.text(this.s.dt.i18n('searchBuilder.add', this.c.i18n.add));
-		this.dom.logic.children().first().text(this.c.logic === 'OR'
+		this.dom.add.html(this.s.dt.i18n('searchBuilder.add', this.c.i18n.add));
+		this.dom.logic.children().first().html(this.c.logic === 'OR'
 			? this.s.dt.i18n('searchBuilder.logicOr', this.c.i18n.logicOr)
 			: this.s.dt.i18n('searchBuilder.logicAnd', this.c.i18n.logicAnd)
 		);
@@ -903,11 +903,11 @@ export default class Group {
 	private _toggleLogic(): void {
 		if (this.s.logic === 'OR') {
 			this.s.logic = 'AND';
-			this.dom.logic.children().first().text(this.s.dt.i18n('searchBuilder.logicAnd', this.c.i18n.logicAnd));
+			this.dom.logic.children().first().html(this.s.dt.i18n('searchBuilder.logicAnd', this.c.i18n.logicAnd));
 		}
 		else if (this.s.logic === 'AND') {
 			this.s.logic = 'OR';
-			this.dom.logic.children().first().text(this.s.dt.i18n('searchBuilder.logicOr', this.c.i18n.logicOr));
+			this.dom.logic.children().first().html(this.s.dt.i18n('searchBuilder.logicOr', this.c.i18n.logicOr));
 		}
 	}
 }

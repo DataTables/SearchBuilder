@@ -180,7 +180,7 @@ export default class Criteria {
 				.addClass(this.classes.italic)
 				.attr('autocomplete', 'hacking'),
 			conditionTitle: $('<option value="" disabled selected hidden/>')
-				.text(this.s.dt.i18n('searchBuilder.condition', i18n.condition)),
+				.html(this.s.dt.i18n('searchBuilder.condition', i18n.condition)),
 			container: $('<div/>')
 				.addClass(this.classes.container),
 			data: $('<select/>')
@@ -188,7 +188,7 @@ export default class Criteria {
 				.addClass(this.classes.dropDown)
 				.addClass(this.classes.italic),
 			dataTitle: $('<option value="" disabled selected hidden/>')
-				.text(this.s.dt.i18n('searchBuilder.data', i18n.data)),
+				.html(this.s.dt.i18n('searchBuilder.data', i18n.data)),
 			defaultValue: $('<select disabled/>')
 				.addClass(this.classes.value)
 				.addClass(this.classes.dropDown)
@@ -202,14 +202,14 @@ export default class Criteria {
 				.attr('type', 'button'),
 			// eslint-disable-next-line no-useless-escape
 			left: $('<button/>')
-				.text(this.s.dt.i18n('searchBuilder.left', i18n.left))
+				.html(this.s.dt.i18n('searchBuilder.left', i18n.left))
 				.addClass(this.classes.left)
 				.addClass(this.classes.button)
 				.attr('title', this.s.dt.i18n('searchBuilder.leftTitle', i18n.leftTitle))
 				.attr('type', 'button'),
 			// eslint-disable-next-line no-useless-escape
 			right: $('<button/>')
-				.text(this.s.dt.i18n('searchBuilder.right', i18n.right))
+				.html(this.s.dt.i18n('searchBuilder.right', i18n.right))
 				.addClass(this.classes.right)
 				.addClass(this.classes.button)
 				.attr('title', this.s.dt.i18n('searchBuilder.rightTitle', i18n.rightTitle))
@@ -222,7 +222,7 @@ export default class Criteria {
 					.addClass(this.classes.select)
 			],
 			valueTitle: $('<option value="--valueTitle--" disabled selected hidden/>')
-				.text(this.s.dt.i18n('searchBuilder.value', i18n.value)),
+				.html(this.s.dt.i18n('searchBuilder.value', i18n.value)),
 		};
 
 		// If the greyscale option is selected then add the class to add the grey colour to SearchBuilder
@@ -252,6 +252,21 @@ export default class Criteria {
 		this._buildCriteria();
 
 		return this;
+	}
+
+	/**
+	 * Escape html characters within a string
+	 *
+	 * @param txt the string to be escaped
+	 * @returns the escaped string
+	 */
+	private static _escapeHTML(txt: string): string {
+		return txt
+			.toString()
+			.replace(/&amp;/g, '&')
+			.replace(/&lt;/g, '<')
+			.replace(/&gt;/g, '>')
+			.replace(/&quot;/g, '"');
 	}
 
 	/**
@@ -504,7 +519,7 @@ export default class Criteria {
 				)),
 			$('<span>')
 				.addClass(that.classes.joiner)
-				.text(
+				.html(
 					that.s.dt.i18n('searchBuilder.valueJoiner', that.c.i18n.valueJoiner)
 				),
 			$('<input/>')
@@ -677,7 +692,7 @@ export default class Criteria {
 				),
 			$('<span>')
 				.addClass(that.classes.joiner)
-				.text(that.s.dt.i18n('searchBuilder.valueJoiner', that.c.i18n.valueJoiner)),
+				.html(that.s.dt.i18n('searchBuilder.valueJoiner', that.c.i18n.valueJoiner)),
 			$('<input/>')
 				.addClass(Criteria.classes.value)
 				.addClass(Criteria.classes.input)
@@ -791,7 +806,7 @@ export default class Criteria {
 		// Go through the select elements and push each selected option to the return array
 		for (let element of el) {
 			if (element.is('select')) {
-				values.push(element.children('option:selected').data('sbv'));
+				values.push(Criteria._escapeHTML(element.children('option:selected').data('sbv')));
 			}
 		}
 
@@ -807,7 +822,7 @@ export default class Criteria {
 		// Go through the input elements and push each value to the return array
 		for (let element of el) {
 			if (element.is('input')) {
-				values.push(element.val());
+				values.push(Criteria._escapeHTML(element.val()));
 			}
 		}
 
