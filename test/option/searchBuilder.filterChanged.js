@@ -48,5 +48,11 @@ describe('searchBuilder - options - searchBuilder.filterChanged', function () {
 			expect(count).toBe(1);
 			expect(num).toBe(3);
 		});
+		it('... remove final condition', function () {
+			$('.dtsb-delete:eq(0)').click();
+
+			expect(count).toBe(0);
+			expect(num).toBe(4);
+		});
 	});
 });
