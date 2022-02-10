@@ -26,7 +26,11 @@ The internals of the function are down to the functionality that you wish to cre
 
 Firstly, the function must return either a jQuery element or an array of jQuery elements that can take user input if there are values to be collected, otherwise there will not be any elements displayed to collect values from the user. This is valid if the condition is all that is needed, for example the empty condition.
 
-Secondly, the `fn` parameter is a function that triggers a search of the table. This must be called whenever a search should be triggered. Normally this will be used in an event listener on the jQuery elements. For example, the conditions that use select and input elements call the function on the `input` event.
+Secondly, the `fn` parameter is a function that triggers a search of the table. This must be called whenever a search should be triggered. Normally this will be used in an event listener on the jQuery elements. For example, the conditions that use select and input elements call the function on the `input` event. This function should take 3 parameters.
+
+* `that` as passed into the init function.
+* `this` the current context of the function.
+* `code` - optional - needed if using the `-init searchBuilder.enterSearch` or `-init search.return` initialisation options. This should be the value of the key that was last pressed. It can be accessed through the event `e` by doing `e.keyCode || e.which`.
 
 Thirdly, the function must provide a way for the preDefined options to be set. This system is used by SearchBuilder internally, not just to set the initial preDefined options (see `-init searchBuilder.preDefined`). Because there are a lot of redraws as criteria are added, removed and moved around, so SearchBuilder needs a way to re-assign values to the jQuery elements.
 
