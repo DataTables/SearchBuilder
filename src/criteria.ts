@@ -445,7 +445,7 @@ export default class Criteria {
 	 */
 	private static initInput = function(
 		that: Criteria,
-		fn: (thatAgain: Criteria, elInput: JQuery<HTMLElement>) => void,
+		fn: (thatAgain: Criteria, elInput: JQuery<HTMLElement>, code: number) => void,
 		preDefined = null
 	): Array<JQuery<HTMLElement>> {
 		// Declare the input element
@@ -456,17 +456,7 @@ export default class Criteria {
 			.on('input.dtsb keypress.dtsb', that._throttle(
 				function(e) {
 					let code = e.keyCode || e.which;
-
-					if (
-						!that.c.enterSearch &&
-						!(
-							that.s.dt.settings()[0].oInit.search !== undefined &&
-							that.s.dt.settings()[0].oInit.search.return
-						) ||
-						code === 13
-					) {
-						return fn(that, this);
-					}
+					return fn(that, this, code);
 				},
 				searchDelay === null ? 100 : searchDelay
 			));
@@ -493,7 +483,7 @@ export default class Criteria {
 	 */
 	private static init2Input = function(
 		that: Criteria,
-		fn: (thatAgain: Criteria, el: JQuery<HTMLElement>) => void,
+		fn: (thatAgain: Criteria, el: JQuery<HTMLElement>, code: number) => void,
 		preDefined = null
 	): Array<JQuery<HTMLElement>> {
 		// Declare all of the necessary jQuery elements
@@ -505,17 +495,7 @@ export default class Criteria {
 				.on('input.dtsb keypress.dtsb', that._throttle(
 					function(e) {
 						let code = e.keyCode || e.which;
-
-						if (
-							!that.c.enterSearch &&
-							!(
-								that.s.dt.settings()[0].oInit.search !== undefined &&
-								that.s.dt.settings()[0].oInit.search.return
-							) ||
-							code === 13
-						) {
-							return fn(that, this);
-						}
+						return fn(that, this, code);
 					},
 					searchDelay === null ? 100 : searchDelay
 				)),
@@ -530,17 +510,7 @@ export default class Criteria {
 				.on('input.dtsb keypress.dtsb', that._throttle(
 					function(e) {
 						let code = e.keyCode || e.which;
-
-						if (
-							!that.c.enterSearch &&
-							!(
-								that.s.dt.settings()[0].oInit.search !== undefined &&
-								that.s.dt.settings()[0].oInit.search.return
-							) ||
-							code === 13
-						) {
-							return fn(that, this);
-						}
+						return fn(that, this, code);
 					},
 					searchDelay === null ? 100 : searchDelay
 				))
@@ -570,7 +540,7 @@ export default class Criteria {
 	 */
 	private static initDate = function(
 		that: Criteria,
-		fn: (thatAgain: Criteria, elInput: JQuery<HTMLElement>) => void,
+		fn: (thatAgain: Criteria, elInput: JQuery<HTMLElement>, code?: number) => void,
 		preDefined = null
 	): Array<JQuery<HTMLElement>> {
 		let searchDelay = that.s.dt.settings()[0].searchDelay;
@@ -592,27 +562,16 @@ export default class Criteria {
 			)
 			.on(
 				'input.dtsb keypress.dtsb',
-				that.c.enterSearch ||
-				that.s.dt.settings()[0].oInit.search !== undefined &&
-				that.s.dt.settings()[0].oInit.search.return ?
-					(e) => {
-						that._throttle(
-							function() {
-								let code = e.keyCode || e.which;
-
-								if (code === 13) {
-									return fn(that, this);
-								}
-							},
-							searchDelay === null ? 100 : searchDelay
-						);
-					} :
+				(e) => {
 					that._throttle(
 						function() {
-							return fn(that, this);
+							let code = e.keyCode || e.which;
+
+							return fn(that, this, code);
 						},
 						searchDelay === null ? 100 : searchDelay
-					)
+					);
+				}
 			);
 
 		if (that.c.greyscale) {
@@ -641,7 +600,7 @@ export default class Criteria {
 
 	private static init2Date = function(
 		that: Criteria,
-		fn: (thatAgain: Criteria, el: JQuery<HTMLElement>) => void,
+		fn: (thatAgain: Criteria, el: JQuery<HTMLElement>, code?: number) => void,
 		preDefined: string[] = null
 	): Array<JQuery<HTMLElement>> {
 		let searchDelay = that.s.dt.settings()[0].searchDelay;
@@ -667,30 +626,15 @@ export default class Criteria {
 				)
 				.on(
 					'input.dtsb keypress.dtsb',
-					!that.c.enterSearch &&
-					!(
-						that.s.dt.settings()[0].oInit.search !== undefined &&
-						that.s.dt.settings()[0].oInit.search.return
-					) &&
-					searchDelay !== null ?
+					(e) => {
 						that.s.dt.settings()[0].oApi._fnThrottle(
 							function() {
-								return fn(that, this);
-							},
-							searchDelay
-						) :
-						that.c.enterSearch ||
-						that.s.dt.settings()[0].oInit.search !== undefined &&
-						that.s.dt.settings()[0].oInit.search.return ?
-							(e) => {
 								let code = e.keyCode || e.which;
-								if (code === 13) {
-									fn(that, this);
-								}
-							} :
-							() => {
-								fn(that, this);
-							}
+								return fn(that, this, code);
+							},
+							searchDelay === null ? 0 : searchDelay
+						);
+					}
 				),
 			$('<span>')
 				.addClass(that.classes.joiner)
@@ -727,18 +671,10 @@ export default class Criteria {
 							},
 							searchDelay
 						) :
-						that.c.enterSearch ||
-						that.s.dt.settings()[0].oInit.search !== undefined &&
-						that.s.dt.settings()[0].oInit.search.return ?
-							(e) => {
-								let code = e.keyCode || e.which;
-								if (code === 13) {
-									fn(that, this);
-								}
-							} :
-							() => {
-								fn(that, this);
-							}
+						(e) => {
+							let code = e.keyCode || e.which;
+							fn(that, this, code);
+						}
 				)
 		];
 
@@ -834,7 +770,7 @@ export default class Criteria {
 	/**
 	 * Function that is run on each element as a call back when a search should be triggered
 	 */
-	private static updateListener = function(that, el) {
+	private static updateListener = function(that, el, code?) {
 		// When the value is changed the criteria is now complete so can be included in searches
 		// Get the condition from the map based on the key that has been selected for the condition
 		let condition = that.s.conditions[that.s.condition];
@@ -842,7 +778,16 @@ export default class Criteria {
 		that.s.value = condition.inputValue(that.dom.value, that);
 
 		if (!that.s.filled) {
-			that.s.dt.draw();
+			if (
+				!that.c.enterSearch &&
+				!(
+					that.s.dt.settings()[0].oInit.search !== undefined &&
+					that.s.dt.settings()[0].oInit.search.return
+				) ||
+				code === 13
+			) {
+				that.s.dt.draw();
+			}
 			return;
 		}
 
@@ -892,8 +837,17 @@ export default class Criteria {
 			}
 		}
 
-		// Trigger a search
-		that.s.dt.draw();
+		if (
+			!that.c.enterSearch &&
+			!(
+				that.s.dt.settings()[0].oInit.search !== undefined &&
+				that.s.dt.settings()[0].oInit.search.return
+			) ||
+			code === 13
+		) {
+			// Trigger a search
+			that.s.dt.draw();
+		}
 
 		// Refocus the element and set the correct cursor position
 		if (idx !== null) {
