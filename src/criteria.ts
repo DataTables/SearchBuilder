@@ -65,6 +65,7 @@ export interface IS {
 	filled: boolean;
 	index: number;
 	origData: string;
+	preventRedraw: boolean;
 	topGroup: JQuery<HTMLElement>;
 	type: string;
 	value: string[];
@@ -166,6 +167,7 @@ export default class Criteria {
 			filled: false,
 			index,
 			origData: undefined,
+			preventRedraw: false,
 			topGroup,
 			type: '',
 			value: [],
@@ -2362,7 +2364,7 @@ export default class Criteria {
 			!this.dom.container.parent().hasClass(this.classes.vertical)
 		) {
 			this.dom.container.parent().addClass(this.classes.vertical);
-			this.s.topGroup.trigger('dtsb-redrawContents');
+			this.s.topGroup.trigger('dtsb-redrawContents-noDraw');
 		}
 		else if (
 			buttonsLeft -
@@ -2375,7 +2377,7 @@ export default class Criteria {
 			&& this.dom.container.parent().hasClass(this.classes.vertical)
 		) {
 			this.dom.container.parent().removeClass(this.classes.vertical);
-			this.s.topGroup.trigger('dtsb-redrawContents');
+			this.s.topGroup.trigger('dtsb-redrawContents-noDraw');
 		}
 	}
 
@@ -2784,7 +2786,7 @@ export default class Criteria {
 		this.setListeners();
 
 		// If it can and this is different to before then trigger a draw
-		if (prevFilled !== this.s.filled) {
+		if (!this.s.preventRedraw && prevFilled !== this.s.filled) {
 			// If using SSP we want to restrict the amount of server calls that take place
 			//  and this will already have taken place
 			if (!this.s.dt.page.info().serverSide) {

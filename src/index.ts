@@ -25,6 +25,7 @@
 // Hack to allow TypeScript to compile our UMD
 declare let define: {
 	amd: string;
+	// eslint-disable-next-line @typescript-eslint/member-ordering
 	(stringValue, Function): any;
 };
 

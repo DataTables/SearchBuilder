@@ -333,7 +333,9 @@ export default class Group {
 
 				// Set listeners for various points
 				this._setCriteriaListeners(crit);
+				this.s.criteria[i].criteria.s.preventRedraw = this.s.preventRedraw;
 				this.s.criteria[i].criteria.rebuild(this.s.criteria[i].criteria.getDetails());
+				this.s.criteria[i].criteria.s.preventRedraw = false;
 			}
 			else if (crit instanceof Group && crit.s.criteria.length > 0) {
 				// Reset the index to the new value
@@ -344,7 +346,9 @@ export default class Group {
 				this.s.criteria[i].criteria.dom.container.insertBefore(this.dom.add);
 
 				// Redraw the contents of the group
+				crit.s.preventRedraw = this.s.preventRedraw;
 				crit.redrawContents();
+				crit.s.preventRedraw = false;
 				this._setGroupListeners(crit);
 			}
 			else {
@@ -601,9 +605,14 @@ export default class Group {
 		});
 
 		// Rebuild it with the previous conditions for that criteria
+		criteria.s.preventRedraw = this.s.preventRedraw;
 		criteria.rebuild(loadedCriteria);
+		criteria.s.preventRedraw = false;
 		this.s.criteria[idx].criteria = criteria;
-		this.s.topGroup.trigger('dtsb-redrawContents');
+
+		if (!this.s.preventRedraw) {
+			this.s.topGroup.trigger('dtsb-redrawContents');
+		}
 	}
 
 	/**

@@ -302,6 +302,8 @@ export default class SearchBuilder {
 		this.s.topGroup.rebuild(details);
 		this.s.topGroup.s.preventRedraw = false;
 
+		this._checkClear();
+		this._updateTitle(this.s.topGroup.count());
 		this.s.topGroup.redrawContents();
 
 		this.s.dt.draw(false);
@@ -598,6 +600,21 @@ export default class SearchBuilder {
 			}
 
 			this.s.dt.state.save();
+		});
+
+		this.s.topGroup.dom.container.unbind('dtsb-redrawContents-noDraw');
+		this.s.topGroup.dom.container.on('dtsb-redrawContents-noDraw.dtsb', () => {
+			this._checkClear();
+			this.s.topGroup.s.preventRedraw = true;
+			this.s.topGroup.redrawContents();
+			this.s.topGroup.s.preventRedraw = false;
+			this.s.topGroup.setupLogic();
+			this._setEmptyListener();
+
+			let count = this.s.topGroup.count();
+
+			this._updateTitle(count);
+			this._filterChanged(count);
 		});
 
 		this.s.topGroup.dom.container.unbind('dtsb-redrawLogic');
