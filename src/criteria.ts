@@ -2065,7 +2065,7 @@ export default class Criteria {
 			data: this.s.data,
 			origData: this.s.origData,
 			type: this.s.type,
-			value: this.s.value.map(a => a.toString())
+			value: this.s.value.map(a => a !== null && a !== undefined ? a.toString() : a)
 		};
 	}
 
