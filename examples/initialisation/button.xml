@@ -20,7 +20,7 @@ $(document).ready(function() {
 
 <info><![CDATA[
 
-This example demonstrates the behaviour of `-init searchBuilder` when initialised using a button. The button can be configured using the `-init button.searchBuilder` config option.
+This example demonstrates the behaviour of `-init searchBuilder` when initialised using a button. The button and SearchBuilder can be configured using the `-init button.searchBuilder` config option. You can see this in action at [this example](buttonOptions.html). Please note that when initialising SearchBuilder with a button any config has to be set as shown in that example.
 
 ]]></info>
 
