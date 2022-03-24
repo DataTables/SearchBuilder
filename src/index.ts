@@ -103,7 +103,7 @@ import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
 
 			// Need to redraw the contents to calculate the correct positions for the elements
 			if (topGroup !== undefined) {
-				topGroup.dom.container.trigger('dtsb-redrawContents');
+				topGroup.dom.container.trigger('dtsb-redrawContents-noDraw');
 			}
 			if (topGroup.s.criteria.length === 0) {
 				$('.'+($.fn as any).dataTable.Group.classes.add.replace(/ /g, '.')).click();
