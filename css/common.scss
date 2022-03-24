@@ -101,25 +101,42 @@ div.dtsb-searchBuilder {
 
         div.dtsb-criteria {
             margin-bottom: 0.8em;
+            display: flex;
+            justify-content: start;
+            flex-flow: row wrap;
 
+            
             select.dtsb-dropDown,
             input.dtsb-input{
                 padding: 0.4em;
                 margin-right: 0.8em;
+                min-width: 5em;
                 max-width: 20em;
                 background-color: rgba(200, 200, 200, 0.3);
-
+                
                 option.dtsb-notItalic {
                     font-style: normal;
                 }
             }
 
+
             select.dtsb-italic{
                 font-style: italic;
             }
+            
+            div.dtsb-inputCont {
+                flex: 1;
+                white-space: nowrap;
+                span.dtsp-joiner {
+                    margin-right: 0.8em;
+                }
+                input.dtsb-value {
+                    width: 33%;
+                }
+            }
 
             div.dtsb-buttonContainer {
-                float: right;
+                margin-left: auto;
                 display: inline-block;
 
                 button.dtsb-delete, button.dtsb-right, button.dtsb-left{
@@ -131,8 +148,52 @@ div.dtsb-searchBuilder {
                 }
             }
 
-            span.dtsp-joiner {
-                margin-right: 0.8em;
+        }
+
+        @media screen and (max-width: 550px) {
+            div.dtsb-criteria {
+                display: flex;
+                flex-flow: none;
+                flex-direction: column;
+                justify-content: start;
+                padding-right: calc(35px + 0.8em);
+                margin-bottom: 0px;
+                &:not(:first-child),
+                &:not(:nth-child(2)),
+                &:not(:last-child) {
+                    padding-top: 0.8em;
+                }
+    
+                &:first-child,
+                &:nth-child(2),
+                &:last-child {
+                    padding-top: 0em;
+                }
+
+
+                select.dtsb-dropDown,
+                input.dtsb-input {
+                    max-width: none;
+                    width: 100%;
+                    margin-bottom: 0.8em;
+                    margin-right: 0.8em;
+                }
+
+                div.dtsb-inputCont {
+                    margin-right: 0.8em;
+                }
+
+                div.dtsb-buttonContainer {
+                    position: absolute;
+                    width: 35px;
+                    display: flex;
+                    flex-wrap: wrap-reverse;
+                    right: 0;
+                    
+                    button {
+                        margin-right: 0px !important;
+                    }
+                }
             }
         }
     }

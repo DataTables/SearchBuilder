@@ -10,6 +10,7 @@ export interface IClasses {
 	dropDown: string;
 	greyscale: string;
 	input: string;
+	inputCont: string;
 	italic: string;
 	joiner: string;
 	left: string;
@@ -47,6 +48,7 @@ export interface IDom {
 	dataTitle: JQuery<HTMLElement>;
 	defaultValue: JQuery<HTMLElement>;
 	delete: JQuery<HTMLElement>;
+	inputCont: JQuery<HTMLElement>;
 	left: JQuery<HTMLElement>;
 	right: JQuery<HTMLElement>;
 	value: Array<JQuery<HTMLElement>>;
@@ -121,6 +123,7 @@ export default class Criteria {
 		dropDown: 'dtsb-dropDown',
 		greyscale: 'dtsb-greyscale',
 		input: 'dtsb-input',
+		inputCont: 'dtsb-inputCont',
 		italic: 'dtsb-italic',
 		joiner: 'dtsp-joiner',
 		left: 'dtsb-left',
@@ -202,6 +205,8 @@ export default class Criteria {
 				.addClass(this.classes.button)
 				.attr('title', this.s.dt.i18n('searchBuilder.deleteTitle', i18n.deleteTitle))
 				.attr('type', 'button'),
+			inputCont: $('<div/>')
+				.addClass(this.classes.inputCont),
 			// eslint-disable-next-line no-useless-escape
 			left: $('<button/>')
 				.html(this.s.dt.i18n('searchBuilder.left', i18n.left))
@@ -238,17 +243,8 @@ export default class Criteria {
 			}
 		}
 
-		// For responsive design, adjust the criterias properties on the following events
-		this.s.dt.on('draw.dtsb', () => {
-			this._adjustCriteria();
-		});
-
-		this.s.dt.on('buttons-action.dtsb', () => {
-			this._adjustCriteria();
-		});
-
 		$(window).on('resize.dtsb', dataTable.util.throttle(() => {
-			this._adjustCriteria();
+			this.s.topGroup.trigger('dtsb-redrawLogic');
 		}));
 
 		this._buildCriteria();
@@ -1866,12 +1862,15 @@ export default class Criteria {
 	/**
 	 * Adds the left button to the criteria
 	 */
-	public updateArrows(hasSiblings = false, redraw = true): void {
+	public updateArrows(hasSiblings = false): void {
 		// Empty the container and append all of the elements in the correct order
 		this.dom.container.children().detach();
 		this.dom.container
 			.append(this.dom.data)
 			.append(this.dom.condition)
+			.append(this.dom.inputCont);
+		this.dom.inputCont
+			.empty()
 			.append(this.dom.value[0]);
 
 		this.setListeners();
@@ -1882,7 +1881,7 @@ export default class Criteria {
 		}
 
 		for (let i = 1; i < this.dom.value.length; i++) {
-			this.dom.container.append(this.dom.value[i]);
+			this.dom.inputCont.append(this.dom.value[i]);
 			this.dom.value[i].trigger('dtsb-inserted');
 		}
 
@@ -1901,11 +1900,6 @@ export default class Criteria {
 
 		this.dom.buttons.append(this.dom.delete);
 		this.dom.container.append(this.dom.buttons);
-
-		if (redraw) {
-			// A different combination of arrows and selectors may lead to a need for responsive to be triggered
-			this._adjustCriteria();
-		}
 	}
 
 	/**
@@ -2266,7 +2260,7 @@ export default class Criteria {
 						for (let val of this.dom.value) {
 							// If this criteria was previously active in the search then remove
 							// it from the search and trigger a new search
-							if (this.s.filled && val !== undefined && this.dom.container.has(val[0]).length !== 0) {
+							if (this.s.filled && val !== undefined && this.dom.inputCont.has(val[0]).length !== 0) {
 								this.s.filled = false;
 								this.s.dt.draw();
 								this.setListeners();
@@ -2287,64 +2281,13 @@ export default class Criteria {
 			});
 	}
 
-	/**
-	 * Adjusts the criteria to make SearchBuilder responsive
-	 */
-	private _adjustCriteria(): void {
-		// If this criteria is not present then don't bother adjusting it
-		if ($(document).has(this.dom.container).length === 0) {
+	public setupButtons() {
+		if (window.innerWidth > 550) {
 			return;
 		}
-
-		let valRight: number;
-		let valWidth: number;
-		let outmostval = this.dom.value[this.dom.value.length - 1];
-
-		// Calculate the width and right value of the outmost value element
-		if (outmostval !== undefined && this.dom.container.has(outmostval[0]).length !== 0) {
-			valWidth = outmostval.outerWidth(true);
-			valRight = outmostval.offset().left + valWidth;
-		}
-		else {
-			return;
-		}
-
-		let leftOffset = this.dom.left.offset();
-		let rightOffset = this.dom.right.offset();
-		let clearOffset = this.dom.delete.offset();
-		let hasLeft = this.dom.container.has(this.dom.left[0]).length !== 0;
-		let hasRight = this.dom.container.has(this.dom.right[0]).length !== 0;
-		let buttonsLeft = hasLeft ?
-			leftOffset.left :
-			hasRight ?
-				rightOffset.left :
-				clearOffset.left;
-
-		// Perform the responsive calculations and redraw where necessary
-		if (
-			(
-				buttonsLeft - valRight < 15 ||
-				hasLeft && leftOffset.top !== clearOffset.top ||
-				hasRight && rightOffset.top !== clearOffset.top
-			) &&
-			!this.dom.container.parent().hasClass(this.classes.vertical)
-		) {
-			this.dom.container.parent().addClass(this.classes.vertical);
-			this.s.topGroup.trigger('dtsb-redrawContents-noDraw');
-		}
-		else if (
-			buttonsLeft -
-			(
-				this.dom.data.offset().left +
-				this.dom.data.outerWidth(true) +
-				this.dom.condition.outerWidth(true) +
-				valWidth
-			) > 15
-			&& this.dom.container.parent().hasClass(this.classes.vertical)
-		) {
-			this.dom.container.parent().removeClass(this.classes.vertical);
-			this.s.topGroup.trigger('dtsb-redrawContents-noDraw');
-		}
+		this.dom.container.addClass(this.classes.vertical);
+		this.dom.buttons.css('left', this.dom.data.innerWidth());
+		this.dom.buttons.css('top', this.dom.data.position().top);
 	}
 
 	/**
@@ -2360,15 +2303,19 @@ export default class Criteria {
 			.append(this.dom.data)
 			.append(this.dom.condition);
 
+		this.dom.inputCont.empty();
+
 		for (let val of this.dom.value) {
 			val.append(this.dom.valueTitle);
-			this.dom.container.append(val);
+			this.dom.inputCont.append(val);
 		}
 
 		// Add buttons to container
-		this.dom.container
+		this.dom.buttons
 			.append(this.dom.delete)
 			.append(this.dom.right);
+
+		this.dom.container.append(this.dom.inputCont).append(this.dom.buttons);
 
 		this.setListeners();
 	}
@@ -2404,11 +2351,16 @@ export default class Criteria {
 			// Call the init function to get the value elements for this condition
 			this.dom.value = [].concat(this.s.conditions[this.s.condition].init(this, Criteria.updateListener));
 			if(this.dom.value.length > 0 && this.dom.value[0] !== undefined) {
-				this.dom.value[0].insertAfter(this.dom.condition).trigger('dtsb-inserted');
+				this.dom.inputCont
+					.empty()
+					.append(this.dom.value[0])
+					.insertAfter(this.dom.condition);
+				this.dom.value[0].trigger('dtsb-inserted');
 
 				// Insert all of the value elements
 				for (let i = 1; i < this.dom.value.length; i++) {
-					this.dom.value[i].insertAfter(this.dom.value[i - 1]).trigger('dtsb-inserted');
+					this.dom.inputCont.append(this.dom.value[i]);
+					this.dom.value[i].trigger('dtsb-inserted');
 				}
 			}
 		}
@@ -2707,9 +2659,10 @@ export default class Criteria {
 			}, 50);
 		}
 
-		let children = this.dom.container.children();
-		if (children.length > 3) {
-			for (let i = 2; i < children.length - 1; i++) {
+		let children = this.dom.inputCont.children();
+		if (children.length > 1) {
+			// eslint-disable-next-line @typescript-eslint/prefer-for-of
+			for (let i = 0; i < children.length; i++) {
 				$(children[i]).remove();
 			}
 		}
@@ -2734,10 +2687,12 @@ export default class Criteria {
 			this.s.value = loadedCriteria.value;
 		}
 
+		this.dom.inputCont.empty();
+
 		// Insert value elements and trigger the inserted event
 		if(this.dom.value[0] !== undefined) {
 			this.dom.value[0]
-				.insertAfter(this.dom.condition)
+				.appendTo(this.dom.inputCont)
 				.trigger('dtsb-inserted');
 		}
 
