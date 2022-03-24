@@ -855,6 +855,16 @@ export default class Criteria {
 			}
 		}
 	};
+	
+	/**
+	 * Parses formatted numbers down to a form where they can be compared
+	 *
+	 * @param val the value to convert
+	 * @returns the converted value
+	 */
+	private static parseNumFmt(val) {
+		return +val.replace(/(?!^-)[^0-9.]/g, '');
+	}
 
 	// The order of the conditions will make eslint sad :(
 	// Has to be in this order so that they are displayed correctly in select elements
@@ -1384,14 +1394,7 @@ export default class Criteria {
 			inputValue: Criteria.inputValueSelect,
 			isInputValid: Criteria.isInputValidSelect,
 			search(value: string, comparison: string[]): boolean {
-				let val = value.indexOf('-') === 0 ?
-					'-' + value.replace(/[^0-9.]/g, '') :
-					value.replace(/[^0-9.]/g, '');
-				let comp = comparison[0].indexOf('-') === 0 ?
-					'-' + comparison[0].replace(/[^0-9.]/g, '') :
-					comparison[0].replace(/[^0-9.]/g, '');
-
-				return +val === +comp;
+				return Criteria.parseNumFmt(value) === Criteria.parseNumFmt(comparison[0]);
 			},
 		},
 		// eslint-disable-next-line sort-keys
@@ -1403,14 +1406,7 @@ export default class Criteria {
 			inputValue: Criteria.inputValueSelect,
 			isInputValid: Criteria.isInputValidSelect,
 			search(value: string, comparison: string[]): boolean {
-				let val = value.indexOf('-') === 0 ?
-					'-' + value.replace(/[^0-9.]/g, '') :
-					value.replace(/[^0-9.]/g, '');
-				let comp = comparison[0].indexOf('-') === 0 ?
-					'-' + comparison[0].replace(/[^0-9.]/g, '') :
-					comparison[0].replace(/[^0-9.]/g, '');
-
-				return +val !== +comp;
+				return Criteria.parseNumFmt(value) !== Criteria.parseNumFmt(comparison[0]);
 			},
 		},
 		'<': {
@@ -1421,14 +1417,7 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
-				let val = value.indexOf('-') === 0 ?
-					'-' + value.replace(/[^0-9.]/g, '') :
-					value.replace(/[^0-9.]/g, '');
-				let comp = comparison[0].indexOf('-') === 0 ?
-					'-' + comparison[0].replace(/[^0-9.]/g, '') :
-					comparison[0].replace(/[^0-9.]/g, '');
-
-				return +val < +comp;
+				return Criteria.parseNumFmt(value) < Criteria.parseNumFmt(comparison[0]);
 			},
 		},
 		'<=': {
@@ -1439,14 +1428,7 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
-				let val = value.indexOf('-') === 0 ?
-					'-' + value.replace(/[^0-9.]/g, '') :
-					value.replace(/[^0-9.]/g, '');
-				let comp = comparison[0].indexOf('-') === 0 ?
-					'-' + comparison[0].replace(/[^0-9.]/g, '') :
-					comparison[0].replace(/[^0-9.]/g, '');
-
-				return +val <= +comp;
+				return Criteria.parseNumFmt(value) <= Criteria.parseNumFmt(comparison[0]);
 			},
 		},
 		'>=': {
@@ -1457,14 +1439,7 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
-				let val = value.indexOf('-') === 0 ?
-					'-' + value.replace(/[^0-9.]/g, '') :
-					value.replace(/[^0-9.]/g, '');
-				let comp = comparison[0].indexOf('-') === 0 ?
-					'-' + comparison[0].replace(/[^0-9.]/g, '') :
-					comparison[0].replace(/[^0-9.]/g, '');
-
-				return +val >= +comp;
+				return Criteria.parseNumFmt(value) >= Criteria.parseNumFmt(comparison[0]);
 			},
 		},
 		// eslint-disable-next-line sort-keys
@@ -1476,14 +1451,7 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
-				let val = value.indexOf('-') === 0 ?
-					'-' + value.replace(/[^0-9.]/g, '') :
-					value.replace(/[^0-9.]/g, '');
-				let comp = comparison[0].indexOf('-') === 0 ?
-					'-' + comparison[0].replace(/[^0-9.]/g, '') :
-					comparison[0].replace(/[^0-9.]/g, '');
-
-				return +val > +comp;
+				return Criteria.parseNumFmt(value) > Criteria.parseNumFmt(comparison[0]);
 			},
 		},
 		'between': {
@@ -1494,15 +1462,9 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
-				let val = value.indexOf('-') === 0 ?
-					'-' + value.replace(/[^0-9.]/g, '') :
-					value.replace(/[^0-9.]/g, '');
-				let comp0 = comparison[0].indexOf('-') === 0 ?
-					'-' + comparison[0].replace(/[^0-9.]/g, '') :
-					comparison[0].replace(/[^0-9.]/g, '');
-				let comp1 = comparison[1].indexOf('-') === 0 ?
-					'-' + comparison[1].replace(/[^0-9.]/g, '') :
-					comparison[1].replace(/[^0-9.]/g, '');
+				let val = Criteria.parseNumFmt(value);
+				let comp0 = Criteria.parseNumFmt(comparison[0]);
+				let comp1 = Criteria.parseNumFmt(comparison[1]);
 
 				if (+comp0 < +comp1) {
 					return +comp0 <= +val && +val <= +comp1;
@@ -1521,15 +1483,9 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
-				let val = value.indexOf('-') === 0 ?
-					'-' + value.replace(/[^0-9.]/g, '') :
-					value.replace(/[^0-9.]/g, '');
-				let comp0 = comparison[0].indexOf('-') === 0 ?
-					'-' + comparison[0].replace(/[^0-9.]/g, '') :
-					comparison[0].replace(/[^0-9.]/g, '');
-				let comp1 = comparison[1].indexOf('-') === 0 ?
-					'-' + comparison[1].replace(/[^0-9.]/g, '') :
-					comparison[1].replace(/[^0-9.]/g, '');
+				let val = Criteria.parseNumFmt(value);
+				let comp0 = Criteria.parseNumFmt(comparison[0]);
+				let comp1 = Criteria.parseNumFmt(comparison[1]);
 
 				if (+comp0 < +comp1) {
 					return !(+comp0 <= +val && +val <= +comp1);
