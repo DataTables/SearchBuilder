@@ -23,7 +23,7 @@ This function returns a boolean representing whether the criteria should be incl
 
 This function gives access to the elements that have been created in the `-init searchBuilder.conditions[type][cond].init` function and the criteria instance that is currently being considered. The purpose of this function is to decide whether there is enough data present to include this criteria in the search filtering. It is not as straightforward as applying all of the filters all of the time. This is because when a new criteria is added the table would show no results.
 
-Typically the jQuery elements will be used to decide if there is enough data there to proceed. For example select elements would need to have a selected option and input elements would need to have some text entered. If you always want a criteria with this condition to apply filtering no matter the value in the jQuery elements then just return `true` from this function. This will mainly be used when no jQuery elements are set, for example the empty condition.
+Typically the jQuery elements will be used to decide if there is enough data there to proceed. For example `-tag select` elements would need to have a selected option and input elements would need to have some text entered. If you always want a criteria with this condition to apply filtering no matter the value in the jQuery elements then just return `true` from this function. This will mainly be used when no jQuery elements are set, for example the empty condition.
 
 The manual page for [custom conditions](../extensions/searchbuilder/customConditions.html) covers in detail how this and the other values in this object come together to create a custom condition.
 

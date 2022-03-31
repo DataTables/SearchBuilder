@@ -24,7 +24,7 @@ $(document).ready(function() {
 
 This example demonstrates the behaviour of `-init searchBuilder` when the `-init searchBuilder.columns` is set to limit which columns can be filtered on. It is an array of the type `-type column-selector`, allowing a wide range of different ways of selecting columns.
 
-Notice in this example that the "Data" select element only has 3 columns to choose from.
+Notice in this example that the "Data" `-tag select` element only has 3 columns to choose from.
 
 ]]></info>
 

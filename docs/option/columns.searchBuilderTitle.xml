@@ -15,7 +15,7 @@
 	</default>
 	<description>
 		<![CDATA[
-			This value allows a custom title to be set for any column within SearchBuilder. If a value is set then it will be used to represent the column in the "data" select element. If it is not set then the title of the column will be used instead. In both cases any html that is present will be stripped.
+			This value allows a custom title to be set for any column within SearchBuilder. If a value is set then it will be used to represent the column in the "data" `-tag select` element. If it is not set then the title of the column will be used instead. In both cases any html that is present will be stripped.
 		]]>
 	</description>
 

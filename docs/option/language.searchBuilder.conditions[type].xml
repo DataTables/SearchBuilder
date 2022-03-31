@@ -6,7 +6,7 @@
 
 	<type type="object">
 		<description>
-            An object populated with key-value pairs of strings that are used to represent conditions in the condition select element. These strings are passed through an `-api i18n()` function.
+            An object populated with key-value pairs of strings that are used to represent conditions in the condition `-tag select` element. These strings are passed through an `-api i18n()` function.
         </description>
 	</type>
 

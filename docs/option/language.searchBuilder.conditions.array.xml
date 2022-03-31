@@ -6,7 +6,7 @@
 
 	<type type="string | object">
 		<description>
-			`-init language.searchBuilder.conditions.array` changes what will be displayed for the SearchBuilder's condition select element for columns that use array like data.
+			`-init language.searchBuilder.conditions.array` changes what will be displayed for the SearchBuilder's condition `-tag select` element for columns that use array like data.
 			
 			Note that columns of this type are not identified automatically and must be user defined using the `-init columns.type` option. 
 		</description>
@@ -15,7 +15,7 @@
 	<default value="object" />
 	<description>
 		<![CDATA[
-This object sets the text for the condition names in the condition select element. The defaults for each language option is listed below.
+This object sets the text for the condition names in the condition `-tag select` element. The defaults for each language option is listed below.
 
 * `contains: 'Contains'`
 * `empty: 'Empty'`
