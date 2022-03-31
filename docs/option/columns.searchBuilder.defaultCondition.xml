@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>columns.searchBuilder.defaultCondition</name>
+	<summary>Set a default condition for this column</summary>
+	<since>SearchBuilder 1.4.0</since>
+
+	<type type="number">
+		<description>
+			When `-init columns.searchBuilder.defaultCondition` is set to a number it will select the option within the select element at the corresponding index.
+		</description>
+	</type>
+
+	<type type="number">
+		<description>
+			When `-init columns.searchBuilder.defaultCondition` is set to a string, it will select the option who's token is the same as this string. For example this will be "=", ">" etc. to avoid clashing with `-init i18n` changes.
+		</description>
+	</type>
+
+	<default value="undefined">
+		The default value of `-init columns.searchBuilder.defaultCondition` is `undefined`. This means that by default the first option in the condition select element will be selected.
+	</default>
+	<description>
+		<![CDATA[
+			SearchBuilder uses this option to decide which option within the condition select element should be initially selected when a user selects that column to filter. By default SearchBuilder will select the first item in the condition select element, which is typically the condition title.
+		]]>
+	</description>
+
+<related type="option">columns.render</related>
+
+</dt-option>
