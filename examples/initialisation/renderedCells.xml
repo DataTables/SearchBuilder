@@ -26,7 +26,7 @@ $(document).ready( function () {
 
 <info><![CDATA[
 
-This example shows how SearchBuilder interacts with cells rendered with `-init columns.render`. SearchBuilder uses the values returned from type `display` for any conditions that use select elements, otherwise the `filter` type will be used. This means that select elements will display the same values that are shown in the table.
+This example shows how SearchBuilder interacts with cells rendered with `-init columns.render`. SearchBuilder uses the values returned from type `display` for any conditions that use `-tag select` elements, otherwise the `filter` type will be used. This means that `-tag select` elements will display the same values that are shown in the table.
 
 ]]></info>
 

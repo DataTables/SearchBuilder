@@ -10,6 +10,7 @@ export interface IClasses {
 	dropDown: string;
 	greyscale: string;
 	input: string;
+	inputCont: string;
 	italic: string;
 	joiner: string;
 	left: string;
@@ -47,6 +48,7 @@ export interface IDom {
 	dataTitle: JQuery<HTMLElement>;
 	defaultValue: JQuery<HTMLElement>;
 	delete: JQuery<HTMLElement>;
+	inputCont: JQuery<HTMLElement>;
 	left: JQuery<HTMLElement>;
 	right: JQuery<HTMLElement>;
 	value: Array<JQuery<HTMLElement>>;
@@ -121,6 +123,7 @@ export default class Criteria {
 		dropDown: 'dtsb-dropDown',
 		greyscale: 'dtsb-greyscale',
 		input: 'dtsb-input',
+		inputCont: 'dtsb-inputCont',
 		italic: 'dtsb-italic',
 		joiner: 'dtsp-joiner',
 		left: 'dtsb-left',
@@ -202,6 +205,8 @@ export default class Criteria {
 				.addClass(this.classes.button)
 				.attr('title', this.s.dt.i18n('searchBuilder.deleteTitle', i18n.deleteTitle))
 				.attr('type', 'button'),
+			inputCont: $('<div/>')
+				.addClass(this.classes.inputCont),
 			// eslint-disable-next-line no-useless-escape
 			left: $('<button/>')
 				.html(this.s.dt.i18n('searchBuilder.left', i18n.left))
@@ -238,17 +243,8 @@ export default class Criteria {
 			}
 		}
 
-		// For responsive design, adjust the criterias properties on the following events
-		this.s.dt.on('draw.dtsb', () => {
-			this._adjustCriteria();
-		});
-
-		this.s.dt.on('buttons-action.dtsb', () => {
-			this._adjustCriteria();
-		});
-
 		$(window).on('resize.dtsb', dataTable.util.throttle(() => {
-			this._adjustCriteria();
+			this.s.topGroup.trigger('dtsb-redrawLogic');
 		}));
 
 		this._buildCriteria();
@@ -859,6 +855,16 @@ export default class Criteria {
 			}
 		}
 	};
+	
+	/**
+	 * Parses formatted numbers down to a form where they can be compared
+	 *
+	 * @param val the value to convert
+	 * @returns the converted value
+	 */
+	private static parseNumFmt(val) {
+		return +val.replace(/(?!^-)[^0-9.]/g, '');
+	}
 
 	// The order of the conditions will make eslint sad :(
 	// Has to be in this order so that they are displayed correctly in select elements
@@ -1388,14 +1394,7 @@ export default class Criteria {
 			inputValue: Criteria.inputValueSelect,
 			isInputValid: Criteria.isInputValidSelect,
 			search(value: string, comparison: string[]): boolean {
-				let val = value.indexOf('-') === 0 ?
-					'-' + value.replace(/[^0-9.]/g, '') :
-					value.replace(/[^0-9.]/g, '');
-				let comp = comparison[0].indexOf('-') === 0 ?
-					'-' + comparison[0].replace(/[^0-9.]/g, '') :
-					comparison[0].replace(/[^0-9.]/g, '');
-
-				return +val === +comp;
+				return Criteria.parseNumFmt(value) === Criteria.parseNumFmt(comparison[0]);
 			},
 		},
 		// eslint-disable-next-line sort-keys
@@ -1407,14 +1406,7 @@ export default class Criteria {
 			inputValue: Criteria.inputValueSelect,
 			isInputValid: Criteria.isInputValidSelect,
 			search(value: string, comparison: string[]): boolean {
-				let val = value.indexOf('-') === 0 ?
-					'-' + value.replace(/[^0-9.]/g, '') :
-					value.replace(/[^0-9.]/g, '');
-				let comp = comparison[0].indexOf('-') === 0 ?
-					'-' + comparison[0].replace(/[^0-9.]/g, '') :
-					comparison[0].replace(/[^0-9.]/g, '');
-
-				return +val !== +comp;
+				return Criteria.parseNumFmt(value) !== Criteria.parseNumFmt(comparison[0]);
 			},
 		},
 		'<': {
@@ -1425,14 +1417,7 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
-				let val = value.indexOf('-') === 0 ?
-					'-' + value.replace(/[^0-9.]/g, '') :
-					value.replace(/[^0-9.]/g, '');
-				let comp = comparison[0].indexOf('-') === 0 ?
-					'-' + comparison[0].replace(/[^0-9.]/g, '') :
-					comparison[0].replace(/[^0-9.]/g, '');
-
-				return +val < +comp;
+				return Criteria.parseNumFmt(value) < Criteria.parseNumFmt(comparison[0]);
 			},
 		},
 		'<=': {
@@ -1443,14 +1428,7 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
-				let val = value.indexOf('-') === 0 ?
-					'-' + value.replace(/[^0-9.]/g, '') :
-					value.replace(/[^0-9.]/g, '');
-				let comp = comparison[0].indexOf('-') === 0 ?
-					'-' + comparison[0].replace(/[^0-9.]/g, '') :
-					comparison[0].replace(/[^0-9.]/g, '');
-
-				return +val <= +comp;
+				return Criteria.parseNumFmt(value) <= Criteria.parseNumFmt(comparison[0]);
 			},
 		},
 		'>=': {
@@ -1461,14 +1439,7 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
-				let val = value.indexOf('-') === 0 ?
-					'-' + value.replace(/[^0-9.]/g, '') :
-					value.replace(/[^0-9.]/g, '');
-				let comp = comparison[0].indexOf('-') === 0 ?
-					'-' + comparison[0].replace(/[^0-9.]/g, '') :
-					comparison[0].replace(/[^0-9.]/g, '');
-
-				return +val >= +comp;
+				return Criteria.parseNumFmt(value) >= Criteria.parseNumFmt(comparison[0]);
 			},
 		},
 		// eslint-disable-next-line sort-keys
@@ -1480,14 +1451,7 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
-				let val = value.indexOf('-') === 0 ?
-					'-' + value.replace(/[^0-9.]/g, '') :
-					value.replace(/[^0-9.]/g, '');
-				let comp = comparison[0].indexOf('-') === 0 ?
-					'-' + comparison[0].replace(/[^0-9.]/g, '') :
-					comparison[0].replace(/[^0-9.]/g, '');
-
-				return +val > +comp;
+				return Criteria.parseNumFmt(value) > Criteria.parseNumFmt(comparison[0]);
 			},
 		},
 		'between': {
@@ -1498,15 +1462,9 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
-				let val = value.indexOf('-') === 0 ?
-					'-' + value.replace(/[^0-9.]/g, '') :
-					value.replace(/[^0-9.]/g, '');
-				let comp0 = comparison[0].indexOf('-') === 0 ?
-					'-' + comparison[0].replace(/[^0-9.]/g, '') :
-					comparison[0].replace(/[^0-9.]/g, '');
-				let comp1 = comparison[1].indexOf('-') === 0 ?
-					'-' + comparison[1].replace(/[^0-9.]/g, '') :
-					comparison[1].replace(/[^0-9.]/g, '');
+				let val = Criteria.parseNumFmt(value);
+				let comp0 = Criteria.parseNumFmt(comparison[0]);
+				let comp1 = Criteria.parseNumFmt(comparison[1]);
 
 				if (+comp0 < +comp1) {
 					return +comp0 <= +val && +val <= +comp1;
@@ -1525,15 +1483,9 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[]): boolean {
-				let val = value.indexOf('-') === 0 ?
-					'-' + value.replace(/[^0-9.]/g, '') :
-					value.replace(/[^0-9.]/g, '');
-				let comp0 = comparison[0].indexOf('-') === 0 ?
-					'-' + comparison[0].replace(/[^0-9.]/g, '') :
-					comparison[0].replace(/[^0-9.]/g, '');
-				let comp1 = comparison[1].indexOf('-') === 0 ?
-					'-' + comparison[1].replace(/[^0-9.]/g, '') :
-					comparison[1].replace(/[^0-9.]/g, '');
+				let val = Criteria.parseNumFmt(value);
+				let comp0 = Criteria.parseNumFmt(comparison[0]);
+				let comp1 = Criteria.parseNumFmt(comparison[1]);
 
 				if (+comp0 < +comp1) {
 					return !(+comp0 <= +val && +val <= +comp1);
@@ -1866,12 +1818,15 @@ export default class Criteria {
 	/**
 	 * Adds the left button to the criteria
 	 */
-	public updateArrows(hasSiblings = false, redraw = true): void {
+	public updateArrows(hasSiblings = false): void {
 		// Empty the container and append all of the elements in the correct order
 		this.dom.container.children().detach();
 		this.dom.container
 			.append(this.dom.data)
 			.append(this.dom.condition)
+			.append(this.dom.inputCont);
+		this.dom.inputCont
+			.empty()
 			.append(this.dom.value[0]);
 
 		this.setListeners();
@@ -1882,7 +1837,7 @@ export default class Criteria {
 		}
 
 		for (let i = 1; i < this.dom.value.length; i++) {
-			this.dom.container.append(this.dom.value[i]);
+			this.dom.inputCont.append(this.dom.value[i]);
 			this.dom.value[i].trigger('dtsb-inserted');
 		}
 
@@ -1901,11 +1856,6 @@ export default class Criteria {
 
 		this.dom.buttons.append(this.dom.delete);
 		this.dom.container.append(this.dom.buttons);
-
-		if (redraw) {
-			// A different combination of arrows and selectors may lead to a need for responsive to be triggered
-			this._adjustCriteria();
-		}
 	}
 
 	/**
@@ -2266,7 +2216,7 @@ export default class Criteria {
 						for (let val of this.dom.value) {
 							// If this criteria was previously active in the search then remove
 							// it from the search and trigger a new search
-							if (this.s.filled && val !== undefined && this.dom.container.has(val[0]).length !== 0) {
+							if (this.s.filled && val !== undefined && this.dom.inputCont.has(val[0]).length !== 0) {
 								this.s.filled = false;
 								this.s.dt.draw();
 								this.setListeners();
@@ -2287,64 +2237,16 @@ export default class Criteria {
 			});
 	}
 
-	/**
-	 * Adjusts the criteria to make SearchBuilder responsive
-	 */
-	private _adjustCriteria(): void {
-		// If this criteria is not present then don't bother adjusting it
-		if ($(document).has(this.dom.container).length === 0) {
+	public setupButtons() {
+		if (window.innerWidth > 550) {
+			this.dom.container.removeClass(this.classes.vertical);
+			this.dom.buttons.css('left', null);
+			this.dom.buttons.css('top', null);
 			return;
 		}
-
-		let valRight: number;
-		let valWidth: number;
-		let outmostval = this.dom.value[this.dom.value.length - 1];
-
-		// Calculate the width and right value of the outmost value element
-		if (outmostval !== undefined && this.dom.container.has(outmostval[0]).length !== 0) {
-			valWidth = outmostval.outerWidth(true);
-			valRight = outmostval.offset().left + valWidth;
-		}
-		else {
-			return;
-		}
-
-		let leftOffset = this.dom.left.offset();
-		let rightOffset = this.dom.right.offset();
-		let clearOffset = this.dom.delete.offset();
-		let hasLeft = this.dom.container.has(this.dom.left[0]).length !== 0;
-		let hasRight = this.dom.container.has(this.dom.right[0]).length !== 0;
-		let buttonsLeft = hasLeft ?
-			leftOffset.left :
-			hasRight ?
-				rightOffset.left :
-				clearOffset.left;
-
-		// Perform the responsive calculations and redraw where necessary
-		if (
-			(
-				buttonsLeft - valRight < 15 ||
-				hasLeft && leftOffset.top !== clearOffset.top ||
-				hasRight && rightOffset.top !== clearOffset.top
-			) &&
-			!this.dom.container.parent().hasClass(this.classes.vertical)
-		) {
-			this.dom.container.parent().addClass(this.classes.vertical);
-			this.s.topGroup.trigger('dtsb-redrawContents-noDraw');
-		}
-		else if (
-			buttonsLeft -
-			(
-				this.dom.data.offset().left +
-				this.dom.data.outerWidth(true) +
-				this.dom.condition.outerWidth(true) +
-				valWidth
-			) > 15
-			&& this.dom.container.parent().hasClass(this.classes.vertical)
-		) {
-			this.dom.container.parent().removeClass(this.classes.vertical);
-			this.s.topGroup.trigger('dtsb-redrawContents-noDraw');
-		}
+		this.dom.container.addClass(this.classes.vertical);
+		this.dom.buttons.css('left', this.dom.data.innerWidth());
+		this.dom.buttons.css('top', this.dom.data.position().top);
 	}
 
 	/**
@@ -2360,15 +2262,19 @@ export default class Criteria {
 			.append(this.dom.data)
 			.append(this.dom.condition);
 
+		this.dom.inputCont.empty();
+
 		for (let val of this.dom.value) {
 			val.append(this.dom.valueTitle);
-			this.dom.container.append(val);
+			this.dom.inputCont.append(val);
 		}
 
 		// Add buttons to container
-		this.dom.container
+		this.dom.buttons
 			.append(this.dom.delete)
 			.append(this.dom.right);
+
+		this.dom.container.append(this.dom.inputCont).append(this.dom.buttons);
 
 		this.setListeners();
 	}
@@ -2404,11 +2310,16 @@ export default class Criteria {
 			// Call the init function to get the value elements for this condition
 			this.dom.value = [].concat(this.s.conditions[this.s.condition].init(this, Criteria.updateListener));
 			if(this.dom.value.length > 0 && this.dom.value[0] !== undefined) {
-				this.dom.value[0].insertAfter(this.dom.condition).trigger('dtsb-inserted');
+				this.dom.inputCont
+					.empty()
+					.append(this.dom.value[0])
+					.insertAfter(this.dom.condition);
+				this.dom.value[0].trigger('dtsb-inserted');
 
 				// Insert all of the value elements
 				for (let i = 1; i < this.dom.value.length; i++) {
-					this.dom.value[i].insertAfter(this.dom.value[i - 1]).trigger('dtsb-inserted');
+					this.dom.inputCont.append(this.dom.value[i]);
+					this.dom.value[i].trigger('dtsb-inserted');
 				}
 			}
 		}
@@ -2464,13 +2375,13 @@ export default class Criteria {
 	private _populateCondition(): void {
 		let conditionOpts: Array<JQuery<HTMLElement>> = [];
 		let conditionsLength = Object.keys(this.s.conditions).length;
+		let colInits = this.s.dt.settings()[0].aoColumns;
+		let column = +this.dom.data.children('option:selected').val();
 
 		// If there are no conditions stored then we need to get them from the appropriate type
 		if (conditionsLength === 0) {
-			let column = +this.dom.data.children('option:selected').val();
 			this.s.type = this.s.dt.columns().type().toArray()[column];
 
-			let colInits = this.s.dt.settings()[0].aoColumns;
 			if(colInits !== undefined) {
 				let colInit = colInits[column];
 				if(colInit.searchBuilderType !== undefined && colInit.searchBuilderType !== null) {
@@ -2593,7 +2504,49 @@ export default class Criteria {
 			this.dom.condition.append(opt);
 		}
 
-		this.dom.condition.prop('selectedIndex', 0);
+		// Selecting a default condition if one is set
+		if(colInits[column].searchBuilder && colInits[column].searchBuilder.defaultCondition) {
+			let defaultCondition = colInits[column].searchBuilder.defaultCondition;
+
+			// If it is a number just use it as an index
+			if (typeof defaultCondition === 'number') {
+				this.dom.condition.prop('selectedIndex', defaultCondition);
+				this.dom.condition.trigger('change');
+			}
+			// If it is a string then things get slightly more tricly
+			else if (typeof defaultCondition === 'string') {
+				// We need to check each condition option to see if any will match
+				for (let i = 0; i < conditionOpts.length; i++) {
+					// Need to check against the stored conditions so we can match the token "cond" to the option
+					for (let cond of Object.keys(this.s.conditions)) {
+						let condName = this.s.conditions[cond].conditionName;
+
+						if (
+							// If the conditionName matches the text of the option
+							(typeof condName === 'string' ? condName : condName(this.s.dt, this.c.i18n)) ===
+								conditionOpts[i].text() &&
+							// and the tokens match
+							cond === defaultCondition
+						) {
+							// Select that option
+							this.dom.condition
+								.prop(
+									'selectedIndex',
+									this.dom.condition.children().toArray().indexOf(conditionOpts[i][0])
+								)
+								.removeClass(this.classes.italic);
+							this.dom.condition.trigger('change');
+							i = conditionOpts.length;
+							break;
+						}
+					}
+				}
+			}
+		}
+		// If not default set then default to 0, the title
+		else {
+			this.dom.condition.prop('selectedIndex', 0);
+		}
 	}
 
 	/**
@@ -2707,9 +2660,10 @@ export default class Criteria {
 			}, 50);
 		}
 
-		let children = this.dom.container.children();
-		if (children.length > 3) {
-			for (let i = 2; i < children.length - 1; i++) {
+		let children = this.dom.inputCont.children();
+		if (children.length > 1) {
+			// eslint-disable-next-line @typescript-eslint/prefer-for-of
+			for (let i = 0; i < children.length; i++) {
 				$(children[i]).remove();
 			}
 		}
@@ -2734,10 +2688,12 @@ export default class Criteria {
 			this.s.value = loadedCriteria.value;
 		}
 
+		this.dom.inputCont.empty();
+
 		// Insert value elements and trigger the inserted event
 		if(this.dom.value[0] !== undefined) {
 			this.dom.value[0]
-				.insertAfter(this.dom.condition)
+				.appendTo(this.dom.inputCont)
 				.trigger('dtsb-inserted');
 		}
 

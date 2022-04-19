@@ -23,9 +23,9 @@
 
 			To add a criteria an object with the following properties should be defined:
 
-			* `-init searchBuilder.preDefined.criteria.data` The data that is to be selected from the select element.
-			* `-init searchBuilder.preDefined.criteria.condition` The condition that is to be selected from the select element.
-			* `-init searchBuilder.preDefined.criteria.value` The condition that is to be applied, be it to either a select element, input or date selector.
+			* `-init searchBuilder.preDefined.criteria.data` The data that is to be selected from the `-tag select` element.
+			* `-init searchBuilder.preDefined.criteria.condition` The condition that is to be selected from the `-tag select` element.
+			* `-init searchBuilder.preDefined.criteria.value` The condition that is to be applied, be it to either a `-tag select` element, input or date selector.
 
 			When it comes to applying the selected `data`, `condition` and `value` values to a condition, SearchBuilder will work through them in that order and stop as soon as one is not defined. For example if you defined `data` and `value` but not `condition` then the data selection would be made, but the value would not as the condition can not be determined.
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
 	<name>language.searchBuilder.data</name>
-	<summary>Set the placeholder text for the SearchBuilder data select element</summary>
+	<summary>Set the placeholder text for the SearchBuilder data `-tag select` element</summary>
 	<since>1.0.0</since>
 
 	<type type="string | object">
@@ -14,7 +14,7 @@
 
 	<description>
 		<![CDATA[
-		This will set the placeholder text for the data select element, by default this is `'Data'`. This dom element is available in custom conditions and plugins also.
+		This will set the placeholder text for the data `-tag select` element, by default this is `'Data'`. This dom element is available in custom conditions and plugins also.
 		]]>
 	</description>
 

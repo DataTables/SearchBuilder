@@ -547,7 +547,7 @@ $(document).ready(function() {
 
 This example shows how `-init SearchBuilder` can make use of orthogonal data.
 
-The "Rating" column renders a progress bar depending on the value that it holds. SearchBuilder is unable to display progress bars in it's select elements. By setting `-init columns.searchBuilder.orthogonal` to have an `orthogonal.display` value of `'filter'`, the raw numerical data is displayed instead. 
+The "Rating" column renders a progress bar depending on the value that it holds. SearchBuilder is unable to display progress bars in it's `-tag select` elements. By setting `-init columns.searchBuilder.orthogonal` to have an `orthogonal.display` value of `'filter'`, the raw numerical data is displayed instead. 
 ]]></info>
 
 <custom-table>

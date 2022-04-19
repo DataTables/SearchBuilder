@@ -13,8 +13,8 @@ This event is triggered whenever one of the elements created in the `-init searc
 
 This event is triggered at the following points
 
-* Whenever the condition select element is changed
-* Whenever the data select element is changed
+* Whenever the condition `-tag select` element is changed
+* Whenever the data `-tag select` element is changed
 * Whenever the criteria is created 
 * Whenever a criteria is added to the group
 * Whenever a criteria in removed from the group
@@ -22,7 +22,7 @@ This event is triggered at the following points
 
 Admittedly, this is a large number of places for this to occur, however it is necessary.
 
-When the data or the condition select element has their value changed the value elements need to be reset. The easiest way to do this is to remove the value elements and initialise them to their default state again.
+When the data or the condition `-tag select` element has their value changed the value elements need to be reset. The easiest way to do this is to remove the value elements and initialise them to their default state again.
 
 When adding or removing criteria in the same group it is possible that more buttons need to be added or removed from the criteria that remain, again the easiest way to do this is to remove and rebuild the entire criteria, applying the values that previously existed.
 

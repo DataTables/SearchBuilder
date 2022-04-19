@@ -15,7 +15,7 @@
 	</default>
 	<description>
 		<![CDATA[
-		This is useful as it allows restrictions to be made on which data points can be filtered on. For tables with a large amount of columns, this prevents having a large set of options within the select element.
+		This is useful as it allows restrictions to be made on which data points can be filtered on. For tables with a large amount of columns, this prevents having a large set of options within the `-tag select` element.
         ]]>
 	</description>
 

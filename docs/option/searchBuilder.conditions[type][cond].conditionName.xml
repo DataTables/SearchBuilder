@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-option library="SearchBuilder">
 	<name>searchBuilder.conditions[type][cond].conditionName</name>
-	<summary>The value that is displayed in the condition select element</summary>
+	<summary>The value that is displayed in the condition `-tag select` element</summary>
 	<since>1.0.0</since>
 
 	<type type="string">
 		<description>
-            This is the string value that will be displayed in the condition select element to represent this condition.
+            This is the string value that will be displayed in the condition `-tag select` element to represent this condition.
         </description>
 	</type>
 

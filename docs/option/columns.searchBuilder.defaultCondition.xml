@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>columns.searchBuilder.defaultCondition</name>
+	<summary>Set a default condition for this column</summary>
+	<since>SearchBuilder 1.4.0</since>
+
+	<type type="number">
+		<description>
+			When `-init columns.searchBuilder.defaultCondition` is set to a number it will select the option within the `-tag select` at the corresponding index.
+		</description>
+	</type>
+
+	<type type="string">
+		<description>
+			When `-init columns.searchBuilder.defaultCondition` is set to a string, it will select the option whose token is the same as this string. For example this will be "=", ">" etc. to avoid clashing with `-init i18n` changes.
+		</description>
+	</type>
+
+	<default value="undefined">
+		The default value of `-init columns.searchBuilder.defaultCondition` is `undefined`. This means that by default the first option in the condition `-tag select` will be selected.
+	</default>
+	<description>
+		<![CDATA[
+			SearchBuilder uses this option to decide which option within the condition `-tag select` should be initially selected when a user selects that column to filter. By default SearchBuilder will select the first item in the condition `-tag select`, which is typically the condition title.
+		]]>
+	</description>
+
+    <example title="Set the condition to be '!=' for the third column"><![CDATA[
+table = $('#example').DataTable({
+	dom: 'Qlfrtip',
+	columnDefs: [{
+		targets: 2,
+		searchBuilder: {
+			defaultCondition: '!='
+		}
+	}]
+});
+]]></example>
+
+
+
+<related type="option">columns.render</related>
+
+</dt-option>

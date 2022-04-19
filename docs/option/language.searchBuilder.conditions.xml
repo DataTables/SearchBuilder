@@ -11,7 +11,7 @@
 	</type>
 
 	<default value="Object">
-		The default value for the `-init language.searchBuilder.conditions` option is an object with a property for each of the built in DataTables types as defined in `-init columns.type` along with an `array` type for columns using data in an array type format and any other custom types that may exist on the table. Each property in turn is an object with key value pairs to represent the conditions in the condition select element. The key here is the condition name and the value is the string that is to be used to represent it.
+		The default value for the `-init language.searchBuilder.conditions` option is an object with a property for each of the built in DataTables types as defined in `-init columns.type` along with an `array` type for columns using data in an array type format and any other custom types that may exist on the table. Each property in turn is an object with key value pairs to represent the conditions in the condition `-tag select` element. The key here is the condition name and the value is the string that is to be used to represent it.
 	</default>
 	<description>
 		<![CDATA[

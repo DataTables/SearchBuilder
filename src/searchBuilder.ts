@@ -438,7 +438,7 @@ export default class SearchBuilder {
 					if(loadedState.page) {
 						this.s.dt.page(loadedState.page).draw('page');
 					}
-					else if(this.s.dt.scroller) {
+					else if(this.s.dt.scroller && loadedState.scroller) {
 						this.s.dt.scroller().scrollToRow(loadedState.scroller.topRow);
 					}
 				}

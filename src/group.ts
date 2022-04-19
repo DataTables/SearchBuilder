@@ -286,7 +286,7 @@ export default class Group {
 		// For all of the criteria children, update the arrows incase they require changing and set the listeners
 		for (let crit of this.s.criteria) {
 			if (crit.criteria instanceof Criteria) {
-				crit.criteria.updateArrows(this.s.criteria.length > 1, false);
+				crit.criteria.updateArrows(this.s.criteria.length > 1);
 				this._setCriteriaListeners(crit.criteria);
 			}
 		}
@@ -366,8 +366,8 @@ export default class Group {
 	 */
 	public redrawLogic() {
 		for (let crit of this.s.criteria) {
-			if (crit instanceof Group) {
-				crit.redrawLogic();
+			if (crit.criteria instanceof Group) {
+				crit.criteria.redrawLogic();
 			}
 		}
 
@@ -410,13 +410,21 @@ export default class Group {
 			return;
 		}
 
-		// Set width, take 2 for the border
-		let height = this.dom.container.height() - 1;
 		this.dom.clear.height('0px');
-		this.dom.logicContainer.append(this.dom.clear).width(height);
+		this.dom.logicContainer.append(this.dom.clear);
 
 		// Prepend logic button
 		this.dom.container.prepend(this.dom.logicContainer);
+
+		for (let crit of this.s.criteria) {
+			if (crit.criteria instanceof Criteria) {
+				crit.criteria.setupButtons();
+			}
+		}
+
+		// Set width, take 2 for the border
+		let height = this.dom.container.outerHeight() - 1;
+		this.dom.logicContainer.width(height);
 		this._setLogicListener();
 
 		// Set criteria left margin
@@ -476,7 +484,7 @@ export default class Group {
 	 *
 	 * @param crit Instance of Criteria to be added to the group
 	 */
-	public addCriteria(crit: Criteria = null, redraw = true): void {
+	public addCriteria(crit: Criteria = null): void {
 		let index = crit === null ? this.s.criteria.length : crit.s.index;
 		let criteria = new Criteria(this.s.dt, this.s.opts, this.s.topGroup, index, this.s.depth);
 
@@ -522,7 +530,7 @@ export default class Group {
 
 		for (let opt of this.s.criteria) {
 			if (opt.criteria instanceof Criteria) {
-				opt.criteria.updateArrows(this.s.criteria.length > 1, redraw);
+				opt.criteria.updateArrows(this.s.criteria.length > 1);
 			}
 		}
 
@@ -853,8 +861,8 @@ export default class Group {
 			.on('dtsb-dropCriteria.dtsb', () => {
 				let toDrop = group.s.toDrop;
 				toDrop.s.index = group.s.index;
-				toDrop.updateArrows(this.s.criteria.length > 1, false);
-				this.addCriteria(toDrop, false);
+				toDrop.updateArrows(this.s.criteria.length > 1);
+				this.addCriteria(toDrop);
 
 				return false;
 			});
