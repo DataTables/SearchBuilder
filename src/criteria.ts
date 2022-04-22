@@ -2066,7 +2066,7 @@ export default class Criteria {
 						this.s.value[i].length > 0 &&
 						moment(this.s.value[i], this.s.dateFormat, true).isValid()
 					) {
-						this.s.value[i] = moment(this.s.value[i], this.s.dateFormat).toISOString();
+						this.s.value[i] = moment(this.s.value[i], this.s.dateFormat).format('YYYY-MM-DD HH:mm:ss');
 					}
 				}
 			}
@@ -2077,7 +2077,7 @@ export default class Criteria {
 						this.s.value[i].length > 0 &&
 						luxon.DateTime.fromFormat(this.s.value[i], this.s.dateFormat).invalid === null
 					) {
-						this.s.value[i] = luxon.DateTime.fromFormat(this.s.value[i], this.s.dateFormat).toISO();
+						this.s.value[i] = luxon.DateTime.fromFormat(this.s.value[i], this.s.dateFormat).toFormat('yyyy-MM-dd HH:mm:ss');
 					}
 				}
 			}
