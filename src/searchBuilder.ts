@@ -79,10 +79,16 @@ export interface II18n {
 	valueJoiner: string;
 }
 
+export interface IServerData {
+	label: any;
+	value: any;
+}
+
 export interface IS {
 	dt: any;
 	opts: IDefaults;
 	search: (settings: any, searchData: any, dataIndex: any, origData: any) => boolean;
+	serverData: {[keys: string]: IServerData[]};
 	topGroup: Group;
 }
 
@@ -234,6 +240,7 @@ export default class SearchBuilder {
 			dt: table,
 			opts,
 			search: undefined,
+			serverData: undefined,
 			topGroup: undefined
 		};
 
@@ -250,6 +257,12 @@ export default class SearchBuilder {
 				let loadedState = this.s.dt.state.loaded();
 				if (loadedState && loadedState.searchBuilder) {
 					data.searchBuilder = this._collapseArray(loadedState.searchBuilder);
+				}
+			});
+
+			this.s.dt.on('xhr.dtsb', (e, settings, json) => {
+				if (json && json.searchBuilder && json.searchBuilder.options) {
+					this.s.serverData = json.searchBuilder.options;
 				}
 			});
 		}
@@ -394,7 +407,7 @@ export default class SearchBuilder {
 			}
 		}
 
-		this.s.topGroup = new Group(this.s.dt, this.c, undefined);
+		this.s.topGroup = new Group(this.s.dt, this.c, undefined, undefined, undefined, undefined, this.s.serverData);
 
 		this._setClearListener();
 
@@ -575,7 +588,15 @@ export default class SearchBuilder {
 	private _setClearListener() {
 		this.dom.clearAll.unbind('click');
 		this.dom.clearAll.on('click.dtsb', () => {
-			this.s.topGroup = new Group(this.s.dt, this.c, undefined);
+			this.s.topGroup = new Group(
+				this.s.dt,
+				this.c,
+				undefined,
+				undefined,
+				undefined,
+				undefined,
+				this.s.serverData
+			);
 			this._build();
 			this.s.dt.draw();
 			this.s.topGroup.setListeners();

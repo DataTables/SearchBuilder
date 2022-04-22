@@ -29,6 +29,7 @@ export interface IS {
 	logic: string;
 	opts: builderType.IDefaults;
 	preventRedraw: boolean;
+	serverData: {[keys: string]: builderType.IServerData};
 	toDrop: Criteria;
 	topGroup: JQuery<HTMLElement>;
 }
@@ -147,7 +148,8 @@ export default class Group {
 		topGroup: JQuery<HTMLElement>,
 		index = 0,
 		isChild = false,
-		depth = 1
+		depth = 1,
+		serverData = undefined
 	) {
 		// Check that the required version of DataTables is included
 		if (! dataTable || ! dataTable.versionCheck || ! dataTable.versionCheck('1.10.0')) {
@@ -168,6 +170,7 @@ export default class Group {
 			logic: undefined,
 			opts,
 			preventRedraw: false,
+			serverData,
 			toDrop: undefined,
 			topGroup
 		};
@@ -486,7 +489,7 @@ export default class Group {
 	 */
 	public addCriteria(crit: Criteria = null): void {
 		let index = crit === null ? this.s.criteria.length : crit.s.index;
-		let criteria = new Criteria(this.s.dt, this.s.opts, this.s.topGroup, index, this.s.depth);
+		let criteria = new Criteria(this.s.dt, this.s.opts, this.s.topGroup, index, this.s.depth, this.s.serverData);
 
 		// If a Criteria has been passed in then set the values to continue that
 		if (crit !== null) {
@@ -580,7 +583,7 @@ export default class Group {
 	 */
 	private _addPrevGroup(loadedGroup: IDetails): void {
 		let idx = this.s.criteria.length;
-		let group = new Group(this.s.dt, this.c, this.s.topGroup, idx, true, this.s.depth + 1);
+		let group = new Group(this.s.dt, this.c, this.s.topGroup, idx, true, this.s.depth + 1, this.s.serverData);
 
 		// Add the new group to the criteria array
 		this.s.criteria.push({
@@ -603,7 +606,7 @@ export default class Group {
 	 */
 	private _addPrevCriteria(loadedCriteria: criteriaType.IDetails): void {
 		let idx = this.s.criteria.length;
-		let criteria = new Criteria(this.s.dt, this.s.opts, this.s.topGroup, idx, this.s.depth);
+		let criteria = new Criteria(this.s.dt, this.s.opts, this.s.topGroup, idx, this.s.depth, this.s.serverData);
 		criteria.populate();
 
 		// Add the new criteria to the criteria array
@@ -759,7 +762,8 @@ export default class Group {
 					this.s.topGroup,
 					criteria.s.index,
 					true,
-					this.s.depth + 1
+					this.s.depth + 1,
+					this.s.serverData
 				);
 
 				// Add the criteria that is to be moved to the new group
@@ -779,7 +783,14 @@ export default class Group {
 		criteria.dom.left
 			.unbind('click')
 			.on('click.dtsb', () => {
-				this.s.toDrop = new Criteria(this.s.dt, this.s.opts, this.s.topGroup, criteria.s.index);
+				this.s.toDrop = new Criteria(
+					this.s.dt,
+					this.s.opts,
+					this.s.topGroup,
+					criteria.s.index,
+					undefined,
+					this.s.serverData
+				);
 				this.s.toDrop.s = criteria.s;
 				this.s.toDrop.c = criteria.c;
 				this.s.toDrop.classes = criteria.classes;

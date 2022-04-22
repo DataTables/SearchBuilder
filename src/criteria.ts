@@ -68,6 +68,7 @@ export interface IS {
 	index: number;
 	origData: string;
 	preventRedraw: boolean;
+	serverData: {[keys: string]: builderType.IServerData[]};
 	topGroup: JQuery<HTMLElement>;
 	type: string;
 	value: string[];
@@ -145,7 +146,8 @@ export default class Criteria {
 		opts: builderType.IDefaults,
 		topGroup: JQuery<HTMLElement>,
 		index = 0,
-		depth = 1
+		depth = 1,
+		serverData = undefined
 	) {
 		// Check that the required version of DataTables is included
 		if (! dataTable || ! dataTable.versionCheck || ! dataTable.versionCheck('1.10.0')) {
@@ -171,6 +173,7 @@ export default class Criteria {
 			index,
 			origData: undefined,
 			preventRedraw: false,
+			serverData,
 			topGroup,
 			type: '',
 			value: [],
@@ -419,6 +422,74 @@ export default class Criteria {
 				}
 			}
 		});
+
+		for (let opt of options) {
+			el.append(opt);
+		}
+
+		return el;
+	};
+
+	/**
+	 * Default initialisation function for select conditions
+	 */
+	private static initSelectSSP = function(that, fn, preDefined = null) {
+		that.dom.valueTitle.prop('selected', true);
+
+		// Declare select element to be used with all of the default classes and listeners.
+		let el = $('<select/>')
+			.addClass(Criteria.classes.value)
+			.addClass(Criteria.classes.dropDown)
+			.addClass(Criteria.classes.italic)
+			.addClass(Criteria.classes.select)
+			.append(that.dom.valueTitle)
+			.on('change.dtsb', function() {
+				$(this).removeClass(Criteria.classes.italic);
+				fn(that, this);
+			});
+
+		if (that.c.greyscale) {
+			el.addClass(Criteria.classes.greyscale);
+		}
+
+		let options = [];
+
+		for(let option of that.s.serverData[that.s.origData]) {
+			let value = option.value;
+			let label = option.label;
+			// Function to add an option to the select element
+			let addOption = (filt, text) => {
+				if (that.s.type.includes('html') && filt !== null && typeof filt === 'string') {
+					filt.replace(/(<([^>]+)>)/ig, '');
+				}
+
+				// Add text and value, stripping out any html if that is the column type
+				let opt = $('<option>', {
+					type: Array.isArray(filt) ? 'Array' : 'String',
+					value: filt
+				})
+					.data('sbv', filt)
+					.addClass(that.classes.option)
+					.addClass(that.classes.notItalic)
+					// Have to add the text this way so that special html characters are not escaped - &amp; etc.
+					.html(
+						typeof text === 'string' ?
+							text.replace(/(<([^>]+)>)/ig, '') :
+							text
+					);
+
+				options.push(opt);
+
+				// If this value was previously selected as indicated by preDefined, then select it again
+				if (preDefined !== null && opt.val() === preDefined[0]) {
+					opt.prop('selected', true);
+					el.removeClass(Criteria.classes.italic);
+					that.dom.valueTitle.removeProp('selected');
+				}
+			};
+
+			addOption(value, label);
+		}
 
 		for (let opt of options) {
 			el.append(opt);
@@ -2444,9 +2515,16 @@ export default class Criteria {
 					// Serverside processing does not supply the options for the select elements
 					// Instead input elements need to be used for these instead
 					if (this.s.dt.page.info().serverSide && conditionObj[condition].init === Criteria.initSelect) {
-						conditionObj[condition].init = Criteria.initInput;
-						conditionObj[condition].inputValue = Criteria.inputValueInput;
-						conditionObj[condition].isInputValid = Criteria.isInputValidInput;
+						let col = colInits[column];
+
+						if (this.s.serverData[col.data]) {
+							conditionObj[condition].init = Criteria.initSelectSSP;
+						}
+						else {
+							conditionObj[condition].init = Criteria.initInput;
+						}
+						conditionObj[condition].inputValue = Criteria.inputValueSelect;
+						conditionObj[condition].isInputValid = Criteria.isInputValidSelect;
 					}
 
 					this.s.conditions[condition] = conditionObj[condition];
