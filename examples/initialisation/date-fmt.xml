@@ -11,7 +11,6 @@
 <![CDATA[
 
 $(document).ready(function() {
-	console.log("pause")
 	$.fn.dataTable.moment( 'HH:mm MMM D, YY' );
 	$.fn.dataTable.moment( 'ddd, MMMM Do, YYYY' );
 
