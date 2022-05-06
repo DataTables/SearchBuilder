@@ -22,10 +22,10 @@
 	<example title="Set text for custom element"><![CDATA[
 
 $(document).ready(function() {
-	$('#example').DataTable({
+	var table = $('#example').DataTable({
 		searchBuilder: {
 			filterChanged: function(count) {
-				$('.SBDetails').text(this.i18n('searchBuilder.collapse', {0: 'AdvancedFilter', _: 'Advancedfilter (%d)'}, count));
+				$('.SBDetails').text(table.i18n('searchBuilder.collapse', {0: 'AdvancedFilter', _: 'Advancedfilter (%d)'}, count));
 			}
 		},
 		dom: 'Qlfrtip'
