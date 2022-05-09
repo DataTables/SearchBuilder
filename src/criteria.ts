@@ -93,11 +93,12 @@ export interface IDetails {
 
 let $: any;
 let dataTable: any;
-// eslint-disable-next-line no-extra-parens
-const moment = (window as any).moment;
-// eslint-disable-next-line no-extra-parens
-const luxon = (window as any).luxon;
-
+function moment() {
+	return (window as any).moment;
+}
+function luxon() {
+	return (window as any).luxon;
+}
 /**
  * Sets the value of jQuery for use in the file
  *
@@ -1076,8 +1077,8 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[], that): boolean {
-				return moment(value, that.s.dateFormat).valueOf() ===
-					moment(comparison[0], that.s.dateFormat).valueOf();
+				return moment()(value, that.s.dateFormat).valueOf() ===
+					moment()(comparison[0], that.s.dateFormat).valueOf();
 			},
 		},
 		// eslint-disable-next-line sort-keys
@@ -1089,8 +1090,8 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[], that): boolean {
-				return moment(value, that.s.dateFormat).valueOf() !==
-					moment(comparison[0], that.s.dateFormat).valueOf();
+				return moment()(value, that.s.dateFormat).valueOf() !==
+					moment()(comparison[0], that.s.dateFormat).valueOf();
 			},
 		},
 		'<': {
@@ -1101,7 +1102,7 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[], that): boolean {
-				return moment(value, that.s.dateFormat).valueOf() < moment(comparison[0], that.s.dateFormat).valueOf();
+				return moment()(value, that.s.dateFormat).valueOf() < moment()(comparison[0], that.s.dateFormat).valueOf();
 			},
 		},
 		'>': {
@@ -1112,7 +1113,7 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[], that): boolean {
-				return moment(value, that.s.dateFormat).valueOf() > moment(comparison[0], that.s.dateFormat).valueOf();
+				return moment()(value, that.s.dateFormat).valueOf() > moment()(comparison[0], that.s.dateFormat).valueOf();
 			},
 		},
 		'between': {
@@ -1123,9 +1124,9 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[], that): boolean {
-				let val = moment(value, that.s.dateFormat).valueOf();
-				let comp0 = moment(comparison[0], that.s.dateFormat).valueOf();
-				let comp1 = moment(comparison[1], that.s.dateFormat).valueOf();
+				let val = moment()(value, that.s.dateFormat).valueOf();
+				let comp0 = moment()(comparison[0], that.s.dateFormat).valueOf();
+				let comp1 = moment()(comparison[1], that.s.dateFormat).valueOf();
 				if (comp0 < comp1) {
 					return comp0 <= val && val <= comp1;
 				}
@@ -1143,9 +1144,9 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[], that): boolean {
-				let val = moment(value, that.s.dateFormat).valueOf();
-				let comp0 = moment(comparison[0], that.s.dateFormat).valueOf();
-				let comp1 = moment(comparison[1], that.s.dateFormat).valueOf();
+				let val = moment()(value, that.s.dateFormat).valueOf();
+				let comp0 = moment()(comparison[0], that.s.dateFormat).valueOf();
+				let comp1 = moment()(comparison[1], that.s.dateFormat).valueOf();
 				if (comp0 < comp1) {
 					return !(+comp0 <= +val && +val <= +comp1);
 				}
@@ -1200,8 +1201,8 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[], that): boolean {
-				return luxon.DateTime.fromFormat(value, that.s.dateFormat).ts
-					=== luxon.DateTime.fromFormat(comparison[0], that.s.dateFormat).ts;
+				return luxon().DateTime.fromFormat(value, that.s.dateFormat).ts
+					=== luxon().DateTime.fromFormat(comparison[0], that.s.dateFormat).ts;
 			},
 		},
 		// eslint-disable-next-line sort-keys
@@ -1213,8 +1214,8 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[], that): boolean {
-				return luxon.DateTime.fromFormat(value, that.s.dateFormat).ts
-					!== luxon.DateTime.fromFormat(comparison[0], that.s.dateFormat).ts;
+				return luxon().DateTime.fromFormat(value, that.s.dateFormat).ts
+					!== luxon().DateTime.fromFormat(comparison[0], that.s.dateFormat).ts;
 			},
 		},
 		'<': {
@@ -1225,8 +1226,8 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[], that): boolean {
-				return luxon.DateTime.fromFormat(value, that.s.dateFormat).ts
-					< luxon.DateTime.fromFormat(comparison[0], that.s.dateFormat).ts;
+				return luxon().DateTime.fromFormat(value, that.s.dateFormat).ts
+					< luxon().DateTime.fromFormat(comparison[0], that.s.dateFormat).ts;
 			},
 		},
 		'>': {
@@ -1237,8 +1238,8 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[], that): boolean {
-				return luxon.DateTime.fromFormat(value, that.s.dateFormat).ts
-					> luxon.DateTime.fromFormat(comparison[0], that.s.dateFormat).ts;
+				return luxon().DateTime.fromFormat(value, that.s.dateFormat).ts
+					> luxon().DateTime.fromFormat(comparison[0], that.s.dateFormat).ts;
 			},
 		},
 		'between': {
@@ -1249,9 +1250,9 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[], that): boolean {
-				let val = luxon.DateTime.fromFormat(value, that.s.dateFormat).ts;
-				let comp0 = luxon.DateTime.fromFormat(comparison[0], that.s.dateFormat).ts;
-				let comp1 = luxon.DateTime.fromFormat(comparison[1], that.s.dateFormat).ts;
+				let val = luxon().DateTime.fromFormat(value, that.s.dateFormat).ts;
+				let comp0 = luxon().DateTime.fromFormat(comparison[0], that.s.dateFormat).ts;
+				let comp1 = luxon().DateTime.fromFormat(comparison[1], that.s.dateFormat).ts;
 				if (comp0 < comp1) {
 					return comp0 <= val && val <= comp1;
 				}
@@ -1269,9 +1270,9 @@ export default class Criteria {
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
 			search(value: string, comparison: string[], that): boolean {
-				let val = luxon.DateTime.fromFormat(value, that.s.dateFormat).ts;
-				let comp0 = luxon.DateTime.fromFormat(comparison[0], that.s.dateFormat).ts;
-				let comp1 = luxon.DateTime.fromFormat(comparison[1], that.s.dateFormat).ts;
+				let val = luxon().DateTime.fromFormat(value, that.s.dateFormat).ts;
+				let comp0 = luxon().DateTime.fromFormat(comparison[0], that.s.dateFormat).ts;
+				let comp1 = luxon().DateTime.fromFormat(comparison[1], that.s.dateFormat).ts;
 				if (comp0 < comp1) {
 					return !(+comp0 <= +val && +val <= +comp1);
 				}
@@ -2064,9 +2065,9 @@ export default class Criteria {
 					if (
 						this.s.value[i] &&
 						this.s.value[i].length > 0 &&
-						moment(this.s.value[i], this.s.dateFormat, true).isValid()
+						moment()(this.s.value[i], this.s.dateFormat, true).isValid()
 					) {
-						this.s.value[i] = moment(this.s.value[i], this.s.dateFormat).format('YYYY-MM-DD HH:mm:ss');
+						this.s.value[i] = moment()(this.s.value[i], this.s.dateFormat).format('YYYY-MM-DD HH:mm:ss');
 					}
 				}
 			}
@@ -2075,9 +2076,9 @@ export default class Criteria {
 					if (
 						this.s.value[i] &&
 						this.s.value[i].length > 0 &&
-						luxon.DateTime.fromFormat(this.s.value[i], this.s.dateFormat).invalid === null
+						luxon().DateTime.fromFormat(this.s.value[i], this.s.dateFormat).invalid === null
 					) {
-						this.s.value[i] = luxon.DateTime.fromFormat(this.s.value[i], this.s.dateFormat).toFormat('yyyy-MM-dd HH:mm:ss');
+						this.s.value[i] = luxon().DateTime.fromFormat(this.s.value[i], this.s.dateFormat).toFormat('yyyy-MM-dd HH:mm:ss');
 					}
 				}
 			}
