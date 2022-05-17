@@ -2518,7 +2518,7 @@ export default class Criteria {
 					if (this.s.dt.page.info().serverSide && conditionObj[condition].init === Criteria.initSelect) {
 						let col = colInits[column];
 
-						if (this.s.serverData[col.data]) {
+						if (this.s.serverData && this.s.serverData[col.data]) {
 							conditionObj[condition].init = Criteria.initSelectSSP;
 						}
 						else {
