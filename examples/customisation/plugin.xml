@@ -57,7 +57,7 @@ $(document).ready(function() {
                 $(el).prepend('<option></option>');
                 
                 // Set necessary listener to trigger search
-                el.on('select2:select', function() { console.log("select"); fn(that, el); });
+                el.on('select2:select', function() { fn(that, el); });
                 
                 // for each row
                 for (let index of indexArray) {
@@ -92,7 +92,6 @@ $(document).ready(function() {
 
                 // Trigger select2 on the select element when it is inserted into the dom
                 $(el).on('dtsb-inserted', function(){
-                    console.log("inserted")
                     if($(el).hasClass('select2-hidden-accessible')) {
                         $(el).select2('destroy');
                     }

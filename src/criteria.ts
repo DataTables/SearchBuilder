@@ -1897,9 +1897,6 @@ export default class Criteria {
 			.append(this.dom.data)
 			.append(this.dom.condition)
 			.append(this.dom.inputCont);
-		this.dom.inputCont
-			.empty()
-			.append(this.dom.value[0]);
 
 		this.setListeners();
 
