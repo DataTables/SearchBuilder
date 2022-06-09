@@ -2517,12 +2517,14 @@ export default class Criteria {
 
 						if (this.s.serverData && this.s.serverData[col.data]) {
 							conditionObj[condition].init = Criteria.initSelectSSP;
+							conditionObj[condition].inputValue = Criteria.inputValueSelect;
+							conditionObj[condition].isInputValid = Criteria.isInputValidSelect;
 						}
 						else {
 							conditionObj[condition].init = Criteria.initInput;
+							conditionObj[condition].inputValue = Criteria.inputValueInput;
+							conditionObj[condition].isInputValid = Criteria.isInputValidInput;
 						}
-						conditionObj[condition].inputValue = Criteria.inputValueSelect;
-						conditionObj[condition].isInputValid = Criteria.isInputValidSelect;
 					}
 
 					this.s.conditions[condition] = conditionObj[condition];
