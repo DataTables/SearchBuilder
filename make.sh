@@ -49,7 +49,7 @@ node_modules/typescript/bin/tsc
 HEADER="$(head -n 3 src/index.ts)"
 
 rsync -r src/*.js $OUT_DIR/js
-js_frameworks searchBuilder $OUT_DIR/js
+js_frameworks searchBuilder $OUT_DIR/js "jquery datatables.net-FW datatables.net-searchbuilder"
 
 OUT=$OUT_DIR ./node_modules/rollup/dist/bin/rollup \
     --banner "$HEADER" \
@@ -64,7 +64,7 @@ rm \
 
 mv ./src/*.d.ts ./types/
 
-js_compress $OUT_DIR/js/dataTables.searchBuilder.js
+js_wrap $OUT_DIR/js/dataTables.searchBuilder.js "jquery datatables.net"
 
 # Copy Types
 if [ -d $OUT_DIR/types ]; then
