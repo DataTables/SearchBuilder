@@ -17,7 +17,7 @@ The default value of the `-init columns.searchBuilderTitle` is undefined. This m
 	</default>
 	<description>
 		<![CDATA[
-This option allows the type of SearchBuilder conditions to be set for individual columns. Normally SearchBuilder uses the types that datatables has detected from the columns, when this option is set it just uses it's value.
+This option allows the type of SearchBuilder conditions to be set for individual columns. Normally SearchBuilder uses the types that DataTables has detected from the columns, when this option is set it just uses its value.
 
 When using `-init serverSide` processing it is important to use this option to maintain consistent conditions across different pages of the table and also to reduce the number of requests to the server.
 
