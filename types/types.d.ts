@@ -1,40 +1,99 @@
+// Type definitions for DataTables SearchBuilder
+//
+// Project: https://datatables.net/extensions/searchbuilder/, https://datatables.net
+
 /// <reference types="jquery" />
-/// <reference types="datatables.net"/>
 
-import {IDefaults, IDetails} from './searchBuilder';
+import DataTables, {Api} from 'datatables.net';
+import {IDefaults, IDetails, II18n} from './searchBuilder';
 
-declare namespace DataTables {
+export default DataTables;
 
-	interface Settings {
-		searchBuilder?: boolean | string[] | IDefaults | IDefaults[];
+type DeepPartial<T> = T extends object ? {
+    [P in keyof T]?: DeepPartial<T[P]>;
+} : T;
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * DataTables' types integration
+ */
+declare module 'datatables.net' {
+	interface Config {
+		/**
+		 * SearchBuilder extension options
+		 */
+		searchBuilder?: boolean | string[] | ConfigSearchBuilder | ConfigSearchBuilder[];
 	}
 
-	interface LanguageSettings {
-		searchBuilder?: {}
+	interface ConfigLanguage {
+		/**
+		 * SearchBuilder language options
+		 */
+		searchBuilder?: ConfigSearchBuilderLanguage;
 	}
 
 	interface Api<T> {
-		searchBuilder: SearchBuilderGlobalApi;
+		/**
+		 * SearchBuilder methods container
+		 * 
+		 * @returns Api for chaining with the additional SearchBuilder methods
+		 */
+		searchBuilder: ApiSearchBuilder<T>;
 	}
 
-	interface SearchBuilderGlobalApi {
+	interface ApiStatic {
 		/**
-		 * Returns the node of the SearchBuilder Container
+		 * SearchBuilder class
 		 */
-		container(): JQuery<HTMLElement>;
+		SearchBuilder: {
+			/**
+			 * Create a new SearchBuilder instance for the target DataTable
+			 */
+			new (dt: Api<any>, settings: string[] | ConfigSearchBuilder | ConfigSearchBuilder[]);
 
-		/**
-		 * Gets the details of the current SearchBuilder setup
-		 */
-		getDetails(): IDetails;
+			/**
+			 * SearchBuilder version
+			 */
+			version: string;
 
-		/**
-		 * Rebuild the search to a given state.
-		 *
-		 * @param state Object of the same structue that is returned from searchBuilder.getDetails().
-		 * This contains all of the details needed to rebuild the state.
-		 * @returns self for chaining
-		 */
-		rebuild(state: IDetails): Api<any>;
+			/**
+			 * Default configuration values
+			 */
+			defaults: ConfigSearchBuilder;
+		}
 	}
+}
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Options
+ */
+
+interface ConfigSearchBuilder extends Partial<IDefaults> {}
+
+interface ConfigSearchBuilderLanguage extends DeepPartial<II18n> {}
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * API
+ */
+interface ApiSearchBuilder<T> extends Api<T> {
+	/**
+	 * Returns the node of the SearchBuilder Container
+	 */
+	container(): JQuery<HTMLElement>;
+
+	/**
+	 * Gets the details of the current SearchBuilder setup
+	 */
+	getDetails(): IDetails;
+
+	/**
+	 * Rebuild the search to a given state.
+	 *
+	 * @param state Object of the same structure that is returned from searchBuilder.getDetails().
+	 * This contains all of the details needed to rebuild the state.
+	 * @returns self for chaining
+	 */
+	rebuild(state: IDetails): Api<T>;
 }
