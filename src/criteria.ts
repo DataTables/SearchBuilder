@@ -2628,88 +2628,39 @@ export default class Criteria {
 	}
 
 	/**
-	 * Populates the data select element
+	 * Populates the data / column select element
 	 */
 	private _populateData(): void {
+		let columns = this.s.dt.settings()[0].aoColumns;
+		let includeColumns = this.s.dt.columns(this.c.columns).indexes().toArray();
+
 		this.dom.data.empty().append(this.dom.dataTitle);
-		// If there are no datas stored then we need to get them from the table
-		if (this.s.dataPoints.length === 0) {
-			this.s.dt.columns().every((index) => {
-				// Need to check that the column can be filtered on before adding it
-				if (
-					this.c.columns === true ||
-					this.s.dt.columns(this.c.columns).indexes().toArray().includes(index)
-				) {
-					let found = false;
 
-					for (let val of this.s.dataPoints) {
-						if (val.index === index) {
-							found = true;
-							break;
-						}
-					}
+		for (let index=0 ; index<columns.length ; index++) {
+			// Need to check that the column can be filtered on before adding it
+			if (this.c.columns === true || includeColumns.includes(index)) {
+				let col = columns[index];
+				let opt = {
+					index,
+					origData: col.data,
+					text: (col.searchBuilderTitle || col.sTitle)
+						.replace(/(<([^>]+)>)/ig, '')
+				};
 
-					if (!found) {
-						let col = this.s.dt.settings()[0].aoColumns[index];
-						let opt = {
-							index,
-							origData: col.data,
-							text: (
-								col.searchBuilderTitle === undefined ?
-									col.sTitle :
-									col.searchBuilderTitle).replace(/(<([^>]+)>)/ig, ''
-							)
-						};
-						this.s.dataPoints.push(opt);
-						this.dom.data.append(
-							$('<option>', {
-								text : opt.text,
-								value : opt.index
-							})
-								.addClass(this.classes.option)
-								.addClass(this.classes.notItalic)
-								.prop('origData', col.data)
-								.prop('selected', this.s.dataIdx === opt.index ? true : false)
-						);
-						if(this.s.dataIdx === opt.index) {
-							this.dom.dataTitle.removeProp('selected');
-						}
-					}
-				}
-			});
-		}
-		// Otherwise we can just load them in
-		else {
-			for (let data of this.s.dataPoints) {
-				this.s.dt.columns().every((index) => {
-					let col = this.s.dt.settings()[0].aoColumns[index];
-					if (
-						(
-							col.searchBuilderTitle === undefined ?
-								col.sTitle :
-								col.searchBuilderTitle
-						).replace(/(<([^>]+)>)/ig, '') === data.text
-					) {
-						data.index = index;
-						data.origData = col.data;
-					}
-				});
-				let newOpt = $('<option>', {
-					text : data.text.replace(/(<([^>]+)>)/ig, ''),
-					value : data.index
-				})
-					.addClass(this.classes.option)
-					.addClass(this.classes.notItalic)
-					.prop('origData', data.origData);
-
-				if (this.s.data === data.text) {
-					this.s.dataIdx = data.index;
+				this.dom.data.append(
+					$('<option>', {
+						text : opt.text,
+						value : opt.index
+					})
+						.addClass(this.classes.option)
+						.addClass(this.classes.notItalic)
+						.prop('origData', col.data)
+						.prop('selected', this.s.dataIdx === opt.index ? true : false)
+				);
+	
+				if(this.s.dataIdx === opt.index) {
 					this.dom.dataTitle.removeProp('selected');
-					newOpt.prop('selected', true);
-					this.dom.data.removeClass(this.classes.italic);
 				}
-
-				this.dom.data.append(newOpt);
 			}
 		}
 	}
