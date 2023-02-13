@@ -32,6 +32,22 @@ declare module 'datatables.net' {
 		searchBuilder?: ConfigSearchBuilderLanguage;
 	}
 
+	interface ConfigColumns {
+		searchBuilder?: {
+			/** Set a default condition for this column */
+			defaultCondition?: number | string;
+
+			/** Set values of orthogonal data for rendering functions */
+			orthogonal?: {[key: string]: string};
+		};
+
+		/** Set a custom title for a column in SearchBuilder */
+		searchBuilderTitle?: string;
+
+		/** Set the SearchBuilder type to use for a column */
+		searchBuilderType?: string;
+	}
+
 	interface Api<T> {
 		/**
 		 * SearchBuilder methods container
