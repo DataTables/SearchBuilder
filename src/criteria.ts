@@ -274,7 +274,7 @@ export default class Criteria {
 	/**
 	 * Default initialisation function for select conditions
 	 */
-	private static initSelect = function(that, fn, preDefined = null, array = false) {
+	private static initSelect = function(that, fn, preDefined = null, array = false): Array<JQuery<HTMLElement>> {
 		let column = that.dom.data.children('option:selected').val();
 		let indexArray = that.s.dt.rows().indexes().toArray();
 		let settings = that.s.dt.settings()[0];
@@ -434,7 +434,7 @@ export default class Criteria {
 	/**
 	 * Default initialisation function for select conditions
 	 */
-	private static initSelectSSP = function(that, fn, preDefined = null) {
+	private static initSelectSSP = function(that, fn, preDefined = null): Array<JQuery<HTMLElement>> {
 		that.dom.valueTitle.prop('selected', true);
 
 		// Declare select element to be used with all of the default classes and listeners.
@@ -504,7 +504,7 @@ export default class Criteria {
 	 *
 	 * This exists because there needs to be different select functionality for contains/without and equals/not
 	 */
-	private static initSelectArray = function(that, fn, preDefined = null) {
+	private static initSelectArray = function(that, fn, preDefined = null): Array<JQuery<HTMLElement>> {
 		return Criteria.initSelect(that, fn, preDefined, true);
 	};
 
@@ -659,11 +659,13 @@ export default class Criteria {
 		return el;
 	};
 
-	private static initNoValue = function(that: Criteria) {
+	private static initNoValue = function(that: Criteria): Array<JQuery<HTMLElement>> {
 		// This is add responsive functionality to the logic button without redrawing everything else
 		that.s.dt.one('draw.dtsb', () => {
 			that.s.topGroup.trigger('dtsb-redrawLogic');
 		});
+
+		return [];
 	};
 
 	private static init2Date = function(

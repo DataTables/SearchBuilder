@@ -400,5 +400,26 @@ describe('searchBuilder - general tests', function () {
 			expect($('select.dtsb-value option:eq(1)').text()).toBe('2');
 			expect($('select.dtsb-value option:eq(-1)').text()).toBe('200');
 		});
+
+		dt.html('basic');
+		it('Empty data', function () {
+			table = $('#example').DataTable({
+				dom: 'Qlfrtip'
+			});
+
+			table.draw();
+
+			$('.dtsb-add').click();
+			$('.dtsb-data').val(0).trigger('change');
+			$('.dtsb-condition').val('null').trigger('change');
+
+			expect(table.rows({page: 'current'}).count()).toBe(0);
+		});
+
+		it('Clear empty data', function () {
+			$('.dtsb-delete').click();
+
+			expect(table.rows({page: 'current'}).count()).toBe(10);
+		});
 	});
 });
