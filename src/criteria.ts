@@ -612,13 +612,16 @@ export default class Criteria {
 		preDefined = null
 	): Array<JQuery<HTMLElement>> {
 		let searchDelay = that.s.dt.settings()[0].searchDelay;
+		let i18n = that.s.dt.i18n('datetime', {});
+
 		// Declare date element using DataTables dateTime plugin
 		let el = $('<input/>')
 			.addClass(Criteria.classes.value)
 			.addClass(Criteria.classes.input)
 			.dtDateTime({
 				attachTo: 'input',
-				format: that.s.dateFormat ? that.s.dateFormat : undefined
+				format: that.s.dateFormat ? that.s.dateFormat : undefined,
+				i18n,
 			})
 			.on('change.dtsb',
 				that._throttle(
@@ -674,6 +677,8 @@ export default class Criteria {
 		preDefined: string[] = null
 	): Array<JQuery<HTMLElement>> {
 		let searchDelay = that.s.dt.settings()[0].searchDelay;
+		let i18n = that.s.dt.i18n('datetime', {});
+
 		// Declare all of the date elements that are required using DataTables dateTime plugin
 		let els = [
 			$('<input/>')
@@ -681,7 +686,8 @@ export default class Criteria {
 				.addClass(Criteria.classes.input)
 				.dtDateTime({
 					attachTo: 'input',
-					format: that.s.dateFormat ? that.s.dateFormat : undefined
+					format: that.s.dateFormat ? that.s.dateFormat : undefined,
+					i18n,
 				})
 				.on('change.dtsb', searchDelay !== null ?
 					that.s.dt.settings()[0].oApi._fnThrottle(
@@ -714,7 +720,8 @@ export default class Criteria {
 				.addClass(Criteria.classes.input)
 				.dtDateTime({
 					attachTo: 'input',
-					format: that.s.dateFormat ? that.s.dateFormat : undefined
+					format: that.s.dateFormat ? that.s.dateFormat : undefined,
+					i18n,
 				})
 				.on('change.dtsb', searchDelay !== null ?
 					that.s.dt.settings()[0].oApi._fnThrottle(
