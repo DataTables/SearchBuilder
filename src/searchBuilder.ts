@@ -663,6 +663,7 @@ export default class SearchBuilder {
 
 			this._updateTitle(count);
 			this._filterChanged(count);
+			this._checkClear();
 		});
 
 		this.s.dt.on('postEdit.dtsb postCreate.dtsb postRemove.dtsb', () => {

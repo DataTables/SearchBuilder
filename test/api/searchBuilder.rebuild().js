@@ -63,5 +63,15 @@ describe('searchBuilder - API - searchBuilder.rebuild()', function() {
 			expect($('tbody tr:eq(0) td:eq(0)').text()).toBe('Ashton Cox');
 			expect($('tbody tr').length).toBe(2);
 		});
+		it('Clear All removed on reset with empty object', function() {
+			table.searchBuilder.rebuild({});
+
+			expect($('.dtsb-clearAll').length).toBe(0);
+		});
+		it('Clear all added back in after new condition added', function () {
+			$('button.dtsb-add').click();
+
+			expect($('.dtsb-clearAll').length).toBe(1);
+		});
 	});
 });
