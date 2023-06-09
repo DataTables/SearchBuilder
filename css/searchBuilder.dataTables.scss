@@ -19,7 +19,7 @@ div.dtsb-searchBuilder {
         cursor: pointer;
         font-size: 0.88em;
         line-height: 1.6em;
-        color: black;
+        color: inherit;
         //box-shadow: 1px 1px 3px #ccc;
         white-space: nowrap;
         overflow: hidden;
@@ -37,7 +37,7 @@ div.dtsb-searchBuilder {
         text-overflow: ellipsis;
 
         &:hover {
-            background-color: #cecece !important;
+            background-color: #cecece;
             cursor: pointer;
         }
     }
@@ -96,7 +96,8 @@ div.dtsb-searchBuilder {
         }
 
         div.dtsb-criteria {
-            select.dtsb-dropDown, input.dtsb-input{
+            select.dtsb-dropDown,
+            input.dtsb-input{
                 border: $border-width solid;
                 border-radius: 3px;
             }
@@ -122,3 +123,24 @@ div.dtsb-searchBuilder {
     }
 }
 
+
+html.dark {
+    div.dtsb-searchBuilder {
+        button, select, input {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+    
+        button.dtsb-button {
+			border: 1px solid rgb(89, 91, 94);
+			background: rgba(255, 255, 255, 0.15);
+
+			&:hover {
+				background: darken(rgba(255, 255, 255, 0.15), 30%);
+			}
+        }
+
+        .dtsb-greyscale {
+            border-color: rgba(255, 255, 255, 0.2) !important;
+        }
+    }
+}

@@ -6,14 +6,22 @@
 <js lib="jquery datatables searchbuilder datetime">
 <![CDATA[
 
-$(document).ready(function() {
-    $('#example').DataTable( {
-        dom: 'Qlfrtip'
-    });
+$('#example').DataTable( {
+    dom: 'Qlfrtip'
 });
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+    dom: 'Qlfrtip'
+});
+
+]]>
+</js-vanilla>
 
 <title lib="SearchBuilder">Basic Initialisation</title>
 
