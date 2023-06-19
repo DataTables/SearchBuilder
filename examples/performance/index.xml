@@ -3,6 +3,7 @@
 
 <title lib="SearchBuilder">SearchBuilder Performance</title>
 
+<js lib="jquery" />
 <info><![CDATA[
 
 This section demonstrates how SearchBuilder will perform with larger sets of data.

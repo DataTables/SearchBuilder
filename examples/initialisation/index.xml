@@ -3,6 +3,7 @@
 
 <title lib="SearchBuilder">SearchBuilder Initialisation</title>
 
+<js lib="jquery" />
 <info><![CDATA[
 
 This is the section for showing the different forms of initialisation and basics that are present with SearchBuilder.
