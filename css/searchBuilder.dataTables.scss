@@ -5,7 +5,9 @@ $dtb-button-colour: rgba(0, 0, 0, 0.1) !default;
 $dtb-button-border: 1px solid dtb-shade(transparent, 30%) !default;
 
 div.dtsb-searchBuilder {
-    button, select, input {
+    button,
+    select.dtsb-dropDown,
+    input {
         background-color: #f9f9f9;
     }
 
