@@ -111,7 +111,7 @@ div.dtsb-searchBuilder {
                 margin-right: 0.8em;
                 min-width: 5em;
                 max-width: 20em;
-                background-color: rgba(200, 200, 200, 0.3);
+                background-color: rgb(238, 238, 238);
                 color: inherit;
                 
                 option.dtsb-notItalic {
@@ -132,6 +132,12 @@ div.dtsb-searchBuilder {
                 }
                 input.dtsb-value {
                     width: 33%;
+                }
+
+                select,
+                input {
+                    height: 100%;
+                    box-sizing: border-box;
                 }
             }
 

@@ -113,12 +113,6 @@ div.dtsb-searchBuilder {
             select.dtsb-value, input.dtsb-value {
                 border-color: #0069ba;
             }
-
-            select.dtsb-condition, select.dtsb-data, select.dtsb-value {
-                option.dtsb-option {
-                    background-color: white;
-                }
-            }
         }
     }
 }
@@ -126,8 +120,11 @@ div.dtsb-searchBuilder {
 
 html.dark {
     div.dtsb-searchBuilder {
-        button, select, input {
-            background-color: rgba(255, 255, 255, 0.15);
+        button.dtsb-button,
+        select.dtsb-dropDown,
+        input.dtsb-input {
+            background-color: rgb(66, 69, 73) !important;
+            color-scheme: dark;
         }
     
         button.dtsb-button {
