@@ -9,4 +9,3 @@ package-lock.json
 types/criteria.d.ts
 types/group.d.ts
 types/index.d.ts
-types/searchBuilder.*d.ts
