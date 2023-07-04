@@ -62,7 +62,7 @@ rm \
     $OUT_DIR/js/group.js \
     ./src/*.js \
 
-mv ./src/*.d.ts ./types/
+rm ./src/*.d.ts
 
 js_wrap $OUT_DIR/js/dataTables.searchBuilder.js "jquery datatables.net"
 
