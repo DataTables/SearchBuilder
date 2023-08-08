@@ -2158,7 +2158,7 @@ export default class Criteria {
 					$(this).prop('selected', true);
 					data.removeClass(italic);
 					foundData = true;
-					dataIdx = $(this).val();
+					dataIdx = parseInt($(this).val(), 10);
 				}
 				else {
 					$(this).removeProp('selected');
