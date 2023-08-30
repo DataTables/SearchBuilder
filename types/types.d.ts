@@ -57,7 +57,7 @@ declare module 'datatables.net' {
 		searchBuilder: ApiSearchBuilder<T>;
 	}
 
-	interface ApiStatic {
+	interface DataTablesStatic {
 		/**
 		 * SearchBuilder class
 		 */
