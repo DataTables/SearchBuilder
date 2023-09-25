@@ -26,7 +26,7 @@ describe('searchBuilder - API - searchBuilder.container()', function () {
 				dom: 'Qlfrtip'
 			});
 
-			expect(table.searchBuilder.container().text()).toBe('Custom Search BuilderAdd Condition');
+			expect(table.searchBuilder.container().text()).toBe('Custom Search BuilderAdd ConditionSearch');
 		});
 	});
 });
