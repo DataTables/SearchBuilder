@@ -36,6 +36,7 @@ export interface IDefaults {
 	filterChanged: (count: number, text: string) => void;
 	greyscale: boolean;
 	i18n: II18n;
+	liveSearch: boolean;
 	logic: string;
 	orthogonal: criteriaType.IOrthogonal;
 	preDefined: boolean | IDetails;
@@ -71,6 +72,7 @@ export interface II18n {
 	logicOr: string;
 	right: string;
 	rightTitle: string;
+	search: string;
 	title: {
 		0: string;
 		_: string;
@@ -125,6 +127,7 @@ export default class SearchBuilder {
 		enterSearch: false,
 		filterChanged: undefined,
 		greyscale: false,
+		liveSearch: true,
 		i18n: {
 			add: 'Add Condition',
 			button: {
@@ -188,6 +191,7 @@ export default class SearchBuilder {
 			logicOr: 'Or',
 			right: '>',
 			rightTitle: 'Indent criteria',
+			search: 'Search',
 			title: {
 				0: 'Custom Search Builder',
 				_: 'Custom Search Builder (%d)',

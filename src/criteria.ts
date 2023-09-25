@@ -66,6 +66,7 @@ export interface IS {
 	dt: any;
 	filled: boolean;
 	index: number;
+	liveSearch: boolean;
 	origData: string;
 	preventRedraw: boolean;
 	serverData: {[keys: string]: builderType.IServerData[]};
@@ -148,7 +149,8 @@ export default class Criteria {
 		topGroup: JQuery<HTMLElement>,
 		index = 0,
 		depth = 1,
-		serverData = undefined
+		serverData = undefined,
+		liveSearch = false
 	) {
 		// Check that the required version of DataTables is included
 		if (! dataTable || ! dataTable.versionCheck || ! dataTable.versionCheck('1.10.0')) {
@@ -172,6 +174,7 @@ export default class Criteria {
 			dt: table,
 			filled: false,
 			index,
+			liveSearch: liveSearch,
 			origData: undefined,
 			preventRedraw: false,
 			serverData,
@@ -863,7 +866,7 @@ export default class Criteria {
 				) ||
 				code === 13
 			) {
-				that.s.dt.draw();
+				that.doSearch();
 			}
 			return;
 		}
@@ -923,7 +926,7 @@ export default class Criteria {
 			code === 13
 		) {
 			// Trigger a search
-			that.s.dt.draw();
+			that.doSearch();
 		}
 
 		// Refocus the element and set the correct cursor position
@@ -934,6 +937,17 @@ export default class Criteria {
 			if (cursorPos !== null) {
 				that.dom.value[idx][0].setSelectionRange(cursorPos, cursorPos);
 			}
+		}
+	};
+
+	/**
+	 * Redraw the DataTable with the current search parameters
+	 */
+	private doSearch() {
+		// Only do the search if live search is disabled, otherwise the search
+		// is triggered by the button at the top level group.
+		if (this.c.liveSearch) {
+			this.s.dt.draw();
 		}
 	};
 	
@@ -1881,6 +1895,7 @@ export default class Criteria {
 			logicOr: 'Or',
 			right: '>',
 			rightTitle: 'Indent criteria',
+			search: 'Search',
 			title: {
 				0: 'Custom Search Builder',
 				_: 'Custom Search Builder (%d)',
@@ -2252,7 +2267,7 @@ export default class Criteria {
 						// remove it from the search and trigger a new search
 						if (this.s.filled) {
 							this.s.filled = false;
-							this.s.dt.draw();
+							this.doSearch();
 							this.setListeners();
 						}
 
@@ -2296,7 +2311,7 @@ export default class Criteria {
 							// it from the search and trigger a new search
 							if (this.s.filled && val !== undefined && this.dom.inputCont.has(val[0]).length !== 0) {
 								this.s.filled = false;
-								this.s.dt.draw();
+								this.doSearch();
 								this.setListeners();
 							}
 						}
@@ -2305,7 +2320,7 @@ export default class Criteria {
 							this.dom.value.length === 0 ||
 							this.dom.value.length === 1 && this.dom.value[0] === undefined
 						) {
-							this.s.dt.draw();
+							this.doSearch();
 						}
 					}
 					else {
@@ -2750,7 +2765,7 @@ export default class Criteria {
 			// If using SSP we want to restrict the amount of server calls that take place
 			//  and this will already have taken place
 			if (!this.s.dt.page.info().serverSide) {
-				this.s.dt.draw();
+				this.doSearch();
 			}
 			this.setListeners();
 		}

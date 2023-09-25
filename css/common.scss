@@ -57,7 +57,7 @@ div.dtsb-searchBuilder {
     
         div.dtsb-title {
             display: inline-block;
-            padding-top: 6px;
+            padding-top: 14px;
         }
 
         div.dtsb-title:empty {
@@ -66,7 +66,7 @@ div.dtsb-searchBuilder {
 
         button.dtsb-clearAll {
             float: right;
-            margin-bottom: 0.333em;
+            margin-bottom: 0.8em;
         }
     }
 
@@ -80,6 +80,10 @@ div.dtsb-searchBuilder {
         position: relative;
         clear: both;
         margin-bottom: 0.8em;
+
+        button.dtsb-search {
+            float: right;
+        }
 
         button.dtsb-clearGroup {
             margin: 2px;

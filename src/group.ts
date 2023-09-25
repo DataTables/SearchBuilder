@@ -10,6 +10,7 @@ export interface IClassses {
 	inputButton: string;
 	logic: string;
 	logicContainer: string;
+	search: string;
 }
 
 export interface IDom {
@@ -18,6 +19,7 @@ export interface IDom {
 	container: JQuery<HTMLElement>;
 	logic: JQuery<HTMLElement>;
 	logicContainer: JQuery<HTMLElement>;
+	search: JQuery<HTMLElement>;
 }
 
 export interface IS {
@@ -85,7 +87,8 @@ export default class Group {
 		group: 'dtsb-group',
 		inputButton: 'dtsb-iptbtn',
 		logic: 'dtsb-logic',
-		logicContainer: 'dtsb-logicContainer'
+		logicContainer: 'dtsb-logicContainer',
+		search: 'dtsb-search'
 	};
 
 	private static defaults: builderType.IDefaults = {
@@ -105,6 +108,7 @@ export default class Group {
 		enterSearch: false,
 		filterChanged: undefined,
 		greyscale: false,
+		liveSearch: true,
 		i18n: {
 			add: 'Add Condition',
 			button: {
@@ -122,6 +126,7 @@ export default class Group {
 			logicOr: 'Or',
 			right: '>',
 			rightTitle: 'Indent criteria',
+			search: 'Search',
 			title: {
 				0: 'Custom Search Builder',
 				_: 'Custom Search Builder (%d)',
@@ -191,7 +196,12 @@ export default class Group {
 				.addClass(this.classes.button)
 				.attr('type', 'button'),
 			logicContainer: $('<div/>')
-				.addClass(this.classes.logicContainer)
+				.addClass(this.classes.logicContainer),
+			search: $('<button/>')
+				.addClass(this.classes.search)
+				.addClass(this.classes.button)
+				.attr('type', 'button')
+				.css('display', 'none'),
 		};
 
 		// A reference to the top level group is maintained throughout any subgroups and criteria that may be created
@@ -212,6 +222,7 @@ export default class Group {
 		// Turn off listeners
 		this.dom.add.off('.dtsb');
 		this.dom.logic.off('.dtsb');
+		this.dom.search.off('.dtsb');
 
 		// Trigger event for groups at a higher level to pick up on
 		this.dom.container
@@ -307,7 +318,8 @@ export default class Group {
 		this.dom.container.children().detach();
 		this.dom.container
 			.append(this.dom.logicContainer)
-			.append(this.dom.add);
+			.append(this.dom.add)
+			.append(this.dom.search);
 
 		// Sort the criteria by index so that they appear in the correct order
 		this.s.criteria.sort(function(a, b) {
@@ -410,11 +422,17 @@ export default class Group {
 				this.dom.container.css('margin-left', 0);
 			}
 
+			this.dom.search.css('display', 'none');
+
 			return;
 		}
 
 		this.dom.clear.height('0px');
 		this.dom.logicContainer.append(this.dom.clear);
+
+		if (! this.s.isChild) {
+			this.dom.search.css('display', 'inline-block');
+		}
 
 		// Prepend logic button
 		this.dom.container.prepend(this.dom.logicContainer);
@@ -473,6 +491,10 @@ export default class Group {
 			return false;
 		});
 
+		this.dom.search.on('click.dtsb', () => {
+			this.s.dt.draw();
+		});
+
 		for (let crit of this.s.criteria) {
 			crit.criteria.setListeners();
 		}
@@ -489,7 +511,7 @@ export default class Group {
 	 */
 	public addCriteria(crit: Criteria = null): void {
 		let index = crit === null ? this.s.criteria.length : crit.s.index;
-		let criteria = new Criteria(this.s.dt, this.s.opts, this.s.topGroup, index, this.s.depth, this.s.serverData);
+		let criteria = new Criteria(this.s.dt, this.s.opts, this.s.topGroup, index, this.s.depth, this.s.serverData, this.c.liveSearch);
 
 		// If a Criteria has been passed in then set the values to continue that
 		if (crit !== null) {
@@ -888,6 +910,7 @@ export default class Group {
 		this.setListeners();
 
 		this.dom.add.html(this.s.dt.i18n('searchBuilder.add', this.c.i18n.add));
+		this.dom.search.html(this.s.dt.i18n('searchBuilder.search', this.c.i18n.search));
 		this.dom.logic.children().first().html(this.c.logic === 'OR'
 			? this.s.dt.i18n('searchBuilder.logicOr', this.c.i18n.logicOr)
 			: this.s.dt.i18n('searchBuilder.logicAnd', this.c.i18n.logicAnd)
@@ -906,7 +929,9 @@ export default class Group {
 			this.dom.container.append(this.dom.logicContainer);
 		}
 
-		this.dom.container.append(this.dom.add);
+		this.dom.container
+			.append(this.dom.add)
+			.append(this.dom.search);
 	}
 
 	/**

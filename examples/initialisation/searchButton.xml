@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html-iso8601" table-class="display nowrap" order="18">
+
+<css lib="datatables searchbuilder datetime"/>
+
+<js lib="jquery datatables searchbuilder datetime">
+<![CDATA[
+
+$('#example').DataTable( {
+    dom: 'Qlfrtip',
+	searchBuilder: {
+		liveSearch: false
+	}
+});
+
+]]>
+</js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+    dom: 'Qlfrtip',
+	searchBuilder: {
+		liveSearch: false
+	}
+});
+
+]]>
+</js-vanilla>
+
+<title lib="SearchBuilder">Search on button</title>
+
+<info><![CDATA[
+
+It can sometimes be useful, particularly with large data sets for performance reasons, to delay the search operation until the end user has set up the search they want and for them to then press a button that will trigger the search, applying it to the DataTables.
+
+This example shows the `-init searchBuilder.liveSearch` option, which provides exactly that ability. The search won't happen until you press the "Search" button at the bottom of the SearchBuilder interface.
+
+]]></info>
+
+</dt-example>
