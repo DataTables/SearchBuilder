@@ -20,5 +20,6 @@ $.extend(true, DataTable.Criteria.classes, {
 	delete: 'btn btn-default dtsb-delete',
 	left: 'btn btn-default dtsb-left',
 	right: 'btn btn-default dtsb-right',
+	search: 'btn btn-default dtsb-search',
 	value: 'form-control dtsb-value',
 });

@@ -21,6 +21,7 @@ $.extend(true, DataTable.Criteria.classes, {
 	input: 'form-control dtsb-input',
 	left: 'btn btn-secondary dtsb-left',
 	right: 'btn btn-secondary dtsb-right',
+	search: 'btn btn-secondary dtsb-search',
 	select: 'form-select',
 	value: 'dtsb-value',
 });

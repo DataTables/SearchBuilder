@@ -20,6 +20,7 @@ $.extend(true, DataTable.Criteria.classes, {
 	delete: 'basic ui button dtsb-delete',
 	left: 'basic ui button dtsb-left',
 	right: 'basic ui button dtsb-right',
+	search: 'basic ui button dtsb-search',
 	value: 'basic ui selection dropdown dtsb-value',
 });
 
