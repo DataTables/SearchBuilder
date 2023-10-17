@@ -65,7 +65,7 @@ declare module 'datatables.net' {
 			/**
 			 * Create a new SearchBuilder instance for the target DataTable
 			 */
-			new (dt: Api<any>, settings: string[] | ConfigSearchBuilder | ConfigSearchBuilder[]);
+			new (dt: Api<any>, settings: string[] | ConfigSearchBuilder | ConfigSearchBuilder[]): void;
 
 			/**
 			 * SearchBuilder version
