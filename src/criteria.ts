@@ -1903,6 +1903,7 @@ export default class Criteria {
 			value: 'Value',
 			valueJoiner: 'and'
 		},
+		liveSearch: true,
 		logic: 'AND',
 		orthogonal: {
 			display: 'display',

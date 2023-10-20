@@ -318,8 +318,11 @@ export default class Group {
 		this.dom.container.children().detach();
 		this.dom.container
 			.append(this.dom.logicContainer)
-			.append(this.dom.add)
-			.append(this.dom.search);
+			.append(this.dom.add);
+
+		if (! this.c.liveSearch) {
+			this.dom.container.append(this.dom.search);
+		}
 
 		// Sort the criteria by index so that they appear in the correct order
 		this.s.criteria.sort(function(a, b) {
@@ -929,9 +932,11 @@ export default class Group {
 			this.dom.container.append(this.dom.logicContainer);
 		}
 
-		this.dom.container
-			.append(this.dom.add)
-			.append(this.dom.search);
+		this.dom.container.append(this.dom.add);
+
+		if (! this.c.liveSearch) {
+			this.dom.container.append(this.dom.search);
+		}
 	}
 
 	/**
