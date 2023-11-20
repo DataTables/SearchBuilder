@@ -6,17 +6,34 @@
 <js lib="jquery datatables searchbuilder datetime">
 <![CDATA[
 
-$(document).ready(function() {
-    $('#example').DataTable( {
-        dom: 'Qlfrtip',
-        searchBuilder: {
-            logic: 'OR'
-        }
-    });
+$('#example').DataTable({
+	layout: {
+		top1: {
+			searchBuilder: {
+				logic: 'OR'
+			}
+		}
+	}
 });
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	layout: {
+		top1: {
+			searchBuilder: {
+				logic: 'OR'
+			}
+		}
+	}
+});
+
+]]>
+</js-vanilla>
 
 <title lib="SearchBuilder">Default Logic</title>
 

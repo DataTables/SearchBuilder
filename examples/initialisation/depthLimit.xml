@@ -6,23 +6,40 @@
 <js lib="jquery datatables searchbuilder datetime">
 <![CDATA[
 
-$(document).ready(function() {
-    $('#example').DataTable( {
-        dom: 'Qlfrtip',
-        searchBuilder: {
-            depthLimit: 2
-        }
-    });
+$('#example').DataTable({
+	layout: {
+		top1: {
+			searchBuilder: {
+				depthLimit: 2
+			}
+		}
+	}
 });
 
 ]]>
 </js>
 
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	layout: {
+		top1: {
+			searchBuilder: {
+				depthLimit: 2
+			}
+		}
+	}
+});
+
+]]>
+</js-vanilla>
+
 <title lib="SearchBuilder">Limit Sub-Group Depth</title>
 
 <info><![CDATA[
 
-This example demonstrates the behaviour of `-init searchBuilder` when the `-init searchBuilder.depthLimit` is set to limit how deep the Sub-Groups can be nested.
+This example demonstrates the behaviour of SearchBuilder when the `-init searchBuilder.depthLimit` is set to limit how deep the Sub-Groups can be nested.
 
 The top level is considered the first level. Setting a `-init searchBuilder.depthLimit` of 2 would allow for criteria to be indented by 1 level as this would then be at the second level - the limit. In this example a `-init searchBuilder.depthLimit` of 2 is set.
 

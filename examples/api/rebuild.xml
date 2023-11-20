@@ -6,25 +6,48 @@
 <js lib="jquery datatables searchbuilder datetime">
 <![CDATA[
 
-$(document).ready(function() {
-    var stored;
+var stored;
+var table = $('#example').DataTable({
+	layout: {
+		top1: 'searchBuilder'
+	}
+});
 
-    $('#example').DataTable( {
-        dom: 'Qlfrtip'
-    });
+$('#getDetails').on('click', function () {
+	stored = table.searchBuilder.getDetails();
 
-    $('#getDetails').on('click', function() {
-        stored = $('#example').DataTable().searchBuilder.getDetails();
-        $('#output').text(JSON.stringify(stored, null, '\t'));
-    })
+	$('#output').text(JSON.stringify(stored, null, '\t'));
+});
 
-    $('#revert').on('click', function() {
-        $('#example').DataTable().searchBuilder.rebuild(stored);
-    })
+$('#revert').on('click', function () {
+	table.searchBuilder.rebuild(stored);
 });
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+var stored;
+var table = new DataTable('#example', {
+	layout: {
+		top1: 'searchBuilder'
+	}
+});
+
+document.querySelect('#getDetails').addEventListener('click', function () {
+	stored = table.searchBuilder.getDetails();
+
+	$('#output').text(JSON.stringify(stored, null, '\t'));
+});
+
+document.querySelect('#revert').addEventListener('click', function () {
+	table.searchBuilder.rebuild(stored);
+});
+
+]]>
+</js-vanilla>
 
 <title lib="SearchBuilder">Rebuild Demonstration</title>
 

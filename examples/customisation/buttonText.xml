@@ -6,28 +6,46 @@
 <js lib="jquery datatables searchbuilder buttons datetime">
 <![CDATA[
 
-$(document).ready(function() {
-    $('#example').DataTable( {
-        language: {
-            searchBuilder: {
-                button: 'Filter',
-            }
-        },
-        buttons:[
-            'searchBuilder'
-        ],
-        dom: 'Bfrtip',
-    });
+$('#example').DataTable({
+	language: {
+		searchBuilder: {
+			button: 'Filter'
+		}
+	},
+	layout: {
+		top1: {
+			buttons: ['searchBuilder']
+		}
+	}
 });
 
 ]]>
 </js>
 
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	language: {
+		searchBuilder: {
+			button: 'Filter'
+		}
+	},
+	layout: {
+		top1: {
+			buttons: ['searchBuilder']
+		}
+	}
+});
+
+]]>
+</js-vanilla>
+
 <title lib="SearchBuilder">SearchBuilder Button Text</title>
 
 <info><![CDATA[
 
-This example demonstrates the behaviour of `-init searchBuilder` when initialised using a button and how to set the text of the button using `-init language.searchBuilder.button`.
+This example demonstrates the behaviour of SearchBuilder when initialised using a button and how to set the text of the button using `-init language.searchBuilder.button`.
 
 ]]></info>
 

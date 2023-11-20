@@ -6,14 +6,26 @@
 <js lib="jquery datatables searchbuilder datetime">
 <![CDATA[
 
-$(document).ready(function() {
-    $('#example').DataTable( {
-        dom: 'Qlfrtip'
-    });
+$('#example').DataTable({
+	layout: {
+		top1: 'searchBuilder'
+	}
 });
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	layout: {
+		top1: 'searchBuilder'
+	}
+});
+
+]]>
+</js-vanilla>
 
 <title lib="SearchBuilder">Formatted Numbers</title>
 

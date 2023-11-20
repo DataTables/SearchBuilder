@@ -6,23 +6,40 @@
 <js lib="jquery datatables searchbuilder datetime">
 <![CDATA[
 
-$(document).ready(function() {
-    $('#example').DataTable( {
-        dom: 'Qlfrtip',
-        searchBuilder: {
-            columns: [1,2,3]
-        }
-    });
+$('#example').DataTable({
+	layout: {
+		top1: {
+			searchBuilder: {
+				columns: [1, 2, 3]
+			}
+		}
+	}
 });
 
 ]]>
 </js>
 
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	layout: {
+		top1: {
+			searchBuilder: {
+				columns: [1, 2, 3]
+			}
+		}
+	}
+});
+
+]]>
+</js-vanilla>
+
 <title lib="SearchBuilder">Restrict Filtering to Certain Columns</title>
 
 <info><![CDATA[
 
-This example demonstrates the behaviour of `-init searchBuilder` when the `-init searchBuilder.columns` is set to limit which columns can be filtered on. It is an array of the type `-type column-selector`, allowing a wide range of different ways of selecting columns.
+This example demonstrates the behaviour of SearchBuilder when the `-init searchBuilder.columns` is set to limit which columns can be filtered on. It is an array of the type `-type column-selector`, allowing a wide range of different ways of selecting columns.
 
 Notice in this example that the "Data" `-tag select` element only has 3 columns to choose from.
 

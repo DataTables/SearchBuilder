@@ -5,40 +5,74 @@
 <js lib="jquery datatables searchbuilder datetime">
 <![CDATA[
 
-$(document).ready(function() {
-    let dt = $('#example').DataTable( {
-        ajax: '../resources/arrayData.json',
-		dom: 'Qfrtip',
-        columns: [
-			{ 
-				data: "users.first_name"
+$('#example').DataTable({
+	ajax: '../resources/arrayData.json',
+	columns: [
+		{
+			data: 'users.first_name'
+		},
+		{
+			data: 'users.last_name'
+		},
+		{
+			data: 'sites.name'
+		},
+		{
+			data: 'permission',
+			render: {
+				_: '[, ].name',
+				sb: '[].name'
 			},
-			{ 
-				data: "users.last_name"
+			searchBuilder: {
+				orthogonal: 'sb'
 			},
-			{ 
-				data: "sites.name"
-			},
-			{ 
-				data: "permission",
-				render: {
-					_: '[, ].name',
-					sb:'[].name'
-				},
-				searchBuilder: {
-					orthogonal:'sb'
-				},
-				searchBuilderType: 'array'
-			}
-		],
-    });
+			searchBuilderType: 'array'
+		}
+	],
+	layout: {
+		top1: 'searchBuilder'
+	}
 });
-
 
 ]]>
 </js>
 
-<title lib="searchBuilder">Rendering Arrays</title>
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	ajax: '../resources/arrayData.json',
+	columns: [
+		{
+			data: 'users.first_name'
+		},
+		{
+			data: 'users.last_name'
+		},
+		{
+			data: 'sites.name'
+		},
+		{
+			data: 'permission',
+			render: {
+				_: '[, ].name',
+				sb: '[].name'
+			},
+			searchBuilder: {
+				orthogonal: 'sb'
+			},
+			searchBuilderType: 'array'
+		}
+	],
+	layout: {
+		top1: 'searchBuilder'
+	}
+});
+
+]]>
+</js-vanilla>
+
+<title lib="SearchBuilder">Rendering Arrays</title>
 
 <info><![CDATA[
 

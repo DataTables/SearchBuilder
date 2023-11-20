@@ -6,41 +6,82 @@
 <js lib="jquery datatables searchbuilder datetime">
 <![CDATA[
 
-$(document).ready(function() {
-    $('#example').DataTable( {
-        dom: 'Qlfrtip',
-        searchBuilder: {
-            preDefined: {
-                criteria:[
-                    {
-                        condition: '=',
-                        data: 'Office',
-                        value: ['Edinburgh']
-                    },
-                    {
-                        criteria: [
-                            {
-                                condition: '=',
-                                data: 'Name',
-                                value: ['Cedric Kelly']
-                            },
-                            {
-                                condition: '=',
-                                data: 'Name',
-                                value: ['Dai Rios']
-                            }
-                        ],
-                        logic: 'OR'
-                    }
-                ],
-                logic: 'AND'
-            }
-        }
-    });
+$('#example').DataTable({
+	layout: {
+		top1: {
+			searchBuilder: {
+				preDefined: {
+					criteria: [
+						{
+							condition: '=',
+							data: 'Office',
+							value: ['Edinburgh']
+						},
+						{
+							criteria: [
+								{
+									condition: '=',
+									data: 'Name',
+									value: ['Cedric Kelly']
+								},
+								{
+									condition: '=',
+									data: 'Name',
+									value: ['Dai Rios']
+								}
+							],
+							logic: 'OR'
+						}
+					],
+					logic: 'AND'
+				}
+			}
+		}
+	}
 });
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	layout: {
+		top1: {
+			searchBuilder: {
+				preDefined: {
+					criteria: [
+						{
+							condition: '=',
+							data: 'Office',
+							value: ['Edinburgh']
+						},
+						{
+							criteria: [
+								{
+									condition: '=',
+									data: 'Name',
+									value: ['Cedric Kelly']
+								},
+								{
+									condition: '=',
+									data: 'Name',
+									value: ['Dai Rios']
+								}
+							],
+							logic: 'OR'
+						}
+					],
+					logic: 'AND'
+				}
+			}
+		}
+	}
+});
+
+]]>
+</js-vanilla>
 
 <title lib="SearchBuilder">PreDefined Search</title>
 

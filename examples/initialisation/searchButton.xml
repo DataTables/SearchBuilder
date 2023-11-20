@@ -6,10 +6,13 @@
 <js lib="jquery datatables searchbuilder datetime">
 <![CDATA[
 
-$('#example').DataTable( {
-    dom: 'Qlfrtip',
-	searchBuilder: {
-		liveSearch: false
+$('#example').DataTable({
+	layout: {
+		top1: {
+			searchBuilder: {
+				liveSearch: false
+			}
+		}
 	}
 });
 
@@ -20,9 +23,12 @@ $('#example').DataTable( {
 <![CDATA[
 
 new DataTable('#example', {
-    dom: 'Qlfrtip',
-	searchBuilder: {
-		liveSearch: false
+	layout: {
+		top1: {
+			searchBuilder: {
+				liveSearch: false
+			}
+		}
 	}
 });
 

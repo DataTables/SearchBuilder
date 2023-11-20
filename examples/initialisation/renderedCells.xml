@@ -6,21 +6,42 @@
 <js lib="jquery datatables searchbuilder datetime">
 <![CDATA[
 
-$(document).ready( function () {
-  var table = $('#example').DataTable({
-    dom: 'Qlfrtip',
-    columnDefs: [{
-      targets: 0,
-      render: function(data, type, row, meta) {
-        return type === 'display'? 'Employee: ' + data : data;
-      }
-    }]
-  });
-} );
-
+$('#example').DataTable({
+	columnDefs: [
+		{
+			targets: 0,
+			render: function (data, type, row, meta) {
+				return type === 'display' ? 'Employee: ' + data : data;
+			}
+		}
+	],
+	layout: {
+		top1: 'searchBuilder'
+	}
+});
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	columnDefs: [
+		{
+			targets: 0,
+			render: function (data, type, row, meta) {
+				return type === 'display' ? 'Employee: ' + data : data;
+			}
+		}
+	],
+	layout: {
+		top1: 'searchBuilder'
+	}
+});
+
+]]>
+</js-vanilla>
 
 <title lib="SearchBuilder">Interaction with Rendered Cells</title>
 

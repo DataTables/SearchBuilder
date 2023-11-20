@@ -6,30 +6,50 @@
 <js lib="jquery datatables searchbuilder datetime">
 <![CDATA[
 
-$(document).ready(function() {
-    $('#example').DataTable( {
-        dom: 'Qfrtip',
-		ajax: '../../../../examples/ajax/data/data_5k.txt',
-		columns: [
-            { data: "name" },
-            { data: "position" },
-            { data: "office" },
-            { data: "extn" },
-            { data: "start_date" },
-            { data: "salary" }
-        ],
-        deferRender: true
-    });
+$('#example').DataTable({
+	ajax: '../../../../examples/ajax/data/data_5k.txt',
+	columns: [
+		{ data: 'name' },
+		{ data: 'position' },
+		{ data: 'office' },
+		{ data: 'extn' },
+		{ data: 'start_date' },
+		{ data: 'salary' }
+	],
+	layout: {
+		top1: 'searchBuilder'
+	}
 });
 
 ]]>
 </js>
 
-<title lib="searchBuilder">5k Rows</title>
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	ajax: '../../../../examples/ajax/data/data_5k.txt',
+	columns: [
+		{ data: 'name' },
+		{ data: 'position' },
+		{ data: 'office' },
+		{ data: 'extn' },
+		{ data: 'start_date' },
+		{ data: 'salary' }
+	],
+	layout: {
+		top1: 'searchBuilder'
+	}
+});
+
+]]>
+</js-vanilla>
+
+<title lib="SearchBuilder">5k rows</title>
 
 <info><![CDATA[
 
-This example demonstrates the performance when large volumes of data are managed.
+This example demonstrates the performance when larger volumes of data are managed (5k rows in this case).
 
 ]]></info>
 

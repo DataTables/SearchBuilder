@@ -6,30 +6,52 @@
 <js lib="jquery datatables searchbuilder datetime">
 <![CDATA[
 
-$(document).ready(function() {
-    $('#example').DataTable( {
-        dom: 'Qfrtip',
-		ajax: '../../../../examples/ajax/data/data_50k.txt',
-		columns: [
-            { data: "name" },
-            { data: "position" },
-            { data: "office" },
-            { data: "extn" },
-            { data: "start_date" },
-            { data: "salary" }
-        ],
-        deferRender: true
-    });
+$('#example').DataTable({
+	ajax: '../../../../examples/ajax/data/data_50k.txt',
+	columns: [
+		{ data: 'name' },
+		{ data: 'position' },
+		{ data: 'office' },
+		{ data: 'extn' },
+		{ data: 'start_date' },
+		{ data: 'salary' }
+	],
+	layout: {
+		top1: 'searchBuilder'
+	}
 });
 
 ]]>
 </js>
 
-<title lib="searchBuilder">50k Rows</title>
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	ajax: '../../../../examples/ajax/data/data_50k.txt',
+	columns: [
+		{ data: 'name' },
+		{ data: 'position' },
+		{ data: 'office' },
+		{ data: 'extn' },
+		{ data: 'start_date' },
+		{ data: 'salary' }
+	],
+	layout: {
+		top1: 'searchBuilder'
+	}
+});
+
+]]>
+</js-vanilla>
+
+<title lib="SearchBuilder">50k rows</title>
 
 <info><![CDATA[
 
-This example demonstrates the performance when large volumes of data are managed.
+This example demonstrates the performance when larger volumes of data are managed (50k rows in this case).
+
+Note that for data sets larger than this (i.e. millions of rows), you should consider using [DataTables' server-side processing mode](https://datatables.net/manual/server-side). SearchBuilder adds a number of parameters for sever-side processing, [fully detailed here](https://datatables.net/extensions/searchbuilder/serverside).
 
 ]]></info>
 

@@ -6,19 +6,36 @@
 <js lib="jquery datatables searchbuilder datetime">
 <![CDATA[
 
-$(document).ready(function() {
-    $('#example').DataTable( {
-        dom: 'Qlfrtip',
-        searchBuilder: {
-            greyscale: true
-        }
-    });
+$('#example').DataTable({
+	layout: {
+		top1: {
+			searchBuilder: {
+				greyscale: true
+			}
+		}
+	}
 });
 
 ]]>
 </js>
 
-<title lib="SearchBuilder">GreyScale</title>
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	layout: {
+		top1: {
+			searchBuilder: {
+				greyscale: true
+			}
+		}
+	}
+});
+
+]]>
+</js-vanilla>
+
+<title lib="SearchBuilder">Grey scale</title>
 
 <info><![CDATA[
 

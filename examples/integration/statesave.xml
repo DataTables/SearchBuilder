@@ -6,21 +6,34 @@
 <js lib="jquery datatables searchbuilder datetime">
 <![CDATA[
 
-$(document).ready(function() {
-    $('#example').DataTable( {
-        dom: 'Qlfrtip',
-        stateSave: true
-    });
+$('#example').DataTable({
+	layout: {
+		top1: 'searchBuilder'
+	},
+	stateSave: true
 });
 
 ]]>
 </js>
 
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	layout: {
+		top1: 'searchBuilder'
+	},
+	stateSave: true
+});
+
+]]>
+</js-vanilla>
+
 <title lib="SearchBuilder">StateSave Integration</title>
 
 <info><![CDATA[
 
-This example demonstrates the behaviour of `-init searchBuilder` when state saving is enabled using `-init stateSave`.
+This example demonstrates the behaviour of SearchBuilder when state saving is enabled using `-init stateSave`.
 
 When enabled DataTables will store state information such as pagination position, display length, filtering and sorting. When the end user reloads the page the table's state will be altered to match what they had previously set up.
 

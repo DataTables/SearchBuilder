@@ -7,27 +7,41 @@
 <js lib="//cdnjs.cloudflare.com/ajax/libs/luxon/1.25.0/luxon.min.js"/>
 
 <js lib="datatables searchbuilder datetime"/>
-<js lib="//cdn.datatables.net/plug-ins/1.10.24/sorting/datetime-luxon.js">
+<js>
 <![CDATA[
-$(document).ready(function() {
-    $.fn.dataTable.luxon( 'EEE, MMMM d, yyyy' );
-    $.fn.dataTable.luxon( 'HH:mm MMM d, yy' );
 
-    $('#example').DataTable( {
-        dom: 'Qlfrtip'
-    });
+DataTable.luxon('EEE, MMMM d, yyyy');
+DataTable.luxon('HH:mm MMM d, yy');
+
+$('#example').DataTable({
+	layout: {
+		topStart: 'searchBuilder'
+	}
 });
 
 ]]>
 </js>
 
-<title lib="SearchBuilder">Formatted Date using Luxon</title>
+<js-vanilla>
+<![CDATA[
+
+DataTable.luxon('EEE, MMMM d, yyyy');
+DataTable.luxon('HH:mm MMM d, yy');
+
+new DataTable('#example', {
+	layout: {
+		topStart: 'searchBuilder'
+	}
+});
+
+]]>
+</js-vanilla>
+
+<title lib="SearchBuilder">Formatted dates with Luxon</title>
 
 <info><![CDATA[
 
-This example includes multiple date formats that are not in the standard format to demonstrate how SearchBuilder operates with formatted dates.
-
-This example also makes use of the Ultimate Sorting plug in for dates, along with [Luxon](https://moment.github.io/luxon/). SearchBuilder will automatically detect the type and format of the columns. Here the `-init columns.type` will be `luxon`. This can be accessed in the same way as others to edit the conditions that are available by using `-init searchBuilder.conditions[type][cond]`.
+This example includes multiple date formats that are not in the standard format to demonstrate how SearchBuilder operates with formatted dates. It makes use of the `datetime()` function that is built into DataTables to format dates with either [Moment.js](https://momentjs.com) or [Luxon](https://moment.github.io/luxon/), depending on what is available on the page (in this case Luxon).
 
 ]]></info>
 

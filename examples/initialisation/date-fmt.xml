@@ -7,28 +7,41 @@
 <js lib="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"/>
 
 <js lib="datatables searchbuilder datetime"/>
-<js lib="//cdn.datatables.net/plug-ins/1.10.21/sorting/datetime-moment.js">
+<js>
 <![CDATA[
 
-$(document).ready(function() {
-	$.fn.dataTable.moment( 'HH:mm MMM D, YY' );
-	$.fn.dataTable.moment( 'ddd, MMMM Do, YYYY' );
+DataTable.datetime('HH:mm MMM D, YY');
+DataTable.datetime('ddd, MMMM Do, YYYY');
 
-    $('#example').DataTable( {
-        dom: 'Qlfrtip'
-    });
+$('#example').DataTable({
+	layout: {
+		topStart: 'searchBuilder'
+	}
 });
 
 ]]>
 </js>
 
-<title lib="SearchBuilder">Formatted Date using Moment</title>
+<js-vanilla>
+<![CDATA[
+
+DataTable.datetime('HH:mm MMM D, YY');
+DataTable.datetime('ddd, MMMM Do, YYYY');
+
+$('#example').DataTable({
+	layout: {
+		topStart: 'searchBuilder'
+	}
+});
+
+]]>
+</js-vanilla>
+
+<title lib="SearchBuilder">Formatted dates with Moment.js</title>
 
 <info><![CDATA[
 
-This example includes multiple date formats that are not in the standard format to demonstrate how SearchBuilder operates with formatted dates.
-
-This example also makes use of the Ultimate Sorting plug in for dates, along with [Moment.js](https://momentjs.com). SearchBuilder will automatically detect the type and format of the columns. Here the `-init columns.type` will be `moment`. This can be accessed in the same way as others to edit the conditions that are available by using `-init searchBuilder.conditions[type][cond]`.
+This example includes multiple date formats that are not in the standard format to demonstrate how SearchBuilder operates with formatted dates. It makes use of the `datetime()` function that is built into DataTables to format dates with either [Moment.js](https://momentjs.com) or [Luxon](https://moment.github.io/luxon/), depending on what is available on the page (in this case Moment.js).
 
 ]]></info>
 

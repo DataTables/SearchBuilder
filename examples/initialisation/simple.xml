@@ -6,8 +6,10 @@
 <js lib="jquery datatables searchbuilder datetime">
 <![CDATA[
 
-$('#example').DataTable( {
-    dom: 'Qlfrtip'
+$('#example').DataTable({
+	layout: {
+		top1: 'searchBuilder'
+	}
 });
 
 ]]>
@@ -17,7 +19,9 @@ $('#example').DataTable( {
 <![CDATA[
 
 new DataTable('#example', {
-    dom: 'Qlfrtip'
+	layout: {
+		top1: 'searchBuilder'
+	}
 });
 
 ]]>

@@ -6,19 +6,37 @@
 <js lib="jquery datatables searchbuilder datetime">
 <![CDATA[
 
-$(document).ready(function() {
-    var dt = $('#example').DataTable( {
-        dom: 'Qfrtip',
-    });
 
-    dt.cell(2,2).data('');
-    dt.cell(4,2).data('');
-    dt.cell(6,2).data('');
-    dt.cell(2,3).data('');
+var dt = $('#example').DataTable({
+	layout: {
+		top1: 'searchBuilder'
+	}
 });
+
+dt.cell(2, 2).data('');
+dt.cell(4, 2).data('');
+dt.cell(6, 2).data('');
+dt.cell(2, 3).data('');
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+let dt = new DataTable('#example', {
+	layout: {
+		top1: 'searchBuilder'
+	}
+});
+
+dt.cell(2, 2).data('');
+dt.cell(4, 2).data('');
+dt.cell(6, 2).data('');
+dt.cell(2, 3).data('');
+
+]]>
+</js-vanilla>
 
 <title lib="SearchBuilder">Interaction with Empty Cells</title>
 

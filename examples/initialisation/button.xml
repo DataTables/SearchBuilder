@@ -6,21 +6,36 @@
 <js lib="jquery datatables searchbuilder buttons datetime">
 <![CDATA[
 
-$(document).ready(function() {
-    $('#example').DataTable( {
-        buttons:['searchBuilder'],
-        dom: 'Bfrtip',
-    });
+$('#example').DataTable({
+	layout: {
+		topStart: {
+			buttons: ['searchBuilder']
+		}
+	}
 });
 
 ]]>
 </js>
 
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	layout: {
+		topStart: {
+			buttons: ['searchBuilder']
+		}
+	}
+});
+
+]]>
+</js-vanilla>
+
 <title lib="SearchBuilder">Button Initialisation</title>
 
 <info><![CDATA[
 
-This example demonstrates the behaviour of `-init searchBuilder` when initialised using a button. The button and SearchBuilder can be configured using the `-init button.searchBuilder` config option. You can see this in action at [this example](buttonOptions.html). Please note that when initialising SearchBuilder with a button any config has to be set as shown in that example.
+This example demonstrates the behaviour of SearchBuilder when initialised using a button. The button and SearchBuilder can be configured using the `-init button.searchBuilder` config option. You can see this in action at [this example](buttonOptions.html). Please note that when initialising SearchBuilder with a button any config has to be set as shown in that example.
 
 ]]></info>
 

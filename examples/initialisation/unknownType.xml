@@ -4,25 +4,43 @@
 <css lib="datatables searchbuilder datetime"/>
 
 <js lib="jquery"/>
-<js lib="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"/>
 
 <js lib="datatables searchbuilder datetime"/>
-<js lib="//cdn.datatables.net/plug-ins/1.10.21/sorting/datetime-moment.js">
-
+<js>
 <![CDATA[
 
-$(document).ready(function() {
-    $('#example').DataTable( {
-        dom: 'Qlfrtip',
-        columnDefs:[{
-            type: 'unknownType',
-            targets: [3]
-        }]
-    });
+$('#example').DataTable({
+	columnDefs: [
+		{
+			type: 'unknownType',
+			targets: [3]
+		}
+	],
+	layout: {
+		top1: 'searchBuilder'
+	}
 });
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	columnDefs: [
+		{
+			type: 'unknownType',
+			targets: [3]
+		}
+	],
+	layout: {
+		top1: 'searchBuilder'
+	}
+});
+
+]]>
+</js-vanilla>
 
 <title lib="SearchBuilder">Unknown Column Type</title>
 

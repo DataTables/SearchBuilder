@@ -6,18 +6,38 @@
 <js lib="jquery datatables searchbuilder datetime">
 <![CDATA[
 
-$(document).ready(function() {
-    $('#example').DataTable( {
-        dom: 'Qlfrtip',
-        columnDefs: [{
-            searchBuilderTitle: 'Job',
-            targets: [1]
-        }]
-    });
+    $('#example').DataTable({
+	columnDefs: [
+		{
+			searchBuilderTitle: 'Job',
+			targets: [1]
+		}
+	],
+	layout: {
+		top1: 'searchBuilder'
+	}
 });
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	columnDefs: [
+		{
+			searchBuilderTitle: 'Job',
+			targets: [1]
+		}
+	],
+	layout: {
+		top1: 'searchBuilder'
+	}
+});
+
+]]>
+</js-vanilla>
 
 <title lib="SearchBuilder">Custom Title</title>
 

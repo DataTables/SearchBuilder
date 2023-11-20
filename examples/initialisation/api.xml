@@ -6,20 +6,28 @@
 <js lib="jquery datatables searchbuilder datetime">
 <![CDATA[
 
-$(document).ready(function() {
-    let table = $('#example').DataTable();
-    new $.fn.dataTable.SearchBuilder(table, {});
-    table.searchBuilder.container().prependTo(table.table().container());
-});
+var table = $('#example').DataTable();
+new DataTable.SearchBuilder(table, {});
+table.searchBuilder.container().prependTo(table.table().container());
 
 ]]>
 </js>
 
-<title lib="searchBuilder">API Initialisation</title>
+<js-vanilla>
+<![CDATA[
+
+var table = new DataTable('#example');
+new DataTable.SearchBuilder(table, {});
+table.searchBuilder.container().prependTo(table.table().container());
+
+]]>
+</js-vanilla>
+
+<title lib="SearchBuilder">API Initialisation</title>
 
 <info><![CDATA[
 
-This `-init searchBuilder` example shows how to initialise SearchBuilder using the API, rather than initialising within the config.
+This example shows how to initialise SearchBuilder using the API, rather than initialising within the config.
 
 This is done by making use of the constructor manually and retrieving the node using `-api searchBuilder.container()` before inserting it into the document.
 

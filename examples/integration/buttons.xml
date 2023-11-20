@@ -5,24 +5,38 @@
 <js lib="jquery datatables buttons searchbuilder datetime jszip pdfmake vfsfonts buttons-html5 buttons-print">
 <![CDATA[
 
-$(document).ready(function() {
-	$('#example').DataTable( {
-		dom: 'QBfrtip',
-		buttons: [
-			'copy', 'csv', 'excel', 'pdf', 'print'
-		]
-	} );
-} );
+$('#example').DataTable({
+	layout: {
+		top1: 'searchBuilder',
+		topStart: {
+			buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+		}
+	}
+});
 
 ]]>
 </js>
 
-<title lib="Buttons">Buttons Integration</title>
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	layout: {
+		top1: 'searchBuilder',
+		topStart: {
+			buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+		}
+	}
+});
+
+]]>
+</js-vanilla>
+
+<title lib="Buttons">Buttons integration</title>
 
 <info><![CDATA[
 
-Buttons can be initialised very easily though the `b-init buttons` object which can be given as an array of the buttons that you wish to display. The `-string B` option in the `dt-init dom` parameter will instruct DataTables where the buttons and the SearchBuilder should be placed in the document - in this case, at the top left (CSS also plays a part).
-
+The Buttons extension for DataTables can be initialised very easily though the `-init layout` option and `-feature buttons` feature. SearchBuilder is also initialised as a feature and the two can co-exist on the same DataTable with no issues, as shown in this example.
 
 ]]></info>
 

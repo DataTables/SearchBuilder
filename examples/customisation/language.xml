@@ -6,36 +6,70 @@
 <js lib="jquery datatables searchbuilder buttons datetime">
 <![CDATA[
 
-$(document).ready(function() {
-    $('#example').DataTable( {
-        language: {
-            searchBuilder: {
-                add: '+',
-                condition: 'Comparator',
-                clearAll: 'Reset',
-                delete: 'Delete',
-                deleteTitle: 'Delete Title',
-                data: 'Column',
-                left: 'Left',
-                leftTitle: 'Left Title',
-                logicAnd: '&&',
-                logicOr: '||',
-                right: 'Right',
-                rightTitle: 'Right Title',
-                title: {
-                    0: 'Filters',
-                    _: 'Filters (%d)'
-                },
-                value: 'Option',
-                valueJoiner: 'et'
-            }
-        },
-        dom: 'Qlfrtip',
-    });
+    $('#example').DataTable({
+	language: {
+		searchBuilder: {
+			add: '+',
+			condition: 'Comparator',
+			clearAll: 'Reset',
+			delete: 'Delete',
+			deleteTitle: 'Delete Title',
+			data: 'Column',
+			left: 'Left',
+			leftTitle: 'Left Title',
+			logicAnd: '&&',
+			logicOr: '||',
+			right: 'Right',
+			rightTitle: 'Right Title',
+			title: {
+				0: 'Filters',
+				_: 'Filters (%d)'
+			},
+			value: 'Option',
+			valueJoiner: 'et'
+		}
+	},
+	layout: {
+		top1: 'searchBuilder'
+	}
 });
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	language: {
+		searchBuilder: {
+			add: '+',
+			condition: 'Comparator',
+			clearAll: 'Reset',
+			delete: 'Delete',
+			deleteTitle: 'Delete Title',
+			data: 'Column',
+			left: 'Left',
+			leftTitle: 'Left Title',
+			logicAnd: '&&',
+			logicOr: '||',
+			right: 'Right',
+			rightTitle: 'Right Title',
+			title: {
+				0: 'Filters',
+				_: 'Filters (%d)'
+			},
+			value: 'Option',
+			valueJoiner: 'et'
+		}
+	},
+	layout: {
+		top1: 'searchBuilder'
+	}
+});
+
+]]>
+</js-vanilla>
 
 <title lib="SearchBuilder">Language Options</title>
 

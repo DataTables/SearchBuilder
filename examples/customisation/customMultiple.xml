@@ -6,46 +6,97 @@
 <js lib="jquery datatables searchbuilder datetime">
 <![CDATA[
 
-$(document).ready(function() {
-$('#example').DataTable( {
-    dom: 'Qlfrtip',
-    searchBuilder:{
-        conditions:{
-            num:{
-                'MultipleOf': {
-                    conditionName: 'Multiple Of', // String value that will be displayed in the condition select element
-                    init: function (that, fn, preDefined = null) {
-                        // Declare the input element and set the listener to trigger searching
-                        var el =  $('<input/>').on('input', function() { fn(that, this) });
+$('#example').DataTable({
+	layout: {
+		top1: {
+			searchBuilder: {
+				conditions: {
+					num: {
+						MultipleOf: {
+							conditionName: 'Multiple Of', // String value that will be displayed in the condition select element
+							init: function (that, fn, preDefined = null) {
+								// Declare the input element and set the listener to trigger searching
+								var el = $('<input/>').on('input', function () {
+									fn(that, this);
+								});
 
-                        // Add mechanism to apply preDefined values that may be passed in
-						if (preDefined !== null) {
-							$(el).val(preDefined[0]);
+								// Add mechanism to apply preDefined values that may be passed in
+								if (preDefined !== null) {
+									$(el).val(preDefined[0]);
+								}
+
+								return el;
+							},
+							inputValue: function (el) {
+								// Return the value within the input element
+								return $(el[0]).val();
+							},
+							isInputValid: function (el, that) {
+								// If there is text in the input element then it is valid for searching
+								return $(el[0]).val().length !== 0;
+							},
+							search: function (value, comparison) {
+								// Use the modulo (%) operator to check that there is no remainder
+								return value % comparison === 0;
+							}
 						}
-
-						return el;
-                    },
-                    inputValue: function (el) {
-                        // Return the value within the input element
-						return $(el[0]).val();
-                    },
-                    isInputValid: function (el, that) {
-                        // If there is text in the input element then it is valid for searching
-                        return $(el[0]).val().length !== 0;
-                    },
-                    search: function (value, comparison) {
-                        // Use the modulo (%) operator to check that there is no remainder
-                        return value%comparison === 0;
-                    }
-                }
-            }
-        }
-    }
-})
+					}
+				}
+			}
+		}
+	}
 });
 
 ]]>
 </js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	layout: {
+		top1: {
+			searchBuilder: {
+				conditions: {
+					num: {
+						MultipleOf: {
+							conditionName: 'Multiple Of', // String value that will be displayed in the condition select element
+							init: function (that, fn, preDefined = null) {
+								// Declare the input element and set the listener to trigger searching
+								var el = document.createElement('input');
+								el.addEventListener('input', function () {
+									fn(that, this);
+								});
+
+								// Add mechanism to apply preDefined values that may be passed in
+								if (preDefined !== null) {
+									el.value = preDefined[0];
+								}
+
+								return el;
+							},
+							inputValue: function (el) {
+								// Return the value within the input element
+								return el[0].value;
+							},
+							isInputValid: function (el, that) {
+								// If there is text in the input element then it is valid for searching
+								return el[0].value.length !== 0;
+							},
+							search: function (value, comparison) {
+								// Use the modulo (%) operator to check that there is no remainder
+								return value % comparison === 0;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+});
+
+]]>
+</js-vanilla>
 
 <title lib="SearchBuilder">Custom Multiple Of Condition</title>
 

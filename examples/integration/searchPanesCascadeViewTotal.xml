@@ -6,24 +6,44 @@
 <js lib="jquery datatables searchbuilder searchpanes select datetime">
 <![CDATA[
 
-$(document).ready(function() {
-    $('#example').DataTable( {
-        dom: 'PQlfrtip',
-        searchPanes:{
-            cascadePanes: true,
-            viewTotal: true
-        }
-    });
+$('#example').DataTable({
+	layout: {
+		top2: {
+			searchPanes: {
+				cascadePanes: true,
+				viewTotal: true
+			},
+			top1: 'searchBuilder'
+		}
+	}
 });
 
 ]]>
 </js>
 
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	layout: {
+		top2: {
+			searchPanes: {
+				cascadePanes: true,
+				viewTotal: true
+			},
+			top1: 'searchBuilder'
+		}
+	}
+});
+
+]]>
+</js-vanilla>
+
 <title lib="SearchBuilder">SearchPanes, CascadePanes and ViewTotal Integration</title>
 
 <info><![CDATA[
 
-This example demonstrates the behaviour of `-init searchBuilder` when SearchPanes is enabled using `-init searchPanes` and `-init searchPanes.cascadePanes` and `-init searchPanes.viewTotal` are enabled. 
+This example demonstrates the behaviour of SearchBuilder when SearchPanes is enabled using `-init searchPanes` and `-init searchPanes.cascadePanes` and `-init searchPanes.viewTotal` are enabled. 
 
 SearchPanes adds panes to the DataTable with the capability to search the DataTable by selecting rows in the panes. This is very useful when it comes to adding a more accessible searching feature and custom search capabilities.
 
