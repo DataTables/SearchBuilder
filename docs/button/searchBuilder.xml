@@ -22,27 +22,30 @@
     </option>
 
 	<example title="Basic SearchBuilder button initialisation"><![CDATA[
-
-$('#myTable').DataTable( {
-    buttons: [
-        'searchBuilder'
-    ],
-} );
-
+new DataTable('#myTable', {
+	layout: {
+		topStart: {
+			buttons: ['searchBuilder']
+		}
+	}
+});
 ]]></example>
 
-	<example title="SearchBuilder configuration using a button"><![CDATA[
-
-new $.fn.dataTable.Buttons( table, {
-    buttons:[
-        {
-            extend: 'searchBuilder',
-            config: {
-                depthLimit: 2
-            }
-        }
-    ],
-} );
+	<example title="SearchBuilder configuration with a button"><![CDATA[
+new DataTable('#myTable', {
+	layout: {
+		topStart: {
+			buttons: [
+				{
+					extend: 'searchBuilder',
+					config: {
+						depthLimit: 2
+					}
+				}
+			]
+		}
+	}
+});
 
 ]]></example>
 </dt-button>

@@ -22,14 +22,14 @@
 	</description>
 
 	<example title="Setting the default logic to 'OR'"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
+	layout: {
+		top1: 'searchBuilder'
+	},
 	searchBuilder: {
 		logic: 'OR'
-	},    
-	dom: 'Qlfrtip'
+	}
 });
-
 ]]></example>
 
 </dt-option>

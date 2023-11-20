@@ -29,12 +29,11 @@ This object sets the text for the condition names in the condition `-tag select`
 	</description>
 
 	<example title="Change message for SearchBuilder Condition"><![CDATA[
-$(document).ready(function() {
-	$('#example').DataTable( {
-		language: {
-			searchBuilder: {
-				conditions :{
-                    number: {
+new DataTable('#myTable', {
+	language: {
+		searchBuilder: {
+			conditions: {
+				number: {
 					between: 'Between',
 					empty: 'Empty',
 					equals: 'Equals',
@@ -44,15 +43,15 @@ $(document).ready(function() {
 					lte: 'Less Than Equal To',
 					not: 'Not',
 					notBetween: 'Not Between',
-					notEmpty: 'Not Empty',
-				},
-                }
+					notEmpty: 'Not Empty'
+				}
 			}
-		},
-		dom: 'Qlfrtip',
-	});
+		}
+	},
+	layout: {
+		top1: 'searchBuilder'
+	}
 });
-
 ]]></example>
 
 <related type="api">i18n()</related>

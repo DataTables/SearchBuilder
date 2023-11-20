@@ -33,31 +33,33 @@
 	</description>
 
 	<example title="Simple single level search"><![CDATA[
-$('#example').DataTable( {
-	dom: 'Qlfrtip',
+new DataTable('#myTable', {
+	layout: {
+		top1: 'searchBuilder'
+	},
 	searchBuilder: {
 		preDefined: {
-			criteria:[
+			criteria: [
 				{
 					condition: '=',
 					data: 'Office',
 					value: ['Edinburgh']
 				}
 			],
-			logic: 'AND',
+			logic: 'AND'
 		}
 	}
 });
-
 ]]></example>
 
 	<example title="More Complex Multi level search"><![CDATA[
-
-$('#example').DataTable( {
-	dom: 'Qlfrtip',
+new DataTable('#myTable', {
+	layout: {
+		top1: 'searchBuilder'
+	},
 	searchBuilder: {
 		preDefined: {
-			criteria:[
+			criteria: [
 				{
 					condition: '=',
 					data: 'Office',
@@ -76,22 +78,23 @@ $('#example').DataTable( {
 							value: ['Dai Rios']
 						}
 					],
-					logic: 'OR',
+					logic: 'OR'
 				}
 			],
-			logic: 'AND',
+			logic: 'AND'
 		}
 	}
 });
-
 ]]></example>
 
 	<example title="Simple single level search suitable for SSP"><![CDATA[
-$('#example').DataTable( {
-	dom: 'Qlfrtip',
+new DataTable('#myTable', {
+	layout: {
+		top1: 'searchBuilder'
+	},
 	searchBuilder: {
 		preDefined: {
-			criteria:[
+			criteria: [
 				{
 					condition: '=',
 					data: 'Office',
@@ -100,11 +103,10 @@ $('#example').DataTable( {
 					value: ['Edinburgh']
 				}
 			],
-			logic: 'AND',
+			logic: 'AND'
 		}
 	}
 });
-
 ]]></example>
 
 <related type="init">searchBuilder.preDefined.logic</related>

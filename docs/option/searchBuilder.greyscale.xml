@@ -22,14 +22,14 @@
 	</description>
 
 	<example title="Removing the colours from SearchBuilder"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
+	layout: {
+		top1: 'searchBuilder'
+	},
 	searchBuilder: {
 		greyscale: true
-	},    
-	dom: 'Qlfrtip'
+	}
 });
-
 ]]></example>
 
 </dt-option>

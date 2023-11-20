@@ -22,12 +22,13 @@
 	</description>
 
 	<example title="Simple single level search with AND logic"><![CDATA[
-
-$('#example').DataTable( {
-	dom: 'Qlfrtip',
+new DataTable('#myTable', {
+	layout: {
+		top1: 'searchBuilder'
+	},
 	searchBuilder: {
 		preDefined: {
-			criteria:[
+			criteria: [
 				{
 					condition: '=',
 					data: 'Office',
@@ -38,16 +39,16 @@ $('#example').DataTable( {
 		}
 	}
 });
-
 ]]></example>
 
 	<example title="Simple single level search with OR logic"><![CDATA[
-
-$('#example').DataTable( {
-	dom: 'Qlfrtip',
+new DataTable('#myTable', {
+	layout: {
+		top1: 'searchBuilder'
+	},
 	searchBuilder: {
 		preDefined: {
-			criteria:[
+			criteria: [
 				{
 					condition: '=',
 					data: 'Office',
@@ -58,7 +59,6 @@ $('#example').DataTable( {
 		}
 	}
 });
-
 ]]></example>
 
 <related type="init">searchBuilder.logic</related>

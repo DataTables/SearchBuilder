@@ -24,14 +24,14 @@
 	</description>
 
 	<example title="Disable live search"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
+	layout: {
+		top1: 'searchBuilder'
+	},
 	searchBuilder: {
 		liveSearch: false
-	},    
-	dom: 'Qlfrtip'
+	}
 });
-
 ]]></example>
 
 </dt-option>

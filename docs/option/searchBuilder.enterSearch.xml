@@ -28,14 +28,14 @@ Please note: SearchBuilder 1.2.0 coincided with the release of DataTables 1.11.0
 	</description>
 
 	<example title="Input searches to only occur on enter press"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
+	layout: {
+		top1: 'searchBuilder'
+	},
 	searchBuilder: {
 		enterSearch: true
-	},    
-	dom: 'Qlfrtip'
+	}
 });
-
 ]]></example>
 
 </dt-option>

@@ -23,16 +23,20 @@
 	</description>
 
 	<example title="Get the details of a Search:"><![CDATA[
-var dt = $('#example').DataTable( {
-	dom: 'Qlfrtip'
+var dt = new DataTable('#myTable', {
+	layout: {
+		top1: 'searchBuilder'
+	}
 });
 
 var d = dt.searchBuilder.getDetails();
 ]]></example>
 
 	<example title="Get the details of a Search and de-format dates:"><![CDATA[
-var dt = $('#example').DataTable( {
-	dom: 'Qlfrtip'
+var dt = new DataTable('#myTable', {
+	layout: {
+		top1: 'searchBuilder'
+	}
 });
 
 var d = dt.searchBuilder.getDetails(true);

@@ -40,32 +40,33 @@
 	</description>
 
 	<example title="Simple single level search with only criteria"><![CDATA[
-
-$('#example').DataTable( {
-	dom: 'Qlfrtip',
+new DataTable('#myTable', {
+	layout: {
+		top1: 'searchBuilder'
+	},
 	searchBuilder: {
 		preDefined: {
-			criteria:[
+			criteria: [
 				{
 					condition: '=',
 					data: 'Office',
 					value: ['Edinburgh']
 				}
 			],
-			logic: 'AND',
+			logic: 'AND'
 		}
 	}
 });
-
 ]]></example>
 
 	<example title="More Complex Multi level search with sub-groups and criteria on the same level"><![CDATA[
-
-$('#example').DataTable( {
-	dom: 'Qlfrtip',
+new DataTable('#myTable', {
+	layout: {
+		top1: 'searchBuilder'
+	},
 	searchBuilder: {
 		preDefined: {
-			criteria:[
+			criteria: [
 				{
 					condition: '=',
 					data: 'Office',
@@ -91,13 +92,16 @@ $('#example').DataTable( {
 		}
 	}
 });
-
 ]]></example>
 
 	<example title="Simple single level search for SSP"><![CDATA[
 
-$('#example').DataTable( {
-	dom: 'Qlfrtip',
+
+
+new DataTable('#myTable', {
+	layout: {
+		top1: 'searchBuilder'
+	},
 	searchBuilder: {
 		preDefined: {
 			criteria:[

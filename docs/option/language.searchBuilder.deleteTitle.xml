@@ -21,17 +21,16 @@
 	</description>
 
 	<example title="Change title attribute for SearchBuilder delete criteria button"><![CDATA[
-$(document).ready(function() {
-	$('#example').DataTable( {
-		language: {
-			searchBuilder: {
-				deleteTitle: 'Delete'
-			}
-		},
-		dom: 'Qlfrtip',
-	});
+new DataTable('#myTable', {
+	language: {
+		searchBuilder: {
+			deleteTitle: 'Delete'
+		}
+	},
+	layout: {
+		top1: 'searchBuilder'
+	}
 });
-
 ]]></example>
 
 </dt-option>

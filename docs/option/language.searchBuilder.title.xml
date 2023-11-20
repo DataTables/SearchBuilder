@@ -33,38 +33,35 @@
 	</description>
 
 	<example title="Change message for SearchBuilder Title within a button"><![CDATA[
-$(document).ready(function() {
-    $('#example').DataTable( {
-        language: {
-            searchBuilder: {
-                title: 'Search Builder Title'
-            }
-        },
-        buttons: [ 'searchBuilder' ],
-        dom: 'Bfrtip'
-    });
+new DataTable('#myTable', {
+	language: {
+		searchBuilder: {
+			title: 'Search Builder Title'
+		}
+	},
+	layout: {
+		topStart: {
+			buttons: ['searchBuilder']
+		}
+	}
 });
-
 ]]></example>
 
 <example title="Include counts in the title"><![CDATA[
-$(document).ready(function() {
-    $('#example').DataTable( {
-        language: {
-            searchBuilder: {
-                title: {
-					0: 'Search Builder',
-					_: 'Search Builder (%d)'
-				}
-            }
-        },
-        titles:[
-            'SearchBuilder'
-        ],
-        dom: 'Bfrtip',
-    });
+new DataTable('#myTable', {
+	language: {
+		searchBuilder: {
+			title: {
+				0: 'Search Builder',
+				_: 'Search Builder (%d)'
+			}
+		}
+	},
+	titles: ['SearchBuilder'],
+	layout: {
+		top1: 'searchBuilder'
+	}
 });
-
 ]]></example>
 
 <related type="api">i18n()</related>

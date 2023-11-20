@@ -20,18 +20,19 @@
 
 	<example title="Get the details of a Search:"><![CDATA[
 var stored;
-
-$('#example').DataTable( {
-	dom: 'Qlfrtip'
+var table = new DataTable('#myTable', {
+	layout: {
+		top1: 'searchBuilder'
+	}
 });
 
-$('#getDetails').on('click', function() {
-	stored = $('#example').DataTable().searchBuilder.getDetails();
-})
+$('#getDetails').on('click', function () {
+	stored = table.searchBuilder.getDetails();
+});
 
-$('#revert').on('click', function() {
-	$('#example').DataTable().searchBuilder.rebuild(stored);
-})
+$('#revert').on('click', function () {
+	table.searchBuilder.rebuild(stored);
+});
 ]]></example>
 
 <related type="api">searchBuilder.getDetails()</related>

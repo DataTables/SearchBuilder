@@ -20,18 +20,22 @@
 	</description>
 
 	<example title="Set text for custom element"><![CDATA[
-
-$(document).ready(function() {
-	var table = $('#example').DataTable({
-		searchBuilder: {
-			filterChanged: function(count) {
-				$('.SBDetails').text(table.i18n('searchBuilder.collapse', {0: 'AdvancedFilter', _: 'Advancedfilter (%d)'}, count));
-			}
-		},
-		dom: 'Qlfrtip'
-	});
+new DataTable('#myTable', {
+	layout: {
+		top1: 'searchBuilder'
+	},
+	searchBuilder: {
+		filterChanged: function (count) {
+			$('.SBDetails').text(
+				table.i18n(
+					'searchBuilder.collapse',
+					{ 0: 'AdvancedFilter', _: 'Advancedfilter (%d)' },
+					count
+				)
+			);
+		}
+	}
 });
-
 ]]></example>
 
 </dt-option>

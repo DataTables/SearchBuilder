@@ -34,24 +34,28 @@ Some examples are shown below for select and input elements.
 	</description>
 
 <example title="Select isInputValid function"><![CDATA[
-...
-isInputValid (el, that) {
+
+
+
+isInputValid: function (el, that) {
     // Deselect the placeholder
     $(that.dom.valueTitle).attr('selected', false);
 
     // Return true if there is a selected option
     return $(el[0]).has('option:selected').length >= 1
 }
-...
+
 ]]></example>
 
 <example title="Input isInputValid function"><![CDATA[
-...
-isInputValid (el, that) {
+
+
+
+isInputValid: function (el, that) {
     // Return true if there is something present in the input element
     return $(el[0]).val().length > 0
 }
-...
+
 ]]></example>
 
 <related type="init">searchBuilder.conditions[type]</related>

@@ -43,6 +43,8 @@ Some examples are shown below for select and input elements.
 	</description>
 
 <example title="Select init function"><![CDATA[
+
+
 ...
 init: function(that, fn, preDefined = null) {
 	let column = $(that.dom.data).children('option:selected').val();
@@ -134,6 +136,8 @@ init: function(that, fn, preDefined = null) {
 ]]></example>
 
 <example title="Input init function"><![CDATA[
+
+
 ...
 init: function(that, fn, preDefined = null) {
 	// Create input element

@@ -19,17 +19,16 @@
 	</description>
 
 	<example title="Change message for SearchBuilder logic button under OR conditions"><![CDATA[
-$(document).ready(function() {
-	$('#example').DataTable( {
-		language: {
-			searchBuilder: {
-				logicOr: 'OR'
-			}
-		},
-		dom: 'Qlfrtip',
-	});
+new DataTable('#myTable', {
+	language: {
+		searchBuilder: {
+			logicOr: 'OR'
+		}
+	},
+	layout: {
+		top1: 'searchBuilder'
+	}
 });
-
 ]]></example>
 
 <related type="init">searchBuilder.logic</related>

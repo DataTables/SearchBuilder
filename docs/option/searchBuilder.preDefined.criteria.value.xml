@@ -21,12 +21,13 @@
 	</description>
 
 	<example title="Defining the value for use in a criteria"><![CDATA[
-
-$('#example').DataTable( {
-	dom: 'Qlfrtip',
+new DataTable('#myTable', {
+	layout: {
+		top1: 'searchBuilder'
+	},
 	searchBuilder: {
 		preDefined: {
-			criteria:[
+			criteria: [
 				{
 					condition: '=',
 					data: 'Office',
@@ -37,13 +38,16 @@ $('#example').DataTable( {
 		}
 	}
 });
-
 ]]></example>
 
 	<example title="Defining the values for use in a multi-value criteria"><![CDATA[
 
-$('#example').DataTable( {
-	dom: 'Qlfrtip',
+
+
+new DataTable('#myTable', {
+	layout: {
+		top1: 'searchBuilder'
+	},
 	searchBuilder: {
 		preDefined: {
 			criteria:[

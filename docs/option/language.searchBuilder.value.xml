@@ -20,17 +20,16 @@
 	</description>
 
 	<example title="Change text for SearchBuilder Value"><![CDATA[
-$(document).ready(function() {
-	$('#example').DataTable( {
-		language: {
-			searchBuilder: {
-				value: 'Option'
-			}
-		},
-		dom: 'Qlfrtip',
-	});
+new DataTable('#myTable', {
+	language: {
+		searchBuilder: {
+			value: 'Option'
+		}
+	},
+	layout: {
+		top1: 'searchBuilder'
+	}
 });
-
 ]]></example>
 
 <related type="init">searchBuilder.conditions[type]</related>

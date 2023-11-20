@@ -20,17 +20,16 @@
 	</description>
 
 	<example title="Change message for SearchBuilder add"><![CDATA[
-$(document).ready(function() {
-	$('#example').DataTable( {
-		language: {
-			searchBuilder: {
-				add: '+'
-			}
-		},
-		dom: 'Qlfrtip',
-	});
+new DataTable('#myTable', {
+	language: {
+		searchBuilder: {
+			add: '+'
+		}
+	},
+	layout: {
+		top1: 'searchBuilder'
+	}
 });
-
 ]]></example>
 
 <related type="api">i18n()</related>

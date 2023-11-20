@@ -21,17 +21,16 @@
 	</description>
 
 	<example title="Change title attribute for SearchBuilder right button"><![CDATA[
-$(document).ready(function() {
-	$('#example').DataTable( {
-		language: {
-			searchBuilder: {
-				rightTitle: 'Right'
-			}
-		},
-		dom: 'Qlfrtip',
-	});
+new DataTable('#myTable', {
+	language: {
+		searchBuilder: {
+			rightTitle: 'Right'
+		}
+	},
+	layout: {
+		top1: 'searchBuilder'
+	}
 });
-
 ]]></example>
 
 <related type="api">i18n()</related>

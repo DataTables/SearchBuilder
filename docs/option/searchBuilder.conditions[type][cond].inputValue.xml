@@ -33,21 +33,25 @@ Some examples for select and input elements are shown below.
 	</description>
 
 <example title="Select inputValue function"><![CDATA[
-...
-inputValue (el) {
+
+
+
+inputValue: function (el) {
 	// Extract the selected value from the select element
 	return [$(el[0]).children('option:selected').val()];
 }
-...
+
 ]]></example>
 
 <example title="Input inputValue function"><![CDATA[
-...
-inputValue (el) {
+
+
+
+inputValue: function (el) {
 	// Extract the value in the input element
 	return [$(el[0]).val()];
 }
-...
+
 ]]></example>
 
 <related type="init">searchBuilder.conditions[type]</related>

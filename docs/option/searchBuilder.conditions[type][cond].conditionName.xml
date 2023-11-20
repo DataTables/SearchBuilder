@@ -25,32 +25,33 @@ Note: Please also not that custom conditions are not supported when the `-init s
 	</description>
 
 	<example title="Define the display value to be shown in the condition select"><![CDATA[
-
-$('#example').DataTable( {
-    dom: 'Qfrtip',
-    searchBuilder: {
-        conditions: {
-            "num":{
-                'multipleOf': {
-                    conditionName: 'Multiple Of',
-                    init: function(that, fn, preDefined = null){
-                        ...
-                    },
-                    inputValue: function(el, value = null){
-                        ...
-                    },
-                    isInputValid: function(el, that){
-                        ...
-                    },
-                    search: function(value, comparison) {
-                        ...
-                    },
-                }
-            }
-        }
-    }
+new DataTable('#myTable', {
+	layout: {
+		top1: {
+			searchBuilder: {
+				conditions: {
+					num: {
+						multipleOf: {
+							conditionName: 'Multiple Of',
+							init: function (that, fn, preDefined = null) {
+								// ...
+							},
+							inputValue: function (el, value = null) {
+								// ...
+							},
+							isInputValid: function (el, that) {
+								// ...
+							},
+							search: function (value, comparison) {
+								// ...
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 });
-
 ]]></example>
 
 <related type="init">searchBuilder.conditions[type]</related>

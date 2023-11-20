@@ -30,25 +30,25 @@
 	</description>
 
 	<example title="Setting the limit to 3"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	searchBuilder: {
 		depthLimit: 3
-	},    
-	dom: 'Qlfrtip'
+	},
+	layout: {
+		top1: 'searchBuilder'
+	}
 });
-
 ]]></example>
 
 <example title="Never allow sub grouping"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	searchBuilder: {
 		depthLimit: 1
-	},    
-	dom: 'Qlfrtip'
+	},
+	layout: {
+		top1: 'searchBuilder'
+	}
 });
-
 ]]></example>
 
 </dt-option>

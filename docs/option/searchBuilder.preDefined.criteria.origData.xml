@@ -22,8 +22,12 @@
 
 	<example title="Defining a preDefined criteria for the Office column"><![CDATA[
 
-$('#example').DataTable( {
-	dom: 'Qlfrtip',
+
+
+new DataTable('#myTable', {
+	layout: {
+		top1: 'searchBuilder'
+	},
 	searchBuilder: {
 		preDefined: {
 			criteria:[

@@ -31,40 +31,38 @@
 	</description>
 
 		<example title="Change message for SearchBuilder button which also displays criteria count:"><![CDATA[
-$(document).ready(function() {
-	$('#example').DataTable( {
-		language: {
-			searchBuilder: {
-				button: {
-					0: 'Criteria',
-					1: 'Criteria (one selected)',
-					_: 'Criteria (%d)'
-				}
+new DataTable('#myTable', {
+	language: {
+		searchBuilder: {
+			button: {
+				0: 'Criteria',
+				1: 'Criteria (one selected)',
+				_: 'Criteria (%d)'
 			}
-		},
-		buttons:[
-			'searchBuilder'
-		],
-		dom: 'Bfrtip',
-	});
+		}
+	},
+	layout: {
+		top1: {
+			buttons: ['searchBuilder']
+		}
+	}
 });
 ]]></example>
 
 	<example title="Change message for SearchBuilder button"><![CDATA[
-$(document).ready(function() {
-	$('#example').DataTable( {
-		language: {
-			searchBuilder: {
-				button: 'searchBuilder'
-			}
-		},
-		buttons:[
-			'SearchBuilder'
-		],
-		dom: 'Bfrtip',
-	});
+new DataTable('#myTable', {
+	buttons: ['searchBuilder'],
+	language: {
+		searchBuilder: {
+			button: 'searchBuilder'
+		}
+	},
+	layout: {
+		top1: {
+			buttons: ['searchBuilder']
+		}
+	}
 });
-
 ]]></example>
 
 <related type="api">i18n()</related>

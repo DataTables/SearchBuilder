@@ -20,14 +20,14 @@
 	</description>
 
 	<example title="Allow three columns to be filtered on"><![CDATA[
-
-$('#example').DataTable( {
+new DataTable('#myTable', {
 	searchBuilder: {
-		columns: [1,2,3]
-	},    
-	dom: 'Qlfrtip'
+		columns: [1, 2, 3]
+	},
+	layout: {
+		top1: 'searchBuilder'
+	}
 });
-
 ]]></example>
 
 </dt-option>

@@ -14,17 +14,19 @@
 	</type>
 
 	<description>
-		This method provides the ability to return the node of the container that is storing SearchBuilder. This allows the user to manipulate it by adding classes or moving it around the `-init dom`.
+		This method provides the ability to return the node of the container that is storing SearchBuilder. This allows the user to manipulate it by adding classes or even moving it in the document.
 
 		This method does not take any arguments, it is simply a getter for the container.
-
 	</description>
 
 	<example title="Add a class to the SearchBuilder container:"><![CDATA[
-    var dt = $('#example').DataTable( {
-        dom: 'Qfrtip'
-    });
-	dt.searchBuilder.container().addClass('sb_class');
+var dt = new DataTable('#myTable', {
+	layout: {
+		top1: 'searchBuilder'
+	}
+});
+
+dt.searchBuilder.container().addClass('sb_class');
 ]]></example>
 
 </dt-api>

@@ -19,17 +19,16 @@
 	</description>
 
 	<example title="Change message for SearchBuilder logic button under AND conditions"><![CDATA[
-$(document).ready(function() {
-	$('#example').DataTable( {
-		language: {
-			searchBuilder: {
-				logicAnd: 'AND'
-			}
-		},
-		dom: 'Qlfrtip',
-	});
+new DataTable('#myTable', {
+	language: {
+		searchBuilder: {
+			logicAnd: 'AND'
+		}
+	},
+	layout: {
+		top1: 'searchBuilder'
+	}
 });
-
 ]]></example>
 
 <related type="init">searchBuilder.logic</related>

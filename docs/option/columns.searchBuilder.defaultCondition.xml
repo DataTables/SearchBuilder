@@ -26,14 +26,18 @@
 	</description>
 
     <example title="Set the condition to be '!=' for the third column"><![CDATA[
-table = $('#example').DataTable({
-	dom: 'Qlfrtip',
-	columnDefs: [{
-		targets: 2,
-		searchBuilder: {
-			defaultCondition: '!='
+new DataTable('#myTable', {
+	columnDefs: [
+		{
+			targets: 2,
+			searchBuilder: {
+				defaultCondition: '!='
+			}
 		}
-	}]
+	],
+	layout: {
+		top1: 'searchBuilder'
+	}
 });
 ]]></example>
 

@@ -34,19 +34,23 @@ Note: Please also not that custom conditions are not supported when the `-init s
 	</description>
 
 <example title="Include the row if it equals the selected value"><![CDATA[
-...    
+
+
+  
 search: function(value, comparison, that) {
     return +value === +comparison[0];
 }
-...
+
 ]]></example>
 
 <example title="Include the row if it is a multiple of the selected value"><![CDATA[
-...    
+
+
+  
 search: function(value, comparison, that) {
     return +value % +comparison[0] === 0;
 }
-...
+
 ]]></example>
 
 <related type="init">searchBuilder.conditions[type]</related>

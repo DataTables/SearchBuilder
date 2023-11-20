@@ -19,17 +19,18 @@
 	</description>
 
 <example title="Change message for SearchBuilder clear all button"><![CDATA[
-$(document).ready(function() {
-		$('#example').DataTable( {
-			language: {
-				searchBuilder: {
-					clearAll: 'Reset'
-				}
-			},
-			dom: 'Qlfrtip',
-		});
-	});
-
+new DataTable('#myTable', {
+	language: {
+		searchBuilder: {
+			clearAll: 'Reset'
+		}
+	},
+	layout: {
+		top1: {
+			buttons: ['searchBuilder']
+		}
+	}
+});
 ]]></example>
 
 <related type="api">i18n()</related>

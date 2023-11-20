@@ -32,25 +32,29 @@ The event is triggered on the original element(s) created in the init function t
 	</description>
 
 	<example title="Initialise Select2 on a Select Element Once Inserted"><![CDATA[
+{
+	init: function (that, fn, preDefined = null) {
+		let el = $('<select>');
+		$(el).prepend('<option></option>');
 
-init: function(that, fn, preDefined = null) {
-    let el = $('<select>');
-    $(el).prepend('<option></option>');
-    ...
-    $(el).on('dtsb-inserted', function(){
-        if($(el).hasClass('select2-hidden-accessible')) {
-            $(el).select2('destroy');
-        }
+		// ...
 
-        $(el).select2({placeholder:'Value'});
+		$(el).on('dtsb-inserted', function () {
+			if ($(el).hasClass('select2-hidden-accessible')) {
+				$(el).select2('destroy');
+			}
 
-        if(preDefined !== null) {
-            $(el).val(preDefined[0]);
-            $(el).trigger('input');
-        }
-    }
-    ...
-})
+			$(el).select2({ placeholder: 'Value' });
+
+			if (preDefined !== null) {
+				$(el).val(preDefined[0]);
+				$(el).trigger('input');
+			}
+		});
+
+		// ...
+	}
+}
 
 ]]></example>
 </dt-event>

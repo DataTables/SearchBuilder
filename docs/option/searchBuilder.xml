@@ -21,18 +21,22 @@
 	</description>
 
 	<example title="Enable SearchBuilder for a table using the `-init dom` option"><![CDATA[
-$('#example').DataTable( {
-	dom: 'Qlfrtip'
-} );
+new DataTable('#myTable', {
+	layout: {
+		top1: 'searchBuilder'
+	}
+});
 ]]></example>
 
 	<example title="Enable SearchBuilder with configuration options"><![CDATA[
-$('#example').DataTable( {
-	dom: 'Qlfrtip'
+new DataTable('#myTable', {
+	layout: {
+		top1: 'searchBuilder'
+	},
 	searchBuilder: {
 		depthLimit: 2
 	}
-} );
+});
 ]]></example>
 
 </dt-option>
