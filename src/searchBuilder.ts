@@ -360,12 +360,15 @@ export default class SearchBuilder {
 	 * Set's up the SearchBuilder
 	 */
 	private _setUp(loadState = true): void {
-		// Register an Api method for getting the column type
-		$.fn.DataTable.Api.registerPlural('columns().type()', 'column().type()', function() {
-			return this.iterator('column', function(settings, column) {
-				return settings.aoColumns[column].sType;
-			}, 1);
-		});
+		// Register an Api method for getting the column type. DataTables 2 has
+		// this built in
+		if (typeof this.s.dt.columns().type !== 'function') {
+			DataTable.Api.registerPlural('columns().types()', 'column().type()', function() {
+				return this.iterator('column', function(settings, column) {
+					return settings.aoColumns[column].sType;
+				}, 1);
+			});
+		}
 
 		// Check that DateTime is included, If not need to check if it could be used
 		// eslint-disable-next-line no-extra-parens
@@ -381,10 +384,11 @@ export default class SearchBuilder {
 
 			let columnIdxs = this.s.dt.columns().toArray();
 
-			// If the types are not yet set then draw to see if they can be retrieved then
+			// If the column type is still unknown use the internal API to detect type
+			// This can only happen in DT1 - DT2 will do the invalidation of the type itself
 			if(types === undefined || types.includes(undefined) || types.includes(null)) {
 				$.fn.dataTable.ext.oApi._fnColumnTypes(this.s.dt.settings()[0]);
-				types = this.s.dt.columns().type().toArray();
+				types = this.s.dt.columns().types().toArray();
 			}
 
 			for(let i = 0; i < columnIdxs[0].length; i++) {

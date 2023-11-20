@@ -166,6 +166,6 @@ DataTable.ext.feature.push({
 });
 
 // DataTables 2 layout feature
-if (DataTable.ext.features) {
-	DataTable.ext.features.register('searchBuilder', _init);
+if (DataTable.feature) {
+	DataTable.feature.register('searchBuilder', _init);
 }

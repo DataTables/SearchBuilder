@@ -305,8 +305,8 @@ export default class Criteria {
 		// Add all of the options from the table to the select element.
 		// Only add one option for each possible value
 		for (let index of indexArray) {
-			let filter = settings.oApi._fnGetCellData(
-				settings, index, column, typeof that.c.orthogonal === 'string' ?
+			let filter = that.s.dt.cell(index, column).render(
+				typeof that.c.orthogonal === 'string' ?
 					that.c.orthogonal :
 					that.c.orthogonal.search
 			);
@@ -315,10 +315,7 @@ export default class Criteria {
 					filter.replace(/[\r\n\u2028]/g, ' ') : // Need to replace certain characters to match search values
 					filter,
 				index,
-				text: settings.oApi._fnGetCellData(
-					settings,
-					index,
-					column,
+				text: that.s.dt.cell(index, column).render(
 					typeof that.c.orthogonal === 'string' ?
 						that.c.orthogonal :
 						that.c.orthogonal.display
@@ -693,7 +690,7 @@ export default class Criteria {
 					i18n,
 				})
 				.on('change.dtsb', searchDelay !== null ?
-					that.s.dt.settings()[0].oApi._fnThrottle(
+					DataTable.util.throttle(
 						function() {
 							return fn(that, this);
 						},
@@ -706,7 +703,7 @@ export default class Criteria {
 				.on(
 					'input.dtsb keypress.dtsb',
 					(e) => {
-						that.s.dt.settings()[0].oApi._fnThrottle(
+						DataTable.util.throttle(
 							function() {
 								let code = e.keyCode || e.which;
 								return fn(that, this, code);
@@ -727,7 +724,7 @@ export default class Criteria {
 					i18n,
 				})
 				.on('change.dtsb', searchDelay !== null ?
-					that.s.dt.settings()[0].oApi._fnThrottle(
+					DataTable.util.throttle(
 						function() {
 							return fn(that, this);
 						},
@@ -745,7 +742,7 @@ export default class Criteria {
 						that.s.dt.settings()[0].oInit.search.return
 					) &&
 					searchDelay !== null ?
-						that.s.dt.settings()[0].oApi._fnThrottle(
+						DataTable.util.throttle(
 							function() {
 								return fn(that, this);
 							},
@@ -2006,8 +2003,8 @@ export default class Criteria {
 			if (this.c.orthogonal.search !== 'filter') {
 				let settings = this.s.dt.settings()[0];
 
-				filter = settings.oApi._fnGetCellData(
-					settings, rowIdx, this.s.dataIdx, typeof this.c.orthogonal === 'string' ?
+				filter = this.s.dt.cell(rowIdx, this.s.dataIdx).render(
+					typeof this.c.orthogonal === 'string' ?
 						this.c.orthogonal :
 						this.c.orthogonal.search
 				);
@@ -2474,7 +2471,7 @@ export default class Criteria {
 
 		// If there are no conditions stored then we need to get them from the appropriate type
 		if (conditionsLength === 0) {
-			this.s.type = this.s.dt.columns().type().toArray()[column];
+			this.s.type = this.s.dt.columns().types().toArray()[column];
 
 			if(colInits !== undefined) {
 				let colInit = colInits[column];
@@ -2490,7 +2487,6 @@ export default class Criteria {
 				$.fn.dataTable.ext.oApi._fnColumnTypes(this.s.dt.settings()[0]);
 				this.s.type = this.s.dt.columns().type().toArray()[column];
 			}
-
 
 			// Enable the condition element
 			this.dom.condition
