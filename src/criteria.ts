@@ -2482,7 +2482,9 @@ export default class Criteria {
 					this.s.type = colInit.sType;
 				}
 			}
-			// If the column type is still unknown, call a draw to try reading it again
+
+			// If the column type is still unknown use the internal API to detect type
+			// This can only happen in DT1 - DT2 will do the invalidation of the type itself
 			if (this.s.type === null || this.s.type === undefined) {
 				$.fn.dataTable.ext.oApi._fnColumnTypes(this.s.dt.settings()[0]);
 				this.s.type = this.s.dt.columns().type().toArray()[column];
