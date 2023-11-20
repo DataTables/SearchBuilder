@@ -1924,12 +1924,12 @@ export default class Criteria {
 
 		// Trigger the inserted events for the value elements as they are inserted
 		if (this.dom.value[0] !== undefined) {
-			this.dom.value[0].trigger('dtsb-inserted');
+			$(this.dom.value[0]).trigger('dtsb-inserted');
 		}
 
 		for (let i = 1; i < this.dom.value.length; i++) {
 			this.dom.inputCont.append(this.dom.value[i]);
-			this.dom.value[i].trigger('dtsb-inserted');
+			$(this.dom.value[i]).trigger('dtsb-inserted');
 		}
 
 		// If this is a top level criteria then don't let it move left
@@ -2405,12 +2405,12 @@ export default class Criteria {
 					.empty()
 					.append(this.dom.value[0])
 					.insertAfter(this.dom.condition);
-				this.dom.value[0].trigger('dtsb-inserted');
+				$(this.dom.value[0]).trigger('dtsb-inserted');
 
 				// Insert all of the value elements
 				for (let i = 1; i < this.dom.value.length; i++) {
 					this.dom.inputCont.append(this.dom.value[i]);
-					this.dom.value[i].trigger('dtsb-inserted');
+					$(this.dom.value[i]).trigger('dtsb-inserted');
 				}
 			}
 		}
@@ -2744,13 +2744,13 @@ export default class Criteria {
 
 		// Insert value elements and trigger the inserted event
 		if(this.dom.value[0] !== undefined) {
-			this.dom.value[0]
+			$(this.dom.value[0])
 				.appendTo(this.dom.inputCont)
 				.trigger('dtsb-inserted');
 		}
 
 		for (let i = 1; i < this.dom.value.length; i++) {
-			this.dom.value[i]
+			$(this.dom.value[i])
 				.insertAfter(this.dom.value[i - 1])
 				.trigger('dtsb-inserted');
 		}
