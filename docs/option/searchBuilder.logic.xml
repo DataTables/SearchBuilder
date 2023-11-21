@@ -10,15 +10,12 @@
         </description>
 	</type>
 
-	<default value="AND">
-        The default value for the `-init searchBuilder.logic` option is `AND` meaning that as standard the initial logic applied to groups will be `AND` logic.
-	</default>
 	<description>
-		<![CDATA[
-		This option allows for the default logic of all groups to be set when they are initialised. This can take the value of either `AND` or `OR`. As default `AND` logic is used because it is the most predominant form to use when searching a dataset.
+	<![CDATA[
+		This option is an alias to `-feature searchBuilder.logic`, which should be preferred when using DataTables 2+. It can be used to configure SearchBuilder regardless of how the panes are inserted into the document (`-init layout` or `-button searchBuilder`).
 
-		When using `-init searchBuilder.preDefined` searches, this value is also used if `-init searchBuilder.preDefined.logic` is not defined in the initialisation.
-        ]]>
+		Please refer to the documentation for `-feature searchBuilder.logic` for full details of this option.
+	]]>
 	</description>
 
 	<example title="Setting the default logic to 'OR'"><![CDATA[

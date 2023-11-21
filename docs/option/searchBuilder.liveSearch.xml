@@ -10,16 +10,11 @@
         </description>
 	</type>
 
-	<default value="true">
-        Search will automatically happen as the user inputs values.
-	</default>
 	<description>
 	<![CDATA[
-		By default SearchBuilder will automatically redraw the DataTable and apply its search terms on every user input action (e.g. typing or selecting options from a dropdown) - we term this _live searching_. This might not always be desirable, particularly when working with large data sets which can take a significant amount of time to process the search criteria.
+		This option is an alias to `-feature searchBuilder.liveSearch`, which should be preferred when using DataTables 2+. It can be used to configure SearchBuilder regardless of how the panes are inserted into the document (`-init layout` or `-button searchBuilder`).
 
-		This option can be used to disable the live search operation of SearchBuilder and instead add a _Search_ button to the interface. Triggering of this button will cause the table to perform the search operation setup by the SearchBuilder criteria.
-
-		Please note that with this option enabled if you setup a search, any action that causes the host DataTable to redraw will trigger a search. This includes using the built in global search, ordering or paging.
+		Please refer to the documentation for `-feature searchBuilder.liveSearch` for full details of this option.
 	]]>
 	</description>
 

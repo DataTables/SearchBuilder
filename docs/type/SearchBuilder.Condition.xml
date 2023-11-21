@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-type group="dt">
+	<name>SearchBuilder.Condition</name>
+	<summary>Search condition plug-in structure</summary>
+
+	<description>
+	<![CDATA[
+
+SearchBuilder provides a set of different logic operations for each data type used by DataTables. The system used for that is a set of plug-ins which is attached to both a type and a condition. It is used internally in SearchBuilder and can also be used to customise SearchBuilder with custom search operations.
+
+This type describes the object structure and properties needed for SearchBuilder plug-ins.
+
+Using [Typescript definitions](https://www.typescriptlang.org/docs/handbook/2/type-declarations.html), the object has the following structure:
+
+```js
+export interface ICondition {
+	/** Display name */
+	conditionName: string | ((dt: any, i18n: any) => string);
+
+	/** Initialisation */
+	init: (
+		that: Criteria,
+		fn: (thatAgain: Criteria, el: JQuery<HTMLElement>) => void,
+		preDefined?: string[]
+	) => JQuery<HTMLElement> | Array<JQuery<HTMLElement>> | void;
+
+	/** Get the search term's value */
+	inputValue: (el: JQuery<HTMLElement>) => string[] | void;
+
+	/** Determine if an input is valid */
+	isInputValid: (val: Array<JQuery<HTMLElement>>, that: Criteria) => boolean;
+
+	/** Search logic */
+	search: (value: string, comparison: string[], that: Criteria) => boolean;
+}
+```
+
+
+## Properties
+
+The following properties are available on the SearchBuilder Condition object:
+
+
+### conditionName
+
+This defines the display value of the condition to be set (i.e. what the user sees in the condition `-tag select` list). It should be short and descriptive, e.g. "Equals", "Between", etc.
+
+
+### init
+
+This function sets up the DOM elements to be displayed in the _input_ area of the search condition, allowing it to be tailored to the data type and condition in question.
+
+This function returns an HTML element or jQuery object that is to be used as the input. It takes 3 parameters.
+
+1. `that` the criteria instance that is being checked.
+2. `fn` the callback function that must be called on the event which is desired to trigger a search.
+3. `preDefined` (optional). Any values that should be applied to the elements that are being created.
+
+The internals of the function are down to the functionality that you wish to create, although there are a number of things that must happen, as discussed below.
+
+Firstly, the function must return either a node, a jQuery object or an array of jQuery object that can take user input if there are values to be collected.
+
+Secondly, the `fn` parameter is a callback function that must be triggered whenever a search should happen. Typically, this will be used in an event listener on the input elements. For example, the conditions that use `-tag select` and `-tag input` elements call the function on the `input` event. 
+
+Thirdly, the function must provide a way for the `preDefined` options to be set. This system is used by SearchBuilder internally, not just to set the initial preDefined options (see `-feature searchBuilder.preDefined`). Because there are a lot of redraws as criteria are added, removed and moved around, so SearchBuilder needs a way to re-assign values to the input elements.
+
+
+### inputValue
+
+This function is a getter. It returns an array of values that are to be used to compare against the data in the table, reading those values from the DOM structure setup by the `init` function (above). It takes a single parameter:
+
+* `el` the array of value elements that belong to this criteria.
+
+The values that are returned here will be passed into the `search` function (see below). Typically these will be taken from the elements that the `init` function created, although this may be different for some conditions such as _empty_. 
+
+`inputValue` is in a separate function so it can run only once per draw operation, rather than on every row. This is done for efficiency and performance.
+
+
+### isInputValid
+
+This function determines if a user input to the search condition is valid or not. It takes 2 parameters.
+
+1. `val` the array of value elements that belong to this criteria. These are set in `init`.
+2. `that` the criteria instance that is being checked.
+
+It must return a boolean value - `true` to indicate the value is valid and the search may use this input, or `false` to indicate the the value is not valid.
+
+The purpose of this function is to decide whether there is enough data present to include this criteria in the search filtering. It is not as straightforward as applying all of the filters all of the time. This is because when a new criteria is added the table would show no results.
+
+
+### search
+
+This function defines the comparison function for the condition - taking the data from the DataTable and from the user input and determining if the row should be included in the result set or not.
+
+It takes three parameters.
+
+* `value` the value that is present in the DataTable.
+* `comparison` an array of values, with each index representing the number of value input that the `value` is to be filtered against.
+* `that` the criteria instance, should any of it's internal properties be required.
+
+It must return a boolean: `true` if the row is to be included in the result, `false` if not. This function is free to perform any operation on those values to decide whether it passes the desired condition, although it should be optimised for performance. This function then is the crux of the searching behaviour for the condition.
+
+
+
+
+	]]>
+	</description>
+</dt-type>

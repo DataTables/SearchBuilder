@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>searchBuilder</name>
+	<summary>Enable and configure the SearchBuilder extension for DataTables</summary>
+	<since>SearchBuilder 1.0.0</since>
+
+	<type type="object">
+		<description>
+			If given as an object, SearchBuilder will be enabled on the target DataTable with the SearchBuilder defaults (`DataTable.SearchBuilder.defaults`) extended, and potentially overwritten by the options provided in this object. This is how SearchBuilder can be configured on an individual table basis, or through the defaults.
+		</description>
+	</type>
+
+	<description>
+		SearchBuilder is an extension that presents a user interface for building complex search operations, including grouping logic. 
+
+		SearchBuilder can be enabled through the `-init layout` option with the `searchBuilder` feature name, or the `-button searchBuilder` button, which accepts configuration options as a `config` parameter.
+
+		Please see the _Related_ section below for a list of all configuration options available for SearchBuilder.
+	</description>
+
+	<example title="Enable SearchBuilder for a table using the `-init dom` option"><![CDATA[
+new DataTable('#myTable', {
+	layout: {
+		top1: 'searchBuilder'
+	}
+});
+]]></example>
+
+	<example title="Enable SearchBuilder with configuration options"><![CDATA[
+new DataTable('#myTable', {
+	layout: {
+		top1: {
+			searchBuilder: {
+				depthLimit: 2
+			}
+		}
+	}
+});
+]]></example>
+
+	<related>-feature searchBuilder.columns</related>
+	<related>-feature searchBuilder.conditions</related>
+	<related>-feature searchBuilder.depthLimit</related>
+	<related>-feature searchBuilder.enterSearch</related>
+	<related>-feature searchBuilder.filterChanged</related>
+	<related>-feature searchBuilder.greyscale</related>
+	<related>-feature searchBuilder.liveSearch</related>
+	<related>-feature searchBuilder.logic</related>
+	<related>-feature searchBuilder.preDefined</related>
+</dt-option>

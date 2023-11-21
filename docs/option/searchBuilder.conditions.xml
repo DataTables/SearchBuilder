@@ -6,54 +6,17 @@
 
 	<type type="Object">
 		<description>
-			An object that contains conditions for each of the built in DataTables types as defined in `-init columns.type` along with `moment` and `luxon` types for formatted dates, an `array` type for columns with an array format and any other custom types that may exist on the table.
-	</description>
+			This is a 2D object, keyed first by the data type that the condition should apply to and then by the condition itself. The condition object must have the structure defined by `-type SearchBuilder.Condition`.
+		</description>
 	</type>
 
-	<default value="Object">
-		The default value for the `-init searchBuilder.conditions` option is an object with a property for each of the built in DataTables types as defined in `-init columns.type` along with `moment` and `luxon` types for formatted dates, an `array` type for columns with an `array` format and any other custom types that may exist on the table. Each property in turn is an object with key value pairs to represent the conditions. These objects have the structure of `-init searchBuilder.conditions[type][cond]`.
-	</default>
 	<description>
-		<![CDATA[
-			This option allows custom conditions to be added to SearchBuilder, to extend or replace the standard ones.
+	<![CDATA[
+		This option is an alias to `-feature searchBuilder.conditions`, which should be preferred when using DataTables 2+. It can be used to configure SearchBuilder regardless of how the panes are inserted into the document (`-init layout` or `-button searchBuilder`).
 
-			This object contains the following properties, whose value is a further object of the type `-init searchBuilder.conditions[type]`. More details for the types can be found at `-init columns.type`.
-
-			* `string` - Column type for strings. This is also the default should none of the below types match the data in the column.
-			* `date` - Date / time values. Note that DataTables' built in date parsing uses Javascript's Date.parse() method which supports only a [very limited subset](http://blog.dygraphs.com/2012/03/javascript-and-dates-what-mess.html) of dates. Additional date format support can be added through the use of plug-ins.
-			* `num` - Simple numbers with no formatting
-			* `num-fmt`- Numbers with formatting such as currency.
-			* `html` - Basic strings that also make use of html tags
-			* `html-num` - Basic numbers that also make use of html tags.
-			* `html-num-fmt` - Numbers with formatting that also make use of html tags
-			* `moment` Formatted dates. This is used in combination with the [DataTables Ultimate Sorting Plug-in](https://datatables.net/blog/2014-12-18).
-			* `luxon` Formatted dates. This is used in combination with the [DataTables Ultimate Sorting Plug-in for luxon](http://cdn.datatables.net/plug-ins/1.10.22/sorting/datetime-luxon.js)
-			* `array` The array type is used in combination with `-init columns.orthogonal` data and provides better conditions for columns that use arrays. This is not automatically identified, the `-init columns.type` must be set to `array` for these to be used.
-			* It is also possible to add your own custom types. Using the `-init columns.type` initialisation option and adding a property of the same type name in this object. You can define your own conditions for custom types either through a [plug in](../../extensions/searchbuilder/plugins.html), or [initialisation](../../extensions/searchbuilder/customConditions.html).
-
-			The standard conditions can be removed, edited or added to. The manual page for [custom conditions](../../extensions/searchbuilder/customConditions.html) covers this in detail.
-
-			More details on the structure that is used can be found at `-init searchBuilder.conditions[type]`. More details on the built in types can be found at `-init columns.type`
-
-			Note: When using a custom decimal place character, the SearchBuilder internals will replace this with a `.` so that the correct processing can take place. It is worth bearing this in mind when customising the functions that each condition runs.
-
-			Note: Please also not that custom conditions are not supported when the `-init serverSide` option is set to true.
-
-			## Examples
-
-			There are two examples that create custom conditions using initialisation options. They both show how to add a custom condition to the `num` column type, but the process is the same for other column types.
-
-			* [Custom Multiple Of](../../extensions/SearchBuilder/examples/customisation/customMultiple.html)
-			* [+- 5](../../extensions/SearchBuilder/examples/customisation/customConditions.html)
-
-			There is also an example that shows how to use a plug-in to add a custom condition.
-			
-			* [Plug-in Example](../../extensions/SearchBuilder/examples/customisation/plugin.html)
-        ]]>
+		Please refer to the documentation for `-feature searchBuilder.conditions` for full details of this option.
+	]]>
 	</description>
 
-<related type="init">searchBuilder.conditions[type]</related>
-<related type="init">searchBuilder.conditions[type][cond]</related>
-<related type="init">columns.type</related>
-
+	<related type="init">columns.type</related>
 </dt-option>

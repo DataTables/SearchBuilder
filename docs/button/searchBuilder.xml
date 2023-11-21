@@ -9,10 +9,10 @@
 	</description>
 
     <option name="config" type="object" default="{}">
-        This option allows for SearchBuilder to be configured as it would in a normal initialisation. All of the `searchBuilder.*` options can be configured within this object.
+        This option allows for SearchBuilder to be configured as it would in a normal initialisation. All of the `-feature searchBuilder` options can be configured within this object.
     </option>
     <option name="text" type="string" default="Search Builder">
-        This options allows the text within the button to be configured. This can also be configured with the `-init searchBuilder.i18n.button` option.
+        This options allows the text within the button to be configured. This can also be configured with the `-init language.searchBuilder.button` option.
     </option>
     <option name="init" type="function">
         For the SearchBuilder button the init function sets up SearchBuilder so that it is ready to be used immediately when the user presses the button.

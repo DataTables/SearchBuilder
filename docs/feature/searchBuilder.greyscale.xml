@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>searchBuilder.greyscale</name>
+	<summary>Removes the colours from SearchBuilder</summary>
+	<since>1.0.0</since>
+
+	<type type="boolean">
+		<description>
+			When `true`, remove the colours from SearchBuilder.
+		</description>
+	</type>
+
+	<default value="false">
+		The default value for the `-init searchBuilder.greyscale` option is `false` meaning that as standard the colours will be applied to SearchBuilder.
+	</default>
+	<description>
+		<![CDATA[
+		SearchBuilder colour codes it's select and input elements as default in an effort to make clear which is which to the user. However, this may not always fit the style of a particular application. To "greyscale" SearchBuilder and replace the colours with a grey border without changing the css, set the `-init searchBuilder.greyscale` property to `true`.
+
+		Take a look at [this example]([https://datatables.net/extensions/SearchBuilder/examples/styling/greyScale.html) to see this in action.
+        ]]>
+	</description>
+
+	<example title="Removing the colours from SearchBuilder"><![CDATA[
+new DataTable('#myTable', {
+	layout: {
+		top1: {
+			searchBuilder: {
+				greyscale: true
+			}
+		}
+	},
+});
+]]></example>
+
+</dt-option>

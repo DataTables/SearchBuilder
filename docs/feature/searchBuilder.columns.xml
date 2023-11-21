@@ -10,21 +10,23 @@
 		</description>
 	</type>
 
+	<default value="true">
+        The default value for the `-init searchBuilder.columns` option is `true` meaning that as standard all of columns can be filtered on.
+	</default>
 	<description>
 		<![CDATA[
-			This option is an alias to `-feature searchBuilder.columns`, which should be preferred when using DataTables 2+. It can be used to configure SearchBuilder regardless of how the panes are inserted into the document (`-init layout` or `-button searchBuilder`).
-
-			Please refer to the documentation for `-feature searchBuilder.columns` for full details of this option.
+		This is useful as it allows restrictions to be made on which data points can be filtered on. For tables with a large amount of columns, this prevents having a large set of options within the `-tag select` element.
         ]]>
 	</description>
 
 	<example title="Allow three columns to be filtered on"><![CDATA[
 new DataTable('#myTable', {
-	searchBuilder: {
-		columns: [1, 2, 3]
-	},
 	layout: {
-		top1: 'searchBuilder'
+		top1: {
+			searchBuilder: {
+				columns: [1, 2, 3]
+			}
+		}
 	}
 });
 ]]></example>

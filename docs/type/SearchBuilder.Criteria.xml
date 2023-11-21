@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-type group="dt">
+	<name>SearchBuilder.Condition</name>
+	<summary>Object that describes a search condition</summary>
+
+	<description>
+	<![CDATA[
+
+The SearchBuilder `Criteria` object contains information that describes a set of search terms that are applied to a DataTable. This object structure can be used for the following operations:
+
+* State saving (this is the structure that is stored)
+* Get the current state (`-api searchBuilder.getDetails()`)
+* Predefined states - `-feature searchBuilder.preDefined`.
+
+Using [Typescript definitions](https://www.typescriptlang.org/docs/handbook/2/type-declarations.html), the object has the following structure:
+
+```js
+interface Criteria {
+	criteria: Array<
+		| {
+				condition: string;
+				data: string;
+				dataOrig?: string;  // preDefined with SSP only
+				type?: string; // preDefined with SSP only
+				value: string[];
+		  }
+		| Criteria
+	>;
+
+	logic: 'AND' | 'OR';
+}
+```
+
+
+## Properties
+
+The following properties are available on the SearchBuilder Criteria object:
+
+
+### criteria
+
+This parameter is an array of objects which has the following parameters:
+
+* `condition` - Defines what condition that a filter should use. It can take any value (if used a with a custom plug-in for filtering), but the following are the built in types:
+  * `string` and `html` column types
+    * `!=` - Not
+    * `!null` - Not Empty
+    * `=` - Equals
+    * `contains` - Contains
+    * `!contains` - Does Not Contain With
+    * `ends` - Ends With
+    * `!ends` - Does Not End With
+    * `null` - Empty
+    * `starts` - Starts With
+    * `!starts` - Does Not Start With
+  * `num`, `num-fmt`, `html-num` and `html-num-fmt` column   types
+    * `!=` - Not
+    * `!null` - Not Empty
+    * `<` - Less Than
+    * `<=` - Less Than Equal To
+    * `=` - Equals
+    * `>` - Greater Than
+    * `>=` - Greater Than Equal To
+    * `between` - Between
+    * `!between` - Not Between
+    * `null` - Empty
+  * `date`, `moment` and `luxon` column types
+    * `!=` - Not
+    * `!null` - Not Empty
+    * `<` - Before
+    * `=` - Equals
+    * `>` - After
+    * `between` - Between
+    * `!between` - Not Between
+    * `null` - Empty
+  * `array` column type
+    * `contains` - Contains
+    * `without` - Without
+    * `=` - Equals
+    * `!=` - Not Equals
+    * `null` - Empty
+    * `!null` - Not Empty
+* `data` - The title of the data point (column) to be used for the operation.
+* `dataOrig` - This value is only used when `-init serverSide` processing is enabled. This value is the original field name and is used within the server side integration to select the correct field.
+* `type` - This property is only required in the `preDefined` object when using server-side processing. This means that the server can tell the type of the field that the search is being applied to. In some cases this is required as the behaviour of some conditions are slightly different between column types. When using a client-side configuration this property will make no changes to the behaviour of SearchBuilder.
+* `value` - The values that are to be used for the filtering. It is an array so that conditions that require multiple inputs, such as _between_, can be set. For conditions that only require a single input, the array will only require one value. For conditions that require multiple inputs the inputs shall be populated in the same order as the items are set in this array.
+
+
+### logic
+
+The `logic` parameter determines the combination logic type that should be used for filtering the DataTable. It must take the string value of either `AND` or `OR`. The selected value will be applied for all elements in the `criteria` array. Nesting can be used if you need to group logic.
+
+
+### Examples
+
+This example shows a very simple filter being applied with a single condition:
+
+```js
+{
+	criteria: [
+		{
+			condition: '=',
+			data: 'Office',
+			value: ['Edinburgh']
+		}
+	],
+	logic: 'AND'
+}
+```
+
+This one shows a nested OR condition. Written it would be: `Office = 'Edinburgh' AND (Name = 'Cedric Kelly' OR Name = 'Dai Rios')`:
+
+```js
+{
+	criteria: [
+		{
+			condition: '=',
+			data: 'Office',
+			value: ['Edinburgh']
+		},
+		{
+			criteria: [
+				{
+					condition: '=',
+					data: 'Name',
+					value: ['Cedric Kelly']
+				},
+				{
+					condition: '=',
+					data: 'Name',
+					value: ['Dai Rios']
+				}
+			],
+			logic: 'OR'
+		}
+	],
+	logic: 'AND'
+}
+```
+
+	]]>
+	</description>
+</dt-type>

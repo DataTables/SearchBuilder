@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>searchBuilder.conditions</name>
+	<summary>Define custom conditions for SearchBuilder</summary>
+	<since>1.0.0</since>
+
+	<type type="Object">
+		<description>
+			This is a 2D object, keyed first by the data type that the condition should apply to and then by the condition itself. The condition object must have the structure defined by `-type SearchBuilder.Condition`.
+		</description>
+	</type>
+
+	<default value="Object">
+		By default, SearchBuilder populates this object with its own predefined search conditions for the various data types built in to DataTables.
+	</default>
+
+	<description>
+	<![CDATA[
+		This parameter allows custom conditions to be defined for SearchBuilder (based on data type and the condition itself).
+
+		Note: Please also not that custom conditions are not supported when the `-init serverSide` option is set to true!
+
+		## Examples
+
+		There are two examples that create custom conditions using initialisation options. They both show how to add a custom condition to the `num` column type, but the process is the same for other column types.
+
+		* [Custom Multiple Of](https://datatables.net/extensions/SearchBuilder/examples/customisation/customMultiple.html)
+		* [+- 5](https://datatables.net/extensions/SearchBuilder/examples/customisation/customConditions.html)
+
+		There is also an example that shows how to use a plug-in to add a custom condition.
+		
+		* [Plug-in Example](https://datatables.net/extensions/SearchBuilder/examples/customisation/plugin.html)
+	]]>
+	</description>
+
+	<related type="init">columns.type</related>
+</dt-option>

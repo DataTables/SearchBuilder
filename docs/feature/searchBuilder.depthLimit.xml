@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>searchBuilder.depthLimit</name>
+	<summary>Impose a limit on the depth of the groups</summary>
+	<since>1.0.0</since>
+
+	<type type="integer">
+		<description>
+            The value for how many layers deep a group can be at most.
+        </description>
+	</type>
+
+	<type type="boolean">
+		<description>
+			When false, don't impose a limit on the depth of groups.
+		</description>
+	</type>
+
+	<default value="false">
+        The default value for the `-init searchBuilder.depthLimit` option is `false` meaning that as standard there will be no limit on the depth of the groups.
+	</default>
+	<description>
+		<![CDATA[
+		This option allows for a limit to be set on how deep sub groups can be placed from the top level. The top level is considered the first level. Setting a `-init searchBuilder.depthLimit` of 2 would allow for criteria to be indented by 1 level as this would then be at the second level - the limit.
+
+		As default the limit is false, meaning that criteria can be indented as far as desired.
+
+		Take a look at [this example]([../extensions/SearchBuilder/examples/initialisation/depthLimit.html) to see this in action.
+        ]]>
+	</description>
+
+	<example title="Setting the limit to 3"><![CDATA[
+new DataTable('#myTable', {
+	layout: {
+		top1: {
+			searchBuilder: {
+				depthLimit: 3
+			},
+		}
+	}
+});
+]]></example>
+
+<example title="Never allow sub grouping"><![CDATA[
+new DataTable('#myTable', {
+	layout: {
+		top1: {
+			searchBuilder: {
+				depthLimit: 1
+			}
+		}
+	}
+});
+]]></example>
+
+</dt-option>
