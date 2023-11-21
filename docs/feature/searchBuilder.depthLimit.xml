@@ -17,15 +17,16 @@
 	</type>
 
 	<default value="false">
-        The default value for the `-init searchBuilder.depthLimit` option is `false` meaning that as standard there will be no limit on the depth of the groups.
+        The default value for this option is `false` meaning that as standard there will be no limit on the depth of the groups.
 	</default>
+
 	<description>
 		<![CDATA[
-		This option allows for a limit to be set on how deep sub groups can be placed from the top level. The top level is considered the first level. Setting a `-init searchBuilder.depthLimit` of 2 would allow for criteria to be indented by 1 level as this would then be at the second level - the limit.
+		This option allows for a limit to be set on how deep sub groups can be placed from the top level. The top level is considered the first level. Setting a `-feature searchBuilder.depthLimit` of 2 would allow for criteria to be indented by 1 level as this would then be at the second level - the limit.
 
 		As default the limit is false, meaning that criteria can be indented as far as desired.
 
-		Take a look at [this example]([../extensions/SearchBuilder/examples/initialisation/depthLimit.html) to see this in action.
+		Take a look at [this example]([https://datatables.net/extensions/SearchBuilder/examples/initialisation/depthLimit.html) to see this in action.
         ]]>
 	</description>
 
@@ -35,7 +36,7 @@ new DataTable('#myTable', {
 		top1: {
 			searchBuilder: {
 				depthLimit: 3
-			},
+			}
 		}
 	}
 });

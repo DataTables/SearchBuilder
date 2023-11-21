@@ -39,7 +39,7 @@ new DataTable('#example', {
 
 <info><![CDATA[
 
-This example demonstrates the behaviour of SearchBuilder when the `-init searchBuilder.columns` is set to limit which columns can be filtered on. It is an array of the type `-type column-selector`, allowing a wide range of different ways of selecting columns.
+This example demonstrates the behaviour of SearchBuilder when the `-feature searchBuilder.columns` is set to limit which columns can be filtered on. It is an array of the type `-type column-selector`, allowing a wide range of different ways of selecting columns.
 
 Notice in this example that the "Data" `-tag select` element only has 3 columns to choose from.
 

@@ -31,11 +31,11 @@ new DataTable('#example', {
 
 <info><![CDATA[
 
-This is the `-init searchBuilder` extension for DataTables. It allows results to be filtered based on a user constructed query.
+This is the SearchBuilder extension for DataTables. It allows results to be filtered based on a user constructed arbitrarily complex query.
 
 This is done by creating criteria and sub groups, leading to a powerful interface for filtering data within your DataTable.
 
-See other examples for more detail.
+Please see other examples for more detail.
 
 ]]></info>
 

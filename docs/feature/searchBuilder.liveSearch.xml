@@ -13,6 +13,7 @@
 	<default value="true">
         Search will automatically happen as the user inputs values.
 	</default>
+
 	<description>
 	<![CDATA[
 		By default SearchBuilder will automatically redraw the DataTable and apply its search terms on every user input action (e.g. typing or selecting options from a dropdown) - we term this _live searching_. This might not always be desirable, particularly when working with large data sets which can take a significant amount of time to process the search criteria.
@@ -31,7 +32,7 @@ new DataTable('#myTable', {
 				liveSearch: false
 			}
 		}
-	},
+	}
 });
 ]]></example>
 

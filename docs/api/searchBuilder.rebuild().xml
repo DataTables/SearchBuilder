@@ -5,17 +5,18 @@
 	<since>1.0.0</since>
 
 	<type type="function">
-		<signature>searchBuilder.rebuild( state )</signature>
+		<signature>searchBuilder.rebuild( [state] )</signature>
 		<description>Rebuilds the search to be the same as that provided by the `details` parameter.</description>
-        <parameter type="object" name="state">Object of the same structure as returned by `-api searchBuilder.getDetails()`. For more details on the structure, read the documentation on `-init searchBuilder.preDefined`</parameter>
+        <parameter type="SearchBuilder.Criteria" name="state" default="undefined">State to apply to SearchBuilder.</parameter>
 		<returns type="DataTables.Api">DataTables API instance</returns>
 	</type>
 
 	<description>
 		This method provides the ability to set the search in SearchBuilder.
 
-		`-api searchBuilder.rebuild()` takes one argument, it is an `-type object` in the same structure as is returned from `-api searchBuilder.getDetails()`, it is also of the same structure as `-init searchBuilder.preDefined` and that page is where the structure of the object is documented. It contains all of the details required to reconstruct SearchBuilder to a complex search. If no argument is given, the search will be cleared.
-
+		`-api searchBuilder.rebuild()` takes one argument, it is an `-type SearchBuilder.Criteria` object which defines the search logic to be applied.
+		
+		If no argument is given, the search will be cleared.
 	</description>
 
 	<example title="Get the details of a Search:"><![CDATA[

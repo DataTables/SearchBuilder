@@ -41,7 +41,7 @@ new DataTable('#example', {
 
 It can sometimes be useful, particularly with large data sets for performance reasons, to delay the search operation until the end user has set up the search they want and for them to then press a button that will trigger the search, applying it to the DataTables.
 
-This example shows the `-init searchBuilder.liveSearch` option, which provides exactly that ability. The search won't happen until you press the "Search" button at the bottom of the SearchBuilder interface.
+This example shows the `-feature searchBuilder.liveSearch` option, which provides exactly that ability. The search won't happen until you press the "Search" button at the bottom of the SearchBuilder interface.
 
 ]]></info>
 

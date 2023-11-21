@@ -11,12 +11,13 @@
 	</type>
 
 	<default value="true">
-        The default value for the `-init searchBuilder.columns` option is `true` meaning that as standard all of columns can be filtered on.
+        The default value for this option is `true` meaning that as standard all of columns can be filtered on.
 	</default>
+
 	<description>
-		<![CDATA[
+	<![CDATA[
 		This is useful as it allows restrictions to be made on which data points can be filtered on. For tables with a large amount of columns, this prevents having a large set of options within the `-tag select` element.
-        ]]>
+	]]>
 	</description>
 
 	<example title="Allow three columns to be filtered on"><![CDATA[

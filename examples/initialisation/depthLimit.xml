@@ -39,9 +39,9 @@ new DataTable('#example', {
 
 <info><![CDATA[
 
-This example demonstrates the behaviour of SearchBuilder when the `-init searchBuilder.depthLimit` is set to limit how deep the Sub-Groups can be nested.
+This example demonstrates the behaviour of SearchBuilder when the `-feature searchBuilder.depthLimit` is set to limit how deep the Sub-Groups can be nested.
 
-The top level is considered the first level. Setting a `-init searchBuilder.depthLimit` of 2 would allow for criteria to be indented by 1 level as this would then be at the second level - the limit. In this example a `-init searchBuilder.depthLimit` of 2 is set.
+The top level is considered the first level. Setting a `-feature searchBuilder.depthLimit` of 2 would allow for criteria to be indented by 1 level as this would then be at the second level - the limit. In this example a `-feature searchBuilder.depthLimit` of 2 is set.
 
 ]]></info>
 

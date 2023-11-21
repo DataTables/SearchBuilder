@@ -83,18 +83,11 @@ new DataTable('#example', {
 ]]>
 </js-vanilla>
 
-<title lib="SearchBuilder">PreDefined Search</title>
+<title lib="SearchBuilder">Predefined Search</title>
 
 <info><![CDATA[
 
-This example shows how to create a pre-defined filter using `-init searchBuilder.preDefined`. More details on the structure and properties can be found at 
-
-* `-init searchBuilder.preDefined`
-* `-init searchBuilder.preDefined.logic`
-* `-init searchBuilder.preDefined.criteria`
-* `-init searchBuilder.preDefined.criteria.condition`
-* `-init searchBuilder.preDefined.criteria.data`
-* `-init searchBuilder.preDefined.criteria.value`
+This example shows how to create a pre-defined filter using `-feature searchBuilder.preDefined`. More details on the structure and properties can be found in the `-type SearchBuilder.Condition` documentation.
 
 A more detailed walkthrough of preDefined options can be found at [this doc page](../../../../extensions/searchbuilder/predefined.html).
 

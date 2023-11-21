@@ -46,6 +46,5 @@ new DataTable('#myTable', {
 		}
 	}
 });
-
 ]]></example>
 </dt-button>

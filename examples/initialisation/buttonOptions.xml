@@ -51,7 +51,7 @@ new DataTable('#example', {
 
 This example demonstrates the behaviour of SearchBuilder when initialised using a button.
 
-When initialising using a button the config is set using the `buttons.buttons.config` property. This can then be used to set SearchBuilder options such as `-init searchBuilder.depthLimit`.
+When initialising using a button the config is set using the `buttons.buttons.config` property. This can then be used to set SearchBuilder options such as `-feature searchBuilder.depthLimit`.
 
 ]]></info>
 
