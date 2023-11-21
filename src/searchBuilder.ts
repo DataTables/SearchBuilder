@@ -31,7 +31,7 @@ export interface IClasses {
 export interface IDefaults {
 	columns: number[] | boolean;
 	conditions: {[keys: string]: {[keys: string]: criteriaType.ICondition}};
-	depthLimit: boolean | number;
+	depthLimit: false | number;
 	enterSearch: boolean;
 	filterChanged: (count: number, text: string) => void;
 	greyscale: boolean;
@@ -288,7 +288,6 @@ export default class SearchBuilder {
 	 * Gets the details required to rebuild the SearchBuilder as it currently is
 	 */
 	// eslint upset at empty object but that is what it is
-	// eslint-disable-next-line @typescript-eslint/ban-types
 	public getDetails(deFormatDates=false): IDetails | {} {
 		return this.s.topGroup.getDetails(deFormatDates);
 	}

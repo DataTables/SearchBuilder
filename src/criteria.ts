@@ -851,6 +851,8 @@ export default class Criteria {
 		// When the value is changed the criteria is now complete so can be included in searches
 		// Get the condition from the map based on the key that has been selected for the condition
 		let condition = that.s.conditions[that.s.condition];
+		let i;
+
 		that.s.filled = condition.isInputValid(that.dom.value, that);
 		that.s.value = condition.inputValue(that.dom.value, that);
 
@@ -872,7 +874,7 @@ export default class Criteria {
 			that.s.value = [that.s.value];
 		}
 
-		for (let i = 0; i < that.s.value.length; i++) {
+		for (i = 0; i < that.s.value.length; i++) {
 			// If the value is an array we need to sort it
 			if (Array.isArray(that.s.value[i])) {
 				that.s.value[i].sort();
@@ -904,7 +906,7 @@ export default class Criteria {
 		let idx: number = null;
 		let cursorPos: number = null;
 
-		for (let i = 0; i < that.dom.value.length; i++) {
+		for (i = 0; i < that.dom.value.length; i++) {
 			if (el === that.dom.value[i][0]) {
 				idx = i;
 
@@ -961,7 +963,6 @@ export default class Criteria {
 	// The order of the conditions will make eslint sad :(
 	// Has to be in this order so that they are displayed correctly in select elements
 	// Also have to disable member ordering for this as the private methods used are not yet declared otherwise
-	// eslint-disable-next-line @typescript-eslint/member-ordering
 	public static dateConditions: {[keys: string]: ICondition} = {
 		'=': {
 			conditionName(dt, i18n): string {
@@ -976,7 +977,6 @@ export default class Criteria {
 				return value === comparison[0];
 			},
 		},
-		// eslint-disable-next-line sort-keys
 		'!=': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.date.not', i18n.conditions.date.not);
@@ -1033,7 +1033,6 @@ export default class Criteria {
 				}
 			},
 		},
-		// eslint-disable-next-line sort-keys
 		'!between': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.date.notBetween', i18n.conditions.date.notBetween);
@@ -1066,7 +1065,6 @@ export default class Criteria {
 				return value === null || value === undefined || value.length === 0;
 			},
 		},
-		// eslint-disable-next-line sort-keys
 		'!null': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.date.notEmpty', i18n.conditions.date.notEmpty);
@@ -1087,7 +1085,6 @@ export default class Criteria {
 	// The order of the conditions will make eslint sad :(
 	// Has to be in this order so that they are displayed correctly in select elements
 	// Also have to disable member ordering for this as the private methods used are not yet declared otherwise
-	// eslint-disable-next-line @typescript-eslint/member-ordering
 	public static momentDateConditions: {[keys: string]: ICondition} = {
 		'=': {
 			conditionName(dt, i18n): string {
@@ -1101,7 +1098,6 @@ export default class Criteria {
 					moment()(comparison[0], that.s.dateFormat).valueOf();
 			},
 		},
-		// eslint-disable-next-line sort-keys
 		'!=': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.date.not', i18n.conditions.date.not);
@@ -1155,7 +1151,6 @@ export default class Criteria {
 				}
 			},
 		},
-		// eslint-disable-next-line sort-keys
 		'!between': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.date.notBetween', i18n.conditions.date.notBetween);
@@ -1190,7 +1185,6 @@ export default class Criteria {
 				return value === null || value === undefined || value.length === 0;
 			},
 		},
-		// eslint-disable-next-line sort-keys
 		'!null': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.date.notEmpty', i18n.conditions.date.notEmpty);
@@ -1211,7 +1205,6 @@ export default class Criteria {
 	// The order of the conditions will make eslint sad :(
 	// Has to be in this order so that they are displayed correctly in select elements
 	// Also have to disable member ordering for this as the private methods used are not yet declared otherwise
-	// eslint-disable-next-line @typescript-eslint/member-ordering
 	public static luxonDateConditions: {[keys: string]: ICondition} = {
 		'=': {
 			conditionName(dt, i18n): string {
@@ -1225,7 +1218,6 @@ export default class Criteria {
 					=== luxon().DateTime.fromFormat(comparison[0], that.s.dateFormat).ts;
 			},
 		},
-		// eslint-disable-next-line sort-keys
 		'!=': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.date.not', i18n.conditions.date.not);
@@ -1281,7 +1273,6 @@ export default class Criteria {
 				}
 			},
 		},
-		// eslint-disable-next-line sort-keys
 		'!between': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.date.notBetween', i18n.conditions.date.notBetween);
@@ -1316,7 +1307,6 @@ export default class Criteria {
 				return value === null || value === undefined || value.length === 0;
 			},
 		},
-		// eslint-disable-next-line sort-keys
 		'!null': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.date.notEmpty', i18n.conditions.date.notEmpty);
@@ -1337,7 +1327,6 @@ export default class Criteria {
 	// The order of the conditions will make eslint sad :(
 	// Has to be in this order so that they are displayed correctly in select elements
 	// Also have to disable member ordering for this as the private methods used are not yet declared otherwise
-	// eslint-disable-next-line @typescript-eslint/member-ordering
 	public static numConditions: {[keys: string]: ICondition} = {
 		'=': {
 			conditionName(dt, i18n): string {
@@ -1350,7 +1339,6 @@ export default class Criteria {
 				return +value === +comparison[0];
 			},
 		},
-		// eslint-disable-next-line sort-keys
 		'!=': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.number.not', i18n.conditions.number.not);
@@ -1395,7 +1383,6 @@ export default class Criteria {
 				return +value >= +comparison[0];
 			},
 		},
-		// eslint-disable-next-line sort-keys
 		'>': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.number.gt', i18n.conditions.number.gt);
@@ -1423,7 +1410,6 @@ export default class Criteria {
 				}
 			},
 		},
-		// eslint-disable-next-line sort-keys
 		'!between': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.number.notBetween', i18n.conditions.number.notBetween);
@@ -1455,7 +1441,6 @@ export default class Criteria {
 				return value === null || value === undefined || value.length === 0;
 			},
 		},
-		// eslint-disable-next-line sort-keys
 		'!null': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.number.notEmpty', i18n.conditions.number.notEmpty);
@@ -1476,7 +1461,6 @@ export default class Criteria {
 	// The order of the conditions will make eslint sad :(
 	// Has to be in this order so that they are displayed correctly in select elements
 	// Also have to disable member ordering for this as the private methods used are not yet declared otherwise
-	// eslint-disable-next-line @typescript-eslint/member-ordering
 	public static numFmtConditions: {[keys: string]: ICondition} = {
 		'=': {
 			conditionName(dt, i18n): string {
@@ -1489,7 +1473,6 @@ export default class Criteria {
 				return Criteria.parseNumFmt(value) === Criteria.parseNumFmt(comparison[0]);
 			},
 		},
-		// eslint-disable-next-line sort-keys
 		'!=': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.number.not', i18n.conditions.number.not);
@@ -1534,7 +1517,6 @@ export default class Criteria {
 				return Criteria.parseNumFmt(value) >= Criteria.parseNumFmt(comparison[0]);
 			},
 		},
-		// eslint-disable-next-line sort-keys
 		'>': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.number.gt', i18n.conditions.number.gt);
@@ -1566,7 +1548,6 @@ export default class Criteria {
 				}
 			},
 		},
-		// eslint-disable-next-line sort-keys
 		'!between': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.number.notBetween', i18n.conditions.number.notBetween);
@@ -1602,7 +1583,6 @@ export default class Criteria {
 				return value === null || value === undefined || value.length === 0;
 			},
 		},
-		// eslint-disable-next-line sort-keys
 		'!null': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.number.notEmpty', i18n.conditions.number.notEmpty);
@@ -1623,7 +1603,6 @@ export default class Criteria {
 	// The order of the conditions will make eslint sad :(
 	// Has to be in this order so that they are displayed correctly in select elements
 	// Also have to disable member ordering for this as the private methods used are not yet declared otherwise
-	// eslint-disable-next-line @typescript-eslint/member-ordering
 	public static stringConditions: {[keys: string]: ICondition} = {
 		'=': {
 			conditionName(dt, i18n): string {
@@ -1636,7 +1615,6 @@ export default class Criteria {
 				return value === comparison[0];
 			},
 		},
-		// eslint-disable-next-line sort-keys
 		'!=': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.string.not', i18n.conditions.string.not);
@@ -1659,7 +1637,6 @@ export default class Criteria {
 				return value.toLowerCase().indexOf(comparison[0].toLowerCase()) === 0;
 			},
 		},
-		// eslint-disable-next-line sort-keys
 		'!starts': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.string.notStartsWith', i18n.conditions.string.notStartsWith);
@@ -1671,7 +1648,6 @@ export default class Criteria {
 				return value.toLowerCase().indexOf(comparison[0].toLowerCase()) !== 0;
 			},
 		},
-		// eslint-disable-next-line sort-keys
 		'contains': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.string.contains', i18n.conditions.string.contains);
@@ -1683,7 +1659,6 @@ export default class Criteria {
 				return value.toLowerCase().includes(comparison[0].toLowerCase());
 			},
 		},
-		// eslint-disable-next-line sort-keys
 		'!contains': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.string.notContains', i18n.conditions.string.notContains);
@@ -1706,7 +1681,6 @@ export default class Criteria {
 				return value.toLowerCase().endsWith(comparison[0].toLowerCase());
 			},
 		},
-		// eslint-disable-next-line sort-keys
 		'!ends': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.string.notEndsWith', i18n.conditions.string.notEndsWith);
@@ -1733,7 +1707,6 @@ export default class Criteria {
 				return value === null || value === undefined || value.length === 0;
 			},
 		},
-		// eslint-disable-next-line sort-keys
 		'!null': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.string.notEmpty', i18n.conditions.string.notEmpty);
@@ -1753,7 +1726,6 @@ export default class Criteria {
 
 	// The order of the conditions will make eslint sad :(
 	// Also have to disable member ordering for this as the private methods used are not yet declared otherwise
-	// eslint-disable-next-line @typescript-eslint/member-ordering
 	public static arrayConditions: {[keys: string]: ICondition} = {
 		'contains': {
 			conditionName(dt, i18n): string {
@@ -1777,7 +1749,6 @@ export default class Criteria {
 				return value.indexOf(comparison[0]) === -1;
 			}
 		},
-		// eslint-disable-next-line sort-keys
 		'=': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.array.equals', i18n.conditions.array.equals);
@@ -1799,7 +1770,6 @@ export default class Criteria {
 				return false;
 			}
 		},
-		// eslint-disable-next-line sort-keys
 		'!=': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.array.not', i18n.conditions.array.not);
@@ -1836,7 +1806,6 @@ export default class Criteria {
 				return value === null || value === undefined || value.length === 0;
 			}
 		},
-		// eslint-disable-next-line sort-keys
 		'!null': {
 			conditionName(dt, i18n): string {
 				return dt.i18n('searchBuilder.conditions.array.notEmpty', i18n.conditions.array.notEmpty);
@@ -1856,7 +1825,6 @@ export default class Criteria {
 
 	// eslint will be sad because we have to disable member ordering for this as the
 	// private static properties used are not yet declared otherwise
-	// eslint-disable-next-line @typescript-eslint/member-ordering
 	private static defaults: builderType.IDefaults = {
 		columns: true,
 		conditions: {
@@ -2047,13 +2015,15 @@ export default class Criteria {
 	 * Gets the details required to rebuild the criteria
 	 */
 	public getDetails(deFormatDates=false): IDetails {
+		let i;
+
 		// This check is in place for if a custom decimal character is in place
 		if (
 			this.s.type !== null &&
 			this.s.type.includes('num') &&
 			(this.s.dt.settings()[0].oLanguage.sDecimal !== '' || this.s.dt.settings()[0].oLanguage.sThousands !== '')
 		) {
-			for (let i = 0; i < this.s.value.length; i++) {
+			for (i = 0; i < this.s.value.length; i++) {
 				let splitRD = [this.s.value[i].toString()];
 				if (this.s.dt.settings()[0].oLanguage.sDecimal !== '') {
 					splitRD = this.s.value[i].split(this.s.dt.settings()[0].oLanguage.sDecimal);
@@ -2073,14 +2043,14 @@ export default class Criteria {
 				this.s.type.includes('date') ||
 				this.s.type.includes('time')
 			) {
-				for (let i = 0; i < this.s.value.length; i++) {
+				for (i = 0; i < this.s.value.length; i++) {
 					if (this.s.value[i].match(/^\d{4}-([0]\d|1[0-2])-([0-2]\d|3[01])$/g) === null) {
 						this.s.value[i] = '';
 					}
 				}
 			}
 			else if(this.s.type.includes('moment')) {
-				for (let i = 0; i < this.s.value.length; i++) {
+				for (i = 0; i < this.s.value.length; i++) {
 					if (
 						this.s.value[i] &&
 						this.s.value[i].length > 0 &&
@@ -2091,7 +2061,7 @@ export default class Criteria {
 				}
 			}
 			else if(this.s.type.includes('luxon')) {
-				for (let i = 0; i < this.s.value.length; i++) {
+				for (i = 0; i < this.s.value.length; i++) {
 					if (
 						this.s.value[i] &&
 						this.s.value[i].length > 0 &&
@@ -2104,7 +2074,7 @@ export default class Criteria {
 		}
 
 		if(this.s.type.includes('num') && this.s.dt.page.info().serverSide) {
-			for (let i = 0; i < this.s.value.length; i++) {
+			for (i = 0; i < this.s.value.length; i++) {
 				this.s.value[i] = this.s.value[i].replace(/[^0-9.\-]/g, '');
 			}
 		}
@@ -2152,7 +2122,7 @@ export default class Criteria {
 	public rebuild(loadedCriteria: IDetails): void {
 		// Check to see if the previously selected data exists, if so select it
 		let foundData = false;
-		let dataIdx;
+		let dataIdx, i;
 		this._populateData();
 
 		// If a data selection has previously been made attempt to find and select it
@@ -2192,9 +2162,9 @@ export default class Criteria {
 
 			// Check to see if the previously selected condition exists, if so select it
 			let options = this.dom.condition.children('option');
-			// eslint-disable-next-line @typescript-eslint/prefer-for-of
-			for(let i = 0; i < options.length; i++) {
+			for(i = 0; i < options.length; i++) {
 				let option = $(options[i]);
+
 				if (
 					loadedCriteria.condition !== undefined &&
 					option.val() === loadedCriteria.condition &&
@@ -2216,11 +2186,11 @@ export default class Criteria {
 				this.dom.conditionTitle.remove();
 				this.dom.condition.removeClass(this.classes.italic);
 
-				// eslint-disable-next-line @typescript-eslint/prefer-for-of
-				for(let i = 0; i < options.length; i++) {
-					let option = $(options[i]);
-					if(option.val() !== this.s.condition) {
-						option.removeProp('selected');
+				for (i = 0; i < options.length; i++) {
+					let opt = $(options[i]);
+
+					if(opt.val() !== this.s.condition) {
+						opt.removeProp('selected');
 					}
 				}
 
@@ -2243,7 +2213,6 @@ export default class Criteria {
 				// Need to go over every option to identify the correct selection
 				let options = this.dom.data.children('option.' + this.classes.option);
 
-				// eslint-disable-next-line @typescript-eslint/prefer-for-of
 				for (let i = 0; i < options.length; i++) {
 					let option = $(options[i]);
 					if (option.val() === this.dom.data.val()) {
@@ -2284,7 +2253,6 @@ export default class Criteria {
 				// Need to go over every option to identify the correct selection
 				let options = this.dom.condition.children('option.'+this.classes.option);
 
-				// eslint-disable-next-line @typescript-eslint/prefer-for-of
 				for(let i = 0; i < options.length; i++) {
 					let option = $(options[i]);
 					if(option.val() === this.dom.condition.val()) {
@@ -2385,10 +2353,12 @@ export default class Criteria {
 	 * Clears the value elements
 	 */
 	private _clearValue(): void {
+		let val;
+
 		if (this.s.condition !== undefined) {
 			if(this.dom.value.length > 0 && this.dom.value[0] !== undefined) {
 				// Remove all of the value elements
-				for (let val of this.dom.value) {
+				for (val of this.dom.value) {
 					if(val !== undefined) {
 						// Timeout is annoying but because of IOS
 						setTimeout(function() {
@@ -2416,7 +2386,7 @@ export default class Criteria {
 		}
 		else {
 			// Remove all of the value elements
-			for (let val of this.dom.value) {
+			for (val of this.dom.value) {
 				if(val !== undefined) {
 					// Timeout is annoying but because of IOS
 					setTimeout(function() {
@@ -2468,6 +2438,7 @@ export default class Criteria {
 		let conditionsLength = Object.keys(this.s.conditions).length;
 		let colInits = this.s.dt.settings()[0].aoColumns;
 		let column = +this.dom.data.children('option:selected').val();
+		let condition, condName;
 
 		// If there are no conditions stored then we need to get them from the appropriate type
 		if (conditionsLength === 0) {
@@ -2530,7 +2501,7 @@ export default class Criteria {
 
 			// Add all of the conditions to the select element
 			for (
-				let condition of Object.keys(conditionObj)
+				condition of Object.keys(conditionObj)
 			) {
 				if (conditionObj[condition] !== null) {
 					// Serverside processing does not supply the options for the select elements
@@ -2552,7 +2523,7 @@ export default class Criteria {
 
 					this.s.conditions[condition] = conditionObj[condition];
 
-					let condName = conditionObj[condition].conditionName;
+					condName = conditionObj[condition].conditionName;
 					if (typeof condName === 'function') {
 						condName = condName(this.s.dt, this.c.i18n);
 					}
@@ -2572,20 +2543,21 @@ export default class Criteria {
 		else if (conditionsLength > 0) {
 			this.dom.condition.empty().removeAttr('disabled').addClass(this.classes.italic);
 
-			for (let condition of Object.keys(this.s.conditions)) {
-				let condName = this.s.conditions[condition].conditionName;
-				if (typeof condName === 'function') {
-					condName = condName(this.s.dt, this.c.i18n);
+			for (condition of Object.keys(this.s.conditions)) {
+				let name = this.s.conditions[condition].conditionName;
+				
+				if (typeof name === 'function') {
+					name = name(this.s.dt, this.c.i18n);
 				}
 
 				let newOpt = $('<option>', {
-					text : condName,
+					text : name,
 					value : condition
 				})
 					.addClass(this.classes.option)
 					.addClass(this.classes.notItalic);
 
-				if (this.s.condition !== undefined && this.s.condition === condName) {
+				if (this.s.condition !== undefined && this.s.condition === name) {
 					newOpt.prop('selected', true);
 					this.dom.condition.removeClass(this.classes.italic);
 				}
@@ -2620,7 +2592,7 @@ export default class Criteria {
 				for (let i = 0; i < conditionOpts.length; i++) {
 					// Need to check against the stored conditions so we can match the token "cond" to the option
 					for (let cond of Object.keys(this.s.conditions)) {
-						let condName = this.s.conditions[cond].conditionName;
+						condName = this.s.conditions[cond].conditionName;
 
 						if (
 							// If the conditionName matches the text of the option
@@ -2695,6 +2667,8 @@ export default class Criteria {
 	 */
 	private _populateValue(loadedCriteria?): void {
 		let prevFilled = this.s.filled;
+		let i;
+
 		this.s.filled = false;
 
 		// Remove any previous value elements
@@ -2714,8 +2688,7 @@ export default class Criteria {
 
 		let children = this.dom.inputCont.children();
 		if (children.length > 1) {
-			// eslint-disable-next-line @typescript-eslint/prefer-for-of
-			for (let i = 0; i < children.length; i++) {
+			for (i = 0; i < children.length; i++) {
 				$(children[i]).remove();
 			}
 		}
@@ -2749,7 +2722,7 @@ export default class Criteria {
 				.trigger('dtsb-inserted');
 		}
 
-		for (let i = 1; i < this.dom.value.length; i++) {
+		for (i = 1; i < this.dom.value.length; i++) {
 			$(this.dom.value[i])
 				.insertAfter(this.dom.value[i - 1])
 				.trigger('dtsb-inserted');

@@ -236,7 +236,6 @@ export default class Group {
 	 * Gets the details required to rebuild the group
 	 */
 	// Eslint upset at empty object but needs to be done
-	// eslint-disable-next-line @typescript-eslint/ban-types
 	public getDetails(deFormatDates=false): IDetails | {} {
 		if (this.s.criteria.length === 0) {
 			return {};
@@ -270,6 +269,8 @@ export default class Group {
 	 * @param loadedDetails the details required to rebuild the group
 	 */
 	public rebuild(loadedDetails: IDetails | criteriaType.IDetails): void {
+		let crit;
+
 		// If no criteria are stored then just return
 		if (
 			loadedDetails.criteria === undefined ||
@@ -287,7 +288,7 @@ export default class Group {
 
 		// Add all of the criteria, be it a sub group or a criteria
 		if(Array.isArray(loadedDetails.criteria)) {
-			for (let crit of loadedDetails.criteria) {
+			for (crit of loadedDetails.criteria) {
 				if (crit.logic !== undefined) {
 					this._addPrevGroup(crit);
 				}
@@ -298,7 +299,7 @@ export default class Group {
 		}
 
 		// For all of the criteria children, update the arrows incase they require changing and set the listeners
-		for (let crit of this.s.criteria) {
+		for (crit of this.s.criteria) {
 			if (crit.criteria instanceof Criteria) {
 				crit.criteria.updateArrows(this.s.criteria.length > 1);
 				this._setCriteriaListeners(crit.criteria);
@@ -723,6 +724,8 @@ export default class Group {
 	 * @param criteria The criteria instance to be removed
 	 */
 	private _removeCriteria(criteria: Criteria | Group, group = false): void {
+		let i;
+
 		// If removing a criteria and there is only then then just destroy the group
 		if (this.s.criteria.length <= 1 && this.s.isChild) {
 			this.destroy();
@@ -731,7 +734,7 @@ export default class Group {
 			// Otherwise splice the given criteria out and redo the indexes
 			let last: number;
 
-			for (let i = 0; i < this.s.criteria.length; i++) {
+			for (i = 0; i < this.s.criteria.length; i++) {
 				if (
 					this.s.criteria[i].index === criteria.s.index &&
 					(!group || this.s.criteria[i].criteria instanceof Group)
@@ -745,7 +748,7 @@ export default class Group {
 				this.s.criteria.splice(last, 1);
 			}
 
-			for (let i = 0; i < this.s.criteria.length; i++) {
+			for (i = 0; i < this.s.criteria.length; i++) {
 				this.s.criteria[i].index = i;
 				this.s.criteria[i].criteria.s.index = i;
 			}
