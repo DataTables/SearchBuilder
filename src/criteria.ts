@@ -951,7 +951,9 @@ export default class Criteria {
 	};
 	
 	/**
-	 * Parses formatted numbers down to a form where they can be compared
+	 * Parses formatted numbers down to a form where they can be compared.
+	 * Note that this does not account for different decimal characters. Use
+	 * parseNumber instead on the instance.
 	 *
 	 * @param val the value to convert
 	 * @returns the converted value
@@ -1469,8 +1471,8 @@ export default class Criteria {
 			init: Criteria.initSelect,
 			inputValue: Criteria.inputValueSelect,
 			isInputValid: Criteria.isInputValidSelect,
-			search(value: string, comparison: string[]): boolean {
-				return Criteria.parseNumFmt(value) === Criteria.parseNumFmt(comparison[0]);
+			search(value: string, comparison: string[], criteria: Criteria): boolean {
+				return criteria.parseNumber(value) === criteria.parseNumber(comparison[0]);
 			},
 		},
 		'!=': {
@@ -1480,8 +1482,8 @@ export default class Criteria {
 			init: Criteria.initSelect,
 			inputValue: Criteria.inputValueSelect,
 			isInputValid: Criteria.isInputValidSelect,
-			search(value: string, comparison: string[]): boolean {
-				return Criteria.parseNumFmt(value) !== Criteria.parseNumFmt(comparison[0]);
+			search(value: string, comparison: string[], criteria: Criteria): boolean {
+				return criteria.parseNumber(value) !== criteria.parseNumber(comparison[0]);
 			},
 		},
 		'<': {
@@ -1491,8 +1493,8 @@ export default class Criteria {
 			init: Criteria.initInput,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: string, comparison: string[]): boolean {
-				return Criteria.parseNumFmt(value) < Criteria.parseNumFmt(comparison[0]);
+			search(value: string, comparison: string[], criteria: Criteria): boolean {
+				return criteria.parseNumber(value) < criteria.parseNumber(comparison[0]);
 			},
 		},
 		'<=': {
@@ -1502,8 +1504,8 @@ export default class Criteria {
 			init: Criteria.initInput,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: string, comparison: string[]): boolean {
-				return Criteria.parseNumFmt(value) <= Criteria.parseNumFmt(comparison[0]);
+			search(value: string, comparison: string[], criteria: Criteria): boolean {
+				return criteria.parseNumber(value) <= criteria.parseNumber(comparison[0]);
 			},
 		},
 		'>=': {
@@ -1513,8 +1515,8 @@ export default class Criteria {
 			init: Criteria.initInput,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: string, comparison: string[]): boolean {
-				return Criteria.parseNumFmt(value) >= Criteria.parseNumFmt(comparison[0]);
+			search(value: string, comparison: string[], criteria: Criteria): boolean {
+				return criteria.parseNumber(value) >= criteria.parseNumber(comparison[0]);
 			},
 		},
 		'>': {
@@ -1524,8 +1526,8 @@ export default class Criteria {
 			init: Criteria.initInput,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: string, comparison: string[]): boolean {
-				return Criteria.parseNumFmt(value) > Criteria.parseNumFmt(comparison[0]);
+			search(value: string, comparison: string[], criteria: Criteria): boolean {
+				return criteria.parseNumber(value) > criteria.parseNumber(comparison[0]);
 			},
 		},
 		'between': {
@@ -1535,10 +1537,10 @@ export default class Criteria {
 			init: Criteria.init2Input,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: string, comparison: string[]): boolean {
-				let val = Criteria.parseNumFmt(value);
-				let comp0 = Criteria.parseNumFmt(comparison[0]);
-				let comp1 = Criteria.parseNumFmt(comparison[1]);
+			search(value: string, comparison: string[], criteria: Criteria): boolean {
+				let val = criteria.parseNumber(value);
+				let comp0 = criteria.parseNumber(comparison[0]);
+				let comp1 = criteria.parseNumber(comparison[1]);
 
 				if (+comp0 < +comp1) {
 					return +comp0 <= +val && +val <= +comp1;
@@ -1555,10 +1557,10 @@ export default class Criteria {
 			init: Criteria.init2Input,
 			inputValue: Criteria.inputValueInput,
 			isInputValid: Criteria.isInputValidInput,
-			search(value: string, comparison: string[]): boolean {
-				let val = Criteria.parseNumFmt(value);
-				let comp0 = Criteria.parseNumFmt(comparison[0]);
-				let comp1 = Criteria.parseNumFmt(comparison[1]);
+			search(value: string, comparison: string[], criteria: Criteria): boolean {
+				let val = criteria.parseNumber(value);
+				let comp0 = criteria.parseNumber(comparison[0]);
+				let comp1 = criteria.parseNumber(comparison[1]);
 
 				if (+comp0 < +comp1) {
 					return !(+comp0 <= +val && +val <= +comp1);
@@ -2095,6 +2097,23 @@ export default class Criteria {
 	 */
 	public getNode(): JQuery<HTMLElement> {
 		return this.dom.container;
+	}
+	
+	/**
+	 * Parses formatted numbers down to a form where they can be compared
+	 *
+	 * @param val the value to convert
+	 * @returns the converted value
+	 */
+	public parseNumber(val) {
+		var decimal = this.s.dt.i18n('decimal');
+
+		// Remove any periods and then replace the decimal with a period
+		if (decimal && decimal !== '.') {
+			val = val.replace(/\./g, '').replace(decimal, '.');
+		}
+
+		return +val.replace(/(?!^-)[^0-9.]/g, '');
 	}
 
 	/**
