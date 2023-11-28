@@ -879,27 +879,6 @@ export default class Criteria {
 			if (Array.isArray(that.s.value[i])) {
 				that.s.value[i].sort();
 			}
-			// Otherwise replace the decimal place character for i18n
-			else if (
-				that.s.type.includes('num') &&
-				(
-					that.s.dt.settings()[0].oLanguage.sDecimal !== '' ||
-					that.s.dt.settings()[0].oLanguage.sThousands !== ''
-				)
-			) {
-				let splitRD = [that.s.value[i].toString()];
-				if (that.s.dt.settings()[0].oLanguage.sDecimal !== '') {
-					splitRD = that.s.value[i].split(that.s.dt.settings()[0].oLanguage.sDecimal);
-				}
-
-				if (that.s.dt.settings()[0].oLanguage.sThousands !== '') {
-					for (let j = 0; j < splitRD.length; j++) {
-						splitRD[j] = splitRD[j].replace(that.s.dt.settings()[0].oLanguage.sThousands, ',');
-					}
-				}
-
-				that.s.value[i] = splitRD.join('.');
-			}
 		}
 
 		// Take note of the cursor position so that we can refocus there later
