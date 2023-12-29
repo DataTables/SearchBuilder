@@ -12,9 +12,9 @@ $('#example').DataTable({
 			searchPanes: {
 				cascadePanes: true,
 				viewTotal: true
-			},
-			top1: 'searchBuilder'
-		}
+			}
+		},
+		top1: 'searchBuilder'
 	}
 });
 
@@ -30,9 +30,9 @@ new DataTable('#example', {
 			searchPanes: {
 				cascadePanes: true,
 				viewTotal: true
-			},
-			top1: 'searchBuilder'
-		}
+			}
+		},
+		top1: 'searchBuilder'
 	}
 });
 
