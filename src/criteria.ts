@@ -280,7 +280,7 @@ export default class Criteria {
 	private static initSelect = function(that, fn, preDefined = null, array = false): Array<JQuery<HTMLElement>> {
 		let column = that.dom.data.children('option:selected').val();
 		let indexArray = that.s.dt.rows().indexes().toArray();
-		let settings = that.s.dt.settings()[0];
+		let fastData = that.s.dt.settings()[0].fastData;
 		that.dom.valueTitle.prop('selected', true);
 
 		// Declare select element to be used with all of the default classes and listeners.
@@ -305,7 +305,9 @@ export default class Criteria {
 		// Add all of the options from the table to the select element.
 		// Only add one option for each possible value
 		for (let index of indexArray) {
-			let filter = that.s.dt.cell(index, column).render(
+			let filter = fastData(
+				index,
+				column,
 				typeof that.c.orthogonal === 'string' ?
 					that.c.orthogonal :
 					that.c.orthogonal.search
@@ -315,7 +317,9 @@ export default class Criteria {
 					filter.replace(/[\r\n\u2028]/g, ' ') : // Need to replace certain characters to match search values
 					filter,
 				index,
-				text: that.s.dt.cell(index, column).render(
+				text: fastData(
+					index,
+					column,
 					typeof that.c.orthogonal === 'string' ?
 						that.c.orthogonal :
 						that.c.orthogonal.display
@@ -1922,6 +1926,7 @@ export default class Criteria {
 	 * @returns boolean Whether the criteria has passed
 	 */
 	public search(rowData: any[], rowIdx: number): boolean {
+		let settings = this.s.dt.settings()[0];
 		let condition = this.s.conditions[this.s.condition];
 
 		if (this.s.condition !== undefined && condition !== undefined) {
@@ -1930,18 +1935,18 @@ export default class Criteria {
 			if (
 				this.s.type.includes('num') &&
 				(
-					this.s.dt.settings()[0].oLanguage.sDecimal !== '' ||
-					this.s.dt.settings()[0].oLanguage.sThousands !== ''
+					settings.oLanguage.sDecimal !== '' ||
+					settings.oLanguage.sThousands !== ''
 				)
 			) {
 				let splitRD = [rowData[this.s.dataIdx]];
-				if (this.s.dt.settings()[0].oLanguage.sDecimal !== '') {
-					splitRD = rowData[this.s.dataIdx].split(this.s.dt.settings()[0].oLanguage.sDecimal);
+				if (settings.oLanguage.sDecimal !== '') {
+					splitRD = rowData[this.s.dataIdx].split(settings.oLanguage.sDecimal);
 				}
 
-				if (this.s.dt.settings()[0].oLanguage.sThousands !== '') {
+				if (settings.oLanguage.sThousands !== '') {
 					for (let i = 0; i < splitRD.length; i++) {
-						splitRD[i] = splitRD[i].replace(this.s.dt.settings()[0].oLanguage.sThousands, ',');
+						splitRD[i] = splitRD[i].replace(settings.oLanguage.sThousands, ',');
 					}
 				}
 
@@ -1950,9 +1955,9 @@ export default class Criteria {
 
 			// If orthogonal data is in place we need to get it's values for searching
 			if (this.c.orthogonal.search !== 'filter') {
-				let settings = this.s.dt.settings()[0];
-
-				filter = this.s.dt.cell(rowIdx, this.s.dataIdx).render(
+				filter = settings.fastData(
+					rowIdx,
+					this.s.dataIdx,
 					typeof this.c.orthogonal === 'string' ?
 						this.c.orthogonal :
 						this.c.orthogonal.search
@@ -1997,22 +2002,23 @@ export default class Criteria {
 	 */
 	public getDetails(deFormatDates=false): IDetails {
 		let i;
+		let settings = this.s.dt.settings()[0];
 
 		// This check is in place for if a custom decimal character is in place
 		if (
 			this.s.type !== null &&
 			this.s.type.includes('num') &&
-			(this.s.dt.settings()[0].oLanguage.sDecimal !== '' || this.s.dt.settings()[0].oLanguage.sThousands !== '')
+			(settings.oLanguage.sDecimal !== '' || settings.oLanguage.sThousands !== '')
 		) {
 			for (i = 0; i < this.s.value.length; i++) {
 				let splitRD = [this.s.value[i].toString()];
-				if (this.s.dt.settings()[0].oLanguage.sDecimal !== '') {
-					splitRD = this.s.value[i].split(this.s.dt.settings()[0].oLanguage.sDecimal);
+				if (settings.oLanguage.sDecimal !== '') {
+					splitRD = this.s.value[i].split(settings.oLanguage.sDecimal);
 				}
 
-				if (this.s.dt.settings()[0].oLanguage.sThousands !== '') {
+				if (settings.oLanguage.sThousands !== '') {
 					for (let j = 0; j < splitRD.length; j++) {
-						splitRD[j] = splitRD[j].replace(this.s.dt.settings()[0].oLanguage.sThousands, ',');
+						splitRD[j] = splitRD[j].replace(settings.oLanguage.sThousands, ',');
 					}
 				}
 

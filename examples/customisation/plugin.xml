@@ -55,7 +55,6 @@ DataTable.ext.searchBuilder.conditions.office = {
 				.rows()
 				.indexes()
 				.toArray();
-			let settings = that.s.dt.settings()[0];
 			let added = [];
 
 			// Declare select2 element
@@ -72,15 +71,13 @@ DataTable.ext.searchBuilder.conditions.office = {
 			// for each row
 			for (let index of indexArray) {
 				// Extract the relevant data
+				let cell = that.s.dt.cell(index, column);
 				let value = {
-					filter: settings.oApi._fnGetCellData(
-						settings,
-						index,
-						column,
+					filter: cell.render(
 						that.c.orthogonal.search
 					),
 					index,
-					text: settings.oApi._fnGetCellData(settings, index, column, 'display')
+					text: cell.render('display')
 				};
 
 				// If we have not already added this value
