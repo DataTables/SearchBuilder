@@ -36,13 +36,13 @@ var table = new DataTable('#example', {
 	}
 });
 
-document.querySelect('#getDetails').addEventListener('click', function () {
+document.querySelector('#getDetails').addEventListener('click', function () {
 	stored = table.searchBuilder.getDetails();
 
-	$('#output').text(JSON.stringify(stored, null, '\t'));
+	document.querySelector('#output').textContent = JSON.stringify(stored, null, '\t');
 });
 
-document.querySelect('#revert').addEventListener('click', function () {
+document.querySelector('#revert').addEventListener('click', function () {
 	table.searchBuilder.rebuild(stored);
 });
 
