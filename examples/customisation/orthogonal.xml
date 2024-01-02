@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <dt-example table-type="ajax" order="6">
 
-<css lib="datatables searchbuilder datetime" />
-<css lib="//github.com/downloads/lafeber/world-flags-sprite/flags32.css"/>
+<css lib="datatables searchbuilder datetime world-flags-sprite"/>
 <js lib="jquery datatables searchbuilder datetime">
 <![CDATA[
 
