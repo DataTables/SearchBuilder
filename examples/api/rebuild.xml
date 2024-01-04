@@ -61,8 +61,8 @@ Pressing the "Get Details" button will run the `-api searchBuilder.getDetails()`
 
 This variable will then be passed into the `-api searchBuilder.rebuild()` method when the "Revert to last get" button is pressed SearchBuilder will revert back to the last point at which the "Get Details" button was pressed.
 
-<button id="getDetails">Get Details</button>
-<button id="revert">Revert to last get</button>
+<button id="getDetails" class="ui button btn btn-primary">Get Details</button>
+<button id="revert" class="ui button btn btn-primary">Revert to last get</button>
 <div id="output" class="box"></div>
 
 ]]></info>
