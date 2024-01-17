@@ -440,9 +440,14 @@ export default class SearchBuilder {
 			}
 		});
 
-		this.s.dt.on('column-reorder', () => {
-			this.rebuild(this.getDetails());
-		});
+		this.s.dt.on(
+			dataTable.versionCheck('2')
+				? 'columns-reordered'
+				: 'column-reorder',
+			() => {
+				this.rebuild(this.getDetails());
+			}
+		);
 
 		if (loadState) {
 			let loadedState = this.s.dt.state.loaded();
