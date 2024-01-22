@@ -495,9 +495,11 @@ export default class Group {
 			return false;
 		});
 
-		this.dom.search.on('click.dtsb', () => {
-			this.s.dt.draw();
-		});
+		this.dom.search
+			.off('click.dtsb')
+			.on('click.dtsb', () => {
+				this.s.dt.draw();
+			});
 
 		for (let crit of this.s.criteria) {
 			crit.criteria.setListeners();
