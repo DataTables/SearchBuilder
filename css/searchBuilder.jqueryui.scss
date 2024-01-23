@@ -5,6 +5,10 @@ div.dtsb-searchBuilder {
         div.dtsb-criteria{
             select{
                 width: auto !important;
+
+                &:active {
+                    background: #f6f6f6;
+                }
             }
 
             select.dtsb-condition {
