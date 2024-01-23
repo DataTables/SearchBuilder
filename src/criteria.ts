@@ -2446,7 +2446,7 @@ export default class Criteria {
 
 		// If there are no conditions stored then we need to get them from the appropriate type
 		if (conditionsLength === 0) {
-			this.s.type = this.s.dt.columns().types().toArray()[column];
+			this.s.type = this.s.dt.column(column).type();
 
 			if(colInits !== undefined) {
 				let colInit = colInits[column];
@@ -2459,10 +2459,13 @@ export default class Criteria {
 			}
 
 			// If the column type is still unknown use the internal API to detect type
-			// This can only happen in DT1 - DT2 will do the invalidation of the type itself
 			if (this.s.type === null || this.s.type === undefined) {
-				$.fn.dataTable.ext.oApi._fnColumnTypes(this.s.dt.settings()[0]);
-				this.s.type = this.s.dt.columns().type().toArray()[column];
+				// This can only happen in DT1 - DT2 will do the invalidation of the type itself
+				if ($.fn.dataTable.ext.oApi) {
+					$.fn.dataTable.ext.oApi._fnColumnTypes(this.s.dt.settings()[0]);
+				}
+
+				this.s.type = this.s.dt.column(column).type();
 			}
 
 			// Enable the condition element
