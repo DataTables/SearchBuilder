@@ -1,12 +1,12 @@
-/*! SearchBuilder 1.6.0
- * ©SpryMedia Ltd - datatables.net/license/mit
+/*! SearchBuilder 1.7.0
+-dev * ©SpryMedia Ltd - datatables.net/license/mit
  */
 
 /**
  * @summary     SearchBuilder
  * @description End user complex search builder for DataTables
- * @version     1.6.0
- * @author      SpryMedia Ltd
+ * @version     1.7.0
+-dev * @author      SpryMedia Ltd
  * @copyright   Copyright SpryMedia Ltd.
  *
  * This source file is free software, available under the following license:
