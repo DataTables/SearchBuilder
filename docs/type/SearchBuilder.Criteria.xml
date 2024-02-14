@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<dt-type group="dt">
-	<name>SearchBuilder.Condition</name>
+<dt-type library="SearchBuilder">
+	<name>SearchBuilder.Criteria</name>
 	<summary>Object that describes a search condition</summary>
 
 	<description>
