@@ -12,6 +12,7 @@ $.extend(true, DataTable.Group.classes, {
 	add: 'basic ui button dtsb-add',
 	clearGroup: 'basic ui button dtsb-clearGroup',
 	logic: 'basic ui button dtsb-logic',
+	search: 'basic ui button dtsb-search',
 });
 
 $.extend(true, DataTable.Criteria.classes, {
@@ -20,7 +21,6 @@ $.extend(true, DataTable.Criteria.classes, {
 	delete: 'basic ui button dtsb-delete',
 	left: 'basic ui button dtsb-left',
 	right: 'basic ui button dtsb-right',
-	search: 'basic ui button dtsb-search',
 	value: 'basic ui selection dropdown dtsb-value',
 });
 
