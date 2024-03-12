@@ -12,6 +12,7 @@ $.extend(true, DataTable.Group.classes, {
 	add: 'btn btn-default dtsb-add',
 	clearGroup: 'btn btn-default dtsb-clearGroup',
 	logic: 'btn btn-default dtsb-logic',
+	search: 'btn btn-default dtsb-search',
 });
 
 $.extend(true, DataTable.Criteria.classes, {
@@ -20,6 +21,5 @@ $.extend(true, DataTable.Criteria.classes, {
 	delete: 'btn btn-default dtsb-delete',
 	left: 'btn btn-default dtsb-left',
 	right: 'btn btn-default dtsb-right',
-	search: 'btn btn-default dtsb-search',
 	value: 'form-control dtsb-value',
 });

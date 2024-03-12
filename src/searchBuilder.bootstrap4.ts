@@ -11,7 +11,8 @@ $.extend(true, DataTable.SearchBuilder.classes, {
 $.extend(true, DataTable.Group.classes, {
 	add: 'btn btn-light dtsb-add',
 	clearGroup: 'btn btn-light dtsb-clearGroup',
-	logic: 'btn btn-light dtsb-logic'
+	logic: 'btn btn-light dtsb-logic',
+	search: 'btn btn-light dtsb-search',
 });
 
 $.extend(true, DataTable.Criteria.classes, {
@@ -20,6 +21,5 @@ $.extend(true, DataTable.Criteria.classes, {
 	delete: 'btn btn-light dtsb-delete',
 	left: 'btn btn-light dtsb-left',
 	right: 'btn btn-light dtsb-right',
-	search: 'btn btn-light dtsb-search',
 	value: 'form-control dtsb-value',
 });
