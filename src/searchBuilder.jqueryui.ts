@@ -12,6 +12,7 @@ $.extend(true, DataTable.Group.classes, {
 	add: 'ui-button ui-corner-all ui-widget dtsb-add',
 	clearGroup: 'ui-button ui-corner-all ui-widget dtsb-clearGroup',
 	logic: 'ui-button ui-corner-all ui-widget dtsb-logic',
+	search: 'ui-button ui-corner-all ui-widget dtsb-search',
 });
 
 $.extend(true, DataTable.Criteria.classes, {
@@ -20,6 +21,5 @@ $.extend(true, DataTable.Criteria.classes, {
 	delete: 'ui-button ui-corner-all ui-widget dtsb-delete',
 	left: 'ui-button ui-corner-all ui-widget dtsb-left',
 	right: 'ui-button ui-corner-all ui-widget dtsb-right',
-	search: 'ui-button ui-corner-all ui-widget dtsb-search',
 	value: 'ui-selectmenu-button ui-button ui-widget ui-selectmenu-button-closed ui-corner-all dtsb-value',
 });
