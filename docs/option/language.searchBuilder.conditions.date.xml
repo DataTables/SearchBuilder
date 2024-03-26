@@ -15,14 +15,14 @@
 		<![CDATA[
 This object sets the text for the condition names in the condition `-tag select` element. The defaults for each language option is listed below.
 
-* `after: 'After'`
-* `before: 'Before'`
+* `>: 'After'`
+* `<: 'Before'`
 * `between: 'Between'`
-* `empty: 'Empty'`
-* `equals: 'Equals'`
-* `not: 'Not'`
-* `notBetween: 'Not Between'`
-* `notEmpty: 'Not Empty'`
+* `null: 'Empty'`
+* `=: 'Equals'`
+* `!=: 'Not'`
+* `!between: 'Not Between'`
+* `!null: 'Not Empty'`
 		]]>
 	</description>
 
@@ -32,14 +32,14 @@ new DataTable('#myTable', {
 		searchBuilder: {
 			conditions: {
 				date: {
-					after: 'After',
-					before: 'Before',
+					>: 'After',
+					<: 'Before',
 					between: 'Between',
-					empty: 'Empty',
-					equals: 'Equals',
-					not: 'Not',
-					notBetween: 'Not Between',
-					notEmpty: 'Not Empty'
+					null: 'Empty',
+					=: 'Equals',
+					!=: 'Not',
+					!between: 'Not Between',
+					!null: 'Not Empty'
 				}
 			}
 		}

@@ -16,15 +16,15 @@
 This object sets the text for the condition names in the condition `-tag select` element. The defaults for each language option is listed below.
 
 * `between: 'Between'`
-* `empty: 'Empty'`
-* `equals: 'Equals'`
-* `gt: 'Greater Than'`
-* `gte: 'Greater Than Equal To'`
-* `lt: 'Less Than'`
-* `lte: 'Less Than Equal To'`
-* `not: 'Not'`
-* `notBetween: 'Not Between'`
-* `notEmpty: 'Not Empty'`
+* `null: 'Empty'`
+* `=: 'Equals'`
+* `>: 'Greater Than'`
+* `>=: 'Greater Than Equal To'`
+* `<: 'Less Than'`
+* `<=: 'Less Than Equal To'`
+* `!=: 'Not'`
+* `!between: 'Not Between'`
+* `!null: 'Not Empty'`
 		]]>
 	</description>
 
@@ -35,15 +35,15 @@ new DataTable('#myTable', {
 			conditions: {
 				number: {
 					between: 'Between',
-					empty: 'Empty',
-					equals: 'Equals',
-					gt: 'Greater Than',
-					gte: 'Greater Than Equal To',
-					lt: 'Less Than',
-					lte: 'Less Than Equal To',
-					not: 'Not',
-					notBetween: 'Not Between',
-					notEmpty: 'Not Empty'
+					null: 'Empty',
+					=: 'Equals',
+					>: 'Greater Than',
+					>=: 'Greater Than Equal To',
+					<: 'Less Than',
+					<=: 'Less Than Equal To',
+					!=: 'Not',
+					!between: 'Not Between',
+					!null: 'Not Empty'
 				}
 			}
 		}

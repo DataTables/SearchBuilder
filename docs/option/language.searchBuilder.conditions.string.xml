@@ -15,16 +15,16 @@
 		<![CDATA[
 This object sets the text for the condition names in the condition `-tag select` element. The defaults for each language option is listed below.
 
-* `equals: 'Equals'`
-* `not: 'Not'`
-* `startsWith: 'Starts With'`
-* `notStartsWith: 'Does Not Start With'`
+* `=: 'Equals'`
+* `!=: 'Not'`
+* `starts: 'Starts With'`
+* `!starts: 'Does Not Start With'`
 * `contains: 'Contains'`
-* `notContains: 'Does Not Contain'`
-* `endsWith: 'Ends With'`
-* `notEndsWith: 'Does Not End With'`
-* `empty: 'Empty'`
-* `notEmpty: 'Not Empty'`
+* `!contains: 'Does Not Contain'`
+* `ends: 'Ends With'`
+* `!ends: 'Does Not End With'`
+* `null: 'Empty'`
+* `!null: 'Not Empty'`
 		]]>
 	</description>
 
@@ -35,15 +35,15 @@ new DataTable('#myTable', {
 			conditions: {
 				string: {
 					contains: 'Contains',
-					empty: 'Empty',
-					endsWith: 'Ends With',
-					equals: 'Equals',
-					not: 'Not',
-					notContains: 'Does Not Contain',
-					notEmpty: 'Not Empty',
-					notEndsWith: 'Does Not End With',
-					notStartsWith: 'Does Not Start With',
-					startsWith: 'Starts With'
+					null: 'Empty',
+					ends: 'Ends With',
+					=: 'Equals',
+					!=: 'Not',
+					!contains: 'Does Not Contain',
+					!null: 'Not Empty',
+					!ends: 'Does Not End With',
+					!starts: 'Does Not Start With',
+					starts: 'Starts With'
 				}
 			}
 		}

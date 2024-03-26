@@ -18,10 +18,10 @@
 This object sets the text for the condition names in the condition `-tag select` element. The defaults for each language option is listed below.
 
 * `contains: 'Contains'`
-* `empty: 'Empty'`
-* `equals: 'Equals'`
-* `not: 'Not'`
-* `notEmpty: 'Not Empty'`
+* `null: 'Empty'`
+* `=: 'Equals'`
+* `!=: 'Not'`
+* `!null: 'Not Empty'`
 * `without: 'Without'`
 		]]>
 	</description>
