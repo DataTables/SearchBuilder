@@ -11,7 +11,8 @@ $.extend(true, DataTable.SearchBuilder.classes, {
 $.extend(true, DataTable.Group.classes, {
 	add: 'btn btn-secondary dtsb-add',
 	clearGroup: 'btn btn-secondary dtsb-clearGroup',
-	logic: 'btn btn-secondary dtsb-logic'
+	logic: 'btn btn-secondary dtsb-logic',
+	search: 'btn btn-secondary dtsb-search',
 });
 
 $.extend(true, DataTable.Criteria.classes, {
@@ -21,7 +22,6 @@ $.extend(true, DataTable.Criteria.classes, {
 	input: 'form-control dtsb-input',
 	left: 'btn btn-secondary dtsb-left',
 	right: 'btn btn-secondary dtsb-right',
-	search: 'btn btn-secondary dtsb-search',
 	select: 'form-select',
 	value: 'dtsb-value',
 });

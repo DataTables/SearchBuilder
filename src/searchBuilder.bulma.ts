@@ -11,13 +11,13 @@ $.extend(true, DataTable.SearchBuilder.classes, {
 $.extend(true, DataTable.Group.classes, {
 	add: 'button dtsb-add',
 	clearGroup: 'button dtsb-clearGroup is-light',
-	logic: 'button dtsb-logic is-light'
+	logic: 'button dtsb-logic is-light',
+	search: 'button dtsb-search',
 });
 
 $.extend(true, DataTable.Criteria.classes, {
 	container: 'dtsb-criteria',
 	delete: 'button dtsb-delete',
 	left: 'button dtsb-left',
-	search: 'button dtsb-search',
 	right: 'button dtsb-right',
 });
