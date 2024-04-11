@@ -21,7 +21,7 @@ describe('searchBuilder - options - language.searchBuilder.valueJoiner', functio
 			$('.dtsb-condition').val('between');
 			$('.dtsb-condition').trigger('change');
 
-			expect($('.dtsp-joiner').text()).toBe('and');
+			expect($('.dtsb-joiner').text()).toBe('and');
 		});
 
 		dt.html('basic');
@@ -43,7 +43,7 @@ describe('searchBuilder - options - language.searchBuilder.valueJoiner', functio
 			$('.dtsb-condition').val('between');
 			$('.dtsb-condition').trigger('change');
 
-			expect($('.dtsp-joiner').text()).toBe('unit test');
+			expect($('.dtsb-joiner').text()).toBe('unit test');
 		});
 	});
 });
