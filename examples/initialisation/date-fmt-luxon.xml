@@ -10,8 +10,8 @@
 <js>
 <![CDATA[
 
-DataTable.luxon('EEE, MMMM d, yyyy');
-DataTable.luxon('HH:mm MMM d, yy');
+DataTable.datetime('EEE, MMMM d, yyyy');
+DataTable.datetime('HH:mm MMM d, yy');
 
 $('#example').DataTable({
 	layout: {
@@ -25,8 +25,8 @@ $('#example').DataTable({
 <js-vanilla>
 <![CDATA[
 
-DataTable.luxon('EEE, MMMM d, yyyy');
-DataTable.luxon('HH:mm MMM d, yy');
+DataTable.datetime('EEE, MMMM d, yyyy');
+DataTable.datetime('HH:mm MMM d, yy');
 
 new DataTable('#example', {
 	layout: {
