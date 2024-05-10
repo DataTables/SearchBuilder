@@ -108,12 +108,6 @@ new DataTable('#myTable', {
 });
 ]]></example>
 
-<related type="init">searchBuilder.preDefined.logic</related>
-<related type="init">searchBuilder.preDefined.criteria</related>
-<related type="init">searchBuilder.preDefined.criteria.condition</related>
-<related type="init">searchBuilder.preDefined.criteria.value</related>
-<related type="init">searchBuilder.preDefined.criteria.data</related>
-<related type="init">searchBuilder.preDefined.criteria.origData</related>
-<related type="init">searchBuilder.preDefined.criteria.type</related>
+<related type="type">SearchBuilder.Criteria</related>
 
 </dt-option>
