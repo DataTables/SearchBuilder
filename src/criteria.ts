@@ -94,12 +94,25 @@ export interface IDetails {
 
 let $: any;
 let dataTable: any;
+
+/** Get a moment object. Attempt to get from DataTables for module loading first. */
 function moment() {
-	return (window as any).moment;
+	var used = DataTable.use('moment');
+
+	return used
+		? used
+		: (window as any).moment;
 }
+
+/** Get a luxon object. Attempt to get from DataTables for module loading first. */
 function luxon() {
-	return (window as any).luxon;
+	var used = DataTable.use('luxon');
+
+	return used
+		? used
+		: (window as any).luxon;
 }
+
 /**
  * Sets the value of jQuery for use in the file
  *
