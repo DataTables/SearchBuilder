@@ -2440,13 +2440,14 @@ export default class Criteria {
 	private _populateCondition(): void {
 		let conditionOpts: Array<JQuery<HTMLElement>> = [];
 		let conditionsLength = Object.keys(this.s.conditions).length;
-		let colInits = this.s.dt.settings()[0].aoColumns;
+		let dt = this.s.dt;
+		let colInits = dt.settings()[0].aoColumns;
 		let column = +this.dom.data.children('option:selected').val();
 		let condition, condName;
 
 		// If there are no conditions stored then we need to get them from the appropriate type
 		if (conditionsLength === 0) {
-			this.s.type = this.s.dt.column(column).type();
+			this.s.type = dt.column(column).type();
 
 			if(colInits !== undefined) {
 				let colInit = colInits[column];
@@ -2462,10 +2463,10 @@ export default class Criteria {
 			if (this.s.type === null || this.s.type === undefined) {
 				// This can only happen in DT1 - DT2 will do the invalidation of the type itself
 				if ($.fn.dataTable.ext.oApi) {
-					$.fn.dataTable.ext.oApi._fnColumnTypes(this.s.dt.settings()[0]);
+					$.fn.dataTable.ext.oApi._fnColumnTypes(dt.settings()[0]);
 				}
 
-				this.s.type = this.s.dt.column(column).type();
+				this.s.type = dt.column(column).type();
 			}
 
 			// Enable the condition element
@@ -2477,7 +2478,7 @@ export default class Criteria {
 			this.dom.conditionTitle
 				.prop('selected', true);
 
-			let decimal = this.s.dt.settings()[0].oLanguage.sDecimal;
+			let decimal = dt.settings()[0].oLanguage.sDecimal;
 
 			// This check is in place for if a custom decimal character is in place
 			if (decimal !== '' && this.s.type.indexOf(decimal) === this.s.type.length - decimal.length) {
@@ -2494,6 +2495,14 @@ export default class Criteria {
 			
 			if (this.c.conditions[this.s.type] !== undefined) {
 				conditionObj = this.c.conditions[this.s.type]
+			}
+			else if (this.s.type.includes('datetime-')) {
+				// Date / time data types in DataTables are driven by Luxon or
+				// Moment.js.
+				conditionObj = DataTable.use('moment')
+					? this.c.conditions.moment
+					: this.c.conditions.luxon;
+				this.s.dateFormat = this.s.type.replace(/datetime-/g, '');
 			}
 			else if (this.s.type.includes('moment')) {
 				conditionObj = this.c.conditions.moment;
@@ -2514,7 +2523,7 @@ export default class Criteria {
 				if (conditionObj[condition] !== null) {
 					// Serverside processing does not supply the options for the select elements
 					// Instead input elements need to be used for these instead
-					if (this.s.dt.page.info().serverSide && conditionObj[condition].init === Criteria.initSelect) {
+					if (dt.page.info().serverSide && conditionObj[condition].init === Criteria.initSelect) {
 						let col = colInits[column];
 
 						if (this.s.serverData && this.s.serverData[col.data]) {
@@ -2533,7 +2542,7 @@ export default class Criteria {
 
 					condName = conditionObj[condition].conditionName;
 					if (typeof condName === 'function') {
-						condName = condName(this.s.dt, this.c.i18n);
+						condName = condName(dt, this.c.i18n);
 					}
 
 					conditionOpts.push(
@@ -2555,7 +2564,7 @@ export default class Criteria {
 				let name = this.s.conditions[condition].conditionName;
 				
 				if (typeof name === 'function') {
-					name = name(this.s.dt, this.c.i18n);
+					name = name(dt, this.c.i18n);
 				}
 
 				let newOpt = $('<option>', {
@@ -2604,7 +2613,7 @@ export default class Criteria {
 
 						if (
 							// If the conditionName matches the text of the option
-							(typeof condName === 'string' ? condName : condName(this.s.dt, this.c.i18n)) ===
+							(typeof condName === 'string' ? condName : condName(dt, this.c.i18n)) ===
 								conditionOpts[i].text() &&
 							// and the tokens match
 							cond === defaultCondition
