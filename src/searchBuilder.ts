@@ -99,7 +99,7 @@ export interface IS {
  * Allows for complex search queries to be constructed and implemented on a DataTable
  */
 export default class SearchBuilder {
-	private static version = '1.7.1';
+	private static version = '1.8.0';
 
 	private static classes: IClasses = {
 		button: 'dtsb-button',
@@ -214,8 +214,8 @@ export default class SearchBuilder {
 
 	public constructor(builderSettings: any, opts: IDefaults) {
 		// Check that the required version of DataTables is included
-		if (! dataTable || ! dataTable.versionCheck || ! dataTable.versionCheck('1.10.0')) {
-			throw new Error('SearchBuilder requires DataTables 1.10 or newer');
+		if (! dataTable || ! dataTable.versionCheck || ! dataTable.versionCheck('2.1')) {
+			throw new Error('SearchBuilder requires DataTables 2.1 or newer');
 		}
 
 		let table = new dataTable.Api(builderSettings);
@@ -444,9 +444,7 @@ export default class SearchBuilder {
 		});
 
 		this.s.dt.on(
-			dataTable.versionCheck('2')
-				? 'columns-reordered'
-				: 'column-reorder',
+			'columns-reordered',
 			() => {
 				this.rebuild(this.getDetails());
 			}

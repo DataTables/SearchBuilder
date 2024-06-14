@@ -165,11 +165,6 @@ export default class Criteria {
 		serverData = undefined,
 		liveSearch = false
 	) {
-		// Check that the required version of DataTables is included
-		if (! dataTable || ! dataTable.versionCheck || ! dataTable.versionCheck('1.10.0')) {
-			throw new Error('SearchPane requires DataTables 1.10 or newer');
-		}
-
 		this.classes = $.extend(true, {}, Criteria.classes);
 
 		// Get options from user and any extra conditions/column types defined by plug-ins
