@@ -156,6 +156,11 @@ export default class Group {
 		depth = 1,
 		serverData = undefined
 	) {
+		// Check that the required version of DataTables is included
+		if (! dataTable || ! dataTable.versionCheck || ! dataTable.versionCheck('1.10.0')) {
+			throw new Error('SearchBuilder requires DataTables 1.10 or newer');
+		}
+
 		this.classes = $.extend(true, {}, Group.classes);
 
 		// Get options from user
