@@ -48,6 +48,10 @@ declare module 'datatables.net' {
 		searchBuilderType?: string;
 	}
 
+	interface Feature {
+		searchBuilder?: string[] | ConfigSearchBuilder | ConfigSearchBuilder[];
+	}
+
 	interface Api<T> {
 		/**
 		 * SearchBuilder methods container
