@@ -1946,6 +1946,7 @@ export default class Criteria {
 			let filter = rowData[this.s.dataIdx];
 			// This check is in place for if a custom decimal character is in place
 			if (
+				this.s.type &&
 				this.s.type.includes('num') &&
 				(
 					settings.oLanguage.sDecimal !== '' ||
@@ -2073,7 +2074,7 @@ export default class Criteria {
 			}
 		}
 
-		if(this.s.type.includes('num') && this.s.dt.page.info().serverSide) {
+		if(this.s.type && this.s.type.includes('num') && this.s.dt.page.info().serverSide) {
 			for (i = 0; i < this.s.value.length; i++) {
 				this.s.value[i] = this.s.value[i].replace(/[^0-9.\-]/g, '');
 			}
@@ -2494,7 +2495,7 @@ export default class Criteria {
 			let decimal = dt.settings()[0].oLanguage.sDecimal;
 
 			// This check is in place for if a custom decimal character is in place
-			if (decimal !== '' && this.s.type.indexOf(decimal) === this.s.type.length - decimal.length) {
+			if (decimal !== '' && this.s.type && this.s.type.indexOf(decimal) === this.s.type.length - decimal.length) {
 				if (this.s.type.includes('num-fmt')) {
 					this.s.type = this.s.type.replace(decimal, '');
 				}
@@ -2509,7 +2510,7 @@ export default class Criteria {
 			if (this.c.conditions[this.s.type] !== undefined) {
 				conditionObj = this.c.conditions[this.s.type]
 			}
-			else if (this.s.type.includes('datetime-')) {
+			else if (this.s.type && this.s.type.includes('datetime-')) {
 				// Date / time data types in DataTables are driven by Luxon or
 				// Moment.js.
 				conditionObj = DataTable.use('moment')
@@ -2517,11 +2518,11 @@ export default class Criteria {
 					: this.c.conditions.luxon;
 				this.s.dateFormat = this.s.type.replace(/datetime-/g, '');
 			}
-			else if (this.s.type.includes('moment')) {
+			else if (this.s.type && this.s.type.includes('moment')) {
 				conditionObj = this.c.conditions.moment;
 				this.s.dateFormat = this.s.type.replace(/moment-/g, '');
 			}
-			else if (this.s.type.includes('luxon')) {
+			else if (this.s.type && this.s.type.includes('luxon')) {
 				conditionObj = this.c.conditions.luxon;
 				this.s.dateFormat = this.s.type.replace(/luxon-/g, '');
 			}
