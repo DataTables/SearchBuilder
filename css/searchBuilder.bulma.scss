@@ -11,9 +11,10 @@ div.dtsb-searchBuilder {
         div.dtsb-criteria {
             select.dtsb-dropDown {
                 height: 2.5em;
-                border-radius: 0.375em;
-                background-color: #fff;
+                border-radius: var(--bulma-control-radius);
+                background-color: hsl(var(--bulma-input-h),var(--bulma-input-s),calc(var(--bulma-input-background-l) + var(--bulma-input-background-l-delta)));
                 padding-right: 2.5em;
+                border-width: 1px;
             }
 
             select.dtsb-condition {
@@ -41,8 +42,8 @@ div.dtsb-searchBuilder {
             overflow: hidden;
 
             button.dtsb-logic {
-                border: none;
-                border-radius: 0px;
+                border-top-right-radius: 0px;
+                border-bottom-right-radius: 0px;
                 flex-grow: 1;
                 flex-shrink: 0;
                 flex-basis: 3em;
@@ -51,8 +52,9 @@ div.dtsb-searchBuilder {
             }
     
             button.dtsb-clearGroup {
-                border: none;
-                border-radius: 0px;
+                border-left: none;
+                border-top-left-radius: 0px;
+                border-bottom-left-radius: 0px;
                 width: 2em;
                 margin: 0px;
             }
