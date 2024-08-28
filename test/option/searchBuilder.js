@@ -233,6 +233,57 @@ describe('searchBuilder - general tests', function () {
 		});
 	});
 
+	describe('General usage - diacritics tests for strings', function () {
+		const KATAKANA_LETTER_TE = "\u30c6\u30e2";
+		const KATAKANA_LETTER_DE = "\u30c7\u30e2"; // diacritics
+
+		dt.html("empty");
+		it('Add a single condition - starts', async function(){
+			table = $('#example').DataTable({
+				dom: 'Qlfrtip',
+				data: [
+					[KATAKANA_LETTER_TE,"","","","",""],
+					[KATAKANA_LETTER_DE,"","","","",""]
+				]});
+			$('.dtsb-group button').click();
+			// Data
+			$('.dtsb-data').val(0);
+			$('.dtsb-data').trigger('change');
+			// condition
+			$('.dtsb-condition').val('starts');
+			$('.dtsb-condition').trigger('change');
+			// value
+			$('.dtsb-value').val(KATAKANA_LETTER_DE);
+			$('.dtsb-value').trigger('input');
+			await dt.sleep(250); // Need to wait as there is a delay when inputting using SB
+			expect($('tbody tr td:eq(0)').text()).toBe(KATAKANA_LETTER_DE);
+			expect($('tbody tr').length).toBe(1);
+		});
+
+		dt.html("empty");
+		it('Add a single condition - not starts', async function(){
+			table = $('#example').DataTable({
+				dom: 'Qlfrtip',
+				data: [
+					[KATAKANA_LETTER_TE,"","","","",""],
+					[KATAKANA_LETTER_DE,"","","","",""]
+				]});
+			$('.dtsb-group button').click();
+			// Data
+			$('.dtsb-data').val(0);
+			$('.dtsb-data').trigger('change');
+			// condition
+			$('.dtsb-condition').val('!starts');
+			$('.dtsb-condition').trigger('change');
+			// value
+			$('.dtsb-value').val(KATAKANA_LETTER_DE);
+			$('.dtsb-value').trigger('input');
+			await dt.sleep(250); // Need to wait as there is a delay when inputting using SB
+			expect($('tbody tr td:eq(0)').text()).toBe(KATAKANA_LETTER_TE);
+			expect($('tbody tr').length).toBe(1);
+		});
+	});
+
 	describe('General usage - simple tests for number', function () {
 		dt.html('empty');
 		it('Add a single condition - equals', function () {
