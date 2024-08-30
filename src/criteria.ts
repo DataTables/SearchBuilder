@@ -853,7 +853,7 @@ export default class Criteria {
 			}
 		}
 
-		return values;
+		return values.map(dataTable.util.diacritics) as string[];
 	};
 
 	/**
