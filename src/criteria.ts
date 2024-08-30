@@ -2016,7 +2016,7 @@ export default class Criteria {
 		// This check is in place for if a custom decimal character is in place
 		if (
 			this.s.type !== null &&
-			this.s.type.includes('num') &&
+			["num", "num-fmt", "html-num", "html-num-fmt"].includes(this.s.type) &&
 			(settings.oLanguage.sDecimal !== '' || settings.oLanguage.sThousands !== '')
 		) {
 			for (i = 0; i < this.s.value.length; i++) {
