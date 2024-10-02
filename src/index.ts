@@ -73,19 +73,24 @@ DataTable.ext.buttons.searchBuilder = {
 	},
 	config: {},
 	init(dt, node, config) {
+		let that = this;
+
 		let sb = new DataTable.SearchBuilder(
 			dt,
-			$.extend(
-				{
-					filterChanged(count, text) {
-						dt.button(node).text(text);
-					},
-				},
-				config.config
-			)
+			config.config
 		);
 
-		dt.button(node).text(
+		dt.on('draw', function () {
+			let count = sb.s.topGroup
+				? sb.s.topGroup.count()
+				: 0;
+
+			that.text(
+				dt.i18n('searchBuilder.button', sb.c.i18n.button, count)
+			);
+		});
+
+		that.text(
 			config.text || dt.i18n('searchBuilder.button', sb.c.i18n.button, 0)
 		);
 		config._searchBuilder = sb;
