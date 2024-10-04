@@ -289,7 +289,9 @@ export default class SearchBuilder {
 	 */
 	// eslint upset at empty object but that is what it is
 	public getDetails(deFormatDates=false): IDetails | {} {
-		return this.s.topGroup.getDetails(deFormatDates);
+		return this.s.topGroup
+			? this.s.topGroup.getDetails(deFormatDates)
+			: {};
 	}
 
 	/**
