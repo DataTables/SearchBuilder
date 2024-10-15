@@ -2505,6 +2505,22 @@ export default class Criteria {
 			if (this.c.conditions[this.s.type] !== undefined) {
 				conditionObj = this.c.conditions[this.s.type]
 			}
+			else if (this.s.type && this.s.type === 'datetime') {
+				// If no format was specified in the DT type, then we need to use
+				// Moment / Luxon's default locale formatting.
+				let moment = DataTable.use('moment');
+				let luxon = DataTable.use('luxon');
+
+				if (moment) {
+					conditionObj = this.c.conditions.moment;
+					this.s.dateFormat = moment().creationData().locale._longDateFormat.L;
+				}
+
+				if (luxon) {
+					conditionObj = this.c.conditions.luxon;
+					this.s.dateFormat = luxon.DateTime.DATE_SHORT;
+				}
+			}
 			else if (this.s.type && this.s.type.includes('datetime-')) {
 				// Date / time data types in DataTables are driven by Luxon or
 				// Moment.js.

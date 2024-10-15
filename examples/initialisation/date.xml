@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html" table-class="display nowrap" order="5">
+
+<css lib="datatables searchbuilder datetime"/>
+
+<js lib="jquery moment datatables searchbuilder datetime"/>
+<js>
+<![CDATA[
+
+$('#example').DataTable({
+    columnDefs: [
+        {
+            targets: 4,
+            render: DataTable.render.date()
+        }
+    ],
+	layout: {
+		topStart: 'searchBuilder'
+	}
+});
+
+]]>
+</js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+    columnDefs: [
+        {
+            targets: 4,
+            render: DataTable.render.date()
+        }
+    ],
+	layout: {
+		topStart: 'searchBuilder'
+	}
+});
+
+]]>
+</js-vanilla>
+
+<title lib="SearchBuilder">Dates - auto locale formatting</title>
+
+<info><![CDATA[
+
+This example show SearchBuilder being used with DataTables' built in `date()` render which will take an ISO 8601 date string and display it in the user's local format. [See the manual](https://datatables.net/manual/data/renderers#Date-and-time-helpers) for more details.
+
+]]></info>
+
+</dt-example>

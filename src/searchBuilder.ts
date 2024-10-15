@@ -324,7 +324,6 @@ export default class SearchBuilder {
 		this._updateTitle(this.s.topGroup.count());
 		this.s.topGroup.redrawContents();
 
-		this.s.dt.draw(false);
 		this.s.topGroup.setListeners();
 
 		return this;
