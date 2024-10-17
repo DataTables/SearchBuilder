@@ -16,12 +16,25 @@ describe('searchBuilder - options - language.searchBuilder.button', function() {
 
 			expect($('.dt-button').text()).toBe('Search Builder');
 		});
-		it('... one filter once SB button pressed', function() {
+		it('... one filter once there is a filter applied', function() {
 			$('.dt-button').click();
+
+			table.searchBuilder.rebuild({
+				criteria: [{ condition: '=', data: 'Office', value: ['San Francisco'] }],
+				logic: 'AND'
+			});
+
 			expect($('.dt-button').text()).toBe('Search Builder (1)');
 		});
-		it('... two filters once add pressed', function() {
-			$('.dtsb-add').click();
+		it('... two filters', function() {
+			table.searchBuilder.rebuild({
+				criteria: [
+					{ condition: '=', data: 'Office', value: ['San Francisco'] },
+					{ condition: 'starts', data: 'Name', value: ['F'] }
+			],
+				logic: 'AND'
+			});
+
 			expect($('.dt-button').text()).toBe('Search Builder (2)');
 		});
 
@@ -66,12 +79,25 @@ describe('searchBuilder - options - language.searchBuilder.button', function() {
 
 			expect($('.dt-button').text()).toBe('test none');
 		});
-		it('... one filter on first button press', function() {
+		it('... one filter on filter applied', function() {
 			$('.dt-button').click();
+
+			table.searchBuilder.rebuild({
+				criteria: [{ condition: '=', data: 'Office', value: ['San Francisco'] }],
+				logic: 'AND'
+			});
+
 			expect($('.dt-button').text()).toBe('test one');
 		});
-		it('... two filters needs add press', function() {
-			$('.dtsb-add').click();
+		it('... two filters', function() {
+			table.searchBuilder.rebuild({
+				criteria: [
+					{ condition: '=', data: 'Office', value: ['San Francisco'] },
+					{ condition: 'starts', data: 'Name', value: ['F'] }
+			],
+				logic: 'AND'
+			});
+
 			expect($('.dt-button').text()).toBe('test 2');
 		});
 
@@ -93,8 +119,14 @@ describe('searchBuilder - options - language.searchBuilder.button', function() {
 
 			expect($('.dt-button').text()).toBe('test none');
 		});
-		it('... one filter on first button press', function() {
+		it('... one filter on filter applied', function() {
 			$('.dt-button').click();
+
+			table.searchBuilder.rebuild({
+				criteria: [{ condition: '=', data: 'Office', value: ['San Francisco'] }],
+				logic: 'AND'
+			});
+
 			expect($('.dt-button').text()).toBe('test one');
 		});
 		it('... one filter when pressed again', function() {
