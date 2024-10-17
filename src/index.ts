@@ -107,7 +107,7 @@ apiRegister('searchBuilder.getDetails()', function(deFormatDates=false) {
 		null;
 });
 
-apiRegister('searchBuilder.rebuild()', function(details) {
+apiRegister('searchBuilder.rebuild()', function(details, redraw = true) {
 	let ctx = this.context[0];
 
 	// If SearchBuilder has not been initialised on this instance then return
@@ -115,7 +115,7 @@ apiRegister('searchBuilder.rebuild()', function(details) {
 		return null;
 	}
 
-	ctx._searchBuilder.rebuild(details);
+	ctx._searchBuilder.rebuild(details, redraw);
 
 	return this;
 });

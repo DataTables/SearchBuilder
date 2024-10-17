@@ -308,7 +308,7 @@ export default class SearchBuilder {
 	 *
 	 * @param details The details required to perform a rebuild
 	 */
-	public rebuild(details): SearchBuilder {
+	public rebuild(details, redraw = true): SearchBuilder {
 		this.dom.clearAll.click();
 
 		// If there are no details to rebuild then return
@@ -323,6 +323,10 @@ export default class SearchBuilder {
 		this._checkClear();
 		this._updateTitle(this.s.topGroup.count());
 		this.s.topGroup.redrawContents();
+
+		if (redraw) {
+			this.s.dt.draw(false);
+		}
 
 		this.s.topGroup.setListeners();
 
