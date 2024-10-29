@@ -1750,9 +1750,9 @@ export default class Criteria {
 			inputValue: Criteria.inputValueSelect,
 			isInputValid: Criteria.isInputValidSelect,
 			search(value: string, comparison: string[]) {
-				if (value.length === comparison[0].length) {
+				if (value.length === comparison.length) {
 					for (let i = 0; i < value.length; i++) {
-						if (value[i] !== comparison[0][i]) {
+						if (value[i] !== comparison[i]) {
 							return false;
 						}
 					}
@@ -1771,9 +1771,9 @@ export default class Criteria {
 			inputValue: Criteria.inputValueSelect,
 			isInputValid: Criteria.isInputValidSelect,
 			search(value: string, comparison: string[]) {
-				if (value.length === comparison[0].length) {
+				if (value.length === comparison.length) {
 					for (let i = 0; i < value.length; i++) {
-						if (value[i] !== comparison[0][i]) {
+						if (value[i] !== comparison[i]) {
 							return true;
 						}
 					}
