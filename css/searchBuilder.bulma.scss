@@ -12,7 +12,7 @@ div.dtsb-searchBuilder {
             select.dtsb-dropDown {
                 height: 2.5em;
                 border-radius: var(--bulma-control-radius);
-                background-color: hsl(var(--bulma-input-h),var(--bulma-input-s),calc(var(--bulma-input-background-l) + var(--bulma-input-background-l-delta)));
+                background-color: hsl(var(--bulma-scheme-h),var(--bulma-scheme-s),var(--bulma-scheme-main-l));
                 padding-right: 2.5em;
                 border-width: 1px;
             }
