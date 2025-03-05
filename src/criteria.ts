@@ -631,7 +631,6 @@ export default class Criteria {
 			.addClass(Criteria.classes.value)
 			.addClass(Criteria.classes.input)
 			.dtDateTime({
-				attachTo: 'input',
 				format: that.s.dateFormat ? that.s.dateFormat : undefined,
 				i18n,
 			})
@@ -697,7 +696,6 @@ export default class Criteria {
 				.addClass(Criteria.classes.value)
 				.addClass(Criteria.classes.input)
 				.dtDateTime({
-					attachTo: 'input',
 					format: that.s.dateFormat ? that.s.dateFormat : undefined,
 					i18n,
 				})
@@ -731,7 +729,6 @@ export default class Criteria {
 				.addClass(Criteria.classes.value)
 				.addClass(Criteria.classes.input)
 				.dtDateTime({
-					attachTo: 'input',
 					format: that.s.dateFormat ? that.s.dateFormat : undefined,
 					i18n,
 				})
