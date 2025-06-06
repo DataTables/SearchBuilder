@@ -309,7 +309,7 @@ export default class SearchBuilder {
 	 * @param details The details required to perform a rebuild
 	 */
 	public rebuild(details, redraw = true): SearchBuilder {
-		this.dom.clearAll.click();
+		this.dom.clearAll.trigger('click', false);
 
 		// If there are no details to rebuild then return
 		if (details === undefined || details === null) {
@@ -605,7 +605,7 @@ export default class SearchBuilder {
 	 */
 	private _setClearListener() {
 		this.dom.clearAll.unbind('click');
-		this.dom.clearAll.on('click.dtsb', () => {
+		this.dom.clearAll.on('click.dtsb', (e, draw) => {
 			this.s.topGroup = new Group(
 				this.s.dt,
 				this.c,
@@ -616,7 +616,11 @@ export default class SearchBuilder {
 				this.s.serverData
 			);
 			this._build();
-			this.s.dt.draw();
+
+			if (draw !== false) {
+				this.s.dt.draw();
+			}
+
 			this.s.topGroup.setListeners();
 			this.dom.clearAll.remove();
 			this._setEmptyListener();
