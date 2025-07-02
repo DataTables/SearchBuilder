@@ -1,11 +1,11 @@
-/*! SearchBuilder 1.8.2
+/*! SearchBuilder 1.8.3
  * ©SpryMedia Ltd - datatables.net/license/mit
  */
 
 /**
  * @summary     SearchBuilder
  * @description End user complex search builder for DataTables
- * @version     1.8.2
+ * @version     1.8.3
  * @author      SpryMedia Ltd
  * @copyright   Copyright SpryMedia Ltd.
  *
