@@ -624,7 +624,7 @@ export default class Criteria {
 		preDefined = null
 	): Array<JQuery<HTMLElement>> {
 		let searchDelay = that.s.dt.settings()[0].searchDelay;
-		let i18n = that.s.dt.i18n('datetime', {});
+		let i18n = that.s.dt.i18n('datetime', {}, false);
 
 		// Declare date element using DataTables dateTime plugin
 		let el = $('<input/>')
@@ -688,7 +688,7 @@ export default class Criteria {
 		preDefined: string[] = null
 	): Array<JQuery<HTMLElement>> {
 		let searchDelay = that.s.dt.settings()[0].searchDelay;
-		let i18n = that.s.dt.i18n('datetime', {});
+		let i18n = that.s.dt.i18n('datetime', {}, false);
 
 		// Declare all of the date elements that are required using DataTables dateTime plugin
 		let els = [

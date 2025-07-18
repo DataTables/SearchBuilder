@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-example table-type="html-iso8601" table-class="display nowrap" order="19">
+
+<css lib="datatables searchbuilder datetime"/>
+
+<js lib="jquery datatables searchbuilder datetime">
+<![CDATA[
+
+$('#example').DataTable({
+	language: {
+		url: 'https://cdn.datatables.net/plug-ins/2.3.2/i18n/fr-FR.json'
+	},
+	layout: {
+		top: 'searchBuilder'
+	}
+});
+
+]]>
+</js>
+
+<js-vanilla>
+<![CDATA[
+
+new DataTable('#example', {
+	language: {
+		url: 'https://cdn.datatables.net/plug-ins/2.3.2/i18n/fr-FR.json'
+	},
+	layout: {
+		top: 'searchBuilder'
+	}
+});
+
+]]>
+</js-vanilla>
+
+<title lib="SearchBuilder">Internationalisation</title>
+
+<info><![CDATA[
+
+This example shows how SearchBuilder can be used with a translation file to customise the strings used in the UI presented to the end user.
+
+For community provided translations, please refer to [the DataTables internationalisation plugins page](https://datatables.net/plug-ins/i18n/).
+
+]]></info>
+
+</dt-example>
