@@ -283,6 +283,49 @@ export default class SearchBuilder {
 
 		return this;
 	}
+	
+	/**
+	 * Gets the details required to rebuild the SearchBuilder as it currently is, but formatted as a string
+	 */
+	public getDetailsString(builderDetails): string {		
+	    var output = '';
+	
+	    if (!builderDetails) {
+		builderDetails = getDetails();
+	    }
+		    
+	    if (builderDetails.criteria) {
+		output += '( ';
+
+		var logicalOperator = ' ' +  builderDetails.logic + ' ';
+
+		for (let logicalUnit of builderDetails.criteria) {
+		    output += getDetailsString(logicalUnit);
+		    output += logicalOperator;
+		});
+
+		if (output.endsWith(logicalOperator)) {
+		    output = output.substring(0, output.length - logicalOperator.length)
+		}
+
+		output += ' )';
+	    }
+	    else {
+		output += builderDetails.data + ' ' + builderDetails.condition + ' ';
+
+		var andOperator = ' AND ';
+
+		for (let item of builderDetails.value) {
+		    output += item + andOperator;
+		});
+
+		if (output.endsWith(andOperator)) {
+		    output = output.substring(0, output.length - andOperator.length)
+		}
+	    }
+
+	    return output;
+	}
 
 	/**
 	 * Gets the details required to rebuild the SearchBuilder as it currently is
