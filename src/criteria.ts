@@ -832,7 +832,7 @@ export default class Criteria {
 			if (element.is('select')) {
 				let escapedItems = [].concat(element.children('option:selected').data('sbv'))
 					.map(item => Criteria._escapeHTML(item));
-                values.push(...escapedItems);
+				values.push(...escapedItems);
 			}
 		}
 
