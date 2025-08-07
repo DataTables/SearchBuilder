@@ -31,7 +31,7 @@ export interface ICondition {
 	) => JQuery<HTMLElement> | Array<JQuery<HTMLElement>> | void;
 	inputValue: (el: JQuery<HTMLElement>) => string[] | void;
 	isInputValid: (val: Array<JQuery<HTMLElement>>, that: Criteria) => boolean;
-	search: (value: string, comparison: string[], that: Criteria) => boolean;
+	search: (value: string | string[], comparison: string[], that: Criteria) => boolean;
 }
 
 export interface IOrthogonal {
@@ -830,7 +830,9 @@ export default class Criteria {
 		// Go through the select elements and push each selected option to the return array
 		for (let element of el) {
 			if (element.is('select')) {
-				values.push(Criteria._escapeHTML(element.children('option:selected').data('sbv')));
+				let escapedItems = [].concat(element.children('option:selected').data('sbv'))
+					.map(item => Criteria._escapeHTML(item));
+				values.push(...escapedItems);
 			}
 		}
 
@@ -1727,7 +1729,7 @@ export default class Criteria {
 			init: Criteria.initSelectArray,
 			inputValue: Criteria.inputValueSelect,
 			isInputValid: Criteria.isInputValidSelect,
-			search(value: string, comparison: string[]) {
+			search(value: string[], comparison: string[]) {
 				return value.includes(comparison[0]);
 			}
 		},
@@ -1738,7 +1740,7 @@ export default class Criteria {
 			init: Criteria.initSelectArray,
 			inputValue: Criteria.inputValueSelect,
 			isInputValid: Criteria.isInputValidSelect,
-			search(value: string, comparison: string[]) {
+			search(value: string[], comparison: string[]) {
 				return value.indexOf(comparison[0]) === -1;
 			}
 		},
@@ -1749,8 +1751,10 @@ export default class Criteria {
 			init: Criteria.initSelect,
 			inputValue: Criteria.inputValueSelect,
 			isInputValid: Criteria.isInputValidSelect,
-			search(value: string, comparison: string[]) {
+			search(value: string[], comparison: string[]) {
 				if (value.length === comparison.length) {
+					// Sort the comparison array to match the already-sorted value array
+                    comparison.sort();
 					for (let i = 0; i < value.length; i++) {
 						if (value[i] !== comparison[i]) {
 							return false;
@@ -1770,8 +1774,10 @@ export default class Criteria {
 			init: Criteria.initSelect,
 			inputValue: Criteria.inputValueSelect,
 			isInputValid: Criteria.isInputValidSelect,
-			search(value: string, comparison: string[]) {
+			search(value: string[], comparison: string[]) {
 				if (value.length === comparison.length) {
+					// Sort the comparison array to match the already-sorted value array
+                    comparison.sort();
 					for (let i = 0; i < value.length; i++) {
 						if (value[i] !== comparison[i]) {
 							return true;
@@ -1795,7 +1801,7 @@ export default class Criteria {
 			isInputValid() {
 				return true;
 			},
-			search(value: string) {
+			search(value: string[]) {
 				return value === null || value === undefined || value.length === 0;
 			}
 		},
@@ -1810,7 +1816,7 @@ export default class Criteria {
 			isInputValid() {
 				return true;
 			},
-			search(value: string) {
+			search(value: string[]) {
 				return value !== null && value !== undefined && value.length !== 0;
 			}
 		},
