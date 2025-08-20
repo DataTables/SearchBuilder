@@ -34,7 +34,7 @@ describe('searchBuilder - integrations - Editor', function() {
 				.set('position', 'Abc')
 				.submit();
 
-			expect($('.dtsb-value option:eq(15)').text()).toBe('Junior Javascript Developer');
+			expect($('.dtsb-value option:eq(15)').text()).toBe('Junior JavaScript Developer');
 			expect($('.dtsb-value option:eq(1)').text()).toBe('Abc');
 		});
 		it('... ensure pane updates when record deleted', function() {
