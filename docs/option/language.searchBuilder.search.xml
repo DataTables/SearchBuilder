@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dt-option library="SearchBuilder">
+	<name>language.searchBuilder.search</name>
+	<summary>Text to show in the "perform search" button</summary>
+	<since>1.6.0</since>
+
+	<type type="string">
+		<description>
+			Text that will be displayed in the button that is shown to perform a search, when required.
+		</description>
+	</type>
+
+	<default value="Search" />
+
+	<description>
+		<![CDATA[
+		When the `-init searchBuilder.liveSearch` option is disabled, SearchBuilder will show a button that must be pressed before the search will run. The text shown in that button can be customised using this option.
+		]]>
+	</description>
+
+	<example title="Show search button and set text"><![CDATA[
+new DataTable('#myTable', {
+	language: {
+		searchBuilder: {
+			search: 'Do search'
+		}
+	},
+	layout: {
+		top1: 'searchBuilder'
+	},
+	searchBuilder: {
+		liveSearch: false
+	}
+});
+]]></example>
+
+<related type="api">i18n()</related>
+
+</dt-option>
