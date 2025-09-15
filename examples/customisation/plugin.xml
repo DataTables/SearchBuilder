@@ -9,8 +9,8 @@
 <js lib="datatables searchbuilder datetime">
 <![CDATA[
 
-// Add custom conditions to the office column type
-DataTable.ext.searchBuilder.conditions.office = {
+// Add custom conditions plugin
+DataTable.ext.searchBuilder.conditions.select2 = {
 	'=': {
 		// This function decides whether to include the criteria in the search
 		isInputValid: function (el, that) {
@@ -127,7 +127,7 @@ DataTable.ext.searchBuilder.conditions.office = {
 };
 
 $('#example').DataTable({
-	columnDefs: [{ type: 'office', targets: 2 }],
+	columnDefs: [{ searchBuilderType: 'select2', targets: 2 }],
 	layout: {
 		top1: 'searchBuilder'
 	}
@@ -142,9 +142,9 @@ $('#example').DataTable({
 
 This example shows how to use a plugin for a custom column type. The `DataTable.ext.searchBuilder.conditions` object allows for custom conditions to be added to SearchBuilder. Details on the structure of the conditions to be added can be found at `-feature searchBuilder.conditions`.
 
-Here the office column has been given a custom column type of `office` using `-init columns.type`. We are also adding some conditions for this `office` type to SearchBuilder which use select2. To use the custom filter from the plugin select Office > Equals and any office, you will see that the last `-tag select` element is a select2 element.
+Here the office column is instructed to use the Select2 plugin through `-init columns.searchBuilderType`. To use the custom filter from the plugin select Office > Equals and any office, you will see that the last `-tag select` element is a select2 element.
 
-For more information on creating your own plug-ins take a look at [this document](https://datatables.net/extensions/searchbuilder/plugins)
+For more information on creating your own plug-ins take a look at [this document](https://datatables.net/extensions/searchbuilder/plugins).
 
 ]]></info>
 
