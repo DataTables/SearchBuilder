@@ -1,10 +1,11 @@
+@use "sass:color";
 
 @function dtb-tint( $color, $percent ) {
-	@return mix(white, $color, $percent);
+	@return color.mix(white, $color, $percent);
 }
 
 @function dtb-shade( $color, $percent ) {
-	@return mix(black, $color, $percent);
+	@return color.mix(black, $color, $percent);
 }
 
 $border-width: 1px;
