@@ -915,7 +915,8 @@ export default class Criteria {
 				)
 			 ) ||
 			code === 13 ||
-			el.nodeName.toLowerCase() === 'select'
+			code === undefined || // A click triggered it
+			(el.nodeName && el.nodeName.toLowerCase() === 'select')
 		) {
 			// Trigger a search
 			that.doSearch();
