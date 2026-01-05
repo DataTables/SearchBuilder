@@ -1954,18 +1954,7 @@ export default class Criteria {
 					settings.oLanguage.sThousands !== ''
 				)
 			) {
-				let splitRD = [rowData[this.s.dataIdx]];
-				if (settings.oLanguage.sDecimal !== '') {
-					splitRD = rowData[this.s.dataIdx].split(settings.oLanguage.sDecimal);
-				}
-
-				if (settings.oLanguage.sThousands !== '') {
-					for (let i = 0; i < splitRD.length; i++) {
-						splitRD[i] = splitRD[i].replace(settings.oLanguage.sThousands, ',');
-					}
-				}
-
-				filter = splitRD.join('.');
+				filter = this.numToDecimal(rowData[this.s.dataIdx]);
 			}
 
 			// If orthogonal data is in place we need to get it's values for searching
@@ -2013,6 +2002,37 @@ export default class Criteria {
 	}
 
 	/**
+	 * Convert a formatted number to a "computer" number. Can be replaced with
+	 * DataTable.util.conv.numToDecimal with DT3.
+	 *
+	 * @param input Number to convert
+	 * @returns 
+	 */
+	public numToDecimal(input: string | number) {
+		let settings = this.s.dt.settings()[0];
+		let decimal = settings.oLanguage.sDecimal;
+		let thousands = settings.oLanguage.sThousands;
+
+		if (typeof input === 'number') {
+			return input.toString();
+		}
+
+		if (thousands) {
+			let reThousands = new RegExp(DataTable.util.escapeRegex(thousands), 'g');
+
+			input = input.replace(reThousands, '');
+		}
+
+		if (decimal) {
+			let reDecimal = new RegExp(DataTable.util.escapeRegex(decimal));
+
+			input = input.replace(reDecimal, '.');
+		}
+		
+		return input;
+	}
+
+	/**
 	 * Gets the details required to rebuild the criteria
 	 */
 	public getDetails(deFormatDates=false): IDetails {
@@ -2026,18 +2046,7 @@ export default class Criteria {
 			(settings.oLanguage.sDecimal !== '' || settings.oLanguage.sThousands !== '')
 		) {
 			for (i = 0; i < this.s.value.length; i++) {
-				let splitRD = [this.s.value[i].toString()];
-				if (settings.oLanguage.sDecimal !== '') {
-					splitRD = this.s.value[i].split(settings.oLanguage.sDecimal);
-				}
-
-				if (settings.oLanguage.sThousands !== '') {
-					for (let j = 0; j < splitRD.length; j++) {
-						splitRD[j] = splitRD[j].replace(settings.oLanguage.sThousands, ',');
-					}
-				}
-
-				this.s.value[i] = splitRD.join('.');
+				this.s.value[i] = this.numToDecimal(this.s.value[i]);
 			}
 		}
 		else if (this.s.type !== null && deFormatDates) {
