@@ -1,4 +1,4 @@
-import DataTable, { ColumnSelector, Dom } from 'datatables.net';
+import DataTable, { ColumnSelector, Context, Dom } from 'datatables.net';
 import Criteria, * as criteriaType from './Criteria';
 import Group from './Group';
 import './interface';
@@ -79,9 +79,9 @@ export interface IS {
 	dt: any;
 	opts: IDefaults;
 	search: (
-		settings: any,
-		searchData: any,
-		dataIndex: any,
+		settings: Context,
+		searchData: any[],
+		dataIndex: number,
 		origData: any
 	) => boolean;
 	serverData: { [keys: string]: IServerData[] };
@@ -574,7 +574,7 @@ export default class SearchBuilder {
 		if (!DataTable.ext.search.includes(this.s.search)) {
 			// Custom search function for SearchBuilder
 			this.s.search = (settings, searchData, dataIndex) => {
-				if (settings.nTable !== tableNode) {
+				if (settings.table !== tableNode) {
 					return true;
 				}
 

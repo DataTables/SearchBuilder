@@ -34,7 +34,7 @@ export interface ICondition {
 		fn?: (thatAgain: Criteria, el: Dom) => void,
 		preDefined?: string[]
 	) => Dom | Array<Dom> | void;
-	inputValue: (el: Dom[], that: Criteria) => string[];
+	inputValue: (el: Dom[], that: Criteria) => string[] | void;
 	isInputValid: (val: Array<Dom>, that: Criteria) => boolean;
 	search: (
 		value: string | string[],
@@ -871,16 +871,18 @@ export default class Criteria {
 	/**
 	 * Default function for select elements to validate condition
 	 */
-	private static isInputValidSelect = function (el) {
+	private static isInputValidSelect = function (el: Dom[]) {
 		let allFilled = true;
 
 		// Check each element to make sure that the selections are valid
 		for (let element of el) {
-			let options = element.children('option').get();
+			let options = element
+				.children('option')
+				.get() as HTMLOptionElement[];
 			let selected = options.filter(e => e.selected);
-			let notItalic = element.children(
-				'option.' + Criteria.classes.notItalic
-			);
+			let notItalic = element
+				.children('option.' + Criteria.classes.notItalic)
+				.get();
 
 			if (
 				selected.length === options.length - notItalic.length &&
@@ -1160,7 +1162,7 @@ export default class Criteria {
 			},
 			init: Criteria.initNoValue,
 			inputValue() {
-				return [];
+				return;
 			},
 			isInputValid() {
 				return true;
@@ -1180,7 +1182,7 @@ export default class Criteria {
 			},
 			init: Criteria.initNoValue,
 			inputValue() {
-				return [];
+				return;
 			},
 			isInputValid() {
 				return true;
@@ -1332,7 +1334,7 @@ export default class Criteria {
 			},
 			init: Criteria.initNoValue,
 			inputValue() {
-				return [];
+				return;
 			},
 			isInputValid() {
 				return true;
@@ -1352,7 +1354,7 @@ export default class Criteria {
 			},
 			init: Criteria.initNoValue,
 			inputValue() {
-				return [];
+				return;
 			},
 			isInputValid() {
 				return true;
@@ -1522,7 +1524,7 @@ export default class Criteria {
 			},
 			init: Criteria.initNoValue,
 			inputValue() {
-				return [];
+				return;
 			},
 			isInputValid() {
 				return true;
@@ -1542,7 +1544,7 @@ export default class Criteria {
 			},
 			init: Criteria.initNoValue,
 			inputValue() {
-				return [];
+				return;
 			},
 			isInputValid() {
 				return true;
@@ -1696,7 +1698,7 @@ export default class Criteria {
 			},
 			init: Criteria.initNoValue,
 			inputValue() {
-				return [];
+				return;
 			},
 			isInputValid() {
 				return true;
@@ -1716,7 +1718,7 @@ export default class Criteria {
 			},
 			init: Criteria.initNoValue,
 			inputValue() {
-				return [];
+				return;
 			},
 			isInputValid() {
 				return true;
@@ -1924,7 +1926,7 @@ export default class Criteria {
 			},
 			init: Criteria.initNoValue,
 			inputValue() {
-				return [];
+				return;
 			},
 			isInputValid() {
 				return true;
@@ -1944,7 +1946,7 @@ export default class Criteria {
 			},
 			init: Criteria.initNoValue,
 			inputValue() {
-				return [];
+				return;
 			},
 			isInputValid() {
 				return true;
@@ -2098,7 +2100,7 @@ export default class Criteria {
 			},
 			init: Criteria.initNoValue,
 			inputValue() {
-				return [];
+				return;
 			},
 			isInputValid() {
 				return true;
@@ -2118,7 +2120,7 @@ export default class Criteria {
 			},
 			init: Criteria.initNoValue,
 			inputValue() {
-				return [];
+				return;
 			},
 			isInputValid() {
 				return true;
@@ -2225,7 +2227,7 @@ export default class Criteria {
 			},
 			init: Criteria.initNoValue,
 			inputValue() {
-				return [];
+				return;
 			},
 			isInputValid() {
 				return true;
@@ -2245,7 +2247,7 @@ export default class Criteria {
 			},
 			init: Criteria.initNoValue,
 			inputValue() {
-				return [];
+				return;
 			},
 			isInputValid() {
 				return true;
