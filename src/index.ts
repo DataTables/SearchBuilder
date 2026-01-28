@@ -1,11 +1,11 @@
-/*! SearchBuilder 1.8.4
+/*! SearchBuilder 2.0.0-dev
  * ©SpryMedia Ltd - datatables.net/license/mit
  */
 
 /**
  * @summary     SearchBuilder
  * @description End user complex search builder for DataTables
- * @version     1.8.4
+ * @version     2.0.0-dev
  * @author      SpryMedia Ltd
  * @copyright   Copyright SpryMedia Ltd.
  *
@@ -19,35 +19,21 @@
  * For details please refer to: http://www.datatables.net
  */
 
-/// <reference path = '../node_modules/@types/jquery/index.d.ts'
+import DataTable, { Dom } from 'datatables.net';
 
-import Criteria, {setJQuery as criteriaJQuery} from './criteria';
-import Group, {setJQuery as groupJQuery} from './group';
-import SearchBuilder, {setJQuery as searchBuilderJQuery} from './searchBuilder';
+import Criteria from './criteria';
+import Group from './group';
+import SearchBuilder from './searchBuilder';
 
-searchBuilderJQuery($);
-groupJQuery($);
-criteriaJQuery($);
-
-// Work around until we sort out the typing
-declare var DataTable: any;
-const dataTable: any = $.fn.dataTable;
-
-// eslint-disable-next-line no-extra-parens
 DataTable.SearchBuilder = SearchBuilder;
-// eslint-disable-next-line no-extra-parens
-dataTable.SearchBuilder = SearchBuilder;
-// eslint-disable-next-line no-extra-parens
 DataTable.Group = Group;
-// eslint-disable-next-line no-extra-parens
-dataTable.Group = Group;
-// eslint-disable-next-line no-extra-parens
 DataTable.Criteria = Criteria;
-// eslint-disable-next-line no-extra-parens
-dataTable.Criteria = Criteria;
+
+const dom = DataTable.dom;
+const util = DataTable.util;
 
 // eslint-disable-next-line no-extra-parens
-let apiRegister = DataTable.Api.register;
+const apiRegister = DataTable.Api.register;
 
 // Set up object for plugins
 DataTable.ext.searchBuilder = {
@@ -63,31 +49,25 @@ DataTable.ext.buttons.searchBuilder = {
 
 		let topGroup = config._searchBuilder.s.topGroup;
 
-		// Need to redraw the contents to calculate the correct positions for the elements
+		// Need to redraw the contents to calculate the correct positions for
+		// the elements
 		if (topGroup !== undefined) {
 			topGroup.dom.container.trigger('dtsb-redrawContents-noDraw');
 		}
 		if (topGroup.s.criteria.length === 0) {
-			$('.'+($.fn as any).dataTable.Group.classes.add.replace(/ /g, '.')).click();
+			dom.s('.' + Group.classes.add.replace(/ /g, '.')).trigger('click');
 		}
 	},
 	config: {},
 	init(dt, node, config) {
 		let that = this;
 
-		let sb = new DataTable.SearchBuilder(
-			dt,
-			config.config
-		);
+		let sb = new DataTable.SearchBuilder(dt, config.config);
 
 		dt.on('draw', function () {
-			let count = sb.s.topGroup
-				? sb.s.topGroup.count()
-				: 0;
+			let count = sb.s.topGroup ? sb.s.topGroup.count() : 0;
 
-			that.text(
-				dt.i18n('searchBuilder.button', sb.c.i18n.button, count)
-			);
+			that.text(dt.i18n('searchBuilder.button', sb.c.i18n.button, count));
 		});
 
 		that.text(
@@ -95,19 +75,19 @@ DataTable.ext.buttons.searchBuilder = {
 		);
 		config._searchBuilder = sb;
 	},
-	text: null,
+	text: null
 };
 
-apiRegister('searchBuilder.getDetails()', function(deFormatDates=false) {
+apiRegister('searchBuilder.getDetails()', function (deFormatDates = false) {
 	let ctx = this.context[0];
 
 	// If SearchBuilder has not been initialised on this instance then return
-	return ctx._searchBuilder ?
-		ctx._searchBuilder.getDetails(deFormatDates) :
-		null;
+	return ctx._searchBuilder
+		? ctx._searchBuilder.getDetails(deFormatDates)
+		: null;
 });
 
-apiRegister('searchBuilder.rebuild()', function(details, redraw = true) {
+apiRegister('searchBuilder.rebuild()', function (details, redraw = true) {
 	let ctx = this.context[0];
 
 	// If SearchBuilder has not been initialised on this instance then return
@@ -120,13 +100,11 @@ apiRegister('searchBuilder.rebuild()', function(details, redraw = true) {
 	return this;
 });
 
-apiRegister('searchBuilder.container()', function() {
+apiRegister('searchBuilder.container()', function () {
 	let ctx = this.context[0];
 
 	// If SearchBuilder has not been initialised on this instance then return
-	return ctx._searchBuilder ?
-		ctx._searchBuilder.getNode() :
-		null;
+	return ctx._searchBuilder ? ctx._searchBuilder.getNode() : null;
 });
 
 /**
@@ -134,9 +112,9 @@ apiRegister('searchBuilder.container()', function() {
  *
  * @param settings the settings to be applied
  * @param options the options for SearchBuilder
- * @returns JQUERY<HTMLElement> Returns the node of the SearchBuilder
+ * @returns Returns the node of the SearchBuilder
  */
-function _init(settings: any, options?: any): JQuery<HTMLElement> {
+function _init(settings: any, options?: any): Dom {
 	let api = new DataTable.Api(settings);
 	let opts = options
 		? options
@@ -150,27 +128,22 @@ function _init(settings: any, options?: any): JQuery<HTMLElement> {
 
 // Attach a listener to the document which listens for DataTables initialisation
 // events so we can automatically initialise
-$(document).on('preInit.dt.dtsp', function(e, settings) {
+dom.s(document).on('preInit.dt.dtsp', function (e, settings) {
 	if (e.namespace !== 'dt') {
 		return;
 	}
 
-	if (settings.oInit.searchBuilder ||
-		DataTable.defaults.searchBuilder
-	) {
+	if (settings.init.searchBuilder || DataTable.defaults.searchBuilder) {
 		if (!settings._searchBuilder) {
 			_init(settings);
 		}
 	}
 });
 
-// DataTables `dom` feature option
+// DataTables legacy `dom` option
 DataTable.ext.feature.push({
 	cFeature: 'Q',
-	fnInit: _init,
+	fnInit: _init
 });
 
-// DataTables 2 layout feature
-if (DataTable.feature) {
-	DataTable.feature.register('searchBuilder', _init);
-}
+DataTable.feature.register('searchBuilder', _init);

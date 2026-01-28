@@ -1,18 +1,7 @@
-let $: any;
-let dataTable: any;
-
-/**
- * Sets the value of jQuery for use in the file
- *
- * @param jq the instance of jQuery to be set
- */
-export function setJQuery(jq: any): void {
-	$ = jq;
-	dataTable = jq.fn.DataTable;
-}
-
+import DataTable, { ColumnSelector, Dom } from 'datatables.net';
 import Criteria, * as criteriaType from './criteria';
 import Group from './group';
+import './interface';
 
 export interface IDetails {
 	criteria: Group[];
@@ -29,8 +18,8 @@ export interface IClasses {
 }
 
 export interface IDefaults {
-	columns: number[] | boolean;
-	conditions: {[keys: string]: {[keys: string]: criteriaType.ICondition}};
+	columns: ColumnSelector;
+	conditions: { [keys: string]: { [keys: string]: criteriaType.ICondition } };
 	depthLimit: false | number;
 	enterSearch: boolean;
 	filterChanged: (count: number, text: string) => void;
@@ -43,11 +32,11 @@ export interface IDefaults {
 }
 
 export interface IDom {
-	clearAll: JQuery<HTMLElement>;
-	container: JQuery<HTMLElement>;
-	title: JQuery<HTMLElement>;
-	titleRow: JQuery<HTMLElement>;
-	topGroup: JQuery<HTMLElement>;
+	clearAll: Dom;
+	container: Dom;
+	title: Dom;
+	titleRow: Dom;
+	topGroup: Dom;
 }
 
 export interface II18n {
@@ -89,17 +78,30 @@ export interface IServerData {
 export interface IS {
 	dt: any;
 	opts: IDefaults;
-	search: (settings: any, searchData: any, dataIndex: any, origData: any) => boolean;
-	serverData: {[keys: string]: IServerData[]};
+	search: (
+		settings: any,
+		searchData: any,
+		dataIndex: any,
+		origData: any
+	) => boolean;
+	serverData: { [keys: string]: IServerData[] };
 	topGroup: Group;
 }
+
+// Check that the required version of DataTables is included
+if (!DataTable || !DataTable.versionCheck || !DataTable.versionCheck('3')) {
+	throw new Error('SearchBuilder requires DataTables 3 or newer');
+}
+
+const dom = DataTable.dom;
+const util = DataTable.util;
 
 /**
  * SearchBuilder class for DataTables.
  * Allows for complex search queries to be constructed and implemented on a DataTable
  */
 export default class SearchBuilder {
-	private static version = '1.8.4';
+	private static version = '2.0.0-dev';
 
 	private static classes: IClasses = {
 		button: 'dtsb-button',
@@ -111,17 +113,17 @@ export default class SearchBuilder {
 	};
 
 	private static defaults: IDefaults = {
-		columns: true,
+		columns: '*',
 		conditions: {
-			'date': Criteria.dateConditions,
-			'html': Criteria.stringConditions,
+			date: Criteria.dateConditions,
+			html: Criteria.stringConditions,
 			'html-num': Criteria.numConditions,
 			'html-num-fmt': Criteria.numFmtConditions,
-			'luxon': Criteria.luxonDateConditions,
-			'moment': Criteria.momentDateConditions,
-			'num': Criteria.numConditions,
+			luxon: Criteria.luxonDateConditions,
+			moment: Criteria.momentDateConditions,
+			num: Criteria.numConditions,
 			'num-fmt': Criteria.numFmtConditions,
-			'string': Criteria.stringConditions
+			string: Criteria.stringConditions
 		},
 		depthLimit: false,
 		enterSearch: false,
@@ -132,7 +134,7 @@ export default class SearchBuilder {
 			add: 'Add Condition',
 			button: {
 				0: 'Search Builder',
-				_: 'Search Builder (%d)',
+				_: 'Search Builder (%d)'
 			},
 			clearAll: 'Clear All',
 			condition: 'Condition',
@@ -153,7 +155,7 @@ export default class SearchBuilder {
 					equals: 'Equals',
 					not: 'Not',
 					notBetween: 'Not Between',
-					notEmpty: 'Not Empty',
+					notEmpty: 'Not Empty'
 				},
 				// eslint-disable-next-line id-blacklist
 				number: {
@@ -166,7 +168,7 @@ export default class SearchBuilder {
 					lte: 'Less Than Equal To',
 					not: 'Not',
 					notBetween: 'Not Between',
-					notEmpty: 'Not Empty',
+					notEmpty: 'Not Empty'
 				},
 				// eslint-disable-next-line id-blacklist
 				string: {
@@ -179,7 +181,7 @@ export default class SearchBuilder {
 					notEmpty: 'Not Empty',
 					notEndsWith: 'Does Not End With',
 					notStartsWith: 'Does Not Start With',
-					startsWith: 'Starts With',
+					startsWith: 'Starts With'
 				}
 			},
 			data: 'Data',
@@ -194,7 +196,7 @@ export default class SearchBuilder {
 			search: 'Search',
 			title: {
 				0: 'Custom Search Builder',
-				_: 'Custom Search Builder (%d)',
+				_: 'Custom Search Builder (%d)'
 			},
 			value: 'Value',
 			valueJoiner: 'and'
@@ -202,9 +204,9 @@ export default class SearchBuilder {
 		logic: 'AND',
 		orthogonal: {
 			display: 'display',
-			search: 'filter',
+			search: 'filter'
 		},
-		preDefined: false,
+		preDefined: false
 	};
 
 	public classes: IClasses;
@@ -213,30 +215,25 @@ export default class SearchBuilder {
 	public s: IS;
 
 	public constructor(builderSettings: any, opts: IDefaults) {
-		// Check that the required version of DataTables is included
-		if (! dataTable || ! dataTable.versionCheck || ! dataTable.versionCheck('2')) {
-			throw new Error('SearchBuilder requires DataTables 2 or newer');
-		}
-
-		let table = new dataTable.Api(builderSettings);
-		this.classes = $.extend(true, {}, SearchBuilder.classes);
+		let table = new DataTable.Api(builderSettings);
+		this.classes = util.object.assignDeep({}, SearchBuilder.classes);
 
 		// Get options from user
-		this.c = $.extend(true, {}, SearchBuilder.defaults, opts);
+		this.c = util.object.assignDeep({}, SearchBuilder.defaults, opts);
 
 		this.dom = {
-			clearAll: $(
-				'<button type="button">' + table.i18n('searchBuilder.clearAll', this.c.i18n.clearAll) + '</button>'
-			)
-				.addClass(this.classes.clearAll)
-				.addClass(this.classes.button)
+			clearAll: dom
+				.c('button')
+				.attr('type', 'button')
+				.html(
+					table.i18n('searchBuilder.clearAll', this.c.i18n.clearAll)
+				)
+				.classAdd(this.classes.clearAll)
+				.classAdd(this.classes.button)
 				.attr('type', 'button'),
-			container: $('<div/>')
-				.addClass(this.classes.container),
-			title: $('<div/>')
-				.addClass(this.classes.title),
-			titleRow: $('<div/>')
-				.addClass(this.classes.titleRow),
+			container: dom.c('div').classAdd(this.classes.container),
+			title: dom.c('div').classAdd(this.classes.title),
+			titleRow: dom.c('div').classAdd(this.classes.titleRow),
 			topGroup: undefined
 		};
 
@@ -256,11 +253,13 @@ export default class SearchBuilder {
 		table.settings()[0]._searchBuilder = this;
 
 		// If using SSP we want to include the previous state in the very first server call
-		if(this.s.dt.page.info().serverSide) {
+		if (this.s.dt.page.info().serverSide) {
 			this.s.dt.on('preXhr.dtsb', (e, settings, data) => {
 				let loadedState = this.s.dt.state.loaded();
 				if (loadedState && loadedState.searchBuilder) {
-					data.searchBuilder = this._collapseArray(loadedState.searchBuilder);
+					data.searchBuilder = this._collapseArray(
+						loadedState.searchBuilder
+					);
 				}
 			});
 
@@ -288,18 +287,16 @@ export default class SearchBuilder {
 	 * Gets the details required to rebuild the SearchBuilder as it currently is
 	 */
 	// eslint upset at empty object but that is what it is
-	public getDetails(deFormatDates=false): IDetails | {} {
-		return this.s.topGroup
-			? this.s.topGroup.getDetails(deFormatDates)
-			: {};
+	public getDetails(deFormatDates = false): IDetails | {} {
+		return this.s.topGroup ? this.s.topGroup.getDetails(deFormatDates) : {};
 	}
 
 	/**
 	 * Getter for the node of the container for the searchBuilder
 	 *
-	 * @returns JQuery<HTMLElement> the node of the container
+	 * @returns Dom the node of the container
 	 */
-	public getNode(): JQuery < HTMLElement > {
+	public getNode(): Dom {
 		return this.dom.container;
 	}
 
@@ -349,8 +346,11 @@ export default class SearchBuilder {
 				crit = this._applyPreDefDefaults(crit);
 			}
 			else {
-				this.s.dt.columns().every((index) => {
-					if (this.s.dt.settings()[0].aoColumns[index].sTitle === crit.data) {
+				this.s.dt.columns().every(index => {
+					if (
+						this.s.dt.settings()[0].aoColumns[index].sTitle ===
+						crit.data
+					) {
 						crit.dataIdx = index;
 					}
 				});
@@ -367,68 +367,89 @@ export default class SearchBuilder {
 		// Register an Api method for getting the column type. DataTables 2 has
 		// this built in
 		if (typeof this.s.dt.column().type !== 'function') {
-			DataTable.Api.registerPlural('columns().types()', 'column().type()', function() {
-				return this.iterator('column', function(settings, column) {
-					return settings.aoColumns[column].sType;
-				}, 1);
-			});
+			DataTable.Api.registerPlural(
+				'columns().types()',
+				'column().type()',
+				function () {
+					return this.iterator(
+						'column',
+						function (settings, column) {
+							return settings.aoColumns[column].sType;
+						},
+						1
+					);
+				}
+			);
 		}
 
 		// Check that DateTime is included, If not need to check if it could be used
 		// eslint-disable-next-line no-extra-parens
-		if (!(dataTable as any).DateTime) {
+		if (!(DataTable as any).DateTime) {
 			let types = this.s.dt.columns().types().toArray();
 
-			if (types === undefined || types.includes(undefined) || types.includes(null)) {
+			if (
+				types === undefined ||
+				types.includes(undefined) ||
+				types.includes(null)
+			) {
 				types = [];
 				for (let colInit of this.s.dt.settings()[0].aoColumns) {
-					types.push(colInit.searchBuilderType !== undefined ? colInit.searchBuilderType : colInit.sType);
+					types.push(
+						colInit.searchBuilderType !== undefined
+							? colInit.searchBuilderType
+							: colInit.sType
+					);
 				}
 			}
 
 			let columnIdxs = this.s.dt.columns().toArray();
 
 			// If the column type is still unknown use the internal API to detect type
-			if(types === undefined || types.includes(undefined) || types.includes(null)) {
-				// This can only happen in DT1 - DT2 will do the invalidation of the type itself
-				if ($.fn.dataTable.ext.oApi) {
-					$.fn.dataTable.ext.oApi._fnColumnTypes(this.s.dt.settings()[0]);
-				}
-
+			if (
+				types === undefined ||
+				types.includes(undefined) ||
+				types.includes(null)
+			) {
 				types = this.s.dt.columns().types().toArray();
 			}
 
-			for(let i = 0; i < columnIdxs[0].length; i++) {
+			for (let i = 0; i < columnIdxs[0].length; i++) {
 				let column = columnIdxs[0][i];
 				let type = types[column];
 
-				if(
+				if (
 					// Check if this column can be filtered
-					(
-						this.c.columns === true ||
-						Array.isArray(this.c.columns) &&
-						this.c.columns.includes(i)
-					) &&
+					(this.c.columns === '*' ||
+						(Array.isArray(this.c.columns) &&
+							this.c.columns.includes(i))) &&
 					// Check if the type is one of the restricted types
-					(
-						type.includes('date') ||
+					(type.includes('date') ||
 						type.includes('moment') ||
-						type.includes('luxon')
-					)
+						type.includes('luxon'))
 				) {
-					alert('SearchBuilder Requires DateTime when used with dates.');
+					alert(
+						'SearchBuilder Requires DateTime when used with dates.'
+					);
 					throw new Error('SearchBuilder requires DateTime');
 				}
 			}
 		}
 
-		this.s.topGroup = new Group(this.s.dt, this.c, undefined, undefined, undefined, undefined, this.s.serverData);
+		this.s.topGroup = new Group(
+			this.s.dt,
+			this.c,
+			undefined,
+			undefined,
+			undefined,
+			undefined,
+			this.s.serverData
+		);
 
 		this._setClearListener();
 
 		this.s.dt.on('stateSaveParams.dtsb', (e, settings, data) => {
 			data.searchBuilder = this.getDetails();
-			if(!data.scroller) {
+			if (!data.scroller) {
 				data.page = this.s.dt.page();
 			}
 			else {
@@ -448,29 +469,31 @@ export default class SearchBuilder {
 			}
 		});
 
-		this.s.dt.on(
-			'columns-reordered',
-			() => {
-				this.rebuild(this.getDetails());
-			}
-		);
+		this.s.dt.on('columns-reordered', () => {
+			this.rebuild(this.getDetails());
+		});
 
 		if (loadState) {
 			let loadedState = this.s.dt.state.loaded();
 
 			// If the loaded State is not null rebuild based on it for statesave
-			if (loadedState !== null && loadedState.searchBuilder !== undefined) {
+			if (
+				loadedState !== null &&
+				loadedState.searchBuilder !== undefined
+			) {
 				this.s.topGroup.rebuild(loadedState.searchBuilder);
 				this.s.topGroup.dom.container.trigger('dtsb-redrawContents');
 
 				// If using SSP we want to restrict the amount of server calls that take place
 				//  and this information will already have been processed
 				if (!this.s.dt.page.info().serverSide) {
-					if(loadedState.page) {
+					if (loadedState.page) {
 						this.s.dt.page(loadedState.page).draw('page');
 					}
-					else if(this.s.dt.scroller && loadedState.scroller) {
-						this.s.dt.scroller().scrollToRow(loadedState.scroller.topRow);
+					else if (this.s.dt.scroller && loadedState.scroller) {
+						this.s.dt
+							.scroller()
+							.scrollToRow(loadedState.scroller.topRow);
 					}
 				}
 
@@ -478,7 +501,9 @@ export default class SearchBuilder {
 			}
 			// Otherwise load any predefined options
 			else if (this.c.preDefined !== false) {
-				this.c.preDefined = this._applyPreDefDefaults(this.c.preDefined);
+				this.c.preDefined = this._applyPreDefDefaults(
+					this.c.preDefined
+				);
 				this.rebuild(this.c.preDefined);
 			}
 		}
@@ -488,17 +513,17 @@ export default class SearchBuilder {
 	}
 
 	private _collapseArray(criteria) {
-		if(criteria.logic === undefined) {
+		if (criteria.logic === undefined) {
 			if (criteria.value !== undefined) {
-				criteria.value.sort((a,b)=> {
-					if(!isNaN(+a)) {
+				criteria.value.sort((a, b) => {
+					if (!isNaN(+a)) {
 						a = +a;
 						b = +b;
 					}
-					if(a<b) {
+					if (a < b) {
 						return -1;
 					}
-					else if(b<a) {
+					else if (b < a) {
 						return 1;
 					}
 					else {
@@ -510,8 +535,10 @@ export default class SearchBuilder {
 			}
 		}
 		else {
-			for(let i = 0; i < criteria.criteria.length; i++) {
-				criteria.criteria[i] = this._collapseArray(criteria.criteria[i]);
+			for (let i = 0; i < criteria.criteria.length; i++) {
+				criteria.criteria[i] = this._collapseArray(
+					criteria.criteria[i]
+				);
 			}
 		}
 		return criteria;
@@ -544,7 +571,7 @@ export default class SearchBuilder {
 		this._setRedrawListener();
 		let tableNode: Node = this.s.dt.table(0).node();
 
-		if (!$.fn.dataTable.ext.search.includes(this.s.search)) {
+		if (!DataTable.ext.search.includes(this.s.search)) {
 			// Custom search function for SearchBuilder
 			this.s.search = (settings, searchData, dataIndex) => {
 				if (settings.nTable !== tableNode) {
@@ -555,22 +582,22 @@ export default class SearchBuilder {
 			};
 
 			// Add SearchBuilder search function to the dataTables search array
-			$.fn.dataTable.ext.search.push(this.s.search);
+			DataTable.ext.search.push(this.s.search);
 		}
 
 		this.s.dt.on('destroy.dtsb', () => {
 			this.dom.container.remove();
 			this.dom.clearAll.remove();
 
-			let searchIdx = $.fn.dataTable.ext.search.indexOf(this.s.search);
+			let searchIdx = DataTable.ext.search.indexOf(this.s.search);
 
 			while (searchIdx !== -1) {
-				$.fn.dataTable.ext.search.splice(searchIdx, 1);
-				searchIdx = $.fn.dataTable.ext.search.indexOf(this.s.search);
+				DataTable.ext.search.splice(searchIdx, 1);
+				searchIdx = DataTable.ext.search.indexOf(this.s.search);
 			}
 
 			this.s.dt.off('.dtsb');
-			$(this.s.dt.table().node()).off('.dtsb');
+			dom.s(this.s.dt.table().node()).off('.dtsb');
 		});
 	}
 
@@ -579,7 +606,7 @@ export default class SearchBuilder {
 	 */
 	private _checkClear() {
 		if (this.s.topGroup.s.criteria.length > 0) {
-			this.dom.clearAll.insertAfter(this.dom.title);
+			this.dom.clearAll.insertAfter(this.dom.title.get(0));
 			this._setClearListener();
 		}
 		else {
@@ -596,7 +623,14 @@ export default class SearchBuilder {
 		let fn = this.c.filterChanged;
 
 		if (typeof fn === 'function') {
-			fn(count, this.s.dt.i18n('searchBuilder.button', this.c.i18n.button, count));
+			fn(
+				count,
+				this.s.dt.i18n(
+					'searchBuilder.button',
+					this.c.i18n.button,
+					count
+				)
+			);
 		}
 	}
 
@@ -604,7 +638,7 @@ export default class SearchBuilder {
 	 * Set the listener for the clear button
 	 */
 	private _setClearListener() {
-		this.dom.clearAll.unbind('click');
+		this.dom.clearAll.off('click');
 		this.dom.clearAll.on('click.dtsb', (e, draw) => {
 			this.s.topGroup = new Group(
 				this.s.dt,
@@ -634,7 +668,7 @@ export default class SearchBuilder {
 	 * Set the listener for the Redraw event
 	 */
 	private _setRedrawListener() {
-		this.s.topGroup.dom.container.unbind('dtsb-redrawContents');
+		this.s.topGroup.dom.container.off('dtsb-redrawContents');
 		this.s.topGroup.dom.container.on('dtsb-redrawContents.dtsb', () => {
 			this._checkClear();
 			this.s.topGroup.redrawContents();
@@ -655,22 +689,25 @@ export default class SearchBuilder {
 			this.s.dt.state.save();
 		});
 
-		this.s.topGroup.dom.container.unbind('dtsb-redrawContents-noDraw');
-		this.s.topGroup.dom.container.on('dtsb-redrawContents-noDraw.dtsb', () => {
-			this._checkClear();
-			this.s.topGroup.s.preventRedraw = true;
-			this.s.topGroup.redrawContents();
-			this.s.topGroup.s.preventRedraw = false;
-			this.s.topGroup.setupLogic();
-			this._setEmptyListener();
+		this.s.topGroup.dom.container.off('dtsb-redrawContents-noDraw');
+		this.s.topGroup.dom.container.on(
+			'dtsb-redrawContents-noDraw.dtsb',
+			() => {
+				this._checkClear();
+				this.s.topGroup.s.preventRedraw = true;
+				this.s.topGroup.redrawContents();
+				this.s.topGroup.s.preventRedraw = false;
+				this.s.topGroup.setupLogic();
+				this._setEmptyListener();
 
-			let count = this.s.topGroup.count();
+				let count = this.s.topGroup.count();
 
-			this._updateTitle(count);
-			this._filterChanged(count);
-		});
+				this._updateTitle(count);
+				this._filterChanged(count);
+			}
+		);
 
-		this.s.topGroup.dom.container.unbind('dtsb-redrawLogic');
+		this.s.topGroup.dom.container.off('dtsb-redrawLogic');
 		this.s.topGroup.dom.container.on('dtsb-redrawLogic.dtsb', () => {
 			this.s.topGroup.redrawLogic();
 			let count = this.s.topGroup.count();
@@ -679,7 +716,7 @@ export default class SearchBuilder {
 			this._filterChanged(count);
 		});
 
-		this.s.topGroup.dom.container.unbind('dtsb-add');
+		this.s.topGroup.dom.container.off('dtsb-add');
 		this.s.topGroup.dom.container.on('dtsb-add.dtsb', () => {
 			let count = this.s.topGroup.count();
 
@@ -692,7 +729,7 @@ export default class SearchBuilder {
 			this.s.topGroup.redrawContents();
 		});
 
-		this.s.topGroup.dom.container.unbind('dtsb-clearContents');
+		this.s.topGroup.dom.container.off('dtsb-clearContents');
 		this.s.topGroup.dom.container.on('dtsb-clearContents.dtsb', () => {
 			this._setUp(false);
 			this._filterChanged(0);

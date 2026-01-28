@@ -1,3 +1,4 @@
+import DataTable, { Dom } from 'datatables.net';
 import Criteria, * as criteriaType from './criteria';
 import * as builderType from './searchBuilder';
 
@@ -14,12 +15,12 @@ export interface IClassses {
 }
 
 export interface IDom {
-	add: JQuery<HTMLElement>;
-	clear: JQuery<HTMLElement>;
-	container: JQuery<HTMLElement>;
-	logic: JQuery<HTMLElement>;
-	logicContainer: JQuery<HTMLElement>;
-	search: JQuery<HTMLElement>;
+	add: Dom;
+	clear: Dom;
+	container: Dom;
+	logic: Dom;
+	logicContainer: Dom;
+	search: Dom;
 }
 
 export interface IS {
@@ -31,9 +32,9 @@ export interface IS {
 	logic: string;
 	opts: builderType.IDefaults;
 	preventRedraw: boolean;
-	serverData: {[keys: string]: builderType.IServerData};
+	serverData: { [keys: string]: builderType.IServerData };
 	toDrop: Criteria;
-	topGroup: JQuery<HTMLElement>;
+	topGroup: Dom;
 }
 
 export interface ICriteria {
@@ -60,26 +61,14 @@ export interface IDetails {
 	logic?: string;
 }
 
-let $: any;
-let dataTable: any;
-
-/**
- * Sets the value of jQuery for use in the file
- *
- * @param jq the instance of jQuery to be set
- */
-export function setJQuery(jq: any): void {
-	$ = jq;
-	dataTable = jq.fn.dataTable;
-}
+const dom = DataTable.dom;
+const util = DataTable.util;
 
 /**
  * The Group class is used within SearchBuilder to represent a group of criteria
  */
 export default class Group {
-	private static version = '1.1.0';
-
-	private static classes: IClassses = {
+	public static classes: IClassses = {
 		add: 'dtsb-add',
 		button: 'dtsb-button',
 		clearGroup: 'dtsb-clearGroup',
@@ -91,18 +80,18 @@ export default class Group {
 		search: 'dtsb-search'
 	};
 
-	private static defaults: builderType.IDefaults = {
-		columns: true,
+	public static defaults: builderType.IDefaults = {
+		columns: '*',
 		conditions: {
-			'date': Criteria.dateConditions,
-			'html': Criteria.stringConditions,
+			date: Criteria.dateConditions,
+			html: Criteria.stringConditions,
 			'html-num': Criteria.numConditions,
 			'html-num-fmt': Criteria.numFmtConditions,
-			'luxon': Criteria.luxonDateConditions,
-			'moment': Criteria.momentDateConditions,
-			'num': Criteria.numConditions,
+			luxon: Criteria.luxonDateConditions,
+			moment: Criteria.momentDateConditions,
+			num: Criteria.numConditions,
 			'num-fmt': Criteria.numFmtConditions,
-			'string': Criteria.stringConditions
+			string: Criteria.stringConditions
 		},
 		depthLimit: false,
 		enterSearch: false,
@@ -113,7 +102,7 @@ export default class Group {
 			add: 'Add Condition',
 			button: {
 				0: 'Search Builder',
-				_: 'Search Builder (%d)',
+				_: 'Search Builder (%d)'
 			},
 			clearAll: 'Clear All',
 			condition: 'Condition',
@@ -129,7 +118,7 @@ export default class Group {
 			search: 'Search',
 			title: {
 				0: 'Custom Search Builder',
-				_: 'Custom Search Builder (%d)',
+				_: 'Custom Search Builder (%d)'
 			},
 			value: 'Value',
 			valueJoiner: 'and'
@@ -137,7 +126,7 @@ export default class Group {
 		logic: 'AND',
 		orthogonal: {
 			display: 'display',
-			search: 'filter',
+			search: 'filter'
 		},
 		preDefined: false
 	};
@@ -150,16 +139,16 @@ export default class Group {
 	public constructor(
 		table: any,
 		opts: builderType.IDefaults,
-		topGroup: JQuery<HTMLElement>,
+		topGroup: Dom,
 		index = 0,
 		isChild = false,
 		depth = 1,
 		serverData = undefined
 	) {
-		this.classes = $.extend(true, {}, Group.classes);
+		this.classes = util.object.assignDeep({}, Group.classes);
 
 		// Get options from user
-		this.c = $.extend(true, {}, Group.defaults, opts);
+		this.c = util.object.assignDeep({}, Group.defaults, opts);
 
 		this.s = {
 			criteria: [],
@@ -176,27 +165,31 @@ export default class Group {
 		};
 
 		this.dom = {
-			add: $('<button/>')
-				.addClass(this.classes.add)
-				.addClass(this.classes.button)
+			add: dom
+				.c('button')
+				.classAdd(this.classes.add)
+				.classAdd(this.classes.button)
 				.attr('type', 'button'),
-			clear: $('<button>&times</button>')
-				.addClass(this.classes.button)
-				.addClass(this.classes.clearGroup)
+			clear: dom
+				.c('button')
+				.html('&times')
+				.classAdd(this.classes.button)
+				.classAdd(this.classes.clearGroup)
 				.attr('type', 'button'),
-			container: $('<div/>')
-				.addClass(this.classes.group),
-			logic: $('<button><div/></button>')
-				.addClass(this.classes.logic)
-				.addClass(this.classes.button)
+			container: dom.c('div').classAdd(this.classes.group),
+			logic: dom
+				.c('button')
+				.append(dom.c('div'))
+				.classAdd(this.classes.logic)
+				.classAdd(this.classes.button)
 				.attr('type', 'button'),
-			logicContainer: $('<div/>')
-				.addClass(this.classes.logicContainer),
-			search: $('<button/>')
-				.addClass(this.classes.search)
-				.addClass(this.classes.button)
+			logicContainer: dom.c('div').classAdd(this.classes.logicContainer),
+			search: dom
+				.c('button')
+				.classAdd(this.classes.search)
+				.classAdd(this.classes.button)
 				.attr('type', 'button')
-				.css('display', 'none'),
+				.css('display', 'none')
 		};
 
 		// A reference to the top level group is maintained throughout any subgroups and criteria that may be created
@@ -213,16 +206,14 @@ export default class Group {
 	 * Destroys the groups buttons, clears the internal criteria and removes it from the dom
 	 */
 	public destroy(): void {
-
 		// Turn off listeners
 		this.dom.add.off('.dtsb');
 		this.dom.logic.off('.dtsb');
 		this.dom.search.off('.dtsb');
 
 		// Trigger event for groups at a higher level to pick up on
-		this.dom.container
-			.trigger('dtsb-destroy')
-			.remove();
+		this.dom.container.trigger('dtsb-destroy');
+		this.dom.container.remove();
 
 		this.s.criteria = [];
 	}
@@ -231,7 +222,7 @@ export default class Group {
 	 * Gets the details required to rebuild the group
 	 */
 	// Eslint upset at empty object but needs to be done
-	public getDetails(deFormatDates=false): IDetails | {} {
+	public getDetails(deFormatDates = false): IDetails | {} {
 		if (this.s.criteria.length === 0) {
 			return {};
 		}
@@ -254,7 +245,7 @@ export default class Group {
 	 *
 	 * @returns Node for the container of the group
 	 */
-	public getNode(): JQuery<HTMLElement> {
+	public getNode(): Dom {
 		return this.dom.container;
 	}
 
@@ -270,19 +261,30 @@ export default class Group {
 		if (
 			loadedDetails.criteria === undefined ||
 			loadedDetails.criteria === null ||
-			Array.isArray(loadedDetails.criteria) && loadedDetails.criteria.length === 0
+			(Array.isArray(loadedDetails.criteria) &&
+				loadedDetails.criteria.length === 0)
 		) {
 			return;
 		}
 
 		this.s.logic = loadedDetails.logic;
-		this.dom.logic.children().first().html(this.s.logic === 'OR'
-			? this.s.dt.i18n('searchBuilder.logicOr', this.c.i18n.logicOr)
-			: this.s.dt.i18n('searchBuilder.logicAnd', this.c.i18n.logicAnd)
-		);
+		this.dom.logic
+			.children()
+			.eq(0)
+			.html(
+				this.s.logic === 'OR'
+					? this.s.dt.i18n(
+							'searchBuilder.logicOr',
+							this.c.i18n.logicOr
+					  )
+					: this.s.dt.i18n(
+							'searchBuilder.logicAnd',
+							this.c.i18n.logicAnd
+					  )
+			);
 
 		// Add all of the criteria, be it a sub group or a criteria
-		if(Array.isArray(loadedDetails.criteria)) {
+		if (Array.isArray(loadedDetails.criteria)) {
 			for (crit of loadedDetails.criteria) {
 				if (crit.logic !== undefined) {
 					this._addPrevGroup(crit);
@@ -306,22 +308,20 @@ export default class Group {
 	 * Redraws the Contents of the searchBuilder Groups and Criteria
 	 */
 	public redrawContents(): void {
-		if(this.s.preventRedraw) {
+		if (this.s.preventRedraw) {
 			return;
 		}
 
 		// Clear the container out and add the basic elements
 		this.dom.container.children().detach();
-		this.dom.container
-			.append(this.dom.logicContainer)
-			.append(this.dom.add);
+		this.dom.container.append(this.dom.logicContainer).append(this.dom.add);
 
-		if (! this.c.liveSearch) {
+		if (!this.c.liveSearch) {
 			this.dom.container.append(this.dom.search);
 		}
 
 		// Sort the criteria by index so that they appear in the correct order
-		this.s.criteria.sort(function(a, b) {
+		this.s.criteria.sort(function (a, b) {
 			if (a.criteria.s.index < b.criteria.s.index) {
 				return -1;
 			}
@@ -343,12 +343,17 @@ export default class Group {
 				this.s.criteria[i].criteria.s.index = i;
 
 				// Add to the group
-				this.s.criteria[i].criteria.dom.container.insertBefore(this.dom.add);
+				this.s.criteria[i].criteria.dom.container.insertBefore(
+					this.dom.add
+				);
 
 				// Set listeners for various points
 				this._setCriteriaListeners(crit);
-				this.s.criteria[i].criteria.s.preventRedraw = this.s.preventRedraw;
-				this.s.criteria[i].criteria.rebuild(this.s.criteria[i].criteria.getDetails());
+				this.s.criteria[i].criteria.s.preventRedraw =
+					this.s.preventRedraw;
+				this.s.criteria[i].criteria.rebuild(
+					this.s.criteria[i].criteria.getDetails()
+				);
 				this.s.criteria[i].criteria.s.preventRedraw = false;
 			}
 			else if (crit instanceof Group && crit.s.criteria.length > 0) {
@@ -357,7 +362,9 @@ export default class Group {
 				this.s.criteria[i].criteria.s.index = i;
 
 				// Add the sub group to the group
-				this.s.criteria[i].criteria.dom.container.insertBefore(this.dom.add);
+				this.s.criteria[i].criteria.dom.container.insertBefore(
+					this.dom.add
+				);
 
 				// Redraw the contents of the group
 				crit.s.preventRedraw = this.s.preventRedraw;
@@ -418,7 +425,7 @@ export default class Group {
 			if (!this.s.isChild) {
 				this.dom.container.trigger('dtsb-destroy');
 				// Set criteria left margin
-				this.dom.container.css('margin-left', 0);
+				this.dom.container.css('margin-left', '0');
 			}
 
 			this.dom.search.css('display', 'none');
@@ -429,7 +436,7 @@ export default class Group {
 		this.dom.clear.height('0px');
 		this.dom.logicContainer.append(this.dom.clear);
 
-		if (! this.s.isChild) {
+		if (!this.s.isChild) {
 			this.dom.search.css('display', 'inline-block');
 		}
 
@@ -443,12 +450,15 @@ export default class Group {
 		}
 
 		// Set width, take 2 for the border
-		let height = this.dom.container.outerHeight() - 1;
+		let height = this.dom.container.height('outer') - 1;
 		this.dom.logicContainer.width(height);
 		this._setLogicListener();
 
 		// Set criteria left margin
-		this.dom.container.css('margin-left', this.dom.logicContainer.outerHeight(true));
+		this.dom.container.css(
+			'margin-left',
+			this.dom.logicContainer.height('withMargin') + 'px'
+		);
 
 		let logicOffset = this.dom.logicContainer.offset();
 
@@ -456,18 +466,21 @@ export default class Group {
 		let currentLeft = logicOffset.left;
 		let groupLeft = this.dom.container.offset().left;
 		let shuffleLeft = currentLeft - groupLeft;
-		let newPos = currentLeft - shuffleLeft - this.dom.logicContainer.outerHeight(true);
-		this.dom.logicContainer.offset({left: newPos});
+		let newPos =
+			currentLeft -
+			shuffleLeft -
+			this.dom.logicContainer.height('withMargin');
+		this.dom.logicContainer.css('left', newPos + 'px');
 
 		// Set vertical alignment
-		let firstCrit = this.dom.logicContainer.next();
+		let firstCrit = this.dom.logicContainer.get(0).nextElementSibling;
 		let currentTop = logicOffset.top;
-		let firstTop = $(firstCrit).offset().top;
+		let firstTop = dom.s(firstCrit).offset().top;
 		let shuffleTop = currentTop - firstTop;
 		let newTop = currentTop - shuffleTop;
-		this.dom.logicContainer.offset({top: newTop});
+		this.dom.logicContainer.css('top', newTop + 'px');
 
-		this.dom.clear.outerHeight(this.dom.logicContainer.height());
+		this.dom.clear.height(this.dom.logicContainer.height());
 
 		this._setClearListener();
 	}
@@ -476,7 +489,7 @@ export default class Group {
 	 * Sets listeners on the groups elements
 	 */
 	public setListeners(): void {
-		this.dom.add.unbind('click');
+		this.dom.add.off('click');
 		this.dom.add.on('click.dtsb', () => {
 			// If this is the parent group then the logic button has not been added yet
 			if (!this.s.isChild) {
@@ -490,11 +503,9 @@ export default class Group {
 			return false;
 		});
 
-		this.dom.search
-			.off('click.dtsb')
-			.on('click.dtsb', () => {
-				this.s.dt.draw();
-			});
+		this.dom.search.off('click.dtsb').on('click.dtsb', () => {
+			this.s.dt.draw();
+		});
 
 		for (let crit of this.s.criteria) {
 			crit.criteria.setListeners();
@@ -512,7 +523,15 @@ export default class Group {
 	 */
 	public addCriteria(crit: Criteria = null): void {
 		let index = crit === null ? this.s.criteria.length : crit.s.index;
-		let criteria = new Criteria(this.s.dt, this.s.opts, this.s.topGroup, index, this.s.depth, this.s.serverData, this.c.liveSearch);
+		let criteria = new Criteria(
+			this.s.dt,
+			this.s.opts,
+			this.s.topGroup,
+			index,
+			this.s.depth,
+			this.s.serverData,
+			this.c.liveSearch
+		);
 
 		// If a Criteria has been passed in then set the values to continue that
 		if (crit !== null) {
@@ -526,9 +545,14 @@ export default class Group {
 		let inserted = false;
 
 		for (let i = 0; i < this.s.criteria.length; i++) {
-			if (i === 0 && this.s.criteria[i].criteria.s.index > criteria.s.index) {
+			if (
+				i === 0 &&
+				this.s.criteria[i].criteria.s.index > criteria.s.index
+			) {
 				// Add the node for the criteria at the start of the group
-				criteria.getNode().insertBefore(this.s.criteria[i].criteria.dom.container);
+				criteria
+					.getNode()
+					.insertBefore(this.s.criteria[i].criteria.dom.container);
 				inserted = true;
 			}
 			else if (
@@ -537,7 +561,9 @@ export default class Group {
 				this.s.criteria[i + 1].criteria.s.index > criteria.s.index
 			) {
 				// Add the node for the criteria in the correct location
-				criteria.getNode().insertAfter(this.s.criteria[i].criteria.dom.container);
+				criteria
+					.getNode()
+					.insertAfter(this.s.criteria[i].criteria.dom.container);
 				inserted = true;
 			}
 		}
@@ -552,7 +578,9 @@ export default class Group {
 			index
 		});
 
-		this.s.criteria = this.s.criteria.sort((a, b) => a.criteria.s.index - b.criteria.s.index);
+		this.s.criteria = this.s.criteria.sort(
+			(a, b) => a.criteria.s.index - b.criteria.s.index
+		);
 
 		for (let opt of this.s.criteria) {
 			if (opt.criteria instanceof Criteria) {
@@ -571,8 +599,8 @@ export default class Group {
 	public checkFilled() {
 		for (let crit of this.s.criteria) {
 			if (
-				crit.criteria instanceof Criteria && crit.criteria.s.filled ||
-				crit.criteria instanceof Group && crit.criteria.checkFilled()
+				(crit.criteria instanceof Criteria && crit.criteria.s.filled) ||
+				(crit.criteria instanceof Group && crit.criteria.checkFilled())
 			) {
 				return true;
 			}
@@ -592,7 +620,7 @@ export default class Group {
 				count += crit.criteria.count();
 			}
 			else {
-				count ++;
+				count++;
 			}
 		}
 
@@ -606,7 +634,15 @@ export default class Group {
 	 */
 	private _addPrevGroup(loadedGroup: IDetails): void {
 		let idx = this.s.criteria.length;
-		let group = new Group(this.s.dt, this.c, this.s.topGroup, idx, true, this.s.depth + 1, this.s.serverData);
+		let group = new Group(
+			this.s.dt,
+			this.c,
+			this.s.topGroup,
+			idx,
+			true,
+			this.s.depth + 1,
+			this.s.serverData
+		);
 
 		// Add the new group to the criteria array
 		this.s.criteria.push({
@@ -629,7 +665,14 @@ export default class Group {
 	 */
 	private _addPrevCriteria(loadedCriteria: criteriaType.IDetails): void {
 		let idx = this.s.criteria.length;
-		let criteria = new Criteria(this.s.dt, this.s.opts, this.s.topGroup, idx, this.s.depth, this.s.serverData);
+		let criteria = new Criteria(
+			this.s.dt,
+			this.s.opts,
+			this.s.topGroup,
+			idx,
+			this.s.depth,
+			this.s.serverData
+		);
 		criteria.populate();
 
 		// Add the new criteria to the criteria array
@@ -701,7 +744,10 @@ export default class Group {
 					return true;
 				}
 			}
-			else if (crit.criteria instanceof Group && crit.criteria.checkFilled()) {
+			else if (
+				crit.criteria instanceof Group &&
+				crit.criteria.checkFilled()
+			) {
 				filledfound = true;
 
 				if (crit.criteria.search(rowData, rowIdx)) {
@@ -757,104 +803,96 @@ export default class Group {
 	 * @param criteria The criteria for the listeners to be set on
 	 */
 	private _setCriteriaListeners(criteria: Criteria): void {
-		criteria.dom.delete
-			.unbind('click')
-			.on('click.dtsb', () => {
-				this._removeCriteria(criteria);
-				criteria.dom.container.remove();
+		criteria.dom.delete.off('click').on('click.dtsb', () => {
+			this._removeCriteria(criteria);
+			criteria.dom.container.remove();
 
-				for (let crit of this.s.criteria) {
-					if (crit.criteria instanceof Criteria) {
-						crit.criteria.updateArrows(this.s.criteria.length > 1);
-					}
+			for (let crit of this.s.criteria) {
+				if (crit.criteria instanceof Criteria) {
+					crit.criteria.updateArrows(this.s.criteria.length > 1);
 				}
+			}
 
-				criteria.destroy();
-				this.s.dt.draw();
+			criteria.destroy();
+			this.s.dt.draw();
 
-				this.s.topGroup.trigger('dtsb-redrawContents');
+			this.s.topGroup.trigger('dtsb-redrawContents');
 
-				return false;
-			});
+			return false;
+		});
 
-		criteria.dom.right
-			.unbind('click')
-			.on('click.dtsb', () => {
-				let idx = criteria.s.index;
-				let group = new Group(
-					this.s.dt,
-					this.s.opts,
-					this.s.topGroup,
-					criteria.s.index,
-					true,
-					this.s.depth + 1,
-					this.s.serverData
-				);
+		criteria.dom.right.off('click').on('click.dtsb', () => {
+			let idx = criteria.s.index;
+			let group = new Group(
+				this.s.dt,
+				this.s.opts,
+				this.s.topGroup,
+				criteria.s.index,
+				true,
+				this.s.depth + 1,
+				this.s.serverData
+			);
 
-				// Add the criteria that is to be moved to the new group
-				group.addCriteria(criteria);
+			// Add the criteria that is to be moved to the new group
+			group.addCriteria(criteria);
 
-				// Update the details in the current groups criteria array
-				this.s.criteria[idx].criteria = group;
-				this.s.criteria[idx].logic = 'AND';
+			// Update the details in the current groups criteria array
+			this.s.criteria[idx].criteria = group;
+			this.s.criteria[idx].logic = 'AND';
 
-				this.s.topGroup.trigger('dtsb-redrawContents');
+			this.s.topGroup.trigger('dtsb-redrawContents');
 
-				this._setGroupListeners(group);
+			this._setGroupListeners(group);
 
-				return false;
-			});
+			return false;
+		});
 
-		criteria.dom.left
-			.unbind('click')
-			.on('click.dtsb', () => {
-				this.s.toDrop = new Criteria(
-					this.s.dt,
-					this.s.opts,
-					this.s.topGroup,
-					criteria.s.index,
-					undefined,
-					this.s.serverData
-				);
-				this.s.toDrop.s = criteria.s;
-				this.s.toDrop.c = criteria.c;
-				this.s.toDrop.classes = criteria.classes;
-				this.s.toDrop.populate();
+		criteria.dom.left.off('click').on('click.dtsb', () => {
+			this.s.toDrop = new Criteria(
+				this.s.dt,
+				this.s.opts,
+				this.s.topGroup,
+				criteria.s.index,
+				undefined,
+				this.s.serverData
+			);
+			this.s.toDrop.s = criteria.s;
+			this.s.toDrop.c = criteria.c;
+			this.s.toDrop.classes = criteria.classes;
+			this.s.toDrop.populate();
 
-				// The dropCriteria event mutates the reference to the index so need to store it
-				let index = this.s.toDrop.s.index;
-				this.dom.container.trigger('dtsb-dropCriteria');
-				criteria.s.index = index;
-				this._removeCriteria(criteria);
+			// The dropCriteria event mutates the reference to the index so need to store it
+			let index = this.s.toDrop.s.index;
+			this.dom.container.trigger('dtsb-dropCriteria');
+			criteria.s.index = index;
+			this._removeCriteria(criteria);
 
-				// By tracking the top level group we can directly trigger a redraw on it,
-				//  bubbling is also possible, but that is slow with deep levelled groups
-				this.s.topGroup.trigger('dtsb-redrawContents');
+			// By tracking the top level group we can directly trigger a redraw on it,
+			//  bubbling is also possible, but that is slow with deep levelled groups
+			this.s.topGroup.trigger('dtsb-redrawContents');
 
-				this.s.dt.draw();
+			this.s.dt.draw();
 
-				return false;
-			});
+			return false;
+		});
 	}
 
 	/**
 	 * Set's the listeners for the group clear button
 	 */
 	private _setClearListener(): void {
-		this.dom.clear
-			.unbind('click')
-			.on('click.dtsb', () => {
-				if (!this.s.isChild) {
-					this.dom.container.trigger('dtsb-clearContents');
-
-					return false;
-				}
-
-				this.destroy();
-				this.s.topGroup.trigger('dtsb-redrawContents');
+		this.dom.clear.off('click').on('click.dtsb', () => {
+			if (!this.s.isChild) {
+				this.dom.container.trigger('dtsb-clearContents');
 
 				return false;
-			});
+			}
+
+			this.destroy();
+			this.s.topGroup.trigger('dtsb-redrawContents');
+
+			return false;
+		});
 	}
 
 	/**
@@ -864,26 +902,22 @@ export default class Group {
 	 */
 	private _setGroupListeners(group: Group): void {
 		// Set listeners for the new group
-		group.dom.add
-			.unbind('click')
-			.on('click.dtsb', () => {
-				this.setupLogic();
-				this.dom.container.trigger('dtsb-add');
+		group.dom.add.off('click').on('click.dtsb', () => {
+			this.setupLogic();
+			this.dom.container.trigger('dtsb-add');
 
-				return false;
-			});
+			return false;
+		});
 
-		group.dom.container
-			.unbind('dtsb-add')
-			.on('dtsb-add.dtsb', () => {
-				this.setupLogic();
-				this.dom.container.trigger('dtsb-add');
+		group.dom.container.off('dtsb-add').on('dtsb-add.dtsb', () => {
+			this.setupLogic();
+			this.dom.container.trigger('dtsb-add');
 
-				return false;
-			});
+			return false;
+		});
 
 		group.dom.container
-			.unbind('dtsb-destroy')
+			.off('dtsb-destroy')
 			.on('dtsb-destroy.dtsb', () => {
 				this._removeCriteria(group, true);
 				group.dom.container.remove();
@@ -893,7 +927,7 @@ export default class Group {
 			});
 
 		group.dom.container
-			.unbind('dtsb-dropCriteria')
+			.off('dtsb-dropCriteria')
 			.on('dtsb-dropCriteria.dtsb', () => {
 				let toDrop = group.s.toDrop;
 				toDrop.s.index = group.s.index;
@@ -913,15 +947,27 @@ export default class Group {
 		this.setListeners();
 
 		this.dom.add.html(this.s.dt.i18n('searchBuilder.add', this.c.i18n.add));
-		this.dom.search.html(this.s.dt.i18n('searchBuilder.search', this.c.i18n.search));
-		this.dom.logic.children().first().html(this.c.logic === 'OR'
-			? this.s.dt.i18n('searchBuilder.logicOr', this.c.i18n.logicOr)
-			: this.s.dt.i18n('searchBuilder.logicAnd', this.c.i18n.logicAnd)
+		this.dom.search.html(
+			this.s.dt.i18n('searchBuilder.search', this.c.i18n.search)
 		);
+		this.dom.logic
+			.children()
+			.eq(0)
+			.html(
+				this.c.logic === 'OR'
+					? this.s.dt.i18n(
+							'searchBuilder.logicOr',
+							this.c.i18n.logicOr
+					  )
+					: this.s.dt.i18n(
+							'searchBuilder.logicAnd',
+							this.c.i18n.logicAnd
+					  )
+			);
 		this.s.logic = this.c.logic === 'OR' ? 'OR' : 'AND';
 
 		if (this.c.greyscale) {
-			this.dom.logic.addClass(this.classes.greyscale);
+			this.dom.logic.classAdd(this.classes.greyscale);
 		}
 
 		this.dom.logicContainer.append(this.dom.logic).append(this.dom.clear);
@@ -934,7 +980,7 @@ export default class Group {
 
 		this.dom.container.append(this.dom.add);
 
-		if (! this.c.liveSearch) {
+		if (!this.c.liveSearch) {
 			this.dom.container.append(this.dom.search);
 		}
 	}
@@ -943,16 +989,14 @@ export default class Group {
 	 * Sets the listener for the logic button
 	 */
 	private _setLogicListener(): void {
-		this.dom.logic
-			.unbind('click')
-			.on('click.dtsb', () => {
-				this._toggleLogic();
-				this.s.dt.draw();
+		this.dom.logic.off('click').on('click.dtsb', () => {
+			this._toggleLogic();
+			this.s.dt.draw();
 
-				for (let crit of this.s.criteria) {
-					crit.criteria.setListeners();
-				}
-			});
+			for (let crit of this.s.criteria) {
+				crit.criteria.setListeners();
+			}
+		});
 	}
 
 	/**
@@ -961,11 +1005,24 @@ export default class Group {
 	private _toggleLogic(): void {
 		if (this.s.logic === 'OR') {
 			this.s.logic = 'AND';
-			this.dom.logic.children().first().html(this.s.dt.i18n('searchBuilder.logicAnd', this.c.i18n.logicAnd));
+			this.dom.logic
+				.children()
+				.eq(0)
+				.html(
+					this.s.dt.i18n(
+						'searchBuilder.logicAnd',
+						this.c.i18n.logicAnd
+					)
+				);
 		}
 		else if (this.s.logic === 'AND') {
 			this.s.logic = 'OR';
-			this.dom.logic.children().first().html(this.s.dt.i18n('searchBuilder.logicOr', this.c.i18n.logicOr));
+			this.dom.logic
+				.children()
+				.eq(0)
+				.html(
+					this.s.dt.i18n('searchBuilder.logicOr', this.c.i18n.logicOr)
+				);
 		}
 	}
 }

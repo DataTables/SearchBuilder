@@ -4,8 +4,10 @@
 
 /// <reference types="jquery" />
 
-import DataTables, {Api} from 'datatables.net';
-import {IDefaults, IDetails, II18n} from './searchBuilder';
+import DataTables, { Api } from 'datatables.net';
+import Criteria, { ICondition } from './criteria';
+import Group from './group';
+import SearchBuilder, { IDefaults, IDetails, II18n } from './searchBuilder';
 
 export default DataTables;
 
@@ -25,6 +27,10 @@ declare module 'datatables.net' {
 		searchBuilder?: boolean | string[] | ConfigSearchBuilder | ConfigSearchBuilder[];
 	}
 
+	interface Defaults {
+		searchBuilder?: ConfigSearchBuilder;
+	}
+
 	interface ConfigLanguage {
 		/**
 		 * SearchBuilder language options
@@ -32,7 +38,17 @@ declare module 'datatables.net' {
 		searchBuilder?: ConfigSearchBuilderLanguage;
 	}
 
-	interface ConfigColumns {
+	interface Context {
+		_searchBuilder: SearchBuilder;
+	}
+
+	interface Ext {
+		searchBuilder: {
+			conditions: Record<string, ICondition>;
+		}
+	}
+
+	interface ColumnContext {
 		searchBuilder?: {
 			/** Set a default condition for this column */
 			defaultCondition?: number | string;
@@ -65,22 +81,11 @@ declare module 'datatables.net' {
 		/**
 		 * SearchBuilder class
 		 */
-		SearchBuilder: {
-			/**
-			 * Create a new SearchBuilder instance for the target DataTable
-			 */
-			new (dt: Api<any>, settings: string[] | ConfigSearchBuilder | ConfigSearchBuilder[]): DataTablesStatic['SearchBuilder'];
+		SearchBuilder: typeof SearchBuilder;
 
-			/**
-			 * SearchBuilder version
-			 */
-			version: string;
+		Group: typeof Group;
 
-			/**
-			 * Default configuration values
-			 */
-			defaults: ConfigSearchBuilder;
-		}
+		Criteria: typeof Criteria;
 	}
 }
 
