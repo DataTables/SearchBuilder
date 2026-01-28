@@ -1,6 +1,6 @@
 import DataTable, { ColumnSelector, Dom } from 'datatables.net';
-import Criteria, * as criteriaType from './criteria';
-import Group from './group';
+import Criteria, * as criteriaType from './Criteria';
+import Group from './Group';
 import './interface';
 
 export interface IDetails {

@@ -5,9 +5,9 @@
 /// <reference types="jquery" />
 
 import DataTables, { Api } from 'datatables.net';
-import Criteria, { ICondition } from './criteria';
-import Group from './group';
-import SearchBuilder, { IDefaults, IDetails, II18n } from './searchBuilder';
+import Criteria, { ICondition } from './Criteria';
+import Group from './Group';
+import SearchBuilder, { IDefaults, IDetails, II18n } from './SearchBuilder';
 
 export default DataTables;
 

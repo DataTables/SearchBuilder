@@ -1,6 +1,6 @@
 import DataTable, { Api, Dom } from 'datatables.net';
 import './interface';
-import * as builderType from './searchBuilder';
+import * as builderType from './SearchBuilder';
 
 const dom = DataTable.dom;
 const util = DataTable.util;

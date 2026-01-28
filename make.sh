@@ -23,62 +23,12 @@ DT_SRC=$(dirname $(dirname $(pwd)))
 DT_BUILT="${DT_SRC}/built/DataTables"
 . $DT_SRC/build/include.sh
 
-if [ ! -d "node_modules" ]; then
-    npm install
-fi
-
-if [ ! -d "node_modules/@rollup" ]; then
-    npm install
-fi
-
 # Copy CSS
 rsync -r css $OUT_DIR
-rsync -r node_modules/datatables.net-datetime/css $OUT_DIR
 css_frameworks searchBuilder $OUT_DIR/css
 
-# Copy images
-#rsync -r images $OUT_DIR
-node_modules/typescript/bin/tsc
-
-# node_modules/typescript/bin/tsc src/searchBuilder.ts --module ES6 --moduleResolution Node
-# node_modules/typescript/bin/tsc src/index.ts --module ES6 --moduleResolution Node
-# node_modules/typescript/bin/tsc src/criteria.ts --module ES6 --moduleResolution Node
-# node_modules/typescript/bin/tsc src/group.ts --module ES6 --moduleResolution Node
-
-# Copy JS
-HEADER="$(head -n 3 src/index.ts)"
-
-rsync -r src/*.js $OUT_DIR/js
-js_frameworks searchBuilder $OUT_DIR/js "jquery datatables.net-FW datatables.net-searchbuilder"
-
-OUT=$OUT_DIR ./node_modules/rollup/dist/bin/rollup \
-    --banner "$HEADER" \
-    --config rollup.config.js
-
-rm \
-    $OUT_DIR/js/index.js \
-    $OUT_DIR/js/searchBuilder.js \
-    $OUT_DIR/js/criteria.js \
-    $OUT_DIR/js/group.js \
-    ./src/*.js \
-
-rm ./src/*.d.ts
-
-js_wrap $OUT_DIR/js/dataTables.searchBuilder.js "jquery datatables.net"
-
-# Copy Types
-if [ -d $OUT_DIR/types ]; then
-	rm -r $OUT_DIR/types		
-fi
-mkdir $OUT_DIR/types
-
-if [ -d types/ ]; then
-	cp types/* $OUT_DIR/types
-else
-	if [ -f types.d.ts ]; then
-		cp types.d.ts $OUT_DIR/types
-	fi
-fi
+# Typescript build
+ts_extension SearchBuilder searchBuilder
 
 # Copy and build examples
 rsync -r examples $OUT_DIR

@@ -4,18 +4,18 @@
 
 declare var DataTable: any;
 
-$.extend(true, DataTable.SearchBuilder.classes, {
+Object.assign(DataTable.SearchBuilder.classes, {
 	clearAll: 'basic ui button dtsb-clearAll'
 });
 
-$.extend(true, DataTable.Group.classes, {
+Object.assign(DataTable.Group.classes, {
 	add: 'basic ui button dtsb-add',
 	clearGroup: 'basic ui button dtsb-clearGroup',
 	logic: 'basic ui button dtsb-logic',
 	search: 'basic ui button dtsb-search',
 });
 
-$.extend(true, DataTable.Criteria.classes, {
+Object.assign(DataTable.Criteria.classes, {
 	condition: 'ui selection dropdown dtsb-condition',
 	data: 'ui selection dropdown dtsb-data',
 	delete: 'basic ui button dtsb-delete',
@@ -35,5 +35,5 @@ DataTable.ext.buttons.searchBuilder.action = function(e, dt, node, config) {
 		config._searchBuilder.s.topGroup.dom.container.trigger('dtsb-redrawContents');
 	}
 
-	$('div.dtsb-searchBuilder').removeClass('ui basic vertical buttons');
+	DataTable.dom.s('div.dtsb-searchBuilder').classRemove('ui basic vertical buttons');
 };

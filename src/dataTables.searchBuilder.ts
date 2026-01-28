@@ -21,9 +21,9 @@
 
 import DataTable, { Dom } from 'datatables.net';
 
-import Criteria from './criteria';
-import Group from './group';
-import SearchBuilder from './searchBuilder';
+import Criteria from './Criteria';
+import Group from './Group';
+import SearchBuilder from './SearchBuilder';
 
 DataTable.SearchBuilder = SearchBuilder;
 DataTable.Group = Group;

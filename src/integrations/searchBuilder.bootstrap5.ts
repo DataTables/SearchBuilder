@@ -4,18 +4,18 @@
 
 declare var DataTable: any;
 
-$.extend(true, DataTable.SearchBuilder.classes, {
+Object.assign(DataTable.SearchBuilder.classes, {
 	clearAll: 'btn btn-secondary dtsb-clearAll'
 });
 
-$.extend(true, DataTable.Group.classes, {
+Object.assign(DataTable.Group.classes, {
 	add: 'btn btn-secondary dtsb-add',
 	clearGroup: 'btn btn-secondary dtsb-clearGroup',
 	logic: 'btn btn-secondary dtsb-logic',
-	search: 'btn btn-secondary dtsb-search',
+	search: 'btn btn-secondary dtsb-search'
 });
 
-$.extend(true, DataTable.Criteria.classes, {
+Object.assign(DataTable.Criteria.classes, {
 	condition: 'form-select dtsb-condition',
 	data: 'dtsb-data form-select',
 	delete: 'btn btn-secondary dtsb-delete',
@@ -23,5 +23,5 @@ $.extend(true, DataTable.Criteria.classes, {
 	left: 'btn btn-secondary dtsb-left',
 	right: 'btn btn-secondary dtsb-right',
 	select: 'form-select',
-	value: 'dtsb-value',
+	value: 'dtsb-value'
 });

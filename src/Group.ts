@@ -1,6 +1,6 @@
 import DataTable, { Dom } from 'datatables.net';
-import Criteria, * as criteriaType from './criteria';
-import * as builderType from './searchBuilder';
+import Criteria, * as criteriaType from './Criteria';
+import * as builderType from './SearchBuilder';
 
 export interface IClassses {
 	add: string;
