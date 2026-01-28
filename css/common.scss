@@ -83,6 +83,11 @@ div.dtsb-searchBuilder {
         position: relative;
         clear: both;
         margin-bottom: 0.8em;
+        margin-left: 46px;
+
+        > button:first-child {
+            margin-left: -46px;
+        }
 
         button.dtsb-search {
             float: right;
@@ -95,14 +100,10 @@ div.dtsb-searchBuilder {
         }
 
         div.dtsb-logicContainer {
-            -webkit-transform: rotate(90deg);
-            -moz-transform: rotate(90deg);
-            -o-transform: rotate(90deg);
-            -ms-transform: rotate(90deg);
-            transform: rotate(90deg);
             position: absolute;
-            margin-top: 0.8em;
-            margin-right: 0.8em;
+            left: -0.8em;
+            transform: rotate(90deg);
+            transform-origin: top left;
         }
 
         div.dtsb-criteria {

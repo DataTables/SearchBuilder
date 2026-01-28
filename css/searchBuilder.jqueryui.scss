@@ -2,6 +2,12 @@
 
 div.dtsb-searchBuilder {
     div.dtsb-group{
+        margin-left: 41px;
+
+        > button:first-child {
+            margin-left: -41px;
+        }
+
         div.dtsb-criteria{
             select{
                 width: auto !important;
@@ -37,7 +43,6 @@ div.dtsb-searchBuilder {
             justify-content: flex-start;
             align-content: flex-start;
             align-items: flex-start;
-            margin-top: 10px;
 
             button.dtsb-logic {
                 border: none;

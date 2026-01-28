@@ -424,8 +424,6 @@ export default class Group {
 		if (this.s.criteria.length < 1) {
 			if (!this.s.isChild) {
 				this.dom.container.trigger('dtsb-destroy');
-				// Set criteria left margin
-				this.dom.container.css('margin-left', '0');
 			}
 
 			this.dom.search.css('display', 'none');
@@ -450,37 +448,11 @@ export default class Group {
 		}
 
 		// Set width, take 2 for the border
-		let height = this.dom.container.height('outer') - 1;
+		let height = this.dom.container.height() - 1;
 		this.dom.logicContainer.width(height);
-		this._setLogicListener();
-
-		// Set criteria left margin
-		this.dom.container.css(
-			'margin-left',
-			this.dom.logicContainer.height('withMargin') + 'px'
-		);
-
-		let logicOffset = this.dom.logicContainer.offset();
-
-		// Set horizontal alignment
-		let currentLeft = logicOffset.left;
-		let groupLeft = this.dom.container.offset().left;
-		let shuffleLeft = currentLeft - groupLeft;
-		let newPos =
-			currentLeft -
-			shuffleLeft -
-			this.dom.logicContainer.height('withMargin');
-		this.dom.logicContainer.css('left', newPos + 'px');
-
-		// Set vertical alignment
-		let firstCrit = this.dom.logicContainer.get(0).nextElementSibling;
-		let currentTop = logicOffset.top;
-		let firstTop = dom.s(firstCrit).offset().top;
-		let shuffleTop = currentTop - firstTop;
-		let newTop = currentTop - shuffleTop;
-		this.dom.logicContainer.css('top', newTop + 'px');
-
 		this.dom.clear.height(this.dom.logicContainer.height());
+
+		this._setLogicListener();
 
 		this._setClearListener();
 	}

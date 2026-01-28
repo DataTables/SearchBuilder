@@ -14,6 +14,12 @@ div.dtsb-searchBuilder {
         }
     }
     div.dtsb-group{
+        margin-left: 52px;
+
+        > button:first-child {
+            margin-left: -52px;
+        }
+
         div.dtsb-criteria{
             select.dtsb-dropDown {
                 width: auto !important;
@@ -47,7 +53,6 @@ div.dtsb-searchBuilder {
             justify-content: flex-start;
             align-content: flex-start;
             align-items: flex-start;
-            margin-top: 0.8em;
 
             button.dtsb-logic {
                 border: none;

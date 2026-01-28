@@ -34,7 +34,7 @@ export interface ICondition {
 		fn?: (thatAgain: Criteria, el: Dom) => void,
 		preDefined?: string[]
 	) => Dom | Array<Dom> | void;
-	inputValue: (el: Dom) => string[] | void;
+	inputValue: (el: Dom[], that: Criteria) => string[];
 	isInputValid: (val: Array<Dom>, that: Criteria) => boolean;
 	search: (
 		value: string | string[],
@@ -259,7 +259,8 @@ export default class Criteria {
 				)
 				.attr('type', 'button'),
 			value: [
-				dom.c('select')
+				dom
+					.c('select')
 					.prop('disabled', true)
 					.classAdd(this.classes.value)
 					.classAdd(this.classes.dropDown)
@@ -286,9 +287,12 @@ export default class Criteria {
 			}
 		}
 
-		dom.w.on('resize.dtsb', DataTable.util.throttle(() => {
+		dom.w.on(
+			'resize.dtsb',
+			DataTable.util.throttle(() => {
 				this.s.topGroup.trigger('dtsb-redrawLogic');
-		}));
+			})
+		);
 
 		this._buildCriteria();
 
@@ -299,18 +303,19 @@ export default class Criteria {
 	 * Default initialisation function for select conditions
 	 */
 	private static initSelect = function (
-		that,
+		that: Criteria,
 		fn,
 		preDefined = null,
 		array = false
 	): Dom {
-		let column = that.dom.data.children('option:selected').val();
+		let column = parseInt(that.dom.data.val());
 		let indexArray = that.s.dt.rows().indexes().toArray();
 		let fastData = that.s.dt.settings()[0].fastData;
 		that.dom.valueTitle.prop('selected', true);
 
 		// Declare select element to be used with all of the default classes and listeners.
-		let el = dom.c('select')
+		let el = dom
+			.c('select')
 			.classAdd(Criteria.classes.value)
 			.classAdd(Criteria.classes.dropDown)
 			.classAdd(Criteria.classes.italic)
@@ -374,7 +379,8 @@ export default class Criteria {
 				}
 
 				// Add text and value, stripping out any html if that is the column type
-				let opt = dom.c('option')
+				let opt = dom
+					.c('option')
 					.attr('type', Array.isArray(filt) ? 'Array' : 'String')
 					.attr('value', filt)
 					.data('sbv', filt)
@@ -490,14 +496,15 @@ export default class Criteria {
 	 * Default initialisation function for select conditions
 	 */
 	private static initSelectSSP = function (
-		that,
+		that: Criteria,
 		fn,
 		preDefined = null
 	): Dom {
 		that.dom.valueTitle.prop('selected', true);
 
 		// Declare select element to be used with all of the default classes and listeners.
-		let el = dom.c('select')
+		let el = dom
+			.c('select')
 			.classAdd(Criteria.classes.value)
 			.classAdd(Criteria.classes.dropDown)
 			.classAdd(Criteria.classes.italic)
@@ -528,7 +535,8 @@ export default class Criteria {
 				}
 
 				// Add text and value, stripping out any html if that is the column type
-				let opt = dom.c('option')
+				let opt = dom
+					.c('option')
 					.attr('type', Array.isArray(filt) ? 'Array' : 'String')
 					.attr('value', filt)
 					.data('sbv', filt)
@@ -567,7 +575,7 @@ export default class Criteria {
 	 * This exists because there needs to be different select functionality for contains/without and equals/not
 	 */
 	private static initSelectArray = function (
-		that,
+		that: Criteria,
 		fn,
 		preDefined = null
 	): Dom {
@@ -584,7 +592,8 @@ export default class Criteria {
 	): Dom {
 		// Declare the input element
 		let searchDelay = that.s.dt.settings()[0].searchDelay;
-		let el = dom.c('input')
+		let el = dom
+			.c('input')
 			.classAdd(Criteria.classes.value)
 			.classAdd(Criteria.classes.input)
 			.on(
@@ -626,7 +635,8 @@ export default class Criteria {
 		// Declare all of the necessary jQuery elements
 		let searchDelay = that.s.dt.settings()[0].searchDelay;
 		let els = [
-			dom.c('input')
+			dom
+				.c('input')
 				.classAdd(Criteria.classes.value)
 				.classAdd(Criteria.classes.input)
 				.on(
@@ -639,7 +649,8 @@ export default class Criteria {
 						searchDelay === null ? 100 : searchDelay
 					)
 				),
-			dom.c('span')
+			dom
+				.c('span')
 				.classAdd(that.classes.joiner)
 				.html(
 					that.s.dt.i18n(
@@ -647,7 +658,8 @@ export default class Criteria {
 						that.c.i18n.valueJoiner
 					)
 				),
-			dom.c('input')
+			dom
+				.c('input')
 				.classAdd(Criteria.classes.value)
 				.classAdd(Criteria.classes.input)
 				.on(
@@ -693,7 +705,8 @@ export default class Criteria {
 		let i18n = that.s.dt.i18n('datetime', {}, false);
 
 		// Declare date element using DataTables dateTime plugin
-		let el = dom.c('input')
+		let el = dom
+			.c('input')
 			.classAdd(Criteria.classes.value)
 			.classAdd(Criteria.classes.input)
 			.on(
@@ -763,7 +776,8 @@ export default class Criteria {
 
 		// Declare all of the date elements that are required using DataTables dateTime plugin
 		let els = [
-			dom.c('input')
+			dom
+				.c('input')
 				.classAdd(Criteria.classes.value)
 				.classAdd(Criteria.classes.input)
 				.on(
@@ -785,7 +799,8 @@ export default class Criteria {
 						searchDelay === null ? 0 : searchDelay
 					);
 				}),
-			dom.c('span')
+			dom
+				.c('span')
 				.classAdd(that.classes.joiner)
 				.html(
 					that.s.dt.i18n(
@@ -793,7 +808,8 @@ export default class Criteria {
 						that.c.i18n.valueJoiner
 					)
 				),
-			dom.c('input')
+			dom
+				.c('input')
 				.classAdd(Criteria.classes.value)
 				.classAdd(Criteria.classes.input)
 				.on(
@@ -808,9 +824,7 @@ export default class Criteria {
 				)
 				.on(
 					'input.dtsb keypress.dtsb',
-					!that.c.enterSearch &&
-						!searchReturn &&
-						searchDelay !== null
+					!that.c.enterSearch && !searchReturn && searchDelay !== null
 						? DataTable.util.throttle(function () {
 								return fn(that, this);
 						  }, searchDelay)
@@ -820,7 +834,6 @@ export default class Criteria {
 						  }
 				)
 		];
-
 
 		let DatePicker = DataTable.use('datetime');
 
@@ -863,14 +876,16 @@ export default class Criteria {
 
 		// Check each element to make sure that the selections are valid
 		for (let element of el) {
+			let options = element.children('option').get();
+			let selected = options.filter(e => e.selected);
+			let notItalic = element.children(
+				'option.' + Criteria.classes.notItalic
+			);
+
 			if (
-				element.children('option:selected').length ===
-					element.children('option').length -
-						element.children('option.' + Criteria.classes.notItalic)
-							.length &&
-				element.children('option:selected').length === 1 &&
-				element.children('option:selected')[0] ===
-					element.children('option')[0]
+				selected.length === options.length - notItalic.length &&
+				selected.length === 1 &&
+				selected[0] === options[0]
 			) {
 				allFilled = false;
 			}
@@ -882,7 +897,7 @@ export default class Criteria {
 	/**
 	 * Default function for input and date elements to validate condition
 	 */
-	private static isInputValidInput = function (el) {
+	private static isInputValidInput = function (el: Dom[]) {
 		let allFilled = true;
 
 		// Check each element to make sure that the inputs are valid
@@ -898,14 +913,19 @@ export default class Criteria {
 	/**
 	 * Default function for getting select conditions
 	 */
-	private static inputValueSelect = function (el) {
+	private static inputValueSelect = function (el: Dom[]) {
 		let values = [];
 
 		// Go through the select elements and push each selected option to the return array
 		for (let element of el) {
 			if (element.is('select')) {
 				let escapedItems = []
-					.concat(element.children('option:selected').data('sbv'))
+					.concat(
+						element
+							.children('option')
+							.filter(o => (o as HTMLOptionElement).selected)
+							.data('sbv')
+					)
 					.map(item => util.escapeHtml(item));
 				values.push(...escapedItems);
 			}
@@ -917,7 +937,7 @@ export default class Criteria {
 	/**
 	 * Default function for getting input conditions
 	 */
-	private static inputValueInput = function (el) {
+	private static inputValueInput = function (el: Dom[]) {
 		let values: string[] = [];
 
 		// Go through the input elements and push each value to the return array
@@ -935,7 +955,7 @@ export default class Criteria {
 	/**
 	 * Function that is run on each element as a call back when a search should be triggered
 	 */
-	private static updateListener = function (that, el, code?) {
+	private static updateListener = function (that: Criteria, el, code?) {
 		// When the value is changed the criteria is now complete so can be included in searches
 		// Get the condition from the map based on the key that has been selected for the condition
 		let condition = that.s.conditions[that.s.condition];
@@ -946,11 +966,7 @@ export default class Criteria {
 
 		if (!that.s.filled) {
 			if (
-				(!that.c.enterSearch &&
-					!(
-						that.s.dt.settings()[0].oInit.search !== undefined &&
-						that.s.dt.settings()[0].oInit.search.return
-					)) ||
+				(!that.c.enterSearch && !that.isReturnSearch()) ||
 				code === 13
 			) {
 				that.doSearch();
@@ -965,7 +981,7 @@ export default class Criteria {
 		for (i = 0; i < that.s.value.length; i++) {
 			// If the value is an array we need to sort it
 			if (Array.isArray(that.s.value[i])) {
-				that.s.value[i].sort();
+				(that.s.value[i] as any).sort();
 			}
 		}
 
@@ -984,11 +1000,7 @@ export default class Criteria {
 		}
 
 		if (
-			(!that.c.enterSearch &&
-				!(
-					that.s.dt.settings()[0].oInit.search !== undefined &&
-					that.s.dt.settings()[0].oInit.search.return
-				)) ||
+			(!that.c.enterSearch && !that.isReturnSearch()) ||
 			code === 13 ||
 			code === undefined || // A click triggered it
 			(el.nodeName && el.nodeName.toLowerCase() === 'select')
@@ -1148,7 +1160,7 @@ export default class Criteria {
 			},
 			init: Criteria.initNoValue,
 			inputValue() {
-				return;
+				return [];
 			},
 			isInputValid() {
 				return true;
@@ -1168,7 +1180,7 @@ export default class Criteria {
 			},
 			init: Criteria.initNoValue,
 			inputValue() {
-				return;
+				return [];
 			},
 			isInputValid() {
 				return true;
@@ -1320,7 +1332,7 @@ export default class Criteria {
 			},
 			init: Criteria.initNoValue,
 			inputValue() {
-				return;
+				return [];
 			},
 			isInputValid() {
 				return true;
@@ -1340,7 +1352,7 @@ export default class Criteria {
 			},
 			init: Criteria.initNoValue,
 			inputValue() {
-				return;
+				return [];
 			},
 			isInputValid() {
 				return true;
@@ -1510,7 +1522,7 @@ export default class Criteria {
 			},
 			init: Criteria.initNoValue,
 			inputValue() {
-				return;
+				return [];
 			},
 			isInputValid() {
 				return true;
@@ -1530,7 +1542,7 @@ export default class Criteria {
 			},
 			init: Criteria.initNoValue,
 			inputValue() {
-				return;
+				return [];
 			},
 			isInputValid() {
 				return true;
@@ -1684,7 +1696,7 @@ export default class Criteria {
 			},
 			init: Criteria.initNoValue,
 			inputValue() {
-				return;
+				return [];
 			},
 			isInputValid() {
 				return true;
@@ -1704,7 +1716,7 @@ export default class Criteria {
 			},
 			init: Criteria.initNoValue,
 			inputValue() {
-				return;
+				return [];
 			},
 			isInputValid() {
 				return true;
@@ -1912,7 +1924,7 @@ export default class Criteria {
 			},
 			init: Criteria.initNoValue,
 			inputValue() {
-				return;
+				return [];
 			},
 			isInputValid() {
 				return true;
@@ -1932,7 +1944,7 @@ export default class Criteria {
 			},
 			init: Criteria.initNoValue,
 			inputValue() {
-				return;
+				return [];
 			},
 			isInputValid() {
 				return true;
@@ -2086,7 +2098,7 @@ export default class Criteria {
 			},
 			init: Criteria.initNoValue,
 			inputValue() {
-				return;
+				return [];
 			},
 			isInputValid() {
 				return true;
@@ -2106,7 +2118,7 @@ export default class Criteria {
 			},
 			init: Criteria.initNoValue,
 			inputValue() {
-				return;
+				return [];
 			},
 			isInputValid() {
 				return true;
@@ -2213,7 +2225,7 @@ export default class Criteria {
 			},
 			init: Criteria.initNoValue,
 			inputValue() {
-				return;
+				return [];
 			},
 			isInputValid() {
 				return true;
@@ -2233,7 +2245,7 @@ export default class Criteria {
 			},
 			init: Criteria.initNoValue,
 			inputValue() {
-				return;
+				return [];
 			},
 			isInputValid() {
 				return true;
@@ -2442,6 +2454,22 @@ export default class Criteria {
 	}
 
 	/**
+	 * Determine if the DataTable has return for search enabled
+	 *
+	 * @returns true if enabled
+	 */
+	public isReturnSearch() {
+		let dtSettings = this.s.dt.settings()[0];
+		let dtSearch = dtSettings.init.search;
+
+		if (util.is.plainObject(dtSearch)) {
+			return dtSearch.return;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Gets the details required to rebuild the criteria
 	 */
 	public getDetails(deFormatDates = false): IDetails {
@@ -2460,9 +2488,7 @@ export default class Criteria {
 			for (i = 0; i < this.s.value.length; i++) {
 				let splitRD = [this.s.value[i].toString()];
 				if (settings.language.decimal !== '') {
-					splitRD = this.s.value[i].split(
-						settings.language.decimal
-					);
+					splitRD = this.s.value[i].split(settings.language.decimal);
 				}
 
 				if (settings.language.thousands !== '') {
@@ -2906,7 +2932,8 @@ export default class Criteria {
 
 		this.s.value = [];
 		this.dom.value = [
-			dom.c('select')
+			dom
+				.c('select')
 				.prop('disabled', true)
 				.classAdd(this.classes.value)
 				.classAdd(this.classes.dropDown)
@@ -2939,7 +2966,7 @@ export default class Criteria {
 		let conditionsLength = Object.keys(this.s.conditions).length;
 		let dt = this.s.dt;
 		let colInits = dt.settings()[0].columns;
-		let column = +this.dom.data.children('option:selected').val();
+		let column = +this.dom.data.val();
 		let condition, condName;
 
 		// If there are no conditions stored then we need to get them from the
@@ -3070,11 +3097,10 @@ export default class Criteria {
 					}
 
 					conditionOpts.push(
-						dom.c('option')
-							.attr({
-								text: condName,
-								value: condition
-							})
+						dom
+							.c('option')
+							.text(condName)
+							.val(condition)
 							.classAdd(this.classes.option)
 							.classAdd(this.classes.notItalic)
 					);
@@ -3095,11 +3121,10 @@ export default class Criteria {
 					name = name(dt, this.c.i18n);
 				}
 
-				let newOpt = dom.c('option')
-					.attr({
-						text: name,
-						value: condition
-					})
+				let newOpt = dom
+					.c('option')
+					.text(name)
+					.val(condition)
 					.classAdd(this.classes.option)
 					.classAdd(this.classes.notItalic);
 
@@ -3206,11 +3231,10 @@ export default class Criteria {
 				};
 
 				this.dom.data.append(
-					dom.c('option')
-						.attr({
-							text: opt.text,
-							value: opt.index
-						})
+					dom
+						.c('option')
+						.text(opt.text)
+						.val(opt.index)
 						.classAdd(this.classes.option)
 						.classAdd(this.classes.notItalic)
 						.prop('origData', col.data)

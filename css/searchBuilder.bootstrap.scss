@@ -10,6 +10,12 @@ div.dtsb-searchBuilder {
     }
 
     div.dtsb-group{
+        margin-left: 43px;
+
+        > button:first-child {
+            margin-left: -43px;
+        }
+
         div.dtsb-logicContainer{
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -19,7 +25,6 @@ div.dtsb-searchBuilder {
             justify-content: flex-start;
             align-content: flex-start;
             align-items: flex-start;
-            margin-top: 0.8em;
 
             button.dtsb-logic {
                 border: none;

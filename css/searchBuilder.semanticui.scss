@@ -20,7 +20,6 @@ div.dt-button-collection {
         }
 
         div.dtsb-logicContainer {
-            margin-top: 10px !important;
             border: 1px solid rgba(34, 36, 38, 0.15);
             border-radius: 4px;
         }
@@ -50,6 +49,12 @@ div.dtsb-searchBuilder {
         }
     }
     div.dtsb-group{
+        margin-left: 41px;
+
+        > button:first-child {
+            margin-left: -41px;
+        }
+
         div.dtsb-criteria{
             select {
                 width: auto !important;
@@ -81,7 +86,6 @@ div.dtsb-searchBuilder {
             justify-content: flex-start;
             align-content: flex-start;
             align-items: flex-start;
-            margin-top: 0.8em;
 
             button.dtsb-logic {
                 border: none;

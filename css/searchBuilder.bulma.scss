@@ -5,6 +5,12 @@ div.dtsb-searchBuilder {
         margin-bottom: 1.5em;
     }
     div.dtsb-group {
+        margin-left: 50px;
+
+        > button:first-child {
+            margin-left: -50px;
+        }
+
         button.dtsb-clearGroup {
             margin-right: 8px;
         }
@@ -38,7 +44,6 @@ div.dtsb-searchBuilder {
             justify-content: flex-start;
             align-content: flex-start;
             align-items: flex-start;
-            margin-top: 10px;
             overflow: hidden;
 
             button.dtsb-logic {
