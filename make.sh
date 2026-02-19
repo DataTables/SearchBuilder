@@ -28,6 +28,10 @@ rsync -r css $OUT_DIR
 css_frameworks searchBuilder $OUT_DIR/css
 
 # Typescript build
+if [ -d node_modules ]; then
+    rm -r node_modules
+fi
+
 ts_extension SearchBuilder searchBuilder
 
 # Copy and build examples
