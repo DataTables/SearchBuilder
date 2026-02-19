@@ -348,7 +348,7 @@ export default class SearchBuilder {
 			else {
 				this.s.dt.columns().every(index => {
 					if (
-						this.s.dt.settings()[0].aoColumns[index].sTitle ===
+						this.s.dt.settings()[0].columns[index].title ===
 						crit.data
 					) {
 						crit.dataIdx = index;
@@ -374,7 +374,7 @@ export default class SearchBuilder {
 					return this.iterator(
 						'column',
 						function (settings, column) {
-							return settings.aoColumns[column].sType;
+							return settings.columns[column].type;
 						},
 						1
 					);
@@ -393,11 +393,11 @@ export default class SearchBuilder {
 				types.includes(null)
 			) {
 				types = [];
-				for (let colInit of this.s.dt.settings()[0].aoColumns) {
+				for (let colInit of this.s.dt.settings()[0].columns) {
 					types.push(
 						colInit.searchBuilderType !== undefined
 							? colInit.searchBuilderType
-							: colInit.sType
+							: colInit.type
 					);
 				}
 			}
