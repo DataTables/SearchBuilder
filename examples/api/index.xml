@@ -3,7 +3,7 @@
 
 <title lib="SearchBuilder">SearchBuilder Initialisation</title>
 
-<js lib="jquery" />
+<js lib="datatables" />
 <info><![CDATA[
 
 This is the section for showing the api methods that are available with SearchBuilder.

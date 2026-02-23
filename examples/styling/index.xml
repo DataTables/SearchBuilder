@@ -3,7 +3,7 @@
 
 <title lib="SearchBuilder">Advanced searchbuilder</title>
 
-<js lib="jquery" />
+<js lib="datatables" />
 <info><![CDATA[
 
 This is the section for showing how SearchBuilder appears for each of the five styling frameworks supported by DataTables.
