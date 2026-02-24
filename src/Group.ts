@@ -450,7 +450,7 @@ export default class Group {
 		// Set width, take 2 for the border
 		let height = this.dom.container.height() - 1;
 		this.dom.logicContainer.width(height);
-		this.dom.clear.height(this.dom.logicContainer.height());
+		this.dom.clear.height(this.dom.logicContainer.width());
 
 		this._setLogicListener();
 
