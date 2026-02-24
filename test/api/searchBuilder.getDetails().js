@@ -40,7 +40,7 @@ describe('searchBuilder - API - searchBuilder.getDetails()', function() {
 			res = table.searchBuilder.getDetails();
 
 			expect(JSON.stringify(res)).toBe(
-				JSON.stringify({ criteria: [{ data: 'Office', type: 'string', value: [] }], logic: 'AND' })
+				JSON.stringify({ criteria: [{ data: 'Office', origData: "2", type: 'string', value: [] }], logic: 'AND' })
 			);
 		});
 		it('Full search', function() {
@@ -54,7 +54,7 @@ describe('searchBuilder - API - searchBuilder.getDetails()', function() {
 
 			expect(JSON.stringify(res)).toBe(
 				JSON.stringify({
-					criteria: [{ condition: '=', data: 'Office', type:'string', value: ['San Francisco'] }],
+					criteria: [{ condition: '=', data: 'Office', origData: "2", type:'string', value: ['San Francisco'] }],
 					logic: 'AND'
 				})
 			);
@@ -77,8 +77,8 @@ describe('searchBuilder - API - searchBuilder.getDetails()', function() {
 			expect(JSON.stringify(res)).toBe(
 				JSON.stringify({
 					criteria: [
-						{ condition: '=', data: 'Office', type: 'string', value: ['San Francisco'] },
-						{ condition: '>', data: 'Age', type: 'num', value: ['61'] }
+						{ condition: '=', data: 'Office', origData: "2", type: 'string', value: ['San Francisco'] },
+						{ condition: '>', data: 'Age', origData: "3", type: 'num', value: ['61'] }
 					],
 					logic: 'AND'
 				})
