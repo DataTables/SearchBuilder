@@ -3190,7 +3190,7 @@ export default class Criteria {
 									this.dom.condition
 										.children()
 										.get()
-										.indexOf(conditionOpts[i][0])
+										.indexOf(conditionOpts[i].get(0))
 								)
 								.classRemove(this.classes.italic);
 							this.dom.condition.trigger('change');
