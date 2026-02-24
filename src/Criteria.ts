@@ -732,7 +732,7 @@ export default class Criteria {
 		let DatePicker = DataTable.use('datetime');
 
 		if (DatePicker) {
-			new DatePicker({
+			new DatePicker(el.get(0), {
 				format: that.s.dateFormat ? that.s.dateFormat : undefined,
 				i18n
 			});
@@ -771,7 +771,7 @@ export default class Criteria {
 	): Array<Dom> {
 		let dtContext = that.s.dt.settings()[0];
 		let searchDelay = dtContext.searchDelay;
-		let searchReturn = (dtContext.init.search as any).return;
+		let searchReturn = that.isReturnSearch();
 		let i18n = that.s.dt.i18n('datetime', {}, false);
 
 		// Declare all of the date elements that are required using DataTables dateTime plugin

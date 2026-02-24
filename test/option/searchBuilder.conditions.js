@@ -54,21 +54,21 @@ describe('searchBuilder - options - searchBuilder.conditions', function () {
 							multipleOf: {
 								conditionName: 'Multiple Of',
 								init: function (that, fn, preDefined = null) {
-									var el = $('<input/>').on('input', function () {
+									var el = DataTable.dom.c('input').on('input', function () {
 										fn(that, this);
 									});
 
 									if (preDefined !== null) {
-										$(el).val(preDefined[0]);
+										el.val(preDefined[0]);
 									}
 
 									return el;
 								},
 								inputValue: function (el) {
-									return $(el[0]).val();
+									return el[0].val();
 								},
 								isInputValid: function (el, that) {
-									return $(el[0]).val().length !== 0;
+									return el[0].val().length !== 0;
 								},
 								search: function (value, comparison) {
 									return value % comparison === 0;
