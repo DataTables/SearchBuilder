@@ -5,38 +5,49 @@
 
 <js lib="jquery datatables searchbuilder datetime">
 <![CDATA[
-
-$('#example').DataTable({
+new DataTable('#example', {
 	layout: {
 		top1: {
 			searchBuilder: {
 				conditions: {
 					num: {
 						MultipleOf: {
-							conditionName: 'Multiple Of', // String value that will be displayed in the condition select element
-							init: function (that, fn, preDefined = null) {
-								// Declare the input element and set the listener to trigger searching
-								var el = $('<input/>').on('input', function () {
-									fn(that, this);
-								});
+							// String value that will be displayed in the condition select element
+							conditionName: 'Multiple Of',
 
-								// Add mechanism to apply preDefined values that may be passed in
+							init: function (that, fn, preDefined = null) {
+								// Declare the input element and set the
+								// listener to trigger searching
+								var el = DataTable.dom.c('input')
+									.classAdd(that.classes.value)
+									.classAdd(that.classes.input)
+									.on('input', function () {
+										fn(that, this);
+									});
+
+								// Add mechanism to apply preDefined values that
+								// may be passed in
 								if (preDefined !== null) {
-									$(el).val(preDefined[0]);
+									el.val(preDefined[0]);
 								}
 
 								return el;
 							},
-							inputValue: function (el) {
+
+							inputValue: function (els) {
 								// Return the value within the input element
-								return $(el[0]).val();
+								return els[0].val();
 							},
-							isInputValid: function (el, that) {
-								// If there is text in the input element then it is valid for searching
-								return $(el[0]).val().length !== 0;
+
+							isInputValid: function (els, that) {
+								// If there is text in the input element then it
+								// is valid for searching
+								return els[0].val().length !== 0;
 							},
+
 							search: function (value, comparison) {
-								// Use the modulo (%) operator to check that there is no remainder
+								// Use the modulo (%) operator to check that
+								// there is no remainder
 								return value % comparison === 0;
 							}
 						}
@@ -120,7 +131,7 @@ Note that this condition will not be added to the salary column as it is a forma
 
 The `-type SearchBuilder.Condition` data type details requirements for a custom condition to be added to SearchBuilder.
 
-A detailed walkthrough of how to setup custom conditions is available at [this doc page](../../../../extensions/searchbuilder/customConditions.html).
+A detailed walkthrough of how to setup custom conditions is available at [this doc page](https://datatables.net/extensions/searchbuilder/customConditions.html).
 
 ]]></info>
 

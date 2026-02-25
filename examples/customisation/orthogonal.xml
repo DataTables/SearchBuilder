@@ -533,7 +533,7 @@ $('#example').DataTable({
 		},
 		{
 			data: 'salary',
-			render: $.fn.dataTable.render.number(',', '.', 2, '$')
+			render: DataTable.render.number(null, null, 2, '$')
 		}
 	],
 	data: data,
@@ -1073,7 +1073,7 @@ new DataTable('#example', {
 		},
 		{
 			data: 'salary',
-			render: $.fn.dataTable.render.number(',', '.', 2, '$')
+			render: DataTable.render.number(null, null, 2, '$')
 		}
 	],
 	data: data,

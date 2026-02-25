@@ -45,6 +45,7 @@ DataTable.ext.searchBuilder.conditions.select2 = {
 			return values;
 		},
 		// This function initialises the criteria, specifically any dom elements that are required for its use
+
 		init: function (that, fn, preDefined = null) {
 			// As the select2 element is going to be populated with the values from the table,
 			// we need the row indexes and the column index.
@@ -73,9 +74,7 @@ DataTable.ext.searchBuilder.conditions.select2 = {
 				// Extract the relevant data
 				let cell = that.s.dt.cell(index, column);
 				let value = {
-					filter: cell.render(
-						that.c.orthogonal.search
-					),
+					filter: cell.render(that.c.orthogonal.search),
 					index,
 					text: cell.render('display')
 				};
@@ -108,7 +107,7 @@ DataTable.ext.searchBuilder.conditions.select2 = {
 					$(el).select2('destroy');
 				}
 
-				$(el).select2({ placeholder: 'Value' });
+				$(el).select2({placeholder: 'Value'});
 
 				if (preDefined !== null) {
 					$(el).val(preDefined[0]);
@@ -118,7 +117,9 @@ DataTable.ext.searchBuilder.conditions.select2 = {
 
 			return el;
 		},
+
 		// Straightforward search function comparing value from table and comparison from the select2 element
+
 		// These values are retrieved in `inputValue`
 		search: function (value, comparison) {
 			return value === comparison[0];
@@ -126,8 +127,8 @@ DataTable.ext.searchBuilder.conditions.select2 = {
 	}
 };
 
-$('#example').DataTable({
-	columnDefs: [{ searchBuilderType: 'select2', targets: 2 }],
+new DataTable('#example').DataTable({
+	columnDefs: [{searchBuilderType: 'select2', targets: 2}],
 	layout: {
 		top1: 'searchBuilder'
 	}
@@ -142,7 +143,9 @@ $('#example').DataTable({
 
 This example shows how to use a plugin for a custom column type. The `DataTable.ext.searchBuilder.conditions` object allows for custom conditions to be added to SearchBuilder. Details on the structure of the conditions to be added can be found at `-feature searchBuilder.conditions`.
 
-Here the office column is instructed to use the Select2 plugin through `-init columns.searchBuilderType`. To use the custom filter from the plugin select Office > Equals and any office, you will see that the last `-tag select` element is a select2 element.
+Here the office column is instructed to use the Select2 plugin through `-init columns.searchBuilderType`. To use the custom filter from the plugin select _Office_ > _Equals_ and any office, you will see that the last `-tag select` element is a select2 element.
+
+Please note that as Select2 depends upon jQuery and uses a jQuery interface, this plugin for SearchBuilder needs to use jQuery, which you will see in the code below.
 
 For more information on creating your own plug-ins take a look at [this document](https://datatables.net/extensions/searchbuilder/plugins).
 
