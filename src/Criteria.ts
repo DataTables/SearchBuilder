@@ -1017,7 +1017,10 @@ export default class Criteria {
 			that.dom.value[idx].focus();
 
 			if (cursorPos !== null) {
-				that.dom.value[idx][0].setSelectionRange(cursorPos, cursorPos);
+				(that.dom.value[idx][0] as HTMLInputElement).setSelectionRange(
+					cursorPos,
+					cursorPos
+				);
 			}
 		}
 	};
