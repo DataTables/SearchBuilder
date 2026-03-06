@@ -1,8 +1,9 @@
-/*! Bulma ui integration for DataTables' SearchBuilder
- * © SpryMedia Ltd - datatables.net/license
+/*! SearchBuilder Bulma styling for DataTables
+ * Copyright (c) SpryMedia Ltd - datatables.net/license
  */
 
-declare var DataTable: any;
+import DataTable from 'datatables.net';
+import '../interface';
 
 Object.assign(DataTable.SearchBuilder.classes, {
 	clearAll: 'button dtsb-clearAll'

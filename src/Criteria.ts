@@ -1,9 +1,6 @@
-import DataTable, { Api, Dom } from 'datatables.net';
+import DataTable, { Api, Dom, util } from 'datatables.net';
 import './interface';
 import * as builderType from './SearchBuilder';
-
-const dom = DataTable.dom;
-const util = DataTable.util;
 
 export interface IClasses {
 	button: string;
@@ -119,7 +116,7 @@ function luxon() {
  * The Criteria class is used within SearchBuilder to represent a search criteria
  */
 export default class Criteria {
-	private static classes: IClasses = {
+	public static classes: IClasses = {
 		button: 'dtsb-button',
 		buttonContainer: 'dtsb-buttonContainer',
 		condition: 'dtsb-condition',
@@ -187,15 +184,15 @@ export default class Criteria {
 		};
 
 		this.dom = {
-			buttons: dom.c('div').classAdd(this.classes.buttonContainer),
-			condition: dom
+			buttons: Dom.c('div').classAdd(this.classes.buttonContainer),
+			condition: Dom
 				.c('select')
 				.prop('disabled', true)
 				.classAdd(this.classes.condition)
 				.classAdd(this.classes.dropDown)
 				.classAdd(this.classes.italic)
 				.attr('autocomplete', 'hacking'),
-			conditionTitle: dom
+			conditionTitle: Dom
 				.c('option')
 				.attr('value', '')
 				.prop('disabled', true)
@@ -204,27 +201,27 @@ export default class Criteria {
 				.html(
 					this.s.dt.i18n('searchBuilder.condition', i18n.condition)
 				),
-			container: dom.c('div').classAdd(this.classes.container),
-			data: dom
+			container: Dom.c('div').classAdd(this.classes.container),
+			data: Dom
 				.c('select')
 				.classAdd(this.classes.data)
 				.classAdd(this.classes.dropDown)
 				.classAdd(this.classes.italic),
-			dataTitle: dom
+			dataTitle: Dom
 				.c('option')
 				.attr('value', '')
 				.prop('disabled', true)
 				.prop('selected', true)
 				.prop('hidden', true)
 				.html(this.s.dt.i18n('searchBuilder.data', i18n.data)),
-			defaultValue: dom
+			defaultValue: Dom
 				.c('select')
 				.prop('disabled', true)
 				.classAdd(this.classes.value)
 				.classAdd(this.classes.dropDown)
 				.classAdd(this.classes.select)
 				.classAdd(this.classes.italic),
-			delete: dom
+			delete: Dom
 				.c('button')
 				.html(this.s.dt.i18n('searchBuilder.delete', i18n.delete))
 				.classAdd(this.classes.delete)
@@ -237,8 +234,8 @@ export default class Criteria {
 					)
 				)
 				.attr('type', 'button'),
-			inputCont: dom.c('div').classAdd(this.classes.inputCont),
-			left: dom
+			inputCont: Dom.c('div').classAdd(this.classes.inputCont),
+			left: Dom
 				.c('button')
 				.html(this.s.dt.i18n('searchBuilder.left', i18n.left))
 				.classAdd(this.classes.left)
@@ -248,7 +245,7 @@ export default class Criteria {
 					this.s.dt.i18n('searchBuilder.leftTitle', i18n.leftTitle)
 				)
 				.attr('type', 'button'),
-			right: dom
+			right: Dom
 				.c('button')
 				.html(this.s.dt.i18n('searchBuilder.right', i18n.right))
 				.classAdd(this.classes.right)
@@ -259,7 +256,7 @@ export default class Criteria {
 				)
 				.attr('type', 'button'),
 			value: [
-				dom
+				Dom
 					.c('select')
 					.prop('disabled', true)
 					.classAdd(this.classes.value)
@@ -267,7 +264,7 @@ export default class Criteria {
 					.classAdd(this.classes.italic)
 					.classAdd(this.classes.select)
 			],
-			valueTitle: dom
+			valueTitle: Dom
 				.c('option')
 				.attr('value', '--valueTitle--')
 				.prop('disabled', true)
@@ -287,7 +284,7 @@ export default class Criteria {
 			}
 		}
 
-		dom.w.on(
+		Dom.w.on(
 			'resize.dtsb',
 			DataTable.util.throttle(() => {
 				this.s.topGroup.trigger('dtsb-redrawLogic');
@@ -314,7 +311,7 @@ export default class Criteria {
 		that.dom.valueTitle.prop('selected', true);
 
 		// Declare select element to be used with all of the default classes and listeners.
-		let el = dom
+		let el = Dom
 			.c('select')
 			.classAdd(Criteria.classes.value)
 			.classAdd(Criteria.classes.dropDown)
@@ -379,7 +376,7 @@ export default class Criteria {
 				}
 
 				// Add text and value, stripping out any html if that is the column type
-				let opt = dom
+				let opt = Dom
 					.c('option')
 					.attr('type', Array.isArray(filt) ? 'Array' : 'String')
 					.attr('value', filt)
@@ -503,7 +500,7 @@ export default class Criteria {
 		that.dom.valueTitle.prop('selected', true);
 
 		// Declare select element to be used with all of the default classes and listeners.
-		let el = dom
+		let el = Dom
 			.c('select')
 			.classAdd(Criteria.classes.value)
 			.classAdd(Criteria.classes.dropDown)
@@ -535,7 +532,7 @@ export default class Criteria {
 				}
 
 				// Add text and value, stripping out any html if that is the column type
-				let opt = dom
+				let opt = Dom
 					.c('option')
 					.attr('type', Array.isArray(filt) ? 'Array' : 'String')
 					.attr('value', filt)
@@ -592,7 +589,7 @@ export default class Criteria {
 	): Dom {
 		// Declare the input element
 		let searchDelay = that.s.dt.settings()[0].searchDelay;
-		let el = dom
+		let el = Dom
 			.c('input')
 			.classAdd(Criteria.classes.value)
 			.classAdd(Criteria.classes.input)
@@ -635,7 +632,7 @@ export default class Criteria {
 		// Declare all of the necessary jQuery elements
 		let searchDelay = that.s.dt.settings()[0].searchDelay;
 		let els = [
-			dom
+			Dom
 				.c('input')
 				.classAdd(Criteria.classes.value)
 				.classAdd(Criteria.classes.input)
@@ -649,7 +646,7 @@ export default class Criteria {
 						searchDelay === null ? 100 : searchDelay
 					)
 				),
-			dom
+			Dom
 				.c('span')
 				.classAdd(that.classes.joiner)
 				.html(
@@ -658,7 +655,7 @@ export default class Criteria {
 						that.c.i18n.valueJoiner
 					)
 				),
-			dom
+			Dom
 				.c('input')
 				.classAdd(Criteria.classes.value)
 				.classAdd(Criteria.classes.input)
@@ -705,7 +702,7 @@ export default class Criteria {
 		let i18n = that.s.dt.i18n('datetime', {}, false);
 
 		// Declare date element using DataTables dateTime plugin
-		let el = dom
+		let el = Dom
 			.c('input')
 			.classAdd(Criteria.classes.value)
 			.classAdd(Criteria.classes.input)
@@ -776,7 +773,7 @@ export default class Criteria {
 
 		// Declare all of the date elements that are required using DataTables dateTime plugin
 		let els = [
-			dom
+			Dom
 				.c('input')
 				.classAdd(Criteria.classes.value)
 				.classAdd(Criteria.classes.input)
@@ -799,7 +796,7 @@ export default class Criteria {
 						searchDelay === null ? 0 : searchDelay
 					);
 				}),
-			dom
+			Dom
 				.c('span')
 				.classAdd(that.classes.joiner)
 				.html(
@@ -808,7 +805,7 @@ export default class Criteria {
 						that.c.i18n.valueJoiner
 					)
 				),
-			dom
+			Dom
 				.c('input')
 				.classAdd(Criteria.classes.value)
 				.classAdd(Criteria.classes.input)
@@ -2652,7 +2649,7 @@ export default class Criteria {
 			let data = this.dom.data;
 
 			this.dom.data.children('option').each(function (opt) {
-				let option = dom.s(opt);
+				let option = Dom.s(opt);
 
 				if (
 					!foundData &&
@@ -2937,7 +2934,7 @@ export default class Criteria {
 
 		this.s.value = [];
 		this.dom.value = [
-			dom
+			Dom
 				.c('select')
 				.prop('disabled', true)
 				.classAdd(this.classes.value)
@@ -3102,7 +3099,7 @@ export default class Criteria {
 					}
 
 					conditionOpts.push(
-						dom
+						Dom
 							.c('option')
 							.text(condName)
 							.val(condition)
@@ -3126,7 +3123,7 @@ export default class Criteria {
 					name = name(dt, this.c.i18n);
 				}
 
-				let newOpt = dom
+				let newOpt = Dom
 					.c('option')
 					.text(name)
 					.val(condition)
@@ -3236,7 +3233,7 @@ export default class Criteria {
 				};
 
 				this.dom.data.append(
-					dom
+					Dom
 						.c('option')
 						.text(opt.text)
 						.val(opt.index)

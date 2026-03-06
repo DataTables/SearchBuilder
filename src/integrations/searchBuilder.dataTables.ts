@@ -1,3 +1,4 @@
-/*! DataTables integration for DataTables' SearchBuilder
- * © SpryMedia Ltd - datatables.net/license
+/*! SearchBuilder default styling for DataTables
+ * Copyright (c) SpryMedia Ltd - datatables.net/license
  */
+

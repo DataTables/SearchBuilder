@@ -1,8 +1,9 @@
-/*! JQuery ui ui integration for DataTables' SearchBuilder
- * © SpryMedia Ltd - datatables.net/license
+/*! SearchBuilder jQuery UI styling for DataTables
+ * Copyright (c) SpryMedia Ltd - datatables.net/license
  */
 
-declare var DataTable: any;
+import DataTable from 'datatables.net';
+import '../interface';
 
 Object.assign(DataTable.SearchBuilder.classes, {
 	clearAll: 'ui-button ui-corner-all ui-widget dtsb-clearAll'

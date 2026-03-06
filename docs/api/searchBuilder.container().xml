@@ -7,8 +7,10 @@
 	<type type="function">
 		<signature>searchBuilder.container()</signature>
 		<description>Returns the node of the SearchBuilder container.</description>
-		<returns type="jQuery">
-            jQuery instance that contains the container element for the SearchBuilder.
+		<returns type="Dom">
+            Dom instance that contains the container element for the SearchBuilder.
+
+			Please note that prior to v2 this method would return a jQuery object that contains the container.
         </returns>
 
 	</type>
@@ -26,7 +28,7 @@ var dt = new DataTable('#myTable', {
 	}
 });
 
-dt.searchBuilder.container().addClass('sb_class');
+dt.searchBuilder.container().classAdd('sb_class');
 ]]></example>
 
 </dt-api>

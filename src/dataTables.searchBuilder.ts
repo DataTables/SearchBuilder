@@ -1,25 +1,8 @@
-/*! SearchBuilder 2.0.0-dev
- * ©SpryMedia Ltd - datatables.net/license/mit
+/*! SearchBuilder for DataTables
+ * Copyright (c) SpryMedia Ltd - datatables.net/license
  */
 
-/**
- * @summary     SearchBuilder
- * @description End user complex search builder for DataTables
- * @version     2.0.0-dev
- * @author      SpryMedia Ltd
- * @copyright   Copyright SpryMedia Ltd.
- *
- * This source file is free software, available under the following license:
- * MIT license - http://datatables.net/license/mit
- *
- * This source file is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. See the license files for details.
- *
- * For details please refer to: http://www.datatables.net
- */
-
-import DataTable, { Dom } from 'datatables.net';
+import DataTable, { Api, Dom } from 'datatables.net';
 
 import Criteria from './Criteria';
 import Group from './Group';
@@ -28,12 +11,6 @@ import SearchBuilder from './SearchBuilder';
 DataTable.SearchBuilder = SearchBuilder;
 DataTable.Group = Group;
 DataTable.Criteria = Criteria;
-
-const dom = DataTable.dom;
-const util = DataTable.util;
-
-// eslint-disable-next-line no-extra-parens
-const apiRegister = DataTable.Api.register;
 
 // Set up object for plugins
 DataTable.ext.searchBuilder = {
@@ -55,7 +32,7 @@ DataTable.ext.buttons.searchBuilder = {
 			topGroup.dom.container.trigger('dtsb-redrawContents-noDraw');
 		}
 		if (topGroup.s.criteria.length === 0) {
-			dom.s('.' + Group.classes.add.replace(/ /g, '.')).trigger('click');
+			Dom.s('.' + Group.classes.add.replace(/ /g, '.')).trigger('click');
 		}
 	},
 	config: {},
@@ -78,7 +55,7 @@ DataTable.ext.buttons.searchBuilder = {
 	text: null
 };
 
-apiRegister('searchBuilder.getDetails()', function (deFormatDates = false) {
+Api.register('searchBuilder.getDetails()', function (deFormatDates = false) {
 	let ctx = this.context[0];
 
 	// If SearchBuilder has not been initialised on this instance then return
@@ -87,7 +64,7 @@ apiRegister('searchBuilder.getDetails()', function (deFormatDates = false) {
 		: null;
 });
 
-apiRegister('searchBuilder.rebuild()', function (details, redraw = true) {
+Api.register('searchBuilder.rebuild()', function (details, redraw = true) {
 	let ctx = this.context[0];
 
 	// If SearchBuilder has not been initialised on this instance then return
@@ -100,7 +77,7 @@ apiRegister('searchBuilder.rebuild()', function (details, redraw = true) {
 	return this;
 });
 
-apiRegister('searchBuilder.container()', function () {
+Api.register('searchBuilder.container()', function () {
 	let ctx = this.context[0];
 
 	// If SearchBuilder has not been initialised on this instance then return
@@ -128,7 +105,7 @@ function _init(settings: any, options?: any): Dom {
 
 // Attach a listener to the document which listens for DataTables initialisation
 // events so we can automatically initialise
-dom.s(document).on('preInit.dt.dtsp', function (e, settings) {
+Dom.s(document).on('preInit.dt.dtsp', function (e, settings) {
 	if (e.namespace !== 'dt') {
 		return;
 	}

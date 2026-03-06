@@ -1,8 +1,9 @@
-/*! Bootstrap 3 integration for DataTables' SearchBuilder
- * © SpryMedia Ltd - datatables.net/license
+/*! SearchBuilder Bootstrap 3 styling for DataTables
+ * Copyright (c) SpryMedia Ltd - datatables.net/license
  */
 
-declare var DataTable: any;
+import DataTable from 'datatables.net';
+import '../interface';
 
 Object.assign(DataTable.SearchBuilder.classes, {
 	clearAll: 'btn btn-default dtsb-clearAll'

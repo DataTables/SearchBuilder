@@ -1,10 +1,4 @@
-// Type definitions for DataTables SearchBuilder
-//
-// Project: https://datatables.net/extensions/searchbuilder/, https://datatables.net
-
-/// <reference types="jquery" />
-
-import DataTables, { Api } from 'datatables.net';
+import DataTables, { Api, Dom } from 'datatables.net';
 import Criteria, { ICondition } from './Criteria';
 import Group from './Group';
 import SearchBuilder, { IDefaults, IDetails, II18n } from './SearchBuilder';
@@ -106,7 +100,7 @@ interface ApiSearchBuilder<T> extends Api<T> {
 	/**
 	 * Returns the node of the SearchBuilder Container
 	 */
-	container(): JQuery<HTMLElement>;
+	container(): Dom;
 
 	/**
 	 * Gets the details of the current SearchBuilder setup

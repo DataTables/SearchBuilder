@@ -61,9 +61,6 @@ export interface IDetails {
 	logic?: string;
 }
 
-const dom = DataTable.dom;
-const util = DataTable.util;
-
 /**
  * The Group class is used within SearchBuilder to represent a group of criteria
  */
@@ -145,10 +142,10 @@ export default class Group {
 		depth = 1,
 		serverData = undefined
 	) {
-		this.classes = util.object.assignDeep({}, Group.classes);
+		this.classes = DataTable.util.object.assignDeep({}, Group.classes);
 
 		// Get options from user
-		this.c = util.object.assignDeep({}, Group.defaults, opts);
+		this.c = DataTable.util.object.assignDeep({}, Group.defaults, opts);
 
 		this.s = {
 			criteria: [],
@@ -165,26 +162,26 @@ export default class Group {
 		};
 
 		this.dom = {
-			add: dom
+			add: Dom
 				.c('button')
 				.classAdd(this.classes.add)
 				.classAdd(this.classes.button)
 				.attr('type', 'button'),
-			clear: dom
+			clear: Dom
 				.c('button')
 				.html('&times')
 				.classAdd(this.classes.button)
 				.classAdd(this.classes.clearGroup)
 				.attr('type', 'button'),
-			container: dom.c('div').classAdd(this.classes.group),
-			logic: dom
+			container: Dom.c('div').classAdd(this.classes.group),
+			logic: Dom
 				.c('button')
-				.append(dom.c('div'))
+				.append(Dom.c('div'))
 				.classAdd(this.classes.logic)
 				.classAdd(this.classes.button)
 				.attr('type', 'button'),
-			logicContainer: dom.c('div').classAdd(this.classes.logicContainer),
-			search: dom
+			logicContainer: Dom.c('div').classAdd(this.classes.logicContainer),
+			search: Dom
 				.c('button')
 				.classAdd(this.classes.search)
 				.classAdd(this.classes.button)

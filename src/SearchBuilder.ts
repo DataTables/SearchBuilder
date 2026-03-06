@@ -1,4 +1,4 @@
-import DataTable, { ColumnSelector, Context, Dom } from 'datatables.net';
+import DataTable, { ColumnSelector, Context, Dom, util } from 'datatables.net';
 import Criteria, * as criteriaType from './Criteria';
 import Group from './Group';
 import './interface';
@@ -93,17 +93,14 @@ if (!DataTable || !DataTable.versionCheck || !DataTable.versionCheck('3')) {
 	throw new Error('SearchBuilder requires DataTables 3 or newer');
 }
 
-const dom = DataTable.dom;
-const util = DataTable.util;
-
 /**
  * SearchBuilder class for DataTables.
  * Allows for complex search queries to be constructed and implemented on a DataTable
  */
 export default class SearchBuilder {
-	private static version = '2.0.0-dev';
+	public static version = '2.0.0-dev';
 
-	private static classes: IClasses = {
+	public static classes: IClasses = {
 		button: 'dtsb-button',
 		clearAll: 'dtsb-clearAll',
 		container: 'dtsb-searchBuilder',
@@ -112,7 +109,7 @@ export default class SearchBuilder {
 		titleRow: 'dtsb-titleRow'
 	};
 
-	private static defaults: IDefaults = {
+	public static defaults: IDefaults = {
 		columns: '*',
 		conditions: {
 			date: Criteria.dateConditions,
@@ -222,7 +219,7 @@ export default class SearchBuilder {
 		this.c = util.object.assignDeep({}, SearchBuilder.defaults, opts);
 
 		this.dom = {
-			clearAll: dom
+			clearAll: Dom
 				.c('button')
 				.attr('type', 'button')
 				.html(
@@ -231,9 +228,9 @@ export default class SearchBuilder {
 				.classAdd(this.classes.clearAll)
 				.classAdd(this.classes.button)
 				.attr('type', 'button'),
-			container: dom.c('div').classAdd(this.classes.container),
-			title: dom.c('div').classAdd(this.classes.title),
-			titleRow: dom.c('div').classAdd(this.classes.titleRow),
+			container: Dom.c('div').classAdd(this.classes.container),
+			title: Dom.c('div').classAdd(this.classes.title),
+			titleRow: Dom.c('div').classAdd(this.classes.titleRow),
 			topGroup: undefined
 		};
 
@@ -597,7 +594,7 @@ export default class SearchBuilder {
 			}
 
 			this.s.dt.off('.dtsb');
-			dom.s(this.s.dt.table().node()).off('.dtsb');
+			Dom.s(this.s.dt.table().node()).off('.dtsb');
 		});
 	}
 
