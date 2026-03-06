@@ -3,23 +3,7 @@
 
 <css lib="datatables searchbuilder datetime"/>
 
-<js lib="jquery datatables searchbuilder datetime">
-<![CDATA[
-
-$('#example').DataTable({
-	layout: {
-		top1: {
-			searchBuilder: {
-				logic: 'OR'
-			}
-		}
-	}
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables searchbuilder datetime">
 <![CDATA[
 
 new DataTable('#example', {
@@ -33,7 +17,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="SearchBuilder">Default Logic</title>
 

@@ -2,42 +2,7 @@
 <dt-example table-type="ajax" order="3">
 
 <css lib="datatables searchbuilder datetime" />
-<js lib="jquery datatables searchbuilder datetime">
-<![CDATA[
-
-$('#example').DataTable({
-	ajax: '../resources/arrayData.json',
-	columns: [
-		{
-			data: 'users.first_name'
-		},
-		{
-			data: 'users.last_name'
-		},
-		{
-			data: 'sites.name'
-		},
-		{
-			data: 'permission',
-			render: {
-				_: '[, ].name',
-				sb: '[].name'
-			},
-			searchBuilder: {
-				orthogonal: 'sb'
-			},
-			searchBuilderType: 'array'
-		}
-	],
-	layout: {
-		top1: 'searchBuilder'
-	}
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables searchbuilder datetime">
 <![CDATA[
 
 new DataTable('#example', {
@@ -70,7 +35,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="SearchBuilder">Rendering Arrays</title>
 

@@ -3,30 +3,7 @@
 
 <css lib="datatables searchbuilder datetime" />
 
-<js lib="jquery datatables searchbuilder datetime">
-<![CDATA[
-
-var stored;
-var table = $('#example').DataTable({
-	layout: {
-		top1: 'searchBuilder'
-	}
-});
-
-$('#getDetails').on('click', function () {
-	stored = table.searchBuilder.getDetails();
-
-	$('#output').text(JSON.stringify(stored, null, '\t'));
-});
-
-$('#revert').on('click', function () {
-	table.searchBuilder.rebuild(stored);
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables searchbuilder datetime">
 <![CDATA[
 
 var stored;
@@ -47,7 +24,7 @@ document.querySelector('#revert').addEventListener('click', function () {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="SearchBuilder">Rebuild Demonstration</title>
 

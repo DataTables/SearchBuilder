@@ -3,47 +3,7 @@
 
 <css lib="datatables searchbuilder datetime"/>
 
-<js lib="jquery datatables searchbuilder datetime">
-<![CDATA[
-
-$('#example').DataTable({
-	layout: {
-		top1: {
-			searchBuilder: {
-				preDefined: {
-					criteria: [
-						{
-							condition: '=',
-							data: 'Office',
-							value: ['Edinburgh']
-						},
-						{
-							criteria: [
-								{
-									condition: '=',
-									data: 'Name',
-									value: ['Cedric Kelly']
-								},
-								{
-									condition: '=',
-									data: 'Name',
-									value: ['Dai Rios']
-								}
-							],
-							logic: 'OR'
-						}
-					],
-					logic: 'AND'
-				}
-			}
-		}
-	}
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables searchbuilder datetime">
 <![CDATA[
 
 new DataTable('#example', {
@@ -81,7 +41,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="SearchBuilder">Predefined Search</title>
 

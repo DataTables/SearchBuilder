@@ -3,65 +3,7 @@
 
 <css lib="datatables searchbuilder datetime"/>
 
-<js lib="jquery datatables searchbuilder datetime">
-<![CDATA[
-new DataTable('#example', {
-	layout: {
-		top1: {
-			searchBuilder: {
-				conditions: {
-					num: {
-						MultipleOf: {
-							// String value that will be displayed in the condition select element
-							conditionName: 'Multiple Of',
-
-							init: function (that, fn, preDefined = null) {
-								// Declare the input element and set the
-								// listener to trigger searching
-								var el = DataTable.dom.c('input')
-									.classAdd(that.classes.value)
-									.classAdd(that.classes.input)
-									.on('input', function () {
-										fn(that, this);
-									});
-
-								// Add mechanism to apply preDefined values that
-								// may be passed in
-								if (preDefined !== null) {
-									el.val(preDefined[0]);
-								}
-
-								return el;
-							},
-
-							inputValue: function (els) {
-								// Return the value within the input element
-								return els[0].val();
-							},
-
-							isInputValid: function (els, that) {
-								// If there is text in the input element then it
-								// is valid for searching
-								return els[0].val().length !== 0;
-							},
-
-							search: function (value, comparison) {
-								// Use the modulo (%) operator to check that
-								// there is no remainder
-								return value % comparison === 0;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables searchbuilder datetime">
 <![CDATA[
 
 new DataTable('#example', {
@@ -107,7 +49,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="SearchBuilder">Custom Multiple Of Condition</title>
 

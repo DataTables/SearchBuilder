@@ -3,19 +3,7 @@
 
 <css lib="datatables searchbuilder datetime"/>
 s
-<js lib="jquery semanticui datatables searchbuilder datetime">
-<![CDATA[
-
-$('#example').DataTable({
-	layout: {
-		top1: 'searchBuilder'
-	}
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="semanticui datatables searchbuilder datetime">
 <![CDATA[
 
 new DataTable('#example', {
@@ -25,7 +13,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="SearchBuilder">Fomantic-UI (formally Semantic-UI) styling</title>
 

@@ -3,27 +3,7 @@
 
 <css lib="datatables searchbuilder datetime"/>
 
-<js lib="jquery datatables searchbuilder datetime">
-<![CDATA[
-
-$('#example').DataTable({
-	columnDefs: [
-		{
-			searchBuilder: {
-				defaultCondition: '='
-			},
-			targets: [1]
-		}
-	],
-	layout: {
-		top1: 'searchBuilder'
-	}
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables searchbuilder datetime">
 <![CDATA[
 
 new DataTable('#example', {
@@ -41,7 +21,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="SearchBuilder">Default Condition</title>
 

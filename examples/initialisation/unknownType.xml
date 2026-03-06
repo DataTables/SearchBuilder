@@ -9,24 +9,6 @@
 <js>
 <![CDATA[
 
-$('#example').DataTable({
-	columnDefs: [
-		{
-			type: 'unknownType',
-			targets: [3]
-		}
-	],
-	layout: {
-		top1: 'searchBuilder'
-	}
-});
-
-]]>
-</js>
-
-<js-vanilla>
-<![CDATA[
-
 new DataTable('#example', {
 	columnDefs: [
 		{
@@ -40,7 +22,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="SearchBuilder">Unknown Column Type</title>
 

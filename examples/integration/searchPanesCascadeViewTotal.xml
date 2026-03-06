@@ -3,25 +3,7 @@
 
 <css lib="datatables searchbuilder searchpanes select datetime"/>
 
-<js lib="jquery datatables searchbuilder searchpanes select datetime">
-<![CDATA[
-
-$('#example').DataTable({
-	layout: {
-		top2: {
-			searchPanes: {
-				cascadePanes: true,
-				viewTotal: true
-			}
-		},
-		top1: 'searchBuilder'
-	}
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables searchbuilder searchpanes select datetime">
 <![CDATA[
 
 new DataTable('#example', {
@@ -37,7 +19,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="SearchBuilder">SearchPanes, CascadePanes and ViewTotal Integration</title>
 

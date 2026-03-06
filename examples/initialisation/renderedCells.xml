@@ -3,27 +3,7 @@
 
 <css lib="datatables searchbuilder datetime"/>
 
-<js lib="jquery datatables searchbuilder datetime">
-<![CDATA[
-
-$('#example').DataTable({
-	columnDefs: [
-		{
-			targets: 0,
-			render: function (data, type, row, meta) {
-				return type === 'display' ? 'Employee: ' + data : data;
-			}
-		}
-	],
-	layout: {
-		top1: 'searchBuilder'
-	}
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables searchbuilder datetime">
 <![CDATA[
 
 new DataTable('#example', {
@@ -41,7 +21,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="SearchBuilder">Interaction with Rendered Cells</title>
 

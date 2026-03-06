@@ -3,41 +3,7 @@
 
 <css lib="datatables searchbuilder buttons datetime"/>
 
-<js lib="jquery datatables searchbuilder buttons datetime">
-<![CDATA[
-
-    $('#example').DataTable({
-	language: {
-		searchBuilder: {
-			add: '+',
-			condition: 'Comparator',
-			clearAll: 'Reset',
-			delete: 'Delete',
-			deleteTitle: 'Delete Title',
-			data: 'Column',
-			left: 'Left',
-			leftTitle: 'Left Title',
-			logicAnd: '&&',
-			logicOr: '||',
-			right: 'Right',
-			rightTitle: 'Right Title',
-			title: {
-				0: 'Filters',
-				_: 'Filters (%d)'
-			},
-			value: 'Option',
-			valueJoiner: 'et'
-		}
-	},
-	layout: {
-		top1: 'searchBuilder'
-	}
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables searchbuilder buttons datetime">
 <![CDATA[
 
 new DataTable('#example', {
@@ -69,7 +35,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="SearchBuilder">Language Options</title>
 

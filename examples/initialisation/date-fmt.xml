@@ -22,21 +22,6 @@ $('#example').DataTable({
 ]]>
 </js>
 
-<js-vanilla>
-<![CDATA[
-
-DataTable.datetime('HH:mm MMM D, YY');
-DataTable.datetime('ddd, MMMM Do, YYYY');
-
-$('#example').DataTable({
-	layout: {
-		topStart: 'searchBuilder'
-	}
-});
-
-]]>
-</js-vanilla>
-
 <title lib="SearchBuilder">Formatted dates with Moment.js</title>
 
 <info><![CDATA[

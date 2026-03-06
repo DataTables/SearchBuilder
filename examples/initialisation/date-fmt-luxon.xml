@@ -13,21 +13,6 @@
 DataTable.datetime('EEE, MMMM d, yyyy');
 DataTable.datetime('HH:mm MMM d, yy');
 
-$('#example').DataTable({
-	layout: {
-		topStart: 'searchBuilder'
-	}
-});
-
-]]>
-</js>
-
-<js-vanilla>
-<![CDATA[
-
-DataTable.datetime('EEE, MMMM d, yyyy');
-DataTable.datetime('HH:mm MMM d, yy');
-
 new DataTable('#example', {
 	layout: {
 		topStart: 'searchBuilder'
@@ -35,7 +20,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="SearchBuilder">Formatted dates with Luxon</title>
 

@@ -2,22 +2,7 @@
 <dt-example table-type="html" order="2">
 
 <css lib="datatables buttons searchbuilder datetime"/>
-<js lib="jquery datatables buttons searchbuilder datetime jszip pdfmake vfsfonts buttons-html5 buttons-print">
-<![CDATA[
-
-$('#example').DataTable({
-	layout: {
-		top1: 'searchBuilder',
-		topStart: {
-			buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
-		}
-	}
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables buttons searchbuilder datetime jszip pdfmake vfsfonts buttons-html5 buttons-print">
 <![CDATA[
 
 new DataTable('#example', {
@@ -30,7 +15,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="Buttons">Buttons integration</title>
 

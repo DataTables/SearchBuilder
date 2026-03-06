@@ -3,28 +3,7 @@
 
 <css lib="datatables searchbuilder buttons datetime"/>
 
-<js lib="jquery datatables searchbuilder buttons datetime">
-<![CDATA[
-
-$('#example').DataTable({
-	layout: {
-		topStart: {
-			buttons: [
-				{
-					extend: 'searchBuilder',
-					config: {
-						depthLimit: 2
-					}
-				}
-			]
-		}
-	}
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables searchbuilder buttons datetime">
 <![CDATA[
 
 new DataTable('#example', {
@@ -43,7 +22,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="SearchBuilder">SearchBuilder Configuration using Buttons</title>
 

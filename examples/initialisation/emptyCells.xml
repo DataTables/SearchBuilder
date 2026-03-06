@@ -3,25 +3,7 @@
 
 <css lib="datatables searchbuilder datetime"/>
 
-<js lib="jquery datatables searchbuilder datetime">
-<![CDATA[
-
-
-var dt = $('#example').DataTable({
-	layout: {
-		top1: 'searchBuilder'
-	}
-});
-
-dt.cell(2, 2).data('');
-dt.cell(4, 2).data('');
-dt.cell(6, 2).data('');
-dt.cell(2, 3).data('');
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables searchbuilder datetime">
 <![CDATA[
 
 let dt = new DataTable('#example', {
@@ -36,7 +18,7 @@ dt.cell(6, 2).data('');
 dt.cell(2, 3).data('');
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="SearchBuilder">Interaction with Empty Cells</title>
 

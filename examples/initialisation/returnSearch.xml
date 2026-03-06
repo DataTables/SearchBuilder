@@ -3,22 +3,7 @@
 
 <css lib="datatables searchbuilder buttons datetime"/>
 
-<js lib="jquery datatables searchbuilder buttons datetime">
-<![CDATA[
-
-$('#example').DataTable({
-	layout: {
-		top1: 'searchBuilder'
-	},
-	search: {
-		return: true
-	}
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables searchbuilder buttons datetime">
 <![CDATA[
 
 new DataTable('#example', {
@@ -31,7 +16,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="SearchBuilder">Force Search on Enter</title>
 

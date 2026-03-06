@@ -3,26 +3,8 @@
 
 <css lib="datatables searchbuilder datetime"/>
 
-<js lib="jquery moment datatables searchbuilder datetime"/>
+<js lib="moment datatables searchbuilder datetime"/>
 <js>
-<![CDATA[
-
-$('#example').DataTable({
-    columnDefs: [
-        {
-            targets: 4,
-            render: DataTable.render.date()
-        }
-    ],
-	layout: {
-		topStart: 'searchBuilder'
-	}
-});
-
-]]>
-</js>
-
-<js-vanilla>
 <![CDATA[
 
 new DataTable('#example', {
@@ -38,7 +20,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="SearchBuilder">Dates - auto locale formatting</title>
 

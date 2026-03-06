@@ -3,20 +3,7 @@
 
 <css lib="datatables searchbuilder colreorder datetime"/>
 
-<js lib="jquery datatables searchbuilder colreorder datetime">
-<![CDATA[
-
-$('#example').DataTable({
-	colReorder: true,
-	layout: {
-		top1: 'searchBuilder'
-	}
-});
-
-]]>
-</js>
-
-<js-vanilla>
+<js lib="datatables searchbuilder colreorder datetime">
 <![CDATA[
 
 new DataTable('#example', {
@@ -27,7 +14,7 @@ new DataTable('#example', {
 });
 
 ]]>
-</js-vanilla>
+</js>
 
 <title lib="SearchBuilder">ColReorder Integration</title>
 
