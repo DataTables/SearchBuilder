@@ -4,9 +4,9 @@
 	<summary>Restrict which columns can be filtered on</summary>
 	<since>1.0.0</since>
 
-	<type type="column-selector">
+	<type type="DataTable.ColumnSelector">
 		<description>
-			`-type number[]` of the columns that can be filtered. This accepts all of the options of `dt-type column-selector` such as class name selector, jQuery pseudo selects and column index selectors.
+			`-type number[]` of the columns that can be filtered. This accepts all of the options of `dt-type DataTable.ColumnSelector` such as class name selector, jQuery pseudo selects and column index selectors.
 		</description>
 	</type>
 
