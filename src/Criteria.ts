@@ -2997,7 +2997,7 @@ export default class Criteria {
 
 			// Enable the condition element
 			this.dom.condition
-				.removeAttr('disabled')
+				.('disabled')
 				.empty()
 				.append(this.dom.conditionTitle)
 				.classAdd(this.classes.italic);
@@ -3113,7 +3113,7 @@ export default class Criteria {
 		else if (conditionsLength > 0) {
 			this.dom.condition
 				.empty()
-				.removeAttr('disabled')
+				.('disabled')
 				.classAdd(this.classes.italic);
 
 			for (condition of Object.keys(this.s.conditions)) {
