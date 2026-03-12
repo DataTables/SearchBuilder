@@ -127,7 +127,7 @@ DataTable.ext.searchBuilder.conditions.select2 = {
 	}
 };
 
-new DataTable('#example').DataTable({
+new DataTable('#example', {
 	columnDefs: [{searchBuilderType: 'select2', targets: 2}],
 	layout: {
 		top1: 'searchBuilder'
