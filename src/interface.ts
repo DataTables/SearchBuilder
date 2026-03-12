@@ -1,14 +1,17 @@
-import DataTables, { Api, Dom } from 'datatables.net';
-import Criteria, { ICondition } from './Criteria';
-import Group from './Group';
-import SearchBuilder, { IDefaults, IDetails, II18n } from './SearchBuilder';
+import type { Api, DataTable, Dom } from 'datatables.net';
+import type Criteria from './Criteria';
+import type { ICondition } from './Criteria';
+import type Group from './Group';
+import type SearchBuilder from './SearchBuilder';
+import type { IDefaults, IDetails, II18n } from './SearchBuilder';
 
-export default DataTables;
+export default DataTable;
 
-type DeepPartial<T> = T extends object ? {
-    [P in keyof T]?: DeepPartial<T[P]>;
-} : T;
-
+type DeepPartial<T> = T extends object
+	? {
+			[P in keyof T]?: DeepPartial<T[P]>;
+	  }
+	: T;
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * DataTables' types integration
@@ -18,7 +21,11 @@ declare module 'datatables.net' {
 		/**
 		 * SearchBuilder extension options
 		 */
-		searchBuilder?: boolean | string[] | ConfigSearchBuilder | ConfigSearchBuilder[];
+		searchBuilder?:
+			| boolean
+			| string[]
+			| ConfigSearchBuilder
+			| ConfigSearchBuilder[];
 	}
 
 	interface Defaults {
@@ -39,7 +46,7 @@ declare module 'datatables.net' {
 	interface Ext {
 		searchBuilder: {
 			conditions: Record<string, ICondition>;
-		}
+		};
 	}
 
 	interface ColumnContext {
@@ -48,7 +55,7 @@ declare module 'datatables.net' {
 			defaultCondition?: number | string;
 
 			/** Set values of orthogonal data for rendering functions */
-			orthogonal?: {[key: string]: string};
+			orthogonal?: { [key: string]: string };
 		};
 
 		/** Set a custom title for a column in SearchBuilder */
@@ -65,7 +72,7 @@ declare module 'datatables.net' {
 	interface Api<T> {
 		/**
 		 * SearchBuilder methods container
-		 * 
+		 *
 		 * @returns Api for chaining with the additional SearchBuilder methods
 		 */
 		searchBuilder: ApiSearchBuilder<T>;
@@ -83,7 +90,6 @@ declare module 'datatables.net' {
 	}
 }
 
-
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Options
  */
@@ -91,7 +97,6 @@ declare module 'datatables.net' {
 interface ConfigSearchBuilder extends Partial<IDefaults> {}
 
 interface ConfigSearchBuilderLanguage extends DeepPartial<II18n> {}
-
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * API
@@ -110,8 +115,9 @@ interface ApiSearchBuilder<T> extends Api<T> {
 	/**
 	 * Rebuild the search to a given state.
 	 *
-	 * @param state Object of the same structure that is returned from searchBuilder.getDetails().
-	 * This contains all of the details needed to rebuild the state.
+	 * @param state Object of the same structure that is returned from
+	 *   searchBuilder.getDetails(). This contains all of the details needed to
+	 *   rebuild the state.
 	 * @returns self for chaining
 	 */
 	rebuild(state: IDetails): Api<T>;

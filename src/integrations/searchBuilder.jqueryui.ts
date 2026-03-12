@@ -3,7 +3,6 @@
  */
 
 import DataTable from 'datatables.net';
-import '../interface';
 
 Object.assign(DataTable.SearchBuilder.classes, {
 	clearAll: 'ui-button ui-corner-all ui-widget dtsb-clearAll'
