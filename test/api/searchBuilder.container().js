@@ -15,7 +15,7 @@ describe('searchBuilder - API - searchBuilder.container()', function () {
 			expect(typeof table.searchBuilder.container).toBe('function');
 		});
 		it('Returns a Dom instance', function () {
-			expect(table.searchBuilder.container() instanceof DataTable.dom.Dom).toBe(true);
+			expect(table.searchBuilder.container() instanceof DataTable.Dom).toBe(true);
 		});
 	});
 
