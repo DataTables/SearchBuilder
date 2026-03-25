@@ -36,7 +36,7 @@ new DataTable('#example', {
 							// for its use
 							init: function (that, fn, preDefined = null) {
 								// Declare the input element
-								let el = DataTable.dom.c('input')
+								let el = DataTable.Dom.c('input')
 									.classAdd(that.classes.value)
 									.classAdd(that.classes.input)
 									.on('input', function () {

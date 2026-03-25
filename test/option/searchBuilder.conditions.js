@@ -54,7 +54,7 @@ describe('searchBuilder - options - searchBuilder.conditions', function () {
 							multipleOf: {
 								conditionName: 'Multiple Of',
 								init: function (that, fn, preDefined = null) {
-									var el = DataTable.dom.c('input').on('input', function () {
+									var el = DataTable.Dom.c('input').on('input', function () {
 										fn(that, this);
 									});
 
