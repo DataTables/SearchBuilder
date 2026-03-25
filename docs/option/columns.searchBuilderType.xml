@@ -21,17 +21,8 @@ This option allows the type of SearchBuilder conditions to be set for individual
 
 When using `-init serverSide` processing it is important to use this option to maintain consistent conditions across different pages of the table and also to reduce the number of requests to the server.
 
-Possible values include
+For a list of possible values, please see the `-option columns.type` document. Specific the value that the type can be is the value that will be used here - e.g. `string`, `num`, `num-fmt`, etc.
 
-* `string`
-* `date`
-* `num`
-* `num-fmt`
-* `html`
-* `html-fmt`
-* `html-num-fmt`
-* `moment-...` - Here the `...` should be replaced with the moment format that is being used within the column. A format could therefore look something like `moment-DD/MM/YYYY`, spaces are also allowed within the format - anything that is a valid moment format. For example `moment-DD/MM/YYYY HH:mm`.
-* `luxon-...` - As above, the `...` should be replaced with the luxon format that is being used within the column. A format could therefore look something like `luxon-DD/MM/YYYY`, spaces are also allowed within the format - anything that is a valid luxon format. For example `luxon-DD/MM/YYYY HH:mm`.
 		]]>
 	</description>
 
