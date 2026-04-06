@@ -98,7 +98,7 @@ if (!DataTable || !DataTable.versionCheck || !DataTable.versionCheck('3')) {
  * Allows for complex search queries to be constructed and implemented on a DataTable
  */
 export default class SearchBuilder {
-	public static version = '2.0.0-dev';
+	public static version = '2.0.0-beta.1';
 
 	public static classes: IClasses = {
 		button: 'dtsb-button',
