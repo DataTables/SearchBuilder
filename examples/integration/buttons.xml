@@ -2,7 +2,7 @@
 <dt-example table-type="html" order="2">
 
 <css lib="datatables buttons searchbuilder datetime"/>
-<js lib="datatables buttons searchbuilder datetime jszip pdfmake vfsfonts buttons-html5 buttons-print">
+<js lib="datatables buttons searchbuilder datetime jszip pdfmake vfsfonts">
 <![CDATA[
 
 new DataTable('#example', {
