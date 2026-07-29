@@ -20,15 +20,15 @@ export interface ICondition {
 	/** Initialisation */
 	init: (
 		that: Criteria,
-		fn: (thatAgain: Criteria, el: JQuery<HTMLElement>) => void,
+		fn: (thatAgain: Criteria, el: Dom<HTMLElement>) => void,
 		preDefined?: string[]
-	) => JQuery<HTMLElement> | Array<JQuery<HTMLElement>> | void;
+	) => Dom<HTMLElement> | Array<Dom<HTMLElement>> | void;
 
 	/** Get the search term's value */
-	inputValue: (el: JQuery<HTMLElement>) => string[] | void;
+	inputValue: (el: Dom<HTMLElement>) => string[] | void;
 
 	/** Determine if an input is valid */
-	isInputValid: (val: Array<JQuery<HTMLElement>>, that: Criteria) => boolean;
+	isInputValid: (val: Array<Dom<HTMLElement>>, that: Criteria) => boolean;
 
 	/** Search logic */
 	search: (value: string, comparison: string[], that: Criteria) => boolean;
