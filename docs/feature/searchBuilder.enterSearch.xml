@@ -22,7 +22,7 @@ As default this option's value is false, meaning that a search is triggered on e
 
 The only exception to this is when using a date picker. Here selecting a date in the date picker will trigger a search without enter being pressed, regardless of the value of this option.
 
-Take a look at [this example](/extensions/SearchBuilder/examples/initialisation/enterSearch.html) to see this in action.
+Take a look at [this example](/examples/searchbuilder/initialisation/returnSearch) to see this in action.
 
 Please note: SearchBuilder 1.2.0 coincided with the release of DataTables 1.11.0 which introduced `-init search.return`. This made this option void and it was therefore deprecated. For now this option will continue to be supported, however it will be removed in the future. We encourage you to move instead to `-init search.return`.
         ]]>

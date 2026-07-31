@@ -7,18 +7,18 @@
 	<description>
 When working with SearchBuilder you will typically wish to configure SearchBuilder options to customise either appearance or functionality.
 
-By providing an `config` object `b-init buttons.buttons.config` the SearchBuilder within the button can be customised as desired. The `config` object is structured in the same way as the SearchBuilder `config` object is normally.
+By providing an `config` object the SearchBuilder within the button can be customised as desired. The `config` object is structured in the same way as the SearchBuilder `config` object is normally.
 
-SearchBuilder makes use of the following buttons properties.
+SearchBuilder makes use of the following buttons properties for its Button:
 
-* `b-init buttons.buttons.text` - This can be configured using the `searchBuilder.button` option of the DataTables `dt-init language` object, or using the `b-init buttons.buttons.text` option for this button.
-* `b-init buttons.buttons.init` - Initialises the SearchBuilder.
-* `b-init buttons.buttons.action` - Displays the SearchBuilder floating above the table with focus on them.
-* `b-init buttons.buttons.config` - Sets the config for SearchBuilder in the same way as normal for the SearchBuilder config.
+* `text` - This can be configured using the `searchBuilder.button` option of the DataTables `dt-init language` object, or using the `b-init buttons.buttons.text` option for this button.
+* `init` - Initialises the SearchBuilder.
+* `action` - Displays the SearchBuilder floating above the table with focus on them.
+* `config` - Sets the config for SearchBuilder in the same way as normal for the SearchBuilder config.
 
 	</description>
 
-	<example title="SearchBuilder Button initialisation: Set the config for SearchBuilder to set the `-init depthLimit` option"><![CDATA[
+	<example title="SearchBuilder Button initialisation: Set the config for SearchBuilder to set the `-init searchBuilder.depthLimit` option"><![CDATA[
 new DataTable('#myTable', {
 	layout: {
 		topStart: {
@@ -39,5 +39,4 @@ new DataTable('#myTable', {
 <related type="init">buttons.buttons.text</related>
 <related type="init">buttons.buttons.init</related>
 <related type="init">buttons.buttons.action</related>
-<related type="init">buttons.buttons.config</related>
 </dt-button>

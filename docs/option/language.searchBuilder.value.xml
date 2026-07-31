@@ -32,6 +32,6 @@ new DataTable('#myTable', {
 });
 ]]></example>
 
-<related type="init">searchBuilder.conditions[type]</related>
+<related type="init">searchBuilder.conditions</related>
 
 </dt-option>

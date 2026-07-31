@@ -12,7 +12,9 @@
 
 	<type type="string">
 		<description>
-			When `-init columns.searchBuilder.defaultCondition` is set to a string, it will select the option whose token is the same as this string. For example this will be "=", ">" etc. to avoid clashing with `-init i18n` changes.
+		<![CDATA[
+			When `-init columns.searchBuilder.defaultCondition` is set to a string, it will select the option whose token is the same as this string. For example this will be "=", ">" etc. to avoid clashing with `-init language` changes.
+		]]>
 		</description>
 	</type>
 

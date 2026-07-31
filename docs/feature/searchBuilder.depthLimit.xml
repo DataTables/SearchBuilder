@@ -26,7 +26,7 @@
 
 		As default the limit is false, meaning that criteria can be indented as far as desired.
 
-		Take a look at [this example]([https://datatables.net/extensions/SearchBuilder/examples/initialisation/depthLimit.html) to see this in action.
+		Take a look at [this example](/examples/searchbuilder/initialisation/depthLimit.html) to see this in action.
         ]]>
 	</description>
 

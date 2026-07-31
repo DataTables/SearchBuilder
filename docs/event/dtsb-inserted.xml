@@ -5,7 +5,7 @@
 	<since>1.0.0</since>
 
 	<type type="event">
-		<description>Triggered when a HTML element created by the `init` function (`-type SearchBuilder.Condition#init`) is inserted into the document.</description>
+		<description>Triggered when a HTML element created by the `init` function (`-type SearchBuilder.Condition`) is inserted into the document.</description>
 	</type>
 
 	<description>

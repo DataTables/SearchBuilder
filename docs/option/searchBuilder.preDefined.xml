@@ -104,6 +104,6 @@ new DataTable('#myTable', {
 });
 ]]></example>
 
-<related type="init">SearchBuilder.Criteria</related>
+<related type="type">SearchBuilder.Criteria</related>
 
 </dt-option>
