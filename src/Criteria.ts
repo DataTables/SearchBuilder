@@ -3027,20 +3027,57 @@ export default class Criteria {
 				conditionObj = this.c.conditions[this.s.type];
 			}
 			else if (this.s.type && this.s.type === 'datetime') {
-				// If no format was specified in the DT type, then we need to use
-				// Moment / Luxon's default locale formatting.
-				let moment = DataTable.use('moment');
-				let luxon = DataTable.use('luxon');
+				conditionObj = this.c.conditions.date;
 
-				if (moment) {
+				// If no format was specified in the DT type, a Javascript
+				// native toLocaleDateString was used. Need to work out what
+				// that format is in Moment or Luxon. We need to pass a known
+				// value though the renderer and work out the format
+				//
+				// This is the same method as ColumnControl uses. A shared
+				// method might be appropriate in future.
+				let renderer = colInits[column].render;
+				let resultPm = renderer('1999-08-07T23:05:04Z', 'display');
+				let resultAm = renderer('1999-08-07T03:05:04Z', 'display');
+				let leadingZero = resultAm.includes('03');
+
+				// What formatter are we using?
+				if (DataTable.use('moment')) {
 					conditionObj = this.c.conditions.moment;
-					this.s.dateFormat =
-						moment().creationData().locale._longDateFormat.L;
+					this.s.dateFormat = resultPm
+						.replace('23', leadingZero ? 'HH' : 'H')
+						.replace('11', leadingZero ? 'hh' : 'h')
+						.replace('05', 'mm')
+						.replace('04', 'ss')
+						.replace('PM', 'A')
+						.replace('pm', 'a')
+						.replace('07', 'DD')
+						.replace('7', 'D')
+						.replace('08', 'MM')
+						.replace('8', 'M')
+						.replace('1999', 'YYYY')
+						.replace('99', 'YY');
 				}
-
-				if (luxon) {
+				else if (DataTable.use('luxon')) {
 					conditionObj = this.c.conditions.luxon;
-					this.s.dateFormat = luxon.DateTime.DATE_SHORT;
+					this.s.dateFormat = resultPm
+						.replace('23', leadingZero ? 'HH' : 'H')
+						.replace('11', leadingZero ? 'hh' : 'h')
+						.replace('05', 'mm')
+						.replace('04', 'ss')
+						.replace('PM', 'a')
+						.replace('07', 'dd')
+						.replace('7', 'd')
+						.replace('08', 'MM')
+						.replace('8', 'M')
+						.replace('1999', 'yyyy')
+						.replace('99', 'yy');
+				}
+				else if (resultPm.includes('23') && resultPm.includes('1999')) {
+					this.s.dateFormat = 'YYYY-MM-DD hh:mm:ss';
+				}
+				else if (resultPm.includes('23')) {
+					this.s.dateFormat = 'hh:mm:ss';
 				}
 			}
 			else if (this.s.type && this.s.type.includes('datetime-')) {
