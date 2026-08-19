@@ -17,7 +17,7 @@ type DeepPartial<T> = T extends object
  * DataTables' types integration
  */
 declare module 'datatables.net' {
-	interface Config {
+	interface Options {
 		/**
 		 * SearchBuilder extension options
 		 */
@@ -32,7 +32,7 @@ declare module 'datatables.net' {
 		searchBuilder?: ConfigSearchBuilder;
 	}
 
-	interface ConfigLanguage {
+	interface Language {
 		/**
 		 * SearchBuilder language options
 		 */
@@ -49,7 +49,7 @@ declare module 'datatables.net' {
 		};
 	}
 
-	interface ColumnContext {
+	interface ColumnOptions {
 		searchBuilder?: {
 			/** Set a default condition for this column */
 			defaultCondition?: number | string;
