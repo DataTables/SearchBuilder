@@ -3385,35 +3385,13 @@ export default class Criteria {
 	}
 
 	/**
-	 * Provides throttling capabilities to SearchBuilder without having to use dt's _fnThrottle function
-	 * This is because that function is not quite suitable for our needs as it runs initially rather than waiting
+	 * Provides debounce capabilities to SearchBuilder. Makes use of DataTables'
+	 * utility methods.
 	 *
 	 * @param args arguments supplied to the throttle function
 	 * @returns Function that is to be run that implements the throttling
 	 */
 	private _throttle(fn, frequency = 200) {
-		let last = null;
-		let timer = null;
-		let that = this;
-
-		if (frequency === null) {
-			frequency = 200;
-		}
-
-		return function (...args) {
-			let now = +new Date();
-
-			if (last !== null && now < last + frequency) {
-				clearTimeout(timer);
-			}
-			else {
-				last = now;
-			}
-
-			timer = setTimeout(function () {
-				last = null;
-				fn.apply(that, args);
-			}, frequency);
-		};
+		return DataTable.util.debounce(fn, frequency);
 	}
 }
