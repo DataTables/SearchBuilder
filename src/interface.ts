@@ -49,7 +49,7 @@ declare module 'datatables.net' {
 		};
 	}
 
-	interface ColumnOptions {
+	interface ColumnContext {
 		searchBuilder?: {
 			/** Set a default condition for this column */
 			defaultCondition?: number | string;
