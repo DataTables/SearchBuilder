@@ -89,8 +89,8 @@ export interface IS {
 }
 
 // Check that the required version of DataTables is included
-if (!DataTable || !DataTable.versionCheck || !DataTable.versionCheck('3')) {
-	throw new Error('SearchBuilder requires DataTables 3 or newer');
+if (!DataTable || !DataTable.versionCheck || !DataTable.versionCheck('3.1')) {
+	throw new Error('SearchBuilder requires DataTables 3.1 or newer');
 }
 
 /**
