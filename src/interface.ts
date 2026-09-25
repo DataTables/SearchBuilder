@@ -88,6 +88,21 @@ declare module 'datatables.net' {
 
 		Criteria: typeof Criteria;
 	}
+
+	interface AjaxData {
+		/** SearchBuilder Ajax information */
+		searchBuilder?: IDetails
+	}
+
+	interface State {
+		/** SearchBuilder state object */
+		searchBuilder?: IDetails
+	}
+
+	interface StateLoad {
+		/** SearchBuilder state object */
+		searchBuilder?: IDetails
+	}
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
