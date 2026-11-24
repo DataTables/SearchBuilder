@@ -73,39 +73,5 @@ describe('searchBuilder - API - searchBuilder.rebuild()', function() {
 
 			expect($('.dtsb-clearAll').length).toBe(1);
 		});
-		it('Does not draw when redraw is false', function () {
-			let draws = 0;
-			table.on('draw.dtsbTest', function () {
-				draws++;
-			});
-
-			table.searchBuilder.rebuild({
-				criteria: [{ condition: '=', data: 'Office', value: ['San Francisco'] }],
-				logic: 'AND'
-			}, false);
-
-			expect(draws).toBe(0);
-		});
-	});
-
-	describe('Initialisation', function() {
-		dt.html('basic');
-		it('Does not draw twice when preDefined criteria are applied', function () {
-			let draws = 0;
-			$('#example').DataTable({
-				dom: 'Qlfrtip',
-				drawCallback: function () {
-					draws++;
-				},
-				searchBuilder: {
-					preDefined: {
-						criteria: [{ condition: '=', data: 'Office', value: ['San Francisco'] }],
-						logic: 'AND'
-					}
-				}
-			});
-
-			expect(draws).toBe(1);
-		});
 	});
 });

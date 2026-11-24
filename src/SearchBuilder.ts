@@ -303,7 +303,7 @@ export default class SearchBuilder {
 	 * @param details The details required to perform a rebuild
 	 */
 	public rebuild(details, redraw = true): SearchBuilder {
-		this.dom.clearAll.trigger('click', false, [false]);
+		this.dom.clearAll.trigger('click', false);
 
 		// If there are no details to rebuild then return
 		if (details === undefined || details === null) {
@@ -501,7 +501,7 @@ export default class SearchBuilder {
 				this.c.preDefined = this._applyPreDefDefaults(
 					this.c.preDefined
 				);
-				this.rebuild(this.c.preDefined, false);
+				this.rebuild(this.c.preDefined);
 			}
 		}
 
